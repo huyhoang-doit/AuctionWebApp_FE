@@ -2,7 +2,7 @@
     ('use strict');
 
     /* ----------------------------------------------------------------
-		Umino's Adding active class to nav menu depending on page
+        Umino's Adding active class to nav menu depending on page
 -------------------------------------------------------------------*/
     var pageUrl = window.location.href.substr(
         window.location.href.lastIndexOf('/') + 1
@@ -1213,9 +1213,9 @@
         });
         amountprice.val(
             '$' +
-                sliderrange.slider('values', 0) +
-                ' - $' +
-                sliderrange.slider('values', 1)
+            sliderrange.slider('values', 0) +
+            ' - $' +
+            sliderrange.slider('values', 1)
         );
     });
     /*----------------------------------------*/
@@ -1253,8 +1253,8 @@
                     : '';
 
             var $spaceBetween = $options.spaceBetween
-                    ? parseInt($options.spaceBetween, 10)
-                    : 0,
+                ? parseInt($options.spaceBetween, 10)
+                : 0,
                 $spaceBetween_xl = $options.spaceBetween_xl
                     ? parseInt($options.spaceBetween_xl, 10)
                     : 0,
@@ -1301,27 +1301,27 @@
                     $arrows === true
                         ? $options.prevArrow
                             ? '<span class="' +
-                              $options.prevArrow.buttonClass +
-                              '"><i class="' +
-                              $options.prevArrow.iconClass +
-                              '"></i></span>'
+                            $options.prevArrow.buttonClass +
+                            '"><i class="' +
+                            $options.prevArrow.iconClass +
+                            '"></i></span>'
                             : '<button class="tty-slick-text-btn tty-slick-text-prev">previous</span>'
                         : '',
                 $nextArrow =
                     $arrows === true
                         ? $options.nextArrow
                             ? '<span class="' +
-                              $options.nextArrow.buttonClass +
-                              '"><i class="' +
-                              $options.nextArrow.iconClass +
-                              '"></i></span>'
+                            $options.nextArrow.buttonClass +
+                            '"><i class="' +
+                            $options.nextArrow.iconClass +
+                            '"></i></span>'
                             : '<button class="tty-slick-text-btn tty-slick-text-next">next</span>'
                         : '',
                 $rows = $options.rows ? parseInt($options.rows, 10) : 1,
                 $rtl =
                     $options.rtl ||
-                    $html.attr('dir="rtl"') ||
-                    $body.attr('dir="rtl"')
+                        $html.attr('dir="rtl"') ||
+                        $body.attr('dir="rtl"')
                         ? true
                         : false,
                 $slidesToShow = $options.slidesToShow
@@ -1333,9 +1333,9 @@
 
             /*Responsive Variable, Array & Loops*/
             var $responsiveSetting =
-                    typeof $this.data('slick-responsive') !== 'undefined'
-                        ? $this.data('slick-responsive')
-                        : '',
+                typeof $this.data('slick-responsive') !== 'undefined'
+                    ? $this.data('slick-responsive')
+                    : '',
                 $responsiveSettingLength = $responsiveSetting.length,
                 $responsiveArray = [];
             for (var i = 0; i < $responsiveSettingLength; i++) {
@@ -1575,7 +1575,7 @@
     });
     /*--------------------------
         Umino's Product Zoom
-	---------------------------- */
+    ---------------------------- */
     $('.zoompro').elevateZoom({
         gallery: 'gallery',
         galleryActiveClass: 'active',
