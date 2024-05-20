@@ -1,5 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
+import { useEffect, useState } from "react";
 
 export default function Header() {
     const navigate = useNavigate();
@@ -16,8 +17,31 @@ export default function Header() {
         navigate("/contact");
     };
 
-    const handleToLogin = () => {
-        navigate("/login");
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(intervalId); // Clean up the interval on component unmount
+    }, []);
+
+    const formatTime = (date: Date) => {
+        return date.toLocaleTimeString();
+    };
+
+    const formatDateTime = (date: Date) => {
+        const options: Intl.DateTimeFormatOptions = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        };
+        const dateString = date.toLocaleDateString('vi-VN', options);
+
+        const dayOfWeek = date.toLocaleDateString('vi-VN', { weekday: 'long' });
+
+        return `${dayOfWeek}, ${dateString}`;
     };
 
     return (
@@ -28,12 +52,12 @@ export default function Header() {
                         <div className="row">
                             <div className="col-xl-3 col-lg-2">
                                 <div className="header-logo">
-                                    <a href="/index">
+                                    <Link to={"/index"}>
                                         <img
                                             src="assets/images/menu/logo/1.png"
                                             alt="Umino's Header Logo"
                                         />
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="col-lg-3 d-none d-lg-block">
@@ -67,140 +91,13 @@ export default function Header() {
                                 <div className="hm-minicart_area">
                                     <ul>
                                         <li>
-                                            <a href="#">
-                                                <div className="minicart-icon">
-                                                    <i className="ion-clock"></i>
-                                                    <span className="item-count">
-                                                        2
-                                                    </span>
+                                            <h4>
+                                                <div className="minicart-icon fw-bold">
+                                                    <i className="ion-clock me-2" style={{ fontSize: "30px" }}></i>
+                                                    {formatTime(currentTime)}<br />
+                                                    <h6 className="mt-1">{formatDateTime(currentTime)}</h6>
                                                 </div>
-                                                <div className="minicart-title">
-                                                    <span className="item_total">
-                                                        $54.90
-                                                    </span>
-                                                </div>
-                                            </a>
-                                            <ul className="minicart-body">
-                                                <li className="minicart-item_area">
-                                                    <div className="minicart-single_item">
-                                                        <div className="product-item_remove">
-                                                            <span
-                                                                className="ion-android-close"
-                                                                title="Remove This Item"
-                                                            ></span>
-                                                        </div>
-                                                        <div className="minicart-img">
-                                                            <a href="">
-                                                                <img
-                                                                    src="assets/images/product/small-size/6.jpg"
-                                                                    alt="Umino's Product Image"
-                                                                />
-                                                            </a>
-                                                        </div>
-                                                        <div className="minicart-content">
-                                                            <div className="product-name">
-                                                                <h6>
-                                                                    <a href="#">
-                                                                        Vulputate
-                                                                        justo
-                                                                    </a>
-                                                                </h6>
-                                                            </div>
-                                                            <span className="product-quantity">
-                                                                Qty 1
-                                                            </span>
-                                                            <div className="price-box">
-                                                                <span className="new-price">
-                                                                    $90.00
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li className="minicart-item_area">
-                                                    <div className="minicart-single_item">
-                                                        <div className="product-item_remove">
-                                                            <span
-                                                                className="ion-android-close"
-                                                                title="Remove This Item"
-                                                            ></span>
-                                                        </div>
-                                                        <div className="minicart-img">
-                                                            <a href="#">
-                                                                <img
-                                                                    src="assets/images/product/small-size/8.jpg"
-                                                                    alt="Umino's Product Image"
-                                                                />
-                                                            </a>
-                                                        </div>
-                                                        <div className="minicart-content">
-                                                            <div className="product-name">
-                                                                <h6>
-                                                                    <a href="#">
-                                                                        Phasellus
-                                                                        vel
-                                                                        hendrerit
-                                                                    </a>
-                                                                </h6>
-                                                            </div>
-                                                            <span className="product-quantity">
-                                                                Qty 1
-                                                            </span>
-                                                            <div className="price-box">
-                                                                <span className="new-price">
-                                                                    $55.00
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div className="price_content">
-                                                        <div className="cart-subtotals">
-                                                            <div className="products subtotal-list">
-                                                                <span className="label">
-                                                                    Subtotal
-                                                                </span>
-                                                                <span className="defaultValue">
-                                                                    $145.00
-                                                                </span>
-                                                            </div>
-                                                            <div className="shipping subtotal-list">
-                                                                <span className="label">
-                                                                    Shipping
-                                                                </span>
-                                                                <span className="defaultValue">
-                                                                    $7.00
-                                                                </span>
-                                                            </div>
-                                                            <div className="tax subtotal-list">
-                                                                <span className="label">
-                                                                    Taxes
-                                                                </span>
-                                                                <span className="defaultValue">
-                                                                    $0.00
-                                                                </span>
-                                                            </div>
-                                                            <div className="cart-total subtotal-list">
-                                                                <span className="label">
-                                                                    Total
-                                                                </span>
-                                                                <span className="defaultValue">
-                                                                    $152.00
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="minicart-button">
-                                                            <a
-                                                                className="umino-btn umino-btn_fullwidth"
-                                                                href="#"
-                                                            >
-                                                                Checkout
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                            </h4>
                                         </li>
                                     </ul>
                                 </div>
@@ -231,7 +128,7 @@ export default function Header() {
                                             >
                                                 <a href="#">Dây chuyền</a>
                                                 <ul className="cat-mega-menu">
-                                                <li className="right-menu cat-mega-title">
+                                                    <li className="right-menu cat-mega-title">
                                                         <a href="#">
                                                             Chất liệu
                                                         </a>
@@ -346,7 +243,7 @@ export default function Header() {
                                             >
                                                 <a href="#">Nhẫn</a>
                                                 <ul className="cat-mega-menu">
-                                                <li className="right-menu cat-mega-title">
+                                                    <li className="right-menu cat-mega-title">
                                                         <a href="#">
                                                             Chất liệu
                                                         </a>
@@ -461,7 +358,7 @@ export default function Header() {
                                             >
                                                 <a href="#">Bông tai</a>
                                                 <ul className="cat-mega-menu">
-                                                <li className="right-menu cat-mega-title">
+                                                    <li className="right-menu cat-mega-title">
                                                         <a href="#">
                                                             Chất liệu
                                                         </a>
@@ -570,7 +467,7 @@ export default function Header() {
                                             >
                                                 <a href="#">Vòng tay</a>
                                                 <ul className="cat-mega-menu">
-                                                <li className="right-menu cat-mega-title">
+                                                    <li className="right-menu cat-mega-title">
                                                         <a href="#">
                                                             Chất liệu
                                                         </a>
@@ -821,30 +718,6 @@ export default function Header() {
                                                 </ul>
                                             </li>
                                             <li>
-                                                <a href="#">
-                                                    Tin tức
-                                                    <i className="ion-chevron-down"></i>
-                                                </a>
-                                                <ul className="hm-dropdown">
-                                                    <li>
-                                                        <a href="#">
-                                                            Thông báo
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                        Thông báo đấu giá
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            Tin khác
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            
-                                            <li>
                                                 <a href="/about">
                                                     Giới thiệu
                                                     <i className="ion-chevron-down"></i>
@@ -856,9 +729,9 @@ export default function Header() {
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">
+                                                        <Link to={"/privacy_policy"}>
                                                             Chính sách bảo mật
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
                                                         <a href="#">
@@ -866,12 +739,10 @@ export default function Header() {
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">Lỗi 404</a>
+                                                        <Link to={"/404"}>Lỗi 404</Link>
                                                     </li>
                                                     <li>
-                                                        <a href="#">
-                                                            Sắp ra mắt
-                                                        </a>
+                                                        <Link to={"/404"}>Sắp ra mắt</Link>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -888,9 +759,12 @@ export default function Header() {
                             </div>
                             <div className="col-lg-2 d-none d-lg-block">
                                 <div className="login-area">
-                                    <a href="#" onClick={() => handleToLogin()}>
-                                        Đăng nhập <span> |</span> Đăng ký
-                                    </a>
+                                    <Link to={"/login"}>
+                                        Đăng nhập
+                                    </Link><span> | </span>
+                                    <Link to={"/register"}>
+                                        Đăng ký
+                                    </Link>
                                 </div>
                             </div>
                             <div className="col-md-3 col-sm-5 d-block d-lg-none">
@@ -923,25 +797,25 @@ export default function Header() {
                         <div className="row">
                             <div className="col-lg-2 col-md-6 col-sm-7">
                                 <div className="header-logo">
-                                    <a href="/index">
+                                    <Link to={"/index"}>
                                         <img
                                             src="assets/images/menu/logo/1.png"
                                             alt="Umino's Header Logo"
                                         />
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="col-xl-8 col-lg-7 d-none d-lg-block position-static">
                                 <div className="main-menu_area">
                                     <nav className="main_nav">
                                         <ul>
-                                        <li className="megamenu-holder">
+                                            <li className="megamenu-holder">
                                                 <a href="#">
                                                     Cách loại trang sức đấu giá
                                                     <i className="ion-chevron-down"></i>
                                                 </a>
                                                 <ul className="umino-megamenu">
-                                                <li>
+                                                    <li>
                                                         <span className="megamenu-title">
                                                             Chủng Loại
                                                         </span>
@@ -1027,7 +901,7 @@ export default function Header() {
                                                             Dòng Hàng
                                                         </span>
                                                         <ul>
-                                                        <li>
+                                                            <li>
                                                                 <a href="#">
                                                                     Trang Sức
                                                                     Đính Kim
@@ -1103,30 +977,6 @@ export default function Header() {
                                                     </li>
                                                 </ul>
                                             </li>
-                                            
-                                            <li>
-                                                <a href="#">
-                                                    Tin tức
-                                                    <i className="ion-chevron-down"></i>
-                                                </a>
-                                                <ul className="hm-dropdown">
-                                                    <li>
-                                                        <a href="#">
-                                                            Thông báo
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                        Thông báo đấu giá
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            Tin khác
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
                                             <li>
                                                 <a href="#">
                                                     Giới thiệu
@@ -1175,7 +1025,7 @@ export default function Header() {
                                         <li>
                                             <a href="#">
                                                 <div className="minicart-icon wishlist-icon">
-                                                    <i className="ion-ios-heart-outline"></i>
+                                                    <i className="fa-regular fa-bell"></i>
                                                     <span className="item-count">
                                                         2
                                                     </span>
@@ -1346,7 +1196,7 @@ export default function Header() {
                         </div>
                     </div>
                 </div>
-               <div className="mobile-menu_wrapper" id="mobileMenu">
+                <div className="mobile-menu_wrapper" id="mobileMenu">
                     <div className="offcanvas-menu-inner">
                         <div className="container">
                             <a href="#" className="btn-close">

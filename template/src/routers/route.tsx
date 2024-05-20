@@ -9,7 +9,8 @@ import Register from "../pages/Register/Register";
 import MyAccount from "../pages/MyAccount/MyAccount";
 import ShopLeftSibar from "../pages/ShopLeftSibar/ShopLeftSibar";
 import SingleProductSale from "../pages/SingleProductSale/SingleProductSale";
-import SingleProduct from "../pages/SingleProduct/SingleProduct";
+import Error from "../pages/404/Error";
+import { Privacy_Policy } from "../pages/Privacy-Policy/Privacy-Policy";
 
 export default function RouterCom() {
     return (
@@ -22,12 +23,13 @@ export default function RouterCom() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/my-account" element={<MyAccount />} />
+                <Route path="/privacy_policy" element={<Privacy_Policy />} />
                 <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
                 <Route
                     path="/single-product-sale"
                     element={<SingleProductSale />}
                 />
-                <Route path="/single-product" element={<SingleProduct />} />
+                <Route path="/*" element={<Error />} />
             </Routes>
         </>
     );
