@@ -21,7 +21,7 @@ export default function Contact() {
                     <div className="container-fluid">
                         <div id="google-map">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.838709675939!2d144.95320007668528!3d-37.817246734238516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4dd5a05d97%3A0x3e64f855a564844d!2s121%20King%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sus!4v1670477011653!5m2!1sen!2sus"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.6100105370224!2d106.8073080748058!3d10.84112758931163!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752731176b07b1%3A0xb752b24b379bae5e!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgVFAuIEhDTQ!5e0!3m2!1svi!2s!4v1716190490489!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                                 style={{
                                     border: "0",
                                     width: "100%",
@@ -38,44 +38,40 @@ export default function Contact() {
                         <div className="col-lg-6">
                             <div className="contact-page-side-content">
                                 <h3 className="contact-page-title">
-                                    Contact Us
+                                    Thông tin liên hệ
                                 </h3>
                                 <p className="contact-page-message">
-                                    Claritas est etiam processus dynamicus, qui
-                                    sequitur mutationem consuetudium lectorum.
-                                    Mirum est notare quam littera gothica, quam
-                                    nunc putamus parum claram anteposuerit
-                                    litterarum formas human.
+                                
                                 </p>
                                 <div className="single-contact-block">
                                     <h4>
-                                        <i className="fa fa-fax"></i> Address
+                                        <i className="fa fa-fax"></i> Địa chỉ
                                     </h4>
                                     <p>
-                                        123 Main Street, Anytown, CA 12345 – USA
+                                    Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam
                                     </p>
                                 </div>
                                 <div className="single-contact-block">
                                     <h4>
-                                        <i className="fa fa-phone"></i> Phone
+                                        <i className="fa fa-phone"></i> Số điện thoại
                                     </h4>
-                                    <p>Mobile: (08) 123 456 789</p>
-                                    <p>Hotline: 1009 678 456</p>
+                                    <p>Mobile: (+84) 862006868 </p>
+                                    <p>Hotline: 1900 6868</p>
                                 </div>
                                 <div className="single-contact-block last-child">
                                     <h4>
                                         <i className="fa fa-envelope-o"></i>{" "}
                                         Email
                                     </h4>
-                                    <p>yourmail@domain.com</p>
-                                    <p>support@hastech.company</p>
+                                    <p>DGSsupport@gmail.com</p>
+                                    <p>FPT@DGScompany.vn</p>
                                 </div>
                             </div>
                         </div>
                         <div className="col-lg-6">
                             <div className="contact-form-content">
                                 <h3 className="contact-page-title">
-                                    Tell Us Your Message
+                                Liên hệ chúng tôi
                                 </h3>
                                 <div className="contact-form">
                                     <form
@@ -84,7 +80,7 @@ export default function Contact() {
                                     >
                                         <div className="form-group">
                                             <label>
-                                                Your Name{" "}
+                                            Tên của bạn{" "}
                                                 <span className="required">
                                                     *
                                                 </span>
@@ -97,7 +93,7 @@ export default function Contact() {
                                         </div>
                                         <div className="form-group">
                                             <label>
-                                                Your Email{" "}
+                                            Email của bạn{" "}
                                                 <span className="required">
                                                     *
                                                 </span>
@@ -109,14 +105,14 @@ export default function Contact() {
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label>Subject</label>
+                                            <label>Nơi công tác</label>
                                             <input
                                                 type="text"
                                                 name="con_subject"
                                             />
                                         </div>
                                         <div className="form-group form-group-2">
-                                            <label>Your Message</label>
+                                            <label>Tin nhắn</label>
                                             <textarea name="con_message"></textarea>
                                         </div>
                                         <div className="form-group">
@@ -127,7 +123,7 @@ export default function Contact() {
                                                 className="umino-contact-form_btn"
                                                 name="submit"
                                             >
-                                                send
+                                                Gửi yêu cầu
                                             </button>
                                         </div>
                                         <p className="form-message"></p>
