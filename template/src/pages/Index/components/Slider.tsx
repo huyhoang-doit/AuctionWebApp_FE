@@ -10,10 +10,10 @@ const Slider = () => {
               <div className="single-slide animation-style-01 bg-1">
                 <div className="container">
                   <div className="slider-content">
-                    <h4>...</h4>
-                    <h3>...</h3>
+                    <h4>Đấu giá trang sức</h4>
+                    <h3>DGS</h3>
                     <a className="product-price" href="#">
-                      <span>$....</span>
+                      <span>Diamond - Gold - Silver</span>
                     </a>
                   </div>
                 </div>
@@ -22,10 +22,10 @@ const Slider = () => {
               <div className="single-slide animation-style-01 bg-2">
                 <div className="container">
                   <div className="slider-content slider-content-2">
-                    <h4>Wooden Chair.</h4>
-                    <h3>Morden Furniture</h3>
+                    <span>Sàn đấu giá</span>
+                    <h4>Bông tai</h4>
                     <a className="product-price" href="#">
-                      <span>$200.45</span>
+                      <span></span>
                     </a>
                   </div>
                 </div>
@@ -37,9 +37,9 @@ const Slider = () => {
               <div className="col-lg-6 col-md-6">
                 <div className="banner-item img-hover_effect">
                   <div className="banner-content">
-                    <span>Bàn điều khiển</span>
-                    <h4>...</h4>
-                    <h3>....</h3>
+                    <span>Sàn đấu giá</span>
+                    <h4>Bông tai</h4>
+                    <h3></h3>
                     <a href="#">
                       <i className="fa fa-arrow-circle-right"></i>
                     </a>
@@ -59,9 +59,9 @@ const Slider = () => {
                   <div className="col-lg-12">
                     <div className="banner-item img-hover_effect">
                       <div className="banner-content">
-                        <span>...</span>
-                        <h4>...</h4>
-                        <h3>...</h3>
+                        <span>Sàn đấu giá</span>
+                        <h4>Nhẫn</h4>
+                        <h3></h3>
                         <a href="#">
                           <i className="fa fa-arrow-circle-right"></i>
                         </a>
@@ -79,9 +79,9 @@ const Slider = () => {
                   <div className="col-lg-12">
                     <div className="banner-item img-hover_effect">
                       <div className="banner-content">
-                        <span>...</span>
-                        <h4>...</h4>
-                        <h3>...</h3>
+                        <span>Sàn đấu giá</span>
+                        <h4>Dây chuyền</h4>
+                        <h3></h3>
                         <a href="#">
                           <i className="fa fa-arrow-circle-right"></i>
                         </a>

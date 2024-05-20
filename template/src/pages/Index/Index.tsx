@@ -3,6 +3,7 @@ import Slider from "./components/Slider";
 import ShippingArea from "./components/ShippingArea";
 import AuctionWaiting from "./components/AuctionWaiting";
 import AuctionFinished from "./components/AuctionFinished";
+
 export default function Index() {
     return (
         <>
@@ -33,8 +34,7 @@ export default function Index() {
             {/* <ContactTable /> */}
 
             {/* <!-- Begin Banner Area Two --> */}
-
-            {/* <Banner02 /> */}
+            {/* <Banner01 /> */}
         </>
     );
 }
