@@ -1,49 +1,49 @@
 (function ($) {
-    ('use strict');
+    ("use strict");
 
     /* ----------------------------------------------------------------
-        Umino's Adding active class to nav menu depending on page
+		Umino's Adding active class to nav menu depending on page
 -------------------------------------------------------------------*/
     var pageUrl = window.location.href.substr(
-        window.location.href.lastIndexOf('/') + 1
+        window.location.href.lastIndexOf("/") + 1
     );
-    $('.main_nav a').each(function () {
-        if ($(this).attr('href') === pageUrl || $(this).attr('href') === '') {
-            $(this).closest('li').addClass('active');
-            $(this).parents('li').addClass('active');
+    $(".main_nav a").each(function () {
+        if ($(this).attr("href") === pageUrl || $(this).attr("href") === "") {
+            $(this).closest("li").addClass("active");
+            $(this).parents("li").addClass("active");
         } else if (
-            window.location.pathname === '/' ||
-            window.location.pathname === '/index.html'
+            window.location.pathname === "/" ||
+            window.location.pathname === "/index.html"
         ) {
-            $('.main_nav a[href="index.html"]').parent('li').addClass('active');
+            $('.main_nav a[href="index.html"]').parent("li").addClass("active");
         }
     });
     /*----------------------------------------*/
     /* Umino's Newsletter Popup
 /*----------------------------------------*/
     setTimeout(function () {
-        $('.popup_wrapper').css({
-            opacity: '1',
-            visibility: 'visible',
+        $(".popup_wrapper").css({
+            opacity: "1",
+            visibility: "visible",
         });
-        $('.popup_off').on('click', function () {
-            $('.popup_wrapper').fadeOut(500);
+        $(".popup_off").on("click", function () {
+            $(".popup_wrapper").fadeOut(500);
         });
     }, 2500);
     /*----------------------------------------*/
     /*  Umino's Sticky Menu Activation
 /*----------------------------------------*/
-    $(window).on('scroll', function () {
+    $(window).on("scroll", function () {
         if ($(this).scrollTop() > 300) {
-            $('.header-sticky').addClass('sticky');
+            $(".header-sticky").addClass("sticky");
         } else {
-            $('.header-sticky').removeClass('sticky');
+            $(".header-sticky").removeClass("sticky");
         }
     });
     /*----------------------------------------*/
     /*  Umino's Main Slider
 /*----------------------------------------*/
-    $('.main-slider').slick({
+    $(".main-slider").slick({
         infinite: true,
         arrows: true,
         autoplay: true,
@@ -52,7 +52,7 @@
         autoplaySpeed: 7000,
         speed: 1000,
         adaptiveHeight: true,
-        easing: 'ease-in-out',
+        easing: "ease-in-out",
         slidesToShow: 1,
         slidesToScroll: 1,
         prevArrow:
@@ -64,39 +64,39 @@
     /*----------------------------------------*/
     /*  Toolbar Button
 /*----------------------------------------*/
-    $('.toolbar-btn').on('click', function (e) {
+    $(".toolbar-btn").on("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
         var $this = $(this);
-        var target = $this.attr('href');
+        var target = $this.attr("href");
         var prevTarget = $this
             .parent()
             .siblings()
-            .children('.toolbar-btn')
-            .attr('href');
-        $(target).toggleClass('open');
-        $(prevTarget).removeClass('open');
+            .children(".toolbar-btn")
+            .attr("href");
+        $(target).toggleClass("open");
+        $(prevTarget).removeClass("open");
     });
     /*----------------------------------------*/
     /*  Close Button Actions
 /*----------------------------------------*/
-    $('.btn-close').on('click', function (e) {
+    $(".btn-close").on("click", function (e) {
         e.preventDefault();
         var $this = $(this);
-        $this.parents('.open').removeClass('open');
-        $('.menu-item-has-children').removeClass('menu-open');
+        $this.parents(".open").removeClass("open");
+        $(".menu-item-has-children").removeClass("menu-open");
     });
     /*----------------------------------------*/
     /*  Umino's Offcanvas
 /*----------------------------------------*/
     /*Variables*/
-    var $offcanvasNav = $('.offcanvas-search_menu, .mobile-menu'),
+    var $offcanvasNav = $(".offcanvas-search_menu, .mobile-menu"),
         $offcanvasNavWrap = $(
-            '.offcanvas-search_wrapper, .mobile-menu_wrapper'
+            ".offcanvas-search_wrapper, .mobile-menu_wrapper"
         ),
-        $offcanvasNavSubMenu = $offcanvasNav.find('.sub-menu'),
-        $menuToggle = $('.menu-btn'),
-        $menuClose = $('.btn-close');
+        $offcanvasNavSubMenu = $offcanvasNav.find(".sub-menu"),
+        $menuToggle = $(".menu-btn"),
+        $menuClose = $(".btn-close");
 
     /*Add Toggle Button With Off Canvas Sub Menu*/
     $offcanvasNavSubMenu
@@ -109,66 +109,66 @@
     $offcanvasNavSubMenu.slideUp();
 
     /*Category Sub Menu Toggle*/
-    $offcanvasNav.on('click', 'li a, li .menu-expand', function (e) {
+    $offcanvasNav.on("click", "li a, li .menu-expand", function (e) {
         var $this = $(this);
         if (
             $this
                 .parent()
-                .attr('class')
+                .attr("class")
                 .match(
                     /\b(menu-item-has-children|has-children|has-sub-menu)\b/
                 ) &&
-            ($this.attr('href') === '#' || $this.hasClass('menu-expand'))
+            ($this.attr("href") === "#" || $this.hasClass("menu-expand"))
         ) {
             e.preventDefault();
-            if ($this.siblings('ul:visible').length) {
-                $this.siblings('ul').slideUp('slow');
+            if ($this.siblings("ul:visible").length) {
+                $this.siblings("ul").slideUp("slow");
             } else {
                 $this
-                    .closest('li')
-                    .siblings('li')
-                    .find('ul:visible')
-                    .slideUp('slow');
-                $this.siblings('ul').slideDown('slow');
+                    .closest("li")
+                    .siblings("li")
+                    .find("ul:visible")
+                    .slideUp("slow");
+                $this.siblings("ul").slideDown("slow");
             }
         }
         if (
-            $this.is('a') ||
-            $this.is('span') ||
-            $this.attr('class').match(/\b(menu-expand)\b/)
+            $this.is("a") ||
+            $this.is("span") ||
+            $this.attr("class").match(/\b(menu-expand)\b/)
         ) {
-            $this.parent().toggleClass('menu-open');
+            $this.parent().toggleClass("menu-open");
         } else if (
-            $this.is('li') &&
-            $this.attr('class').match(/\b('menu-item-has-children')\b/)
+            $this.is("li") &&
+            $this.attr("class").match(/\b('menu-item-has-children')\b/)
         ) {
-            $this.toggleClass('menu-open');
+            $this.toggleClass("menu-open");
         }
     });
 
     /*----------------------------------------*/
     /*  Category Menu
 /*----------------------------------------*/
-    $('.rx-parent').on('click', function () {
-        $('.rx-child').slideToggle();
-        $(this).toggleClass('rx-change');
+    $(".rx-parent").on("click", function () {
+        $(".rx-child").slideToggle();
+        $(this).toggleClass("rx-change");
     });
     //    category heading
-    $('.category-heading').on('click', function () {
-        $('.category-menu-list').slideToggle(900);
-        $('.menu-expand').removeClass('active');
+    $(".category-heading").on("click", function () {
+        $(".category-menu-list").slideToggle(900);
+        $(".menu-expand").removeClass("active");
     });
     /*-- Category Menu Toggles --*/
     function categorySubMenuToggle() {
         var screenSize = $(window).width();
         if (screenSize <= 991) {
-            $('#cate-toggle .right-menu > a').prepend(
+            $("#cate-toggle .right-menu > a").prepend(
                 '<i class="expand menu-expand"></i>'
             );
-            $('.category-menu .right-menu ul').slideUp();
+            $(".category-menu .right-menu ul").slideUp();
         } else {
-            $('.category-menu .right-menu > a i').remove();
-            $('.category-menu .right-menu ul').slideDown();
+            $(".category-menu .right-menu > a i").remove();
+            $(".category-menu .right-menu ul").slideDown();
         }
     }
     categorySubMenuToggle();
@@ -177,40 +177,40 @@
     function categoryMenuHide() {
         var screenSize = $(window).width();
         if (screenSize <= 991) {
-            $('.category-menu-list').hide();
+            $(".category-menu-list").hide();
         } else {
-            $('.category-menu-list').show();
+            $(".category-menu-list").show();
         }
     }
     categoryMenuHide();
     // $(window).resize(categoryMenuHide);
-    $('.category-menu-hidden').find('.category-menu-list').hide();
-    $('.category-menu-list').on(
-        'click',
-        'li a, li a .menu-expand',
+    $(".category-menu-hidden").find(".category-menu-list").hide();
+    $(".category-menu-list").on(
+        "click",
+        "li a, li a .menu-expand",
         function (e) {
-            var $a = $(this).hasClass('menu-expand')
+            var $a = $(this).hasClass("menu-expand")
                 ? $(this).parent()
                 : $(this);
-            $(this).toggleClass('active');
-            if ($a.parent().hasClass('right-menu')) {
+            $(this).toggleClass("active");
+            if ($a.parent().hasClass("right-menu")) {
                 if (
-                    $a.attr('href') === '#' ||
-                    $(this).hasClass('menu-expand')
+                    $a.attr("href") === "#" ||
+                    $(this).hasClass("menu-expand")
                 ) {
-                    if ($a.siblings('ul:visible').length > 0)
-                        $a.siblings('ul').slideUp();
+                    if ($a.siblings("ul:visible").length > 0)
+                        $a.siblings("ul").slideUp();
                     else {
                         $(this)
-                            .parents('li')
-                            .siblings('li')
-                            .find('ul:visible')
+                            .parents("li")
+                            .siblings("li")
+                            .find("ul:visible")
                             .slideUp();
-                        $a.siblings('ul').slideDown();
+                        $a.siblings("ul").slideDown();
                     }
                 }
             }
-            if ($(this).hasClass('menu-expand') || $a.attr('href') === '#') {
+            if ($(this).hasClass("menu-expand") || $a.attr("href") === "#") {
                 e.preventDefault();
                 return false;
             }
@@ -221,12 +221,12 @@
     /*  Nice Select
 /*----------------------------------------*/
     $(document).ready(function () {
-        $('.nice-select').niceSelect();
+        $(".nice-select").niceSelect();
     });
     /*----------------------------------------*/
     /*  Umino's Product Slider
 /*----------------------------------------*/
-    $('.umino-product_slider').slick({
+    $(".umino-product_slider").slick({
         infinite: false,
         arrows: false,
         dots: true,
@@ -273,7 +273,7 @@
     /*----------------------------------------*/
     /*  Umino's Product Slider Two
 /*----------------------------------------*/
-    $('.umino-product_slider-2').slick({
+    $(".umino-product_slider-2").slick({
         infinite: true,
         arrows: false,
         dots: false,
@@ -320,7 +320,7 @@
     /*----------------------------------------*/
     /*  Umino's Product Slider Three
 /*----------------------------------------*/
-    $('.umino-product_slider-3').slick({
+    $(".umino-product_slider-3").slick({
         infinite: true,
         arrows: false,
         dots: false,
@@ -368,7 +368,7 @@
     /*----------------------------------------*/
     /*  Umino's Product Slider Four
 /*----------------------------------------*/
-    $('.umino-product_slider-4').slick({
+    $(".umino-product_slider-4").slick({
         infinite: false,
         arrows: false,
         dots: true,
@@ -415,7 +415,7 @@
     /*----------------------------------------*/
     /*  Umino's Product Slider Five
 /*----------------------------------------*/
-    $('.umino-product_slider-5').slick({
+    $(".umino-product_slider-5").slick({
         infinite: true,
         arrows: false,
         dots: false,
@@ -462,7 +462,7 @@
     /*----------------------------------------*/
     /*  Umino's Latest Tweets Slider
 /*----------------------------------------*/
-    $('.latest-tweets_slider').slick({
+    $(".latest-tweets_slider").slick({
         infinite: true,
         arrows: false,
         autoplay: true,
@@ -515,7 +515,7 @@
     /*----------------------------------------*/
     /*  Umino's Blog Slider
 /*----------------------------------------*/
-    $('.umino-blog_slider').slick({
+    $(".umino-blog_slider").slick({
         infinite: true,
         arrows: false,
         dots: false,
@@ -562,7 +562,7 @@
     /*----------------------------------------*/
     /*  Umino's Blog Slider Two
 /*----------------------------------------*/
-    $('.umino-blog_slider-2').slick({
+    $(".umino-blog_slider-2").slick({
         infinite: true,
         arrows: true,
         dots: false,
@@ -609,7 +609,7 @@
     /*----------------------------------------*/
     /*  Umino's Single Blog Slider
 /*----------------------------------------*/
-    $('.umino-single-blog_slider').slick({
+    $(".umino-single-blog_slider").slick({
         infinite: true,
         arrows: true,
         dots: false,
@@ -653,19 +653,19 @@
             },
         ],
     });
-    $('.umino-single-blog_slider').on('wheel', function (e) {
+    $(".umino-single-blog_slider").on("wheel", function (e) {
         e.preventDefault();
 
         if (e.originalEvent.deltaY < 0) {
-            $(this).slick('slickNext');
+            $(this).slick("slickNext");
         } else {
-            $(this).slick('slickPrev');
+            $(this).slick("slickPrev");
         }
     });
     /*----------------------------------------*/
     /*  Umino's Product Tab Slider
 /*----------------------------------------*/
-    $('.umino-product-tab_slider').slick({
+    $(".umino-product-tab_slider").slick({
         infinite: true,
         arrows: false,
         dots: false,
@@ -713,7 +713,7 @@
     /*----------------------------------------*/
     /*  Umino's Product Tab Slider Two
 /*----------------------------------------*/
-    $('.umino-product-tab_slider-2').slick({
+    $(".umino-product-tab_slider-2").slick({
         infinite: true,
         arrows: false,
         dots: true,
@@ -761,7 +761,7 @@
     /*----------------------------------------*/
     /*  Umino's Testimonial Slider
 /*----------------------------------------*/
-    $('.testimonial-slider').slick({
+    $(".testimonial-slider").slick({
         infinite: true,
         arrows: false,
         dots: true,
@@ -808,7 +808,7 @@
     /*---------------------------------------------*/
     /*  Umino's Brand Slider
 /*----------------------------------------------*/
-    $('.umino-brand_slider').slick({
+    $(".umino-brand_slider").slick({
         infinite: true,
         arrows: true,
         autoplay: true,
@@ -862,7 +862,7 @@
     /*----------------------------------------*/
     /*  Umino's List Product Slider
 /*----------------------------------------*/
-    $('.list-product_slider').slick({
+    $(".list-product_slider").slick({
         infinite: true,
         arrows: false,
         dots: false,
@@ -910,7 +910,7 @@
     /*----------------------------------------*/
     /*  Umino's List Product Slider Two
 /*----------------------------------------*/
-    $('.list-product_slider-2').slick({
+    $(".list-product_slider-2").slick({
         infinite: true,
         arrows: false,
         dots: false,
@@ -958,7 +958,7 @@
     /*----------------------------------------*/
     /* Umino's Countdown
 /*----------------------------------------*/
-    $('.umino-countdown').countdown('2024/12/20', function (event) {
+    $(".umino-countdown").countdown("2024/12/20", function (event) {
         $(this).html(
             event.strftime(
                 '<div class="count"><span class="count-amount">%D</span><span class="count-period">Days</span></div><div class="count"><span class="count-amount">%H</span><span class="count-period">Hrs</span></div><div class="count"><span class="count-amount">%M</span><span class="count-period">Mins</span></div><div class="count"><span class="count-amount">%S</span><span class="count-period">Secs</span></div>'
@@ -971,20 +971,20 @@
 /*----------------------------------------*/
     $.scrollUp({
         scrollText: '<i class="fa fa-chevron-up"></i>',
-        easingType: 'linear',
+        easingType: "linear",
         scrollSpeed: 900,
     });
 
     /*----------------------------------------*/
     /*  Cart Plus Minus Button
 /*----------------------------------------*/
-    $('.cart-plus-minus').append(
+    $(".cart-plus-minus").append(
         '<div class="dec qtybutton"><i class="fa fa-angle-down"></i></div><div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>'
     );
-    $('.qtybutton').on('click', function () {
+    $(".qtybutton").on("click", function () {
         var $button = $(this);
-        var oldValue = $button.parent().find('input').val();
-        if ($button.hasClass('inc')) {
+        var oldValue = $button.parent().find("input").val();
+        if ($button.hasClass("inc")) {
             var newVal = parseFloat(oldValue) + 1;
         } else {
             // Don't allow decrementing below zero
@@ -994,62 +994,62 @@
                 newVal = 1;
             }
         }
-        $button.parent().find('input').val(newVal);
+        $button.parent().find("input").val(newVal);
     });
 
     /*----------------------------------------*/
     /* Toggle Function Active
 /*----------------------------------------*/
     // showlogin toggle
-    $('#showlogin').on('click', function () {
-        $('#checkout-login').slideToggle(900);
+    $("#showlogin").on("click", function () {
+        $("#checkout-login").slideToggle(900);
     });
     // showlogin toggle
-    $('#showcoupon').on('click', function () {
-        $('#checkout_coupon').slideToggle(900);
+    $("#showcoupon").on("click", function () {
+        $("#checkout_coupon").slideToggle(900);
     });
     // showlogin toggle
-    $('#cbox').on('click', function () {
-        $('#cbox-info').slideToggle(900);
+    $("#cbox").on("click", function () {
+        $("#cbox-info").slideToggle(900);
     });
 
     // showlogin toggle
-    $('#ship-box').on('click', function () {
-        $('#ship-box-info').slideToggle(1000);
+    $("#ship-box").on("click", function () {
+        $("#ship-box-info").slideToggle(1000);
     });
 
     /*----------------------------------------*/
     /* FAQ Accordion
 /*----------------------------------------*/
-    $('.card-header a').on('click', function () {
-        $('.card').removeClass('actives');
-        $(this).parents('.card').addClass('actives');
+    $(".card-header a").on("click", function () {
+        $(".card").removeClass("actives");
+        $(this).parents(".card").addClass("actives");
     });
 
     /*----------------------------------------*/
     /*  Sidebar Categories Menu Activation
 /*----------------------------------------*/
-    $('.sidebar-categories_menu li.has-sub > a').on('click', function () {
-        $(this).removeAttr('href');
-        var element = $(this).parent('li');
-        if (element.hasClass('open')) {
-            element.removeClass('open');
-            element.find('li').removeClass('open');
-            element.find('ul').slideUp();
+    $(".sidebar-categories_menu li.has-sub > a").on("click", function () {
+        $(this).removeAttr("href");
+        var element = $(this).parent("li");
+        if (element.hasClass("open")) {
+            element.removeClass("open");
+            element.find("li").removeClass("open");
+            element.find("ul").slideUp();
         } else {
-            element.addClass('open');
-            element.children('ul').slideDown();
-            element.siblings('li').children('ul').slideUp();
-            element.siblings('li').removeClass('open');
-            element.siblings('li').find('li').removeClass('open');
-            element.siblings('li').find('ul').slideUp();
+            element.addClass("open");
+            element.children("ul").slideDown();
+            element.siblings("li").children("ul").slideUp();
+            element.siblings("li").removeClass("open");
+            element.siblings("li").find("li").removeClass("open");
+            element.siblings("li").find("ul").slideUp();
         }
     });
 
     /*---------------------------------------------*/
     /*  Umino's CounterUp
 /*----------------------------------------------*/
-    $('.count').counterUp({
+    $(".count").counterUp({
         delay: 10,
         time: 1000,
     });
@@ -1060,119 +1060,119 @@
     function porductViewMode() {
         $(window).on({
             load: function () {
-                var activeChild = $('.product-view-mode a.active');
-                var firstChild = $('.product-view-mode').children().first();
+                var activeChild = $(".product-view-mode a.active");
+                var firstChild = $(".product-view-mode").children().first();
                 var window_width = $(window).width();
 
                 if (window_width < 576) {
-                    $('.product-view-mode a').removeClass('active');
-                    $('.product-view-mode')
+                    $(".product-view-mode a").removeClass("active");
+                    $(".product-view-mode")
                         .children()
                         .first()
-                        .addClass('active');
-                    $('.shop-product-wrap')
-                        .removeClass('gridview-3 gridview-4 gridview-5')
-                        .addClass('gridview-2');
+                        .addClass("active");
+                    $(".shop-product-wrap")
+                        .removeClass("gridview-3 gridview-4 gridview-5")
+                        .addClass("gridview-2");
                 }
             },
             resize: function () {
                 var ww = $(window).width();
-                var activeChild = $('.product-view-mode a.active');
-                var firstChild = $('.product-view-mode').children().first();
-                var defaultView = $('.product-view-mode').data('default');
+                var activeChild = $(".product-view-mode a.active");
+                var firstChild = $(".product-view-mode").children().first();
+                var defaultView = $(".product-view-mode").data("default");
 
                 if (ww < 1200 && ww > 575) {
-                    if (activeChild.hasClass('grid-5')) {
-                        $('.product-view-mode a.grid-5').removeClass('active');
+                    if (activeChild.hasClass("grid-5")) {
+                        $(".product-view-mode a.grid-5").removeClass("active");
                         if (defaultView == 4) {
-                            $('.product-view-mode a.grid-4').addClass('active');
-                            $('.shop-product-wrap')
-                                .removeClass('gridview-2 gridview-3 gridview-5')
-                                .addClass('gridview-4');
-                        } else if (defaultView == 'list') {
-                            $('.product-view-mode a.list').addClass('active');
-                            $('.shop-product-wrap')
+                            $(".product-view-mode a.grid-4").addClass("active");
+                            $(".shop-product-wrap")
+                                .removeClass("gridview-2 gridview-3 gridview-5")
+                                .addClass("gridview-4");
+                        } else if (defaultView == "list") {
+                            $(".product-view-mode a.list").addClass("active");
+                            $(".shop-product-wrap")
                                 .removeClass(
-                                    'gridview-2 gridview-3 gridview-4 gridview-5'
+                                    "gridview-2 gridview-3 gridview-4 gridview-5"
                                 )
-                                .addClass('listview');
+                                .addClass("listview");
                         } else {
-                            $('.product-view-mode a.grid-3').addClass('active');
-                            $('.shop-product-wrap')
-                                .removeClass('gridview-2 gridview-4 gridview-5')
-                                .addClass('gridview-3');
+                            $(".product-view-mode a.grid-3").addClass("active");
+                            $(".shop-product-wrap")
+                                .removeClass("gridview-2 gridview-4 gridview-5")
+                                .addClass("gridview-3");
                         }
                     }
                 }
 
                 if (ww < 768 && ww > 575) {
-                    if (activeChild.hasClass('grid-4')) {
-                        $('.product-view-mode a.grid-4').removeClass('active');
-                        if (defaultView == 'list') {
-                            $('.product-view-mode a.list').addClass('active');
-                            $('.shop-product-wrap')
+                    if (activeChild.hasClass("grid-4")) {
+                        $(".product-view-mode a.grid-4").removeClass("active");
+                        if (defaultView == "list") {
+                            $(".product-view-mode a.list").addClass("active");
+                            $(".shop-product-wrap")
                                 .removeClass(
-                                    'gridview-2 gridview-3 gridview-4 gridview-5'
+                                    "gridview-2 gridview-3 gridview-4 gridview-5"
                                 )
-                                .addClass('listview');
+                                .addClass("listview");
                         } else {
-                            $('.product-view-mode a.grid-3').addClass('active');
-                            $('.shop-product-wrap')
-                                .removeClass('gridview-2 gridview-4 gridview-5')
-                                .addClass('gridview-3');
+                            $(".product-view-mode a.grid-3").addClass("active");
+                            $(".shop-product-wrap")
+                                .removeClass("gridview-2 gridview-4 gridview-5")
+                                .addClass("gridview-3");
                         }
                     }
                 }
-                if (activeChild.hasClass('list')) {
+                if (activeChild.hasClass("list")) {
                 } else {
                     if (ww < 576) {
-                        $('.product-view-mode a').removeClass('active');
-                        $('.product-view-mode')
+                        $(".product-view-mode a").removeClass("active");
+                        $(".product-view-mode")
                             .children()
                             .first()
-                            .addClass('active');
-                        $('.shop-product-wrap')
-                            .removeClass('gridview-3 gridview-4 gridview-5')
-                            .addClass('gridview-2');
+                            .addClass("active");
+                        $(".shop-product-wrap")
+                            .removeClass("gridview-3 gridview-4 gridview-5")
+                            .addClass("gridview-2");
                     } else {
-                        if (activeChild.hasClass('grid-2')) {
+                        if (activeChild.hasClass("grid-2")) {
                             if (ww < 1200) {
                                 $(
-                                    '.product-view-mode a:not(:first-child)'
-                                ).removeClass('active');
+                                    ".product-view-mode a:not(:first-child)"
+                                ).removeClass("active");
                             } else {
-                                $('.product-view-mode a').removeClass('active');
-                                $('.product-view-mode a:nth-child(2)').addClass(
-                                    'active'
+                                $(".product-view-mode a").removeClass("active");
+                                $(".product-view-mode a:nth-child(2)").addClass(
+                                    "active"
                                 );
-                                $('.shop-product-wrap')
+                                $(".shop-product-wrap")
                                     .removeClass(
-                                        'gridview-2 gridview-4 gridview-5'
+                                        "gridview-2 gridview-4 gridview-5"
                                     )
-                                    .addClass('gridview-3');
+                                    .addClass("gridview-3");
                             }
                         }
                     }
                 }
             },
         });
-        $('.product-view-mode a').on('click', function (e) {
+        $(".product-view-mode a").on("click", function (e) {
             e.preventDefault();
 
-            var shopProductWrap = $('.shop-product-wrap');
-            var viewMode = $(this).data('target');
+            var shopProductWrap = $(".shop-product-wrap");
+            var viewMode = $(this).data("target");
 
-            $('.product-view-mode a').removeClass('active');
-            $(this).addClass('active');
-            if (viewMode == 'listview') {
-                shopProductWrap.removeClass('grid');
+            $(".product-view-mode a").removeClass("active");
+            $(this).addClass("active");
+            if (viewMode == "listview") {
+                shopProductWrap.removeClass("grid");
             } else {
-                if (shopProductWrap.not('.grid'))
-                    shopProductWrap.addClass('grid');
+                if (shopProductWrap.not(".grid"))
+                    shopProductWrap.addClass("grid");
             }
             shopProductWrap
                 .removeClass(
-                    'gridview-2 gridview-3 gridview-4 gridview-5 listview'
+                    "gridview-2 gridview-3 gridview-4 gridview-5 listview"
                 )
                 .addClass(viewMode);
         });
@@ -1183,15 +1183,15 @@
     /*  Star Rating Js
 /*----------------------------------------*/
     $(function () {
-        $('.star-rating').barrating({
-            theme: 'fontawesome-stars',
+        $(".star-rating").barrating({
+            theme: "fontawesome-stars",
         });
     });
 
     /*-------------------------------------------------*/
     /* Umino's Sticky Sidebar
 /*-------------------------------------------------*/
-    $('#sticky-sidebar').theiaStickySidebar({
+    $("#sticky-sidebar").theiaStickySidebar({
         // Settings
         additionalMarginTop: 80,
     });
@@ -1199,8 +1199,8 @@
     /*--------------------------------
     Price Slider Active
 -------------------------------- */
-    var sliderrange = $('#slider-range');
-    var amountprice = $('#amount');
+    var sliderrange = $("#slider-range");
+    var amountprice = $("#amount");
     $(function () {
         sliderrange.slider({
             range: true,
@@ -1208,38 +1208,38 @@
             max: 100,
             values: [0, 100],
             slide: function (event, ui) {
-                amountprice.val('$' + ui.values[0] + ' - $' + ui.values[1]);
+                amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
             },
         });
         amountprice.val(
-            '$' +
-            sliderrange.slider('values', 0) +
-            ' - $' +
-            sliderrange.slider('values', 1)
+            "$" +
+                sliderrange.slider("values", 0) +
+                " - $" +
+                sliderrange.slider("values", 1)
         );
     });
     /*----------------------------------------*/
     /*  Umino's Slick Carousel
  /*----------------------------------------*/
-    var $html = $('html');
-    var $body = $('body');
-    var $elementCarousel = $('.umino-slick-slider');
+    var $html = $("html");
+    var $body = $("body");
+    var $elementCarousel = $(".umino-slick-slider");
     // Check if element exists
     $.fn.elExists = function () {
         return this.length > 0;
     };
 
     /*For RTL*/
-    if ($html.attr('dir') == 'rtl' || $body.attr('dir') == 'rtl') {
-        $elementCarousel.attr('dir', 'rtl');
+    if ($html.attr("dir") == "rtl" || $body.attr("dir") == "rtl") {
+        $elementCarousel.attr("dir", "rtl");
     }
 
     if ($elementCarousel.elExists()) {
         var slickInstances = [];
 
         /*For RTL*/
-        if ($html.attr('dir') == 'rtl' || $body.attr('dir') == 'rtl') {
-            $elementCarousel.attr('dir', 'rtl');
+        if ($html.attr("dir") == "rtl" || $body.attr("dir") == "rtl") {
+            $elementCarousel.attr("dir", "rtl");
         }
 
         $elementCarousel.each(function (index, element) {
@@ -1248,13 +1248,13 @@
             // Carousel Options
 
             var $options =
-                typeof $this.data('slick-options') !== 'undefined'
-                    ? $this.data('slick-options')
-                    : '';
+                typeof $this.data("slick-options") !== "undefined"
+                    ? $this.data("slick-options")
+                    : "";
 
             var $spaceBetween = $options.spaceBetween
-                ? parseInt($options.spaceBetween, 10)
-                : 0,
+                    ? parseInt($options.spaceBetween, 10)
+                    : 0,
                 $spaceBetween_xl = $options.spaceBetween_xl
                     ? parseInt($options.spaceBetween_xl, 10)
                     : 0,
@@ -1265,7 +1265,7 @@
                 $focusOnSelect = $options.focusOnSelect
                     ? $options.focusOnSelect
                     : false,
-                $asNavFor = $options.asNavFor ? $options.asNavFor : '',
+                $asNavFor = $options.asNavFor ? $options.asNavFor : "",
                 $fade = $options.fade ? $options.fade : false,
                 $autoplay = $options.autoplay ? $options.autoplay : false,
                 $autoplaySpeed = $options.autoplaySpeed
@@ -1289,7 +1289,7 @@
                 $centerMode = $options.centerMode ? $options.centerMode : false,
                 $centerPadding = $options.centerPadding
                     ? $options.centerPadding
-                    : '',
+                    : "",
                 $variableWidth = $options.variableWidth
                     ? $options.variableWidth
                     : false,
@@ -1301,27 +1301,27 @@
                     $arrows === true
                         ? $options.prevArrow
                             ? '<span class="' +
-                            $options.prevArrow.buttonClass +
-                            '"><i class="' +
-                            $options.prevArrow.iconClass +
-                            '"></i></span>'
+                              $options.prevArrow.buttonClass +
+                              '"><i class="' +
+                              $options.prevArrow.iconClass +
+                              '"></i></span>'
                             : '<button class="tty-slick-text-btn tty-slick-text-prev">previous</span>'
-                        : '',
+                        : "",
                 $nextArrow =
                     $arrows === true
                         ? $options.nextArrow
                             ? '<span class="' +
-                            $options.nextArrow.buttonClass +
-                            '"><i class="' +
-                            $options.nextArrow.iconClass +
-                            '"></i></span>'
+                              $options.nextArrow.buttonClass +
+                              '"><i class="' +
+                              $options.nextArrow.iconClass +
+                              '"></i></span>'
                             : '<button class="tty-slick-text-btn tty-slick-text-next">next</span>'
-                        : '',
+                        : "",
                 $rows = $options.rows ? parseInt($options.rows, 10) : 1,
                 $rtl =
                     $options.rtl ||
-                        $html.attr('dir="rtl"') ||
-                        $body.attr('dir="rtl"')
+                    $html.attr('dir="rtl"') ||
+                    $body.attr('dir="rtl"')
                         ? true
                         : false,
                 $slidesToShow = $options.slidesToShow
@@ -1333,9 +1333,9 @@
 
             /*Responsive Variable, Array & Loops*/
             var $responsiveSetting =
-                typeof $this.data('slick-responsive') !== 'undefined'
-                    ? $this.data('slick-responsive')
-                    : '',
+                    typeof $this.data("slick-responsive") !== "undefined"
+                        ? $this.data("slick-responsive")
+                        : "",
                 $responsiveSettingLength = $responsiveSetting.length,
                 $responsiveArray = [];
             for (var i = 0; i < $responsiveSettingLength; i++) {
@@ -1343,32 +1343,32 @@
             }
 
             // Adding Class to instances
-            $this.addClass('slick-carousel-' + index);
+            $this.addClass("slick-carousel-" + index);
             $this
                 .parent()
-                .find('.slick-dots')
-                .addClass('dots-' + index);
+                .find(".slick-dots")
+                .addClass("dots-" + index);
             $this
                 .parent()
-                .find('.slick-btn')
-                .addClass('btn-' + index);
+                .find(".slick-btn")
+                .addClass("btn-" + index);
 
             if ($spaceBetween != 0) {
-                $this.addClass('slick-gutter-' + $spaceBetween);
+                $this.addClass("slick-gutter-" + $spaceBetween);
             }
             if ($spaceBetween_xl != 0) {
-                $this.addClass('slick-gutter-xl-' + $spaceBetween_xl);
+                $this.addClass("slick-gutter-xl-" + $spaceBetween_xl);
             }
             var $slideCount = null;
-            $this.on('init', function (event, slick) {
-                $this.find('.slick-active').first().addClass('first-active');
-                $this.find('.slick-active').last().addClass('last-active');
+            $this.on("init", function (event, slick) {
+                $this.find(".slick-active").first().addClass("first-active");
+                $this.find(".slick-active").last().addClass("last-active");
                 $slideCount = slick.slideCount;
                 if ($slideCount <= $slidesToShow) {
-                    $this.children('.slick-dots').hide();
+                    $this.children(".slick-dots").hide();
                 }
                 var $firstAnimatingElements =
-                    $('.slick-slide').find('[data-animation]');
+                    $(".slick-slide").find("[data-animation]");
                 doAnimations($firstAnimatingElements);
             });
 
@@ -1401,34 +1401,34 @@
             });
 
             $this.on(
-                'beforeChange',
+                "beforeChange",
                 function (e, slick, currentSlide, nextSlide) {
                     $this
-                        .find('.slick-active')
+                        .find(".slick-active")
                         .first()
-                        .removeClass('first-active');
+                        .removeClass("first-active");
                     $this
-                        .find('.slick-active')
+                        .find(".slick-active")
                         .last()
-                        .removeClass('last-active');
+                        .removeClass("last-active");
                     var $animatingElements = $(
                         '.slick-slide[data-slick-index="' + nextSlide + '"]'
-                    ).find('[data-animation]');
+                    ).find("[data-animation]");
                     doAnimations($animatingElements);
                 }
             );
 
             function doAnimations(elements) {
                 var animationEndEvents =
-                    'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                    "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend";
                 elements.each(function () {
                     var $el = $(this);
-                    var $animationDelay = $el.data('delay');
-                    var $animationDuration = $el.data('duration');
-                    var $animationType = 'animated ' + $el.data('animation');
+                    var $animationDelay = $el.data("delay");
+                    var $animationDuration = $el.data("duration");
+                    var $animationType = "animated " + $el.data("animation");
                     $el.css({
-                        'animation-delay': $animationDelay,
-                        'animation-duration': $animationDuration,
+                        "animation-delay": $animationDelay,
+                        "animation-duration": $animationDuration,
                     });
                     $el.addClass($animationType).one(
                         animationEndEvents,
@@ -1439,17 +1439,17 @@
                 });
             }
 
-            $this.on('afterChange', function (e, slick) {
-                $this.find('.slick-active').first().addClass('first-active');
-                $this.find('.slick-active').last().addClass('last-active');
+            $this.on("afterChange", function (e, slick) {
+                $this.find(".slick-active").first().addClass("first-active");
+                $this.find(".slick-active").last().addClass("last-active");
             });
 
             // Updating the sliders in tab
-            $('body').on(
-                'shown.bs.tab',
+            $("body").on(
+                "shown.bs.tab",
                 'a[data-toggle="tab"], a[data-toggle="pill"]',
                 function (e) {
-                    $this.slick('setPosition');
+                    $this.slick("setPosition");
                 }
             );
         });
@@ -1457,7 +1457,7 @@
     /*----------------------------------------*/
     /*  Single Product Image Slider
  /*----------------------------------------*/
-    $('.sp-img_slider').slick({
+    $(".sp-img_slider").slick({
         infinite: true,
         slidesToShow: 4,
         slidesToScroll: 1,
@@ -1500,30 +1500,30 @@
     /*  Umino's Color List
  /*----------------------------------------*/
 
-    $('.color-list a').on('click', function (e) {
+    $(".color-list a").on("click", function (e) {
         e.preventDefault();
         var $this = $(this);
-        $this.addClass('active');
-        $this.siblings().removeClass('active');
+        $this.addClass("active");
+        $this.siblings().removeClass("active");
         var $navs = document.querySelectorAll(
-            '.slick-slider-nav .single-slide'
+            ".slick-slider-nav .single-slide"
         );
         var $details = document.querySelectorAll(
-            '.slick-img-slider .single-slide'
+            ".slick-img-slider .single-slide"
         );
         console.log($navs);
-        var $btnColor = $this.data('swatch-color');
+        var $btnColor = $this.data("swatch-color");
         for (var i = 0; i < $navs.length; i++) {
-            $navs[i].classList.remove('slick-current');
+            $navs[i].classList.remove("slick-current");
             if ($navs[i].classList.contains($btnColor)) {
-                $navs[i].classList.add('slick-current');
+                $navs[i].classList.add("slick-current");
             }
         }
         for (var i = 0; i < $details.length; i++) {
-            $details[i].classList.remove('slick-current');
+            $details[i].classList.remove("slick-current");
             $details[i].style.opacity = 0;
             if ($details[i].classList.contains($btnColor)) {
-                $details[i].classList.add('slick-current');
+                $details[i].classList.add("slick-current");
                 $details[i].style.opacity = 1;
             }
         }
@@ -1531,7 +1531,7 @@
     /*----------------------------------------*/
     /*  Single Product Image Slider Three
  /*----------------------------------------*/
-    $('.sp-img_slider-3').slick({
+    $(".sp-img_slider-3").slick({
         infinite: true,
         slidesToShow: 4,
         vertical: true,
@@ -1575,20 +1575,20 @@
     });
     /*--------------------------
         Umino's Product Zoom
-    ---------------------------- */
-    $('.zoompro').elevateZoom({
-        gallery: 'gallery',
-        galleryActiveClass: 'active',
+	---------------------------- */
+    $(".zoompro").elevateZoom({
+        gallery: "gallery",
+        galleryActiveClass: "active",
         zoomWindowWidth: 300,
         zoomWindowHeight: 100,
         scrollZoom: false,
-        zoomType: 'inner',
-        cursor: 'all-scroll',
+        zoomType: "inner",
+        cursor: "all-scroll",
     });
     /*----------------------------------------*/
     /*  Single Product Slider
  /*----------------------------------------*/
-    $('.sp-slider').slick({
+    $(".sp-slider").slick({
         infinite: true,
         slidesToShow: 4,
         slidesToScroll: 1,
@@ -1632,17 +1632,17 @@
     /*----------------------------------------*/
     /*  Umino's Isotop
 /*----------------------------------------*/
-    var isotopFilter = $('.isotop-filter');
-    var isotopGrid = $('.isotop-grid');
-    var isotopGridMasonry = $('.isotop-grid-masonry');
-    var isotopGridItem = '.isotop-item';
+    var isotopFilter = $(".isotop-filter");
+    var isotopGrid = $(".isotop-grid");
+    var isotopGridMasonry = $(".isotop-grid-masonry");
+    var isotopGridItem = ".isotop-item";
     /*-- Images Loaded --*/
     isotopGrid.imagesLoaded(function () {
         /*-- Filter List --*/
-        isotopFilter.on('click', 'button', function () {
-            isotopFilter.find('button').removeClass('active');
-            $(this).addClass('active');
-            var filterValue = $(this).attr('data-filter');
+        isotopFilter.on("click", "button", function () {
+            isotopFilter.find("button").removeClass("active");
+            $(this).addClass("active");
+            var filterValue = $(this).attr("data-filter");
             isotopGrid.isotope({
                 filter: filterValue,
             });
@@ -1650,7 +1650,7 @@
         /*-- Filter Grid Layout FitRows --*/
         isotopGrid.isotope({
             itemSelector: isotopGridItem,
-            layoutMode: 'fitRows',
+            layoutMode: "fitRows",
             masonry: {
                 columnWidth: 1,
             },
@@ -1658,7 +1658,7 @@
         /*-- Filter Grid Layout Masonary --*/
         isotopGridMasonry.isotope({
             itemSelector: isotopGridItem,
-            layoutMode: 'masonry',
+            layoutMode: "masonry",
             masonry: {
                 columnWidth: 1,
             },
@@ -1667,35 +1667,35 @@
     /*----------------------------------------*/
     /*  Umino's Venobox
 /*----------------------------------------*/
-    $('.venobox').venobox({
-        spinner: 'wave',
-        spinColor: '#51c1c6',
+    $(".venobox").venobox({
+        spinner: "wave",
+        spinColor: "#51c1c6",
     });
     /*------------------------------------
         DateCountdown active 1
     ------------------------------------- */
-    $('.DateCountdown').TimeCircles({
-        direction: 'Counter-clockwise',
+    $(".DateCountdown").TimeCircles({
+        direction: "Counter-clockwise",
         fg_width: 0.009,
         bg_width: 0,
         use_background: false,
-        animation: 'thick',
+        animation: "thick",
         time: {
             Days: {
-                text: 'Days',
-                color: '#fff',
+                text: "Days",
+                color: "#fff",
             },
             Hours: {
-                text: 'Hours',
-                color: '#fff',
+                text: "Hours",
+                color: "#fff",
             },
             Minutes: {
-                text: 'Mins',
-                color: '#fff',
+                text: "Mins",
+                color: "#fff",
             },
             Seconds: {
-                text: 'Secs',
-                color: '#fff',
+                text: "Secs",
+                color: "#fff",
             },
         },
     });
