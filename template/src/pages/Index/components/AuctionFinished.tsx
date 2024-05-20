@@ -8,7 +8,7 @@ const AuctionFinished = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="umino-section_title">
-              <h3>Furniture & Decor</h3>
+              <h3>Trang sức đã được đấu giá</h3>
             </div>
           </div>
           <div className="col-lg-12">
