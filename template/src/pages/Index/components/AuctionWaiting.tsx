@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SingleAuction from './SingleWaitingAuction'
 const AuctionWaiting = () => {
+  
   return (
     <div className="umino-product_area">
       <div className="container">

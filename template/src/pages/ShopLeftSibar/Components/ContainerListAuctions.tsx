@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const ContainerListAuctions = () => {
+  useEffect(() => {
+    $(".umino-countdown").countdown("2024/12/20", function (event) {
+      $(this).html(
+        event.strftime(
+          '<div class="count"><span class="count-amount">%D</span><span class="count-period">Days</span></div><div class="count"><span class="count-amount">%H</span><span class="count-period">Hrs</span></div><div class="count"><span class="count-amount">%M</span><span class="count-period">Mins</span></div><div class="count"><span class="count-amount">%S</span><span class="count-period">Secs</span></div>'
+        )
+      );
+    });
+  }, []);
   return (
     <div className="col-lg-9 order-1 order-lg-2">
       <div className="shop-banner_area">
@@ -16,16 +25,7 @@ const ContainerListAuctions = () => {
       <div className="shop-toolbar">
         <div className="product-view-mode">
           <a
-            className="active grid-3"
-            data-target="gridview-3"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Grid View"
-          >
-            <i className="fa fa-th"></i>
-          </a>
-          <a
-            className="list"
+            className="active list"
             data-target="listview"
             data-toggle="tooltip"
             data-placement="top"
@@ -74,7 +74,7 @@ const ContainerListAuctions = () => {
           </div>
         </div>
       </div>
-      <div className="shop-product-wrap grid gridview-3 row">
+      <div className="shop-product-wrap row listview">
         <div className="col-lg-4 col-md-4 col-sm-6">
           <div className="slide-item">
             <div className="single-product">
@@ -238,54 +238,8 @@ const ContainerListAuctions = () => {
                       tristique ut lectus
                     </p>
                   </div>
-                </div>
-                <div className="add-actions">
-                  <ul>
-                    <li>
-                      <a
-                        href="cart.html"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="Add To cart"
-                      >
-                        <i className="ion-bag"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="wishlist.html"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="Add To Wishlist"
-                      >
-                        <i className="ion-ios-heart-outline"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="compare.html"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="Add To Cart"
-                      >
-                        <i className="fa fa-chart-bar"></i>
-                      </a>
-                    </li>
-                    <li
-                      className="quick-view-btn"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModalCenter"
-                    >
-                      <a
-                        href="javascript:void(0)"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="Quick View"
-                      >
-                        <i className="ion-ios-search"></i>
-                      </a>
-                    </li>
-                  </ul>
+                  <div className="umino-countdown">
+                  </div>
                 </div>
               </div>
             </div>

@@ -3,7 +3,7 @@ import SingleFinishsedAuction from './SingleFinishsedAuction'
 
 const AuctionFinished = () => {
   return (
-    <div className="umino-product_area umino-product_area-2">
+    <div className="umino-product_area umino-product_area-2" style={{marginTop: "100px"}}>
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
