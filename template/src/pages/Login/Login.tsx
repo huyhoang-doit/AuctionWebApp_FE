@@ -14,9 +14,9 @@ export default function Login() {
                     <div className="breadcrumb-content">
                         <ul>
                             <li>
-                                <a href="index.html">Home</a>
+                                <a href="index.html">Trang chủ</a>
                             </li>
-                            <li className="active">Login </li>
+                            <li className="active">Đăng nhập </li>
                         </ul>
                     </div>
                 </div>
@@ -29,21 +29,21 @@ export default function Login() {
                             {/* <!-- Login Form s--> */}
                             <form action="#">
                                 <div className="login-form">
-                                    <h4 className="login-title">Login</h4>
+                                    <h4 className="login-title">Đăng nhập</h4>
 
                                     <div className="row mb-4">
                                         <div className="col-md-12 col-12">
-                                            <label>Email Address*</label>
+                                            <label>Tên đăng nhập/ Email</label>
                                             <input
                                                 type="email"
-                                                placeholder="Email Address"
+                                                placeholder="Nhập tên đăng nhập/ Email"
                                             />
                                         </div>
                                         <div className="col-12 mb--20">
-                                            <label>Password</label>
+                                            <label>Mật khẩu</label>
                                             <input
                                                 type="password"
-                                                placeholder="Password"
+                                                placeholder="Nhập mật khẩu"
                                             />
                                         </div>
                                         <div className="col-md-8">
@@ -53,7 +53,7 @@ export default function Login() {
                                                     id="remember_me"
                                                 />
                                                 <label htmlFor="remember_me">
-                                                    Remember me
+                                                    Nhớ mật khẩu
                                                 </label>
                                             </div>
                                         </div>
@@ -62,19 +62,19 @@ export default function Login() {
                                             <div className="forgotton-password_info">
                                                 <a href="#">
                                                     {" "}
-                                                    Forgotten pasward?
+                                                    Quên mật khẩu?
                                                 </a>
                                             </div>
                                         </div>
                                         <div className="col-md-12">
                                             <button className="umino-login_btn">
-                                                Login
+                                                Đăng nhập
                                             </button>
                                         </div>
                                     </div>
 
                                     <a onClick={() => handleToRegister()}>
-                                        You haven't a acount ?
+                                        Bạn chưa có tài khoản ?
                                     </a>
                                 </div>
                             </form>
