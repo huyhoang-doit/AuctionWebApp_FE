@@ -29,7 +29,6 @@ export default function RouterCom() {
                 />
                 <Route path="/single-product" element={<SingleProduct />} />
             </Routes>
-            <Index />
         </>
     );
 }

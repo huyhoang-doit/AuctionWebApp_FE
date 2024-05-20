@@ -7,6 +7,9 @@ export default function Brand() {
                 <div className="umino-brand_nav">
                     <div className="row">
                         <div className="col-lg-12">
+                            <div className="umino-section_title">
+                                <h3>Các thương hiệu hợp tác</h3>
+                            </div>
                             <div className="umino-brand_slider slider-navigation_style-1">
                                 <div className="row">
                                     <div className="col-2">
