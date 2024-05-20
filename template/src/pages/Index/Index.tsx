@@ -3,7 +3,6 @@ import Slider from "./components/Slider";
 import ShippingArea from "./components/ShippingArea";
 import AuctionWaiting from "./components/AuctionWaiting";
 import AuctionFinished from "./components/AuctionFinished";
-import ContactTable from "./components/ContactTable";
 export default function Index() {
     return (
         <>
