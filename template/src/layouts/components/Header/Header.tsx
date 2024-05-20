@@ -1,61 +1,39 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 
 export default function Header() {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const handleToShopLeftSibar = () => {
-    //     navigate("/shop-left-sibar");
-    // };
+    const handleToShopLeftSibar = () => {
+        navigate("/shop-left-sibar");
+    };
 
-    // const handleToIndex = () => {
-    //     navigate("/index");
-    // };
+    const handleToIndex = () => {
+        navigate("/index");
+    };
 
-    // const handleToContact = () => {
-    //     navigate("/contact");
-    // };
+    const handleToContact = () => {
+        navigate("/contact");
+    };
 
-    // const handleToLogin = () => {
-    //     navigate("/login");
-    // };
+    const handleToLogin = () => {
+        navigate("/login");
+    };
 
     return (
         <>
             <header className="header-main_area">
-                <div className="header-top_area">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-xl-5 col-lg-5">
-                                <div className="ht-left_area">
-                                    <div className="header-shipping_area">
-                                        <span><strong>Đấu Giá Trang Sức</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-xl-7 col-lg-7">
-                                <div className="ht-right_area">
-                                    <div className="ht-menu">
-                                        <ul>
-                                            <li><a href="#">Tài sản đấu giá</a></li>
-                                            <li><a href="#">Giỏ Hàng</a></li>
-                                            <li><a href="#">Danh sách sản phẩm yêu thích</a></li>
-                                            <li><a href="#">Thanh toán</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div className="header-middle_area">
                     <div className="container">
                         <div className="row">
                             <div className="col-xl-3 col-lg-2">
                                 <div className="header-logo">
-                                    <Link to={"/index"}>
-                                        <img src="assets/images/menu/logo/1.png" alt="Umino's Header Logo" />
-                                    </Link>
+                                    <a href="/index">
+                                        <img
+                                            src="assets/images/menu/logo/1.png"
+                                            alt="Umino's Header Logo"
+                                        />
+                                    </a>
                                 </div>
                             </div>
                             <div className="col-lg-3 d-none d-lg-block">
@@ -65,16 +43,23 @@ export default function Header() {
                                     </div>
                                     <div className="contact-info_content">
                                         <span>Liên hệ</span>
-                                        <a href="#">(+123) 123 321 345</a>
+                                        <a href="#">(+84) 123 321 345</a>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-lg-4 d-none d-lg-block">
                                 <div className="hm-form_area">
                                     <form action="#" className="hm-searchbox">
-                                        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
-                                        <button className="umino-search_btn" type="submit"><i
-                                            className="ion-android-search"></i></button>
+                                        <input
+                                            type="text"
+                                            placeholder="Tìm kiếm sản phẩm..."
+                                        />
+                                        <button
+                                            className="umino-search_btn"
+                                            type="submit"
+                                        >
+                                            <i className="ion-android-search"></i>
+                                        </button>
                                     </form>
                                 </div>
                             </div>
@@ -83,45 +68,51 @@ export default function Header() {
                                     <ul>
                                         <li>
                                             <a href="#">
-                                                <div className="minicart-icon wishlist-icon">
-                                                    <i className="ion-ios-heart-outline"></i>
-                                                    <span className="item-count">2</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
                                                 <div className="minicart-icon">
-                                                    <i className="ion-bag"></i>
-                                                    <span className="item-count">2</span>
+                                                    <i className="ion-clock"></i>
+                                                    <span className="item-count">
+                                                        2
+                                                    </span>
                                                 </div>
                                                 <div className="minicart-title">
-                                                    <span className="item_total">$54.90</span>
+                                                    <span className="item_total">
+                                                        $54.90
+                                                    </span>
                                                 </div>
                                             </a>
                                             <ul className="minicart-body">
                                                 <li className="minicart-item_area">
                                                     <div className="minicart-single_item">
                                                         <div className="product-item_remove">
-                                                            <span className="ion-android-close" title="Remove This Item"></span>
+                                                            <span
+                                                                className="ion-android-close"
+                                                                title="Remove This Item"
+                                                            ></span>
                                                         </div>
                                                         <div className="minicart-img">
-                                                            <a href="#">
-                                                                <img src="assets/images/product/small-size/6.jpg"
-                                                                    alt="Umino's Product Image" />
+                                                            <a href="">
+                                                                <img
+                                                                    src="assets/images/product/small-size/6.jpg"
+                                                                    alt="Umino's Product Image"
+                                                                />
                                                             </a>
                                                         </div>
                                                         <div className="minicart-content">
                                                             <div className="product-name">
                                                                 <h6>
                                                                     <a href="#">
-                                                                        Vulputate justo
+                                                                        Vulputate
+                                                                        justo
                                                                     </a>
                                                                 </h6>
                                                             </div>
-                                                            <span className="product-quantity">Qty 1</span>
+                                                            <span className="product-quantity">
+                                                                Qty 1
+                                                            </span>
                                                             <div className="price-box">
-                                                                <span className="new-price">$90.00</span>
+                                                                <span className="new-price">
+                                                                    $90.00
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -129,25 +120,36 @@ export default function Header() {
                                                 <li className="minicart-item_area">
                                                     <div className="minicart-single_item">
                                                         <div className="product-item_remove">
-                                                            <span className="ion-android-close" title="Remove This Item"></span>
+                                                            <span
+                                                                className="ion-android-close"
+                                                                title="Remove This Item"
+                                                            ></span>
                                                         </div>
                                                         <div className="minicart-img">
                                                             <a href="#">
-                                                                <img src="assets/images/product/small-size/8.jpg"
-                                                                    alt="Umino's Product Image" />
+                                                                <img
+                                                                    src="assets/images/product/small-size/8.jpg"
+                                                                    alt="Umino's Product Image"
+                                                                />
                                                             </a>
                                                         </div>
                                                         <div className="minicart-content">
                                                             <div className="product-name">
                                                                 <h6>
                                                                     <a href="#">
-                                                                        Phasellus vel hendrerit
+                                                                        Phasellus
+                                                                        vel
+                                                                        hendrerit
                                                                     </a>
                                                                 </h6>
                                                             </div>
-                                                            <span className="product-quantity">Qty 1</span>
+                                                            <span className="product-quantity">
+                                                                Qty 1
+                                                            </span>
                                                             <div className="price-box">
-                                                                <span className="new-price">$55.00</span>
+                                                                <span className="new-price">
+                                                                    $55.00
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -156,25 +158,45 @@ export default function Header() {
                                                     <div className="price_content">
                                                         <div className="cart-subtotals">
                                                             <div className="products subtotal-list">
-                                                                <span className="label">Subtotal</span>
-                                                                <span className="defaultValue">$145.00</span>
+                                                                <span className="label">
+                                                                    Subtotal
+                                                                </span>
+                                                                <span className="defaultValue">
+                                                                    $145.00
+                                                                </span>
                                                             </div>
                                                             <div className="shipping subtotal-list">
-                                                                <span className="label">Shipping</span>
-                                                                <span className="defaultValue">$7.00</span>
+                                                                <span className="label">
+                                                                    Shipping
+                                                                </span>
+                                                                <span className="defaultValue">
+                                                                    $7.00
+                                                                </span>
                                                             </div>
                                                             <div className="tax subtotal-list">
-                                                                <span className="label">Taxes</span>
-                                                                <span className="defaultValue">$0.00</span>
+                                                                <span className="label">
+                                                                    Taxes
+                                                                </span>
+                                                                <span className="defaultValue">
+                                                                    $0.00
+                                                                </span>
                                                             </div>
                                                             <div className="cart-total subtotal-list">
-                                                                <span className="label">Total</span>
-                                                                <span className="defaultValue">$152.00</span>
+                                                                <span className="label">
+                                                                    Total
+                                                                </span>
+                                                                <span className="defaultValue">
+                                                                    $152.00
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div className="minicart-button">
-                                                            <a className="umino-btn umino-btn_fullwidth"
-                                                                href="#">Checkout</a>
+                                                            <a
+                                                                className="umino-btn umino-btn_fullwidth"
+                                                                href="#"
+                                                            >
+                                                                Checkout
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -192,170 +214,580 @@ export default function Header() {
                             <div className="col-lg-3 col-md-9 col-sm-7">
                                 <div className="category-menu category-menu-hidden">
                                     <div className="category-heading">
-                                        <h2 className="categories-toggle"><span>Các loại trang sức</span></h2>
+                                        <h2 className="categories-toggle">
+                                            <span>Các loại trang sức đấu giá</span>
+                                        </h2>
                                     </div>
-                                    <div id="cate-toggle" className="category-menu-list">
+                                    <div
+                                        id="cate-toggle"
+                                        className="category-menu-list none"
+                                    >
                                         <ul>
-                                            <li className="right-menu"><a href="#">Dây chuyền</a>
+                                            <li
+                                                className="right-menu"
+                                                onClick={() =>
+                                                    handleToShopLeftSibar()
+                                                }
+                                            >
+                                                <a href="#">Dây chuyền</a>
                                                 <ul className="cat-mega-menu">
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">Chất liệu</a>
+                                                <li className="right-menu cat-mega-title">
+                                                        <a href="#">
+                                                            Chất liệu
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#"></a></li>
-                                                            <li><a href="#">Vàng</a></li>
-                                                            <li><a href="#">Bạc</a></li>
-                                                            <li><a href="#">Bạch kim</a></li>
+                                                            <li>
+                                                                <a href="#"></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạc
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Vàng
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạch kim
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim cương
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Giới tính</a>
+                                                        <a href="#">
+                                                            Giới tính
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#">Nam</a></li>
-                                                            <li><a href="#">Nữ</a></li>
-                                                            <li><a href="#">Nam và nữ</a></li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nam
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nữ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nam và nữ
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Dòng hàng</a>
+                                                        <a href="#">
+                                                            Dòng hàng
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#">Trang Sức Đính Kim Cương</a></li>
-                                                            <li><a href="#">Trang Sức Đính ECZ</a></li>
-                                                            <li><a href="#">Trang Sức Đính Đá Quý Và Bán Quý</a></li>
-                                                            <li><a href="#">Trang Sức Đính Ngọc Trai</a></li>
-                                                            <li><a href="#">Trang Sức Đính CZ</a></li>
-                                                            <li><a href="#">Trang Sức Không Đính Đá</a></li>
-                                                            <li><a href="#">Kim Cương Viên</a></li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Kim
+                                                                    Cương
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính ECZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Đá Quý
+                                                                    Và Bán Quý
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Ngọc
+                                                                    Trai
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính CZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Không Đính
+                                                                    Đá
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim Cương
+                                                                    Viên
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li className="right-menu"><a href="#">Nhẫn</a>
+                                            <li
+                                                className="right-menu"
+                                                onClick={() =>
+                                                    handleToShopLeftSibar()
+                                                }
+                                            >
+                                                <a href="#">Nhẫn</a>
                                                 <ul className="cat-mega-menu">
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">Chất liệu</a>
+                                                <li className="right-menu cat-mega-title">
+                                                        <a href="#">
+                                                            Chất liệu
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#"></a></li>
-                                                            <li><a href="#">Vàng</a></li>
-                                                            <li><a href="#">Bạc</a></li>
-                                                            <li><a href="#">Bạch kim</a></li>
+                                                            <li>
+                                                                <a href="#"></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạc
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Vàng
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạch kim
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim cương
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Giới tính</a>
+                                                        <a href="#">
+                                                            Giới tính
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#">Nam</a></li>
-                                                            <li><a href="#">Nữ</a></li>
-                                                            <li><a href="#">Nam và nữ</a></li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nam
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nữ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Cả nam và nữ
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Dòng hàng</a>
+                                                        <a href="#">
+                                                            Dòng hàng
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#">Trang Sức Đính Kim Cương</a></li>
-                                                            <li><a href="#">Trang Sức Đính ECZ</a></li>
-                                                            <li><a href="#">Trang Sức Đính Đá Quý Và Bán Quý</a></li>
-                                                            <li><a href="#">Trang Sức Đính Ngọc Trai</a></li>
-                                                            <li><a href="#">Trang Sức Đính CZ</a></li>
-                                                            <li><a href="#">Trang Sức Không Đính Đá</a></li>
-                                                            <li><a href="#">Kim Cương Viên</a></li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Kim
+                                                                    Cương
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính ECZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Đá Quý
+                                                                    Và Bán Quý
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Ngọc
+                                                                    Trai
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính CZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Không Đính
+                                                                    Đá
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim Cương
+                                                                    Viên
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li className="right-menu"><a href="#">Bông tai</a>
+                                            <li
+                                                className="right-menu"
+                                                onClick={() =>
+                                                    handleToShopLeftSibar()
+                                                }
+                                            >
+                                                <a href="#">Bông tai</a>
                                                 <ul className="cat-mega-menu">
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">Chất liệu</a>
+                                                <li className="right-menu cat-mega-title">
+                                                        <a href="#">
+                                                            Chất liệu
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#"></a></li>
-                                                            <li><a href="#">Vàng</a></li>
-                                                            <li><a href="#">Bạc</a></li>
-                                                            <li><a href="#">Bạch kim</a></li>
+                                                            <li>
+                                                                <a href="#"></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạc
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Vàng
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạch kim
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim cương
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Giới tính</a>
+                                                        <a href="#">
+                                                            Giới tính
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#">Nam</a></li>
-                                                            <li><a href="#">Nữ</a></li>
-                                                            <li><a href="#">Nam và nữ</a></li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nam
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nữ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nam và nữ
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Dòng hàng</a>
+                                                        <a href="#">
+                                                            Dòng hàng
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#">Trang Sức Đính Kim Cương</a></li>
-                                                            <li><a href="#">Trang Sức Đính ECZ</a></li>
-                                                            <li><a href="#">Trang Sức Đính Đá Quý Và Bán Quý</a></li>
-                                                            <li><a href="#">Trang Sức Đính Ngọc Trai</a></li>
-                                                            <li><a href="#">Trang Sức Đính CZ</a></li>
-                                                            <li><a href="#">Trang Sức Không Đính Đá</a></li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Kim
+                                                                    Cương
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính ECZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Đá Quý
+                                                                    Và Bán Quý
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Ngọc
+                                                                    Trai
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính CZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Không Đính
+                                                                    Đá
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li className="right-menu"><a href="#">Vòng tay</a>
+                                            <li
+                                                className="right-menu"
+                                                onClick={() =>
+                                                    handleToShopLeftSibar()
+                                                }
+                                            >
+                                                <a href="#">Vòng tay</a>
                                                 <ul className="cat-mega-menu">
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">Chất liệu</a>
+                                                <li className="right-menu cat-mega-title">
+                                                        <a href="#">
+                                                            Chất liệu
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#"></a></li>
-                                                            <li><a href="#">Vàng</a></li>
-                                                            <li><a href="#">Bạc</a></li>
-                                                            <li><a href="#">Bạch kim</a></li>
+                                                            <li>
+                                                                <a href="#"></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạc
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Vàng
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạch kim
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim cương
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Giới tính</a>
+                                                        <a href="#">
+                                                            Giới tính
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#">Nam</a></li>
-                                                            <li><a href="#">Nữ</a></li>
-                                                            <li><a href="#">Nam và nữ</a></li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nam
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nữ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nam và nữ
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Dòng hàng</a>
+                                                        <a href="#">
+                                                            Dòng hàng
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#">Trang Sức Đính Kim Cương</a></li>
-                                                            <li><a href="#">Trang Sức Đính ECZ</a></li>
-                                                            <li><a href="#">Trang Sức Đính Đá Quý Và Bán Quý</a></li>
-                                                            <li><a href="#">Trang Sức Đính Ngọc Trai</a></li>
-                                                            <li><a href="#">Trang Sức Đính CZ</a></li>
-                                                            <li><a href="#">Trang Sức Không Đính Đá</a></li>
-                                                            <li><a href="#">Kim Cương Viên</a></li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Kim
+                                                                    Cương
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính ECZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Đá Quý
+                                                                    Và Bán Quý
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Ngọc
+                                                                    Trai
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính CZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Không Đính
+                                                                    Đá
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim Cương
+                                                                    Viên
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li className="right-menu"><a href="#">Lắc</a>
+                                            <li
+                                                className="right-menu"
+                                                onClick={() =>
+                                                    handleToShopLeftSibar()
+                                                }
+                                            >
+                                                <a href="#">Lắc</a>
                                                 <ul className="cat-mega-menu">
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Chất liệu</a>
+                                                        <a href="#">
+                                                            Chất liệu
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#"></a></li>
-                                                            <li><a href="#">Vàng</a></li>
-                                                            <li><a href="#">Bạc</a></li>
-                                                            <li><a href="#">Bạch kim</a></li>
+                                                            <li>
+                                                                <a href="#"></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạc
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Vàng
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạch kim
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim cương
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Giới tính</a>
+                                                        <a href="#">
+                                                            Giới tính
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#">Nam</a></li>
-                                                            <li><a href="#">Nữ</a></li>
-                                                            <li><a href="#">Nam và nữ</a></li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nam
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nữ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nam và nữ
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     <li className="right-menu cat-mega-title">
-                                                        <a href="#">Dòng hàng</a>
+                                                        <a href="#">
+                                                            Dòng hàng
+                                                        </a>
                                                         <ul>
-                                                            <li><a href="#">Trang Sức Đính Kim Cương</a></li>
-                                                            <li><a href="#">Trang Sức Đính ECZ</a></li>
-                                                            <li><a href="#">Trang Sức Đính Đá Quý Và Bán Quý</a></li>
-                                                            <li><a href="#">Trang Sức Đính Ngọc Trai</a></li>
-                                                            <li><a href="#">Trang Sức Đính CZ</a></li>
-                                                            <li><a href="#">Trang Sức Không Đính Đá</a></li>
-                                                            <li><a href="#">Kim Cương Viên</a></li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Kim
+                                                                    Cương
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính ECZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Đá Quý
+                                                                    Và Bán Quý
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Ngọc
+                                                                    Trai
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính CZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Không Đính
+                                                                    Đá
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim Cương
+                                                                    Viên
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                 </ul>
@@ -368,74 +800,115 @@ export default function Header() {
                                 <div className="main-menu_area">
                                     <nav className="main_nav">
                                         <ul>
-                                            <li className="dropdown-holder"><a href="#">Tài sản đấu giá<i
-                                                className="ion-chevron-down"></i></a>
+                                            <li
+                                                className="dropdown-holder"
+                                                onClick={() => handleToIndex()}
+                                            >
+                                                <a href="#">
+                                                    Cuộc đấu giá
+                                                    <i className="ion-chevron-down"></i>
+                                                </a>
                                                 <ul className="hm-dropdown">
-                                                    <li><a href="#"></a></li>
-                                                </ul>
-                                            </li>
-                                            <li className="megamenu-holder"><a href="#">Thông tin đấu giá<i
-                                                className="ion-chevron-down"></i></a>
-                                                <ul className="umino-megamenu">
-                                                    <li><span className="megamenu-title">Loại đấu giá</span>
-                                                        <ul>
-                                                            <li><a href="#">Thời gian đấu giá</a>
-                                                            </li>
-                                                        </ul>
+                                                    <li>
+                                                        <a href="#">Đấu giá sắp diễn ra</a>
                                                     </li>
-                                                    <li><span className="megamenu-title">Cuộc đấu giá</span>
-                                                        <ul>
-                                                            <li><a href="#">Tài khoản của tôi</a></li>
-                                                            <li><a href="#">Đăng nhập | Đăng ký</a></li>
-                                                            <li><a href="#">Danh sách yêu thích</a></li>
-                                                            <li><a href="#">Thanh toán</a></li>
-                                                            <li><a href="#">Thủ tục thanh toán</a></li>
-                                                            <li><a href="#">So sánh</a></li>
-                                                        </ul>
+                                                    <li>
+                                                        <a href="#">Đấu giá đang diễn ra</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Đấu giá đã kết thúc</a>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Tin tức đấu giá<i className="ion-chevron-down"></i></a>
+                                            <li>
+                                                <a href="#">
+                                                    Tin tức
+                                                    <i className="ion-chevron-down"></i>
+                                                </a>
                                                 <ul className="hm-dropdown">
-
-                                                    <li><a href="#">Bài viết<i
-                                                        className="ion-chevron-right"></i></a>
-                                                        <ul className="hm-dropdown hm-sub_dropdown">
-                                                            <li><a href="#" />...</li>
-
-                                                        </ul>
+                                                    <li>
+                                                        <a href="#">
+                                                            Thông báo
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                        Thông báo đấu giá
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            Tin khác
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Giới thiệu<i className="ion-chevron-down"></i></a>
+                                            
+                                            <li>
+                                                <a href="/about">
+                                                    Giới thiệu
+                                                    <i className="ion-chevron-down"></i>
+                                                </a>
                                                 <ul className="hm-dropdown">
-                                                    <li><a href="#">Câu hỏi thường gặp</a></li>
-                                                    <li><a href="#">Chính sách bảo mật</a></li>
-                                                    <li><a href="#">Về chúng tôi</a></li>
-                                                    <li><a href="#">Lỗi 404</a></li>
-                                                    <li><a href="#">Sắp ra mắt</a></li>
+                                                    <li>
+                                                        <a href="#">
+                                                            Câu hỏi thường gặp
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            Chính sách bảo mật
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            Về chúng tôi
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Lỗi 404</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            Sắp ra mắt
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Liên hệ</a></li>
+                                            <li
+                                                onClick={() =>
+                                                    handleToContact()
+                                                }
+                                            >
+                                                <a href="#">Liên hệ</a>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                             <div className="col-lg-2 d-none d-lg-block">
                                 <div className="login-area">
-                                    <Link to={"/single-product-sale"}>Đăng nhập<span>hoặc</span>Đăng ký</Link>
+                                    <a href="#" onClick={() => handleToLogin()}>
+                                        Đăng nhập <span> |</span> Đăng ký
+                                    </a>
                                 </div>
                             </div>
                             <div className="col-md-3 col-sm-5 d-block d-lg-none">
                                 <div className="mobile-menu_area">
                                     <ul>
                                         <li className="minicart-area">
-                                            <a href="#"><i className="fa fa-shopping-cart"></i><span
-                                                className="item-count">2</span></a>
+                                            <a href="#">
+                                                <i className="fa fa-shopping-cart"></i>
+                                                <span className="item-count">
+                                                    2
+                                                </span>
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="#"
-                                                className="mobile-menu_btn toolbar-btn color--white d-lg-none d-block">
+                                            <a
+                                                href="#"
+                                                className="mobile-menu_btn toolbar-btn color--white d-lg-none d-block"
+                                            >
                                                 <i className="ion-navicon"></i>
                                             </a>
                                         </li>
@@ -450,8 +923,11 @@ export default function Header() {
                         <div className="row">
                             <div className="col-lg-2 col-md-6 col-sm-7">
                                 <div className="header-logo">
-                                    <a href="#">
-                                        <img src="assets/images/menu/logo/1.png" alt="Umino's Header Logo" />
+                                    <a href="/index">
+                                        <img
+                                            src="assets/images/menu/logo/1.png"
+                                            alt="Umino's Header Logo"
+                                        />
                                     </a>
                                 </div>
                             </div>
@@ -459,124 +935,236 @@ export default function Header() {
                                 <div className="main-menu_area">
                                     <nav className="main_nav">
                                         <ul>
-                                            <li className="dropdown-holder"><a href="#">Trang chủ<i
-                                                className="ion-chevron-down"></i></a>
-                                                <ul className="hm-dropdown">
-                                                    <li><a href="#">Trang chủ Cửa hàng1</a></li>
-                                                    <li><a href="#">Trang chủ Cửa hàng 2</a></li>
-                                                    <li><a href="#">Trang chủ Cửa hàng 3</a></li>
-                                                    <li><a href="#">Trang chủ Cửa hàng 4</a></li>
-                                                </ul>
-                                            </li>
-                                            <li className="megamenu-holder"><a href="#">Cửa hàng<i
-                                                className="ion-chevron-down"></i></a>
+                                        <li className="megamenu-holder">
+                                                <a href="#">
+                                                    Cách loại trang sức đấu giá
+                                                    <i className="ion-chevron-down"></i>
+                                                </a>
                                                 <ul className="umino-megamenu">
-                                                    <li><span className="megamenu-title">Bố cục trang cửa hàng</span>
+                                                <li>
+                                                        <span className="megamenu-title">
+                                                            Chủng Loại
+                                                        </span>
                                                         <ul>
-                                                            <li><a href="#">Toàn bộ chiều rộng lưới</a></li>
-                                                            <li><a href="#">Thanh bên trái</a></li>
-                                                            <li><a href="#">Thanh bên phải</a></li>
-                                                            <li><a href="#">Danh sách toàn chiều rộng</a></li>
-                                                            <li><a href="#">Danh sách có thanh bên trái</a>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Dây Chuyền
+                                                                </a>
                                                             </li>
-                                                            <li><a href="#">Danh sách có thanh bên phải</a>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nhẫn
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bông Tai
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Vòng Tay
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Lắc
+                                                                </a>
                                                             </li>
                                                         </ul>
                                                     </li>
-                                                    <li><span className="megamenu-title">Kiểu sản phẩm đơn</span>
+                                                    <li>
+                                                        <span className="megamenu-title">
+                                                            Giới tính
+                                                        </span>
                                                         <ul>
-                                                            <li><a href="#">Bộ sưu tập bên trái</a>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nam
+                                                                </a>
                                                             </li>
-                                                            <li><a href="#">Bộ sưu tập bên phải</a>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Nữ
+                                                                </a>
                                                             </li>
-                                                            <li><a href="#">Kiểu tab bên trái</a>
-                                                            </li>
-                                                            <li><a href="#">Kiểu tab bên phải</a>
-                                                            </li>
-                                                            <li><a href="#">Cố định bên trái</a>
-                                                            </li>
-                                                            <li><a href="#">Cố định bên phải</a>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Cả Nam và Nữ
+                                                                </a>
                                                             </li>
                                                         </ul>
                                                     </li>
-                                                    <li><span className="megamenu-title">Loại sản phẩm đơn</span>
+                                                    <li>
+                                                        <span className="megamenu-title">
+                                                            Chất Liệu
+                                                        </span>
                                                         <ul>
-                                                            <li><a href="#">Sản phẩm đơn</a></li>
-                                                            <li><a href="#">Bán sản phẩm đơn</a>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạc
+                                                                </a>
                                                             </li>
-                                                            <li><a href="#">Nhóm sản phẩm duy nhất</a>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Vàng
+                                                                </a>
                                                             </li>
-                                                            <li><a href="#">Biến sản phẩm đơn</a>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Bạch Kim
+                                                                </a>
                                                             </li>
-                                                            <li><a href="#">Liên kết sản phẩm duy nhất</a>
-                                                            </li>
-                                                            <li><a href="#">Thanh trượt sản phẩm đơn</a>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim Cương
+                                                                </a>
                                                             </li>
                                                         </ul>
                                                     </li>
-                                                    <li><span className="megamenu-title">Trang liên quan đến cửa hàng</span>
+                                                    <li>
+                                                        <span className="megamenu-title">
+                                                            Dòng Hàng
+                                                        </span>
                                                         <ul>
-                                                            <li><a href="#">Tài khoản của tôi</a></li>
-                                                            <li><a href="#">Đăng nhập | Đăng ký</a></li>
-                                                            <li><a href="#">Danh sách yêu thích</a></li>
-                                                            <li><a href="#">Thanh toán</a></li>
-                                                            <li><a href="#">Phương thức thanh toán</a></li>
-                                                            <li><a href="#">So sánh</a></li>
+                                                        <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Kim
+                                                                    Cương
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính ECZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Đá Quý
+                                                                    Và Bán Quý
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính Ngọc
+                                                                    Trai
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Đính CZ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Trang Sức
+                                                                    Không Đính
+                                                                    Đá
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Kim Cương
+                                                                    Viên
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Blog<i className="ion-chevron-down"></i></a>
+                                            <li
+                                                className="dropdown-holder"
+                                                onClick={() => handleToIndex()}
+                                            >
+                                                <a href="#">
+                                                    Cuộc đấu giá
+                                                    <i className="ion-chevron-down"></i>
+                                                </a>
                                                 <ul className="hm-dropdown">
-                                                    <li><a href="#">Chế độ hiển thị theo ô<i
-                                                        className="ion-chevron-right"></i></a>
-                                                        <ul className="hm-dropdown hm-sub_dropdown">
-                                                            <li><a href="#">Column Two</a></li>
-                                                            <li><a href="#">Column Three</a></li>
-                                                            <li><a href="#">Left Sidebar</a></li>
-                                                            <li><a href="#">Right Sidebar</a></li>
-                                                        </ul>
+                                                    <li>
+                                                        <a href="#">
+                                                            Đấu giá sắp diễn ra
+                                                        </a>
                                                     </li>
-                                                    <li><a href="#">Xem danh sách<i
-                                                        className="ion-chevron-right"></i></a>
-                                                        <ul className="hm-dropdown hm-sub_dropdown">
-                                                            <li><a href="#">List Fullwidth</a></li>
-                                                            <li><a href="#">List Left Sidebar</a>
-                                                            </li>
-                                                            <li><a href="#">List Right
-                                                                Sidebar</a>
-                                                            </li>
-                                                        </ul>
+                                                    <li>
+                                                        <a href="#">
+                                                            Đấu giá đang diễn ra
+                                                        </a>
                                                     </li>
-                                                    <li><a href="#">Blog Details <i
-                                                        className="ion-chevron-right"></i></a>
-                                                        <ul className="hm-dropdown hm-sub_dropdown">
-                                                            <li><a href="#">Left Sidebar</a>
-                                                            </li>
-                                                            <li><a href="#">Right Sidebar</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="#">Blog Format <i
-                                                        className="ion-chevron-right"></i></a>
-                                                        <ul className="hm-dropdown hm-sub_dropdown">
-                                                            <li><a href="#">Gallery Format</a></li>
-                                                            <li><a href="#">Audio Format</a></li>
-                                                            <li><a href="#">Video Format</a></li>
-                                                        </ul>
+                                                    <li>
+                                                        <a href="#">
+                                                            Đấu giá đã kết thúc
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Pages <i className="ion-chevron-down"></i></a>
+                                            
+                                            <li>
+                                                <a href="#">
+                                                    Tin tức
+                                                    <i className="ion-chevron-down"></i>
+                                                </a>
                                                 <ul className="hm-dropdown">
-                                                    <li><a href="#">Frequently Questions</a></li>
-                                                    <li><a href="#">Privacy Policy</a></li>
-                                                    <li><a href="#">About Us</a></li>
-                                                    <li><a href="#">Error 404</a></li>
-                                                    <li><a href="#">Coming Soon</a></li>
+                                                    <li>
+                                                        <a href="#">
+                                                            Thông báo
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                        Thông báo đấu giá
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            Tin khác
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Contact</a></li>
+                                            <li>
+                                                <a href="#">
+                                                    Giới thiệu
+                                                    <i className="ion-chevron-down"></i>
+                                                </a>
+                                                <ul className="hm-dropdown">
+                                                    <li>
+                                                        <a href="#">
+                                                            Câu hỏi thường gặp
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            Chính sách bảo mật
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Về chúng tôi</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            Lỗi 404
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            Sắp ra mắt
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li
+                                                onClick={() =>
+                                                    handleToContact()
+                                                }
+                                            >
+                                                <a href="#">Liên hệ</a>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -588,7 +1176,9 @@ export default function Header() {
                                             <a href="#">
                                                 <div className="minicart-icon wishlist-icon">
                                                     <i className="ion-ios-heart-outline"></i>
-                                                    <span className="item-count">2</span>
+                                                    <span className="item-count">
+                                                        2
+                                                    </span>
                                                 </div>
                                             </a>
                                         </li>
@@ -596,35 +1186,49 @@ export default function Header() {
                                             <a href="#">
                                                 <div className="minicart-icon">
                                                     <i className="ion-bag"></i>
-                                                    <span className="item-count">2</span>
+                                                    <span className="item-count">
+                                                        2
+                                                    </span>
                                                 </div>
                                                 <div className="minicart-title">
-                                                    <span className="item_total">$54.90</span>
+                                                    <span className="item_total">
+                                                        $54.90
+                                                    </span>
                                                 </div>
                                             </a>
                                             <ul className="minicart-body">
                                                 <li className="minicart-item_area">
                                                     <div className="minicart-single_item">
                                                         <div className="product-item_remove">
-                                                            <span className="ion-android-close" title="Remove This Item"></span>
+                                                            <span
+                                                                className="ion-android-close"
+                                                                title="Remove This Item"
+                                                            ></span>
                                                         </div>
                                                         <div className="minicart-img">
                                                             <a href="#">
-                                                                <img src="assets/images/product/small-size/6.jpg"
-                                                                    alt="Umino's Product Image" />
+                                                                <img
+                                                                    src="assets/images/product/small-size/6.jpg"
+                                                                    alt="Umino's Product Image"
+                                                                />
                                                             </a>
                                                         </div>
                                                         <div className="minicart-content">
                                                             <div className="product-name">
                                                                 <h6>
                                                                     <a href="#">
-                                                                        Vulputate justo
+                                                                        Vulputate
+                                                                        justo
                                                                     </a>
                                                                 </h6>
                                                             </div>
-                                                            <span className="product-quantity">Qty 1</span>
+                                                            <span className="product-quantity">
+                                                                Qty 1
+                                                            </span>
                                                             <div className="price-box">
-                                                                <span className="new-price">$90.00</span>
+                                                                <span className="new-price">
+                                                                    $90.00
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -632,25 +1236,36 @@ export default function Header() {
                                                 <li className="minicart-item_area">
                                                     <div className="minicart-single_item">
                                                         <div className="product-item_remove">
-                                                            <span className="ion-android-close" title="Remove This Item"></span>
+                                                            <span
+                                                                className="ion-android-close"
+                                                                title="Remove This Item"
+                                                            ></span>
                                                         </div>
                                                         <div className="minicart-img">
                                                             <a href="#">
-                                                                <img src="assets/images/product/small-size/8.jpg"
-                                                                    alt="Umino's Product Image" />
+                                                                <img
+                                                                    src="assets/images/product/small-size/8.jpg"
+                                                                    alt="Umino's Product Image"
+                                                                />
                                                             </a>
                                                         </div>
                                                         <div className="minicart-content">
                                                             <div className="product-name">
                                                                 <h6>
                                                                     <a href="#">
-                                                                        Phasellus vel hendrerit
+                                                                        Phasellus
+                                                                        vel
+                                                                        hendrerit
                                                                     </a>
                                                                 </h6>
                                                             </div>
-                                                            <span className="product-quantity">Qty 1</span>
+                                                            <span className="product-quantity">
+                                                                Qty 1
+                                                            </span>
                                                             <div className="price-box">
-                                                                <span className="new-price">$55.00</span>
+                                                                <span className="new-price">
+                                                                    $55.00
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -659,25 +1274,45 @@ export default function Header() {
                                                     <div className="price_content">
                                                         <div className="cart-subtotals">
                                                             <div className="products subtotal-list">
-                                                                <span className="label">Subtotal</span>
-                                                                <span className="defaultValue">$145.00</span>
+                                                                <span className="label">
+                                                                    Subtotal
+                                                                </span>
+                                                                <span className="defaultValue">
+                                                                    $145.00
+                                                                </span>
                                                             </div>
                                                             <div className="shipping subtotal-list">
-                                                                <span className="label">Shipping</span>
-                                                                <span className="defaultValue">$7.00</span>
+                                                                <span className="label">
+                                                                    Shipping
+                                                                </span>
+                                                                <span className="defaultValue">
+                                                                    $7.00
+                                                                </span>
                                                             </div>
                                                             <div className="tax subtotal-list">
-                                                                <span className="label">Taxes</span>
-                                                                <span className="defaultValue">$0.00</span>
+                                                                <span className="label">
+                                                                    Taxes
+                                                                </span>
+                                                                <span className="defaultValue">
+                                                                    $0.00
+                                                                </span>
                                                             </div>
                                                             <div className="cart-total subtotal-list">
-                                                                <span className="label">Total</span>
-                                                                <span className="defaultValue">$152.00</span>
+                                                                <span className="label">
+                                                                    Total
+                                                                </span>
+                                                                <span className="defaultValue">
+                                                                    $152.00
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div className="minicart-button">
-                                                            <a className="umino-btn umino-btn_fullwidth"
-                                                                href="#">Checkout</a>
+                                                            <a
+                                                                className="umino-btn umino-btn_fullwidth"
+                                                                href="#"
+                                                            >
+                                                                Checkout
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -690,12 +1325,18 @@ export default function Header() {
                                 <div className="mobile-menu_area">
                                     <ul>
                                         <li className="minicart-area">
-                                            <a href="#"><i className="fa fa-shopping-cart"></i><span
-                                                className="item-count">2</span></a>
+                                            <a href="#">
+                                                <i className="fa fa-shopping-cart"></i>
+                                                <span className="item-count">
+                                                    2
+                                                </span>
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="#"
-                                                className="mobile-menu_btn toolbar-btn color--white d-lg-none d-block">
+                                            <a
+                                                href="#"
+                                                className="mobile-menu_btn toolbar-btn color--white d-lg-none d-block"
+                                            >
                                                 <i className="ion-navicon"></i>
                                             </a>
                                         </li>
@@ -705,294 +1346,286 @@ export default function Header() {
                         </div>
                     </div>
                 </div>
-                <div className="mobile-menu_wrapper" id="mobileMenu">
+               <div className="mobile-menu_wrapper" id="mobileMenu">
                     <div className="offcanvas-menu-inner">
                         <div className="container">
-                            <a href="#" className="btn-close"><i className="ion-android-close"></i></a>
+                            <a href="#" className="btn-close">
+                                <i className="ion-android-close"></i>
+                            </a>
                             <div className="offcanvas-inner_search">
                                 <form action="#" className="hm-searchbox">
-                                    <input type="text" placeholder="Search for item..." />
-                                    <button className="search_btn" type="submit"><i className="ion-ios-search-strong"></i></button>
+                                    <input
+                                        type="text"
+                                        placeholder="Search for item..."
+                                    />
+                                    <button
+                                        className="search_btn"
+                                        type="submit"
+                                    >
+                                        <i className="ion-ios-search-strong"></i>
+                                    </button>
                                 </form>
                             </div>
                             <nav className="offcanvas-navigation">
                                 <ul className="mobile-menu">
-                                    <li className="menu-item-has-children active"><a href="#"><span
-                                        className="mm-text">Home</span></a>
+                                    <li className="menu-item-has-children active">
+                                        <a href="#">
+                                            <span className="mm-text">
+                                                Home
+                                            </span>
+                                        </a>
                                         <ul className="sub-menu">
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Home Shop 1</span>
+                                                    <span className="mm-text">
+                                                        Home Shop 1
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Home Shop 2</span>
+                                                    <span className="mm-text">
+                                                        Home Shop 2
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Home Shop 3</span>
+                                                    <span className="mm-text">
+                                                        Home Shop 3
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Home Shop 4</span>
+                                                    <span className="mm-text">
+                                                        Home Shop 4
+                                                    </span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li className="menu-item-has-children">
                                         <a href="#">
-                                            <span className="mm-text">Shop</span>
+                                            <span className="mm-text">
+                                                Shop
+                                            </span>
                                         </a>
                                         <ul className="sub-menu">
                                             <li className="menu-item-has-children">
                                                 <a href="#">
-                                                    <span className="mm-text">Grid View</span>
+                                                    <span className="mm-text">
+                                                        Grid View
+                                                    </span>
                                                 </a>
                                                 <ul className="sub-menu">
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Grid Fullwidth</span>
+                                                            <span className="mm-text">
+                                                                Grid Fullwidth
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Left Sidebar</span>
+                                                            <span className="mm-text">
+                                                                Left Sidebar
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Right Sidebar</span>
+                                                            <span className="mm-text">
+                                                                Right Sidebar
+                                                            </span>
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li className="menu-item-has-children">
                                                 <a href="#">
-                                                    <span className="mm-text">Shop List</span>
+                                                    <span className="mm-text">
+                                                        Shop List
+                                                    </span>
                                                 </a>
                                                 <ul className="sub-menu">
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Full Width</span>
+                                                            <span className="mm-text">
+                                                                Full Width
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Left Sidebar</span>
+                                                            <span className="mm-text">
+                                                                Left Sidebar
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Right Sidebar</span>
+                                                            <span className="mm-text">
+                                                                Right Sidebar
+                                                            </span>
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li className="menu-item-has-children">
                                                 <a href="#">
-                                                    <span className="mm-text">Single Product Style</span>
+                                                    <span className="mm-text">
+                                                        Single Product Style
+                                                    </span>
                                                 </a>
                                                 <ul className="sub-menu">
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Gallery Left</span>
+                                                            <span className="mm-text">
+                                                                Gallery Left
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Gallery Right</span>
+                                                            <span className="mm-text">
+                                                                Gallery Right
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Tab Style Left</span>
+                                                            <span className="mm-text">
+                                                                Tab Style Left
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Tab Style Right</span>
+                                                            <span className="mm-text">
+                                                                Tab Style Right
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Sticky Left</span>
+                                                            <span className="mm-text">
+                                                                Sticky Left
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Sticky Right</span>
+                                                            <span className="mm-text">
+                                                                Sticky Right
+                                                            </span>
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li className="menu-item-has-children">
                                                 <a href="#">
-                                                    <span className="mm-text">Single Product Type</span>
+                                                    <span className="mm-text">
+                                                        Single Product Type
+                                                    </span>
                                                 </a>
                                                 <ul className="sub-menu">
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Single Product</span>
+                                                            <span className="mm-text">
+                                                                Single Product
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Single Product Sale</span>
+                                                            <span className="mm-text">
+                                                                Single Product
+                                                                Sale
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Single Product Group</span>
+                                                            <span className="mm-text">
+                                                                Single Product
+                                                                Group
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Single Product Variable</span>
+                                                            <span className="mm-text">
+                                                                Single Product
+                                                                Variable
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Single Product Affiliate</span>
+                                                            <span className="mm-text">
+                                                                Single Product
+                                                                Affiliate
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Single Product Slider</span>
+                                                            <span className="mm-text">
+                                                                Single Product
+                                                                Slider
+                                                            </span>
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li className="menu-item-has-children">
                                                 <a href="#">
-                                                    <span className="mm-text">Shop Related Pages</span>
+                                                    <span className="mm-text">
+                                                        Shop Related Pages
+                                                    </span>
                                                 </a>
                                                 <ul className="sub-menu">
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">My Account</span>
+                                                            <span className="mm-text">
+                                                                My Account
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Login | Register</span>
+                                                            <span className="mm-text">
+                                                                Login | Register
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Wishlist</span>
+                                                            <span className="mm-text">
+                                                                Wishlist
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Cart</span>
+                                                            <span className="mm-text">
+                                                                Cart
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Checkout</span>
+                                                            <span className="mm-text">
+                                                                Checkout
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            <span className="mm-text">Comparer</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li className="menu-item-has-children">
-                                        <a href="#">
-                                            <span className="mm-text">Blog</span>
-                                        </a>
-                                        <ul className="sub-menu">
-                                            <li className="menu-item-has-children has-children">
-                                                <a href="#">
-                                                    <span className="mm-text">Grid View</span>
-                                                </a>
-                                                <ul className="sub-menu">
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">Column Two</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">Column Three</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">Left Sidebar</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">Right Sidebar</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="menu-item-has-children has-children">
-                                                <a href="#">
-                                                    <span className="mm-text">List View</span>
-                                                </a>
-                                                <ul className="sub-menu">
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">List Fullwidth</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">List Left Sidebar</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">List Right Sidebar</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="menu-item-has-children has-children">
-                                                <a href="#">
-                                                    <span className="mm-text">Blog Details</span>
-                                                </a>
-                                                <ul className="sub-menu">
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">Left Sidebar</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">Right Sidebar</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="menu-item-has-children has-children">
-                                                <a href="#">
-                                                    <span className="mm-text">Blog Format</span>
-                                                </a>
-                                                <ul className="sub-menu">
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">Gallery Format</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">Audio Format</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="mm-text">Video Format</span>
+                                                            <span className="mm-text">
+                                                                Comparer
+                                                            </span>
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -1001,32 +1634,175 @@ export default function Header() {
                                     </li>
                                     <li className="menu-item-has-children">
                                         <a href="#">
-                                            <span className="mm-text">Pages</span>
+                                            <span className="mm-text">
+                                                Blog
+                                            </span>
+                                        </a>
+                                        <ul className="sub-menu">
+                                            <li className="menu-item-has-children has-children">
+                                                <a href="#">
+                                                    <span className="mm-text">
+                                                        Grid View
+                                                    </span>
+                                                </a>
+                                                <ul className="sub-menu">
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                Column Two
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                Column Three
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                Left Sidebar
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                Right Sidebar
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li className="menu-item-has-children has-children">
+                                                <a href="#">
+                                                    <span className="mm-text">
+                                                        List View
+                                                    </span>
+                                                </a>
+                                                <ul className="sub-menu">
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                List Fullwidth
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                List Left
+                                                                Sidebar
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                List Right
+                                                                Sidebar
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li className="menu-item-has-children has-children">
+                                                <a href="#">
+                                                    <span className="mm-text">
+                                                        Blog Details
+                                                    </span>
+                                                </a>
+                                                <ul className="sub-menu">
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                Left Sidebar
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                Right Sidebar
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li className="menu-item-has-children has-children">
+                                                <a href="#">
+                                                    <span className="mm-text">
+                                                        Blog Format
+                                                    </span>
+                                                </a>
+                                                <ul className="sub-menu">
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                Gallery Format
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                Audio Format
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <span className="mm-text">
+                                                                Video Format
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li className="menu-item-has-children">
+                                        <a href="#">
+                                            <span className="mm-text">
+                                                Pages
+                                            </span>
                                         </a>
                                         <ul className="sub-menu">
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">About Us</span>
+                                                    <span className="mm-text">
+                                                        About Us
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Contact</span>
+                                                    <span className="mm-text">
+                                                        Contact
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">FAQ</span>
+                                                    <span className="mm-text">
+                                                        FAQ
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Error 404</span>
+                                                    <span className="mm-text">
+                                                        Error 404
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Coming Soon</span>
+                                                    <span className="mm-text">
+                                                        Coming Soon
+                                                    </span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -1035,58 +1811,85 @@ export default function Header() {
                             </nav>
                             <nav className="offcanvas-navigation user-setting_area">
                                 <ul className="mobile-menu">
-                                    <li className="menu-item-has-children active"><a href="#"><span
-                                        className="mm-text">User
-                                        Setting</span></a>
+                                    <li className="menu-item-has-children active">
+                                        <a href="#">
+                                            <span className="mm-text">
+                                                User Setting
+                                            </span>
+                                        </a>
                                         <ul className="sub-menu">
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">My Account</span>
+                                                    <span className="mm-text">
+                                                        My Account
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Login | Register</span>
+                                                    <span className="mm-text">
+                                                        Login | Register
+                                                    </span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li className="menu-item-has-children"><a href="#"><span
-                                        className="mm-text">Currency</span></a>
+                                    <li className="menu-item-has-children">
+                                        <a href="#">
+                                            <span className="mm-text">
+                                                Currency
+                                            </span>
+                                        </a>
                                         <ul className="sub-menu">
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">EUR €</span>
+                                                    <span className="mm-text">
+                                                        EUR €
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">USD $</span>
+                                                    <span className="mm-text">
+                                                        USD $
+                                                    </span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li className="menu-item-has-children"><a href="#"><span
-                                        className="mm-text">Language</span></a>
+                                    <li className="menu-item-has-children">
+                                        <a href="#">
+                                            <span className="mm-text">
+                                                Language
+                                            </span>
+                                        </a>
                                         <ul className="sub-menu">
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">English</span>
+                                                    <span className="mm-text">
+                                                        English
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Français</span>
+                                                    <span className="mm-text">
+                                                        Français
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Romanian</span>
+                                                    <span className="mm-text">
+                                                        Romanian
+                                                    </span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
-                                                    <span className="mm-text">Japanese</span>
+                                                    <span className="mm-text">
+                                                        Japanese
+                                                    </span>
                                                 </a>
                                             </li>
                                         </ul>

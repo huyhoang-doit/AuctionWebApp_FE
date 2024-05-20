@@ -1,9 +1,7 @@
 import "./ShopLeftSibar.css";
 import SideBar from "./Components/SideBar";
 import ContainerListAuctions from "./Components/ContainerListAuctions";
-import { useEffect } from "react";
 export default function ShopLeftSibar() {
-
     return (
         <>
             {/* <!-- Begin Umino's Breadcrumb Area --> */}

@@ -13,10 +13,12 @@ const AuctionFinished = () => {
           </div>
           <div className="col-lg-12">
             <div className="umino-product_slider-2 slider-navigation_style-1">
-
-              <SingleFinishsedAuction />
-              <SingleFinishsedAuction />
-              <SingleFinishsedAuction /><SingleFinishsedAuction /><SingleFinishsedAuction /><SingleFinishsedAuction />
+              <div className="row">
+                <SingleFinishsedAuction />
+                <SingleFinishsedAuction />
+                <SingleFinishsedAuction />
+                <SingleFinishsedAuction />
+              </div>
             </div>
           </div>
         </div>

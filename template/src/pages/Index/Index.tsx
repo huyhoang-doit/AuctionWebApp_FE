@@ -1,9 +1,11 @@
 import Brand from "../Brand/Brand";
 import Slider from "./components/Slider";
 import ShippingArea from "./components/ShippingArea";
+import Banner01 from "./components/Banner01";
 import AuctionWaiting from "./components/AuctionWaiting";
 import AuctionFinished from "./components/AuctionFinished";
-
+import Banner02 from "./components/Banner02";
+import ContactTable from "./components/ContactTable";
 export default function Index() {
     return (
         <>
@@ -31,10 +33,11 @@ export default function Index() {
 
             {/* <!-- Begin Contact Area Two --> */}
 
-            {/* <ContactTable /> */}
+            <ContactTable />
 
             {/* <!-- Begin Banner Area Two --> */}
-            {/* <Banner01 /> */}
+
+            {/* <Banner02 /> */}
         </>
     );
 }

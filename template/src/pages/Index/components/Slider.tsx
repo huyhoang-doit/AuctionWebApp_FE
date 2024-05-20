@@ -8,24 +8,15 @@ const Slider = () => {
           <div className="col-lg-6">
             <div className="main-slider slider-navigation_style-1">
               <div className="single-slide animation-style-01 bg-1">
-                <div className="container">
-                  <div className="slider-content">
+                <div className="container position-relative">
+                  <div className="slider-content position-absolute mt-5">
                     <h4>Đấu giá trang sức</h4>
                     <h3>DGS</h3>
-                    <a className="product-price" href="#">
+                    <a
+                      className="product-price"
+                      href="shop-left-sidebar.html"
+                    >
                       <span>Diamond - Gold - Silver</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="single-slide animation-style-01 bg-2">
-                <div className="container">
-                  <div className="slider-content slider-content-2">
-                    <span>Sàn đấu giá</span>
-                    <h4>Bông tai</h4>
-                    <a className="product-price" href="#">
-                      <span></span>
                     </a>
                   </div>
                 </div>
@@ -40,12 +31,12 @@ const Slider = () => {
                     <span>Sàn đấu giá</span>
                     <h4>Bông tai</h4>
                     <h3></h3>
-                    <a href="#">
+                    <a href="javascript:void(0)">
                       <i className="fa fa-arrow-circle-right"></i>
                     </a>
                   </div>
                   <div className="banner-img">
-                    <a href="#">
+                    <a href="shop-left-sidebar.html">
                       <img
                         src="assets/images/banner/1-1.jpg"
                         alt="Umino's Banner"
@@ -62,12 +53,12 @@ const Slider = () => {
                         <span>Sàn đấu giá</span>
                         <h4>Nhẫn</h4>
                         <h3></h3>
-                        <a href="#">
+                        <a href="javascript:void(0)">
                           <i className="fa fa-arrow-circle-right"></i>
                         </a>
                       </div>
                       <div className="banner-img">
-                        <a href="#">
+                        <a href="shop-left-sidebar.html">
                           <img
                             src="assets/images/banner/1-2.jpg"
                             alt="Umino's Banner"
@@ -82,12 +73,12 @@ const Slider = () => {
                         <span>Sàn đấu giá</span>
                         <h4>Dây chuyền</h4>
                         <h3></h3>
-                        <a href="#">
+                        <a href="javascript:void(0)">
                           <i className="fa fa-arrow-circle-right"></i>
                         </a>
                       </div>
                       <div className="banner-img">
-                        <a href="#">
+                        <a href="shop-left-sidebar.html">
                           <img
                             src="assets/images/banner/1-3.jpg"
                             alt="Umino's Banner"

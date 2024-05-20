@@ -16,9 +16,14 @@ export default function Footer() {
                                 <div className="footer-widgets footer-contact_info">
                                     <ul>
                                         <li>
+                                        <i className="ion-ios-person-outline"></i>
+
+                                            Đại diện: Ông Lê Văn Huy Hoàng  Chức vụ: Tổng giám đốc
+                                        </li>
+                                        <li>
                                             <i className="ion-ios-home-outline"></i>
                                             <span>
-                                            Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000, Việt Nam
+                                            Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam
                                             </span>
                                         </li>
                                         <li>
@@ -34,6 +39,12 @@ export default function Footer() {
                                                     (+84) 0123456789
                                                 </a>
                                             </div>
+                                        </li>
+                                        <li>
+                                            <i className="ion-ios-calendar-outline"></i>
+                                            <span>
+                                                Giờ mở cửa: Từ thứ 2 đến thứ 7 hằng tuần
+                                            </span>
                                         </li>
                                     </ul>
                                 </div>
@@ -65,6 +76,11 @@ export default function Footer() {
                                     <ul>
                                         <li>
                                             <a href="javascript:void(0)">
+                                                Câu hỏi thường gặp
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">
                                                 Văn bản pháp quy
                                             </a>
                                         </li>
@@ -86,8 +102,9 @@ export default function Footer() {
                                     <div className="latest-tweets_slider">
                                         <div className="twitter-single_item">
                                             <div className="twitter-feed_content">
-                                            <img width="500" height="260"
+                                            <img width="500" height="320"
                                                 src={"assets/images/footer/logo/0.jpg"}/>
+
                                             </div>
                                         </div>
                                     </div>
