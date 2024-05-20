@@ -28,8 +28,8 @@ const Slider = () => {
               <div className="col-lg-6 col-md-6">
                 <div className="banner-item img-hover_effect">
                   <div className="banner-content">
-                    <span></span>
-                    <h4>Trang sức trên các sàn</h4>
+                    <span>Sàn đấu giá</span>
+                    <h4>Bông tai</h4>
                     <h3></h3>
                     <a href="javascript:void(0)">
                       <i className="fa fa-arrow-circle-right"></i>
@@ -50,9 +50,9 @@ const Slider = () => {
                   <div className="col-lg-12">
                     <div className="banner-item img-hover_effect">
                       <div className="banner-content">
-                        <span>Console Tables</span>
-                        <h4>Beoplay A1</h4>
-                        <h3>Sound Accessories</h3>
+                        <span>Sàn đấu giá</span>
+                        <h4>Nhẫn</h4>
+                        <h3></h3>
                         <a href="javascript:void(0)">
                           <i className="fa fa-arrow-circle-right"></i>
                         </a>
@@ -70,9 +70,9 @@ const Slider = () => {
                   <div className="col-lg-12">
                     <div className="banner-item img-hover_effect">
                       <div className="banner-content">
-                        <span>Console Tables</span>
-                        <h4>Beoplay A1</h4>
-                        <h3>Sound Accessories</h3>
+                        <span>Sàn đấu giá</span>
+                        <h4>Dây chuyền</h4>
+                        <h3></h3>
                         <a href="javascript:void(0)">
                           <i className="fa fa-arrow-circle-right"></i>
                         </a>

@@ -13,9 +13,9 @@ export default function Register() {
                     <div className="breadcrumb-content">
                         <ul>
                             <li>
-                                <a href="index.html">Home</a>
+                                <a href="index.html">Trang chủ</a>
                             </li>
-                            <li className="active"> Register</li>
+                            <li className="active"> Đăng kí tài khoản</li>
                         </ul>
                     </div>
                 </div>
@@ -27,52 +27,52 @@ export default function Register() {
                         <div className="col-sm-12 col-md-12  col-xs-12 col-lg-12">
                             <form action="#">
                                 <div className="login-form">
-                                    <h4 className="login-title">Register</h4>
+                                    <h4 className="login-title">Đăng kí tài khoản</h4>
                                     <div className="row mb-4">
                                         <div className="col-md-6 col-12 mb--20">
-                                            <label>First Name</label>
+                                            <label>Tên</label>
                                             <input
                                                 type="text"
-                                                placeholder="First Name"
+                                                placeholder="Nhập tên của bạn"
                                             />
                                         </div>
                                         <div className="col-md-6 col-12 mb--20">
-                                            <label>Last Name</label>
+                                            <label>Họ</label>
                                             <input
                                                 type="text"
-                                                placeholder="Last Name"
+                                                placeholder="Nhập họ của bạn"
                                             />
                                         </div>
                                         <div className="col-md-12">
-                                            <label>Email Address*</label>
+                                            <label>Email </label>
                                             <input
-                                                type="email"
-                                                placeholder="Email Address"
+                                                type="Email"
+                                                placeholder="Nhập Email của bạn"
                                             />
                                         </div>
                                         <div className="col-md-6">
-                                            <label>Password</label>
+                                            <label>Mật khẩu</label>
                                             <input
                                                 type="password"
-                                                placeholder="Password"
+                                                placeholder="Nhập mật khẩu của bạn"
                                             />
                                         </div>
                                         <div className="col-md-6">
-                                            <label>Confirm Password</label>
+                                            <label>Xác nhận mật khẩu</label>
                                             <input
                                                 type="password"
-                                                placeholder="Confirm Password"
+                                                placeholder="Xác nhận lại mật khẩu của bạn"
                                             />
                                         </div>
                                         <div className="col-12">
                                             <button className="umino-register_btn">
-                                                Register
+                                                Đăng kí
                                             </button>
                                         </div>
                                     </div>
 
                                     <a onClick={() => handleToLogin()}>
-                                        You have a acount ?
+                                    Bạn đã có tài khoản?
                                     </a>
                                 </div>
                             </form>

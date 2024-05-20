@@ -231,7 +231,7 @@ export default function Header() {
                                             >
                                                 <a href="#">Dây chuyền</a>
                                                 <ul className="cat-mega-menu">
-                                                <li className="right-menu cat-mega-title">
+                                                    <li className="right-menu cat-mega-title">
                                                         <a href="#">
                                                             Chất liệu
                                                         </a>
@@ -257,81 +257,6 @@ export default function Header() {
                                                             <li>
                                                                 <a href="#">
                                                                     Kim cương
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">
-                                                            Giới tính
-                                                        </a>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nam
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nữ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nam và nữ
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">
-                                                            Dòng hàng
-                                                        </a>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Kim
-                                                                    Cương
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính ECZ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Đá Quý
-                                                                    Và Bán Quý
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Ngọc
-                                                                    Trai
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính CZ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Không Đính
-                                                                    Đá
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Kim Cương
-                                                                    Viên
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -346,7 +271,7 @@ export default function Header() {
                                             >
                                                 <a href="#">Nhẫn</a>
                                                 <ul className="cat-mega-menu">
-                                                <li className="right-menu cat-mega-title">
+                                                    <li className="right-menu cat-mega-title">
                                                         <a href="#">
                                                             Chất liệu
                                                         </a>
@@ -376,81 +301,7 @@ export default function Header() {
                                                             </li>
                                                         </ul>
                                                     </li>
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">
-                                                            Giới tính
-                                                        </a>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nam
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nữ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Cả nam và nữ
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">
-                                                            Dòng hàng
-                                                        </a>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Kim
-                                                                    Cương
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính ECZ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Đá Quý
-                                                                    Và Bán Quý
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Ngọc
-                                                                    Trai
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính CZ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Không Đính
-                                                                    Đá
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Kim Cương
-                                                                    Viên
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
+
                                                 </ul>
                                             </li>
                                             <li
@@ -461,7 +312,7 @@ export default function Header() {
                                             >
                                                 <a href="#">Bông tai</a>
                                                 <ul className="cat-mega-menu">
-                                                <li className="right-menu cat-mega-title">
+                                                    <li className="right-menu cat-mega-title">
                                                         <a href="#">
                                                             Chất liệu
                                                         </a>
@@ -491,75 +342,7 @@ export default function Header() {
                                                             </li>
                                                         </ul>
                                                     </li>
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">
-                                                            Giới tính
-                                                        </a>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nam
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nữ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nam và nữ
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">
-                                                            Dòng hàng
-                                                        </a>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Kim
-                                                                    Cương
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính ECZ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Đá Quý
-                                                                    Và Bán Quý
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Ngọc
-                                                                    Trai
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính CZ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Không Đính
-                                                                    Đá
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
+
                                                 </ul>
                                             </li>
                                             <li
@@ -570,7 +353,7 @@ export default function Header() {
                                             >
                                                 <a href="#">Vòng tay</a>
                                                 <ul className="cat-mega-menu">
-                                                <li className="right-menu cat-mega-title">
+                                                    <li className="right-menu cat-mega-title">
                                                         <a href="#">
                                                             Chất liệu
                                                         </a>
@@ -600,81 +383,7 @@ export default function Header() {
                                                             </li>
                                                         </ul>
                                                     </li>
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">
-                                                            Giới tính
-                                                        </a>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nam
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nữ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nam và nữ
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">
-                                                            Dòng hàng
-                                                        </a>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Kim
-                                                                    Cương
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính ECZ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Đá Quý
-                                                                    Và Bán Quý
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Ngọc
-                                                                    Trai
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính CZ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Không Đính
-                                                                    Đá
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Kim Cương
-                                                                    Viên
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
+
                                                 </ul>
                                             </li>
                                             <li
@@ -715,81 +424,7 @@ export default function Header() {
                                                             </li>
                                                         </ul>
                                                     </li>
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">
-                                                            Giới tính
-                                                        </a>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nam
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nữ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nam và nữ
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li className="right-menu cat-mega-title">
-                                                        <a href="#">
-                                                            Dòng hàng
-                                                        </a>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Kim
-                                                                    Cương
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính ECZ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Đá Quý
-                                                                    Và Bán Quý
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính Ngọc
-                                                                    Trai
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Đính CZ
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Trang Sức
-                                                                    Không Đính
-                                                                    Đá
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Kim Cương
-                                                                    Viên
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
+
                                                 </ul>
                                             </li>
                                         </ul>
@@ -833,7 +468,7 @@ export default function Header() {
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                        Thông báo đấu giá
+                                                            Thông báo đấu giá
                                                         </a>
                                                     </li>
                                                     <li>
@@ -843,7 +478,7 @@ export default function Header() {
                                                     </li>
                                                 </ul>
                                             </li>
-                                            
+
                                             <li>
                                                 <a href="/about">
                                                     Giới thiệu
@@ -935,13 +570,13 @@ export default function Header() {
                                 <div className="main-menu_area">
                                     <nav className="main_nav">
                                         <ul>
-                                        <li className="megamenu-holder">
+                                            <li className="megamenu-holder">
                                                 <a href="#">
                                                     Cách loại trang sức đấu giá
                                                     <i className="ion-chevron-down"></i>
                                                 </a>
                                                 <ul className="umino-megamenu">
-                                                <li>
+                                                    <li>
                                                         <span className="megamenu-title">
                                                             Chủng Loại
                                                         </span>
@@ -1027,7 +662,7 @@ export default function Header() {
                                                             Dòng Hàng
                                                         </span>
                                                         <ul>
-                                                        <li>
+                                                            <li>
                                                                 <a href="#">
                                                                     Trang Sức
                                                                     Đính Kim
@@ -1103,7 +738,7 @@ export default function Header() {
                                                     </li>
                                                 </ul>
                                             </li>
-                                            
+
                                             <li>
                                                 <a href="#">
                                                     Tin tức
@@ -1117,7 +752,7 @@ export default function Header() {
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                        Thông báo đấu giá
+                                                            Thông báo đấu giá
                                                         </a>
                                                     </li>
                                                     <li>
@@ -1346,7 +981,7 @@ export default function Header() {
                         </div>
                     </div>
                 </div>
-               <div className="mobile-menu_wrapper" id="mobileMenu">
+                <div className="mobile-menu_wrapper" id="mobileMenu">
                     <div className="offcanvas-menu-inner">
                         <div className="container">
                             <a href="#" className="btn-close">
