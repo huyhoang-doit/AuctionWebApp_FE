@@ -1,6 +1,7 @@
 import "./Brand.css";
 
 export default function Brand() {
+
   return (
     <div className="umino-brand_area">
       <div className="container">

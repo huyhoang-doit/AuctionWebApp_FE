@@ -1,24 +1,24 @@
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Header.css";
 
 export default function Header() {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const handleToShopLeftSibar = () => {
-        navigate("/shop-left-sibar");
-    };
+    // const handleToShopLeftSibar = () => {
+    //     navigate("/shop-left-sibar");
+    // };
 
-    const handleToIndex = () => {
-        navigate("/index");
-    };
+    // const handleToIndex = () => {
+    //     navigate("/index");
+    // };
 
-    const handleToContact = () => {
-        navigate("/contact");
-    };
+    // const handleToContact = () => {
+    //     navigate("/contact");
+    // };
 
-    const handleToLogin = () => {
-        navigate("/login");
-    };
+    // const handleToLogin = () => {
+    //     navigate("/login");
+    // };
 
     return (
         <>
@@ -53,9 +53,9 @@ export default function Header() {
                         <div className="row">
                             <div className="col-xl-3 col-lg-2">
                                 <div className="header-logo">
-                                    <a href="#">
+                                    <Link to={"/index"}>
                                         <img src="assets/images/menu/logo/1.png" alt="Umino's Header Logo" />
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="col-lg-3 d-none d-lg-block">
@@ -423,7 +423,7 @@ export default function Header() {
                             </div>
                             <div className="col-lg-2 d-none d-lg-block">
                                 <div className="login-area">
-                                    <a href="#">Đăng nhập<span>hoặc</span>Đăng ký</a>
+                                    <Link to={"/single-product-sale"}>Đăng nhập<span>hoặc</span>Đăng ký</Link>
                                 </div>
                             </div>
                             <div className="col-md-3 col-sm-5 d-block d-lg-none">

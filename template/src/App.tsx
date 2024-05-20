@@ -11,7 +11,6 @@ function App() {
         script.type = 'text/javascript';
         document.body.appendChild(script);
 
-        // Cleanup function to remove the script when the component is unmounted
         return () => {
             document.body.removeChild(script);
         };
