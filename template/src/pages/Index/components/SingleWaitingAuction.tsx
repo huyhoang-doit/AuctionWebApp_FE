@@ -20,7 +20,6 @@ const SingleAuction = () => {
     });
   }, []);
 
-
   return (
     <div className="col-3" style={{ height: '500px' }}>
       <div className="slide-item">
