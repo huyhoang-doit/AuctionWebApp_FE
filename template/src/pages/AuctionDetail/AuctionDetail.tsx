@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useParams } from "react-router-dom";
 import { Auction } from "../../models/Auction";
@@ -8,7 +7,7 @@ import { formatDateString } from "../../utils/formatDateString";
 import { Jewelry } from "../../models/Jewelry";
 import { User } from "../../models/User";
 import { formatNumber } from "../../utils/FormatNumber";
-import ImageProduct from "./ImageProduct";
+import ImageProduct from "./AuctionImageProduct";
 
 
 export default function AuctionDetail() {
@@ -19,6 +18,7 @@ export default function AuctionDetail() {
     const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
     const { id } = useParams();
     let auctionId = 0;
+
 
     try {
         auctionId = parseInt(id + "");
@@ -41,6 +41,7 @@ export default function AuctionDetail() {
             .catch((error) => {
                 console.log(error.message);
             });
+        window.scrollTo(0, 0);
     }, [auctionId]);
 
     useEffect(() => {
@@ -130,7 +131,7 @@ export default function AuctionDetail() {
                                                     />
                                                 </a>
                                             </div> */}
-                                            <ImageProduct jewelryId={jewelry?.id}/>
+                                            {jewelry && <ImageProduct jewelry={jewelry} />}
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
@@ -260,7 +261,7 @@ export default function AuctionDetail() {
                                                     <b className="spanauctionproperty" style={{ color: "red" }}>Giá trúng tối thiểu:</b>
                                                 </div>
                                                 <div className="col-6 col-xs-6 right-info-text no-margin">
-                                                    <span className="fw-bold spanColorAuctionproperty novaticPrice" style={{ color: "red" }}>{auction?.firstPrice}</span>
+                                                    <span className="fw-bold spanColorAuctionproperty novaticPrice" style={{ color: "red" }}>{formatNumber(auction?.firstPrice)}</span>
                                                     <span className="fw-bold spanColorAuctionproperty" style={{ color: "red" }}> VNĐ</span>
                                                 </div>
                                             </div>
@@ -343,13 +344,13 @@ export default function AuctionDetail() {
                                                                 {jewelry?.name}, cụ thể:</li>
                                                         </ul>
                                                         <p></p>
-                                                        <p><strong>- Giá khởi điểm: {auction?.firstPrice}&nbsp;</strong>
+                                                        <p><strong>- Giá khởi điểm: {formatNumber(auction?.firstPrice)}&nbsp;</strong>
                                                             <i>(Bằng chữ: Mười hai tỷ, hai trăm ba mươi sáu triệu, năm trăm năm mươi lăm nghìn đồng) (Giá đã bao gồm thuế VAT).</i>
                                                         </p><p>
                                                             <strong>- Tiền mua hồ sơ tham gia đấu giá</strong> (trên hệ thống đấu giá trực tuyến được coi là “phí đăng ký tham gia đấu giá”)
-                                                            : <strong>{auction?.participationFee} đồng/Hồ sơ&nbsp;</strong><i>(Bằng chữ: Năm trăm nghìn đồng trên hồ sơ).</i></p><p><strong>-
-                                                                Tiền đặt trước: {auction?.deposit} đồng&nbsp;</strong><i>(Bằng chữ: Hai tỷ bốn trăm triệu đồng).</i></p><p><strong>-&nbsp;
-                                                                    Bước giá: {auction?.priceStep} đồng/bước giá&nbsp;</strong><i>(Bằng chữ: Ba mươi triệu đồng trên bước giá).</i></p><p>
+                                                            : <strong>{formatNumber(auction?.participationFee)} đồng/Hồ sơ&nbsp;</strong><i>(Bằng chữ: Năm trăm nghìn đồng trên hồ sơ).</i></p><p><strong>-
+                                                                Tiền đặt trước: {formatNumber(auction?.deposit)} đồng&nbsp;</strong><i>(Bằng chữ: Hai tỷ bốn trăm triệu đồng).</i></p><p><strong>-&nbsp;
+                                                                    Bước giá: {formatNumber(auction?.priceStep)} đồng/bước giá&nbsp;</strong><i>(Bằng chữ: Ba mươi triệu đồng trên bước giá).</i></p><p>
                                                             <strong>2. Điều kiện, cách thức đăng ký,&nbsp;thời gian bán, thu hồ sơ đấu giá và địa điểm xem tài sản đấu giá:</strong></p>
                                                     </div>
                                                 </div>

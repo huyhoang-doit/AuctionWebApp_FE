@@ -5,6 +5,43 @@ interface ResultInteface {
     auctionsData: Auction[];
 }
 
+export async function getAuctions(): Promise<ResultInteface> {
+    const auctions: Auction[] = [];
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged`;
+
+    // request
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+    if (responseData) {
+        for (const key in responseData) {
+            auctions.push({
+                id: responseData[key].id,
+                name: responseData[key].name,
+                description: responseData[key].description,
+                firstPrice: responseData[key].firstPrice,
+                lastPrice: responseData[key].lastPrice,
+                participationFee: responseData[key].participationFee,
+                deposit: responseData[key].deposit,
+                priceStep: responseData[key].priceStep,
+                startDate: responseData[key].startDate,
+                endDate: responseData[key].endDate,
+                countdownDuration: responseData[key].countdownDuration,
+                jewelry: {
+                    id: responseData[key].jewelry.id,
+                    user: {
+                        id: responseData[key].jewelry.user.id,
+                        fullName: responseData[key].jewelry.user.fullName,
+                    }
+                },
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return { auctionsData: auctions };
+}
+
 export async function getAuctionToday(): Promise<ResultInteface> {
     const auctions: Auction[] = [];
     // endpoint
@@ -15,6 +52,7 @@ export async function getAuctionToday(): Promise<ResultInteface> {
 
     if (response) {
         for (const key in response) {
+
             auctions.push({
                 id: response[key].id,
                 name: response[key].name,
@@ -26,7 +64,10 @@ export async function getAuctionToday(): Promise<ResultInteface> {
                 priceStep: response[key].priceStep,
                 startDate: response[key].startDate,
                 endDate: response[key].endDate,
-                countdownDuration: response[key].countdownDuration
+                countdownDuration: response[key].countdownDuration,
+                jewelry: {
+                    id: response[key].jewelry.id,
+                },
             })
         }
     } else {
@@ -57,7 +98,7 @@ export async function getAuction(auctionId: number): Promise<Auction | null> {
                 endDate: response.endDate,
                 countdownDuration: response.countdownDuration,
                 jewelry: {
-                    id : response.jewelry.id,
+                    id: response.jewelry.id,
                     name: response.jewelry.name,
                     description: response.jewelry.description,
                     user: {

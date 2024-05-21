@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import SingleAuction from './SingleWaitingAuction'
 import { getAuctionToday } from '../../../api/AuctionAPI'
 import { Auction } from '../../../models/Auction';
+
 const AuctionWaiting = () => {
   const [auctions, setAuctions] = useState<Auction[]>([]);
 
@@ -11,8 +12,7 @@ const AuctionWaiting = () => {
         setAuctions(response.auctionsData);
       })
       .catch((error) => {
-        // setLoading(false);
-        // setError(error.message);
+        console.error(error.message);
       });
   }, []);
 
@@ -29,7 +29,7 @@ const AuctionWaiting = () => {
             <div className="umino-product_slider slider-navigation_style-1" >
               <div className="row">
                 {auctions.map((auction) => (
-                  <SingleAuction auction={auction} key={auction.id}/>
+                  <SingleAuction auction={auction} key={auction.id} />
                 ))}
               </div>
             </div>

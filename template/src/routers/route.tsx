@@ -10,7 +10,7 @@ import MyAccount from "../pages/MyAccount/MyAccount";
 import ShopLeftSibar from "../pages/ShopLeftSibar/ShopLeftSibar";
 import Error from "../pages/404/Error";
 import { Privacy_Policy } from "../pages/Privacy-Policy/Privacy-Policy";
-import SingleAuction from "../pages/SingleProductSale/SingleProductSale";
+import AuctionDetail from "../pages/AuctionDetail/AuctionDetail";
 
 export default function RouterCom() {
     return (
@@ -27,7 +27,7 @@ export default function RouterCom() {
                 <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
                 <Route
                     path="/single-auction/:id"
-                    element={<SingleAuction />}
+                    element={<AuctionDetail />}
                 />
                 <Route path="/*" element={<Error />} />
             </Routes>

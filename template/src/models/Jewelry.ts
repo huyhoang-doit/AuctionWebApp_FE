@@ -2,9 +2,9 @@ import { User } from "./User";
 
 export class Jewelry {
     id: number;
-    name: string;
-    description: string;
-    user: User;
+    name?: string;
+    description?: string;
+    user?: User;
 
 	constructor(id: number, name: string, 
         description: string, user: User) {
