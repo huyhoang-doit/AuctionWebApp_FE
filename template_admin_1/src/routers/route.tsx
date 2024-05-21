@@ -1,5 +1,6 @@
 import RouterComAdmin from './router-admin';
 import RouterComManager from './router-manager';
+import RouterComStaff from './router-staff';
 
 
 const RouterCom = () => {
@@ -7,6 +8,7 @@ const RouterCom = () => {
     <>
       <RouterComAdmin />
       <RouterComManager />
+      <RouterComStaff />
     </>
   )
 }
