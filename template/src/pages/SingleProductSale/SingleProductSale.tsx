@@ -48,8 +48,8 @@ export default function SingleProductSale() {
                                             {/* <div className="zoompro-border">
                                                 <img
                                                     className="zoompro"
-                                                    src="assets/images/product/large-size/1.jpg"
-                                                    data-zoom-image="assets/images/product/large-size/1.jpg"
+                                                    src="assets/images/product/small-size/1.jpg"
+                                                    data-zoom-image="assets/images/product/small-size/1.jpg"
                                                     alt="Umino's Product Image"
                                                 />
                                             </div> */}
@@ -59,39 +59,21 @@ export default function SingleProductSale() {
                                             >
                                                 <a
                                                     className="active"
-                                                    data-image="assets/images/product/large-size/1.jpg"
-                                                    data-zoom-image="assets/images/product/large-size/1.jpg"
+                                                    data-image="assets/images/product/small-size/1.jpg"
+                                                    data-zoom-image="assets/images/product/small-size/1.jpg"
                                                 >
                                                     <img
                                                         src="assets/images/product/small-size/1.jpg"
-                                                        alt="Umino's Product Image"
+                                                        alt="Umino's Product Image" width={120}
                                                     />
                                                 </a>
                                                 <a
-                                                    data-image="assets/images/product/large-size/2.jpg"
-                                                    data-zoom-image="assets/images/product/large-size/2.jpg"
+                                                    data-image="assets/images/product/small-size/2.jpg"
+                                                    data-zoom-image="assets/images/product/small-size/2.jpg"
                                                 >
                                                     <img
                                                         src="assets/images/product/small-size/2.jpg"
-                                                        alt="Umino's Product Image"
-                                                    />
-                                                </a>
-                                                <a
-                                                    data-image="assets/images/product/large-size/3.jpg"
-                                                    data-zoom-image="assets/images/product/large-size/3.jpg"
-                                                >
-                                                    <img
-                                                        src="assets/images/product/small-size/3.jpg"
-                                                        alt="Umino's Product Image"
-                                                    />
-                                                </a>
-                                                <a
-                                                    data-image="assets/images/product/large-size/4.jpg"
-                                                    data-zoom-image="assets/images/product/large-size/4.jpg"
-                                                >
-                                                    <img
-                                                        src="assets/images/product/small-size/4.jpg"
-                                                        alt="Umino's Product Image"
+                                                        alt="Umino's Product Image" width={120}
                                                     />
                                                 </a>
                                             </div> */}
@@ -217,9 +199,9 @@ export default function SingleProductSale() {
                                                 <div className="col-6 col-xs-6">
                                                     <b className="spanauctionproperty" style={{ color: "red" }}>Giá trúng tối thiểu:</b>
                                                 </div>
-                                                <div className="col-6 col-xs-6 right-info-text no-margin" style={{ color: "red" }}>
-                                                    <span className="fw-bold spanColorAuctionproperty novaticPrice" >13.900.872.451</span>
-                                                    <span className="fw-bold spanColorAuctionproperty"> VNĐ</span>
+                                                <div className="col-6 col-xs-6 right-info-text no-margin">
+                                                    <span className="fw-bold spanColorAuctionproperty novaticPrice" style={{ color: "red" }}>13.900.872.451</span>
+                                                    <span className="fw-bold spanColorAuctionproperty" style={{ color: "red" }}> VNĐ</span>
                                                 </div>
                                             </div>
                                             <div className="auction-card3">
