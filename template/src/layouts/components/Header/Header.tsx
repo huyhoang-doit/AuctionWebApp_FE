@@ -10,7 +10,7 @@ export default function Header() {
     };
 
     const handleToIndex = () => {
-        navigate("/index");
+        navigate("/");
     };
 
     const handleToContact = () => {
@@ -52,7 +52,7 @@ export default function Header() {
                         <div className="row">
                             <div className="col-xl-3 col-lg-2">
                                 <div className="header-logo">
-                                    <Link to={"/index"}>
+                                    <Link to={"/"}>
                                         <img
                                             src="assets/images/menu/logo/1.png"
                                             alt="Umino's Header Logo"
@@ -724,9 +724,9 @@ export default function Header() {
                                                 </a>
                                                 <ul className="hm-dropdown">
                                                     <li>
-                                                        <a href="#">
+                                                        <Link to={"/QA"}>
                                                             Câu hỏi thường gặp
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
                                                         <Link to={"/privacy_policy"}>
@@ -737,9 +737,6 @@ export default function Header() {
                                                         <a href="#">
                                                             Về chúng tôi
                                                         </a>
-                                                    </li>
-                                                    <li>
-                                                        <Link to={"/404"}>Lỗi 404</Link>
                                                     </li>
                                                     <li>
                                                         <Link to={"/404"}>Sắp ra mắt</Link>
@@ -805,7 +802,7 @@ export default function Header() {
                                     </Link>
                                 </div>
                             </div>
-                            <div className="col-xl-8 col-lg-7 d-none d-lg-block position-static">
+                            <div className="col-xl-7 col-lg-7 d-none d-lg-block position-static">
                                 <div className="main-menu_area">
                                     <nav className="main_nav">
                                         <ul>
@@ -998,11 +995,6 @@ export default function Header() {
                                                     </li>
                                                     <li>
                                                         <a href="#">
-                                                            Lỗi 404
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
                                                             Sắp ra mắt
                                                         </a>
                                                     </li>
@@ -1019,9 +1011,9 @@ export default function Header() {
                                     </nav>
                                 </div>
                             </div>
-                            <div className="col-xl-2 col-lg-3 d-none d-lg-block">
+                            <div className="col-xl-3 col-lg-3 d-none d-lg-block">
                                 <div className="hm-minicart_area">
-                                    <ul>
+                                    <ul className="d-flex align-items-center justify-content-center">
                                         <li>
                                             <a href="#">
                                                 <div className="minicart-icon wishlist-icon">
@@ -1034,139 +1026,11 @@ export default function Header() {
                                         </li>
                                         <li>
                                             <a href="#">
-                                                <div className="minicart-icon">
-                                                    <i className="ion-bag"></i>
-                                                    <span className="item-count">
-                                                        2
-                                                    </span>
-                                                </div>
-                                                <div className="minicart-title">
-                                                    <span className="item_total">
-                                                        $54.90
-                                                    </span>
+                                                <div>
+                                                    <b style={{fontSize: "18px"}}>{formatTime(currentTime)}</b><br />
+                                                    {formatDateTime(currentTime)}
                                                 </div>
                                             </a>
-                                            <ul className="minicart-body">
-                                                <li className="minicart-item_area">
-                                                    <div className="minicart-single_item">
-                                                        <div className="product-item_remove">
-                                                            <span
-                                                                className="ion-android-close"
-                                                                title="Remove This Item"
-                                                            ></span>
-                                                        </div>
-                                                        <div className="minicart-img">
-                                                            <a href="#">
-                                                                <img
-                                                                    src="assets/images/product/small-size/6.jpg"
-                                                                    alt="Umino's Product Image"
-                                                                />
-                                                            </a>
-                                                        </div>
-                                                        <div className="minicart-content">
-                                                            <div className="product-name">
-                                                                <h6>
-                                                                    <a href="#">
-                                                                        Vulputate
-                                                                        justo
-                                                                    </a>
-                                                                </h6>
-                                                            </div>
-                                                            <span className="product-quantity">
-                                                                Qty 1
-                                                            </span>
-                                                            <div className="price-box">
-                                                                <span className="new-price">
-                                                                    $90.00
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li className="minicart-item_area">
-                                                    <div className="minicart-single_item">
-                                                        <div className="product-item_remove">
-                                                            <span
-                                                                className="ion-android-close"
-                                                                title="Remove This Item"
-                                                            ></span>
-                                                        </div>
-                                                        <div className="minicart-img">
-                                                            <a href="#">
-                                                                <img
-                                                                    src="assets/images/product/small-size/8.jpg"
-                                                                    alt="Umino's Product Image"
-                                                                />
-                                                            </a>
-                                                        </div>
-                                                        <div className="minicart-content">
-                                                            <div className="product-name">
-                                                                <h6>
-                                                                    <a href="#">
-                                                                        Phasellus
-                                                                        vel
-                                                                        hendrerit
-                                                                    </a>
-                                                                </h6>
-                                                            </div>
-                                                            <span className="product-quantity">
-                                                                Qty 1
-                                                            </span>
-                                                            <div className="price-box">
-                                                                <span className="new-price">
-                                                                    $55.00
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div className="price_content">
-                                                        <div className="cart-subtotals">
-                                                            <div className="products subtotal-list">
-                                                                <span className="label">
-                                                                    Subtotal
-                                                                </span>
-                                                                <span className="defaultValue">
-                                                                    $145.00
-                                                                </span>
-                                                            </div>
-                                                            <div className="shipping subtotal-list">
-                                                                <span className="label">
-                                                                    Shipping
-                                                                </span>
-                                                                <span className="defaultValue">
-                                                                    $7.00
-                                                                </span>
-                                                            </div>
-                                                            <div className="tax subtotal-list">
-                                                                <span className="label">
-                                                                    Taxes
-                                                                </span>
-                                                                <span className="defaultValue">
-                                                                    $0.00
-                                                                </span>
-                                                            </div>
-                                                            <div className="cart-total subtotal-list">
-                                                                <span className="label">
-                                                                    Total
-                                                                </span>
-                                                                <span className="defaultValue">
-                                                                    $152.00
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="minicart-button">
-                                                            <a
-                                                                className="umino-btn umino-btn_fullwidth"
-                                                                href="#"
-                                                            >
-                                                                Checkout
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
                                         </li>
                                     </ul>
                                 </div>
@@ -1638,13 +1502,6 @@ export default function Header() {
                                                 <a href="#">
                                                     <span className="mm-text">
                                                         FAQ
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <span className="mm-text">
-                                                        Error 404
                                                     </span>
                                                 </a>
                                             </li>

@@ -30,34 +30,76 @@ export default function Register() {
                                     <h4 className="login-title">Đăng kí tài khoản</h4>
                                     <div className="row mb-4">
                                         <div className="col-md-6 col-12 mb--20">
-                                            <label>Tên</label>
-                                            <input
-                                                type="text"
-                                                placeholder="Nhập tên của bạn"
-                                            />
-                                        </div>
-                                        <div className="col-md-6 col-12 mb--20">
                                             <label>Họ</label>
                                             <input
                                                 type="text"
                                                 placeholder="Nhập họ của bạn"
                                             />
                                         </div>
-                                        <div className="col-md-12">
-                                            <label>Email </label>
+                                        <div className="col-md-6 col-12 mb--20">
+                                            <label>Tên</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập tên của bạn"
+                                            />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label>Email</label>
                                             <input
                                                 type="Email"
                                                 placeholder="Nhập Email của bạn"
                                             />
                                         </div>
                                         <div className="col-md-6">
+                                            <label>Phone</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập số điện thoại của bạn"
+                                            />
+                                        </div>
+                                        <div className="col-md-4">
+                                            <label>Địa chỉ</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập địa chỉ của bạn"
+                                            />
+                                        </div>
+                                        <div className="col-md-4">
+                                            <label>Tỉnh</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập tỉnh"
+                                            />
+                                        </div>
+                                        <div className="col-md-4">
+                                            <label>Thành phố</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập thành phố"
+                                            />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label>Năm sinh</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập năm sinh"
+                                            />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label>Số CCCD</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập số căn cước"
+                                            />
+                                        </div>
+                                        <div className="col-md-12">
                                             <label>Mật khẩu</label>
                                             <input
                                                 type="password"
                                                 placeholder="Nhập mật khẩu của bạn"
                                             />
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-12">
                                             <label>Xác nhận mật khẩu</label>
                                             <input
                                                 type="password"

@@ -17,7 +17,7 @@ export default function RouterCom() {
         <>
             <Routes>
                 <Route path="/about" element={<About />} />
-                <Route path="/index" element={<Index />} />
+                <Route path="/" element={<Index />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />

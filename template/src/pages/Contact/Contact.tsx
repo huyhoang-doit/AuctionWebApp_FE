@@ -17,17 +17,17 @@ export default function Contact() {
             {/* <!-- Umino's Breadcrumb Area End Here -->
         <!-- Begin Contact Main Page Area --> */}
             <div className="contact-main-page">
-                <div className="google-map_area">
+            <div className="google-map_area">
                     <div className="container-fluid">
-                        <div id="google-map">
+                        <div id="google-map" className="text-center">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.6100105370224!2d106.8073080748058!3d10.84112758931163!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752731176b07b1%3A0xb752b24b379bae5e!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgVFAuIEhDTQ!5e0!3m2!1svi!2s!4v1716190490489!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.6100105370224!2d106.8073080748058!3d10.84112758931163!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752731176b07b1%3A0xb752b24b379bae5e!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgVFAuIEhDTQ!5e0!3m2!1svi!2s!4v1716190490489!5m2!1svi!2s" referrerpolicy="no-referrer-when-downgrade"
                                 style={{
                                     border: "0",
-                                    width: "100%",
+                                    width: "60%",
                                     height: "100%",
                                 }}
-                                // allowfullscreen=""
+                                allowfullscreen=""
                                 loading="lazy"
                             ></iframe>
                         </div>
@@ -41,14 +41,14 @@ export default function Contact() {
                                     Thông tin liên hệ
                                 </h3>
                                 <p className="contact-page-message">
-                                
+
                                 </p>
                                 <div className="single-contact-block">
                                     <h4>
                                         <i className="fa fa-fax"></i> Địa chỉ
                                     </h4>
                                     <p>
-                                    Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam
+                                        Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam
                                     </p>
                                 </div>
                                 <div className="single-contact-block">
@@ -71,7 +71,7 @@ export default function Contact() {
                         <div className="col-lg-6">
                             <div className="contact-form-content">
                                 <h3 className="contact-page-title">
-                                Liên hệ chúng tôi
+                                    Liên hệ chúng tôi
                                 </h3>
                                 <div className="contact-form">
                                     <form
@@ -80,7 +80,7 @@ export default function Contact() {
                                     >
                                         <div className="form-group">
                                             <label>
-                                            Tên của bạn{" "}
+                                                Tên của bạn{" "}
                                                 <span className="required">
                                                     *
                                                 </span>
@@ -93,7 +93,7 @@ export default function Contact() {
                                         </div>
                                         <div className="form-group">
                                             <label>
-                                            Email của bạn{" "}
+                                                Email của bạn{" "}
                                                 <span className="required">
                                                     *
                                                 </span>
