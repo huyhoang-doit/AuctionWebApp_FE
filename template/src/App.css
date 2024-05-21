@@ -32,3 +32,34 @@
     line-height: 28px;
     margin-bottom: 20px;
 }
+
+/* styles.css */
+
+.umino-countdown_area {
+    margin-bottom: 1rem;
+}
+
+.umino-countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    padding: 0.5rem;
+    min-width: 3rem;
+    text-align: center;
+}
+
+.countdown-label {
+    font-size: 0.75rem;
+    color: #666;
+}
