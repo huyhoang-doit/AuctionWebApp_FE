@@ -1,4 +1,3 @@
-import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Index from '../pages/admin/Index/Index'
 import ManageManager from '../pages/admin/manage-account/ManageManager'

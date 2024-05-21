@@ -1,7 +1,6 @@
-import React from 'react'
-import Navbar from '../../../layouts/admin/components/Navbar'
 import Header from '../../../layouts/admin/components/Header'
 import Footer from '../../../layouts/admin/components/Footer'
+import Navbar from '../../../layouts/staff/Navbar'
 
 const Index = () => {
   return (
@@ -27,24 +26,24 @@ const Index = () => {
                       <div className="col-12">
                         <div className="quick_activity_wrap">
                           <div className="single_quick_activity">
-                            <h4>Doanh thu tuần qua</h4>
-                            <h3>$ <span className="counter">5,79,000</span> </h3>
-                            <p>Saved 25%</p>
+                            <h4>Số lượng trang sức được gửi đến</h4>
+                            <h5>Trong tuần</h5>
+                            <h3><span className="counter">79</span> </h3>
                           </div>
                           <div className="single_quick_activity">
-                            <h4>Số phiên đấu giá tuần qua</h4>
-                            <h3><span className="counter">79</span> </h3>
-                            <p>Saved 25%</p>
+                            <h4>Số lượng yêu cầu đang đợi phê duyệt</h4>
+                            <h5>Trong tuần</h5>
+                            <h3><span className="counter">9</span> </h3>
                           </div>
                           <div className="single_quick_activity">
                             <h4>Số lượng người dùng</h4>
+                            <p>...</p>
                             <h3><span className="counter">92</span> </h3>
-                            <p>Saved 25%</p>
                           </div>
                           <div className="single_quick_activity">
-                            <h4></h4>
-                            <h3>Số lượng ...<span className="counter">1000</span> </h3>
-                            <p>Saved 65%</p>
+                            <h4>Số lượng trang sức đã được bàn giao</h4>
+                            <h5>Trong tuần</h5>
+                            <h3><span className="counter">100</span> </h3>
                           </div>
                         </div>
                       </div>
