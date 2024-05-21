@@ -1,33 +1,44 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Auction } from "../../../models/Auction";
-import { CountDown } from "../../../utils/CountDown";
 import { formatNumber } from "../../../utils/FormatNumber";
+import { getIconImageByJewelryId } from "../../../api/ImageApi";
+import { Image } from "../../../models/Image";
 
 interface SingleAuctionProps {
   auction: Auction;
 }
 
 const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
+  
+  const jewelryId: number | null = props.auction.jewelry ? props.auction.jewelry.id : null;
+  const [image, setImage] = useState<Image | null>(null);
 
-  // const countDown: any = document.querySelector(".umino-countdown")
-  // countDown.countdown("2024/12/20", function (event: any) {
-  //   $(this).html(
-  //     event.strftime(
-  //       '<div class="count"><span class="count-amount">%D</span><span class="count-period">Days</span></div><div class="count"><span class="count-amount">%H</span><span class="count-period">Hrs</span></div><div class="count"><span class="count-amount">%M</span><span class="count-period">Mins</span></div><div class="count"><span class="count-amount">%S</span><span class="count-period">Secs</span></div>'
-  //     )
-  //   );
-  // });
+  useEffect(() => {
+    if (jewelryId !== null) {
+      getIconImageByJewelryId(jewelryId)
+        .then((imagesData) => {
+          setImage(imagesData);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  }, []); // chi goi 1 lan
 
   return (
-    <div className="col-3" style={{ height: '500px' }}>
-      <div className="slide-item">
+    <div className="col-3">
+      <div className="slide-item" style={{
+        boxShadow: "0 0 10px rgba(0, 0, 0, .06)", borderRadius: "0 30px",
+        border: "unset",
+        padding: "20px 20px 0px"
+      }}>
         <div className="single-product">
           <div className="product-img">
             <Link to={"/single-auction/" + props.auction.id}>
               <img
                 className="primary-img"
-                src="assets/images/product/medium-size/1-1.jpg"
+                src={image?.data}
                 alt="Umino's Product Image"
               />
             </Link>
@@ -35,21 +46,27 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
           <div className="product-content">
             <div className="product-desc_info">
               <div className="price-box">
-                <span className="new-price me-2">
-                  {formatNumber(props.auction.firstPrice)}
+                <span className="new-price me-2" style={{fontSize: "18px"}}>
+                  Trị giá: {formatNumber(props.auction.firstPrice)} VNĐ
                 </span>
               </div>
-              <h6 className="product-name">
-                <Link to={"/single-product-sale"}>
+              <h6 className="fw-bold product-name">
+                <Link to={" " + props.auction.id}>
                   {props.auction.name}
                 </Link>
               </h6>
-              {/* <div className="umino-countdown"></div> */}
+              <div>Trạng thái: <span className="text-warning fw-bold">Chưa diễn ra</span></div>
+
+              <Link to={"/single-auction/" + props.auction.id}>
+                <button className="mt-2 btn btn-danger">
+                  Chi tiết
+                </button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 
