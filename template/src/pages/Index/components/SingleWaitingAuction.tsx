@@ -1,7 +1,15 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Auction } from "../../../models/Auction";
+import { CountDown } from "../../../utils/CountDown";
+import { formatDateString } from "../../../utils/DateFormatter";
 
-const SingleAuction = () => {
+interface SingleAuctionProps {
+  auction: Auction;
+}
+
+const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
+
   // const countDown: any = document.querySelector(".umino-countdown")
   // countDown.countdown("2024/12/20", function (event: any) {
   //   $(this).html(
@@ -10,16 +18,6 @@ const SingleAuction = () => {
   //     )
   //   );
   // });
-
-  useEffect(() => {
-    $(".umino-countdown").countdown("2024/12/20", function (event) {
-      $(this).html(
-        event.strftime(
-          '<div class="count"><span class="count-amount">%D</span><span class="count-period">Days</span></div><div class="count"><span class="count-amount">%H</span><span class="count-period">Hrs</span></div><div class="count"><span class="count-amount">%M</span><span class="count-period">Mins</span></div><div class="count"><span class="count-amount">%S</span><span class="count-period">Secs</span></div>'
-        )
-      );
-    });
-  }, []);
 
   return (
     <div className="col-3" style={{ height: '500px' }}>
@@ -38,7 +36,7 @@ const SingleAuction = () => {
             <div className="product-desc_info">
               <div className="price-box">
                 <span className="new-price me-2">
-                  $70.00
+                  {props.auction.firstPrice}
                 </span>
                 <span className="old-price">
                   $80.00
@@ -46,11 +44,11 @@ const SingleAuction = () => {
               </div>
               <h6 className="product-name">
                 <Link to={"/single-product-sale"}>
-                  Aliquet auctor
-                  semali
+                  {props.auction.name}
                 </Link>
               </h6>
-              <div className="umino-countdown"></div>
+              {/* <div className="umino-countdown"></div> */}
+              <CountDown date={props.auction.startDate} key={props.auction.id}/>
             </div>
           </div>
         </div>
