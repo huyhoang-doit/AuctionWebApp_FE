@@ -8,9 +8,9 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import MyAccount from "../pages/MyAccount/MyAccount";
 import ShopLeftSibar from "../pages/ShopLeftSibar/ShopLeftSibar";
-import SingleProductSale from "../pages/SingleProductSale/SingleProductSale";
 import Error from "../pages/404/Error";
 import { Privacy_Policy } from "../pages/Privacy-Policy/Privacy-Policy";
+import SingleAuction from "../pages/SingleProductSale/SingleProductSale";
 
 export default function RouterCom() {
     return (
@@ -26,8 +26,8 @@ export default function RouterCom() {
                 <Route path="/privacy_policy" element={<Privacy_Policy />} />
                 <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
                 <Route
-                    path="/single-product-sale"
-                    element={<SingleProductSale />}
+                    path="/single-auction/:id"
+                    element={<SingleAuction />}
                 />
                 <Route path="/*" element={<Error />} />
             </Routes>

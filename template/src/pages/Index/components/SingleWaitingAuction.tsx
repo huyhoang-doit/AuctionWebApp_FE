@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Auction } from "../../../models/Auction";
 import { CountDown } from "../../../utils/CountDown";
-import { formatDateString } from "../../../utils/DateFormatter";
+import { formatNumber } from "../../../utils/FormatNumber";
 
 interface SingleAuctionProps {
   auction: Auction;
@@ -24,7 +24,7 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
       <div className="slide-item">
         <div className="single-product">
           <div className="product-img">
-            <Link to={"/single-product-sale"}>
+            <Link to={"/single-auction/" + props.auction.id}>
               <img
                 className="primary-img"
                 src="assets/images/product/medium-size/1-1.jpg"
@@ -36,10 +36,7 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
             <div className="product-desc_info">
               <div className="price-box">
                 <span className="new-price me-2">
-                  {props.auction.firstPrice}
-                </span>
-                <span className="old-price">
-                  $80.00
+                  {formatNumber(props.auction.firstPrice)}
                 </span>
               </div>
               <h6 className="product-name">
@@ -48,7 +45,6 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
                 </Link>
               </h6>
               {/* <div className="umino-countdown"></div> */}
-              <CountDown date={props.auction.startDate} key={props.auction.id}/>
             </div>
           </div>
         </div>
