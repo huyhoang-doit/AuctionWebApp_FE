@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Header() {
     return (
         <header className="header-main_area scroll-down-header w-100">
@@ -95,9 +97,9 @@ function Header() {
                             <i className="bx bx-plus dropdown-icon"></i>
                             <ul className="submenu">
                                 <li>
-                                    <a href="danh-sach-dau-gia/sap-dien-ra.html">
+                                    <Link to="/">
                                         Cuộc đấu giá sắp đấu giá
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a href="danh-sach-dau-gia/dang-dien-ra.html">

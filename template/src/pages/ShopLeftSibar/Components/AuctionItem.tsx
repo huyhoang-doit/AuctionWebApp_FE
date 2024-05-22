@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Auction } from "../../../models/Auction";
-import { formatNumber } from "../../../utils/FormatNumber";
+import { formatNumber } from "../../../utils/formatNumber";
 import { formatDateString } from "../../../utils/formatDateString";
 import { getIconImageByJewelryId } from "../../../api/ImageApi";
 import { Image } from "../../../models/Image";
 import { Link } from "react-router-dom";
+import { StateAuctionView } from "./StateAuctionView";
 
 
 interface AuctionItemProps {
@@ -181,12 +182,12 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
                             </h6>
                             <div className="product-short_desc">
                                 <p>
-                                    Trạng thái: <span className="text-warning fw-bold">Chưa diễn ra</span>
+                                    Trạng thái: <StateAuctionView state={props.auction.state}/>
                                 </p>
                             </div>
                             <div className="umino-countdown_area mb-4">
                                 {typeof timeLeft === 'string' ? (
-                                    <div className="umino-countdown">{timeLeft}</div>
+                                    <div className="umino-countdown" style={{padding: "20px 0px"}}>{timeLeft}</div>
                                 ) : (
                                     <div className="umino-countdown">
                                         <div className="countdown-item">

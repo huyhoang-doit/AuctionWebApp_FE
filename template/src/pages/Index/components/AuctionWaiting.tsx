@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import SingleAuction from './SingleWaitingAuction'
 import { getAuctionToday } from '../../../api/AuctionAPI'
 import { Auction } from '../../../models/Auction';
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 const AuctionWaiting = () => {
   const [auctions, setAuctions] = useState<Auction[]>([]);
@@ -16,6 +18,24 @@ const AuctionWaiting = () => {
       });
   }, []);
 
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4,
+      partialVisibilityGutter: 40 // this is needed to tell the amount of px that should be visible.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 3,
+      partialVisibilityGutter: 30 // this is needed to tell the amount of px that should be visible.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 2,
+      partialVisibilityGutter: 30 // this is needed to tell the amount of px that should be visible.
+    }
+  }
+
   return (
     <div className="umino-product_area">
       <div className="container">
@@ -25,12 +45,31 @@ const AuctionWaiting = () => {
               <h3>Trang sức sắp được đấu giá</h3>
             </div>
           </div>
+
           <div className="col-lg-12">
             <div className="umino-product_slider slider-navigation_style-1" >
               <div className="row">
-                {auctions.map((auction) => (
+                {/* {auctions.map((auction) => (
                   <SingleAuction auction={auction} key={auction.id} />
-                ))}
+                ))} */}
+                <Carousel swipeable={false}
+                  draggable={false}
+                  showDots
+                  autoPlay={true}
+                  responsive={responsive}
+                  ssr={true}
+                  infinite={true}
+                  autoPlaySpeed={1000}
+                  keyBoardControl={true}
+                  rewindWithAnimation={true}
+                  transitionDuration={1000}
+                  containerClass="carousel-container"
+                  removeArrowOnDeviceType={["tablet", "mobile"]}
+                >
+                  {React.Children.toArray(auctions.map(
+                    (auction) => <SingleAuction auction={auction} />
+                  ))}
+                </Carousel>
               </div>
             </div>
           </div>

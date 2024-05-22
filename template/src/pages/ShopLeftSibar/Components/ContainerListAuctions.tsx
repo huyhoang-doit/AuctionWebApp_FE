@@ -15,7 +15,7 @@ const ContainerListAuctions = () => {
         console.error(error.message);
       });
   }, []);
-  
+
   return (
     <div className="col-lg-9 order-1 order-lg-2">
       <div className="shop-banner_area">
@@ -81,8 +81,8 @@ const ContainerListAuctions = () => {
         </div>
       </div>
       <div className="shop-product-wrap row listview">
-        {auctions.map((auction) => (
-          <AuctionItem key={auction.id} auction={auction} />
+        {React.Children.toArray(auctions.map(
+          (auction) => <AuctionItem auction={auction} />
         ))}
       </div>
       <div className="row">
