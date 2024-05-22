@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div className="header_iner d-flex justify-content-between align-items-center">
+    <div className="header_iner d-flex justify-content-between align-items-center py-2">
       <div className="sidebar_icon d-lg-none">
         <i className="ti-menu"></i>
       </div>
@@ -10,13 +10,10 @@ const Header = () => {
       </div>
       <div className="header_right d-flex justify-content-between align-items-center">
         <div className="text-center me-3">
-          <b>
-            <h4>Chào mừng trở lại!</h4>
-          </b>
-          <h5>Travor James</h5>
+          <h5>Chào mừng trở lại!</h5>
+          <h6>Travor James</h6>
         </div>
         <div className="profile_info">
-
           <img src="img/client_img.png" alt="#" />
           <div className="profile_info_iner">
 
