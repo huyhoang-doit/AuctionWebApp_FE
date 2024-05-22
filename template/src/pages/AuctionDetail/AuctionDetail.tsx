@@ -6,7 +6,7 @@ import { getAuction } from "../../api/AuctionAPI";
 import { formatDateString } from "../../utils/formatDateString";
 import { Jewelry } from "../../models/Jewelry";
 import { User } from "../../models/User";
-import { formatNumber } from "../../utils/FormatNumber";
+import { formatNumber } from "../../utils/formatNumber";
 import ImageProduct from "./AuctionImageProduct";
 
 
@@ -138,7 +138,7 @@ export default function AuctionDetail() {
                                         <p className="para" id="countdown-txt">Cuộc đấu giá chưa bắt đầu</p>
                                         <div className="umino-countdown_area mb-4">
                                             {typeof timeLeft === 'string' ? (
-                                                <div className="umino-countdown">{timeLeft}</div>
+                                                <div className="umino-countdown" style={{padding: "10px 0px"}}>{timeLeft}</div>
                                             ) : (
                                                 <div className="umino-countdown">
                                                     <div className="countdown-item">

@@ -1,25 +1,19 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { login } from "../../api/UserAPI";
 
 export default function Login() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [loginRequest, setLoginRequest] = useState({
+        username: "",
+        password: "",
+    });
     const [error, setError] = useState("");
 
-    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(e.target.value);
+    const onChangeLoginRequest = (key: keyof typeof loginRequest) => (e: ChangeEvent<HTMLInputElement>) => {
+        setLoginRequest((preValue) => ({...preValue, [key]: e.target.value}));
     }
-
-    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-    }
-
+    console.log(loginRequest);
     const handleLogin = async () => {
-        const loginRequest = {
-            username,
-            password,
-        };
         const success = await login(loginRequest, setError);
         if (success) {
             window.location.href = '/';
@@ -56,8 +50,8 @@ export default function Login() {
                                             <label>Tên đăng nhập/ Email</label>
                                             <input
                                                 type="text"
-                                                value={username}
-                                                onChange={handleUsernameChange}
+                                                value={loginRequest.username}
+                                                onChange={onChangeLoginRequest("username")}
                                                 placeholder="Nhập tên đăng nhập/ Email"
                                             />
                                         </div>
@@ -65,8 +59,8 @@ export default function Login() {
                                             <label>Mật khẩu</label>
                                             <input
                                                 type="password"
-                                                value={password}
-                                                onChange={handlePasswordChange}
+                                                value={loginRequest.password}
+                                                onChange={onChangeLoginRequest("password")}
                                                 placeholder="Nhập mật khẩu"
                                             />
                                         </div>

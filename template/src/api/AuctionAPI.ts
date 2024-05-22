@@ -27,6 +27,7 @@ export async function getAuctions(): Promise<ResultInteface> {
                 startDate: responseData[key].startDate,
                 endDate: responseData[key].endDate,
                 countdownDuration: responseData[key].countdownDuration,
+                state: responseData[key].state,
                 jewelry: {
                     id: responseData[key].jewelry.id,
                     user: {
@@ -65,6 +66,7 @@ export async function getAuctionToday(): Promise<ResultInteface> {
                 startDate: response[key].startDate,
                 endDate: response[key].endDate,
                 countdownDuration: response[key].countdownDuration,
+                state: response[key].state,
                 jewelry: {
                     id: response[key].jewelry.id,
                 },
@@ -97,6 +99,7 @@ export async function getAuction(auctionId: number): Promise<Auction | null> {
                 startDate: response.startDate,
                 endDate: response.endDate,
                 countdownDuration: response.countdownDuration,
+                state: response.state,
                 jewelry: {
                     id: response.jewelry.id,
                     name: response.jewelry.name,
@@ -120,5 +123,40 @@ export async function getAuction(auctionId: number): Promise<Auction | null> {
         console.error("Error", error);
         return null
     }
+}
 
+export async function getAuctionByState(state: string): Promise<ResultInteface> {
+    const auctions: Auction[] = [];
+
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/get-by-state/${state}`;
+
+    // request
+    const response = await MyRequest(URL);
+
+    if (response) {
+        for (const key in response) {
+
+            auctions.push({
+                id: response[key].id,
+                name: response[key].name,
+                description: response[key].description,
+                firstPrice: response[key].firstPrice,
+                lastPrice: response[key].lastPrice,
+                participationFee: response[key].participationFee,
+                deposit: response[key].deposit,
+                priceStep: response[key].priceStep,
+                startDate: response[key].startDate,
+                endDate: response[key].endDate,
+                countdownDuration: response[key].countdownDuration,
+                state: response[key].state,
+                jewelry: {
+                    id: response[key].jewelry.id,
+                },
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return { auctionsData: auctions };
 }

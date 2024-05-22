@@ -15,11 +15,13 @@ export class Auction {
     priceStep: number;
     jewelry?: Jewelry;
     user?: User;
+    state: string;
 
 
 	constructor(id: number, name: string, startDate: string, endDate: string, 
-        description: string, countdownDuration: number, firstPrice: 
-        number, lastPrice: number, participantFee: number, deposit: number, priceStep: number, jewelry: Jewelry, user: User) {
+        description: string, countdownDuration: number, firstPrice: number, 
+        lastPrice: number, participantFee: number, deposit: number, 
+        priceStep: number, jewelry: Jewelry, user: User, state: string) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -34,6 +36,7 @@ export class Auction {
         this.priceStep = priceStep;
         this.jewelry = jewelry;
         this.user = user;
+        this.state = state;
 	}
     
 
