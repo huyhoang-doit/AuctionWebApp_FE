@@ -2,32 +2,57 @@ import React, { useEffect, useState } from 'react'
 import { AuctionItem } from './AuctionItem'
 import { getAuctions } from '../../../api/AuctionAPI';
 import { Auction } from '../../../models/Auction';
+import { useParams } from 'react-router-dom';
 
 const ContainerListAuctions = () => {
   const [auctions, setAuctions] = useState<Auction[]>([]);
+  const { state, cateId } = useParams();
+  let categoryId = 0;
+
+  try {
+    categoryId = parseInt(cateId + "");
+    if (Number.isNaN(categoryId)) {
+      categoryId = 0;
+    }
+  } catch (error) {
+    categoryId = 0;
+    console.log("Error parsing auction id: " + error);
+  }
 
   useEffect(() => {
-    getAuctions()
-      .then((response) => {
-        setAuctions(response.auctionsData);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  }, []);
+    console.log(state)
+    if (state !== undefined && categoryId === 0) {
+      getAuctions(state, 0)
+        .then((response) => {
+          setAuctions(response.auctionsData);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    }
+    if (state === undefined && categoryId !== 0) {
+      getAuctions("", categoryId)
+        .then((response) => {
+          setAuctions(response.auctionsData);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    }
+    if (state === undefined && categoryId === 0) {
+      getAuctions("", 0)
+        .then((response) => {
+          setAuctions(response.auctionsData);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    }
+  }, [state, categoryId]);
+
 
   return (
-    <div className="col-lg-9 order-1 order-lg-2">
-      <div className="shop-banner_area">
-        <div className="banner-item img-hover_effect">
-          <a href="javascript:void(0)">
-            <img
-              src="assets/images/shop/1.jpg"
-              alt="Umino's Shop Banner"
-            />
-          </a>
-        </div>
-      </div>
+    <>
       <div className="shop-toolbar">
         <div className="product-view-mode">
           <a
@@ -126,7 +151,7 @@ const ContainerListAuctions = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -1,16 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Header.css";
-import { useEffect, useState } from "react";
-import { CatMegaMenu } from "./CatMegaMenu";
+import React, { useEffect, useState } from "react";
+import { getAllCategories } from "../../../api/CategoryAPI";
+import { Category } from "../../../models/Category";
+import { jwtDecode } from "jwt-decode";
+import { handleLogout } from "../../../utils/logout";
+import { formatDateTime, formatTime } from "../../../utils/formatDateString";
 
 export default function Header() {
-    const navigate = useNavigate();
-
-    const handleToContact = () => {
-        navigate("/contact");
-    };
-
+    const [categories, setCategories] = useState<Category[]>([])
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [username, setUsername] = useState<string | null>("");
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -20,22 +20,24 @@ export default function Header() {
         return () => clearInterval(intervalId); // Clean up the interval on component unmount
     }, []);
 
-    const formatTime = (date: Date) => {
-        return date.toLocaleTimeString();
-    };
-
-    const formatDateTime = (date: Date) => {
-        const options: Intl.DateTimeFormatOptions = {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        };
-        const dateString = date.toLocaleDateString('vi-VN', options);
-
-        const dayOfWeek = date.toLocaleDateString('vi-VN', { weekday: 'long' });
-
-        return `${dayOfWeek}, ${dateString}`;
-    };
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            const userData = jwtDecode(token);
+            if (userData) {
+                const decodedUsername = userData.sub + "";
+                setUsername(decodedUsername);
+            }
+        }
+        console.log(username)
+        getAllCategories()
+            .then((response) => {
+                setCategories(response);
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+    }, [username]);
 
     return (
         <>
@@ -113,38 +115,13 @@ export default function Header() {
                                         className="category-menu-list none"
                                     >
                                         <ul>
-                                            <li
-                                                className="right-menu"
-                                            >
-                                                <Link to={"/shop-left-sibar"}>Dây chuyền</Link>
-                                                <CatMegaMenu />
-                                            </li>
-                                            <li
-                                                className="right-menu"
-                                            >
-                                                <Link to={"/shop-left-sibar"}>Nhẫn</Link>
-
-                                                <CatMegaMenu />
-                                            </li>
-                                            <li
-                                                className="right-menu"
-                                            >
-                                                <Link to={"/shop-left-sibar"}>Bông tai</Link>
-                                                <CatMegaMenu />
-                                            </li>
-                                            <li
-                                                className="right-menu"
-                                            >
-                                                <Link to={"/shop-left-sibar"}>Vòng tay</Link>
-
-                                                <CatMegaMenu />
-                                            </li>
-                                            <li
-                                                className="right-menu"
-                                            >
-                                                <Link to={"/shop-left-sibar"}>Lắc</Link>
-                                                <CatMegaMenu />
-                                            </li>
+                                            {React.Children.toArray(categories.map(
+                                                (category) => <li
+                                                    className="right-menu"
+                                                >
+                                                    <Link to={"/shop-left-sibar/category/" + category.id}>{category.name}</Link>
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </div>
@@ -156,21 +133,25 @@ export default function Header() {
                                             <li
                                                 className="dropdown-holder"
                                             >
-                                                <Link to={"/shop-left-sibar"}>
+                                                <NavLink to={"/shop-left-sibar"}>
                                                     Cuộc đấu giá
                                                     <i className="ion-chevron-down"></i>
-                                                </Link>
+                                                </NavLink>
                                                 <ul className="hm-dropdown">
                                                     <li>
-                                                        <Link to={"/shop-left-sibar"}>
+                                                        <Link to={"/shop-left-sibar/state/WAITING"}>
                                                             Đấu giá sắp diễn ra
                                                         </Link>
                                                     </li>
                                                     <li>
-                                                        <Link to={"/QA"}>Đấu giá đang diễn ra</Link>
+                                                        <Link to={"/shop-left-sibar/state/ONGOING"}>
+                                                            Đấu giá đang diễn ra
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a href="#">Đấu giá đã kết thúc</a>
+                                                        <Link to={"/shop-left-sibar/state/FINISHED"}>
+                                                            Đấu giá đã kết thúc
+                                                        </Link>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -198,25 +179,41 @@ export default function Header() {
                                                 </ul>
                                             </li>
                                             <li
-                                                onClick={() =>
-                                                    handleToContact()
-                                                }
                                             >
-                                                <a href="#">Liên hệ</a>
+                                                <NavLink to="/contact">Liên hệ</NavLink>
+                                            </li>
+                                            <li
+                                            >
+                                                <NavLink to="/form-send-jewerly">Gửi sản phẩm đấu giá</NavLink>
                                             </li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                             <div className="col-lg-2 d-none d-lg-block">
-                                <div className="login-area">
-                                    <Link to={"/login"}>
-                                        Đăng nhập
-                                    </Link><span> | </span>
-                                    <Link to={"/register"}>
-                                        Đăng ký
-                                    </Link>
-                                </div>
+                                {!username &&
+                                    <div className="login-area">
+                                        <Link to={"/login"}>
+                                            Đăng nhập
+                                        </Link><span> | </span>
+                                        <Link to={"/register"}>
+                                            Đăng ký
+                                        </Link>
+                                    </div>}
+                                {
+                                    username &&
+                                    <div className="login-area">
+                                        <Link to={"/my-account"}>
+                                            Profile
+                                        </Link><span> | </span>
+                                        <button onClick={() => {
+                                            handleLogout()
+                                            setUsername('')
+                                        }}>
+                                            ĐĂNG XUẤT
+                                        </button>
+                                    </div>
+                                }
                             </div>
                             <div className="col-md-3 col-sm-5 d-block d-lg-none">
                                 <div className="mobile-menu_area">
@@ -240,7 +237,7 @@ export default function Header() {
                         <div className="row">
                             <div className="col-lg-2 col-md-6 col-sm-7">
                                 <div className="header-logo">
-                                    <Link to={"/index"}>
+                                    <Link to={"/"}>
                                         <img
                                             src="assets/images/menu/logo/1.png"
                                             alt="Umino's Header Logo"
@@ -321,7 +318,6 @@ export default function Header() {
                                             </li>
                                             <li
                                                 className="dropdown-holder"
-                                                onClick={() => handleToIndex()}
                                             >
                                                 <a href="#">
                                                     Cuộc đấu giá
@@ -367,11 +363,8 @@ export default function Header() {
                                                 </ul>
                                             </li>
                                             <li
-                                                onClick={() =>
-                                                    handleToContact()
-                                                }
                                             >
-                                                <a href="#">Liên hệ</a>
+                                                <NavLink to="/contact">Liên hệ</NavLink>
                                             </li>
                                         </ul>
                                     </nav>

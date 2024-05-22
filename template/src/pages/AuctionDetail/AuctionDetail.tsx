@@ -8,6 +8,7 @@ import { Jewelry } from "../../models/Jewelry";
 import { User } from "../../models/User";
 import { formatNumber } from "../../utils/formatNumber";
 import ImageProduct from "./AuctionImageProduct";
+import { StateAuctionView } from "../ShopLeftSibar/Components/StateAuctionView";
 
 
 export default function AuctionDetail() {
@@ -18,7 +19,6 @@ export default function AuctionDetail() {
     const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
     const { id } = useParams();
     let auctionId = 0;
-
 
     try {
         auctionId = parseInt(id + "");
@@ -45,26 +45,82 @@ export default function AuctionDetail() {
     }, [auctionId]);
 
     useEffect(() => {
-        if (auction && auction.startDate) {
+        if (auction && auction.startDate && auction.endDate) {
+            const now = new Date().getTime();
             const startDate = new Date(formatDateString(auction.startDate)).getTime();
-            const updateCountdown = () => {
-                const now = new Date().getTime();
-                const distance = startDate - now;
+            const endDate = new Date(formatDateString(auction.endDate)).getTime();
 
-                if (distance < 0) {
-                    setTimeLeft("Auction started");
+            if (auction.state === 'ONGOING') {
+                // Calculate countdown until end date
+                const distanceToEnd = endDate - now;
+
+                if (distanceToEnd < 0) {
+                    setTimeLeft("Phiên đấu giá đã kết thúc");
                     return;
                 }
 
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                const daysToEnd = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
+                const hoursToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutesToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60)) / (1000 * 60));
+                const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
 
-                setTimeLeft({ days, hours, minutes, seconds });
-            };
+                setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
+            } else if (auction.state === 'WAITING') {
+                // Calculate countdown until start date
+                const distanceToStart = startDate - now;
 
-            const timer = setInterval(updateCountdown, 1000);
+                if (distanceToStart < 0) {
+                    setTimeLeft("Phiên đấu giá đang diễn ra");
+                    return;
+                }
+
+                const daysToStart = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
+                const hoursToStart = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutesToStart = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
+                const secondsToStart = Math.floor((distanceToStart % (1000 * 60)) / 1000);
+
+                setTimeLeft({ days: daysToStart, hours: hoursToStart, minutes: minutesToStart, seconds: secondsToStart });
+            } else if (auction.state === 'FINISHED') {
+                // Auction finished
+                setTimeLeft("Phiên đấu giá đã kết thúc");
+                return;
+            }
+
+            const timer = setInterval(() => {
+                const now = new Date().getTime();
+
+                if (auction.state === 'ONGOING') {
+                    const distanceToEnd = endDate - now;
+
+                    if (distanceToEnd < 0) {
+                        setTimeLeft("Phiên đấu giá đã kết thúc");
+                        clearInterval(timer);
+                        return;
+                    }
+
+                    const daysToEnd = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
+                    const hoursToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutesToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60)) / (1000 * 60));
+                    const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
+
+                    setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
+                } else if (auction.state === 'WAITING') {
+                    const distanceToStart = startDate - now;
+
+                    if (distanceToStart < 0) {
+                        setTimeLeft("Phiên đấu giá đang diễn ra");
+                        clearInterval(timer);
+                        return;
+                    }
+
+                    const daysToStart = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
+                    const hoursToStart = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutesToStart = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
+                    const secondsToStart = Math.floor((distanceToStart % (1000 * 60)) / 1000);
+
+                    setTimeLeft({ days: daysToStart, hours: hoursToStart, minutes: minutesToStart, seconds: secondsToStart });
+                }
+            }, 1000);
 
             return () => clearInterval(timer);
         }
@@ -135,10 +191,10 @@ export default function AuctionDetail() {
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
-                                        <p className="para" id="countdown-txt">Cuộc đấu giá chưa bắt đầu</p>
+                                        <p className="para" id="countdown-txt">Cuộc đấu giá: <StateAuctionView state={auction?.state ? auction?.state : "null"} /></p>
                                         <div className="umino-countdown_area mb-4">
                                             {typeof timeLeft === 'string' ? (
-                                                <div className="umino-countdown" style={{padding: "10px 0px"}}>{timeLeft}</div>
+                                                <div className="umino-countdown" style={{ padding: "10px 0px" }}>{timeLeft}</div>
                                             ) : (
                                                 <div className="umino-countdown">
                                                     <div className="countdown-item">

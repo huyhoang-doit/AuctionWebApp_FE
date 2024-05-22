@@ -80,17 +80,6 @@ export default function MyAccount() {
                                             Account Details
                                         </a>
                                     </li>
-                                    <li className="nav-item">
-                                        <a
-                                            className="nav-link"
-                                            id="account-logout-tab"
-                                            href="login-register.html"
-                                            role="tab"
-                                            aria-selected="false"
-                                        >
-                                            Logout
-                                        </a>
-                                    </li>
                                 </ul>
                             </div>
                             <div className="col-lg-9">
@@ -105,14 +94,6 @@ export default function MyAccount() {
                                         aria-labelledby="account-dashboard-tab"
                                     >
                                         <div className="myaccount-dashboard">
-                                            <p>
-                                                Hello <b>HasTech</b> (not
-                                                HasTech?{" "}
-                                                <a href="login-register.html">
-                                                    Sign out
-                                                </a>
-                                                )
-                                            </p>
                                             <p>
                                                 From your account dashboard you
                                                 can view your recent orders,
