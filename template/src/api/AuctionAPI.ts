@@ -1,19 +1,36 @@
 import { Auction } from "../models/Auction";
 import { MyRequest } from "./MyRequest";
 
+interface ResultPageableInteface {
+    auctionsData: Auction[];
+    totalPages: number;
+    numberAuctionsPerPage: number;
+    totalAuctions: number
+}
+
 interface ResultInteface {
     auctionsData: Auction[];
 }
 
-export async function getAuctions(state: string, cateId: number): Promise<ResultInteface> {
+
+
+interface Pageable {
+    page: number;
+    size: number;
+}
+
+export async function getAuctions(state: string, cateId: number, pageable : Pageable): Promise<ResultPageableInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&categoryId=${cateId}`;
-    console.log(URL);
+    const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
 
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
+    const totalPages = response.totalPages;
+    const totalAuctions = response.totalElements;
+    const numberAuctionsPerPage = response.numberOfElements;
+
     if (responseData) {
         for (const key in responseData) {
             auctions.push({
@@ -41,7 +58,12 @@ export async function getAuctions(state: string, cateId: number): Promise<Result
     } else {
         throw new Error("Phiên không tồn tại");
     }
-    return { auctionsData: auctions };
+    return { 
+        auctionsData: auctions,
+        numberAuctionsPerPage: numberAuctionsPerPage,
+        totalPages: totalPages,
+        totalAuctions: totalAuctions,
+    };
 }
 
 export async function getAuctionToday(): Promise<ResultInteface> {
@@ -126,11 +148,54 @@ export async function getAuction(auctionId: number): Promise<Auction | null> {
     }
 }
 
-export async function getAuctionByState(state: string): Promise<ResultInteface> {
+export async function getAuctionByStates(selectedStates: string[], pageable: Pageable): Promise<ResultPageableInteface> {
     const auctions: Auction[] = [];
-
+    const selectedStatesQuery = selectedStates.join(',');
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/get-by-state/${state}`;
+    const URL = `http://localhost:8080/api/v1/auction/get-by-states?states=${selectedStatesQuery}&page=${pageable.page - 1}&size=${pageable.size}`;
+    // request
+    console.log(URL);
+
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+    const totalPages = response.totalPages;
+    const totalAuctions = response.totalElements;
+    const numberAuctionsPerPage = response.numberOfElements;
+    if (response) {
+        for (const key in responseData) {
+            auctions.push({
+                id: responseData[key].id,
+                name: responseData[key].name,
+                description: responseData[key].description,
+                firstPrice: responseData[key].firstPrice,
+                lastPrice: responseData[key].lastPrice,
+                participationFee: responseData[key].participationFee,
+                deposit: responseData[key].deposit,
+                priceStep: responseData[key].priceStep,
+                startDate: responseData[key].startDate,
+                endDate: responseData[key].endDate,
+                countdownDuration: responseData[key].countdownDuration,
+                state: responseData[key].state,
+                jewelry: {
+                    id: responseData[key].jewelry.id,
+                },
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return { 
+        auctionsData: auctions,
+        numberAuctionsPerPage: numberAuctionsPerPage,
+        totalPages: totalPages,
+        totalAuctions: totalAuctions,
+    };
+}
+
+export async function getAuctionByFilterDay(startDate: string, endDate: string): Promise<ResultInteface> {
+    const auctions: Auction[] = [];
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/get-by-day/${startDate}/${endDate}`;
 
     // request
     const response = await MyRequest(URL);

@@ -1,7 +1,10 @@
 import "./ShopLeftSibar.css";
 import SideBar from "./Components/SideBar";
 import ContainerListAuctions from "./Components/ContainerListAuctions";
+import { useState } from "react";
 export default function ShopLeftSibar() {
+    const [selectedStates, setSelectedStates] = useState<string[]>([]);
+
     return (
         <>
             {/* <!-- Begin Umino's Breadcrumb Area --> */}
@@ -23,7 +26,7 @@ export default function ShopLeftSibar() {
             <div className="umino-content_wrapper">
                 <div className="container">
                     <div className="row">
-                        <SideBar />
+                        <SideBar setSelectedStates={setSelectedStates}/>
                         <div className="col-lg-9 order-1 order-lg-2">
                             <div className="shop-banner_area">
                                 <div className="banner-item img-hover_effect">
@@ -35,7 +38,7 @@ export default function ShopLeftSibar() {
                                     </a>
                                 </div>
                             </div>
-                            <ContainerListAuctions />
+                            <ContainerListAuctions selectedStates={selectedStates}/>
                         </div>
                     </div>
                 </div>

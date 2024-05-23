@@ -1,55 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { AuctionItem } from './AuctionItem'
-import { getAuctions } from '../../../api/AuctionAPI';
-import { Auction } from '../../../models/Auction';
 import { useParams } from 'react-router-dom';
+import useAuctions from '../../../hooks/useAuctions';
+import { parseId } from '../../../utils/parseNumber';
+import { Pagination } from './Pagination';
 
-const ContainerListAuctions = () => {
-  const [auctions, setAuctions] = useState<Auction[]>([]);
-  const { state, cateId } = useParams();
-  let categoryId = 0;
+interface ContainerListAuctionsProps {
+  selectedStates: string[];
+}
 
-  try {
-    categoryId = parseInt(cateId + "");
-    if (Number.isNaN(categoryId)) {
-      categoryId = 0;
-    }
-  } catch (error) {
-    categoryId = 0;
-    console.log("Error parsing auction id: " + error);
-  }
+const ContainerListAuctions: React.FC<ContainerListAuctionsProps> = (props) => {
+  const { state, cateId, fromDateFilter, toDateFilter } = useParams();
+  const categoryId = parseId(cateId);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageable, setPageable] = useState({ page: 1, size: 5 });
+  const { auctions, totalPages, totalAuctions } = useAuctions(
+    state, categoryId, fromDateFilter, toDateFilter, props.selectedStates,
+    pageable
+  );
 
-  useEffect(() => {
-    console.log(state)
-    if (state !== undefined && categoryId === 0) {
-      getAuctions(state, 0)
-        .then((response) => {
-          setAuctions(response.auctionsData);
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
-    }
-    if (state === undefined && categoryId !== 0) {
-      getAuctions("", categoryId)
-        .then((response) => {
-          setAuctions(response.auctionsData);
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
-    }
-    if (state === undefined && categoryId === 0) {
-      getAuctions("", 0)
-        .then((response) => {
-          setAuctions(response.auctionsData);
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
-    }
-  }, [state, categoryId]);
-
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setPageable({ ...pageable, page: page });
+    window.scrollTo({ top: 600, behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -66,7 +40,7 @@ const ContainerListAuctions = () => {
           </a>
         </div>
         <div className="product-page_count">
-          <p>Showing 1–9 of 40 results</p>
+          <p>Showing {currentPage} – {totalPages} of {totalAuctions} results</p>
         </div>
         <div className="product-item-selection_area">
           <div className="product-short">
@@ -110,47 +84,10 @@ const ContainerListAuctions = () => {
           (auction) => <AuctionItem auction={auction} />
         ))}
       </div>
-      <div className="row">
-        <div className="col-lg-12">
-          <div className="umino-paginatoin-area">
-            <ul className="umino-pagination-box">
-              <li className="active">
-                <a href="javascript:void(0)">
-                  1
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">
-                  2
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">
-                  3
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">
-                  4
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">
-                  5
-                </a>
-              </li>
-              <li>
-                <a
-                  className="Next"
-                  href="javascript:void(0)"
-                >
-                  Next
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageChange={handlePageChange} />
     </>
   )
 }
