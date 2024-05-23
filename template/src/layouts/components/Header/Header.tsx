@@ -199,12 +199,21 @@ export default function Header() {
                                         <Link to={"/register"}>
                                             Đăng ký
                                         </Link>
-                                    </div>}
+
+                                    </div>
+                                }
                                 {
                                     username &&
-                                    <div className="login-area">
+                                    <div className="login-area pt-0">
                                         <Link to={"/my-account"}>
-                                            Profile
+                                            <div className="d-flex justify-content-between align-items-center btn" style={{ height: '58px', backgroundColor: '#fed100' }}>
+                                                <div className="text-center mb-0 me-2">
+                                                    <h6 className="fw-semibold mb-0">Thông tin tài khoản {username}</h6>
+                                                </div>
+                                                <div className="d-flex justify-content-center align-items-center" style={{ height: '40px', width: '40px' }}>
+                                                    <i className="fa-solid fa-user fs-5"></i>
+                                                </div>
+                                            </div>
                                         </Link><span> | </span>
                                         <button onClick={() => {
                                             handleLogout()
