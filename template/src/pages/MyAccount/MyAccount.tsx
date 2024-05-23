@@ -30,15 +30,15 @@ export default function MyAccount() {
                                 >
                                     <li className="nav-item">
                                         <a
-                                            className="nav-link active"
-                                            id="account-dashboard-tab"
+                                            className="nav-link"
+                                            id="account-details-tab"
                                             data-bs-toggle="tab"
-                                            href="#account-dashboard"
+                                            href="#account-details"
                                             role="tab"
-                                            aria-controls="account-dashboard"
-                                            aria-selected="true"
+                                            aria-controls="account-details"
+                                            aria-selected="false"
                                         >
-                                            Dashboard
+                                            Thông tin tài khoản
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -51,7 +51,7 @@ export default function MyAccount() {
                                             aria-controls="account-orders"
                                             aria-selected="false"
                                         >
-                                            Orders
+                                            Lịch sử giao dịch
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -64,20 +64,20 @@ export default function MyAccount() {
                                             aria-controls="account-address"
                                             aria-selected="false"
                                         >
-                                            Addresses
+                                            Hoạt động phiên
                                         </a>
                                     </li>
                                     <li className="nav-item">
                                         <a
                                             className="nav-link"
-                                            id="account-details-tab"
+                                            id="account-address-tab"
                                             data-bs-toggle="tab"
-                                            href="#account-details"
+                                            href="#account-address"
                                             role="tab"
-                                            aria-controls="account-details"
+                                            aria-controls="account-address"
                                             aria-selected="false"
                                         >
-                                            Account Details
+                                            Sản phẩm yêu cầu
                                         </a>
                                     </li>
                                 </ul>

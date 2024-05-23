@@ -20,6 +20,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ onFilter }) => {
     const handleClearFilter = () => {
         setFromDate('');
         setToDate('');
+        onFilter('', '');
     };
 
     return (

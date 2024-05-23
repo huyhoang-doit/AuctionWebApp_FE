@@ -29,6 +29,7 @@ export default function RouterCom() {
                 <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
                 <Route path="/shop-left-sibar/state/:state" element={<ShopLeftSibar />} />
                 <Route path="/shop-left-sibar/category/:cateId" element={<ShopLeftSibar />} />
+                <Route path="/shop-left-sibar/date/:fromDateFilter/:toDateFilter" element={<ShopLeftSibar />} />
                 <Route
                     path="/single-auction/:id"
                     element={<AuctionDetail />}

@@ -3,14 +3,42 @@ import { SideBarCategoryItem } from './SideBarCategoryItem'
 import { Category } from '../../../models/Category'
 import { getAllCategories } from '../../../api/CategoryAPI'
 import DatePicker from './DatePickerProps '
+import { useNavigate } from 'react-router-dom'
+interface SideBarProps {
+  setSelectedStates: (checkboxValues: string[]) => void;
+}
 
-const SideBar = () => {
+const SideBar: React.FC<SideBarProps> = (props) => {
   const [categories, setCategories] = useState<Category[]>([])
-  const [fromDate, setFromDate] = useState<string>('');
-  const [toDate, setToDate] = useState<string>('');
+  const navigate = useNavigate();
+  const [checkboxValues, setCheckboxValues] = useState([true, false, false, false]);
 
-  const handleFilter = () => {
-    onFilter(fromDate, toDate);
+  const handleCheckboxChange = (index: number) => {
+    navigate(`/shop-left-sibar`)
+    // Nếu checkbox đc click
+    if (index === 0) {
+      // Nếu chọn tất cả thì những còn lại bỏ
+      const newCheckboxValues = checkboxValues.map((_, i) => i === 0);
+      setCheckboxValues(newCheckboxValues);
+    } else {
+      // copy mảng
+      const newCheckboxValues = [...checkboxValues];
+
+      // Nếu chọn 1, 2 ,3 thì tất cả bỏ
+      if (index <= 3 && newCheckboxValues[0]) {
+        newCheckboxValues[0] = false;
+      }
+
+      // Chuyển đổi trạng thái đã chọn của hộp kiểm tại chỉ mục đã chỉ định
+      newCheckboxValues[index] = !newCheckboxValues[index];
+
+      // Cập nhật trạng thái với mảng mới
+      setCheckboxValues(newCheckboxValues);
+    }
+  };
+
+  const handleFilter = (fromDateFilter: string, toDateFilter: string) => {
+    onFilter(fromDateFilter, toDateFilter);
   };
 
   useEffect(() => {
@@ -23,9 +51,34 @@ const SideBar = () => {
       });
   }, []);
 
-  const onFilter = (fromDate: string, toDate: string) => {
-    setFromDate(fromDate);
-    setToDate(toDate);
+  const onFilter = (fromDateFilter: string, toDateFilter: string) => {
+    if (fromDateFilter === '' && toDateFilter === '') {
+      navigate(`/shop-left-sibar`)
+      return
+    }
+    navigate(`/shop-left-sibar/date/${fromDateFilter}/${toDateFilter}`)
+  };
+
+  useEffect(() => {
+    getAuctionsBySelectedStates();
+  }, [checkboxValues]);
+
+  const getAuctionsBySelectedStates = () => {
+    const selectedStates = checkboxValues.reduce((acc: string[], isChecked: boolean, index: number) => {
+      if (isChecked) {
+        if (index === 1) {
+          acc.push('WAITING');
+        }
+        if (index === 2) {
+          acc.push('ONGOING');
+        }
+        if (index === 3) {
+          acc.push('FINISHED');
+        }
+      }
+      return acc;
+    }, []);
+    props.setSelectedStates(selectedStates);
   };
 
   return (
@@ -43,26 +96,21 @@ const SideBar = () => {
           </div>
           <div className="sidebar-categories_menu">
             <div className="form-inner">
-              <label className="containercheckbox">
-                Tất cả <span id="count-all"></span>
-                <input type="checkbox" className="status-checkall" name="checkbox-status" value="0" />
-                <span className="checkmark"></span>
-              </label><br />
-              <label className="containercheckbox">
-                Sắp diễn ra
-                <input type="checkbox" className="checkbox-status" name="checkbox-status" value="1" />
-                <span className="checkmark"></span>
-              </label><br />
-              <label className="containercheckbox">
-                Đang diễn ra
-                <input type="checkbox" className="checkbox-status" name="checkbox-status" value="2" />
-                <span className="checkmark"></span>
-              </label><br />
-              <label className="containercheckbox">
-                Đã kết thúc
-                <input type="checkbox" className="checkbox-status" name="checkbox-status" value="3" />
-                <span className="checkmark"></span>
-              </label>
+              {checkboxValues.map((isChecked, index) => (
+                <label key={index} className="containercheckbox" style={{ fontSize: "16px", marginBottom: "15px" }}>
+                  {index === 0 ? "Tất cả" : index === 1 ? "Sắp diễn ra" : index === 2 ? "Đang diễn ra" : "Đã kết thúc"}
+                  <span id="count-all"></span>
+                  <input
+                    type="checkbox"
+                    className={`checkbox-status status-${index}`}
+                    name="checkbox-status"
+                    value={index}
+                    checked={isChecked}
+                    onChange={() => handleCheckboxChange(index)}
+                  />
+                  <span className="checkmark"></span>
+                </label>
+              ))}
             </div>
           </div>
         </div>
