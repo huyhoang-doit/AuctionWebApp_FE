@@ -5,10 +5,11 @@ interface ResultInteface {
     auctionsData: Auction[];
 }
 
-export async function getAuctions(): Promise<ResultInteface> {
+export async function getAuctions(state: string, cateId: number): Promise<ResultInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged`;
+    const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&categoryId=${cateId}`;
+    console.log(URL);
 
     // request
     const response = await MyRequest(URL);

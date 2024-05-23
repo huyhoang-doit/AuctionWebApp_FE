@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import AuctionsByCategories from './AuctionsByCategories'
 import { SideBarCategoryItem } from './SideBarCategoryItem'
 import { Category } from '../../../models/Category'
 import { getAllCategories } from '../../../api/CategoryAPI'
@@ -36,7 +35,7 @@ const SideBar = () => {
           <div className="umino-categories_title first-child">
             <h5 className='fw-bold'>Lọc theo ngày</h5>
           </div>
-          <DatePicker onFilter={onFilter}/>
+          <DatePicker onFilter={handleFilter} />
         </div>
         <div className="umino-sidebar_categories category-module">
           <div className="umino-categories_title">
@@ -89,7 +88,7 @@ const SideBar = () => {
               <a href="javascript:void(0)">
                 <img
                   className="img-full"
-                  src="assets/images/banner/3-1.jpg"
+                  src="https://raw.githubusercontent.com/huyhoang-doit/AuctionWebApp_FE/master/template/public/assets/images/banner/3-1.jpg"
                   alt=" Banner"
                 />
               </a>

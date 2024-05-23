@@ -36,8 +36,13 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
                 const now = new Date().getTime();
                 const distance = startDate - now;
 
+                if (props.auction.state === 'ONGOING') {
+                    setTimeLeft("Phiên đấu giá đang diễn ra");
+                    return;
+                }
+
                 if (distance < 0) {
-                    setTimeLeft("Auction started");
+                    setTimeLeft("Phiên đấu giá đã kết thúc");
                     return;
                 }
 
@@ -182,12 +187,12 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
                             </h6>
                             <div className="product-short_desc">
                                 <p>
-                                    Trạng thái: <StateAuctionView state={props.auction.state}/>
+                                    Trạng thái: <StateAuctionView state={props.auction.state} />
                                 </p>
                             </div>
                             <div className="umino-countdown_area mb-4">
                                 {typeof timeLeft === 'string' ? (
-                                    <div className="umino-countdown" style={{padding: "20px 0px"}}>{timeLeft}</div>
+                                    <div className="umino-countdown" style={{ padding: "20px 0px" }}>{timeLeft}</div>
                                 ) : (
                                     <div className="umino-countdown">
                                         <div className="countdown-item">

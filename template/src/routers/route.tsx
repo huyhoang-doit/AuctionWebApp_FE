@@ -11,6 +11,7 @@ import ShopLeftSibar from "../pages/ShopLeftSibar/ShopLeftSibar";
 import Error from "../pages/404/Error";
 import { Privacy_Policy } from "../pages/Privacy-Policy/Privacy-Policy";
 import AuctionDetail from "../pages/AuctionDetail/AuctionDetail";
+import { PageSendJewelry } from "../pages/FormSendJewelry/PageSendJewelry";
 
 export default function RouterCom() {
     return (
@@ -24,7 +25,10 @@ export default function RouterCom() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/privacy_policy" element={<Privacy_Policy />} />
+                <Route path="/form-send-jewerly" element={<PageSendJewelry />} />
                 <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
+                <Route path="/shop-left-sibar/state/:state" element={<ShopLeftSibar />} />
+                <Route path="/shop-left-sibar/category/:cateId" element={<ShopLeftSibar />} />
                 <Route
                     path="/single-auction/:id"
                     element={<AuctionDetail />}

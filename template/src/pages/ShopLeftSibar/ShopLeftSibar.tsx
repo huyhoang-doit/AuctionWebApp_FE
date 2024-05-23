@@ -24,7 +24,19 @@ export default function ShopLeftSibar() {
                 <div className="container">
                     <div className="row">
                         <SideBar />
-                        <ContainerListAuctions />
+                        <div className="col-lg-9 order-1 order-lg-2">
+                            <div className="shop-banner_area">
+                                <div className="banner-item img-hover_effect">
+                                    <a href="javascript:void(0)">
+                                        <img
+                                            src="https://raw.githubusercontent.com/huyhoang-doit/AuctionWebApp_FE/master/template/public/assets/images/shop/1.jpg"
+                                            alt="Umino's Shop Banner"
+                                        />
+                                    </a>
+                                </div>
+                            </div>
+                            <ContainerListAuctions />
+                        </div>
                     </div>
                 </div>
             </div>
