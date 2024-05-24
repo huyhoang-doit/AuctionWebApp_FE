@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { SideBarCategoryItem } from './SideBarCategoryItem'
 import DatePicker from './DatePickerProps '
 import { useNavigate } from 'react-router-dom'
 import { useCategories } from '../../../hooks/useCategories';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface SideBarProps {
   setSelectedStates: (checkboxValues: string[]) => void;
@@ -20,7 +21,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
       // Nếu chọn tất cả thì những còn lại bỏ
       const newCheckboxValues = checkboxValues.map((_, i) => i === 0);
       setCheckboxValues(newCheckboxValues);
-    }  else {
+    } else {
       // copy mảng
       const newCheckboxValues = [...checkboxValues];
 
@@ -46,6 +47,21 @@ const SideBar: React.FC<SideBarProps> = (props) => {
     navigate(url);
   };
 
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (value: string) => {
+      if (value === '') {
+        navigate(`/shop-left-sibar`);
+      } else if (value.length > 0) {
+        navigate(`/shop-left-sibar/name/${value}`);
+      }
+    },
+    1000
+  );
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    debouncedTxtSearchChange(value);
+  }
 
   useEffect(() => {
     getAuctionsBySelectedStates();
@@ -108,12 +124,12 @@ const SideBar: React.FC<SideBarProps> = (props) => {
           <div className="umino-categories_title umino-tags_title mt-4">
             <h5 className='fw-bold'>Tìm kiếm</h5>
           </div>
-          <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+          <input type="text" placeholder="Tìm kiếm sản phẩm..." onChange={handleSearch} />
         </div>
         <div className="umino-sidebar_categories umino-banner_area sidebar-banner_area">
           <div className="banner-item img-hover_effect">
             <div className="banner-img">
-              <a href="javascript:void(0)">
+              <a href="">
                 <img
                   className="img-full"
                   src="https://raw.githubusercontent.com/huyhoang-doit/AuctionWebApp_FE/master/template/public/assets/images/banner/3-1.jpg"

@@ -12,8 +12,6 @@ interface ResultInteface {
     auctionsData: Auction[];
 }
 
-
-
 interface Pageable {
     page: number;
     size: number;
@@ -244,4 +242,38 @@ export async function changeStateAuction(auctionId: number, state: string): Prom
     }
 
     return true;
+}
+
+export async function getAuctionsByName(txtSearch: string): Promise<ResultInteface> {
+    const auctions: Auction[] = [];
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/get-by-name/${txtSearch}`;
+    console.log (URL)
+    // request
+    const response = await MyRequest(URL);
+
+    if (response) {
+        for (const key in response) {
+            auctions.push({
+                id: response[key].id,
+                name: response[key].name,
+                description: response[key].description,
+                firstPrice: response[key].firstPrice,
+                lastPrice: response[key].lastPrice,
+                participationFee: response[key].participationFee,
+                deposit: response[key].deposit,
+                priceStep: response[key].priceStep,
+                startDate: response[key].startDate,
+                endDate: response[key].endDate,
+                countdownDuration: response[key].countdownDuration,
+                state: response[key].state,
+                jewelry: {
+                    id: response[key].jewelry.id,
+                },
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return { auctionsData: auctions };
 }

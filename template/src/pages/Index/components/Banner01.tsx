@@ -8,7 +8,7 @@ const Banner01 = () => {
           <div className="col-lg-6">
             <div className="banner-item img-hover_effect">
               <div className="banner-img">
-                <a href="javascript:void(0)">
+                <a href="">
                   <img
                     className="img-full"
                     src="assets/images/banner/1-4.jpg"
@@ -32,7 +32,7 @@ const Banner01 = () => {
           <div className="col-lg-6">
             <div className="banner-item img-hover_effect">
               <div className="banner-img">
-                <a href="javascript:void(0)">
+                <a href="">
                   <img
                     className="img-full"
                     src="assets/images/banner/1-5.jpg"

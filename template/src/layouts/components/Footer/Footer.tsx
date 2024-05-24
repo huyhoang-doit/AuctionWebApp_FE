@@ -53,12 +53,12 @@ export default function Footer() {
                                 <div className="footer-widgets">
                                     <ul>
                                         <li>
-                                            <a href="javascript:void(0)">
+                                            <a href="">
                                                 Giới thiệu
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">
+                                            <a href="">
                                                 Hướng dẫn
                                             </a>
                                         </li>
@@ -107,7 +107,7 @@ export default function Footer() {
                                 </div>
                                 <div className="col-xl-4 col-lg-3 col-md-5 order-1 order-md-2">
                                     <div className="footer-logo">
-                                        <a href="javascript:void(0)">
+                                        <a href="">
                                             <img width="150" height="70"
                                                 src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/menu/logo/1.png"
 
@@ -120,7 +120,7 @@ export default function Footer() {
                                         <h3 className="heading">
                                             Cho phép thanh toán dựa trên
                                         </h3>
-                                        <a href="javascript:void(0)">
+                                        <a href="">
                                             <img
                                                 src="assets/images/footer/payment/1.png"
                                                 alt="Umino's Payment Method"
