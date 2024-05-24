@@ -23,6 +23,7 @@ export default function RouterCom() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/activation/:token" element={<Login />} />
                 <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/privacy_policy" element={<Privacy_Policy />} />
                 <Route path="/form-send-jewerly" element={<PageSendJewelry />} />

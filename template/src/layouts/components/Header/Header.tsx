@@ -1,16 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Header.css";
-import React, { useEffect, useState } from "react";
-import { getAllCategories } from "../../../api/CategoryAPI";
-import { Category } from "../../../models/Category";
-import { jwtDecode } from "jwt-decode";
-import { handleLogout } from "../../../utils/logout";
+import  { useEffect, useState } from "react";
 import { formatDateTime, formatTime } from "../../../utils/formatDateString";
+import { NavBar } from "./NavBar";
 
 export default function Header() {
-    const [categories, setCategories] = useState<Category[]>([])
     const [currentTime, setCurrentTime] = useState(new Date());
-    const [username, setUsername] = useState<string | null>("");
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -19,25 +14,6 @@ export default function Header() {
 
         return () => clearInterval(intervalId); // Clean up the interval on component unmount
     }, []);
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            const userData = jwtDecode(token);
-            if (userData) {
-                const decodedUsername = userData.sub + "";
-                setUsername(decodedUsername);
-            }
-        }
-        console.log(username)
-        getAllCategories()
-            .then((response) => {
-                setCategories(response);
-            })
-            .catch((error) => {
-                console.error(error.message);
-            });
-    }, [username]);
 
     return (
         <>
@@ -49,7 +25,7 @@ export default function Header() {
                                 <div className="header-logo">
                                     <Link to={"/"}>
                                         <img
-                                            src="assets/images/menu/logo/1.png"
+                                            src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/menu/logo/1.png"
                                             alt="Umino's Header Logo"
                                         />
                                     </Link>
@@ -100,138 +76,7 @@ export default function Header() {
                         </div>
                     </div>
                 </div>
-                <div className="header-bottom_area ">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-3 col-md-9 col-sm-7">
-                                <div className="category-menu category-menu-hidden">
-                                    <div className="category-heading">
-                                        <h2 className="categories-toggle">
-                                            <span>Các loại trang sức đấu giá</span>
-                                        </h2>
-                                    </div>
-                                    <div
-                                        id="cate-toggle"
-                                        className="category-menu-list none"
-                                    >
-                                        <ul>
-                                            {React.Children.toArray(categories.map(
-                                                (category) => <li
-                                                    className="right-menu"
-                                                >
-                                                    <Link to={"/shop-left-sibar/category/" + category.id}>{category.name}</Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-7 d-none d-lg-block position-static">
-                                <div className="main-menu_area">
-                                    <nav className="main_nav">
-                                        <ul>
-                                            <li
-                                                className="dropdown-holder"
-                                            >
-                                                <NavLink to={"/shop-left-sibar"}>
-                                                    Cuộc đấu giá
-                                                    <i className="ion-chevron-down"></i>
-                                                </NavLink>
-                                                <ul className="hm-dropdown">
-                                                    <li>
-                                                        <Link to={"/shop-left-sibar/state/WAITING"}>
-                                                            Đấu giá sắp diễn ra
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to={"/shop-left-sibar/state/ONGOING"}>
-                                                            Đấu giá đang diễn ra
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to={"/shop-left-sibar/state/FINISHED"}>
-                                                            Đấu giá đã kết thúc
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <Link to={"/about"}>
-                                                    Giới thiệu
-                                                    <i className="ion-chevron-down"></i>
-                                                </Link>
-                                                <ul className="hm-dropdown">
-                                                    <li>
-                                                        <Link to={"/QA"}>
-                                                            Câu hỏi thường gặp
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to={"/privacy_policy"}>
-                                                            Chính sách bảo mật
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            Về chúng tôi
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li
-                                            >
-                                                <NavLink to="/contact">Liên hệ</NavLink>
-                                            </li>
-                                            <li
-                                            >
-                                                <NavLink to="/form-send-jewerly">Gửi sản phẩm đấu giá</NavLink>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 d-none d-lg-block">
-                                {!username &&
-                                    <div className="login-area">
-                                        <Link to={"/login"}>
-                                            Đăng nhập
-                                        </Link><span> | </span>
-                                        <Link to={"/register"}>
-                                            Đăng ký
-                                        </Link>
-                                    </div>}
-                                {
-                                    username &&
-                                    <div className="login-area">
-                                        <Link to={"/my-account"}>
-                                            Profile
-                                        </Link><span> | </span>
-                                        <button onClick={() => {
-                                            handleLogout()
-                                            setUsername('')
-                                        }}>
-                                            ĐĂNG XUẤT
-                                        </button>
-                                    </div>
-                                }
-                            </div>
-                            <div className="col-md-3 col-sm-5 d-block d-lg-none">
-                                <div className="mobile-menu_area">
-                                    <ul>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="mobile-menu_btn toolbar-btn color--white d-lg-none d-block"
-                                            >
-                                                <i className="ion-navicon"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <NavBar/>
                 <div className="header-bottom_area header-sticky stick">
                     <div className="container">
                         <div className="row">
@@ -239,7 +84,7 @@ export default function Header() {
                                 <div className="header-logo">
                                     <Link to={"/"}>
                                         <img
-                                            src="assets/images/menu/logo/1.png"
+                                            src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/menu/logo/1.png"
                                             alt="Umino's Header Logo"
                                         />
                                     </Link>
@@ -283,33 +128,6 @@ export default function Header() {
                                                             <li>
                                                                 <a href="#">
                                                                     Lắc
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <span className="megamenu-title">
-                                                            Chất Liệu
-                                                        </span>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Bạc
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Vàng
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Bạch Kim
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Kim Cương
                                                                 </a>
                                                             </li>
                                                         </ul>

@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Auction } from "../../../models/Auction";
-import { getIconImageByJewelryId } from "../../../api/ImageApi";
-import { Image } from "../../../models/Image";
 import { StateAuctionView } from "../../ShopLeftSibar/Components/StateAuctionView";
 import { formatNumber } from "../../../utils/formatNumber";
+import useIconImage from "../../../hooks/useIconImage";
 
 interface SingleAuctionProps {
   auction: Auction;
@@ -13,19 +11,7 @@ interface SingleAuctionProps {
 const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
 
   const jewelryId: number | null = props.auction.jewelry ? props.auction.jewelry.id : null;
-  const [image, setImage] = useState<Image | null>(null);
-
-  useEffect(() => {
-    if (jewelryId !== null) {
-      getIconImageByJewelryId(jewelryId)
-        .then((imagesData) => {
-          setImage(imagesData);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-    }
-  }, []); // chi goi 1 lan
+  const imageData = useIconImage(jewelryId);
 
   return (
     <div className="" style={{ margin: "0 15px" }}>
@@ -39,7 +25,7 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
             <Link to={"/single-auction/" + props.auction.id}>
               <img
                 className="primary-img"
-                src={image?.data}
+                src={imageData}
                 alt="Umino's Product Image"
               />
             </Link>

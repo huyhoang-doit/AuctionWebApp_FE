@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Auction } from "../../../models/Auction";
 import { formatNumber } from "../../../utils/formatNumber";
 import { formatDateString } from "../../../utils/formatDateString";
-import { getIconImageByJewelryId } from "../../../api/ImageApi";
-import { Image } from "../../../models/Image";
 import { Link } from "react-router-dom";
 import { StateAuctionView } from "./StateAuctionView";
+import { changeStateAuction } from "../../../api/AuctionAPI";
+import useIconImage from "../../../hooks/useIconImage";
 
 
 interface AuctionItemProps {
@@ -15,46 +15,87 @@ interface AuctionItemProps {
 export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
     const jewelryId: number | null = props.auction.jewelry ? props.auction.jewelry.id : null;
     const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
-    const [image, setImage] = useState<Image | null>(null);
+    const imageData = useIconImage(jewelryId);
 
     useEffect(() => {
-        if (jewelryId !== null) {
-            getIconImageByJewelryId(jewelryId)
-                .then((imagesData) => {
-                    setImage(imagesData);
-                })
-                .catch((error) => {
-                    console.log(error.message);
-                });
-        }
-    }, [props.auction.jewelry]);
-
-    useEffect(() => {
-        if (props.auction && props.auction.startDate) {
+        if (props.auction && props.auction.startDate && props.auction.endDate) {
+            const now = new Date().getTime();
             const startDate = new Date(formatDateString(props.auction.startDate)).getTime();
-            const updateCountdown = () => {
+            const endDate = new Date(formatDateString(props.auction.endDate)).getTime();
+
+            if (props.auction.state === 'ONGOING') {
+                // Calculate countdown until end date
+                const distanceToEnd = endDate - now;
+
+                if (distanceToEnd < 0) {
+                    setTimeLeft("Phiên đấu giá đã kết thúc");
+                    changeStateAuction(props.auction.id, 'FINISHED');
+                    return;
+                }
+
+                const daysToEnd = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
+                const hoursToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutesToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60)) / (1000 * 60));
+                const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
+
+                setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
+            } else if (props.auction.state === 'WAITING') {
+                // Calculate countdown until start date
+                const distanceToStart = startDate - now;
+
+                if (distanceToStart < 0) {
+                    setTimeLeft("Phiên đấu giá đang diễn ra");
+                    changeStateAuction(props.auction.id, 'ONGOING');
+                    return;
+                }
+
+                const daysToStart = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
+                const hoursToStart = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutesToStart = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
+                const secondsToStart = Math.floor((distanceToStart % (1000 * 60)) / 1000);
+
+                setTimeLeft({ days: daysToStart, hours: hoursToStart, minutes: minutesToStart, seconds: secondsToStart });
+            } else if (props.auction.state === 'FINISHED') {
+                // Auction finished
+                setTimeLeft("Phiên đấu giá đã kết thúc");
+                return;
+            }
+
+            const timer = setInterval(() => {
                 const now = new Date().getTime();
-                const distance = startDate - now;
 
                 if (props.auction.state === 'ONGOING') {
-                    setTimeLeft("Phiên đấu giá đang diễn ra");
-                    return;
+                    const distanceToEnd = endDate - now;
+
+                    if (distanceToEnd < 0) {
+                        setTimeLeft("Phiên đấu giá đã kết thúc");
+                        clearInterval(timer);
+                        return;
+                    }
+
+                    const daysToEnd = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
+                    const hoursToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutesToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60)) / (1000 * 60));
+                    const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
+
+                    setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
+                } else if (props.auction.state === 'WAITING') {
+                    const distanceToStart = startDate - now;
+
+                    if (distanceToStart < 0) {
+                        setTimeLeft("Phiên đấu giá đang diễn ra");
+                        clearInterval(timer);
+                        return;
+                    }
+
+                    const daysToStart = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
+                    const hoursToStart = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutesToStart = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
+                    const secondsToStart = Math.floor((distanceToStart % (1000 * 60)) / 1000);
+
+                    setTimeLeft({ days: daysToStart, hours: hoursToStart, minutes: minutesToStart, seconds: secondsToStart });
                 }
-
-                if (distance < 0) {
-                    setTimeLeft("Phiên đấu giá đã kết thúc");
-                    return;
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                setTimeLeft({ days, hours, minutes, seconds });
-            };
-
-            const timer = setInterval(updateCountdown, 1000);
+            }, 1000);
 
             return () => clearInterval(timer);
         }
@@ -165,7 +206,7 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
                     <div className="product-img">
                         <Link to={"/single-auction/" + props.auction.id}>
                             <img
-                                src={image?.data}
+                                src={imageData}
                                 alt="Umino's Product Image"
                             />
                         </Link>

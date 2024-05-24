@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { SideBarCategoryItem } from './SideBarCategoryItem'
-import { Category } from '../../../models/Category'
-import { getAllCategories } from '../../../api/CategoryAPI'
 import DatePicker from './DatePickerProps '
 import { useNavigate } from 'react-router-dom'
+import { useCategories } from '../../../hooks/useCategories';
+
 interface SideBarProps {
   setSelectedStates: (checkboxValues: string[]) => void;
 }
 
 const SideBar: React.FC<SideBarProps> = (props) => {
-  const [categories, setCategories] = useState<Category[]>([])
-  const navigate = useNavigate();
+  const categories = useCategories();
   const [checkboxValues, setCheckboxValues] = useState([true, false, false, false]);
+  const navigate = useNavigate();
 
   const handleCheckboxChange = (index: number) => {
     navigate(`/shop-left-sibar`)
@@ -20,7 +20,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
       // Nếu chọn tất cả thì những còn lại bỏ
       const newCheckboxValues = checkboxValues.map((_, i) => i === 0);
       setCheckboxValues(newCheckboxValues);
-    } else {
+    }  else {
       // copy mảng
       const newCheckboxValues = [...checkboxValues];
 
@@ -41,23 +41,11 @@ const SideBar: React.FC<SideBarProps> = (props) => {
     onFilter(fromDateFilter, toDateFilter);
   };
 
-  useEffect(() => {
-    getAllCategories()
-      .then((response) => {
-        setCategories(response);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  }, []);
-
   const onFilter = (fromDateFilter: string, toDateFilter: string) => {
-    if (fromDateFilter === '' && toDateFilter === '') {
-      navigate(`/shop-left-sibar`)
-      return
-    }
-    navigate(`/shop-left-sibar/date/${fromDateFilter}/${toDateFilter}`)
+    const url = fromDateFilter === '' && toDateFilter === '' ? `/shop-left-sibar` : `/shop-left-sibar/date/${fromDateFilter}/${toDateFilter}`;
+    navigate(url);
   };
+
 
   useEffect(() => {
     getAuctionsBySelectedStates();
@@ -65,16 +53,8 @@ const SideBar: React.FC<SideBarProps> = (props) => {
 
   const getAuctionsBySelectedStates = () => {
     const selectedStates = checkboxValues.reduce((acc: string[], isChecked: boolean, index: number) => {
-      if (isChecked) {
-        if (index === 1) {
-          acc.push('WAITING');
-        }
-        if (index === 2) {
-          acc.push('ONGOING');
-        }
-        if (index === 3) {
-          acc.push('FINISHED');
-        }
+      if (isChecked && index !== 0) {
+        acc.push(index === 1 ? 'WAITING' : index === 2 ? 'ONGOING' : 'FINISHED');
       }
       return acc;
     }, []);
