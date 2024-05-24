@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import { JewelryModal, JewelryHandOverModal, AssignAuctionModal, DeleteJewelryModal } from "./Modal/Modal"
 export default function MyAccountStaff() {
   return (
     <>
@@ -76,19 +76,6 @@ export default function MyAccountStaff() {
                       aria-selected="false"
                     >
                       Các phiên đấu giá được phân công
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      id="account-details-tab"
-                      data-bs-toggle="tab"
-                      href="#account-details"
-                      role="tab"
-                      aria-controls="account-details"
-                      aria-selected="false"
-                    >
-                      Đăng xuất
                     </a>
                   </li>
                 </ul>
@@ -241,13 +228,6 @@ export default function MyAccountStaff() {
                     </div>
                   </div>
                   <div
-                    className="tab-pane fade show active"
-                    id="account-dashboard"
-                    role="tabpanel"
-                    aria-labelledby="account-dashboard-tab"
-                  >
-                  </div>
-                  <div
                     className="tab-pane fade"
                     id="account-orders"
                     role="tabpanel"
@@ -288,14 +268,8 @@ export default function MyAccountStaff() {
                                 <img style={{ width: '60px', height: '60px' }} src="https://imagev3.vietnamplus.vn/w1000/Uploaded/2024/mzdic/2021_03_27/Diamond640x480.jpg.webp" />
                               </td>
                               <td>
-                                <a
-                                  href="javascript:void(0)"
-                                  className="umino-btn umino-btn_dark umino-btn_sm"
-                                >
-                                  <span>
-                                    View
-                                  </span>
-                                </a>
+                                <JewelryModal />
+                                <DeleteJewelryModal />
                               </td>
                             </tr>
                           </tbody>
@@ -320,9 +294,9 @@ export default function MyAccountStaff() {
                               <th>Mã trang sức</th>
                               <th>Tên trang sức</th>
                               <th>Phiên đấu</th>
-                              <th>Người nhận</th>
+                              <th>Người chiến thắng</th>
                               <th>Ảnh</th>
-                              <th>Status</th>
+                              <th>Trạng thái</th>
                               <th>Xem chi tiết</th>
                             </tr>
                             <tr>
@@ -345,17 +319,10 @@ export default function MyAccountStaff() {
                                 <img style={{ width: '60px', height: '60px' }} src="https://imagev3.vietnamplus.vn/w1000/Uploaded/2024/mzdic/2021_03_27/Diamond640x480.jpg.webp" />
                               </td>
                               <td>
-                                Success
+                                Chưa thanh toán
                               </td>
                               <td>
-                                <a
-                                  href="javascript:void(0)"
-                                  className="umino-btn umino-btn_dark umino-btn_sm"
-                                >
-                                  <span>
-                                    View
-                                  </span>
-                                </a>
+                                <JewelryHandOverModal />
                               </td>
                             </tr>
                           </tbody>
@@ -408,14 +375,7 @@ export default function MyAccountStaff() {
                                 WAITING
                               </td>
                               <td>
-                                <a
-                                  href="javascript:void(0)"
-                                  className="umino-btn umino-btn_dark umino-btn_sm"
-                                >
-                                  <span>
-                                    Xem chi tiết
-                                  </span>
-                                </a>
+                                <AssignAuctionModal />
                               </td>
                             </tr>
                           </tbody>
