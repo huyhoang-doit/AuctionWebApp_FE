@@ -38,7 +38,7 @@ export default function ShopLeftSibar() {
                                     </a>
                                 </div>
                             </div>
-                            <ContainerListAuctions selectedStates={selectedStates}/>
+                            <ContainerListAuctions setSelectedStates={setSelectedStates} selectedStates={selectedStates}/>
                         </div>
                     </div>
                 </div>

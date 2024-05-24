@@ -8,12 +8,21 @@ interface DatePickerProps {
 const DatePicker: React.FC<DatePickerProps> = ({ onFilter }) => {
     const [fromDate, setFromDate] = useState<string>('');
     const [toDate, setToDate] = useState<string>('');
+    const [error, setError] = useState('');
 
     const handleFilter = () => {
+        if (fromDate === '') {
+            setError('Bạn phải chỉ định ngày tìm từ');
+            return;
+        } else if (toDate === '') {
+            setError('Bạn phải chỉ định ngày tìm đến');
+            return;
+        }
+        setError('')
         onFilter(fromDate, toDate);
     };
 
-    const handleFocus = (e : FocusEvent<HTMLInputElement>) => {
+    const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
         e.currentTarget.type = 'date';
     };
 
@@ -25,6 +34,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ onFilter }) => {
 
     return (
         <div className="filter-date mt-4 mb-4s">
+            {error && <span className='fw-bold text-danger'>{error}</span>}
             <div className="filter-date-body" style={{ display: 'flex', gap: '5px', marginBottom: '15px' }}>
                 <div className="from-date-container">
                     <label style={{ fontWeight: 600 }}>Từ ngày</label>
