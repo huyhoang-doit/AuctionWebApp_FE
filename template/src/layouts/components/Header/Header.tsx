@@ -77,6 +77,7 @@ export default function Header() {
                     </div>
                 </div>
                 <NavBar/>
+
                 <div className="header-bottom_area header-sticky stick">
                     <div className="container">
                         <div className="row">

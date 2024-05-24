@@ -12,6 +12,7 @@ import Error from "../pages/404/Error";
 import { Privacy_Policy } from "../pages/Privacy-Policy/Privacy-Policy";
 import AuctionDetail from "../pages/AuctionDetail/AuctionDetail";
 import { PageSendJewelry } from "../pages/FormSendJewelry/PageSendJewelry";
+import MyAccountStaff from "../pages/MyAccount/MyAccountStaff";
 
 export default function RouterCom() {
     return (
@@ -25,6 +26,7 @@ export default function RouterCom() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/activation/:token" element={<Login />} />
                 <Route path="/my-account" element={<MyAccount />} />
+                <Route path="/my-account-staff" element={<MyAccountStaff />} />
                 <Route path="/privacy_policy" element={<Privacy_Policy />} />
                 <Route path="/form-send-jewerly" element={<PageSendJewelry />} />
                 <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
