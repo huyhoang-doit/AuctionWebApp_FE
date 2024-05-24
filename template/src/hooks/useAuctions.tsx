@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAuctionByFilterDay, getAuctionByStates, getAuctions } from '../api/AuctionAPI';
+import { getAuctionByFilterDay, getAuctionByStates, getAuctions, getAuctionsByName } from '../api/AuctionAPI';
 import { Auction } from '../models/Auction';
 
 
@@ -13,12 +13,13 @@ const useAuctions = (state: string | undefined
     , fromDateFilter: string | undefined
     , toDateFilter: string | undefined
     , selectedStates: string[]
+    , txtSearch: string | undefined
     , pageable: Pageable
-    ) => {
+) => {
     const [auctions, setAuctions] = useState<Auction[]>([]);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [totalAuctions, setTotalAuctions] = useState<number>(0);
-    
+
     useEffect(() => {
         if (fromDateFilter !== undefined && toDateFilter !== undefined) {
             getAuctionByFilterDay(fromDateFilter, toDateFilter)
@@ -37,7 +38,16 @@ const useAuctions = (state: string | undefined
                 }).catch((error) => {
                     console.error(error.message);
                 });
-        } else {
+        } else if (txtSearch !== undefined) {
+            getAuctionsByName(txtSearch)
+                .then((response) => {
+                    setAuctions(response.auctionsData);
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                });
+        }
+        else {
             let fetchParams: [string, number] = ["", 0];
             if (state !== undefined && categoryId === 0) {
                 fetchParams = [state, 0];
@@ -56,9 +66,9 @@ const useAuctions = (state: string | undefined
                     console.error(error.message);
                 });
         }
-    }, [state, categoryId, fromDateFilter, toDateFilter, selectedStates, pageable]);
+    }, [state, categoryId, fromDateFilter, toDateFilter, selectedStates, pageable, txtSearch]);
 
-    return { auctions, totalPages, totalAuctions };  
+    return { auctions, totalPages, totalAuctions };
 };
 
 export default useAuctions;

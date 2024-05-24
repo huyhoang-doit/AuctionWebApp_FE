@@ -31,7 +31,7 @@ const Slider = () => {
                     <span>Sàn đấu giá</span>
                     <h4>Bông tai</h4>
                     <h3></h3>
-                    <a href="javascript:void(0)">
+                    <a href="">
                       <i className="fa fa-arrow-circle-right"></i>
                     </a>
                   </div>
@@ -53,7 +53,7 @@ const Slider = () => {
                         <span>Sàn đấu giá</span>
                         <h4>Nhẫn</h4>
                         <h3></h3>
-                        <a href="javascript:void(0)">
+                        <a href="">
                           <i className="fa fa-arrow-circle-right"></i>
                         </a>
                       </div>
@@ -73,7 +73,7 @@ const Slider = () => {
                         <span>Sàn đấu giá</span>
                         <h4>Dây chuyền</h4>
                         <h3></h3>
-                        <a href="javascript:void(0)">
+                        <a href="">
                           <i className="fa fa-arrow-circle-right"></i>
                         </a>
                       </div>

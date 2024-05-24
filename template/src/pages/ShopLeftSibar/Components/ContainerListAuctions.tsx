@@ -11,12 +11,12 @@ interface ContainerListAuctionsProps {
 }
 
 const ContainerListAuctions: React.FC<ContainerListAuctionsProps> = (props) => {
-  const { state, cateId, fromDateFilter, toDateFilter } = useParams();
+  const { state, cateId, fromDateFilter, toDateFilter, txtSearch } = useParams();
   const categoryId = parseId(cateId);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageable, setPageable] = useState({ page: 1, size: 5 });
   const { auctions, totalPages, totalAuctions } = useAuctions(
-    state, categoryId, fromDateFilter, toDateFilter, props.selectedStates,
+    state, categoryId, fromDateFilter, toDateFilter, props.selectedStates, txtSearch,
     pageable
   );
 
@@ -40,11 +40,16 @@ const ContainerListAuctions: React.FC<ContainerListAuctionsProps> = (props) => {
             <i className="fa fa-th-list"></i>
           </a>
         </div>
-        <div className="product-page_count">
-          <p>Showing {currentPage} – {totalPages} of {totalAuctions} results</p>
-        </div>
+        {auctions.length > 0 &&
+          <div className="product-page_count">
+            <p>Showing {currentPage} – {totalPages} of {totalAuctions} results</p>
+          </div>}
+        {auctions.length === 0 &&
+          <div className="product-page_count">
+            <h3 className='fw-bold'>Không tìm thấy phiên đấu giá phù hợp</h3>
+          </div>}
         <div className="product-item-selection_area">
-          <div className="product-short">
+          {/* <div className="product-short">
             <label className="select-label">
               Short By:
             </label>
@@ -77,7 +82,7 @@ const ContainerListAuctions: React.FC<ContainerListAuctionsProps> = (props) => {
                 Model (Z - A)
               </option>
             </select>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="shop-product-wrap row listview">

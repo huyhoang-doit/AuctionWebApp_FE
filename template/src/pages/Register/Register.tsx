@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import { isConfirmPasswordWrong, isPasswordWrongFormat, isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
+import { isCitizenIdWrongFormat, isConfirmPasswordWrong, isPasswordWrongFormat, isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
 import { checkEmailExist, checkUsernameExist } from "../../api/UserAPI";
 import { useDebouncedCallback } from "use-debounce";
 import { register } from "../../api/AuthenticationAPI";
@@ -136,7 +136,8 @@ export default function Register() {
             confirmPassword: "",
             phone: "",
             yob: "",
-            CCCD: ""
+            CCCD: "",
+            register: "",
         });
     };
 
@@ -148,8 +149,11 @@ export default function Register() {
         const isEmailValid = !await checkEmailExist(registerRequest.email);
         const isPasswordValid = !isPasswordWrongFormat(registerRequest.password);
         const isConfirmPasswordValid = !isConfirmPasswordWrong(registerRequest.password, confirmPassword);
+        const isPhoneNumberValid = !isPhoneNumberWrongFormat(registerRequest.phone);
+        const isYearOfBirthValid =!isYearOfBirthWrongFormat(registerRequest.yob);
+        const isCitizenIdValid =!isCitizenIdWrongFormat(registerRequest.CCCD);
 
-        if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
+        if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid || !isPhoneNumberValid || !isYearOfBirthValid || !isCitizenIdValid) {
             console.log(isUsernameValid);
             return;
         }

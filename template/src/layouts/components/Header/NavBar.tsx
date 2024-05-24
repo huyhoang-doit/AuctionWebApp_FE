@@ -7,18 +7,20 @@ import { useCategories } from "../../../hooks/useCategories";
 export const NavBar = () => {
     const categories = useCategories();
     const user = useAccount();
-    
+
     return (
         <div className="header-bottom_area ">
             <div className="container">
                 <div className="row">
                     <div className="col-lg-3 col-md-9 col-sm-7">
                         <div className="category-menu category-menu-hidden">
-                            <div className="category-heading">
-                                <h2 className="categories-toggle">
-                                    <span>Các loại trang sức đấu giá</span>
-                                </h2>
-                            </div>
+                            <Link to={"/shop-left-sibar"}>
+                                <div className="category-heading">
+                                    <h2 className="categories-toggle">
+                                        <span>Các loại trang sức đấu giá</span>
+                                    </h2>
+                                </div>
+                            </Link>
                             <div
                                 id="cate-toggle"
                                 className="category-menu-list none"
