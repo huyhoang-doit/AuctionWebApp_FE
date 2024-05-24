@@ -24,6 +24,7 @@ export default function RouterCom() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/activation/:token" element={<Login />} />
                 <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/my-account-staff" element={<MyAccountStaff />} />
                 <Route path="/privacy_policy" element={<Privacy_Policy />} />

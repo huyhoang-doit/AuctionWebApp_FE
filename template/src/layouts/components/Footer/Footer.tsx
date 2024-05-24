@@ -7,7 +7,7 @@ export default function Footer() {
                 <div className="footer-middle_area">
                     <div className="container">
                         <div className="row">
-                            <div className="col-xl-3 col-lg-4 order-1 order-lg-1">
+                            <div className="col-lg-4 order-1 order-lg-1">
                                 <div className="footer-widgets_title">
                                     <h4>Công ty đấu giá Diamond Gold Silver (DGS)</h4>
                                 </div>
@@ -65,13 +65,13 @@ export default function Footer() {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="col-xl-5 col-lg-4 order-3 order-lg-4">
+                            <div className="col-lg-6 order-3 order-lg-4">
                                 <div className="footer-widgets latest-tweets_area">
                                     <div className="latest-tweets_slider">
                                         <div className="twitter-single_item">
                                             <div className="twitter-feed_content">
-                                                <img width="500" height="320"
-                                                    src={"assets/images/footer/logo/0.jpg"} />
+                                                <img style={{ width: "100%", borderRadius: "0 50px" }} height="320"
+                                                    src={"https://www.fbk.eu/wp-content/uploads/2020/10/online-auction-law-gavel-on-computer-keyboard-bann-H5FQRXA-scaled.jpg"} />
                                             </div>
                                         </div>
                                     </div>
@@ -89,27 +89,27 @@ export default function Footer() {
                                         <span>
                                             Copyright &copy; Team 4 NET1807
                                         </span>
-                                    </div>
-                                    <div className="umino-social_link">
-                                        <ul>
-                                            <li className="Gmail">
-                                                <a
-                                                    href="https://mail.google.com/"
-                                                    data-bs-toggle="tooltip"
-                                                    target="_blank"
-                                                    title="Gmail"
-                                                >
-                                                    <i className="fas fa-envelope"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        <span className="umino-social_link">
+                                            <ul>
+                                                <li className="Gmail">
+                                                    <a
+                                                        href="https://mail.google.com/"
+                                                        data-bs-toggle="tooltip"
+                                                        target="_blank"
+                                                        title="Gmail"
+                                                    >
+                                                        <i className="fas fa-envelope"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </span>
                                     </div>
                                 </div>
                                 <div className="col-xl-4 col-lg-3 col-md-5 order-1 order-md-2">
                                     <div className="footer-logo">
                                         <a href="javascript:void(0)">
                                             <img width="150" height="70"
-                                                src="assets/images/menu\logo/1.png"
+                                                src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/menu/logo/1.png"
 
                                             />
                                         </a>

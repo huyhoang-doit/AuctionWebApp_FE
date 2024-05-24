@@ -1,63 +1,34 @@
+import { User } from "../models/User";
 import { MyRequest } from "./MyRequest";
-
-
-interface LoginRequest {
-  username: string;
-  password: string;
-}
-
-export const login = async (loginRequest: LoginRequest, setError: (message: string) => void) => {
-  // end-point
-  const URL = `http://localhost:8080/api/v1/auth/authenticate`;
-
-  // call api
-  try {
-    const response = await fetch(URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginRequest),
-    });
-
-    if (response.status === 200) {
-      const data = await response.json();
-      const jwt = data.token;
-      localStorage.setItem('token', jwt);
-      return true;
-    } else if (response.status === 202) {
-      throw new Error('Your account is inactive, you need check email to active your account!');
-    } else {
-      throw new Error('Login failed. Please check your username and password!');
-    }
-  } catch (error) {
-    setError((error as Error).message);
-    return false;
-  }
-};
 
 export const checkEmailExist = async (email: string) => {
   const URL = `http://localhost:8080/api/v1/user/by-email/${email}`;
   try {
-      const response = await MyRequest(URL);
-      if (response) {
-        return true;
-      }
-      return false;
+    const response = await MyRequest(URL);
+    if (response) {
+      return true;
+    }
+    return false;
   } catch (error) {
-      return false;
+    return false;
   }
 };
 
 export const checkUsernameExist = async (username: string) => {
   const URL = `http://localhost:8080/api/v1/user/by-username/${username}`;
   try {
-      const response = await MyRequest(URL);
-      if (response) {
-        return true;
-      }
-      return false;
+    const response = await MyRequest(URL);
+    if (response) {
+      return true;
+    }
+    return false;
   } catch (error) {
-      return false;
+    return false;
   }
+};
+
+export const getUserLogin = async (username: string): Promise<User> => {
+  const URL = `http://localhost:8080/api/v1/user/by-username/${username}`;
+  const response = await MyRequest(URL);
+  return response;
 };

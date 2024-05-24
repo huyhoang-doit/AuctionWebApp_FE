@@ -7,6 +7,7 @@ import { Pagination } from './Pagination';
 
 interface ContainerListAuctionsProps {
   selectedStates: string[];
+  setSelectedStates: (checkboxValues: string[]) => void;
 }
 
 const ContainerListAuctions: React.FC<ContainerListAuctionsProps> = (props) => {
@@ -84,7 +85,7 @@ const ContainerListAuctions: React.FC<ContainerListAuctionsProps> = (props) => {
           (auction) => <AuctionItem auction={auction} />
         ))}
       </div>
-      <Pagination 
+      <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         handlePageChange={handlePageChange} />
