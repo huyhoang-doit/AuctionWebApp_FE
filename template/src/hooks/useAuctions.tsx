@@ -29,7 +29,7 @@ const useAuctions = (state: string | undefined
                 .catch((error) => {
                     console.error(error.message);
                 });
-        } else if (selectedStates.length > 0) {
+        } else if (selectedStates.length > 1) {
             getAuctionByStates(selectedStates, pageable)
                 .then((response) => {
                     setAuctions(response.auctionsData);
@@ -46,15 +46,16 @@ const useAuctions = (state: string | undefined
                 .catch((error) => {
                     console.error(error.message);
                 });
-        }
-        else {
+        } else {
             let fetchParams: [string, number] = ["", 0];
             if (state !== undefined && categoryId === 0) {
                 fetchParams = [state, 0];
             } else if (state === undefined && categoryId !== 0) {
                 fetchParams = ["", categoryId];
-            } else if (state === undefined && categoryId === 0) {
+            } else if (state === undefined && categoryId === 0 && selectedStates.length === 0) {
                 fetchParams = ["", 0];
+            } else if (selectedStates.length === 1) {
+                fetchParams = [selectedStates[0], 0];
             }
             getAuctions(fetchParams[0], fetchParams[1], pageable)
                 .then((response) => {

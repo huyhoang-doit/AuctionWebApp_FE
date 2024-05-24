@@ -3,15 +3,14 @@ import { jwtDecode } from "jwt-decode";
 import { getUserLogin } from "../api/UserAPI";
 import { User } from "../models/User";
 
-const useAccount = () => {
+const useAccount = (token : string | null) => {
     const [account, setAccount] = useState<User | null>(null);
-    const token = localStorage.getItem("token");
-    
+
     useEffect(() => {
         if (token) {
-            const userData = jwtDecode(token);
+            const userData = jwtDecode<{ sub: string }>(token);
             if (userData) {
-                const decodedUsername = userData.sub + "";
+                const decodedUsername = userData.sub;
                 getUserLogin(decodedUsername)
                     .then((data) => {
                         setAccount(data);
@@ -21,7 +20,7 @@ const useAccount = () => {
                     });
             }
         }
-    }, [account]);
+    }, [token]);
     return account;
 }
 

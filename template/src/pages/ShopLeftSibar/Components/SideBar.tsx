@@ -7,12 +7,33 @@ import { useDebouncedCallback } from 'use-debounce';
 
 interface SideBarProps {
   setSelectedStates: (checkboxValues: string[]) => void;
+  state: string | undefined;
 }
 
 const SideBar: React.FC<SideBarProps> = (props) => {
   const categories = useCategories();
   const [checkboxValues, setCheckboxValues] = useState([true, false, false, false]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.state) {
+      const newCheckboxValues = [false, false, false, false];
+      switch (props.state) {
+        case 'WAITING':
+          newCheckboxValues[1] = true;
+          break;
+        case 'ONGOING':
+          newCheckboxValues[2] = true;
+          break;
+        case 'FINISHED':
+          newCheckboxValues[3] = true;
+          break;
+        default:
+          newCheckboxValues[0] = true;
+      }
+      setCheckboxValues(newCheckboxValues);
+    }
+  }, [props.state]);
 
   const handleCheckboxChange = (index: number) => {
     navigate(`/shop-left-sibar`)
@@ -30,6 +51,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
         newCheckboxValues[0] = false;
       }
 
+
       // Chuyển đổi trạng thái đã chọn của hộp kiểm tại chỉ mục đã chỉ định
       newCheckboxValues[index] = !newCheckboxValues[index];
 
@@ -39,35 +61,22 @@ const SideBar: React.FC<SideBarProps> = (props) => {
   };
 
   const handleFilter = (fromDateFilter: string, toDateFilter: string) => {
-    onFilter(fromDateFilter, toDateFilter);
-  };
-
-  const onFilter = (fromDateFilter: string, toDateFilter: string) => {
-    const url = fromDateFilter === '' && toDateFilter === '' ? `/shop-left-sibar` : `/shop-left-sibar/date/${fromDateFilter}/${toDateFilter}`;
+    const url = !fromDateFilter && !toDateFilter ? '/shop-left-sibar' : `/shop-left-sibar/date/${fromDateFilter}/${toDateFilter}`;
     navigate(url);
   };
 
-  const debouncedTxtSearchChange = useDebouncedCallback(
-    (value: string) => {
-      if (value === '') {
-        navigate(`/shop-left-sibar`);
-      } else if (value.length > 0) {
-        navigate(`/shop-left-sibar/name/${value}`);
-      }
-    },
-    1000
-  );
+  const debouncedTxtSearchChange = useDebouncedCallback((value: string) => {
+    navigate(value ? `/shop-left-sibar/name/${value}` : '/shop-left-sibar');
+  }, 1000);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    debouncedTxtSearchChange(value);
+    debouncedTxtSearchChange(e.target.value);
   }
 
   useEffect(() => {
-    getAuctionsBySelectedStates();
-  }, [checkboxValues]);
-
-  const getAuctionsBySelectedStates = () => {
+    if (checkboxValues[1] === true && checkboxValues[2] === true && checkboxValues[3] === true) {
+      setCheckboxValues([true, false, false, false]);
+    }
     const selectedStates = checkboxValues.reduce((acc: string[], isChecked: boolean, index: number) => {
       if (isChecked && index !== 0) {
         acc.push(index === 1 ? 'WAITING' : index === 2 ? 'ONGOING' : 'FINISHED');
@@ -75,7 +84,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
       return acc;
     }, []);
     props.setSelectedStates(selectedStates);
-  };
+  }, [checkboxValues]);
 
   return (
     <div className="col-lg-3 order-2 order-lg-1">

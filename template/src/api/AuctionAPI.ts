@@ -21,7 +21,7 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
     const auctions: Auction[] = [];
     // endpoint
     const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
-
+    console.log(URL)
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
@@ -199,7 +199,6 @@ export async function getAuctionByFilterDay(startDate: string, endDate: string):
 
     if (response) {
         for (const key in response) {
-
             auctions.push({
                 id: response[key].id,
                 name: response[key].name,
@@ -248,7 +247,6 @@ export async function getAuctionsByName(txtSearch: string): Promise<ResultIntefa
     const auctions: Auction[] = [];
     // endpoint
     const URL = `http://localhost:8080/api/v1/auction/get-by-name/${txtSearch}`;
-    console.log (URL)
     // request
     const response = await MyRequest(URL);
 

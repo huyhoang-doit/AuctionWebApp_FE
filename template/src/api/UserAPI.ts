@@ -30,5 +30,6 @@ export const checkUsernameExist = async (username: string) => {
 export const getUserLogin = async (username: string): Promise<User> => {
   const URL = `http://localhost:8080/api/v1/user/by-username/${username}`;
   const response = await MyRequest(URL);
+  // console.log(response)
   return response;
 };
