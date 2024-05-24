@@ -11,12 +11,13 @@ export class User {
     province?: string;
     city?: string;
     yob?: string;
-    CCCD?: string;
+    cccd?: string;
+    avatar?: string;
 
     constructor(id: number, username: string, fullName: string,
         firstName: string, lastName: string, password:
             string, email: string, phone: string, address: string, 
-            province: string, city: string, yob: string, CCCD: string) {
+            province: string, city: string, yob: string, cccd: string) {
         this.id = id;
         this.username = username;
         this.fullName = fullName;
@@ -29,7 +30,7 @@ export class User {
         this.province = province;
         this.city = city;
         this.yob = yob;
-        this.CCCD = CCCD;
+        this.cccd = cccd;
     }
 
 }

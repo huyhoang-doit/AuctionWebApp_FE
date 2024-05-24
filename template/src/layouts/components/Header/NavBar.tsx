@@ -6,7 +6,8 @@ import { useCategories } from "../../../hooks/useCategories";
 
 export const NavBar = () => {
     const categories = useCategories();
-    const user = useAccount();
+    const token = localStorage.getItem("token");
+    const user = useAccount(token);
 
     return (
         <div className="header-bottom_area ">
