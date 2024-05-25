@@ -1,6 +1,12 @@
-import React from "react";
-
+import { Link } from "react-router-dom";
+import { ViewJewelryRequestModal, ViewTransactionModal } from "./Modal/Modal"
+import useAccount from "../../hooks/useAccount";
+import { MyAccountDetail } from "./Components/MyAccountDetail";
+import { MyAccountAuctionHistory } from "./Components/MyAccountAuctionHistory";
 export default function MyAccount() {
+    const token = localStorage.getItem("token");
+    const user = useAccount(token);
+
     return (
         <>
             <div className="breadcrumb-area">
@@ -8,17 +14,15 @@ export default function MyAccount() {
                     <div className="breadcrumb-content">
                         <ul>
                             <li>
-                                <a href="index.html">Home</a>
+                                <Link to={'/'} >Home</Link>
                             </li>
-                            <li className="active">My Account</li>
+                            <li className="active">Tài khoản của tôi</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            {/* <!-- Umino's Breadcrumb Area End Here -->
-        <!-- Begin Umino's Page Content Area --> */}
+
             <main className="page-content">
-                {/* <!-- Begin Umino's Account Page Area --> */}
                 <div className="account-page-area">
                     <div className="container">
                         <div className="row">
@@ -30,15 +34,15 @@ export default function MyAccount() {
                                 >
                                     <li className="nav-item">
                                         <a
-                                            className="nav-link"
-                                            id="account-details-tab"
+                                            className="nav-link active"
+                                            id="account-dashboard-tab"
                                             data-bs-toggle="tab"
                                             href="#account-details"
                                             role="tab"
-                                            aria-controls="account-details"
-                                            aria-selected="false"
+                                            aria-controls="account-dashboard"
+                                            aria-selected="true"
                                         >
-                                            Thông tin tài khoản
+                                            Thông tin tài khoản
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -46,12 +50,12 @@ export default function MyAccount() {
                                             className="nav-link"
                                             id="account-orders-tab"
                                             data-bs-toggle="tab"
-                                            href="#account-orders"
+                                            href="#transaction-history"
                                             role="tab"
                                             aria-controls="account-orders"
                                             aria-selected="false"
                                         >
-                                            Lịch sử giao dịch
+                                            Lịch sử giao dịch
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -59,25 +63,25 @@ export default function MyAccount() {
                                             className="nav-link"
                                             id="account-address-tab"
                                             data-bs-toggle="tab"
-                                            href="#account-address"
+                                            href="#auction-activity"
                                             role="tab"
                                             aria-controls="account-address"
                                             aria-selected="false"
                                         >
-                                            Hoạt động phiên
+                                            Hoạt động phiên
                                         </a>
                                     </li>
                                     <li className="nav-item">
                                         <a
                                             className="nav-link"
-                                            id="account-address-tab"
+                                            id="account-details-tab"
                                             data-bs-toggle="tab"
-                                            href="#account-address"
+                                            href="#jewelry-request"
                                             role="tab"
-                                            aria-controls="account-address"
+                                            aria-controls="account-details"
                                             aria-selected="false"
                                         >
-                                            Sản phẩm yêu cầu
+                                            Sản phẩm yêu cầu
                                         </a>
                                     </li>
                                 </ul>
@@ -87,45 +91,27 @@ export default function MyAccount() {
                                     className="tab-content myaccount-tab-content"
                                     id="account-page-tab-content"
                                 >
-                                    <div
-                                        className="tab-pane fade show active"
-                                        id="account-dashboard"
-                                        role="tabpanel"
-                                        aria-labelledby="account-dashboard-tab"
-                                    >
-                                        <div className="myaccount-dashboard">
-                                            <p>
-                                                From your account dashboard you
-                                                can view your recent orders,
-                                                manage your shipping and billing
-                                                addresses and{" "}
-                                                <a href="javascript:void(0)">
-                                                    edit your password and
-                                                    account details
-                                                </a>
-                                                .
-                                            </p>
-                                        </div>
-                                    </div>
+                                    <MyAccountDetail user={user} />
                                     <div
                                         className="tab-pane fade"
-                                        id="account-orders"
+                                        id="transaction-history"
                                         role="tabpanel"
                                         aria-labelledby="account-orders-tab"
                                     >
                                         <div className="myaccount-orders">
                                             <h4 className="small-title">
-                                                MY ORDERS
+                                                Danh sách các giao dịch của tôi
                                             </h4>
                                             <div className="table-responsive">
                                                 <table className="table table-bordered table-hover">
                                                     <tbody>
                                                         <tr>
-                                                            <th>ORDER</th>
-                                                            <th>DATE</th>
-                                                            <th>STATUS</th>
-                                                            <th>TOTAL</th>
-                                                            <th></th>
+                                                            <th>Mã giao dịch</th>
+                                                            <th>Loại giao dịch</th>
+                                                            <th>Ngày</th>
+                                                            <th>Số tiền</th>
+                                                            <th>Trạng thái</th>
+                                                            <th>Xem chi tiết</th>
                                                         </tr>
                                                         <tr>
                                                             <td>
@@ -137,50 +123,17 @@ export default function MyAccount() {
                                                                 </a>
                                                             </td>
                                                             <td>
-                                                                Mar 27, 2023
+                                                                Đăng ký phiên
                                                             </td>
-                                                            <td>On Hold</td>
+                                                            <td>17/01/2024</td>
                                                             <td>
-                                                                £162.00 for 2
-                                                                items
-                                                            </td>
-                                                            <td>
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                    className="umino-btn umino-btn_dark umino-btn_sm"
-                                                                >
-                                                                    <span>
-                                                                        View
-                                                                    </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <a
-                                                                    className="account-order-id"
-                                                                    href="javascript:void(0)"
-                                                                >
-                                                                    #5356
-                                                                </a>
+                                                                200,000
                                                             </td>
                                                             <td>
-                                                                Mar 27, 2023
-                                                            </td>
-                                                            <td>On Hold</td>
-                                                            <td>
-                                                                £162.00 for 2
-                                                                items
+                                                                Đã thanh toán
                                                             </td>
                                                             <td>
-                                                                <a
-                                                                    href="javascript:void(0)"
-                                                                    className="umino-btn umino-btn_dark umino-btn_sm"
-                                                                >
-                                                                    <span>
-                                                                        View
-                                                                    </span>
-                                                                </a>
+                                                                <ViewTransactionModal />
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -188,126 +141,57 @@ export default function MyAccount() {
                                             </div>
                                         </div>
                                     </div>
+                                    <MyAccountAuctionHistory username={user?.username} />
                                     <div
                                         className="tab-pane fade"
-                                        id="account-address"
+                                        id="jewelry-request"
                                         role="tabpanel"
                                         aria-labelledby="account-address-tab"
                                     >
-                                        <div className="myaccount-address">
-                                            <p>
-                                                The following addresses will be
-                                                used on the checkout page by
-                                                default.
-                                            </p>
-                                            <div className="row">
-                                                <div className="col">
-                                                    <h4 className="small-title">
-                                                        BILLING ADDRESS
-                                                    </h4>
-                                                    <address>
-                                                        1234 Heaven Stress,
-                                                        Beverly Hill OldYork
-                                                        UnitedState of Lorem
-                                                    </address>
-                                                </div>
-                                                <div className="col">
-                                                    <h4 className="small-title">
-                                                        SHIPPING ADDRESS
-                                                    </h4>
-                                                    <address>
-                                                        1234 Heaven Stress,
-                                                        Beverly Hill OldYork
-                                                        UnitedState of Lorem
-                                                    </address>
-                                                </div>
+                                        <div className="myaccount-orders">
+                                            <h4 className="small-title">
+                                                Danh sách các sản phẩm yêu cầu của tôi
+                                            </h4>
+                                            <div className="table-responsive">
+                                                <table className="table table-bordered table-hover">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Mã sản phẩm</th>
+                                                            <th>Tên sản phẩm</th>
+                                                            <th>Ngày yêu cầu</th>
+                                                            <th>Phiên đấu giá</th>
+                                                            <th>Trạng thái</th>
+                                                            <th>Thao tác</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <a
+                                                                    className="account-order-id"
+                                                                    href="javascript:void(0)"
+                                                                >
+                                                                    SP0001
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                Trang sức nữ
+                                                            </td>
+                                                            <td>17/01/2003</td>
+                                                            <td>
+                                                                Chưa có
+                                                            </td>
+                                                            <td>
+                                                                Chờ xác nhận
+                                                            </td>
+                                                            <td>
+                                                                <ViewJewelryRequestModal />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
-                                    <div
-                                        className="tab-pane fade"
-                                        id="account-details"
-                                        role="tabpanel"
-                                        aria-labelledby="account-details-tab"
-                                    >
-                                        <div className="myaccount-details">
-                                            <form
-                                                action="#"
-                                                className="umino-form"
-                                            >
-                                                <div className="umino-form-inner">
-                                                    <div className="single-input single-input-half">
-                                                        <label htmlFor="account-details-firstname">
-                                                            First Name*
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            id="account-details-firstname"
-                                                        />
-                                                    </div>
-                                                    <div className="single-input single-input-half">
-                                                        <label htmlFor="account-details-lastname">
-                                                            Last Name*
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            id="account-details-lastname"
-                                                        />
-                                                    </div>
-                                                    <div className="single-input">
-                                                        <label htmlFor="account-details-email">
-                                                            Email*
-                                                        </label>
-                                                        <input
-                                                            type="email"
-                                                            id="account-details-email"
-                                                        />
-                                                    </div>
-                                                    <div className="single-input">
-                                                        <label htmlFor="account-details-oldpass">
-                                                            Current
-                                                            Password(leave blank
-                                                            to leave unchanged)
-                                                        </label>
-                                                        <input
-                                                            type="password"
-                                                            id="account-details-oldpass"
-                                                        />
-                                                    </div>
-                                                    <div className="single-input">
-                                                        <label htmlFor="account-details-newpass">
-                                                            New Password (leave
-                                                            blank to leave
-                                                            unchanged)
-                                                        </label>
-                                                        <input
-                                                            type="password"
-                                                            id="account-details-newpass"
-                                                        />
-                                                    </div>
-                                                    <div className="single-input">
-                                                        <label htmlFor="account-details-confpass">
-                                                            Confirm New Password
-                                                        </label>
-                                                        <input
-                                                            type="password"
-                                                            id="account-details-confpass"
-                                                        />
-                                                    </div>
-                                                    <div className="single-input">
-                                                        <button
-                                                            className="umino-btn umino-btn_dark"
-                                                            type="submit"
-                                                        >
-                                                            <span>
-                                                                SAVE CHANGES
-                                                            </span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

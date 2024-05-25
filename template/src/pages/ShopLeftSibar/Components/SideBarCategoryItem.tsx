@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Category } from "../../../models/Category";
 
 interface SideBarCategoryItemProps {
@@ -7,9 +8,9 @@ interface SideBarCategoryItemProps {
 export const SideBarCategoryItem: React.FC<SideBarCategoryItemProps> = (props) => {
     return (
         <li>
-            <a href="javascript:void(0)">
+            <Link to={"/shop-left-sibar/category/" + props.category?.id}>
                 {props.category?.name}
-            </a>
+            </Link>
         </li>
     )
 }

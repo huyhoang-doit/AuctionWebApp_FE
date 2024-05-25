@@ -1,17 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { SideBarCategoryItem } from './SideBarCategoryItem'
-import { Category } from '../../../models/Category'
-import { getAllCategories } from '../../../api/CategoryAPI'
 import DatePicker from './DatePickerProps '
 import { useNavigate } from 'react-router-dom'
+import { useCategories } from '../../../hooks/useCategories';
+import { useDebouncedCallback } from 'use-debounce';
+
 interface SideBarProps {
   setSelectedStates: (checkboxValues: string[]) => void;
+  state: string | undefined;
 }
 
 const SideBar: React.FC<SideBarProps> = (props) => {
-  const [categories, setCategories] = useState<Category[]>([])
-  const navigate = useNavigate();
+  const categories = useCategories();
   const [checkboxValues, setCheckboxValues] = useState([true, false, false, false]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.state) {
+      const newCheckboxValues = [false, false, false, false];
+      switch (props.state) {
+        case 'WAITING':
+          newCheckboxValues[1] = true;
+          break;
+        case 'ONGOING':
+          newCheckboxValues[2] = true;
+          break;
+        case 'FINISHED':
+          newCheckboxValues[3] = true;
+          break;
+        default:
+          newCheckboxValues[0] = true;
+      }
+      setCheckboxValues(newCheckboxValues);
+    }
+  }, [props.state]);
 
   const handleCheckboxChange = (index: number) => {
     navigate(`/shop-left-sibar`)
@@ -29,6 +51,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
         newCheckboxValues[0] = false;
       }
 
+
       // Chuyển đổi trạng thái đã chọn của hộp kiểm tại chỉ mục đã chỉ định
       newCheckboxValues[index] = !newCheckboxValues[index];
 
@@ -38,48 +61,30 @@ const SideBar: React.FC<SideBarProps> = (props) => {
   };
 
   const handleFilter = (fromDateFilter: string, toDateFilter: string) => {
-    onFilter(fromDateFilter, toDateFilter);
+    const url = !fromDateFilter && !toDateFilter ? '/shop-left-sibar' : `/shop-left-sibar/date/${fromDateFilter}/${toDateFilter}`;
+    navigate(url);
   };
 
-  useEffect(() => {
-    getAllCategories()
-      .then((response) => {
-        setCategories(response);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  }, []);
+  const debouncedTxtSearchChange = useDebouncedCallback((value: string) => {
+    navigate(value ? `/shop-left-sibar/name/${value}` : '/shop-left-sibar');
+  }, 1000);
 
-  const onFilter = (fromDateFilter: string, toDateFilter: string) => {
-    if (fromDateFilter === '' && toDateFilter === '') {
-      navigate(`/shop-left-sibar`)
-      return
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    debouncedTxtSearchChange(e.target.value);
+  }
+
+  useEffect(() => {
+    if (checkboxValues[1] === true && checkboxValues[2] === true && checkboxValues[3] === true) {
+      setCheckboxValues([true, false, false, false]);
     }
-    navigate(`/shop-left-sibar/date/${fromDateFilter}/${toDateFilter}`)
-  };
-
-  useEffect(() => {
-    getAuctionsBySelectedStates();
-  }, [checkboxValues]);
-
-  const getAuctionsBySelectedStates = () => {
     const selectedStates = checkboxValues.reduce((acc: string[], isChecked: boolean, index: number) => {
-      if (isChecked) {
-        if (index === 1) {
-          acc.push('WAITING');
-        }
-        if (index === 2) {
-          acc.push('ONGOING');
-        }
-        if (index === 3) {
-          acc.push('FINISHED');
-        }
+      if (isChecked && index !== 0) {
+        acc.push(index === 1 ? 'WAITING' : index === 2 ? 'ONGOING' : 'FINISHED');
       }
       return acc;
     }, []);
     props.setSelectedStates(selectedStates);
-  };
+  }, [checkboxValues]);
 
   return (
     <div className="col-lg-3 order-2 order-lg-1">
@@ -128,12 +133,12 @@ const SideBar: React.FC<SideBarProps> = (props) => {
           <div className="umino-categories_title umino-tags_title mt-4">
             <h5 className='fw-bold'>Tìm kiếm</h5>
           </div>
-          <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+          <input type="text" placeholder="Tìm kiếm sản phẩm..." onChange={handleSearch} />
         </div>
         <div className="umino-sidebar_categories umino-banner_area sidebar-banner_area">
           <div className="banner-item img-hover_effect">
             <div className="banner-img">
-              <a href="javascript:void(0)">
+              <a href="">
                 <img
                   className="img-full"
                   src="https://raw.githubusercontent.com/huyhoang-doit/AuctionWebApp_FE/master/template/public/assets/images/banner/3-1.jpg"

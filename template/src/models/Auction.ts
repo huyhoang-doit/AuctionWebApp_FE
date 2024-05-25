@@ -17,7 +17,6 @@ export class Auction {
     user?: User;
     state: string;
 
-
 	constructor(id: number, name: string, startDate: string, endDate: string, 
         description: string, countdownDuration: number, firstPrice: number, 
         lastPrice: number, participantFee: number, deposit: number, 

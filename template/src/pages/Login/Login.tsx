@@ -1,6 +1,6 @@
-import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
-import { login } from "../../api/UserAPI";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { handleActiveUser, login } from "../../api/AuthenticationAPI";
 
 export default function Login() {
     const [loginRequest, setLoginRequest] = useState({
@@ -8,11 +8,30 @@ export default function Login() {
         password: "",
     });
     const [error, setError] = useState("");
+    const [notification, setNotification] = useState("");
+    const { token } = useParams();
+
+    useEffect(() => {
+        if (token) {
+            handleActiveUser(token)
+                .then((result) => {
+                    if (result) {
+                        setNotification("Kích hoạt tài khoản thành công vui lòng đăng nhập!");
+                    }
+                    else {
+                        setError("Kích hoạt tài khoản không thành công");
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    }, [token])
 
     const onChangeLoginRequest = (key: keyof typeof loginRequest) => (e: ChangeEvent<HTMLInputElement>) => {
-        setLoginRequest((preValue) => ({...preValue, [key]: e.target.value}));
+        setLoginRequest((preValue) => ({ ...preValue, [key]: e.target.value }));
     }
-    console.log(loginRequest);
+
     const handleLogin = async () => {
         const success = await login(loginRequest, setError);
         if (success) {
@@ -44,7 +63,7 @@ export default function Login() {
                             <form action="#">
                                 <div className="login-form">
                                     <h4 className="login-title">Đăng nhập</h4>
-
+                                    {notification && <h5 className="fw-bold" style={{ color: "green" }}>{notification}</h5>}
                                     <div className="row mb-4">
                                         <div className="col-md-12 col-12">
                                             <label>Tên đăng nhập/ Email</label>
@@ -88,7 +107,7 @@ export default function Login() {
                                             <button type="button" className="login_btn" onClick={handleLogin}>
                                                 Đăng nhập
                                             </button>
-                                            {error && <div className="mt-2" style={{color: "red"}}>{error}</div>}
+                                            {error && <div className="mt-2" style={{ color: "red" }}>{error}</div>}
                                         </div>
                                     </div>
 

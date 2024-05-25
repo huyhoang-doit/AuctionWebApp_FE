@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { isCitizenIdWrongFormat, isConfirmPasswordWrong, isPasswordWrongFormat, isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
 import { checkEmailExist, checkUsernameExist } from "../../api/UserAPI";
 import { useDebouncedCallback } from "use-debounce";
+import { register } from "../../api/AuthenticationAPI";
 
 export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
-
+    const [notification, setNotification] = useState("");
     const [errors, setErrors] = useState({
         username: "",
         email: "",
@@ -14,9 +15,9 @@ export default function Register() {
         confirmPassword: "",
         phone: "",
         yob: "",
-        CCCD: ""
+        CCCD: "",
+        register: "",
     });
-
     const [registerRequest, setRegisterRequest] = useState({
         id: 0,
         username: "",
@@ -117,7 +118,7 @@ export default function Register() {
         let confirmPasswordError = "";
         const isWrong = isConfirmPasswordWrong(registerRequest.password, confirmPassword);
         if (isWrong) {
-            confirmPasswordError = "Mất khẩu không hợp lệ!";
+            confirmPasswordError = "Mất khẩu không khớp!";
         }
         setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: confirmPasswordError }));
         setConfirmPassword(confirmPassword);
@@ -127,13 +128,51 @@ export default function Register() {
         setRegisterRequest((preValue) => ({ ...preValue, [key]: e.target.value }));
     }
 
-    const handleRegisterUser = () => {
+    const clearErrors = () => {
+        setErrors({
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            phone: "",
+            yob: "",
+            CCCD: "",
+            register: "",
+        });
+    };
 
+    const handleRegisterUser = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Check again
+        const isUsernameValid = !await checkUsernameExist(registerRequest.username);
+        const isEmailValid = !await checkEmailExist(registerRequest.email);
+        const isPasswordValid = !isPasswordWrongFormat(registerRequest.password);
+        const isConfirmPasswordValid = !isConfirmPasswordWrong(registerRequest.password, confirmPassword);
+        const isPhoneNumberValid = !isPhoneNumberWrongFormat(registerRequest.phone);
+        const isYearOfBirthValid =!isYearOfBirthWrongFormat(registerRequest.yob);
+        const isCitizenIdValid =!isCitizenIdWrongFormat(registerRequest.CCCD);
+
+        if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid || !isPhoneNumberValid || !isYearOfBirthValid || !isCitizenIdValid) {
+            console.log(isUsernameValid);
+            return;
+        }
+
+        const isSuccess = await register(registerRequest);
+
+        console.log(isSuccess);
+        if (!isSuccess) {
+            setNotification("Xảy ra lỗi trong quá trình đăng kí tài khoản!")
+            return;
+        }
+
+        // Clear error message
+        clearErrors();  
+        setNotification("Đăng kí tài khoản thành công, vui lòng kiểm tra email để kích hoạt tài khoản!")
     }
 
     return (
         <>
-
             <div className="breadcrumb-area">
                 <div className="container">
                     <div className="breadcrumb-content">
@@ -146,7 +185,6 @@ export default function Register() {
                     </div>
                 </div>
             </div>
-
             <div className="umino-login-register_area">
                 <div className="container">
                     <div className="row">
@@ -154,11 +192,14 @@ export default function Register() {
                             <form onSubmit={handleRegisterUser}>
                                 <div className="login-form">
                                     <h4 className="login-title">Đăng kí tài khoản</h4>
+                                    {notification && <h5 className="fw-bold" style={{ color: "green" }}>{notification}</h5>}
+                                    {errors.register && <h5 className="fw-bold text-danger">{errors.register}</h5>}
                                     <div className="row mb-4">
                                         <div className="col-md-6 col-12 mb--20">
                                             <label>Họ</label>
                                             <input
                                                 type="text"
+                                                required
                                                 placeholder="Nhập họ của bạn"
                                                 value={registerRequest.firstName}
                                                 onChange={onChangeRegisterRequest("firstName")}
@@ -168,6 +209,7 @@ export default function Register() {
                                             <label>Tên</label>
                                             <input
                                                 type="text"
+                                                required
                                                 placeholder="Nhập tên của bạn"
                                                 value={registerRequest.lastName}
                                                 onChange={onChangeRegisterRequest("lastName")}
@@ -177,6 +219,7 @@ export default function Register() {
                                             <label>Username</label>
                                             <input className="mb-0"
                                                 type="text"
+                                                required
                                                 placeholder="Nhập username của bạn"
                                                 value={registerRequest.username}
                                                 onChange={handleUsernameChange}
@@ -186,6 +229,7 @@ export default function Register() {
                                             <label>Email</label>
                                             <input className="mb-0"
                                                 type="email"
+                                                required
                                                 placeholder="Nhập Email của bạn"
                                                 value={registerRequest.email}
                                                 onChange={handleEmailChange}
@@ -197,6 +241,7 @@ export default function Register() {
                                             <input
                                                 className="mb-0"
                                                 type="text"
+                                                required
                                                 placeholder="Nhập số điện thoại của bạn"
                                                 value={registerRequest.phone}
                                                 onChange={onChangePhoneNumber}
@@ -207,6 +252,7 @@ export default function Register() {
                                             <label>Địa chỉ</label>
                                             <input
                                                 type="text"
+                                                required
                                                 placeholder="Nhập địa chỉ của bạn"
                                                 value={registerRequest.address}
                                                 onChange={onChangeRegisterRequest("address")}
@@ -216,6 +262,7 @@ export default function Register() {
                                             <label>Tỉnh</label>
                                             <input
                                                 type="text"
+                                                required
                                                 placeholder="Nhập tỉnh"
                                                 value={registerRequest.province}
                                                 onChange={onChangeRegisterRequest("province")}
@@ -225,6 +272,7 @@ export default function Register() {
                                             <label>Thành phố</label>
                                             <input
                                                 type="text"
+                                                required
                                                 placeholder="Nhập thành phố"
                                                 value={registerRequest.city}
                                                 onChange={onChangeRegisterRequest("city")}
@@ -235,6 +283,7 @@ export default function Register() {
                                             <input
                                                 className="mb-0"
                                                 type="text"
+                                                required
                                                 placeholder="Nhập năm sinh"
                                                 value={registerRequest.yob}
                                                 onChange={onChangeYob}
@@ -246,6 +295,7 @@ export default function Register() {
                                             <input
                                                 className="mb-0"
                                                 type="text"
+                                                required
                                                 placeholder="Nhập số căn cước"
                                                 value={registerRequest.CCCD}
                                                 onChange={onChangeCCCD}
@@ -256,6 +306,7 @@ export default function Register() {
                                             <label>Mật khẩu</label>
                                             <input
                                                 type="password"
+                                                required
                                                 placeholder="Nhập mật khẩu của bạn"
                                                 value={registerRequest.password}
                                                 onChange={handlePasswordChange}
@@ -272,7 +323,7 @@ export default function Register() {
                                             />
                                         </div>{errors.confirmPassword && <span className="text-danger">{errors.confirmPassword}</span>}
                                         <div className="col-12">
-                                            <button className="umino-register_btn" type="button">
+                                            <button className="umino-register_btn" type="submit">
                                                 Đăng kí
                                             </button>
                                         </div>
