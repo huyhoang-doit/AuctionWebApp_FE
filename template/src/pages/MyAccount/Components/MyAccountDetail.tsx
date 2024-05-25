@@ -234,7 +234,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             defaultValue={user?.bankAccountNumber}
                                             onChange={(e) => setUser({ ...user, bankAccountNumber: e.target.value })}
                                         />
-                                     </div>
+                                    </div>
                                     <div className="col-md-12 mt-4">
                                         <label>Sô điện thoại</label>
                                         <input

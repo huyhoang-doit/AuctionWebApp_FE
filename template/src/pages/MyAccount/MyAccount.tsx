@@ -50,7 +50,7 @@ export default function MyAccount() {
                                             aria-controls="account-dashboard"
                                             aria-selected="true"
                                         >
-                                            Thông tin tài khoản
+                                            Thông tin cá nhân
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -76,7 +76,7 @@ export default function MyAccount() {
                                             aria-controls="account-address"
                                             aria-selected="false"
                                         >
-                                            Hoạt động phiên
+                                            Lịch sử đấu giá
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -99,7 +99,7 @@ export default function MyAccount() {
                                     className="tab-content myaccount-tab-content"
                                     id="account-page-tab-content"
                                 >
-                                    <MyAccountDetail user={userState} setUser={setUserState}/>
+                                    <MyAccountDetail user={userState} setUser={setUserState} />
                                     <div
                                         className="tab-pane fade"
                                         id="transaction-history"

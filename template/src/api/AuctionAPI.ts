@@ -21,7 +21,6 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
     const auctions: Auction[] = [];
     // endpoint
     const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
-    console.log(URL)
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
