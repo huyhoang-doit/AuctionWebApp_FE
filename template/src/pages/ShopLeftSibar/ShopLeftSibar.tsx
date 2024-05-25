@@ -2,7 +2,7 @@ import "./ShopLeftSibar.css";
 import SideBar from "./Components/SideBar";
 import ContainerListAuctions from "./Components/ContainerListAuctions";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function ShopLeftSibar() {
     const [selectedStates, setSelectedStates] = useState<string[]>([]);
@@ -16,7 +16,7 @@ export default function ShopLeftSibar() {
                     <div className="breadcrumb-content">
                         <ul>
                             <li>
-                                <a href="index.html">Home</a>
+                                <Link to={"/"}>Home</Link>
                             </li>
                             <li className="active">Auctions Filter</li>
                         </ul>

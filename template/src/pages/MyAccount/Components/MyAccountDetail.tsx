@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { User } from "../../../models/User";
 import { editProfileUser } from "../../../api/UserAPI";
 import { SaveEditProfileModal } from "../Modal/Modal";
+import { getAllBanks } from "../../../api/BankAPI";
+import { Bank } from "../../../models/Bank";
 
 interface MyAccountDetailProps {
     user: User | null;
@@ -10,13 +12,24 @@ interface MyAccountDetailProps {
 
 export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     const [avatar, setAvatar] = useState<File | null>(null);
-    const [isEditing, setIsEditing] = useState(false);
     const [user, setUser] = useState<User | null>(props.user);
     const [notification, setNotification] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
+    const [banks, setBanks] = useState<Bank[]>([]);
 
     useEffect(() => {
         setUser(props.user);
     }, [props.user]);
+
+    useEffect(() => {
+        getAllBanks()
+            .then((response) => {
+                setBanks(response);
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+    }, [])
 
     const getBase64 = (file: File): Promise<string | null> => {
         return new Promise((resolve, reject) => {
@@ -55,20 +68,6 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
 
     const handleEdit = async () => {
         if (isEditing && user) {
-            // const updatedUser: User = {
-            //     ...user,
-            //     cccd: document.querySelector<HTMLInputElement>('#cccd-input')?.value || '',
-            //     yob: document.querySelector<HTMLInputElement>('#yob-input')?.value || '',
-            //     username: document.querySelector<HTMLInputElement>('#username-input')?.value || '',
-            //     email: document.querySelector<HTMLInputElement>('#email-input')?.value || '',
-            //     firstName: document.querySelector<HTMLInputElement>('#first-name-input')?.value || '',
-            //     lastName: document.querySelector<HTMLInputElement>('#last-name-input')?.value || '',
-            //     address: document.querySelector<HTMLInputElement>('#address-input')?.value || '',
-            //     province: document.querySelector<HTMLInputElement>('#province-input')?.value || '',
-            //     city: document.querySelector<HTMLInputElement>('#city-input')?.value || '',
-            //     phone: document.querySelector<HTMLInputElement>('#phone-input')?.value || ''
-            // };
-
             try {
                 const response = await editProfileUser(user);
 
@@ -81,21 +80,6 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         } else {
             setIsEditing(true);
         }
-    };
-
-    const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = e.target.value;
-        setUser({ ...user, firstName: newValue });
-    };
-
-    const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = e.target.value;
-        setUser({ ...user, lastName: newValue });
-    };
-
-    const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = e.target.value;
-        setUser({ ...user, address: newValue });
     };
 
     return (
@@ -126,7 +110,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             Đổi ảnh đại diện
                                         </label>
                                         <input onChange={handleAvatarChange} id='customFile' type="file" accept="image/*" />
-                                        {notification && <span className="fw-bold" style={{color: "green"}}>{notification}</span>}
+                                        {notification && <span className="fw-bold" style={{ color: "green" }}>{notification}</span>}
                                     </div>
                                 </div>
 
@@ -138,7 +122,8 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập số căn cước"
                                             readOnly
-                                            value={user?.cccd}
+                                            style={{ backgroundColor: "#F5F5F5" }}
+                                            defaultValue={user?.cccd}
                                         />
                                     </div>
                                     <div className="col-md-6">
@@ -148,7 +133,8 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập năm sinh"
                                             readOnly
-                                            value={user?.yob}
+                                            defaultValue={user?.yob}
+                                            onChange={(e) => setUser({ ...user, yob: e.target.value })}
                                         />
 
                                     </div>
@@ -159,7 +145,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             placeholder="Nhập username của bạn"
                                             readOnly
                                             style={{ backgroundColor: "#F5F5F5" }}
-                                            value={user?.username}
+                                            defaultValue={user?.username}
                                         />
                                     </div>
                                     <div className="col-md-6 mt-4">
@@ -169,7 +155,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             placeholder="Nhập Email của bạn"
                                             style={{ backgroundColor: "#F5F5F5" }}
                                             readOnly
-                                            value={user?.email}
+                                            defaultValue={user?.email}
                                         />
                                     </div>
                                     <div className="col-md-6 mt-4">
@@ -178,8 +164,8 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập họ của bạn"
                                             readOnly
-                                            value={user?.firstName || ""}
-                                            onChange={handleFirstNameChange}
+                                            defaultValue={user?.firstName || ""}
+                                            onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                                         />
                                     </div>
                                     <div className="col-md-6 mt-4">
@@ -189,8 +175,8 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             className="mb-0 input-required"
                                             placeholder="Nhập tên của bạn"
                                             readOnly
-                                            value={user?.lastName}
-                                            onChange={handleLastNameChange}
+                                            defaultValue={user?.lastName}
+                                            onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                                         />
                                     </div>
                                     <div className="col-md-4 mt-4">
@@ -200,8 +186,8 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập địa chỉ của bạn"
                                             readOnly
-                                            value={user?.address}
-                                            onChange={handleAddressChange}
+                                            defaultValue={user?.address}
+                                            onChange={(e) => setUser({ ...user, address: e.target.value })}
                                         />
                                     </div>
                                     <div className="col-md-4 mt-4">
@@ -211,7 +197,8 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập tỉnh"
                                             readOnly
-                                            value={user?.province}
+                                            defaultValue={user?.province}
+                                            onChange={(e) => setUser({ ...user, province: e.target.value })}
                                         />
                                     </div>
                                     <div className="col-md-4 mt-4">
@@ -221,32 +208,53 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập thành phố"
                                             readOnly
-                                            value={user?.city}
+                                            defaultValue={user?.city}
+                                            onChange={(e) => setUser({ ...user, city: e.target.value })}
                                         />
                                     </div>
-                                    <div className="col-md-6 mt-4">
-                                        <label>Phone</label>
+
+                                    <div className="col-md-8 mt-4">
+                                        <label >Ngân hàng</label>
+                                        <select defaultValue={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
+                                        >
+                                            {banks.map((bank) => (
+                                                <option style={{ padding: '5px' }} key={bank.id} value={bank.id}>
+                                                    {bank.bankName} ({bank.tradingName})
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="col-md-4 mt-4">
+                                        <label>Số tài khoản ngân hàng</label>
+                                        <input
+                                            className="input-required"
+                                            type="text"
+                                            placeholder="Nhập số tài khoản ngân hàng của bạn"
+                                            readOnly
+                                            defaultValue={user?.bankAccountNumber}
+                                            onChange={(e) => setUser({ ...user, bankAccountNumber: e.target.value })}
+                                        />
+                                     </div>
+                                    <div className="col-md-12 mt-4">
+                                        <label>Sô điện thoại</label>
                                         <input
                                             className="input-required"
                                             type="text"
                                             placeholder="Nhập số điện thoại của bạn"
                                             readOnly
-                                            value={user?.phone}
+                                            defaultValue={user?.phone}
+                                            onChange={(e) => setUser({ ...user, phone: e.target.value })}
                                         />
-
                                     </div>
                                     <div className="col-12">
-                                        {/* <button id="button-state" type="button" onClick={changeState} className="btn btn-xs btn-primary mb-3 mt-2"
-                                            style={{ backgroundColor: "black", border: "none" }}>{isEditing ? "Lưu" : "Chỉnh sửa"}
-                                        </button> */}
-                                        <SaveEditProfileModal />
+                                        <SaveEditProfileModal handleEdit={handleEdit} isEditing={isEditing} setIsEditing={setIsEditing} />
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }

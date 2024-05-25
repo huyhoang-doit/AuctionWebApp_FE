@@ -196,22 +196,6 @@ export default function AuctionDetail() {
                                                 </div>
                                                 <div className="col-6">
 
-                                                    <p className="left-title-text no-margin ">Thời gian mở đăng ký:</p>
-                                                </div>
-                                                <div className="col-6">
-
-                                                    <p className="right-info-text no-margin fw-bold">06/05/2024 08:00:00</p>
-                                                </div>
-                                                <div className="col-6">
-
-                                                    <p className="left-title-text no-margin">Thời gian kết thúc đăng ký:</p>
-                                                </div>
-                                                <div className="col-6">
-
-                                                    <p className="right-info-text no-margin  fw-bold">13/05/2024 17:00:00</p>
-                                                </div>
-                                                <div className="col-6">
-
                                                     <p className="left-title-text no-margin">Giá khởi điểm:</p>
                                                 </div>
                                                 <div className="col-6">

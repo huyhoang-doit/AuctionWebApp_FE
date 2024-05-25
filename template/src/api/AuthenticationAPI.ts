@@ -32,6 +32,7 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
             body: JSON.stringify(loginRequest),
         });
 
+        console.log(response)
         if (response.status === 200) {
             const data = await response.json();
             const jwt = data.token;
@@ -52,10 +53,7 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
 export const register = async (registerRequest: RegisterRequest): Promise<boolean> => {
     // end-point
     const URL = `http://localhost:8080/api/v1/auth/register`;
-    const role = {
-        id: 1,
-        name: "USER"
-    }
+    const role = "MEMBER"
     // call api
     try {
         const response = await fetch(URL, {

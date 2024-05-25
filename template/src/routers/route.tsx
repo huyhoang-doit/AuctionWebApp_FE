@@ -13,33 +13,49 @@ import { Privacy_Policy } from "../pages/Privacy-Policy/Privacy-Policy";
 import AuctionDetail from "../pages/AuctionDetail/AuctionDetail";
 import { PageSendJewelry } from "../pages/FormSendJewelry/PageSendJewelry";
 import MyAccountStaff from "../pages/MyAccount/MyAccountStaff";
+import ProtectedRoute from "./ProtectedRoute";
+import GuestRoute from "./GuestRoute";
 
 export default function RouterCom() {
     return (
-        <>
-            <Routes>
-                <Route path="/about" element={<About />} />
-                <Route path="/" element={<Index />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/contact" element={<Contact />} />
+        <Routes>
+
+            <Route path="/about" element={<About />} />
+            <Route path="/" element={<Index />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/activation/:token" element={<Login />} />
+            <Route path="/privacy_policy" element={<Privacy_Policy />} />
+            <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
+            <Route path="/shop-left-sibar/state/:state" element={<ShopLeftSibar />} />
+            <Route path="/shop-left-sibar/category/:cateId" element={<ShopLeftSibar />} />
+            <Route path="/shop-left-sibar/name/:txtSearch" element={<ShopLeftSibar />} />
+            <Route path="/shop-left-sibar/date/:fromDateFilter/:toDateFilter" element={<ShopLeftSibar />} />
+            <Route path="/single-auction/:id" element={<AuctionDetail />} />
+
+
+            {/* ///// */}
+            <Route element={<GuestRoute />}>
                 <Route path="/login" element={<Login />} />
+            </Route>
+            <Route element={<GuestRoute />}>
                 <Route path="/register" element={<Register />} />
-                <Route path="/activation/:token" element={<Login />} />
-                <Route path="/my-account" element={<MyAccount />} />
-                <Route path="/my-account-staff" element={<MyAccountStaff />} />
-                <Route path="/privacy_policy" element={<Privacy_Policy />} />
+            </Route>
+            {/* ///// */}
+
+            {/* ///// */}
+            <Route element={<ProtectedRoute roles={['MEMBER', 'STAFF', 'MANAGER', 'ADMIN']} />}>
                 <Route path="/form-send-jewerly" element={<PageSendJewelry />} />
-                <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
-                <Route path="/shop-left-sibar/state/:state" element={<ShopLeftSibar />} />
-                <Route path="/shop-left-sibar/category/:cateId" element={<ShopLeftSibar />} />
-                <Route path="/shop-left-sibar/name/:txtSearch" element={<ShopLeftSibar />} />
-                <Route path="/shop-left-sibar/date/:fromDateFilter/:toDateFilter" element={<ShopLeftSibar />} />
-                <Route
-                    path="/single-auction/:id"
-                    element={<AuctionDetail />}
-                />
-                <Route path="/*" element={<Error />} />
-            </Routes>
-        </>
+            </Route>
+            <Route element={<ProtectedRoute roles={['MEMBER', 'MANAGER', 'ADMIN']} />}>
+                <Route path="/my-account" element={<MyAccount />} />
+            </Route>
+            <Route element={<ProtectedRoute roles={['STAFF', 'ADMIN']} />}>
+                <Route path="/my-account-staff" element={<MyAccountStaff />} />
+            </Route>
+            {/* ///// */}
+
+            <Route path="/*" element={<Error />} />
+        </Routes>
     );
 }
