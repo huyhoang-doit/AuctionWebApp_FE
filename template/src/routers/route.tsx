@@ -8,26 +8,37 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import MyAccount from "../pages/MyAccount/MyAccount";
 import ShopLeftSibar from "../pages/ShopLeftSibar/ShopLeftSibar";
-import SingleProductSale from "../pages/SingleProductSale/SingleProductSale";
-import SingleProduct from "../pages/SingleProduct/SingleProduct";
+import Error from "../pages/404/Error";
+import { Privacy_Policy } from "../pages/Privacy-Policy/Privacy-Policy";
+import AuctionDetail from "../pages/AuctionDetail/AuctionDetail";
+import { PageSendJewelry } from "../pages/FormSendJewelry/PageSendJewelry";
+import MyAccountStaff from "../pages/MyAccount/MyAccountStaff";
 
 export default function RouterCom() {
     return (
         <>
             <Routes>
                 <Route path="/about" element={<About />} />
-                <Route path="/index" element={<Index />} />
+                <Route path="/" element={<Index />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/activation/:token" element={<Login />} />
                 <Route path="/my-account" element={<MyAccount />} />
+                <Route path="/my-account-staff" element={<MyAccountStaff />} />
+                <Route path="/privacy_policy" element={<Privacy_Policy />} />
+                <Route path="/form-send-jewerly" element={<PageSendJewelry />} />
                 <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
+                <Route path="/shop-left-sibar/state/:state" element={<ShopLeftSibar />} />
+                <Route path="/shop-left-sibar/category/:cateId" element={<ShopLeftSibar />} />
+                <Route path="/shop-left-sibar/name/:txtSearch" element={<ShopLeftSibar />} />
+                <Route path="/shop-left-sibar/date/:fromDateFilter/:toDateFilter" element={<ShopLeftSibar />} />
                 <Route
-                    path="/single-product-sale"
-                    element={<SingleProductSale />}
+                    path="/single-auction/:id"
+                    element={<AuctionDetail />}
                 />
-                <Route path="/single-product" element={<SingleProduct />} />
+                <Route path="/*" element={<Error />} />
             </Routes>
         </>
     );

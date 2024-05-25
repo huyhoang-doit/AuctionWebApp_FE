@@ -1,0 +1,277 @@
+import { Auction } from "../models/Auction";
+import { MyRequest } from "./MyRequest";
+
+interface ResultPageableInteface {
+    auctionsData: Auction[];
+    totalPages: number;
+    numberAuctionsPerPage: number;
+    totalAuctions: number
+}
+
+interface ResultInteface {
+    auctionsData: Auction[];
+}
+
+interface Pageable {
+    page: number;
+    size: number;
+}
+
+export async function getAuctions(state: string, cateId: number, pageable: Pageable): Promise<ResultPageableInteface> {
+    const auctions: Auction[] = [];
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
+    console.log(URL)
+    // request
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+    const totalPages = response.totalPages;
+    const totalAuctions = response.totalElements;
+    const numberAuctionsPerPage = response.numberOfElements;
+
+    if (responseData) {
+        for (const key in responseData) {
+            auctions.push({
+                id: responseData[key].id,
+                name: responseData[key].name,
+                description: responseData[key].description,
+                firstPrice: responseData[key].firstPrice,
+                lastPrice: responseData[key].lastPrice,
+                participationFee: responseData[key].participationFee,
+                deposit: responseData[key].deposit,
+                priceStep: responseData[key].priceStep,
+                startDate: responseData[key].startDate,
+                endDate: responseData[key].endDate,
+                countdownDuration: responseData[key].countdownDuration,
+                state: responseData[key].state,
+                jewelry: {
+                    id: responseData[key].jewelry.id,
+                    user: {
+                        id: responseData[key].jewelry.user.id,
+                        fullName: responseData[key].jewelry.user.fullName,
+                    }
+                },
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return {
+        auctionsData: auctions,
+        numberAuctionsPerPage: numberAuctionsPerPage,
+        totalPages: totalPages,
+        totalAuctions: totalAuctions,
+    };
+}
+
+export async function getAuctionToday(): Promise<ResultInteface> {
+    const auctions: Auction[] = [];
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/get-by-today`;
+
+    // request
+    const response = await MyRequest(URL);
+
+    if (response) {
+        for (const key in response) {
+
+            auctions.push({
+                id: response[key].id,
+                name: response[key].name,
+                description: response[key].description,
+                firstPrice: response[key].firstPrice,
+                lastPrice: response[key].lastPrice,
+                participationFee: response[key].participationFee,
+                deposit: response[key].deposit,
+                priceStep: response[key].priceStep,
+                startDate: response[key].startDate,
+                endDate: response[key].endDate,
+                countdownDuration: response[key].countdownDuration,
+                state: response[key].state,
+                jewelry: {
+                    id: response[key].jewelry.id,
+                },
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return { auctionsData: auctions };
+}
+
+export async function getAuction(auctionId: number): Promise<Auction | null> {
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/id/${auctionId}`;
+
+    try {
+        // request
+        const response = await MyRequest(URL);
+
+        if (response) {
+            return {
+                id: response.id,
+                name: response.name,
+                description: response.description,
+                firstPrice: response.firstPrice,
+                lastPrice: response.lastPrice,
+                participationFee: response.participationFee,
+                deposit: response.deposit,
+                priceStep: response.priceStep,
+                startDate: response.startDate,
+                endDate: response.endDate,
+                countdownDuration: response.countdownDuration,
+                state: response.state,
+                jewelry: {
+                    id: response.jewelry.id,
+                    name: response.jewelry.name,
+                    description: response.jewelry.description,
+                    user: {
+                        id: response.jewelry.user.id,
+                        username: response.jewelry.user.username,
+                        fullName: response.jewelry.user.fullName,
+                    }
+                },
+                user: {
+                    id: response.user.id,
+                    username: response.user.username,
+                    fullName: response.user.fullName,
+                }
+            }
+        } else {
+            throw new Error("Phiên không tồn tại");
+        }
+    } catch (error) {
+        console.error("Error", error);
+        return null
+    }
+}
+
+export async function getAuctionByStates(selectedStates: string[], pageable: Pageable): Promise<ResultPageableInteface> {
+    const auctions: Auction[] = [];
+    const selectedStatesQuery = selectedStates.join(',');
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/get-by-states?states=${selectedStatesQuery}&page=${pageable.page - 1}&size=${pageable.size}`;
+    // request
+
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+    const totalPages = response.totalPages;
+    const totalAuctions = response.totalElements;
+    const numberAuctionsPerPage = response.numberOfElements;
+    if (response) {
+        for (const key in responseData) {
+            auctions.push({
+                id: responseData[key].id,
+                name: responseData[key].name,
+                description: responseData[key].description,
+                firstPrice: responseData[key].firstPrice,
+                lastPrice: responseData[key].lastPrice,
+                participationFee: responseData[key].participationFee,
+                deposit: responseData[key].deposit,
+                priceStep: responseData[key].priceStep,
+                startDate: responseData[key].startDate,
+                endDate: responseData[key].endDate,
+                countdownDuration: responseData[key].countdownDuration,
+                state: responseData[key].state,
+                jewelry: {
+                    id: responseData[key].jewelry.id,
+                },
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return {
+        auctionsData: auctions,
+        numberAuctionsPerPage: numberAuctionsPerPage,
+        totalPages: totalPages,
+        totalAuctions: totalAuctions,
+    };
+}
+
+export async function getAuctionByFilterDay(startDate: string, endDate: string): Promise<ResultInteface> {
+    const auctions: Auction[] = [];
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/get-by-day/${startDate}/${endDate}`;
+
+    // request
+    const response = await MyRequest(URL);
+
+    if (response) {
+        for (const key in response) {
+            auctions.push({
+                id: response[key].id,
+                name: response[key].name,
+                description: response[key].description,
+                firstPrice: response[key].firstPrice,
+                lastPrice: response[key].lastPrice,
+                participationFee: response[key].participationFee,
+                deposit: response[key].deposit,
+                priceStep: response[key].priceStep,
+                startDate: response[key].startDate,
+                endDate: response[key].endDate,
+                countdownDuration: response[key].countdownDuration,
+                state: response[key].state,
+                jewelry: {
+                    id: response[key].jewelry.id,
+                },
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return { auctionsData: auctions };
+}
+
+export async function changeStateAuction(auctionId: number, state: string): Promise<boolean> {
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/set-state/${auctionId}?state=${state}`;
+    // request
+    console.log(URL)
+    const response = await fetch(URL, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (!response.ok) {
+        const errorDetails = await response.text();  // Get error details as text
+        console.error('Failed to update the book:', errorDetails);
+        return false
+    }
+
+    return true;
+}
+
+export async function getAuctionsByName(txtSearch: string): Promise<ResultInteface> {
+    const auctions: Auction[] = [];
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/get-by-name/${txtSearch}`;
+    // request
+    const response = await MyRequest(URL);
+
+    if (response) {
+        for (const key in response) {
+            auctions.push({
+                id: response[key].id,
+                name: response[key].name,
+                description: response[key].description,
+                firstPrice: response[key].firstPrice,
+                lastPrice: response[key].lastPrice,
+                participationFee: response[key].participationFee,
+                deposit: response[key].deposit,
+                priceStep: response[key].priceStep,
+                startDate: response[key].startDate,
+                endDate: response[key].endDate,
+                countdownDuration: response[key].countdownDuration,
+                state: response[key].state,
+                jewelry: {
+                    id: response[key].jewelry.id,
+                },
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return { auctionsData: auctions };
+}

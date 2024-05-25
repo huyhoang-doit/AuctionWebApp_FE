@@ -1,0 +1,214 @@
+.login_btn,
+.register_btn {
+    background-color: #333333;
+    color: #ffffff;
+    display: block;
+    margin-top: 30px;
+    width: 140px;
+    border-radius: 0;
+    height: 40px;
+    line-height: 40px;
+    border: 0;
+    text-transform: uppercase;
+}
+
+.login_btn:hover,
+.register_btn:hover {
+    background: #fed100;
+}
+
+.register-form {
+    border: 1px solid #E0E0E0;
+    box-shadow: 5px 2px 30px rgb(0 0 0 / 6%);
+    border-radius: 5px;
+    background: #fff;
+    padding: 15px;
+}
+
+.para {
+    font-size: 20px;
+    font-weight: 400;
+    color: #696969;
+    line-height: 28px;
+    margin-bottom: 20px;
+}
+
+/* styles.css */
+
+.umino-countdown_area {
+    margin-bottom: 1rem;
+}
+
+.umino-countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    padding: 0.5rem;
+    min-width: 3rem;
+    text-align: center;
+}
+
+.countdown-label {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+
+/* Check box at sidebar */
+
+
+.containercheckbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.containercheckbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 0px;
+    top: 1px;
+    border-radius: 2px;
+    background-color: transparent;
+    border: 1px solid #E0E0E0;
+}
+
+.containercheckbox input:checked~.checkmark {
+    background-color: #b41712;
+}
+
+.containercheckbox .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.containercheckbox input:checked~.checkmark:after {
+    display: block;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Search */
+.umino-sidebar_categories input {
+    border: 2px solid #fdb828 !important;
+    border-radius: 30px;
+    font-size: 14px;
+    height: 50px;
+    border: none;
+    width: 100%;
+    padding: 0 60px 0 33px;
+}
+
+.datepicker {
+    padding: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    direction: ltr;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+#fromDate input, #toDate input {
+    font-size: 14px !important;
+}
+
+.input-group>.form-control, .input-group>.form-select {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+}
+
+body .button[type=submit], body .button[type=button] {
+    border-color: #b41712;
+    background: #b41712;
+    padding: 12px 25px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 30px !important;
+    text-transform: uppercase;
+    transition: all 250ms ease-in-out 0s;
+    -webkit-transition: all 250ms ease-in-out 0s;
+    font-size: 100%;
+    margin: 0;
+    line-height: 1;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    overflow: visible;
+    padding: 0.618em 1em;
+    font-weight: 700;
+    border-radius: 3px;
+    left: auto;
+    border: 0;
+    display: inline-block;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.custom-calendar {
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+/* Custom styles for the input group */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}

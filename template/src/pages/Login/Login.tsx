@@ -1,11 +1,44 @@
-import { useNavigate } from "react-router-dom";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { handleActiveUser, login } from "../../api/AuthenticationAPI";
 
 export default function Login() {
-    const navigate = useNavigate();
+    const [loginRequest, setLoginRequest] = useState({
+        username: "",
+        password: "",
+    });
+    const [error, setError] = useState("");
+    const [notification, setNotification] = useState("");
+    const { token } = useParams();
 
-    const handleToRegister = () => {
-        navigate("/register");
+    useEffect(() => {
+        if (token) {
+            handleActiveUser(token)
+                .then((result) => {
+                    if (result) {
+                        setNotification("Kích hoạt tài khoản thành công vui lòng đăng nhập!");
+                    }
+                    else {
+                        setError("Kích hoạt tài khoản không thành công");
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    }, [token])
+
+    const onChangeLoginRequest = (key: keyof typeof loginRequest) => (e: ChangeEvent<HTMLInputElement>) => {
+        setLoginRequest((preValue) => ({ ...preValue, [key]: e.target.value }));
+    }
+
+    const handleLogin = async () => {
+        const success = await login(loginRequest, setError);
+        if (success) {
+            window.location.href = '/';
+        }
     };
+
     return (
         <>
             {/* <!-- Begin Umino's Breadcrumb Area --> */}
@@ -30,12 +63,14 @@ export default function Login() {
                             <form action="#">
                                 <div className="login-form">
                                     <h4 className="login-title">Đăng nhập</h4>
-
+                                    {notification && <h5 className="fw-bold" style={{ color: "green" }}>{notification}</h5>}
                                     <div className="row mb-4">
                                         <div className="col-md-12 col-12">
                                             <label>Tên đăng nhập/ Email</label>
                                             <input
-                                                type="email"
+                                                type="text"
+                                                value={loginRequest.username}
+                                                onChange={onChangeLoginRequest("username")}
                                                 placeholder="Nhập tên đăng nhập/ Email"
                                             />
                                         </div>
@@ -43,6 +78,8 @@ export default function Login() {
                                             <label>Mật khẩu</label>
                                             <input
                                                 type="password"
+                                                value={loginRequest.password}
+                                                onChange={onChangeLoginRequest("password")}
                                                 placeholder="Nhập mật khẩu"
                                             />
                                         </div>
@@ -67,15 +104,16 @@ export default function Login() {
                                             </div>
                                         </div>
                                         <div className="col-md-12">
-                                            <button className="umino-login_btn">
+                                            <button type="button" className="login_btn" onClick={handleLogin}>
                                                 Đăng nhập
                                             </button>
+                                            {error && <div className="mt-2" style={{ color: "red" }}>{error}</div>}
                                         </div>
                                     </div>
 
-                                    <a onClick={() => handleToRegister()}>
+                                    <Link to={"/register"}>
                                         Bạn chưa có tài khoản ?
-                                    </a>
+                                    </Link>
                                 </div>
                             </form>
                         </div>
