@@ -3,9 +3,17 @@ import { ViewJewelryRequestModal, ViewTransactionModal } from "./Modal/Modal"
 import useAccount from "../../hooks/useAccount";
 import { MyAccountDetail } from "./Components/MyAccountDetail";
 import { MyAccountAuctionHistory } from "./Components/MyAccountAuctionHistory";
+import { useEffect, useState } from "react";
+import { User } from "../../models/User";
 export default function MyAccount() {
     const token = localStorage.getItem("token");
     const user = useAccount(token);
+
+    const [userState, setUserState] = useState<User | null>(user);
+
+    useEffect(() => {
+        setUserState(user);
+    }, [user]);
 
     return (
         <>
@@ -91,7 +99,7 @@ export default function MyAccount() {
                                     className="tab-content myaccount-tab-content"
                                     id="account-page-tab-content"
                                 >
-                                    <MyAccountDetail user={user} />
+                                    <MyAccountDetail user={userState} setUser={setUserState}/>
                                     <div
                                         className="tab-pane fade"
                                         id="transaction-history"

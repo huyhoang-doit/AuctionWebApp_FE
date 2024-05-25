@@ -152,18 +152,21 @@
     width: 100%;
 }
 
-#fromDate input, #toDate input {
+#fromDate input,
+#toDate input {
     font-size: 14px !important;
 }
 
-.input-group>.form-control, .input-group>.form-select {
+.input-group>.form-control,
+.input-group>.form-select {
     position: relative;
     flex: 1 1 auto;
     width: 1%;
     min-width: 0;
 }
 
-body .button[type=submit], body .button[type=button] {
+body .button[type=submit],
+body .button[type=button] {
     border-color: #b41712;
     background: #b41712;
     padding: 12px 25px;
@@ -211,4 +214,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     right: 0;
     top: 0;
     width: auto;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.input-required {
+    background-color: #F5F5F5!important;
 }

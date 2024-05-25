@@ -37,7 +37,7 @@ export const ViewTransactionModal = () => {
 
     </>
   );
-};
+}
 
 export const ViewJewelryRequestModal = () => {
   const [show, setShow] = useState(false);
@@ -326,6 +326,81 @@ export const LogoutModal = () => {
         </div>
       )}
 
+    </>
+  );
+};
+
+
+
+export const SaveEditProfileModal = () => {
+  const [show, setShow] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const handleClose = () => {
+    setIsEditing(false);
+    setShow(false)
+  };
+  const handleShow = () => setShow(true);
+
+  const changeState = () => {
+    setIsEditing(!isEditing);
+
+    const inputs = document.querySelectorAll('input[type="text"]');
+
+    inputs.forEach((input) => {
+      if (!isEditing) {
+        input.removeAttribute('readonly');
+        input.classList.remove('input-required');
+      } else {
+        // handleEdit();
+        input.setAttribute('readonly', '');
+        input.classList.add('input-required');
+      }
+    });
+  };
+
+  return (
+    <>
+      <button
+        className="btn btn-xs btn-primary mb-3 mt-2"
+        id="save-profile-tab"
+        type="button"
+        data-bs-toggle="tab"
+        // href="#account-details"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        // onClick={handleShow}
+        onClick={!isEditing ? changeState : handleShow}
+        style={{ backgroundColor: "black", border: "none" }}
+      >
+        {isEditing ? "Lưu" : "Chỉnh sửa"}
+      </button>
+      {/* <button id="save-profile-tab" type="button" onClick={changeState} className="btn btn-xs btn-primary mb-3 mt-2"
+        style={{ backgroundColor: "black", border: "none" }}>{isEditing ? "Lưu" : "Chỉnh sửa"}
+      </button> */}
+      {show && (
+        <div className='overlay' >
+          <Modal
+            show={show}
+            centered
+            onHide={handleClose}
+            backdropClassName="custom-backdrop"
+          >
+            <Modal.Header >
+              <Modal.Title>Xác nhận đăng xuất </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Bạn có chắc muốn đăng xuất khỏi tài khoản ngay bây giờ?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleClose}>
+                Hủy
+              </Button>
+              <Button variant="warning" onClick={handleClose}>
+                Lưu
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
     </>
   );
 };

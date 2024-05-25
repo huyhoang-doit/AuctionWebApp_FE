@@ -33,3 +33,19 @@ export const getUserLogin = async (username: string): Promise<User> => {
   // console.log(response)
   return response;
 };
+
+export const editProfileUser = async (user: User): Promise<User> => {
+  const URL = `http://localhost:8080/api/v1/user`;
+
+  const response = await fetch(URL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(user)
+  });
+  if (!response.ok) {
+    throw new Error(`Error: ${response.statusText}`);
+  }
+  return response.json();
+};
