@@ -1,6 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { Modal, Button } from 'react-bootstrap';
 
 const RequestProduct = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleDeleteProduct = () => {
+    // Thực hiện xóa sản phẩm ở đây
+    console.log('Xóa sản phẩm');
+    // Sau khi xóa, bạn có thể đóng modal bằng cách gọi handleCloseModal()
+    handleCloseModal();
+  };
+
   return (
     <>
       <section className="main_content dashboard_part">
@@ -14,11 +32,13 @@ const RequestProduct = () => {
                     <div className="box_right d-flex lms_block">
                       <div className="serach_field_2">
                         <div className="search_inner">
-                          <form >
+                          <form>
                             <div className="search_field">
                               <input type="text" placeholder="Tìm kiếm..." />
                             </div>
-                            <button type="submit"> <i className="ti-search"></i> </button>
+                            <button type="submit">
+                              <i className="ti-search"></i>
+                            </button>
                           </form>
                         </div>
                       </div>
@@ -28,7 +48,6 @@ const RequestProduct = () => {
                     </div>
                   </div>
                   <div className="QA_table ">
-
                     <table className="table lms_table_active">
                       <thead>
                         <tr>
@@ -49,20 +68,37 @@ const RequestProduct = () => {
                           <td>Đồng hồ</td>
                           <td>.....</td>
                           <td>.....</td>
-                          <td><a href="#" className="btn btn-sm btn-warning">Xem</a><a href="#" className="btn btn-sm btn-danger">Xóa</a></td>
+                          <td>
+                            <a href="/manager/View/ViewProducts" className="btn btn-sm btn-warning">Xem</a>
+                            <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
+                  {/* Modal */}
+                  <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Xác nhận xóa</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Bạn có chắc chắn muốn xóa sản phẩm này?</Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleCloseModal}>
+                        Hủy
+                      </Button>
+                      <Button variant="danger" onClick={handleDeleteProduct}>
+                        Xóa
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </section>
     </>
-  )
-}
+  );
+};
 
-export default RequestProduct
+export default RequestProduct;
