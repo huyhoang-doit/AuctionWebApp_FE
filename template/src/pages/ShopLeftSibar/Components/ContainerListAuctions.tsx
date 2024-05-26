@@ -62,40 +62,6 @@ const ContainerListAuctions: React.FC<ContainerListAuctionsProps> = (props) => {
             <h3 className='fw-bold'>Không tìm thấy phiên đấu giá phù hợp</h3>
           </div>}
         <div className="product-item-selection_area">
-          {/* <div className="product-short">
-            <label className="select-label">
-              Short By:
-            </label>
-            <select className="nice-select">
-              <option value="1">
-                Default sorting
-              </option>
-              <option value="2">
-                Name, A to Z
-              </option>
-              <option value="3">
-                Name, Z to A
-              </option>
-              <option value="4">
-                Price, low to high
-              </option>
-              <option value="5">
-                Price, high to low
-              </option>
-              <option value="5">
-                Rating (Highest)
-              </option>
-              <option value="5">
-                Rating (Lowest)
-              </option>
-              <option value="5">
-                Model (A - Z)
-              </option>
-              <option value="5">
-                Model (Z - A)
-              </option>
-            </select>
-          </div> */}
         </div>
       </div>
       <div className="shop-product-wrap row listview">
