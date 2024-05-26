@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import SingleAuction from './SingleWaitingAuction'
-import { getAuctionToday } from '../../../api/AuctionAPI'
+import SingleAuction from './SingleAuction'
+import { gettop3PriceAndState } from '../../../api/AuctionAPI'
 import { Auction } from '../../../models/Auction';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-const AuctionWaiting = () => {
+const AuctionTopPrice = () => {
   const [auctions, setAuctions] = useState<Auction[]>([]);
 
   useEffect(() => {
-    getAuctionToday()
+    gettop3PriceAndState()
       .then((response) => {
         setAuctions(response.auctionsData);
       })
@@ -21,7 +21,7 @@ const AuctionWaiting = () => {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 4,
+      items: 3,
       partialVisibilityGutter: 40 // this is needed to tell the amount of px that should be visible.
     },
     tablet: {
@@ -42,7 +42,7 @@ const AuctionWaiting = () => {
         <div className="row">
           <div className="col-12">
             <div className="umino-section_title">
-              <h3>Trang sức sắp được đấu giá</h3>
+              <h3>Top trang sức trị giá cao</h3>
             </div>
           </div>
 
@@ -59,7 +59,7 @@ const AuctionWaiting = () => {
                   responsive={responsive}
                   ssr={true}
                   infinite={true}
-                  autoPlaySpeed={1000}
+                  autoPlaySpeed={500}
                   keyBoardControl={true}
                   rewindWithAnimation={true}
                   transitionDuration={1000}
@@ -79,4 +79,4 @@ const AuctionWaiting = () => {
   )
 }
 
-export default AuctionWaiting
+export default AuctionTopPrice

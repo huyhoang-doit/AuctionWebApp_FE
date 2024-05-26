@@ -152,18 +152,21 @@
     width: 100%;
 }
 
-#fromDate input, #toDate input {
+#fromDate input,
+#toDate input {
     font-size: 14px !important;
 }
 
-.input-group>.form-control, .input-group>.form-select {
+.input-group>.form-control,
+.input-group>.form-select {
     position: relative;
     flex: 1 1 auto;
     width: 1%;
     min-width: 0;
 }
 
-body .button[type=submit], body .button[type=button] {
+body .button[type=submit],
+body .button[type=button] {
     border-color: #b41712;
     background: #b41712;
     padding: 12px 25px;
@@ -211,4 +214,56 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     right: 0;
     top: 0;
     width: auto;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.input-required {
+    background-color: #F5F5F5!important;
+}
+
+.auction-property-des-title {
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+}
+
+.right-confirm-check {
+    padding: 24px;
+    margin-top: 28px;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+}
+
+.checkbox-biddingrequest {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 5px;
+    margin-right: 8px !important;
+}
+
+.bidding-request-confirm-btn {
+    width: 100%;
+    height: 48px;
+    background: #F5F5F5;
+    border: 1px solid #E0E0E0;
+    border-radius: 2px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #BFBFBF;
 }

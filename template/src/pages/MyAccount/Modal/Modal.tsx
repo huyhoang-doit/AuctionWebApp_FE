@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import './Modal.css';
+import { handleLogout } from '../../../utils/logout';
 // *** MODAL FOR USER
 export const ViewTransactionModal = () => {
   const [show, setShow] = useState(false);
@@ -37,7 +38,7 @@ export const ViewTransactionModal = () => {
 
     </>
   );
-};
+}
 
 export const ViewJewelryRequestModal = () => {
   const [show, setShow] = useState(false);
@@ -292,21 +293,21 @@ export const LogoutModal = () => {
   return (
     <>
       <span
-        className="nav-link"
+        // className="nav-link"
         id="account-details-tab"
         data-bs-toggle="tab"
-        // href="#account-details"
+        style={{cursor: "pointer"}}
         role="tab"
         aria-controls="account-details"
         aria-selected="false"
         onClick={handleShow}
-      >
-        Đăng xuất
+      > ĐĂNG XUẤT
       </span>
       {show && (
         <div className='overlay' >
           <Modal
             show={show}
+            centered
             onHide={handleClose}
             backdropClassName="custom-backdrop"
           >
@@ -318,7 +319,7 @@ export const LogoutModal = () => {
               <Button variant="dark" onClick={handleClose}>
                 Hủy
               </Button>
-              <Button variant="warning" onClick={handleClose}>
+              <Button variant="warning" onClick={() => handleLogout()}>
                 Đăng xuất
               </Button>
             </Modal.Footer>
@@ -326,6 +327,81 @@ export const LogoutModal = () => {
         </div>
       )}
 
+    </>
+  );
+};
+
+interface SaveEditProfileModalProps {
+  isEditing: boolean;
+  setIsEditing: (value: boolean) => void;
+  handleEdit: () => void;
+}
+
+export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEditing, setIsEditing, handleEdit }) => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    changeState();
+    setShow(false)
+  };
+  const handleShow = () => setShow(true);
+
+  const changeState = () => {
+    setIsEditing(!isEditing);
+
+    const inputs = document.querySelectorAll('input[type="text"]');
+
+    inputs.forEach((input) => {
+      if (!isEditing) {
+        input.removeAttribute('readonly');
+        input.classList.remove('input-required');
+      } else {
+        handleEdit();
+        input.setAttribute('readonly', '');
+        input.classList.add('input-required');
+      }
+    });
+  };
+
+  return (
+    <>
+      <button
+        className="btn btn-xs btn-primary mb-3 mt-2"
+        id="save-profile-tab"
+        type="button"
+        data-bs-toggle="tab"
+        // href="#account-details"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        // onClick={handleShow}
+        onClick={!isEditing ? changeState : handleShow}
+        style={{ backgroundColor: "black", border: "none" }}
+      >
+        {isEditing ? "Lưu" : "Chỉnh sửa"}
+      </button>
+      {show && (
+        <div className='overlay' >
+          <Modal
+            show={show}
+            centered
+            onHide={handleClose}
+            backdropClassName="custom-backdrop"
+          >
+            <Modal.Header >
+              <Modal.Title>Xác nhận lưu thay đổi</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Bạn có chắc muốn thông tin thay đổi tài khoản?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleClose}>
+                Hủy
+              </Button>
+              <Button variant="warning" onClick={handleClose}>
+                Lưu
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
     </>
   );
 };

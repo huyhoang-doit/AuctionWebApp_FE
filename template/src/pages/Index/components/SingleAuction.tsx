@@ -14,7 +14,7 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
   const imageData = useIconImage(jewelryId);
 
   return (
-    <div className="" style={{ margin: "0 15px" }}>
+    <div className="" style={{ margin: "0 15px"}}>
       <div className="slide-item" style={{
         boxShadow: "0 0 10px rgba(0, 0, 0, .06)", borderRadius: "0 30px",
         border: "unset",
@@ -33,7 +33,7 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
           <div className="product-content">
             <div className="product-desc_info">
               <div className="price-box">
-                <span className="new-price me-2" style={{ fontSize: "18px" }}>
+                <span className="new-price me-2" style={{ fontSize: "16 px" }}>
                   Trị giá: {formatNumber(props.auction.firstPrice)} VNĐ
                 </span>
               </div>

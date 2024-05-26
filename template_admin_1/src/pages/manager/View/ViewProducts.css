@@ -1,0 +1,34 @@
+.product-image {
+    padding-right: 15px;
+  }
+  
+  .product-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .product-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .product-details .row > div {
+    margin-bottom: 15px;
+  }
+  
+  .btn {
+    min-width: 120px;
+    margin: 0 5px;
+  }
+  
+  .product-details label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .product-details input[type="radio"] {
+    margin-left: 10px;
+  }
+  

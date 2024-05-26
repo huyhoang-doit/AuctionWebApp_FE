@@ -21,7 +21,6 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
     const auctions: Auction[] = [];
     // endpoint
     const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
-    console.log(URL)
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
@@ -64,10 +63,10 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
     };
 }
 
-export async function getAuctionToday(): Promise<ResultInteface> {
+export async function gettop3PriceAndState(): Promise<ResultInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/get-by-today`;
+    const URL = `http://localhost:8080/api/v1/auction/get-top-3-price?state=ONGOING&state=WAITING`;
 
     // request
     const response = await MyRequest(URL);
@@ -247,6 +246,39 @@ export async function getAuctionsByName(txtSearch: string): Promise<ResultIntefa
     const auctions: Auction[] = [];
     // endpoint
     const URL = `http://localhost:8080/api/v1/auction/get-by-name/${txtSearch}`;
+    // request
+    const response = await MyRequest(URL);
+
+    if (response) {
+        for (const key in response) {
+            auctions.push({
+                id: response[key].id,
+                name: response[key].name,
+                description: response[key].description,
+                firstPrice: response[key].firstPrice,
+                lastPrice: response[key].lastPrice,
+                participationFee: response[key].participationFee,
+                deposit: response[key].deposit,
+                priceStep: response[key].priceStep,
+                startDate: response[key].startDate,
+                endDate: response[key].endDate,
+                countdownDuration: response[key].countdownDuration,
+                state: response[key].state,
+                jewelry: {
+                    id: response[key].jewelry.id,
+                },
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return { auctionsData: auctions };
+}
+
+export async function getAuctionsByStateNotPageale(state: string): Promise<ResultInteface> {
+    const auctions: Auction[] = [];
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/get-by-state?state=${state}`;
     // request
     const response = await MyRequest(URL);
 

@@ -82,11 +82,11 @@ export default function MyAccountStaff() {
               </div>
               <div className="col-lg-9">
                 <div
-                  className="tab-content myaccount-tab-content"
+                  className="tab-content myaccount-tab-content "
                   id="account-page-tab-content"
                 >
                   <div
-                    className="tab-pane fade"
+                    className="tab-pane fade active"
                     id="account-details"
                     role="tabpanel"
                     aria-labelledby="account-details-tab"
