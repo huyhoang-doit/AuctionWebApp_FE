@@ -1,10 +1,20 @@
 import React from 'react'
+import Footer from '../../../layouts/admin/components/Footer'
+import Header from '../../../layouts/admin/components/Header'
+import Navbar from '../../../layouts/admin/components/Navbar'
 
 const TransactionWithUser = () => {
   return (
     <>
+      <Navbar />
       <section className="main_content dashboard_part">
-
+        <div className="container-fluid g-0">
+          <div className="row">
+            <div className="col-lg-12 p-0">
+              <Header />
+            </div>
+          </div>
+        </div>
         <div className="main_content_iner ">
           <div className="container-fluid plr_30 body_white_bg pt_30">
             <div className="row justify-content-center">
@@ -60,6 +70,7 @@ const TransactionWithUser = () => {
             </div>
           </div>
         </div>
+        <Footer />
       </section>
 
     </>

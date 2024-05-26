@@ -6,9 +6,6 @@ import ManageUser from '../pages/admin/manage-account/ManageUser'
 import TransactionWithSeller from '../pages/admin/transaction/TransactionWithSeller'
 import TransactionWithBuyer from '../pages/admin/transaction/TransactionWithBuyer'
 import TransactionWithUser from '../pages/admin/transaction/TransactionWithUser'
-import ViewManager from '../pages/admin/View/ViewManager'
-import ViewTransactionSeller from '../pages/admin/View/ViewTransactionSeller'
-
 const RouterComAdmin = () => {
   return (
     <>
@@ -20,8 +17,6 @@ const RouterComAdmin = () => {
         <Route path="/admin/transaction/seller" element={<TransactionWithSeller />} />
         <Route path="/admin/transaction/buyer" element={<TransactionWithBuyer />} />
         <Route path="/admin/transaction/user" element={<TransactionWithUser />} />
-        <Route path="/admin/view/viewmanager" element={<ViewManager />} />
-        <Route path="/admin/view/Viewtransactionseller" element={<ViewTransactionSeller />} />
       </Routes>
     </>
   )

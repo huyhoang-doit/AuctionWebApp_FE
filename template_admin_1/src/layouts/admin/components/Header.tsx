@@ -14,7 +14,7 @@ const Header = () => {
           <h6>Travor James</h6>
         </div>
         <div className="profile_info">
-          <img src="assets/img/client_img.png" alt="#" />
+          <img src="img/client_img.png" alt="#" />
           <div className="profile_info_iner">
 
             <div className="profile_info_details">
