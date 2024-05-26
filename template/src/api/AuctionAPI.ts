@@ -73,7 +73,6 @@ export async function gettop3PriceAndState(): Promise<ResultInteface> {
 
     if (response) {
         for (const key in response) {
-
             auctions.push({
                 id: response[key].id,
                 name: response[key].name,
@@ -92,6 +91,7 @@ export async function gettop3PriceAndState(): Promise<ResultInteface> {
                 },
             })
         }
+        console.log(auctions)
     } else {
         throw new Error("Phiên không tồn tại");
     }
