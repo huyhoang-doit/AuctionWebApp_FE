@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Header.css";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { formatDateTime, formatTime } from "../../../utils/formatDateString";
 import { NavBar } from "./NavBar";
 
@@ -76,7 +76,7 @@ export default function Header() {
                         </div>
                     </div>
                 </div>
-                <NavBar/>
+                <NavBar />
 
                 <div className="header-bottom_area header-sticky stick">
                     <div className="container">
@@ -192,7 +192,7 @@ export default function Header() {
                             <div className="col-xl-3 col-lg-3 d-none d-lg-block">
                                 <div className="hm-minicart_area">
                                     <ul className="d-flex align-items-center justify-content-center">
-                                        <li>
+                                        {/* <li>
                                             <a href="#">
                                                 <div className="minicart-icon wishlist-icon">
                                                     <i className="fa-regular fa-bell"></i>
@@ -201,7 +201,7 @@ export default function Header() {
                                                     </span>
                                                 </div>
                                             </a>
-                                        </li>
+                                        </li> */}
                                         <li>
                                             <a href="#">
                                                 <div>

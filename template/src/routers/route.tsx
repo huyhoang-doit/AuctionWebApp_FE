@@ -10,7 +10,7 @@ import MyAccount from "../pages/MyAccount/MyAccount";
 import ShopLeftSibar from "../pages/ShopLeftSibar/ShopLeftSibar";
 import Error from "../pages/404/Error";
 import { Privacy_Policy } from "../pages/Privacy-Policy/Privacy-Policy";
-import { PageSendJewelry } from "../pages/FormSendJewelry/PageSendJewelry";
+// import { PageSendJewelry } from "../pages/FormSendJewelry/PageSendJewelry";
 import MyAccountStaff from "../pages/MyAccount/MyAccountStaff";
 import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
@@ -46,7 +46,7 @@ export default function RouterCom() {
 
             {/* ///// */}
             <Route element={<ProtectedRoute roles={['MEMBER', 'STAFF', 'MANAGER', 'ADMIN']} />}>
-                <Route path="/form-send-jewerly" element={<PageSendJewelry />} />
+                {/* <Route path="/form-send-jewerly" element={<PageSendJewelry />} /> */}
             </Route>
             <Route element={<ProtectedRoute roles={['MEMBER', 'ADMIN']} />}>
                 <Route path="/dang-ki-dau-gia/:id" element={<RegisterForAuction />} />

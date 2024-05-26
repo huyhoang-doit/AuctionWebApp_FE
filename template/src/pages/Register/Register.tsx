@@ -150,8 +150,8 @@ export default function Register() {
         const isPasswordValid = !isPasswordWrongFormat(registerRequest.password);
         const isConfirmPasswordValid = !isConfirmPasswordWrong(registerRequest.password, confirmPassword);
         const isPhoneNumberValid = !isPhoneNumberWrongFormat(registerRequest.phone);
-        const isYearOfBirthValid =!isYearOfBirthWrongFormat(registerRequest.yob);
-        const isCitizenIdValid =!isCitizenIdWrongFormat(registerRequest.CCCD);
+        const isYearOfBirthValid = !isYearOfBirthWrongFormat(registerRequest.yob);
+        const isCitizenIdValid = !isCitizenIdWrongFormat(registerRequest.CCCD);
 
         if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid || !isPhoneNumberValid || !isYearOfBirthValid || !isCitizenIdValid) {
             console.log(isUsernameValid);
@@ -167,7 +167,7 @@ export default function Register() {
         }
 
         // Clear error message
-        clearErrors();  
+        clearErrors();
         setNotification("Đăng kí tài khoản thành công, vui lòng kiểm tra email để kích hoạt tài khoản!")
     }
 
