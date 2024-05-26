@@ -3,7 +3,7 @@ const ManageManager = () => {
   return (
     <>
       <section className="main_content dashboard_part">
-        
+
         <div className="main_content_iner ">
           <div className="container-fluid plr_30 body_white_bg pt_30">
             <div className="row justify-content-center">
@@ -49,7 +49,12 @@ const ManageManager = () => {
                           <td>lequangson@gmail.com</td>
                           <td>0999990999</td>
                           <td><a href="#" className="status_btn">Active</a></td>
-                          <td><a href="#" className="btn btn-sm btn-warning">Xem</a><a href="#" className="btn btn-sm btn-danger">Xóa</a></td>
+                          <td>
+                            <div className="btn-group">
+                              <a href="/admin/view/viewmanager" className="btn btn-sm btn-warning">Xem</a>
+                              <a href="#" className="btn btn-sm btn-danger">Xóa</a>
+                            </div>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
