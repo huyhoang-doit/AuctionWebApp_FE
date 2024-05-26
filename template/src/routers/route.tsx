@@ -32,7 +32,7 @@ export default function RouterCom() {
             <Route path="/shop-left-sibar/category/:cateId" element={<ShopLeftSibar />} />
             <Route path="/shop-left-sibar/name/:txtSearch" element={<ShopLeftSibar />} />
             <Route path="/shop-left-sibar/date/:fromDateFilter/:toDateFilter" element={<ShopLeftSibar />} />
-            <Route path="/single-auction/:id" element={<AuctionDetail />} />
+             <Route path="/single-auction/:id" element={<AuctionDetail />} />
 
 
             {/* ///// */}
