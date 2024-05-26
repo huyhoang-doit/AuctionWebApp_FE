@@ -10,8 +10,8 @@ interface AuctionDetailJewelryProps {
 export const AuctionDetailJewelry: React.FC<AuctionDetailJewelryProps> = (props) => {
     return (
         <div
+            className={props.auction?.state === 'WAITING' ? `active tab-pane` : "tab-pane"}
             id="description"
-            className="tab-pane"
             role="tabpanel"
         >
             <div className="product-description">

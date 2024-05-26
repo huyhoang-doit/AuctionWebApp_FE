@@ -213,7 +213,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                         />
                                     </div>
 
-                                    <div className="col-md-8 mt-4">
+                                    <div className="col-md-12 mt-4">
                                         <label >Ngân hàng</label>
                                         <select defaultValue={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
                                         >
@@ -224,7 +224,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             ))}
                                         </select>
                                     </div>
-                                    <div className="col-md-4 mt-4">
+                                    <div className="col-md-6 mt-4">
                                         <label>Số tài khoản ngân hàng</label>
                                         <input
                                             className="input-required"
@@ -233,6 +233,17 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             readOnly
                                             defaultValue={user?.bankAccountNumber}
                                             onChange={(e) => setUser({ ...user, bankAccountNumber: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="col-md-6 mt-4">
+                                        <label>Tên chủ tài khoản ngân hàng</label>
+                                        <input
+                                            className="input-required"
+                                            type="text"
+                                            placeholder="Nhập tên chủ tài khoản ngân hàng"
+                                            readOnly
+                                            defaultValue={user?.bankAccountName}
+                                            onChange={(e) => setUser({ ...user, bankAccountName: e.target.value })}
                                         />
                                     </div>
                                     <div className="col-md-12 mt-4">
