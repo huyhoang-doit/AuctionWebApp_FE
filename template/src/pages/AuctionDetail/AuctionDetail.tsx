@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Auction } from "../../models/Auction";
 import { getAuction } from "../../api/AuctionAPI";
 import { formatDateString } from "../../utils/formatDateString";
@@ -142,7 +142,7 @@ export default function AuctionDetail() {
                                         <a href="index.html">Home</a>
                                     </li>
                                     <li className="active">
-                                        Single Product Sale
+                                        Trang sức đấu giá
                                     </li>
                                 </ul>
                             </div>
@@ -161,7 +161,12 @@ export default function AuctionDetail() {
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
-                                        <p className="para" id="countdown-txt">Cuộc đấu giá: <StateAuctionView state={auction?.state ? auction?.state : "null"} /></p>
+                                        {auction?.state === 'WAITING' &&
+                                            <p className="para" id="countdown-txt">Thời gian đếm ngược bắt đầu trả giá:</p>
+                                        }
+                                        {auction?.state === 'ONGOING' &&
+                                            <p className="para" id="countdown-txt">Thời gian đếm ngược kết thúc trả giá:</p>
+                                        }
                                         <div className="umino-countdown_area mb-4">
                                             {typeof timeLeft === 'string' ? (
                                                 <div className="umino-countdown" style={{ padding: "10px 0px" }}>{timeLeft}</div>
@@ -169,19 +174,19 @@ export default function AuctionDetail() {
                                                 <div className="umino-countdown">
                                                     <div className="countdown-item">
                                                         <div>{timeLeft.days}</div>
-                                                        <div className="countdown-label">Days</div>
+                                                        <div className="countdown-label">Ngày</div>
                                                     </div>
                                                     <div className="countdown-item">
                                                         <div>{timeLeft.hours}</div>
-                                                        <div className="countdown-label">Hours</div>
+                                                        <div className="countdown-label">Giờ</div>
                                                     </div>
                                                     <div className="countdown-item">
                                                         <div>{timeLeft.minutes}</div>
-                                                        <div className="countdown-label">Minutes</div>
+                                                        <div className="countdown-label">Phút</div>
                                                     </div>
                                                     <div className="countdown-item">
                                                         <div>{timeLeft.seconds}</div>
-                                                        <div className="countdown-label">Seconds</div>
+                                                        <div className="countdown-label">Giây</div>
                                                     </div>
                                                 </div>
                                             )}
@@ -192,30 +197,14 @@ export default function AuctionDetail() {
                                                     <p className="left-title-text no-margin">Mã trang sức:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <p className="right-info-text no-margin fw-bold">{jewelry?.id}</p>
-                                                </div>
-                                                <div className="col-6">
-
-                                                    <p className="left-title-text no-margin ">Thời gian mở đăng ký:</p>
-                                                </div>
-                                                <div className="col-6">
-
-                                                    <p className="right-info-text no-margin fw-bold">06/05/2024 08:00:00</p>
-                                                </div>
-                                                <div className="col-6">
-
-                                                    <p className="left-title-text no-margin">Thời gian kết thúc đăng ký:</p>
-                                                </div>
-                                                <div className="col-6">
-
-                                                    <p className="right-info-text no-margin  fw-bold">13/05/2024 17:00:00</p>
+                                                    <p className="right-info-text no-margin fw-bold" style={{ color: "#b41712" }}>{jewelry?.id}</p>
                                                 </div>
                                                 <div className="col-6">
 
                                                     <p className="left-title-text no-margin">Giá khởi điểm:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <p className="right-info-text no-margin">
+                                                    <p className="right-info-text no-margin" style={{ color: "#b41712" }}>
                                                         <span className="fw-bold novaticPrice openningPrice">{formatNumber(auction?.firstPrice)}</span>
                                                         <span className="fw-bold unitPrice"> VNĐ</span>
                                                     </p>
@@ -225,7 +214,7 @@ export default function AuctionDetail() {
                                                     <p className="left-title-text no-margin">Phí đăng ký tham gia đấu giá:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <p className="fw-bold right-info-text no-margin">
+                                                    <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>
                                                         <span className="fw-bold novaticPrice registerFee">{formatNumber(auction?.participationFee)}</span>
                                                         VNĐ
                                                     </p>
@@ -234,61 +223,69 @@ export default function AuctionDetail() {
                                                     <p className="left-title-text no-margin">Bước giá:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <p className="right-info-text no-margin">
+                                                    <p className="right-info-text no-margin" style={{ color: "#b41712" }}>
                                                         <span className="fw-bold novaticPrice step-price stepPrice">{formatNumber(auction?.priceStep)}</span>
                                                         <span className="fw-bold unitPrice"> VNĐ</span>
                                                     </p>
                                                 </div>
-                                                <div className="col-6">
-
+                                                <div className="col-6" >
                                                     <p className="left-title-text no-margin">Số bước giá tối đa/ lần trả:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <p className="fw-bold right-info-text no-margin">Bước giá không giới hạn</p>
+                                                    <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>Bước giá không giới hạn</p>
                                                 </div>
                                                 <div className="col-6">
 
                                                     <p className="left-title-text no-margin">Tiền đặt trước:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <p className="fw-bold right-info-text no-margin">
+                                                    <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>
                                                         <span className="fw-bold novaticPrice depositPrice">{formatNumber(auction?.deposit)}</span> VNĐ</p>
                                                 </div>
                                                 <div className="col-6">
-
                                                     <p className="left-title-text no-margin">Phương thức đấu giá:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <p className="fw-bold right-info-text no-margin">Trả giá lên và liên tục</p>
+                                                    <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>Trả giá lên và liên tục</p>
                                                 </div>
                                                 <div className="col-6">
                                                     <p className="left-title-text no-margin">Tên chủ tài sản:</p>
                                                 </div>
                                                 <div className="col-6">
-
-                                                    <p className="fw-bold right-info-text no-margin">{jewelryUser?.fullName}</p>
+                                                    <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>{jewelryUser?.fullName}</p>
                                                 </div>
                                                 <div className="col-6">
-
+                                                    <p className="left-title-text no-margin">Nơi xem tài sản:</p>
+                                                </div>
+                                                <div className="col-6">
+                                                    <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>Nhà văn hóa sinh viên</p>
+                                                </div>
+                                                <div className="col-6">
                                                     <p className="left-title-text no-margin">Thời gian bắt đầu trả giá:</p>
                                                 </div>
                                                 <div className="col-6">
-
-                                                    <p className="fw-bold right-info-text no-margin">{auction?.startDate ? formatDateString(auction?.startDate) : ""}</p>
+                                                    <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>{auction?.startDate ? formatDateString(auction?.startDate) : ""}</p>
                                                 </div>
                                                 <div className="col-6">
-
                                                     <p className="left-title-text no-margin">Thời gian kết thúc trả giá:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <p className="fw-bold right-info-text no-margin">{auction?.startDate ? formatDateString(auction?.endDate) : ""}</p>
+                                                    <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>{auction?.startDate ? formatDateString(auction?.endDate) : ""}</p>
                                                 </div>
                                                 <div className="col-6 col-xs-6">
-                                                    <b className="spanauctionproperty" style={{ color: "red" }}>Giá trúng tối thiểu:</b>
+                                                    <b className="spanauctionproperty">Giá trúng tối thiểu:</b>
                                                 </div>
-                                                <div className="col-6 col-xs-6 right-info-text no-margin">
-                                                    <span className="fw-bold spanColorAuctionproperty novaticPrice" style={{ color: "red" }}>{formatNumber(auction?.firstPrice)}</span>
-                                                    <span className="fw-bold spanColorAuctionproperty" style={{ color: "red" }}> VNĐ</span>
+                                                <div className="col-6 col-xs-6 right-info-text no-margin" style={{ color: "#b41712" }}>
+                                                    <span className="fw-bold spanColorAuctionproperty novaticPrice">{formatNumber(auction?.firstPrice)}</span>
+                                                    <span className="fw-bold spanColorAuctionproperty"> VNĐ</span>
+                                                </div>
+                                                <div className="row mt-2" style={{ paddingTop: "15px", paddingLeft: "40px", paddingRight: "12px" }}>
+                                                    {auction?.state === 'WAITING' &&
+                                                        <Link to={"/dang-ki-dau-gia/" + auctionId} className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
+                                                            style={{ backgroundColor: "#B41712", textTransform: "unset", border: "unset", borderRadius: "10px", padding: "10px 15px", fontSize: "16px" }}
+                                                        > <i className="fa fa-gavel" style={{ marginRight: "5px" }}></i>Đăng ký tham gia đấu giá
+                                                        </Link>
+                                                    }
                                                 </div>
                                             </div>
                                             <div className="auction-card3">
@@ -350,8 +347,8 @@ export default function AuctionDetail() {
                                             </ul>
                                         </div>
                                         <div className="tab-content umino-tab_content">
-                                            <AuctionDetailHistory auction={auction}/>
-                                            <AuctionDetailJewelry auction={auction} jewelry={jewelry}/>
+                                            <AuctionDetailHistory auction={auction} />
+                                            <AuctionDetailJewelry auction={auction} jewelry={jewelry} />
                                             <div
                                                 id="specification"
                                                 className="tab-pane"
@@ -387,7 +384,7 @@ export default function AuctionDetail() {
                         </div>
                     </div>
                 </div>
-            </body>
+            </body >
         </>
     );
 }

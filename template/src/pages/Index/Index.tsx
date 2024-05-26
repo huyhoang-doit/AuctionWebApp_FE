@@ -1,9 +1,9 @@
 import Brand from "../Brand/Brand";
 import Slider from "./components/Slider";
 import ShippingArea from "./components/ShippingArea";
-import AuctionWaiting from "./components/AuctionWaiting";
-import AuctionFinished from "./components/AuctionFinished";
 import ContactTable from "./components/ContactTable";
+import AuctionOngoing from "./components/AuctionOngoing";
+import AuctionTopPrice from "./components/AuctionTopPrice";
 export default function Index() {
     return (
         <>
@@ -19,11 +19,11 @@ export default function Index() {
 
             {/* <!-- Begin Product Area --> */}
 
-            <AuctionWaiting />
+            <AuctionTopPrice />
 
             {/* <!-- Begin Product Area Two --> */}
 
-            <AuctionFinished />
+            <AuctionOngoing />
 
             {/* <!-- Begin Brand Area --> */}
 

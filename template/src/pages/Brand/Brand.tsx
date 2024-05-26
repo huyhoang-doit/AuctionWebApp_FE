@@ -2,7 +2,7 @@ import "./Brand.css";
 
 export default function Brand() {
     return (
-        <div className="umino-brand_area">
+        <div className="umino-brand_area" style={{marginTop: "60px"}}>
             <div className="container">
                 <div className="umino-brand_nav">
                     <div className="row">

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Brand from "../Brand/Brand";
 
 export default function About() {
@@ -9,7 +10,7 @@ export default function About() {
                     <div className="breadcrumb-content">
                         <ul>
                             <li>
-                                <a href="index.html">Home</a>
+                                <Link to={"/"}>Home</Link>
                             </li>
                             <li className="active">About Us</li>
                         </ul>

@@ -1,8 +1,8 @@
 import React from "react"
 import { Link, NavLink } from "react-router-dom"
-import { handleLogout } from "../../../utils/logout"
 import useAccount from "../../../hooks/useAccount";
 import { useCategories } from "../../../hooks/useCategories";
+import { LogoutModal } from "../../../pages/MyAccount/Modal/Modal";
 
 export const NavBar = () => {
     const categories = useCategories();
@@ -117,11 +117,7 @@ export const NavBar = () => {
                                 <Link to={"/my-account"}>
                                     Profile
                                 </Link><span> | </span>
-                                <button onClick={() => {
-                                    handleLogout()
-                                }}>
-                                    ĐĂNG XUẤT
-                                </button>
+                                <LogoutModal/>
                             </div>
                         }
                     </div>
