@@ -43,14 +43,19 @@ const ManageStaff = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                      <tr>
                           <th scope="row"> <a href="#" className="question_content"> 1</a></th>
-                          <td>Nhân viên 1</td>
+                          <td>Quản lý 1</td>
                           <td>Lê Quang Sơn</td>
                           <td>lequangson@gmail.com</td>
                           <td>0999990999</td>
                           <td><a href="#" className="status_btn">Active</a></td>
-                          <td><a href="#" className="btn btn-sm btn-warning">Xem</a><a href="#" className="btn btn-sm btn-danger">Xóa</a></td>
+                          <td>
+                            <div className="btn-group">
+                              <a href="#" className="btn btn-sm btn-warning">Xem</a>
+                              <a href="#" className="btn btn-sm btn-danger">Xóa</a>
+                            </div>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
