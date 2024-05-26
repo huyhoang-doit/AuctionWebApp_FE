@@ -50,7 +50,7 @@ const TransactionWithSeller = () => {
                           <td>.....</td>
                           <td>20,000</td>
                           <td><a href="#" className="status_btn">Active</a></td>
-                          <td><a href="#" className="btn btn-sm btn-warning">Xem chi tiết</a><a href="#" className="btn btn-sm btn-danger">Xóa</a></td>
+                          <td><a href="/admin/view/viewtransactionseller" className="btn btn-sm btn-warning">Xem chi tiết</a><a href="#" className="btn btn-sm btn-danger">Xóa</a></td>
                         </tr>
                       </tbody>
                     </table>
