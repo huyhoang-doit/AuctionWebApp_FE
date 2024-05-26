@@ -16,7 +16,6 @@ export const PageSendJewelry = () => {
     const [brand, setBrand] = useState('');
     const [description, setDescription] = useState('');
     const [material, setMaterial] = useState('');
-    const [brand, setBrand] = useState('');
     const [images, setImages] = useState<File[]>([]);
     const [base64Images, setBase64Images] = useState<string[]>([]);
     const [notification, setNotification] = useState("");
@@ -105,12 +104,12 @@ export const PageSendJewelry = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // // Kiểm tra nếu có bất kỳ thuộc tính nào của jewelryRequest không được cung cấp, hiển thị thông báo và không tiếp tục xử lý
-        // const missingFields = Object.keys(jewelryRequest).filter(key => !jewelryRequest[key]);
-        // if (missingFields.length > 0) {
-        //     setNotification("Vui lòng điền đầy đủ thông tin");
-        //     return;
-        // }
+        // Kiểm tra nếu có bất kỳ thuộc tính nào của jewelryRequest không được cung cấp, hiển thị thông báo và không tiếp tục xử lý
+        const missingFields = Object.keys(jewelryRequest).filter(key => !jewelryRequest[key]);
+        if (missingFields.length > 0) {
+            setNotification("Vui lòng điền đầy đủ thông tin");
+            return;
+        }
 
         // Nếu tất cả các thuộc tính được cung cấp, tiến hành gửi dữ liệu
         try {
