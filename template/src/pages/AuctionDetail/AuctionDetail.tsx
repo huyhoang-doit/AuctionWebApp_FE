@@ -7,10 +7,9 @@ import { formatDateString } from "../../utils/formatDateString";
 import { Jewelry } from "../../models/Jewelry";
 import { User } from "../../models/User";
 import { formatNumber } from "../../utils/formatNumber";
-import ImageProduct from "./AuctionImageProduct";
-import { StateAuctionView } from "../ShopLeftSibar/Components/StateAuctionView";
 import { AuctionDetailHistory } from "./Components/AuctionDetailHistory";
 import { AuctionDetailJewelry } from "./Components/AuctionDetailJewelry";
+import ImageProduct from "./AuctionImageProduct";
 
 
 export default function AuctionDetail() {
@@ -315,19 +314,22 @@ export default function AuctionDetail() {
                                     <div className="sp-product-tab_nav">
                                         <div className="product-tab">
                                             <ul className="nav product-menu">
+                                                {auction?.state !== 'WAITING' &&
+                                                    <li>
+                                                        <a
+                                                            className="active"
+                                                            data-bs-toggle="tab"
+                                                            href="#history"
+                                                        >
+                                                            <span>
+                                                                Lịch sử đặt giá
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                }
                                                 <li>
                                                     <a
-                                                        className="active"
-                                                        data-bs-toggle="tab"
-                                                        href="#history"
-                                                    >
-                                                        <span>
-                                                            Lịch sử đặt giá
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
+                                                        className={auction?.state === 'WAITING' ? `active` : ""}
                                                         data-bs-toggle="tab"
                                                         href="#description"
                                                     >
@@ -347,7 +349,9 @@ export default function AuctionDetail() {
                                             </ul>
                                         </div>
                                         <div className="tab-content umino-tab_content">
-                                            <AuctionDetailHistory auction={auction} />
+
+                                            {auction?.state !== 'WAITING' &&
+                                                <AuctionDetailHistory auction={auction} />}
                                             <AuctionDetailJewelry auction={auction} jewelry={jewelry} />
                                             <div
                                                 id="specification"

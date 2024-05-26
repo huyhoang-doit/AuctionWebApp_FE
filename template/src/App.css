@@ -228,7 +228,7 @@ input[type="file"] {
 }
 
 .input-required {
-    background-color: #F5F5F5!important;
+    background-color: #F5F5F5 !important;
 }
 
 .auction-property-des-title {
@@ -266,4 +266,8 @@ input[type="file"] {
     font-size: 18px;
     line-height: 22px;
     color: #BFBFBF;
+}
+
+.select2-container--default .select2-results__option--disabled {
+    color: #999;
 }

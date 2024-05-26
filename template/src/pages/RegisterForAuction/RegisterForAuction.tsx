@@ -8,9 +8,12 @@ import { Jewelry } from "../../models/Jewelry";
 import { User } from "../../models/User";
 import { formatNumber } from "../../utils/formatNumber";
 import { AuctionDetailJewelry } from "../AuctionDetail/Components/AuctionDetailJewelry";
+import { handlePay } from "../../api/PaymentAPI";
+import useAccount from "../../hooks/useAccount";
 
 
 export default function RegisterForAuction() {
+    const token = localStorage.getItem("token");
     const [auction, setAuction] = useState<Auction | null>(null);
     const [jewelry, setJewelry] = useState<Jewelry | null>(null);
     const [jewelryUser, setJewelryUser] = useState<User | null>(null);
@@ -18,6 +21,8 @@ export default function RegisterForAuction() {
     const [checkbox1, setCheckbox1] = useState(false);
     const [checkbox2, setCheckbox2] = useState(false);
     const [checkbox3, setCheckbox3] = useState(false);
+    const [amount, setAmount] = useState(0);
+    const user = useAccount(token)
     const { id } = useParams();
     let auctionId = 0;
 
@@ -38,6 +43,7 @@ export default function RegisterForAuction() {
                 setJewelry(auction?.jewelry ?? null);
                 setJewelryUser(auction?.jewelry?.user ?? null);
                 setStaff(auction?.user ?? null);
+                setAmount(auction?.deposit ? auction?.deposit + auction.participationFee : 0);
             })
             .catch((error) => {
                 console.log(error.message);
@@ -56,6 +62,12 @@ export default function RegisterForAuction() {
     const handleCheckbox3Change = () => {
         setCheckbox3(!checkbox3);
     };
+
+    const handlePayment = () => {
+        if (user) {
+            handlePay(amount, auctionId, user?.username ? user.username : "");
+        }
+    }
 
     return (
         <>
@@ -116,7 +128,7 @@ export default function RegisterForAuction() {
                                                 </div>
                                                 <div className="col-6">
 
-                                                    <p className="left-title-text no-margin">Phí đăng ký tham gia đấu giá:</p>
+                                                    <p className="left-title-text no-margin">Phí tham gia đấu giá tài sản</p>
                                                 </div>
                                                 <div className="col-6">
                                                     <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>
@@ -195,7 +207,7 @@ export default function RegisterForAuction() {
                                                 <input onChange={handleCheckbox3Change} type="checkbox" id="Check3" className="checkbox-biddingrequest" />
                                                 Tôi đã hiểu rõ về tài sản đấu giá và không có ý kiến gì về việc xem tài sản đấu giá
                                             </p>
-                                            <button className="bidding-request-confirm-btn" style={{ borderRadius: "10px", color: checkbox1 && checkbox2 && checkbox3 ? "white" : "", backgroundColor: checkbox1 && checkbox2 && checkbox3 ? "#B41712" : "" }} id="btnSubmit" >
+                                            <button onClick={handlePayment} className="bidding-request-confirm-btn" style={{ borderRadius: "10px", color: checkbox1 && checkbox2 && checkbox3 ? "white" : "", backgroundColor: checkbox1 && checkbox2 && checkbox3 ? "#B41712" : "" }} id="btnSubmit" >
                                                 <i className="fa fa-gavel" style={{ marginRight: "10px" }}></i>Đăng ký tham gia
                                             </button>
                                             <div style={{ display: "none" }} className="summary-item Novatic_register" id="Novatic_register">
