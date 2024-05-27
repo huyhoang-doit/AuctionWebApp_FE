@@ -1,22 +1,21 @@
-import './App.css';
-import Footer from './layouts/admin/components/Footer';
-import Header from './layouts/admin/components/Header';
-import Navbar from './layouts/admin/components/Navbar';
-import RouterCom from './routers/route';
-import { useLocation } from 'react-router-dom';
+import './App.css'
+import Footer from './layouts/admin/components/Footer'
+import Header from './layouts/admin/components/Header'
+import Navbar from './layouts/admin/components/Navbar'
+//  import Navbar from './layouts/manager/Navbar'
+
+import RouterCom from './routers/route'
 
 function App() {
-  const location = useLocation();
-  const isLoginPage = location.pathname === '/login';
 
   return (
     <>
-      {!isLoginPage && <Header />}
-      {!isLoginPage && <Navbar />}
+      <Header />
+      <Navbar />
       <RouterCom />
-      {!isLoginPage && <Footer />}
+      {/* <Footer /> */}
     </>
-  );
+  )
 }
 
-export default App;
+export default App
