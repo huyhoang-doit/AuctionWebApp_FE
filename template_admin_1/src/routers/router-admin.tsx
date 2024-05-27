@@ -7,7 +7,11 @@ import TransactionWithSeller from '../pages/admin/transaction/TransactionWithSel
 import TransactionWithBuyer from '../pages/admin/transaction/TransactionWithBuyer'
 import TransactionWithUser from '../pages/admin/transaction/TransactionWithUser'
 import ViewManager from '../pages/admin/View/ViewManager'
+import ViewUser from '../pages/admin/View/ViewUser'
+import ViewStaff from '../pages/admin/View/ViewStaff'
 import ViewTransactionSeller from '../pages/admin/View/ViewTransactionSeller'
+import ViewTransactionBuyer from '../pages/admin/View/ViewTransactionBuyer'
+import ViewTransactionUser from '../pages/admin/View/ViewTransactionUser'
 
 const RouterComAdmin = () => {
   return (
@@ -21,7 +25,11 @@ const RouterComAdmin = () => {
         <Route path="/admin/transaction/buyer" element={<TransactionWithBuyer />} />
         <Route path="/admin/transaction/user" element={<TransactionWithUser />} />
         <Route path="/admin/view/viewmanager" element={<ViewManager />} />
-        <Route path="/admin/view/Viewtransactionseller" element={<ViewTransactionSeller />} />
+        <Route path="/admin/view/viewUser" element={<ViewUser />} />
+        <Route path="/admin/view/viewStaff" element={<ViewStaff />} />
+        <Route path="/admin/view/ViewTransactionSeller" element={<ViewTransactionSeller />} />
+        <Route path="/admin/view/ViewTransactionBuyer" element={<ViewTransactionBuyer />} />
+        <Route path="/admin/view/ViewTransactionUser" element={<ViewTransactionUser />} />
       </Routes>
     </>
   )
