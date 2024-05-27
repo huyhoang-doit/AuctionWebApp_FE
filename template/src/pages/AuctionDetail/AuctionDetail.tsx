@@ -376,8 +376,8 @@ export default function AuctionDetail() {
                     {/* Umino's Single Product Area Sale End Here  */}
 
                     {/* Begin Umino's Single Product Tab Area  */}
-                    
-                    <AuctionTabDetail auction={auction} staff={staff} jewelry={jewelry}/>
+
+                    <AuctionTabDetail auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
             </body >
         </>
