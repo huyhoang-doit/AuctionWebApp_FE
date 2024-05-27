@@ -117,7 +117,7 @@ export const NavBar = () => {
                                 <Link to={"/my-account"}>
                                     Profile
                                 </Link><span> | </span>
-                                <LogoutModal/>
+                                <LogoutModal />
                             </div>
                         }
                     </div>
