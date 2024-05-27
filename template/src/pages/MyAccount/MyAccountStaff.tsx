@@ -195,7 +195,6 @@ export default function MyAccountStaff() {
                                 Chưa thanh toán
                               </td>
                               <td>
-                                <JewelryHandOverModal />
                               </td>
                             </tr>
                           </tbody>

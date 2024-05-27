@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import './Modal.css';
 import { handleLogout } from '../../../utils/logout';
 import { formatNumber } from '../../../utils/formatNumber';
+import { numberToVietnameseText } from '../../../utils/numberToVietnameseText';
 import { Image } from '../../../models/Image';
 // *** MODAL FOR USER
 export const ViewTransactionModal = () => {
@@ -256,9 +257,13 @@ export const JewelryModal = ({ jewelry, images }) => {
   );
 };
 
+interface JewelryCreateRequestModalProps {
+  show: boolean;
+  handleClose: () => void;
+}
 
 
-export const JewelryCreateRequestModal = ({ show, handleClose }) => {
+export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps> = ({ show, handleClose }) => {
   return (
     <>{show && (
       <div className='overlay' >
@@ -331,18 +336,32 @@ export const DeleteJewelryModal = () => {
   );
 };
 
+interface BidConfirmProps {
+  bidValue: number;
+}
+
 // Modal for Jewelry HandOver
-export const JewelryHandOverModal = () => {
+export const BidConfirm: React.FC<BidConfirmProps> = ({ bidValue }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   return (
     <>
-      <Button variant="dark" size="sm" onClick={handleShow}>
-        Tạo giao dịch
-      </Button>
+      <button
+        className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
+        style={{
+          backgroundColor: "#B41712",
+          textTransform: "unset",
+          border: "unset",
+          borderRadius: "5px",
+          padding: "10px 10px",
+          fontSize: "16px"
+        }}
+        onClick={handleShow}
+      >
+        <i className="fa fa-gavel" style={{ marginRight: "7px" }}></i>Trả giá
+      </button>
       {show && (
         <div className='overlay' >
           <Modal
@@ -350,18 +369,20 @@ export const JewelryHandOverModal = () => {
             onHide={handleClose}
             centered
             backdropClassName="custom-backdrop"
-            size="lg"
           >
-            <Modal.Header >
-              <Modal.Title>Tạo hóa đơn thanh toán bàn giao sản phẩm </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>...</Modal.Body>
+            <Modal.Body>
+              <div className="swal2-icon swal2-warning swal2-icon-show" style={{ display: "flex" }}>
+                <div className="swal2-icon-content">?</div>
+              </div>
+              <h2 className="swal2-title" id="swal2-title" style={{ display: "flex", justifyContent: "center" }}>Trả giá trang sức với: {formatNumber(bidValue)} VNĐ.</h2>
+              <h5 id="swal2-title" style={{ display: "flex", justifyContent: "center" }}>Giá của bạn: {numberToVietnameseText(bidValue)}.</h5>
+            </Modal.Body>
             <Modal.Footer>
-              <Button variant="dark" onClick={handleClose}>
-                Đóng
+              <Button style={{ color: "white", border: "none", backgroundColor: "#767678" }} onClick={handleClose}>
+                Hủy
               </Button>
-              <Button variant="warning" onClick={handleClose}>
-                Tạo
+              <Button className='bg-primary text-white' onClick={handleClose}>
+                Xác nhận
               </Button>
             </Modal.Footer>
           </Modal>

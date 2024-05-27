@@ -13,7 +13,7 @@ function App() {
       <Header />
       <Navbar />
       <RouterCom />
-      {/* <Footer /> */}
+      <Footer />
     </>
   )
 }

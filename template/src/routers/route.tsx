@@ -15,6 +15,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 import RegisterForAuction from "../pages/RegisterForAuction/RegisterForAuction";
 import AuctionDetail from "../pages/AuctionDetail/AuctionDetail";
+import { AuctionBid } from "../pages/Bid/AuctionBid";
 
 export default function RouterCom() {
     return (
@@ -48,6 +49,9 @@ export default function RouterCom() {
             </Route>
             <Route element={<ProtectedRoute roles={['MEMBER', 'ADMIN']} />}>
                 <Route path="/dang-ki-dau-gia/:id" element={<RegisterForAuction />} />
+            </Route>
+            <Route element={<ProtectedRoute roles={['MEMBER', 'ADMIN']} />}>
+                <Route path="/dau-gia-san-pham/:id" element={<AuctionBid />} />
             </Route>
             <Route element={<ProtectedRoute roles={['MEMBER', 'MANAGER', 'ADMIN']} />}>
                 <Route path="/my-account" element={<MyAccount />} />
