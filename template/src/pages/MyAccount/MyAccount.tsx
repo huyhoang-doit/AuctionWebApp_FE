@@ -3,16 +3,32 @@ import { ViewJewelryRequestModal, ViewTransactionModal } from "./Modal/Modal"
 import useAccount from "../../hooks/useAccount";
 import { MyAccountDetail } from "./Components/MyAccountDetail";
 import { MyAccountAuctionHistory } from "./Components/MyAccountAuctionHistory";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { User } from "../../models/User";
+import { getTransactionsByUsername } from "../../api/TransactionAPI";
+import { Transaction } from "../../models/Transaction";
+import { formatDateString } from "../../utils/formatDateString";
+import { formatNumber } from "../../utils/formatNumber";
+import { StateTransaction } from "./Components/StateTransaction";
+import { TypeTransaction } from "./Components/TypeTransaction";
 export default function MyAccount() {
     const token = localStorage.getItem("token");
     const user = useAccount(token);
-
     const [userState, setUserState] = useState<User | null>(user);
+    const [transactions, setTransactions] = useState<Transaction[]>([])
 
     useEffect(() => {
         setUserState(user);
+        if (user) {
+            const username = user.username ? user.username : "";
+            getTransactionsByUsername(username)
+                .then((response) => {
+                    setTransactions(response.transactionsData);
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                });
+        }
     }, [user]);
 
     return (
@@ -117,33 +133,37 @@ export default function MyAccount() {
                                                             <th>Mã giao dịch</th>
                                                             <th>Loại giao dịch</th>
                                                             <th>Ngày</th>
-                                                            <th>Số tiền</th>
+                                                            <th>Số tiền (VNĐ)</th>
                                                             <th>Trạng thái</th>
                                                             <th>Xem chi tiết</th>
                                                         </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <a
-                                                                    className="account-order-id"
-                                                                    href="javascript:void(0)"
-                                                                >
-                                                                    #5364
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                Đăng ký phiên
-                                                            </td>
-                                                            <td>17/01/2024</td>
-                                                            <td>
-                                                                200,000
-                                                            </td>
-                                                            <td>
-                                                                Đã thanh toán
-                                                            </td>
-                                                            <td>
-                                                                <ViewTransactionModal />
-                                                            </td>
-                                                        </tr>
+                                                        {React.Children.toArray(transactions.map(
+                                                            (transaction) =>
+
+                                                                <tr>
+                                                                    <td>
+                                                                        <a
+                                                                            className="account-order-id"
+                                                                            href="javascript:void(0)"
+                                                                        >
+                                                                            {transaction.id}
+                                                                        </a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <TypeTransaction type={transaction.type}/>
+                                                                    </td>
+                                                                    <td>{formatDateString(transaction.createDate)}</td>
+                                                                    <td>
+                                                                        {formatNumber(transaction.totalPrice)}
+                                                                    </td>
+                                                                    <td>
+                                                                        <StateTransaction state={transaction.state}/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <ViewTransactionModal />
+                                                                    </td>
+                                                                </tr>
+                                                        ))}
                                                     </tbody>
                                                 </table>
                                             </div>

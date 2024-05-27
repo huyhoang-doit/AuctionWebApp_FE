@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { JewelryModal, JewelryHandOverModal, AssignAuctionModal, DeleteJewelryModal } from "./Modal/Modal"
+import { JewelryModal, AssignAuctionModal, DeleteJewelryModal } from "./Modal/Modal"
 export default function MyAccountStaff() {
   return (
     <>
@@ -322,7 +322,6 @@ export default function MyAccountStaff() {
                                 Chưa thanh toán
                               </td>
                               <td>
-                                <JewelryHandOverModal />
                               </td>
                             </tr>
                           </tbody>

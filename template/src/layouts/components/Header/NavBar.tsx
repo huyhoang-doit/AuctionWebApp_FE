@@ -73,19 +73,18 @@ export const NavBar = () => {
                                         </Link>
                                         <ul className="hm-dropdown">
                                             <li>
-                                                <Link to={"/QA"}>
-                                                    Câu hỏi thường gặp
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link to={"/privacy_policy"}>
-                                                    Chính sách bảo mật
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Về chúng tôi
+                                                <a
+                                                    href="https://drive.google.com/file/d/1bgQ-1IqhUr5RTYUHzO3hdsLthpZask_X/view?usp=drive_link"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    Hướng dẫn đấu giá
                                                 </a>
+                                            </li>
+                                            <li>
+                                                <Link to={"/about"}>
+                                                    Về chúng tôi
+                                                </Link>
                                             </li>
                                         </ul>
                                     </li>

@@ -53,26 +53,26 @@ const ViewManager = () => {
                             <div className="col-md-6 mb-3">
                               <label>Trạng thái</label>
                               <div>
-                                <input 
-                                  type="radio" 
-                                  value="Active" 
-                                  checked={status === 'Active'} 
-                                  onChange={handleStatusChange} 
+                                <input
+                                  type="radio"
+                                  value="Active"
+                                  checked={status === 'Active'}
+                                  onChange={handleStatusChange}
                                 /> Active
-                                <input 
-                                  type="radio" 
-                                  value="Inactive" 
-                                  checked={status === 'Inactive'} 
-                                  onChange={handleStatusChange} 
+                                <input
+                                  type="radio"
+                                  value="Inactive"
+                                  checked={status === 'Inactive'}
+                                  onChange={handleStatusChange}
                                   className="ms-3"
                                 /> Inactive
                               </div>
                             </div>
                             <div className="col-md-6 mb-3">
                               <label>Ngày tháng năm sinh</label>
-                              <DatePicker 
-                                selected={birthDate} 
-                                onChange={(date) => setBirthDate(date)} 
+                              <DatePicker
+                                selected={birthDate}
+                                onChange={(date) => setBirthDate(date)}
                                 className="form-control"
                                 dateFormat="dd/MM/yyyy"
                                 isClearable
@@ -84,7 +84,7 @@ const ViewManager = () => {
                       </div>
                       <div className="col-12 d-flex justify-content-end mt-3">
                         <button className="btn btn-primary me-2">Chỉnh sửa</button>
-                        <Link to="/manager" className="btn btn-warning me-2">Quay lại</Link>
+                        <Link to="/admin/account/manager" className="btn btn-warning me-2">Quay lại</Link>
                       </div>
                     </div>
                   </div>

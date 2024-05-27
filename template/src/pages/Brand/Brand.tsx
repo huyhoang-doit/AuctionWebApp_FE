@@ -1,8 +1,42 @@
+import { useEffect, useState } from "react";
+import { Bank } from "../../models/Bank";
 import "./Brand.css";
+import { getAllBanks } from "../../api/BankAPI";
+import Carousel from "react-multi-carousel";
 
 export default function Brand() {
+    const [banks, setBanks] = useState<Bank[]>([]);
+
+    useEffect(() => {
+        getAllBanks()
+            .then((response) => {
+                setBanks(response);
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+    }, [])
+
+    const responsive = {
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 4,
+            partialVisibilityGutter: 40 // this is needed to tell the amount of px that should be visible.
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 3,
+            partialVisibilityGutter: 30 // this is needed to tell the amount of px that should be visible.
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 2,
+            partialVisibilityGutter: 30 // this is needed to tell the amount of px that should be visible.
+        }
+    }
+    
     return (
-        <div className="umino-brand_area" style={{marginTop: "60px"}}>
+        <div className="umino-brand_area" style={{ marginTop: "120px" }}>
             <div className="container">
                 <div className="umino-brand_nav">
                     <div className="row">
@@ -10,71 +44,34 @@ export default function Brand() {
                             <div className="umino-section_title">
                                 <h3>Các thương hiệu hợp tác</h3>
                             </div>
-                            <div className="umino-brand_slider slider-navigation_style-1">
+                            <div className="umino-brand_slider slider-navigation_style-1 mt-5">
                                 <div className="row">
-                                    <div className="col-2">
-                                        <div className="slide-item">
-                                            <a href="javascript:void(0)">
-                                                <img
-                                                    src="assets/images/brand/1.jpg"
-                                                    alt="Umino's Brand Image"
-                                                />
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="col-2">
-                                        <div className="slide-item">
-                                            <a href="javascript:void(0)">
-                                                <img
-                                                    src="assets/images/brand/2.jpg"
-                                                    alt="Umino's Brand Image"
-                                                />
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="col-2">
-                                        {" "}
-                                        <div className="slide-item">
-                                            <a href="javascript:void(0)">
-                                                <img
-                                                    src="assets/images/brand/3.jpg"
-                                                    alt="Umino's Brand Image"
-                                                />
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="col-2">
-                                        <div className="slide-item">
-                                            <a href="javascript:void(0)">
-                                                <img
-                                                    src="assets/images/brand/4.jpg"
-                                                    alt="Umino's Brand Image"
-                                                />
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="col-2">
-                                        {" "}
-                                        <div className="slide-item">
-                                            <a href="javascript:void(0)">
-                                                <img
-                                                    src="assets/images/brand/5.jpg"
-                                                    alt="Umino's Brand Image"
-                                                />
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="col-2">
-                                        {" "}
-                                        <div className="slide-item">
-                                            <a href="javascript:void(0)">
-                                                <img
-                                                    src="assets/images/brand/1.jpg"
-                                                    alt="Umino's Brand Image"
-                                                />
-                                            </a>
-                                        </div>
-                                    </div>
+                                    <Carousel swipeable={false}
+                                        draggable={false}
+                                        showDots
+                                        autoPlay={true}
+                                        responsive={responsive}
+                                        ssr={true}
+                                        infinite={true}
+                                        autoPlaySpeed={1000}
+                                        keyBoardControl={true}
+                                        rewindWithAnimation={true}
+                                        transitionDuration={1000}
+                                        containerClass="carousel-container"
+                                        removeArrowOnDeviceType={["tablet", "mobile"]}
+                                    >
+                                        {banks.map((bank) => (
+                                            <div className="col-12" key={bank.id}>
+                                                <div className="slide-item">
+                                                    <img
+                                                        src={bank.logo}
+                                                        alt={bank.tradingName}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </Carousel>
+
                                 </div>
                             </div>
                         </div>

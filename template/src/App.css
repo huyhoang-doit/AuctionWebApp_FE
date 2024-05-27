@@ -271,3 +271,35 @@ input[type="file"] {
 .select2-container--default .select2-results__option--disabled {
     color: #999;
 }
+ /* Header css */
+.category-menu {
+
+   
+    .category-menu-list{
+        display: none;
+    }
+
+
+    &:hover{
+        .category-menu-list{
+            display: block;
+        }
+    }
+}
+
+
+.swal2-icon .swal2-icon-content {
+    display: flex;
+    align-items: center;
+    font-size: 3.75em;
+}
+
+.swal2-title {
+    font-style: normal !important;
+    font-weight: 600 !important;
+    font-size: 20px !important;
+    line-height: 28px !important;
+    text-align: center !important;
+    color: #262626 !important;
+    
+}

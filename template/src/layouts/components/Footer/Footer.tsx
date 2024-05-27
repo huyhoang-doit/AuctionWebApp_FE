@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
     return (
         <>
@@ -53,13 +55,17 @@ export default function Footer() {
                                 <div className="footer-widgets">
                                     <ul>
                                         <li>
-                                            <a href="">
+                                            <Link to={"/about"}>
                                                 Giới thiệu
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a href="">
-                                                Hướng dẫn
+                                            <a
+                                                href="https://drive.google.com/file/d/1bgQ-1IqhUr5RTYUHzO3hdsLthpZask_X/view?usp=drive_link"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                Hướng dẫn đấu giá
                                             </a>
                                         </li>
                                     </ul>
@@ -89,20 +95,7 @@ export default function Footer() {
                                         <span>
                                             Copyright &copy; Team 4 NET1807
                                         </span>
-                                        <span className="umino-social_link">
-                                            <ul>
-                                                <li className="Gmail">
-                                                    <a
-                                                        href="https://mail.google.com/"
-                                                        data-bs-toggle="tooltip"
-                                                        target="_blank"
-                                                        title="Gmail"
-                                                    >
-                                                        <i className="fas fa-envelope"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </span>
+                                        s
                                     </div>
                                 </div>
                                 <div className="col-xl-4 col-lg-3 col-md-5 order-1 order-md-2">
@@ -116,7 +109,7 @@ export default function Footer() {
                                     </div>
                                 </div>
                                 <div className="col-lg-4 order-2">
-                                    <div className="payment-method">
+                                    {/* <div className="payment-method">
                                         <h3 className="heading">
                                             Cho phép thanh toán dựa trên
                                         </h3>
@@ -126,7 +119,7 @@ export default function Footer() {
                                                 alt="Umino's Payment Method"
                                             />
                                         </a>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

@@ -9,13 +9,13 @@ import Register from "../pages/Register/Register";
 import MyAccount from "../pages/MyAccount/MyAccount";
 import ShopLeftSibar from "../pages/ShopLeftSibar/ShopLeftSibar";
 import Error from "../pages/404/Error";
-import { Privacy_Policy } from "../pages/Privacy-Policy/Privacy-Policy";
 import { PageSendJewelry } from "../pages/FormSendJewelry/PageSendJewelry";
 import MyAccountStaff from "../pages/MyAccount/MyAccountStaff";
 import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 import RegisterForAuction from "../pages/RegisterForAuction/RegisterForAuction";
 import AuctionDetail from "../pages/AuctionDetail/AuctionDetail";
+import { AuctionBid } from "../pages/Bid/AuctionBid";
 
 export default function RouterCom() {
     return (
@@ -26,7 +26,6 @@ export default function RouterCom() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/activation/:token" element={<Login />} />
-            <Route path="/privacy_policy" element={<Privacy_Policy />} />
             <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
             <Route path="/shop-left-sibar/state/:state" element={<ShopLeftSibar />} />
             <Route path="/shop-left-sibar/category/:cateId" element={<ShopLeftSibar />} />
@@ -50,6 +49,9 @@ export default function RouterCom() {
             </Route>
             <Route element={<ProtectedRoute roles={['MEMBER', 'ADMIN']} />}>
                 <Route path="/dang-ki-dau-gia/:id" element={<RegisterForAuction />} />
+            </Route>
+            <Route element={<ProtectedRoute roles={['MEMBER', 'ADMIN']} />}>
+                <Route path="/dau-gia-san-pham/:id" element={<AuctionBid />} />
             </Route>
             <Route element={<ProtectedRoute roles={['MEMBER', 'MANAGER', 'ADMIN']} />}>
                 <Route path="/my-account" element={<MyAccount />} />
