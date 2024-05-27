@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 
 const AuctionsList = () => {
@@ -49,7 +50,7 @@ const AuctionsList = () => {
                           <td>.....</td>
                           <td>.....</td>
                           <td><a href="#" className="status_btn">WAITING</a></td>
-                          <td><a href="/manager/View/ViewAuctionsList" className="btn btn-sm btn-warning">Xem</a></td>
+                          <td><Link to={"/manager/View/ViewAuctionsList"} className="btn btn-sm btn-warning">Xem</Link></td>
                         </tr>
                       </tbody>
                     </table>

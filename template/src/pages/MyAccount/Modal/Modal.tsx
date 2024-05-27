@@ -296,7 +296,7 @@ export const LogoutModal = () => {
         // className="nav-link"
         id="account-details-tab"
         data-bs-toggle="tab"
-        style={{cursor: "pointer"}}
+        style={{ cursor: "pointer" }}
         role="tab"
         aria-controls="account-details"
         aria-selected="false"
@@ -405,4 +405,3 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEd
     </>
   );
 };
-

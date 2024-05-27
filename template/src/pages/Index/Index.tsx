@@ -4,6 +4,7 @@ import ShippingArea from "./components/ShippingArea";
 import ContactTable from "./components/ContactTable";
 import AuctionOngoing from "./components/AuctionOngoing";
 import AuctionTopPrice from "./components/AuctionTopPrice";
+import Banner02 from "./components/Banner02";
 export default function Index() {
     return (
         <>
@@ -31,11 +32,11 @@ export default function Index() {
 
             {/* <!-- Begin Contact Area Two --> */}
 
-            <ContactTable />
+            {/* <ContactTable /> */}
 
             {/* <!-- Begin Banner Area Two --> */}
 
-            {/* <Banner02 /> */}
+            <Banner02 />
         </>
     );
 }

@@ -1,10 +1,12 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Header.css";
-import  { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { formatDateTime, formatTime } from "../../../utils/formatDateString";
 import { NavBar } from "./NavBar";
+import { useCategories } from "../../../hooks/useCategories";
 
 export default function Header() {
+    const categories = useCategories();
     const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
@@ -26,7 +28,7 @@ export default function Header() {
                                     <Link to={"/"}>
                                         <img
                                             src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/menu/logo/1.png"
-                                            alt="Umino's Header Logo"
+                                            alt="DGS's Logo"
                                         />
                                     </Link>
                                 </div>
@@ -76,7 +78,7 @@ export default function Header() {
                         </div>
                     </div>
                 </div>
-                <NavBar/>
+                <NavBar />
 
                 <div className="header-bottom_area header-sticky stick">
                     <div className="container">
@@ -96,41 +98,22 @@ export default function Header() {
                                     <nav className="main_nav">
                                         <ul>
                                             <li className="megamenu-holder">
-                                                <a href="#">
+                                                <Link to={"/shop-left-sibar"}>
                                                     Cách loại trang sức đấu giá
                                                     <i className="ion-chevron-down"></i>
-                                                </a>
-                                                <ul className="umino-megamenu">
+                                                </Link>
+                                                <ul className="umino-megamenu" style={{ marginLeft: '180px', width: '400px' }}>
                                                     <li>
-                                                        <span className="megamenu-title">
+                                                        <span className="megamenu-title w-100">
                                                             Chủng Loại
                                                         </span>
                                                         <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Dây Chuyền
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Nhẫn
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Bông Tai
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Vòng Tay
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Lắc
-                                                                </a>
-                                                            </li>
+                                                            {React.Children.toArray(categories.map(
+                                                                (category) => <li
+                                                                >
+                                                                    <NavLink to={"/shop-left-sibar/category/" + category.id}>{category.name}</NavLink>
+                                                                </li>
+                                                            ))}
                                                         </ul>
                                                     </li>
                                                 </ul>
@@ -138,46 +121,47 @@ export default function Header() {
                                             <li
                                                 className="dropdown-holder"
                                             >
-                                                <a href="#">
+                                                <NavLink to={"/shop-left-sibar"}>
                                                     Cuộc đấu giá
                                                     <i className="ion-chevron-down"></i>
-                                                </a>
+                                                </NavLink>
                                                 <ul className="hm-dropdown">
                                                     <li>
-                                                        <a href="#">
+                                                        <Link to={"/shop-left-sibar/state/WAITING"}>
                                                             Đấu giá sắp diễn ra
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a href="#">
+                                                        <Link to={"/shop-left-sibar/state/ONGOING"}>
                                                             Đấu giá đang diễn ra
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a href="#">
+                                                        <Link to={"/shop-left-sibar/state/FINISHED"}>
                                                             Đấu giá đã kết thúc
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li>
-                                                <a href="#">
+                                                <Link to={"/about"}>
                                                     Giới thiệu
                                                     <i className="ion-chevron-down"></i>
-                                                </a>
+                                                </Link>
                                                 <ul className="hm-dropdown">
                                                     <li>
-                                                        <a href="#">
-                                                            Câu hỏi thường gặp
+                                                        <a
+                                                            href="https://drive.google.com/file/d/1bgQ-1IqhUr5RTYUHzO3hdsLthpZask_X/view?usp=drive_link"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            Hướng dẫn đấu giá
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">
-                                                            Chính sách bảo mật
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Về chúng tôi</a>
+                                                        <Link to={"/about"}>
+                                                            Về chúng tôi
+                                                        </Link>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -192,7 +176,7 @@ export default function Header() {
                             <div className="col-xl-3 col-lg-3 d-none d-lg-block">
                                 <div className="hm-minicart_area">
                                     <ul className="d-flex align-items-center justify-content-center">
-                                        <li>
+                                        {/* <li>
                                             <a href="#">
                                                 <div className="minicart-icon wishlist-icon">
                                                     <i className="fa-regular fa-bell"></i>
@@ -201,14 +185,14 @@ export default function Header() {
                                                     </span>
                                                 </div>
                                             </a>
-                                        </li>
+                                        </li> */}
                                         <li>
-                                            <a href="#">
+                                            <Link to={"/"}>
                                                 <div>
                                                     <b style={{ fontSize: "18px" }}>{formatTime(currentTime)}</b><br />
                                                     {formatDateTime(currentTime)}
                                                 </div>
-                                            </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>

@@ -1,13 +1,16 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { isCitizenIdWrongFormat, isConfirmPasswordWrong, isPasswordWrongFormat, isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
 import { checkEmailExist, checkUsernameExist } from "../../api/UserAPI";
 import { useDebouncedCallback } from "use-debounce";
 import { register } from "../../api/AuthenticationAPI";
+import { getAllBanks } from "../../api/BankAPI";
+import { Bank } from "../../models/Bank";
 
 export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [notification, setNotification] = useState("");
+    const [banks, setBanks] = useState<Bank[]>([]);
     const [errors, setErrors] = useState({
         username: "",
         email: "",
@@ -17,7 +20,11 @@ export default function Register() {
         yob: "",
         CCCD: "",
         register: "",
+        bankId: "",
+        bankAccountNumber: "",
+        bankAccountName: "",
     });
+
     const [registerRequest, setRegisterRequest] = useState({
         id: 0,
         username: "",
@@ -31,7 +38,20 @@ export default function Register() {
         city: "",
         yob: "",
         CCCD: "",
+        bankId: "0",
+        bankAccountNumber: "",
+        bankAccountName: "",
     });
+
+    useEffect(() => {
+        getAllBanks()
+            .then((response) => {
+                setBanks(response);
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+    }, [])
 
     const debouncedUsernameChange = useDebouncedCallback(
         async (username: string) => {
@@ -128,6 +148,10 @@ export default function Register() {
         setRegisterRequest((preValue) => ({ ...preValue, [key]: e.target.value }));
     }
 
+    const onChangeSelectRegisterRequest = (key: keyof typeof registerRequest) => (e: ChangeEvent<HTMLSelectElement>) => {
+        setRegisterRequest((prevValue) => ({ ...prevValue, [key]: e.target.value }));
+    };
+
     const clearErrors = () => {
         setErrors({
             username: "",
@@ -138,6 +162,9 @@ export default function Register() {
             yob: "",
             CCCD: "",
             register: "",
+            bankId: "",
+            bankAccountNumber: "",
+            bankAccountName: "",
         });
     };
 
@@ -150,24 +177,41 @@ export default function Register() {
         const isPasswordValid = !isPasswordWrongFormat(registerRequest.password);
         const isConfirmPasswordValid = !isConfirmPasswordWrong(registerRequest.password, confirmPassword);
         const isPhoneNumberValid = !isPhoneNumberWrongFormat(registerRequest.phone);
-        const isYearOfBirthValid =!isYearOfBirthWrongFormat(registerRequest.yob);
-        const isCitizenIdValid =!isCitizenIdWrongFormat(registerRequest.CCCD);
+        const isYearOfBirthValid = !isYearOfBirthWrongFormat(registerRequest.yob);
+        const isCitizenIdValid = !isCitizenIdWrongFormat(registerRequest.CCCD);
 
         if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid || !isPhoneNumberValid || !isYearOfBirthValid || !isCitizenIdValid) {
             console.log(isUsernameValid);
             return;
         }
 
+        if (registerRequest.bankAccountNumber === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, bankAccountNumber: "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước" }));
+            return;
+        }
+        clearErrors();
+
+        if (registerRequest.bankId === "0") {
+            setErrors((prevErrors) => ({ ...prevErrors, bankName: "Vui lòng chọn ngân hàng" }));
+            return;
+        }
+        clearErrors();
+
+        if (registerRequest.bankAccountName === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, bankAccountName: "Vui lòng nhập tên chủ thẻ ngân hàng" }));
+            return;
+        }
+        clearErrors();
+
         const isSuccess = await register(registerRequest);
 
-        console.log(isSuccess);
         if (!isSuccess) {
             setNotification("Xảy ra lỗi trong quá trình đăng kí tài khoản!")
             return;
         }
 
         // Clear error message
-        clearErrors();  
+        clearErrors();
         setNotification("Đăng kí tài khoản thành công, vui lòng kiểm tra email để kích hoạt tài khoản!")
     }
 
@@ -322,6 +366,39 @@ export default function Register() {
                                                 onChange={onChangeConfirmPassword}
                                             />
                                         </div>{errors.confirmPassword && <span className="text-danger">{errors.confirmPassword}</span>}
+                                        <div className="col-md-12 mt-3">
+                                            <label>Số tài khoản ngân hàng</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập số tài khoản ngân hàng của bạn"
+                                                value={registerRequest.bankAccountNumber}
+                                                onChange={onChangeRegisterRequest("bankAccountNumber")}
+                                            />
+                                            {errors.bankAccountNumber && <span className="text-danger">{errors.bankAccountNumber}</span>}
+                                        </div>
+                                        <div className="col-md-12">
+                                            <label >Tên ngân hàng</label>
+                                            <select defaultValue={0} onChange={onChangeSelectRegisterRequest("bankId")} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
+                                            >
+                                                <option disabled value={0}>Chọn</option>
+                                                {banks.map((bank) => (
+                                                    <option style={{ padding: '5px' }} key={bank.id} value={bank.id}>
+                                                        {bank.bankName} ({bank.tradingName})
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            {errors.bankId && <span className="text-danger">{errors.bankId}</span>}
+                                        </div>
+                                        <div className="col-md-12 mt-3">
+                                            <label>Tên chủ tài khoản</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập tên chủ tài khoản"
+                                                value={registerRequest.bankAccountName}
+                                                onChange={onChangeRegisterRequest("bankAccountName")}
+                                            />
+                                            {errors.bankAccountName && <span className="text-danger">{errors.bankAccountName}</span>}
+                                        </div>
                                         <div className="col-12">
                                             <button className="umino-register_btn" type="submit">
                                                 Đăng kí

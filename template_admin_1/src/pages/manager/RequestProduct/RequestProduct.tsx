@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const RequestProduct = () => {
   const [showModal, setShowModal] = useState(false);
@@ -69,7 +70,7 @@ const RequestProduct = () => {
                           <td>.....</td>
                           <td>.....</td>
                           <td>
-                            <a href="/manager/View/ViewProducts" className="btn btn-sm btn-warning">Xem</a>
+                            <Link to={"/manager/View/ViewProducts"} className="btn btn-sm btn-warning">Xem</Link>
                             <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
                           </td>
                         </tr>

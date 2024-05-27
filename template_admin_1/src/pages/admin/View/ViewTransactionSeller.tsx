@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface TransactionProps {
   transactionId: string;
@@ -77,7 +78,7 @@ const ViewTransactionSeller: React.FC<TransactionProps> = ({
                 </div>
                 <div className="col-12 d-flex justify-content-end mt-3">
                   <button className="btn btn-primary me-2">Chỉnh sửa</button>
-                  <button className="btn btn-warning">Quay lại</button>
+                  <Link to={"/admin/transaction/seller"} className="btn btn-warning">Quay lại</Link>
                 </div>
               </div>
             </div>

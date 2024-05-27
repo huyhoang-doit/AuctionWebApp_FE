@@ -7,11 +7,11 @@ async function getBanks(URL: string): Promise<Bank[]> {
 
     // request
     const response = await MyRequest(URL);
-
     for (const key in response) {
         result.push({
             id: response[key].id,
             bankName: response[key].bankName,
+            logo: response[key].logo,
             tradingName: response[key].tradingName
         })
     }
