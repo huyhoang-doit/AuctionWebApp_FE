@@ -442,25 +442,23 @@ export default function About() {
                             </div>
                             <div className="col-lg-6">
                                 <div className="testimonials-area">
-                                    <div className="umino-section_title">
-                                        <h3>What Clients Say</h3>
-                                    </div>
                                     <div className="testimonial-slider slider-navigation_style-1">
                                         <div className="single-item">
                                             <div className="testimonial-img">
                                                 <a href="javascript:void(0)">
                                                     <img
-                                                        src="assets/images/about-us/testimonial/1.jpg"
+                                                        style={{ width: '40%' }}
+                                                        src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-6/270961679_10159870536636108_2642967668131478092_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=tXLob4dQoKYQ7kNvgGGHDXb&_nc_ht=scontent.fsgn5-5.fna&oh=00_AYDVprpAMT8O-RYhQiI73QWzrZza6Wec9YSgwpkujAoH-g&oe=665A4217"
                                                         alt="Umino's Testimonial Image"
                                                     />
                                                 </a>
                                             </div>
                                             <div className="author-info">
                                                 <span className="name">
-                                                    Kathy Young
+                                                    Nguyễn Thế Hoàng
                                                 </span>
                                                 <span className="occupation">
-                                                    CEO of SunPark
+                                                    Mentor of DGS
                                                 </span>
                                                 <div className="icon">
                                                     <img
@@ -510,38 +508,6 @@ export default function About() {
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="single-item">
-                                            <div className="testimonial-img">
-                                                <a href="javascript:void(0)">
-                                                    <img
-                                                        src="assets/images/about-us/testimonial/3.jpg"
-                                                        alt="Umino's Testimonial Image"
-                                                    />
-                                                </a>
-                                            </div>
-                                            <div className="author-info">
-                                                <span className="name">
-                                                    Jane Robinson
-                                                </span>
-                                                <span className="occupation">
-                                                    Employee of ZA
-                                                </span>
-                                                <div className="icon">
-                                                    <img
-                                                        src="assets/images/about-us/testimonial/testimonial-icon.png"
-                                                        alt="Umino's Testimonial Icon"
-                                                    />
-                                                </div>
-                                                <p className="short-desc">
-                                                    Support and response has
-                                                    been amazing, helping me
-                                                    with several issues I came
-                                                    across and got them solved
-                                                    almost the same day. A
-                                                    pleasure to work with them!
-                                                </p>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -550,7 +516,29 @@ export default function About() {
                 </div>
                 {/* <!-- Accordion With Testimonials Area End Here --> */}
             </div>
+            <div className="container-fluid no-padding" style={{ background: "#FFFFFF", borderBottom: "1px solid #E0E0E0", position: "relative" }}>
+                <div className="container second-content no-padding">
+                    <img className="left-item-image" src="/auctionart/upload/image/banner-leftimg-gallery.png" alt="Alternate Text" />
+                    <img className="right-item-image" src="/auctionart/upload/image/banner-rightimg-gallery.png" alt="Alternate Text" />
 
+                    <div className="famous-talk">
+                        <div className="famous-talk-left">
+                            <img className="img-voice" src="/auctionart/upload/image/voice.png" alt="Alternate Text" />
+                            <p className="voice-text" style={{ marginTop: "7px" }}>
+                                “Chúng tôi muốn đi trước, đón đầu để đến khi thế giới nhìn vào, họ cũng thấy, ở Việt Nam có những nhà bán đấu giá có uy tín, họ cũng sẽ gửi tài sản về đây nhờ mình bán, hoặc mời mình ra nước ngoài hợp tác. Con đường còn rất dài, chúng tôi mới chỉ như một đứa bé đang chập chững tập đi.
+                            </p>
+                            <p className="voice-text" style={{ marginTop: "20px" }}>
+                                Chỉ mong Lạc Việt sẽ là con tàu dẫn đầu, sau này càng nhiều tàu đi càng đông vui, cùng đến đích, tàu đi trước cản sóng cho tàu đi sau, vượt sóng lớn an toàn”
+                            </p>
+                        </div>
+                        <div className="famous-talk-right">
+                            <img src="/auctionart/upload/image/honghanh-ceo.png" alt="Alternate Text" className="honghanh-image" />
+                            <p className="ceo-name">Bà Đỗ Thị Hồng Hạnh</p>
+                            <p className="ceo-pos">Tổng Giám đốc</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <Brand />
         </>
     );
