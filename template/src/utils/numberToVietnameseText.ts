@@ -1,5 +1,5 @@
 export const numberToVietnameseText = (number: number): string => {
-    const units = ['', 'nghìn đồng', 'triệu đồng', 'tỷ đồng'];
+    const units = ['', 'nghìn đồng', 'triệu đồng', 'tỷ'];
     const words = ['', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
 
     function convertChunk(chunk: number): string {

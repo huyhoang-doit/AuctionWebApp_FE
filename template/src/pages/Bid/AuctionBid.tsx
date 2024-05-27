@@ -2,26 +2,27 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Auction } from "../../models/Auction";
 import { User } from "../../models/User";
 import { Jewelry } from "../../models/Jewelry";
-import { getAuction } from "../../api/AuctionAPI";
+import { changeStateAuction, getAuction } from "../../api/AuctionAPI";
 import { useParams } from "react-router-dom";
-import useAccount from "../../hooks/useAccount";
+// import useAccount from "../../hooks/useAccount";
 import { formatNumber } from "../../utils/formatNumber";
 import { formatDateString } from "../../utils/formatDateString";
 import ImageProduct from "../AuctionDetail/AuctionImageProduct";
 import { AuctionTabDetail } from "../AuctionDetail/Components/AuctionTabDetail";
 import { BidConfirm } from "../MyAccount/Modal/Modal";
+import { BidInfo } from "./Components/BidInfo";
 
 export const AuctionBid = () => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     const [auction, setAuction] = useState<Auction | null>(null);
     const [jewelry, setJewelry] = useState<Jewelry | null>(null);
     const [staff, setStaff] = useState<User | null>(null);
-    
+
     const [bidValue, setBidValue] = useState<number>(auction?.lastPrice || 0);
     const [displayValue, setDisplayValue] = useState<string>("");
     const [errorBidValue, setErrorBidValue] = useState("");
     const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
-    const user = useAccount(token);
+    // const user = useAccount(token);
     const { id } = useParams();
     let auctionId = 0;
 
@@ -36,9 +37,23 @@ export const AuctionBid = () => {
     }
 
     useEffect(() => {
+        getAuction(auctionId)
+            .then((auction) => {
+                setAuction(auction);
+                setJewelry(auction?.jewelry ?? null);
+                setStaff(auction?.user ?? null);
+                setDisplayValue(formatNumber(auction?.lastPrice ?? auction?.firstPrice ?? 0));
+                setBidValue(auction?.lastPrice ?? auction?.firstPrice ?? 0);
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+        window.scrollTo(0, 0);
+    }, [auctionId]);
+
+    useEffect(() => {
         if (auction && auction.startDate && auction.endDate) {
             const now = new Date().getTime();
-            const startDate = new Date(formatDateString(auction.startDate)).getTime();
             const endDate = new Date(formatDateString(auction.endDate)).getTime();
 
             if (auction.state === 'ONGOING') {
@@ -47,6 +62,7 @@ export const AuctionBid = () => {
 
                 if (distanceToEnd < 0) {
                     setTimeLeft("Phiên đấu giá đã kết thúc");
+                    changeStateAuction(auction.id, 'FINISHED');
                     return;
                 }
 
@@ -56,21 +72,6 @@ export const AuctionBid = () => {
                 const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
 
                 setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
-            } else if (auction.state === 'WAITING') {
-                // Calculate countdown until start date
-                const distanceToStart = startDate - now;
-
-                if (distanceToStart < 0) {
-                    setTimeLeft("Phiên đấu giá đang diễn ra");
-                    return;
-                }
-
-                const daysToStart = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
-                const hoursToStart = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutesToStart = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
-                const secondsToStart = Math.floor((distanceToStart % (1000 * 60)) / 1000);
-
-                setTimeLeft({ days: daysToStart, hours: hoursToStart, minutes: minutesToStart, seconds: secondsToStart });
             } else if (auction.state === 'FINISHED') {
                 // Auction finished
                 setTimeLeft("Phiên đấu giá đã kết thúc");
@@ -95,21 +96,6 @@ export const AuctionBid = () => {
                     const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
 
                     setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
-                } else if (auction.state === 'WAITING') {
-                    const distanceToStart = startDate - now;
-
-                    if (distanceToStart < 0) {
-                        setTimeLeft("Phiên đấu giá đang diễn ra");
-                        clearInterval(timer);
-                        return;
-                    }
-
-                    const daysToStart = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
-                    const hoursToStart = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutesToStart = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
-                    const secondsToStart = Math.floor((distanceToStart % (1000 * 60)) / 1000);
-
-                    setTimeLeft({ days: daysToStart, hours: hoursToStart, minutes: minutesToStart, seconds: secondsToStart });
                 }
             }, 1000);
 
@@ -117,43 +103,47 @@ export const AuctionBid = () => {
         }
     }, [auction]);
 
+
     useEffect(() => {
         setDisplayValue(formatNumber(bidValue));
     }, [bidValue]);
 
+
     const handleIncrement = () => {
         if (auction?.priceStep !== undefined) {
-            setBidValue(prevValue => (prevValue || 0) + auction.priceStep);
+            setBidValue(prevValue => {
+                const newValue = (prevValue || 0) + (auction.priceStep ?? 0);
+                if (auction.lastPrice === null && newValue <= (auction.firstPrice ?? 0)) {
+                    setErrorBidValue("Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá");
+                    return newValue;
+                }
+                if (auction.lastPrice !== null && newValue <= (auction.lastPrice ?? 0)) {
+                    setErrorBidValue("Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá");
+                    return newValue;
+                }
+                setErrorBidValue("")
+                return newValue;
+            });
         }
     };
 
     const handleDecrement = () => {
         if (auction?.lastPrice !== undefined) {
             setBidValue(prevValue => {
-                const newValue = prevValue - auction.priceStep;
-                if (newValue >= auction.lastPrice) {
+                const newValue = prevValue - (auction.priceStep ?? 0);
+                if (auction.lastPrice === null && newValue < (auction.firstPrice ?? 0)) {
+                    setErrorBidValue("Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá");
+                    return prevValue;
+                }
+                if (newValue >= auction.lastPrice ?? 0) {
                     return newValue;
                 } else {
+                    setErrorBidValue("Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá");
                     return prevValue;
                 }
             });
         }
     };
-
-    useEffect(() => {
-        getAuction(auctionId)
-            .then((auction) => {
-                setAuction(auction);
-                setJewelry(auction?.jewelry ?? null);
-                setStaff(auction?.user ?? null);
-                setDisplayValue(formatNumber(auction?.lastPrice));
-                setBidValue(auction?.lastPrice || 0);
-            })
-            .catch((error) => {
-                console.log(error.message);
-            });
-        window.scrollTo(0, 0);
-    }, [auctionId]);
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value.replace(/[^0-9]/g, '');
@@ -162,8 +152,12 @@ export const AuctionBid = () => {
             setBidValue(numericValue);
             setDisplayValue(formatNumber(numericValue));
             setErrorBidValue("")
-            if (numericValue < (auction?.lastPrice + auction.priceStep)) {
-                setErrorBidValue("Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá!");
+            if (auction.lastPrice === null && numericValue < (auction.firstPrice ?? 0) + (auction.priceStep ?? 0)) {
+                setErrorBidValue("Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá");
+                return;
+            }
+            if (numericValue < ((auction.lastPrice ?? 0) + (auction.priceStep ?? 0))) {
+                setErrorBidValue("Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá");
                 return
             }
         } else {
@@ -171,6 +165,72 @@ export const AuctionBid = () => {
             setDisplayValue(formatNumber(auction?.firstPrice || 0));
             setErrorBidValue("")
         }
+    };
+
+    const renderBidButton = () => {
+        if (auction?.lastPrice === null && bidValue < (auction.firstPrice + auction.priceStep)) {
+            return (
+                <button
+                    className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
+                    style={{
+                        backgroundColor: "#ccc",
+                        textTransform: "unset",
+                        border: "unset",
+                        borderRadius: "5px",
+                        padding: "10px 10px",
+                        fontSize: "16px"
+                    }}
+                    disabled
+                >
+                    <i className="fa fa-gavel" style={{ marginRight: "7px" }}></i>Trả giá
+                </button>
+            );
+        } else if (bidValue >= ((auction?.lastPrice || 0) + (auction?.priceStep || 0))) {
+            return <BidConfirm bidValue={bidValue} />;
+        } else {
+            return (
+                <button
+                    className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
+                    style={{
+                        backgroundColor: "#ccc",
+                        textTransform: "unset",
+                        border: "unset",
+                        borderRadius: "5px",
+                        padding: "10px 10px",
+                        fontSize: "16px"
+                    }}
+                    disabled
+                >
+                    <i className="fa fa-gavel" style={{ marginRight: "7px" }}></i>Trả giá
+                </button>
+            );
+        }
+    };
+
+    const renderHigherBidButton = () => {
+        if ((auction?.lastPrice === null && bidValue < ((auction.firstPrice ?? 0) + (auction.priceStep ?? 0))) ||
+            (auction?.lastPrice !== null && bidValue < ((auction?.lastPrice ?? 0) + (auction?.priceStep ?? 0)))) {
+            return (
+                <button
+                    onClick={() => {
+                        setBidValue((auction?.lastPrice ?? auction?.firstPrice ?? 0) + (auction?.priceStep ?? 0));
+                        setErrorBidValue("");
+                    }}
+                    className="fw-bold text-center eg-btn btn--primary text-dark btn--sm"
+                    style={{
+                        backgroundColor: "white",
+                        textTransform: "unset",
+                        border: "1px solid rgba(0,0,0,.09)",
+                        padding: "10px 10px",
+                        fontSize: "14px",
+                        width: "100%",
+                    }}
+                >
+                    Đặt giá cao hơn mức giá cao nhất 01 (một) bước giá
+                </button>
+            );
+        }
+        return null;
     };
 
     return (
@@ -233,61 +293,7 @@ export const AuctionBid = () => {
                                         <div className="register-form" style={{ borderRadius: "0px" }}>
                                             <div className="row">
                                                 <h4 className="no-margin fw-bold">ĐẶT GIÁ (VNĐ)</h4>
-                                                <div className="col-6">
-                                                    <p className="left-title-text no-margin">Giá cao nhất hiện tại:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <p className="right-info-text no-margin fw-bold" style={{ color: "#b41712" }}>{formatNumber(auction?.lastPrice)} VNĐ</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <p className="left-title-text no-margin">Giá khởi điểm:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <p className="right-info-text no-margin fw-bold" style={{ color: "#b41712" }}>{formatNumber(auction?.firstPrice)} VNĐ</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <p className="left-title-text no-margin">Bước giá:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <p className="right-info-text no-margin fw-bold" style={{ color: "#b41712" }}>{formatNumber(auction?.priceStep)} VNĐ</p>
-                                                </div>
-                                                <div className="col-6">
-
-                                                    <p className="left-title-text no-margin">Giá cao nhất của bạn: </p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>
-                                                        <span className="fw-bold novaticPrice registerFee">{formatNumber(auction?.participationFee)}</span>
-                                                        VNĐ
-                                                    </p>
-                                                </div>
-                                                <div className="col-6">
-
-                                                    <p className="left-title-text no-margin">Tiền đặt trước:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>
-                                                        <span className="fw-bold novaticPrice depositPrice">{formatNumber(auction?.deposit)}</span> VNĐ</p>
-                                                </div>
-                                                <div className="col-6">
-
-                                                    <p className="left-title-text no-margin">Giá khởi điểm:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <p className="right-info-text no-margin" style={{ color: "#b41712" }}>
-                                                        <span className="fw-bold novaticPrice openningPrice">{formatNumber(auction?.firstPrice)}</span>
-                                                        <span className="fw-bold unitPrice"> VNĐ</span>
-                                                    </p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <p className="left-title-text no-margin">Bước giá:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <p className="right-info-text no-margin" style={{ color: "#b41712" }}>
-                                                        <span className="fw-bold novaticPrice step-price stepPrice">{formatNumber(auction?.priceStep)}</span>
-                                                        <span className="fw-bold unitPrice"> VNĐ</span>
-                                                    </p>
-                                                </div>
+                                                <BidInfo auction={auction} />
                                                 <div className="col-9 d-flex align-items-center">
                                                     <button
                                                         style={{ borderRadius: '0px', border: "1px solid rgba(0,0,0,.09)" }}
@@ -314,39 +320,10 @@ export const AuctionBid = () => {
                                                     </button>
                                                 </div>
                                                 <div className="col-3">
-                                                    {bidValue >= (auction?.lastPrice || 0) + (auction?.priceStep || 0) ? (
-                                                        <BidConfirm bidValue={bidValue} />
-                                                    ) : (
-                                                        <button
-                                                            className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
-                                                            style={{
-                                                                backgroundColor: "#ccc",
-                                                                textTransform: "unset",
-                                                                border: "unset",
-                                                                borderRadius: "5px",
-                                                                padding: "10px 10px",
-                                                                fontSize: "16px"
-                                                            }}
-                                                            disabled
-                                                        >
-                                                            <i className="fa fa-gavel" style={{ marginRight: "7px" }}></i>Trả giá
-                                                        </button>
-                                                    )}
+                                                    {renderBidButton()}
                                                 </div>
                                                 <div className="col-9">
-                                                    <button
-                                                        className="fw-bold text-center eg-btn btn--primary text-dark btn--sm"
-                                                        style={{
-                                                            backgroundColor: "white",
-                                                            textTransform: "unset",
-                                                            border: "1px solid rgba(0,0,0,.09)",
-                                                            padding: "10px 10px",
-                                                            fontSize: "14px",
-                                                            width: "100%",
-                                                        }}
-                                                    >
-                                                        Đặt giá cao hơn mức giá cao nhất 01 (một) bước giá
-                                                    </button>
+                                                    {renderHigherBidButton()}
                                                 </div>
                                                 {errorBidValue && <span className="fw-bold text-danger mt-2">{errorBidValue}</span>}
                                             </div>

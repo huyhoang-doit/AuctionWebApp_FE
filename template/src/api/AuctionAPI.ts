@@ -45,10 +45,11 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
                 state: responseData[key].state,
                 jewelry: {
                     id: responseData[key].jewelry.id,
+                    name: response[key].jewelry.name,
                     user: {
                         id: responseData[key].jewelry.user.id,
                         fullName: responseData[key].jewelry.user.fullName,
-                    }
+                    },
                 },
             })
         }
@@ -88,6 +89,7 @@ export async function gettop3PriceAndState(): Promise<ResultInteface> {
                 state: response[key].state,
                 jewelry: {
                     id: response[key].jewelry.id,
+                    name: response[key].jewelry.name
                 },
             })
         }
@@ -127,7 +129,9 @@ export async function getAuction(auctionId: number): Promise<Auction | null> {
                         id: response.jewelry.user.id,
                         username: response.jewelry.user.username,
                         fullName: response.jewelry.user.fullName,
-                    }
+                    },
+                    material: response.jewelry.material,
+                    weight: response.jewelry.weight
                 },
                 user: {
                     id: response.user.id,
@@ -173,6 +177,7 @@ export async function getAuctionByStates(selectedStates: string[], pageable: Pag
                 state: responseData[key].state,
                 jewelry: {
                     id: responseData[key].jewelry.id,
+                    name: responseData[key].jewelry.name
                 },
             })
         }
@@ -212,6 +217,7 @@ export async function getAuctionByFilterDay(startDate: string, endDate: string):
                 state: response[key].state,
                 jewelry: {
                     id: response[key].jewelry.id,
+                    name: response[key].jewelry.name
                 },
             })
         }
@@ -265,6 +271,7 @@ export async function getAuctionsByName(txtSearch: string): Promise<ResultIntefa
                 state: response[key].state,
                 jewelry: {
                     id: response[key].jewelry.id,
+                    name: response[key].jewelry.name
                 },
             })
         }
@@ -298,6 +305,7 @@ export async function getAuctionsByStateNotPageale(state: string): Promise<Resul
                 state: response[key].state,
                 jewelry: {
                     id: response[key].jewelry.id,
+                    name: response[key].jewelry.name
                 },
             })
         }

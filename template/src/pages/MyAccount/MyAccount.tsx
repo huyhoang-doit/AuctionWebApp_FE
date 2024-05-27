@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { ViewJewelryRequestModal, ViewTransactionModal } from "./Modal/Modal"
 import useAccount from "../../hooks/useAccount";
 import { MyAccountDetail } from "./Components/MyAccountDetail";
 import { MyAccountAuctionHistory } from "./Components/MyAccountAuctionHistory";
@@ -7,10 +6,9 @@ import React, { useEffect, useState } from "react";
 import { User } from "../../models/User";
 import { getTransactionsByUsername } from "../../api/TransactionAPI";
 import { Transaction } from "../../models/Transaction";
-import { formatDateString } from "../../utils/formatDateString";
-import { formatNumber } from "../../utils/formatNumber";
-import { StateTransaction } from "./Components/StateTransaction";
-import { TypeTransaction } from "./Components/TypeTransaction";
+import { TransactionHistory } from "./Components/TransactionHistory";
+import { MyJewelryList } from "./Components/MyJewelryList";
+
 export default function MyAccount() {
     const token = localStorage.getItem("token");
     const user = useAccount(token);
@@ -116,110 +114,9 @@ export default function MyAccount() {
                                     id="account-page-tab-content"
                                 >
                                     <MyAccountDetail user={userState} setUser={setUserState} />
-                                    <div
-                                        className="tab-pane fade"
-                                        id="transaction-history"
-                                        role="tabpanel"
-                                        aria-labelledby="account-orders-tab"
-                                    >
-                                        <div className="myaccount-orders">
-                                            <h4 className="small-title">
-                                                Danh sách các giao dịch của tôi
-                                            </h4>
-                                            <div className="table-responsive">
-                                                <table className="table table-bordered table-hover">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>Mã giao dịch</th>
-                                                            <th>Loại giao dịch</th>
-                                                            <th>Ngày</th>
-                                                            <th>Số tiền (VNĐ)</th>
-                                                            <th>Trạng thái</th>
-                                                            <th>Xem chi tiết</th>
-                                                        </tr>
-                                                        {React.Children.toArray(transactions.map(
-                                                            (transaction) =>
-
-                                                                <tr>
-                                                                    <td>
-                                                                        <a
-                                                                            className="account-order-id"
-                                                                            href="javascript:void(0)"
-                                                                        >
-                                                                            {transaction.id}
-                                                                        </a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <TypeTransaction type={transaction.type}/>
-                                                                    </td>
-                                                                    <td>{formatDateString(transaction.createDate)}</td>
-                                                                    <td>
-                                                                        {formatNumber(transaction.totalPrice)}
-                                                                    </td>
-                                                                    <td>
-                                                                        <StateTransaction state={transaction.state}/>
-                                                                    </td>
-                                                                    <td>
-                                                                        <ViewTransactionModal />
-                                                                    </td>
-                                                                </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <TransactionHistory transactions={transactions} />
                                     <MyAccountAuctionHistory username={user?.username} />
-                                    <div
-                                        className="tab-pane fade"
-                                        id="jewelry-request"
-                                        role="tabpanel"
-                                        aria-labelledby="account-address-tab"
-                                    >
-                                        <div className="myaccount-orders">
-                                            <h4 className="small-title">
-                                                Danh sách các sản phẩm yêu cầu của tôi
-                                            </h4>
-                                            <div className="table-responsive">
-                                                <table className="table table-bordered table-hover">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>Mã sản phẩm</th>
-                                                            <th>Tên sản phẩm</th>
-                                                            <th>Ngày yêu cầu</th>
-                                                            <th>Phiên đấu giá</th>
-                                                            <th>Trạng thái</th>
-                                                            <th>Thao tác</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <a
-                                                                    className="account-order-id"
-                                                                    href="javascript:void(0)"
-                                                                >
-                                                                    SP0001
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                Trang sức nữ
-                                                            </td>
-                                                            <td>17/01/2003</td>
-                                                            <td>
-                                                                Chưa có
-                                                            </td>
-                                                            <td>
-                                                                Chờ xác nhận
-                                                            </td>
-                                                            <td>
-                                                                <ViewJewelryRequestModal />
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                    <MyJewelryList />
                                 </div>
                             </div>
                         </div>
