@@ -1,6 +1,19 @@
 import { Link } from "react-router-dom";
 import { JewelryModal, JewelryHandOverModal, AssignAuctionModal, DeleteJewelryModal } from "./Modal/Modal"
+import { MyAccountDetail } from "./Components/MyAccountDetail";
+import useAccount from "../../hooks/useAccount";
+import { useEffect, useState } from "react";
+import { User } from "../../models/User";
+import JewelriesWaitList from "./Components/JewelriesWaitList";
 export default function MyAccountStaff() {
+  const token = localStorage.getItem("token");
+  const user = useAccount(token);
+
+  const [userState, setUserState] = useState<User | null>(user);
+
+  useEffect(() => {
+    setUserState(user);
+  }, [user]);
   return (
     <>
       <div className="breadcrumb-area">
@@ -85,155 +98,15 @@ export default function MyAccountStaff() {
                   className="tab-content myaccount-tab-content "
                   id="account-page-tab-content"
                 >
-                  <div
-                    className="tab-pane fade active"
-                    id="account-details"
-                    role="tabpanel"
-                    aria-labelledby="account-details-tab"
-                  >
-                    <div className="">
-                      <h4 className="small-title">
-                        Thông tin tài khoản
-                      </h4>
-                    </div>
-                    <div className="myaccount-details">
-                      <div className="row">
-                        <div className="col-sm-12 col-md-12  col-xs-12 col-lg-12">
-                          <form >
-                            <div className="login-form">
-                              <div className="row mb-4">
-                                <div className="col-md-6 col-12 mb--20">
-                                  <label>Họ</label>
-                                  <input
-                                    type="text"
-                                    placeholder="Nhập họ của bạn"
-                                  />
-                                </div>
-                                <div className="col-md-6 col-12 mb--20">
-                                  <label>Tên</label>
-                                  <input
-                                    type="text"
-                                    placeholder="Nhập tên của bạn"
-                                  />
-                                </div>
-                                <div className="col-md-4">
-                                  <label>Username</label>
-                                  <input className="mb-0"
-                                    type="text"
-                                    placeholder="Nhập username của bạn"
-
-
-                                  />
-                                </div>
-                                <div className="col-md-4">
-                                  <label>Email</label>
-                                  <input className="mb-0"
-                                    type="email"
-                                    placeholder="Nhập Email của bạn"
-
-
-                                  />
-
-                                </div>
-                                <div className="col-md-4">
-                                  <label>Phone</label>
-                                  <input
-                                    className="mb-0"
-                                    type="text"
-                                    placeholder="Nhập số điện thoại của bạn"
-
-
-                                  />
-
-                                </div>
-                                <div className="col-md-4 mt-4">
-                                  <label>Địa chỉ</label>
-                                  <input
-                                    type="text"
-                                    placeholder="Nhập địa chỉ của bạn"
-
-
-                                  />
-                                </div>
-                                <div className="col-md-4 mt-4">
-                                  <label>Tỉnh</label>
-                                  <input
-                                    type="text"
-                                    placeholder="Nhập tỉnh"
-
-
-                                  />
-                                </div>
-                                <div className="col-md-4 mt-4">
-                                  <label>Thành phố</label>
-                                  <input
-                                    type="text"
-                                    placeholder="Nhập thành phố"
-
-
-                                  />
-                                </div>
-                                <div className="col-md-6">
-                                  <label>Năm sinh</label>
-                                  <input
-                                    className="mb-0"
-                                    type="text"
-                                    placeholder="Nhập năm sinh"
-
-
-                                  />
-
-                                </div>
-                                <div className="col-md-6">
-                                  <label>Số CCCD</label>
-                                  <input
-                                    className="mb-0"
-                                    type="text"
-                                    placeholder="Nhập số căn cước"
-
-
-                                  />
-
-                                </div>
-                                <div className="col-md-12 mt-3">
-                                  <label>Mật khẩu</label>
-                                  <input
-                                    type="password"
-                                    placeholder="Nhập mật khẩu của bạn"
-
-
-                                  />
-
-                                </div>
-                                <div className="col-md-12">
-                                  <label>Xác nhận mật khẩu</label>
-                                  <input
-                                    type="password"
-                                    placeholder="Xác nhận lại mật khẩu của bạn"
-
-
-                                  />
-                                </div>
-                                <div className="col-12">
-                                  <button className="umino-register_btn" type="button">
-                                    Chỉnh sửa
-                                  </button>
-                                </div>
-                              </div>
-
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <MyAccountDetail user={userState} setUser={setUserState} />
                   <div
                     className="tab-pane fade"
                     id="account-orders"
                     role="tabpanel"
                     aria-labelledby="account-orders-tab"
                   >
-                    <div className="myaccount-orders">
+                    <JewelriesWaitList />
+                    {/* <div className="myaccount-orders">
                       <h4 className="small-title">
                         Danh sách sản phẩm gửi đến
                       </h4>
@@ -275,7 +148,7 @@ export default function MyAccountStaff() {
                           </tbody>
                         </table>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div
                     className="tab-pane fade"

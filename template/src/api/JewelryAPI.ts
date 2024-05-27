@@ -1,4 +1,6 @@
 import { Image } from "../models/Image";
+import { Jewelry } from "../models/Jewelry";
+import { MyRequest } from "./MyRequest";
 
 interface JewelryRequest {
   id: number;
@@ -10,6 +12,29 @@ interface JewelryRequest {
   user: string;
 }
 
+async function getJewelries(URL: string): Promise<Jewelry[]> {
+  const result: Jewelry[] = [];
+
+  // request
+  const response = await MyRequest(URL);
+
+  for (const key in response) {
+    result.push({
+      id: response[key].id,
+      name: response[key].name,
+      price: response[key].price,
+      state: response[key].state,
+      category: response[key].category,
+      description: response[key].description,
+      material: response[key].material,
+      brand: response[key].brand,
+      weight: response[key].weight,
+      user: response[key].user
+    })
+  }
+
+  return result;
+}
 export const sendJewelryFromUser = async (jewelryRequest: JewelryRequest): Promise<boolean> => {
   // end-point
   const URL = `http://localhost:8080/api/v1/auth/`;
@@ -34,3 +59,10 @@ export const sendJewelryFromUser = async (jewelryRequest: JewelryRequest): Promi
     return false;
   }
 };
+
+export async function getJewelriesWaitList(): Promise<Jewelry[]> {
+  // endpoint
+  const URL: string = `http://localhost:8080/api/v1/jewelry/in-wait-list`;
+
+  return getJewelries(URL);
+}

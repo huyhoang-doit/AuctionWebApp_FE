@@ -9,7 +9,6 @@ import Register from "../pages/Register/Register";
 import MyAccount from "../pages/MyAccount/MyAccount";
 import ShopLeftSibar from "../pages/ShopLeftSibar/ShopLeftSibar";
 import Error from "../pages/404/Error";
-import { Privacy_Policy } from "../pages/Privacy-Policy/Privacy-Policy";
 import { PageSendJewelry } from "../pages/FormSendJewelry/PageSendJewelry";
 import MyAccountStaff from "../pages/MyAccount/MyAccountStaff";
 import ProtectedRoute from "./ProtectedRoute";
@@ -26,13 +25,12 @@ export default function RouterCom() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/activation/:token" element={<Login />} />
-            <Route path="/privacy_policy" element={<Privacy_Policy />} />
             <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
             <Route path="/shop-left-sibar/state/:state" element={<ShopLeftSibar />} />
             <Route path="/shop-left-sibar/category/:cateId" element={<ShopLeftSibar />} />
             <Route path="/shop-left-sibar/name/:txtSearch" element={<ShopLeftSibar />} />
             <Route path="/shop-left-sibar/date/:fromDateFilter/:toDateFilter" element={<ShopLeftSibar />} />
-             <Route path="/single-auction/:id" element={<AuctionDetail />} />
+            <Route path="/single-auction/:id" element={<AuctionDetail />} />
 
 
             {/* ///// */}

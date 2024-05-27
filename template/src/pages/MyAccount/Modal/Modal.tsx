@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import './Modal.css';
 import { handleLogout } from '../../../utils/logout';
+import { formatNumber } from '../../../utils/formatNumber';
+import { Image } from '../../../models/Image';
 // *** MODAL FOR USER
 export const ViewTransactionModal = () => {
   const [show, setShow] = useState(false);
@@ -79,7 +81,7 @@ export const ViewJewelryRequestModal = () => {
 
 // *** MODAL FOR STAFF ***
 // Modal for Jewelry List
-export const JewelryModal = () => {
+export const JewelryModal = ({ jewelry, images }) => {
   const [show, setShow] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -106,10 +108,135 @@ export const JewelryModal = () => {
             size="lg"
           >
             <Modal.Header>
-              <Modal.Title>Thông tin trang sức</Modal.Title>
+              <Modal.Title>
+
+                Thông tin trang sức - MS:<span className=' fw-bold'>{jewelry.id}</span>
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              ...
+              <form action="javascript:void(0)">
+                <div className="checkbox-form">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="country-select clearfix">
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="checkout-form-list">
+                        <label>
+                          Tên trang sức{" "}
+                        </label>
+                        <input
+                          placeholder=""
+                          type="text"
+                          value={jewelry.name}
+                          readOnly={true}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="checkout-form-list">
+                        <label>
+                          Danh mục
+                        </label>
+                        <input
+                          placeholder=""
+                          type="text"
+                          value={jewelry.category.name}
+                          readOnly={true}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="checkout-form-list">
+                        <label>
+                          Chất liệu
+                        </label>
+                        <input
+                          placeholder=""
+                          type="text"
+                          value={jewelry.material}
+                          readOnly={true}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="checkout-form-list">
+                        <label>
+                          Thương hiệu
+                        </label>
+                        <input
+                          placeholder="Street address"
+                          type="text"
+                          value={jewelry.brand}
+                          readOnly={true}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="checkout-form-list">
+                        <label>
+                          Cân nặng (g)
+                        </label>
+                        <input
+                          placeholder="Street address"
+                          type="text"
+                          value={jewelry.weight}
+                          readOnly={true}
+                        />
+                      </div>
+
+
+                    </div>
+                    <div className="order-notes">
+                      <div className="checkout-form-list checkout-form-list-2">
+                        <label>Mô tả sản phẩm </label>
+                        <textarea
+                          id="checkout-mess"
+                          value={jewelry.description}
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="order-notes col-md-12">
+                      <div className="checkout-form-list checkout-form-list-2 row">
+                        <label>Hình ảnh sản phẩm </label>
+                        {React.Children.toArray(images.map(
+                          (img: Image) =>
+                            <div className='col-md-3'>
+                              <img src={img.data} alt="Ảnh sản phẩm" />
+                            </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="checkout-form-list">
+                        <label className='text-danger fw-bold'>Giá đề xuất</label>
+                        <input className=' fw-bold'
+                          placeholder=""
+                          type="text"
+                          value={formatNumber(jewelry.price)}
+                          readOnly={true}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="checkout-form-list">
+                        <label className='text-success fw-bold'>Định giá</label>
+                        <input
+                          className=' fw-bold'
+                          placeholder=""
+                          type="text"
+                          value={formatNumber(jewelry.price)}
+                        />
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </form>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleCloseJewelryDetail}>
@@ -121,7 +248,7 @@ export const JewelryModal = () => {
 
             </Modal.Footer>
           </Modal>
-        </div>
+        </div >
       )}
 
       <JewelryCreateRequestModal show={showCreateModal} handleClose={handleCloseCreateModal} />
@@ -187,7 +314,7 @@ export const DeleteJewelryModal = () => {
             <Modal.Header >
               <Modal.Title>Xác nhận xóa sản phẩm </Modal.Title>
             </Modal.Header>
-            <Modal.Body>Bạn có chắc muốn xóa sản phẩm này khỏi danh sách không?</Modal.Body>
+            <Modal.Body>Bạn có chắc muốn xóa sản phẩm này khỏi danh sách chờ không?</Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
                 Hủy
