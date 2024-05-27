@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom"
 
 
 const Slider = () => {
@@ -17,7 +18,49 @@ const Slider = () => {
                       href="shop-left-sidebar.html"
                     >
                       <span>Diamond - Gold - Silver</span>
-                    </a>
+                    </a><br />
+                    <NavLink to="/shop-left-sibar">
+                      <span
+                        onClick={() => window.scrollTo({ top: 100, behavior: 'smooth' })}
+                        className="btn fw-normal rounded-5 fs-5 position-relative"
+                        style={{
+                          background: '#fed100', // Yellow background color
+                          color: 'black', // Black text color
+                          marginTop: '100px', // 100px top margin
+                          transition: 'color 0.3s', // Smooth transition for text color change
+                          cursor: 'pointer', // Cursor pointer
+                          position: 'relative', // Position relative for pseudo-element
+                          overflow: 'hidden' // Ensure any overflow is hidden
+                        }}
+                      >
+                        Bắt đầu ngay
+                        <span
+                          className="position-absolute top-0 start-0 w-100 h-100"
+                          style={{
+                            background: 'linear-gradient(120deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%)',
+                            animation: 'twinkle 2s infinite',
+                            content: '""',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '200%', // Extend width to cover the transition from left to right
+                            height: '100%',
+                          }}
+                        ></span>
+                        <style>
+                          {`
+            @keyframes twinkle {
+              0% {
+                transform: translateX(-100%);
+              }
+              100% {
+                transform: translateX(100%);
+              }
+            }
+          `}
+                        </style>
+                      </span>
+                    </NavLink>
                   </div>
                 </div>
               </div>

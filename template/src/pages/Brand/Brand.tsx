@@ -20,7 +20,7 @@ export default function Brand() {
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
-            items: 3,
+            items: 4,
             partialVisibilityGutter: 40 // this is needed to tell the amount of px that should be visible.
         },
         tablet: {
