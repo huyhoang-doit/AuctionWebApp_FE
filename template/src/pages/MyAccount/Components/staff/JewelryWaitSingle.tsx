@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { DeleteJewelryModal, JewelryModal } from '../Modal/Modal'
-import { Jewelry } from '../../../models/Jewelry'
-import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi'
-import { Image } from '../../../models/Image'
+import { Jewelry } from '../../../../models/Jewelry'
+import { Image } from '../../../../models/Image'
+import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
+import { DeleteJewelryModal, JewelryModal } from '../../Modal/Modal'
 
 export const JewelryWaitSingle: React.FC<Jewelry> = ({ jewelry }) => {
   const [image, setImage] = useState<Image>({})

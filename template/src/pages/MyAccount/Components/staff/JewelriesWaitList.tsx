@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Jewelry } from '../../../models/Jewelry'
-import { getJewelriesWaitList } from '../../../api/JewelryAPI'
+import { Jewelry } from '../../../../models/Jewelry'
+import { getJewelriesWaitList } from '../../../../api/JewelryAPI'
 import { JewelryWaitSingle } from './JewelryWaitSingle'
 
 const JewelriesWaitList = () => {
