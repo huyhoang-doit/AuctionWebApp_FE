@@ -91,7 +91,6 @@ export async function gettop3PriceAndState(): Promise<ResultInteface> {
                 },
             })
         }
-        console.log(auctions)
     } else {
         throw new Error("Phiên không tồn tại");
     }

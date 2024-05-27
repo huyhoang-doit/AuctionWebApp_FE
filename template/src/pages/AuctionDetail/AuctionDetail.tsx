@@ -7,12 +7,11 @@ import { formatDateString } from "../../utils/formatDateString";
 import { Jewelry } from "../../models/Jewelry";
 import { User } from "../../models/User";
 import { formatNumber } from "../../utils/formatNumber";
-import { AuctionDetailHistory } from "./Components/AuctionDetailHistory";
-import { AuctionDetailJewelry } from "./Components/AuctionDetailJewelry";
 import ImageProduct from "./AuctionImageProduct";
 import { AuctionRegistration } from "../../models/AuctionRegistration";
 import { getAuctionRegistrationsByAuctionId } from "../../api/AuctionRegistrationAPI";
 import useAccount from "../../hooks/useAccount";
+import { AuctionTabDetail } from "./Components/AuctionTabDetail";
 
 
 export default function AuctionDetail() {
@@ -140,6 +139,13 @@ export default function AuctionDetail() {
         }
     }, [auction]);
 
+    const checkAlreadyRegistered = () => {
+        if (auctionRegistations && auctionRegistations.length > 0) {
+            return auctionRegistations.some(registration => registration.user?.id === user?.id);
+        }
+        return false;
+    }
+
 
     return (
         <>
@@ -203,7 +209,8 @@ export default function AuctionDetail() {
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="register-form">
+
+                                        < div className="register-form">
                                             <div className="row">
                                                 <div className="col-6">
                                                     <p className="left-title-text no-margin">Mã trang sức:</p>
@@ -291,14 +298,12 @@ export default function AuctionDetail() {
                                                     <span className="fw-bold spanColorAuctionproperty novaticPrice">{formatNumber(auction?.firstPrice)}</span>
                                                     <span className="fw-bold spanColorAuctionproperty"> VNĐ</span>
                                                 </div>
-                                                <div className="row mt-2" style={{ paddingTop: "15px", paddingLeft: "40px", paddingRight: "12px" }}>
-                                                    {/* {auction?.state === 'WAITING' &&
-                                                        <Link to={"/dang-ki-dau-gia/" + auctionId} className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
-                                                            style={{ backgroundColor: "#B41712", textTransform: "unset", border: "unset", borderRadius: "10px", padding: "10px 15px", fontSize: "16px" }}
-                                                        > <i className="fa fa-gavel" style={{ marginRight: "5px" }}></i>Đăng ký tham gia đấu giá
-                                                        </Link>
-                                                    } */}
-                                                    {auction?.state === 'WAITING' && !auctionRegistations.some(registration => registration.user?.id === user?.id) && (
+                                                <div className="row mt-2" style={{
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    alignItems: "center", paddingTop: "15px", paddingLeft: "40px", paddingRight: "12px"
+                                                }}>
+                                                    {auction?.state === 'WAITING' && !checkAlreadyRegistered() && (
                                                         <Link
                                                             to={"/dang-ki-dau-gia/" + auctionId}
                                                             className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
@@ -314,23 +319,40 @@ export default function AuctionDetail() {
                                                             <i className="fa fa-gavel" style={{ marginRight: "5px" }}></i>Đăng ký tham gia đấu giá
                                                         </Link>
                                                     )}
-                                                    {auction?.state === 'WAITING' && auctionRegistations.some(registration => registration.user?.id === user?.id) && (
+                                                    {auction?.state === 'WAITING' && checkAlreadyRegistered() && (
                                                         <button
                                                             className="bidding-request-confirm-btn"
                                                             style={{
                                                                 borderRadius: "10px",
-                                                                backgroundColor: "#ccc", // Change the background color to your desired color
-                                                                color: "#333", // Change the text color to your desired color
+                                                                backgroundColor: "#ccc",
+                                                                color: "#333",
                                                                 border: "unset",
                                                                 padding: "10px 15px",
                                                                 fontSize: "16px",
                                                                 display: "block",
                                                                 marginBottom: "10px"
                                                             }}
-                                                            disabled // Disable the button since user has already registered
+                                                            disabled
                                                         >
                                                             <i className="fa fa-gavel" style={{ marginRight: "10px" }}></i>Bạn đã đăng kí tham gia phiên này.
                                                         </button>
+                                                    )}
+                                                    {auction?.state === 'ONGOING' && checkAlreadyRegistered() && (
+                                                        <Link
+                                                            to={"/dau-gia-san-pham/" + auctionId}
+                                                            className="fw-bold text-center eg-btn btn--primary content-center text-white btn--sm"
+                                                            style={{
+                                                                backgroundColor: "#28A745",
+                                                                textTransform: "unset",
+                                                                border: "unset",
+                                                                borderRadius: "10px",
+                                                                padding: "10px",
+                                                                fontSize: "16px",
+                                                                width: "50%",
+                                                            }}
+                                                        >
+                                                            <i className="fa fa-gavel" style={{ marginRight: "5px" }}></i>Đấu giá ngay...
+                                                        </Link>
                                                     )}
                                                 </div>
                                             </div>
@@ -354,86 +376,8 @@ export default function AuctionDetail() {
                     {/* Umino's Single Product Area Sale End Here  */}
 
                     {/* Begin Umino's Single Product Tab Area  */}
-                    <div className="sp-tab_area">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-lg-12">
-                                    <div className="sp-product-tab_nav">
-                                        <div className="product-tab">
-                                            <ul className="nav product-menu">
-                                                {auction?.state !== 'WAITING' &&
-                                                    <li>
-                                                        <a
-                                                            className="active"
-                                                            data-bs-toggle="tab"
-                                                            href="#history"
-                                                        >
-                                                            <span>
-                                                                Lịch sử đặt giá
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                }
-                                                <li>
-                                                    <a
-                                                        className={auction?.state === 'WAITING' ? `active` : ""}
-                                                        data-bs-toggle="tab"
-                                                        href="#description"
-                                                    >
-                                                        <span>Mô tả tài sản</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        data-bs-toggle="tab"
-                                                        href="#specification"
-                                                    >
-                                                        <span>
-                                                            Thông tin đấu giá
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div className="tab-content umino-tab_content">
-
-                                            {auction?.state !== 'WAITING' &&
-                                                <AuctionDetailHistory auction={auction} />}
-                                            <AuctionDetailJewelry auction={auction} jewelry={jewelry} />
-                                            <div
-                                                id="specification"
-                                                className="tab-pane"
-                                                role="tabpanel"
-                                            >
-                                                <table className="table table-bordered specification-inner_stuff">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <strong>
-                                                                    Tổ chức đấu giá tài sản:
-                                                                </strong>
-                                                            </td>
-                                                            <td><b>Công ty đấu giá DGS</b></td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <strong>
-                                                                    Đấu giá viên:
-                                                                </strong>
-                                                            </td>
-                                                            <td><b>{staff?.fullName}</b></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
+                    <AuctionTabDetail auction={auction} staff={staff} jewelry={jewelry}/>
                 </div>
             </body >
         </>
