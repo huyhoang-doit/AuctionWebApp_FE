@@ -6477,3 +6477,15 @@ canvas#highlights {
     transition: .3s;
     transform: scale(1)
 }
+.form-control:hover {
+    background-color: rgba(255, 215, 0, 0.5); /* Màu vàng hơi trắng */
+  }
+  .login-background {
+    background-image: url('img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* chiều cao bằng 100% của viewport */
+  }
+  
+  
+/* ===========================================================================================*/
