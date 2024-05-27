@@ -84,6 +84,14 @@ export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({auction, jewe
                                                 </td>
                                                 <td><b>{staff?.fullName}</b></td>
                                             </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>
+                                                        Địa chỉ:
+                                                    </strong>
+                                                </td>
+                                                <td><b>Nhà văn hóa, Q.9, TP. Thủ Đức</b></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
