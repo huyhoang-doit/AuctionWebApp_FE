@@ -1,10 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const TransactionWithSeller = () => {
   return (
     <>
       <section className="main_content dashboard_part">
-        
+
         <div className="main_content_iner ">
           <div className="container-fluid plr_30 body_white_bg pt_30">
             <div className="row justify-content-center">
@@ -50,7 +51,7 @@ const TransactionWithSeller = () => {
                           <td>.....</td>
                           <td>20,000</td>
                           <td><a href="#" className="status_btn">Active</a></td>
-                          <td><a href="/admin/view/viewtransactionseller" className="btn btn-sm btn-warning">Xem chi tiết</a><a href="#" className="btn btn-sm btn-danger">Xóa</a></td>
+                          <td><Link to={"/admin/view/viewtransactionseller"} className="btn btn-sm btn-warning">Xem chi tiết</Link><a href="#" className="btn btn-sm btn-danger">Xóa</a></td>
                         </tr>
                       </tbody>
                     </table>

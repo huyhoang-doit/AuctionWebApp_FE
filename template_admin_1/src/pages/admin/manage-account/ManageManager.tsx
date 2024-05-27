@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 const ManageManager = () => {
   return (
     <>
@@ -51,7 +52,7 @@ const ManageManager = () => {
                           <td><a href="#" className="status_btn">Active</a></td>
                           <td>
                             <div className="btn-group">
-                              <a href="/admin/view/viewmanager" className="btn btn-sm btn-warning">Xem</a>
+                              <Link to={"/admin/view/viewmanager"} className="btn btn-sm btn-warning">Xem</Link>
                               <a href="#" className="btn btn-sm btn-danger">Xóa</a>
                             </div>
                           </td>
