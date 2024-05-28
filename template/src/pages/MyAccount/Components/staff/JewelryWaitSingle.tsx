@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react'
-<<<<<<< HEAD:template/src/pages/MyAccount/Components/JewelryWaitSingle.tsx
-import { DeleteJewelryModal, JewelryModal } from '../Modal/Modal'
-import { Jewelry } from '../../../models/Jewelry'
-import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi'
-import { Image } from '../../../models/Image'
 import { Link } from 'react-router-dom'
-=======
+import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
 import { Jewelry } from '../../../../models/Jewelry'
 import { Image } from '../../../../models/Image'
-import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
-import { DeleteJewelryModal, JewelryModal } from '../../Modal/Modal'
->>>>>>> de93bc1023bd2ab81606c2c8c52f2f1ab620dc93:template/src/pages/MyAccount/Components/staff/JewelryWaitSingle.tsx
+import { JewelryModal } from '../../Modal/Modal'
+import { User } from '../../../../models/User'
 
-export const JewelryWaitSingle: React.FC<Jewelry> = (jewelry) => {
+type JewelryWaitSingleProps = {
+  jewelry: Jewelry;
+  user: User | null
+}
+
+export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ jewelry, user }) => {
   const [image, setImage] = useState<Image | null>(null)
   const [images, setImages] = useState<Image[]>([])
-
   useEffect(() => {
     getIconImageByJewelryId(jewelry.id)
       .then((response) => {
@@ -48,7 +46,7 @@ export const JewelryWaitSingle: React.FC<Jewelry> = (jewelry) => {
         <td>
           {jewelry.name}
         </td>
-        <td>{jewelry.user.lastName}</td>
+        <td>{jewelry.user?.lastName}</td>
         <td>
           {jewelry.price}
         </td>
@@ -56,8 +54,8 @@ export const JewelryWaitSingle: React.FC<Jewelry> = (jewelry) => {
           <img style={{ width: '60px', height: '60px' }} src={image?.data} />
         </td>
         <td>
-          <JewelryModal jewelry={jewelry} images={images} />
-          <DeleteJewelryModal jewelry={jewelry} />
+          <JewelryModal jewelry={jewelry} images={images} user={user} />
+          {/* <DeleteJewelryModal jewelry={jewelry} notification={notification} setNotification={setNotification} /> */}
         </td>
       </tr>
     </>
