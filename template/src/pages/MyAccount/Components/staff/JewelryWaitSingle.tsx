@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react'
+<<<<<<< HEAD:template/src/pages/MyAccount/Components/JewelryWaitSingle.tsx
 import { DeleteJewelryModal, JewelryModal } from '../Modal/Modal'
 import { Jewelry } from '../../../models/Jewelry'
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi'
 import { Image } from '../../../models/Image'
 import { Link } from 'react-router-dom'
+=======
+import { Jewelry } from '../../../../models/Jewelry'
+import { Image } from '../../../../models/Image'
+import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
+import { DeleteJewelryModal, JewelryModal } from '../../Modal/Modal'
+>>>>>>> de93bc1023bd2ab81606c2c8c52f2f1ab620dc93:template/src/pages/MyAccount/Components/staff/JewelryWaitSingle.tsx
 
 export const JewelryWaitSingle: React.FC<Jewelry> = (jewelry) => {
   const [image, setImage] = useState<Image | null>(null)

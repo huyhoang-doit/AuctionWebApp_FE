@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import './Modal.css';
 import { handleLogout } from '../../../utils/logout';
-import { formatNumber } from '../../../utils/formatNumber';
+import { formatNumber, formatNumberAcceptNull } from '../../../utils/formatNumber';
 import { numberToVietnameseText } from '../../../utils/numberToVietnameseText';
 import { Image } from '../../../models/Image';
+<<<<<<< HEAD
 import { Jewelry } from '../../../models/Jewelry';
 import { bidByUser } from '../../../api/AuctionHistoryAPI';
 import { Auction } from '../../../models/Auction';
+=======
+import { formatDateString } from '../../../utils/formatDateString';
+>>>>>>> de93bc1023bd2ab81606c2c8c52f2f1ab620dc93
 // *** MODAL FOR USER
 export const ViewTransactionModal = () => {
   const [show, setShow] = useState(false);
@@ -126,11 +130,11 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images }) =
               <form action="javascript:void(0)">
                 <div className="checkbox-form">
                   <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-12 ">
                       <div className="country-select clearfix">
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-6 fw-medium">
                       <div className="checkout-form-list">
                         <label>
                           Tên trang sức{" "}
@@ -143,7 +147,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images }) =
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-6 fw-medium">
                       <div className="checkout-form-list">
                         <label>
                           Danh mục
@@ -156,7 +160,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images }) =
                         />
                       </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-4 fw-medium">
                       <div className="checkout-form-list">
                         <label>
                           Chất liệu
@@ -170,7 +174,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images }) =
                       </div>
                     </div>
 
-                    <div className="col-md-4">
+                    <div className="col-md-4 fw-medium">
                       <div className="checkout-form-list">
                         <label>
                           Thương hiệu
@@ -183,7 +187,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images }) =
                         />
                       </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-4 fw-medium">
                       <div className="checkout-form-list">
                         <label>
                           Cân nặng (g)
@@ -198,7 +202,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images }) =
 
 
                     </div>
-                    <div className="order-notes">
+                    <div className="order-notes fw-medium">
                       <div className="checkout-form-list checkout-form-list-2">
                         <label>Mô tả sản phẩm </label>
                         <textarea
@@ -207,7 +211,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images }) =
                         ></textarea>
                       </div>
                     </div>
-                    <div className="order-notes col-md-12">
+                    <div className="order-notes col-md-12 fw-medium">
                       <div className="checkout-form-list checkout-form-list-2 row">
                         <label>Hình ảnh sản phẩm </label>
                         {React.Children.toArray(images.map(
@@ -427,7 +431,7 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({ bidValue, username, auct
 };
 
 // Modal for Jewelry HandOver
-export const AssignAuctionModal = () => {
+export const AssignAuctionModal = ({ auction }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -448,9 +452,146 @@ export const AssignAuctionModal = () => {
             size="lg"
           >
             <Modal.Header >
-              <Modal.Title>Xem chi tiết phiên đấu giá </Modal.Title>
+              <Modal.Title>Xem chi tiết phiên đấu giá - MS:<span className='fw-bold'>{auction.id}</span> </Modal.Title>
             </Modal.Header>
-            <Modal.Body>...</Modal.Body>
+            <Modal.Body> <form action="javascript:void(0)">
+              <div className="checkbox-form">
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="country-select clearfix">
+                    </div>
+                  </div>
+                  <div className="col-md-9 fw-medium">
+                    <div className="checkout-form-list">
+                      <label>
+                        Phiên đấu giá
+                      </label>
+                      <input
+                        placeholder=""
+                        type="text"
+                        value={auction.name}
+                        readOnly={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-3 fw-medium">
+                    <div className="checkout-form-list">
+                      <label>
+                        Phí tham gia (VNĐ)
+                      </label>
+                      <input
+                        placeholder=""
+                        type="text"
+                        value={formatNumber(auction.participationFee)}
+                        readOnly={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6 fw-medium">
+                    <div className="checkout-form-list">
+                      <label>
+                        Thời gian bắt đầu
+                      </label>
+                      <input
+                        placeholder=""
+                        type="text"
+                        value={formatDateString(auction.startDate)}
+                        readOnly={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6 fw-medium">
+                    <div className="checkout-form-list">
+                      <label>
+                        Thời gian kết thúc
+                      </label>
+                      <input
+                        placeholder=""
+                        type="text"
+                        value={formatDateString(auction.endDate)}
+                        readOnly={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4 fw-medium">
+                    <div className="checkout-form-list">
+                      <label>
+                        Giá khởi điểm (VNĐ)
+                      </label>
+                      <input
+                        placeholder=""
+                        type="text"
+                        value={formatNumber(auction.firstPrice)}
+                        readOnly={true}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-md-4 fw-medium">
+                    <div className="checkout-form-list">
+                      <label>
+                        Tiền đặt trước (VNĐ)
+                      </label>
+                      <input
+                        placeholder="Street address"
+                        type="text"
+                        value={formatNumber(auction.deposit)}
+                        readOnly={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4 fw-medium">
+                    <div className="checkout-form-list">
+                      <label>
+                        Bước giá (VNĐ)
+                      </label>
+                      <input
+                        placeholder="Street address"
+                        type="text"
+                        value={formatNumber(auction.priceStep)}
+                        readOnly={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="order-notes col-md-12 fw-medium">
+                    <div className="checkout-form-list checkout-form-list-2">
+                      <label>Mô tả </label>
+                      <textarea
+                        id="checkout-mess"
+                        value={auction.description}
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div className="col-md-6 fw-medium text-danger">
+                    <div className="checkout-form-list">
+                      <label>
+                        Giá cuối (VNĐ)
+                      </label>
+                      <input className='fw-bold'
+                        placeholder="Chưa cập nhật"
+                        type="text"
+                        value={auction?.lastPrice !== undefined ? formatNumberAcceptNull(auction.lastPrice) : ''}
+                        readOnly={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6 fw-semibold text-success">
+                    <div className="checkout-form-list">
+                      <label>
+                        Trạng thái
+                      </label>
+                      <input className='fw-bold'
+                        placeholder="Street address"
+                        type="text"
+                        value={auction.state}
+                        readOnly={true}
+                      />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </form></Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
                 Đóng
