@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
 import { Jewelry } from '../../../../models/Jewelry'
 import { Image } from '../../../../models/Image'
-import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
-import { DeleteJewelryModal, JewelryModal } from '../../Modal/Modal'
-import { Link } from 'react-router-dom'
+import { JewelryModal } from '../../Modal/Modal'
+import { User } from '../../../../models/User'
 
-export const JewelryWaitSingle: React.FC<Jewelry> = (jewelry) => {
+type JewelryWaitSingleProps = {
+  jewelry: Jewelry;
+  user: User | null
+}
+
+export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ jewelry, user }) => {
   const [image, setImage] = useState<Image | null>(null)
   const [images, setImages] = useState<Image[]>([])
-
   useEffect(() => {
     getIconImageByJewelryId(jewelry.id)
       .then((response) => {
@@ -49,8 +54,8 @@ export const JewelryWaitSingle: React.FC<Jewelry> = (jewelry) => {
           <img style={{ width: '60px', height: '60px' }} src={image?.data} />
         </td>
         <td>
-          <JewelryModal jewelry={jewelry} images={images} />
-          <DeleteJewelryModal jewelry={jewelry} />
+          <JewelryModal jewelry={jewelry} images={images} user={user} />
+          {/* <DeleteJewelryModal jewelry={jewelry} notification={notification} setNotification={setNotification} /> */}
         </td>
       </tr>
     </>

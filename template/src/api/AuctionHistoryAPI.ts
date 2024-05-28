@@ -96,3 +96,27 @@ export async function bidByUser(username: string, auctionId: number, priceGiven:
         return false;
     }
 }
+export async function getAuctionHistoriesWhenFinished(auctionId: number | undefined): Promise<ResultInteface> {
+    const auctionHistories: AuctionHistory[] = [];
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction-history/get-when-auction-finished/${auctionId}`;
+    // request
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+    if (response) {
+        for (const key in responseData) {
+            auctionHistories.push({
+                id: responseData[key].id,
+                priceGiven: responseData[key].priceGiven,
+                time: responseData[key].time,
+                user: {
+                    id: responseData[key].user.id,
+                    fullName: responseData[key].user.fullName,
+                },
+            })
+        }
+    } else {
+        throw new Error("Không tìm thấy");
+    }
+    return { auctionHistoriesData: auctionHistories };
+}
