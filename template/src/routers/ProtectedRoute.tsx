@@ -21,7 +21,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ roles }) => {
 
     useEffect(() => {
         if (!token) {
-            navigate('/login');
+            navigate('/dang-nhap');
             return;
         }
 
@@ -36,10 +36,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ roles }) => {
             navigate('/my-account-staff');
         }
 
+
     }, [token, navigate, roles]);
 
 
-    if (!token) return <Navigate to="/login" />;
+    if (!token) return <Navigate to="/dang-nhap" />;
 
     return <Outlet />;
 };

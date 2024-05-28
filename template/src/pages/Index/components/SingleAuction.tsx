@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { Auction } from "../../../models/Auction";
-import { StateAuctionView } from "../../ShopLeftSibar/Components/StateAuctionView";
 import { formatNumber } from "../../../utils/formatNumber";
 import useIconImage from "../../../hooks/useIconImage";
+import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
 
 interface SingleAuctionProps {
   auction: Auction;
@@ -22,7 +22,7 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
       }}>
         <div className="single-product">
           <div className="product-img">
-            <Link to={"/single-auction/" + props.auction.id}>
+            <Link to={"/tai-san-dau-gia/" + props.auction.id}>
               <img
                 className="primary-img"
                 src={imageData}
@@ -38,13 +38,13 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
                 </span>
               </div>
               <h6 className="fw-bold product-name">
-                <Link to={"/single-auction/" + props.auction.id}>
+                <Link to={"/tai-san-dau-gia/" + props.auction.id}>
                   {props.auction.name}
                 </Link>
               </h6>
               <div>Trạng thái: <StateAuctionView state={props.auction.state} /></div>
 
-              <Link to={"/single-auction/" + props.auction.id}>
+              <Link to={"/tai-san-dau-gia/" + props.auction.id}>
                 <button className="mt-2 btn btn-danger">
                   Chi tiết
                 </button>

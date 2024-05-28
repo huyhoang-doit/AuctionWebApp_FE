@@ -55,7 +55,7 @@ export default function Footer() {
                                 <div className="footer-widgets">
                                     <ul>
                                         <li>
-                                            <Link to={"/about"}>
+                                            <Link to={"/gioi-thieu"}>
                                                 Giới thiệu
                                             </Link>
                                         </li>

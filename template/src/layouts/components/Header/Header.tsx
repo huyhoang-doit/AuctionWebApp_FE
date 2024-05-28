@@ -98,7 +98,7 @@ export default function Header() {
                                     <nav className="main_nav">
                                         <ul>
                                             <li className="megamenu-holder">
-                                                <Link to={"/shop-left-sibar"}>
+                                                <Link to={"/danh-sach-dau-gia"}>
                                                     Cách loại trang sức đấu giá
                                                     <i className="ion-chevron-down"></i>
                                                 </Link>
@@ -111,7 +111,7 @@ export default function Header() {
                                                             {React.Children.toArray(categories.map(
                                                                 (category) => <li
                                                                 >
-                                                                    <NavLink to={"/shop-left-sibar/category/" + category.id}>{category.name}</NavLink>
+                                                                    <NavLink to={"/danh-sach-dau-gia/category/" + category.id}>{category.name}</NavLink>
                                                                 </li>
                                                             ))}
                                                         </ul>
@@ -121,30 +121,30 @@ export default function Header() {
                                             <li
                                                 className="dropdown-holder"
                                             >
-                                                <NavLink to={"/shop-left-sibar"}>
+                                                <NavLink to={"/danh-sach-dau-gia"}>
                                                     Cuộc đấu giá
                                                     <i className="ion-chevron-down"></i>
                                                 </NavLink>
                                                 <ul className="hm-dropdown">
                                                     <li>
-                                                        <Link to={"/shop-left-sibar/state/WAITING"}>
+                                                        <Link to={"/danh-sach-dau-gia/state/WAITING"}>
                                                             Đấu giá sắp diễn ra
                                                         </Link>
                                                     </li>
                                                     <li>
-                                                        <Link to={"/shop-left-sibar/state/ONGOING"}>
+                                                        <Link to={"/danh-sach-dau-gia/state/ONGOING"}>
                                                             Đấu giá đang diễn ra
                                                         </Link>
                                                     </li>
                                                     <li>
-                                                        <Link to={"/shop-left-sibar/state/FINISHED"}>
+                                                        <Link to={"/danh-sach-dau-gia/state/FINISHED"}>
                                                             Đấu giá đã kết thúc
                                                         </Link>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li>
-                                                <Link to={"/about"}>
+                                                <Link to={"/gioi-thieu"}>
                                                     Giới thiệu
                                                     <i className="ion-chevron-down"></i>
                                                 </Link>
@@ -159,7 +159,7 @@ export default function Header() {
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <Link to={"/about"}>
+                                                        <Link to={"/gioi-thieu"}>
                                                             Về chúng tôi
                                                         </Link>
                                                     </li>
@@ -167,7 +167,7 @@ export default function Header() {
                                             </li>
                                             <li
                                             >
-                                                <NavLink to="/contact">Liên hệ</NavLink>
+                                                <NavLink to="/lien-he">Liên hệ</NavLink>
                                             </li>
                                         </ul>
                                     </nav>

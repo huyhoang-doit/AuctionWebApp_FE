@@ -71,7 +71,7 @@ export default function RegisterForAuction() {
 
     return (
         <>
-            <body className="template-color-1">
+            <div className="template-color-1">
                 <div className="main-wrapper">
                     {/* <!-- Begin Umino's Breadcrumb Area --> */}
                     <div className="breadcrumb-area">
@@ -296,7 +296,7 @@ export default function RegisterForAuction() {
                         </div>
                     </div>
                 </div>
-            </body >
+            </div >
         </>
     );
 }

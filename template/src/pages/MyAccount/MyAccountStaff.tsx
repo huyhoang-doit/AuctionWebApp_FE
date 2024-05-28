@@ -1,4 +1,8 @@
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
+import {AssignAuctionModal } from "./Modal/Modal"
+=======
+>>>>>>> de93bc1023bd2ab81606c2c8c52f2f1ab620dc93
 import { MyAccountDetail } from "./Components/MyAccountDetail";
 import useAccount from "../../hooks/useAccount";
 import { useEffect, useState } from "react";
@@ -132,12 +136,12 @@ export default function MyAccountStaff() {
                             </tr>
                             <tr>
                               <td>
-                                <a
+                                <Link
                                   className="account-order-id"
-                                  href="javascript:void(0)"
+                                  to={""}
                                 >
                                   #5364
-                                </a>
+                                </Link>
                               </td>
                               <td>
                                 Trang sức nữ

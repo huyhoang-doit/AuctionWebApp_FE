@@ -5,7 +5,13 @@ import { handleLogout } from '../../../utils/logout';
 import { formatNumber, formatNumberAcceptNull } from '../../../utils/formatNumber';
 import { numberToVietnameseText } from '../../../utils/numberToVietnameseText';
 import { Image } from '../../../models/Image';
+<<<<<<< HEAD
+import { Jewelry } from '../../../models/Jewelry';
+import { bidByUser } from '../../../api/AuctionHistoryAPI';
+import { Auction } from '../../../models/Auction';
+=======
 import { formatDateString } from '../../../utils/formatDateString';
+>>>>>>> de93bc1023bd2ab81606c2c8c52f2f1ab620dc93
 // *** MODAL FOR USER
 export const ViewTransactionModal = () => {
   const [show, setShow] = useState(false);
@@ -81,9 +87,14 @@ export const ViewJewelryRequestModal = () => {
   );
 };
 
+interface JewelryModalProps {
+  jewelry: Jewelry;
+  images: Image[];
+}
+
 // *** MODAL FOR STAFF ***
 // Modal for Jewelry List
-export const JewelryModal = ({ jewelry, images }) => {
+export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images }) => {
   const [show, setShow] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -144,7 +155,7 @@ export const JewelryModal = ({ jewelry, images }) => {
                         <input
                           placeholder=""
                           type="text"
-                          value={jewelry.category.name}
+                          value={jewelry.category?.name}
                           readOnly={true}
                         />
                       </div>
@@ -297,8 +308,12 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
   );
 };
 
+interface DeleteJewelryModalProps {
+  jewelry: Jewelry | null;
+}
+
 // Delete Jewelry Modal
-export const DeleteJewelryModal = () => {
+export const DeleteJewelryModal: React.FC<DeleteJewelryModalProps> = ({ jewelry }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -318,7 +333,7 @@ export const DeleteJewelryModal = () => {
             backdropClassName="custom-backdrop"
           >
             <Modal.Header >
-              <Modal.Title>Xác nhận xóa sản phẩm </Modal.Title>
+              <Modal.Title>Xác nhận xóa sản phẩm {jewelry?.name} </Modal.Title>
             </Modal.Header>
             <Modal.Body>Bạn có chắc muốn xóa sản phẩm này khỏi danh sách chờ không?</Modal.Body>
             <Modal.Footer>
@@ -339,14 +354,35 @@ export const DeleteJewelryModal = () => {
 
 interface BidConfirmProps {
   bidValue: number;
+  setDisplayValue: (value: string) => void;
+  setAuction: (auction: Auction) => void;
+  username: string | undefined;
+  auction: Auction | null,
 }
 
 // Modal for Jewelry HandOver
-export const BidConfirm: React.FC<BidConfirmProps> = ({ bidValue }) => {
+export const BidConfirm: React.FC<BidConfirmProps> = ({ bidValue, username, auction, setDisplayValue, setAuction }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleConfirmBid = () => {
+    if (username !== undefined && auction && bidValue) {
+      bidByUser(username, auction?.id, bidValue)
+        .then((response) => {
+          if (response === true) {
+            setDisplayValue(formatNumber(bidValue || 0));
+            setAuction({...auction, lastPrice: bidValue});
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+      setShow(false);
+    }
+  }
+
   return (
     <>
       <button
@@ -382,7 +418,7 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({ bidValue }) => {
               <Button style={{ color: "white", border: "none", backgroundColor: "#767678" }} onClick={handleClose}>
                 Hủy
               </Button>
-              <Button className='bg-primary text-white' onClick={handleClose}>
+              <Button className='bg-primary text-white' onClick={handleConfirmBid}>
                 Xác nhận
               </Button>
             </Modal.Footer>

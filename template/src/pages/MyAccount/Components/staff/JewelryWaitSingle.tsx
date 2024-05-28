@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react'
+<<<<<<< HEAD:template/src/pages/MyAccount/Components/JewelryWaitSingle.tsx
+import { DeleteJewelryModal, JewelryModal } from '../Modal/Modal'
+import { Jewelry } from '../../../models/Jewelry'
+import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi'
+import { Image } from '../../../models/Image'
+import { Link } from 'react-router-dom'
+=======
 import { Jewelry } from '../../../../models/Jewelry'
 import { Image } from '../../../../models/Image'
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
 import { DeleteJewelryModal, JewelryModal } from '../../Modal/Modal'
+>>>>>>> de93bc1023bd2ab81606c2c8c52f2f1ab620dc93:template/src/pages/MyAccount/Components/staff/JewelryWaitSingle.tsx
 
-export const JewelryWaitSingle: React.FC<Jewelry> = ({ jewelry }) => {
-  const [image, setImage] = useState<Image>({})
+export const JewelryWaitSingle: React.FC<Jewelry> = (jewelry) => {
+  const [image, setImage] = useState<Image | null>(null)
   const [images, setImages] = useState<Image[]>([])
 
   useEffect(() => {
@@ -25,16 +33,17 @@ export const JewelryWaitSingle: React.FC<Jewelry> = ({ jewelry }) => {
         console.error(error.message);
       });
   }, [])
+
   return (
     <>
       <tr>
         <td>
-          <a
+          <Link
             className="account-order-id"
-            href="javascript:void(0)"
+            to={""}
           >
             {jewelry.id}
-          </a>
+          </Link>
         </td>
         <td>
           {jewelry.name}
@@ -44,7 +53,7 @@ export const JewelryWaitSingle: React.FC<Jewelry> = ({ jewelry }) => {
           {jewelry.price}
         </td>
         <td>
-          <img style={{ width: '60px', height: '60px' }} src={image.data} />
+          <img style={{ width: '60px', height: '60px' }} src={image?.data} />
         </td>
         <td>
           <JewelryModal jewelry={jewelry} images={images} />

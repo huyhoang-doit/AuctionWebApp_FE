@@ -1,10 +1,10 @@
-import "./ShopLeftSibar.css";
+import "./AuctionList.css";
 import SideBar from "./Components/SideBar";
 import ContainerListAuctions from "./Components/ContainerListAuctions";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-export default function ShopLeftSibar() {
+export default function AuctionList() {
     const [selectedStates, setSelectedStates] = useState<string[]>([]);
     const { state, cateId, fromDateFilter, toDateFilter, txtSearch } = useParams();
 

@@ -15,7 +15,7 @@ export const NavBar = () => {
                 <div className="row">
                     <div className="col-lg-3 col-md-9 col-sm-7">
                         <div className="category-menu category-menu-hidden">
-                            <Link to={"/shop-left-sibar"}>
+                            <Link to={"/danh-sach-dau-gia"}>
                                 <div className="category-heading">
                                     <h2 className="categories-toggle">
                                         <span>Các loại trang sức đấu giá</span>
@@ -30,7 +30,7 @@ export const NavBar = () => {
                                     {React.Children.toArray(categories.map(
                                         (category) => <li
                                         >
-                                            <NavLink to={"/shop-left-sibar/category/" + category.id}>{category.name}</NavLink>
+                                            <NavLink to={"/danh-sach-dau-gia/category/" + category.id}>{category.name}</NavLink>
                                         </li>
                                     ))}
                                 </ul>
@@ -44,30 +44,30 @@ export const NavBar = () => {
                                     <li
                                         className="dropdown-holder"
                                     >
-                                        <NavLink to={"/shop-left-sibar"}>
+                                        <NavLink to={"/danh-sach-dau-gia"}>
                                             Cuộc đấu giá
                                             <i className="ion-chevron-down"></i>
                                         </NavLink>
                                         <ul className="hm-dropdown">
                                             <li>
-                                                <Link to={"/shop-left-sibar/state/WAITING"}>
+                                                <Link to={"/danh-sach-dau-gia/state/WAITING"}>
                                                     Đấu giá sắp diễn ra
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to={"/shop-left-sibar/state/ONGOING"}>
+                                                <Link to={"/danh-sach-dau-gia/state/ONGOING"}>
                                                     Đấu giá đang diễn ra
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to={"/shop-left-sibar/state/FINISHED"}>
+                                                <Link to={"/danh-sach-dau-gia/state/FINISHED"}>
                                                     Đấu giá đã kết thúc
                                                 </Link>
                                             </li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <Link to={"/about"}>
+                                        <Link to={"/gioi-thieu"}>
                                             Giới thiệu
                                             <i className="ion-chevron-down"></i>
                                         </Link>
@@ -82,7 +82,7 @@ export const NavBar = () => {
                                                 </a>
                                             </li>
                                             <li>
-                                                <Link to={"/about"}>
+                                                <Link to={"/gioi-thieu"}>
                                                     Về chúng tôi
                                                 </Link>
                                             </li>
@@ -90,7 +90,7 @@ export const NavBar = () => {
                                     </li>
                                     <li
                                     >
-                                        <NavLink to="/contact">Liên hệ</NavLink>
+                                        <NavLink to="/lien-he">Liên hệ</NavLink>
                                     </li>
                                     <li
                                     >
@@ -103,17 +103,17 @@ export const NavBar = () => {
                     <div className="col-lg-2 d-none d-lg-block">
                         {!user &&
                             <div className="login-area">
-                                <Link to={"/login"}>
+                                <Link to={"/dang-nhap"}>
                                     Đăng nhập
                                 </Link><span> | </span>
-                                <Link to={"/register"}>
+                                <Link to={"/dang-ky"}>
                                     Đăng ký
                                 </Link>
                             </div>}
                         {
                             user &&
                             <div className="login-area">
-                                <Link to={"/my-account"}>
+                                <Link to={"/thong-tin-ca-nhan"}>
                                     Profile
                                 </Link><span> | </span>
                                 <LogoutModal />

@@ -1,6 +1,13 @@
 // import React, { useState, ChangeEvent } from 'react';
 // import { useNavigate } from 'react-router-dom';
 
+<<<<<<< HEAD
+const Login: React.FC = () => {
+  const [loginRequest, setLoginRequest] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const navigate = useNavigate();
+=======
 
 
 
@@ -9,6 +16,7 @@
 //   const [error, setError] = useState("");
 //   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 //   const navigate = useNavigate();
+>>>>>>> de93bc1023bd2ab81606c2c8c52f2f1ab620dc93
 
 //   const onChangeLoginRequest = (key: keyof typeof loginRequest) => (e: ChangeEvent<HTMLInputElement>) => {
 //     setLoginRequest((prevValue) => ({ ...prevValue, [key]: e.target.value }));
@@ -19,6 +27,15 @@
 //     e.preventDefault();
 //     const { email, password } = loginRequest;
     
+<<<<<<< HEAD
+    if (email === "admin@example.com" && password === "admin") {
+      setError("");
+      navigate('/admin');
+    } else {
+      setError("Invalid email or password");
+    }
+  };
+=======
 //     // Dummy validation logic
 //     if (email === "admin@example.com" && password === "admin") {
 //       setError("");
@@ -27,6 +44,7 @@
 //       setError("Invalid email or password");
 //     }
 //   };
+>>>>>>> de93bc1023bd2ab81606c2c8c52f2f1ab620dc93
 
 //   const togglePasswordVisibility = () => {
 //     setIsPasswordVisible(!isPasswordVisible);
