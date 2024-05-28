@@ -19,7 +19,7 @@ const Slider = () => {
                     >
                       <span>Diamond - Gold - Silver</span>
                     </a><br />
-                    <NavLink to="/shop-left-sibar">
+                    <NavLink to="/danh-sach-dau-gia">
                       <span
                         onClick={() => window.scrollTo({ top: 100, behavior: 'smooth' })}
                         className="btn fw-normal rounded-5 fs-5 position-relative"

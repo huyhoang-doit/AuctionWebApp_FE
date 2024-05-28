@@ -87,12 +87,12 @@ export default function About() {
                                             alias, nulla ornare velit amet enim
                                         </p>
                                         <div className="team-member_img img-hover_effect">
-                                            <a href="javascript:void(0)">
+                                            <Link to={""}>
                                                 <img
                                                     src="assets/images/about-us/medium-size/1.jpg"
                                                     alt="Umino's Team Member Image"
                                                 />
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                     <div className="additional-content">
@@ -128,12 +128,12 @@ export default function About() {
                                             alias, nulla ornare velit amet enim
                                         </p>
                                         <div className="team-member_img img-hover_effect">
-                                            <a href="javascript:void(0)">
+                                            <Link to={""}>
                                                 <img
                                                     src="assets/images/about-us/medium-size/2.jpg"
                                                     alt="Umino's Team Member Image"
                                                 />
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                     <div className="additional-content">
@@ -167,12 +167,12 @@ export default function About() {
                                             alias, nulla ornare velit amet enim
                                         </p>
                                         <div className="team-member_img img-hover_effect">
-                                            <a href="javascript:void(0)">
+                                            <Link to={""}>
                                                 <img
                                                     src="assets/images/about-us/medium-size/3.jpg"
                                                     alt="Umino's Team Member Image"
                                                 />
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                     <div className="additional-content">
@@ -216,17 +216,14 @@ export default function About() {
                                                     id="headingOne"
                                                 >
                                                     <h5 className="mb-0">
-                                                        <a
-                                                            href="javascript:void(0)"
-                                                            className="javascript:void(0)"
+                                                        <Link to={""}
                                                             data-bs-toggle="collapse"
                                                             data-bs-target="#collapseOne"
                                                             aria-expanded="true"
-                                                            aria-bs-controls="collapseOne"
                                                         >
                                                             Fast Free Delivery
                                                             <i className="ion-chevron-down"></i>
-                                                        </a>
+                                                        </Link>
                                                     </h5>
                                                 </div>
                                                 <div
@@ -272,18 +269,17 @@ export default function About() {
                                                     id="headingTwo"
                                                 >
                                                     <h5 className="mb-0">
-                                                        <a
-                                                            href="javascript:void(0)"
+                                                        <Link
+                                                            to={""}
                                                             className="collapsed"
                                                             data-bs-toggle="collapse"
                                                             data-bs-target="#collapseTwo"
                                                             aria-expanded="false"
-                                                            aria-bs-controls="collapseTwo"
                                                         >
                                                             More Than 30 Years
                                                             In The Business
                                                             <i className="ion-chevron-down"></i>
-                                                        </a>
+                                                        </Link>
                                                     </h5>
                                                 </div>
                                                 <div
@@ -329,17 +325,16 @@ export default function About() {
                                                     id="headingThree"
                                                 >
                                                     <h5 className="mb-0">
-                                                        <a
-                                                            href="javascript:void(0)"
+                                                        <Link
+                                                            to={""}
                                                             className="collapsed"
                                                             data-bs-toggle="collapse"
                                                             data-bs-target="#collapseTwo2"
                                                             aria-expanded="false"
-                                                            aria-bs-controls="collapseTwo2"
                                                         >
                                                             100% Organic Foods
                                                             <i className="ion-chevron-down"></i>
-                                                        </a>
+                                                        </Link>
                                                     </h5>
                                                 </div>
                                                 <div
@@ -385,18 +380,17 @@ export default function About() {
                                                     id="headingfour"
                                                 >
                                                     <h5 className="mb-0">
-                                                        <a
-                                                            href="javascript:void(0)"
+                                                        <Link
+                                                            to={""}
                                                             className="collapsed"
                                                             data-bs-toggle="collapse"
                                                             data-bs-target="#collapseThree"
                                                             aria-expanded="false"
-                                                            aria-bs-controls="collapseThree"
                                                         >
                                                             Best Shopping
                                                             Strategies
                                                             <i className="ion-chevron-down"></i>
-                                                        </a>
+                                                        </Link>
                                                     </h5>
                                                 </div>
                                                 <div
@@ -445,13 +439,13 @@ export default function About() {
                                     <div className="testimonial-slider slider-navigation_style-1">
                                         <div className="single-item">
                                             <div className="testimonial-img">
-                                                <a href="javascript:void(0)">
+                                                <Link to="">
                                                     <img
                                                         style={{ width: '40%' }}
                                                         src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-6/270961679_10159870536636108_2642967668131478092_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=tXLob4dQoKYQ7kNvgGGHDXb&_nc_ht=scontent.fsgn5-5.fna&oh=00_AYDVprpAMT8O-RYhQiI73QWzrZza6Wec9YSgwpkujAoH-g&oe=665A4217"
                                                         alt="Umino's Testimonial Image"
                                                     />
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className="author-info">
                                                 <span className="name">
@@ -478,12 +472,12 @@ export default function About() {
                                         </div>
                                         <div className="single-item">
                                             <div className="testimonial-img">
-                                                <a href="javascript:void(0)">
+                                                <Link to={""}>
                                                     <img
                                                         src="assets/images/about-us/testimonial/2.jpg"
                                                         alt="Umino's Testimonial Image"
                                                     />
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className="author-info">
                                                 <span className="name">

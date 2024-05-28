@@ -32,10 +32,10 @@ export const AuctionDetailHistory: React.FC<AuctionDetailHistoryProps> = (props)
         <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
                 Hiển thị
-                <select className="btn-group ms-1 me-1">
-                    <option selected className="dropdown-item">3</option>
-                    <option className="dropdown-item" >5</option>
-                    <option className="dropdown-item" >10</option>
+                <select defaultValue={3} className="btn-group ms-1 me-1">
+                    <option value={3} className="dropdown-item">3</option>
+                    <option value={5} className="dropdown-item" >5</option>
+                    <option value={10} className="dropdown-item" >10</option>
                 </select>
                 lượt trả giá
             </div>

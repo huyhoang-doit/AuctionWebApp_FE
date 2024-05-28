@@ -29,12 +29,7 @@ export const MyJewelryList: React.FC = () => {
                         </tr>
                         <tr>
                             <td>
-                                <a
-                                    className="account-order-id"
-                                    href="javascript:void(0)"
-                                >
-                                    SP0001
-                                </a>
+                                SP0001
                             </td>
                             <td>
                                 Trang sức nữ

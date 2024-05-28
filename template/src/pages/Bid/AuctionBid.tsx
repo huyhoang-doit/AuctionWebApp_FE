@@ -11,9 +11,10 @@ import ImageProduct from "../AuctionDetail/AuctionImageProduct";
 import { AuctionTabDetail } from "../AuctionDetail/Components/AuctionTabDetail";
 import { BidConfirm } from "../MyAccount/Modal/Modal";
 import { BidInfo } from "./Components/BidInfo";
+import useAccount from "../../hooks/useAccount";
 
 export const AuctionBid = () => {
-    // const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const [auction, setAuction] = useState<Auction | null>(null);
     const [jewelry, setJewelry] = useState<Jewelry | null>(null);
     const [staff, setStaff] = useState<User | null>(null);
@@ -22,7 +23,7 @@ export const AuctionBid = () => {
     const [displayValue, setDisplayValue] = useState<string>("");
     const [errorBidValue, setErrorBidValue] = useState("");
     const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
-    // const user = useAccount(token);
+    const user = useAccount(token);
     const { id } = useParams();
     let auctionId = 0;
 
@@ -108,7 +109,6 @@ export const AuctionBid = () => {
         setDisplayValue(formatNumber(bidValue));
     }, [bidValue]);
 
-
     const handleIncrement = () => {
         if (auction?.priceStep !== undefined) {
             setBidValue(prevValue => {
@@ -135,7 +135,7 @@ export const AuctionBid = () => {
                     setErrorBidValue("Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá");
                     return prevValue;
                 }
-                if (newValue >= auction.lastPrice ?? 0) {
+                if (newValue >= auction.lastPrice) {
                     return newValue;
                 } else {
                     setErrorBidValue("Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá");
@@ -186,7 +186,7 @@ export const AuctionBid = () => {
                 </button>
             );
         } else if (bidValue >= ((auction?.lastPrice || 0) + (auction?.priceStep || 0))) {
-            return <BidConfirm bidValue={bidValue} />;
+            return <BidConfirm setDisplayValue={setDisplayValue} setAuction={setAuction} username={user?.username} auction={auction} bidValue={bidValue} />;
         } else {
             return (
                 <button
@@ -235,7 +235,7 @@ export const AuctionBid = () => {
 
     return (
         <>
-            <body className="template-color-1">
+            <div className="template-color-1">
                 <div className="main-wrapper">
                     {/* <!-- Begin Umino's Breadcrumb Area --> */}
                     <div className="breadcrumb-area">
@@ -335,7 +335,7 @@ export const AuctionBid = () => {
                     </div>
                     <AuctionTabDetail auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
-            </body >
+            </div >
         </>
     )
 }

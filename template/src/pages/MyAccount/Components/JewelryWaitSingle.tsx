@@ -3,9 +3,10 @@ import { DeleteJewelryModal, JewelryModal } from '../Modal/Modal'
 import { Jewelry } from '../../../models/Jewelry'
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi'
 import { Image } from '../../../models/Image'
+import { Link } from 'react-router-dom'
 
-export const JewelryWaitSingle: React.FC<Jewelry> = ({ jewelry }) => {
-  const [image, setImage] = useState<Image>({})
+export const JewelryWaitSingle: React.FC<Jewelry> = (jewelry) => {
+  const [image, setImage] = useState<Image | null>(null)
   const [images, setImages] = useState<Image[]>([])
 
   useEffect(() => {
@@ -25,16 +26,17 @@ export const JewelryWaitSingle: React.FC<Jewelry> = ({ jewelry }) => {
         console.error(error.message);
       });
   }, [])
+
   return (
     <>
       <tr>
         <td>
-          <a
+          <Link
             className="account-order-id"
-            href="javascript:void(0)"
+            to={""}
           >
             {jewelry.id}
-          </a>
+          </Link>
         </td>
         <td>
           {jewelry.name}
@@ -44,7 +46,7 @@ export const JewelryWaitSingle: React.FC<Jewelry> = ({ jewelry }) => {
           {jewelry.price}
         </td>
         <td>
-          <img style={{ width: '60px', height: '60px' }} src={image.data} />
+          <img style={{ width: '60px', height: '60px' }} src={image?.data} />
         </td>
         <td>
           <JewelryModal jewelry={jewelry} images={images} />

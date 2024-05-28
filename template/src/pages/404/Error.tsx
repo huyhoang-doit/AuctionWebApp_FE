@@ -23,7 +23,7 @@ const Error = () => {
                                 <p className="short_desc">
                                     Xin lỗi nhưng trang bạn đang tìm kiếm không tồn tại, đã bị xóa, đã thay đổi tên hoặc tạm thời không khả dụng.
                                 </p>
-                                <form action="javascript:void(0)" className="error-form">
+                                <form action="" className="error-form">
                                     <div className="inner-error_form">
                                         <input
                                             type="text"

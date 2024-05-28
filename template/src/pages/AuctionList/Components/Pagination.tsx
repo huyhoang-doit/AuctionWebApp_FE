@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 interface PaginationProps {
     currentPage: number;
@@ -44,17 +45,17 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
                     <ul className="umino-pagination-box">
                         {/* Previous Page Button */}
                         <li>
-                            <a href="javascript:void(0)" onClick={() => props.handlePageChange(1)}>First</a>
+                            <Link to="" onClick={() => props.handlePageChange(1)}>First</Link>
                         </li>
                         {/* Page Buttons */}
                         {listPage.map((page, index) => (
                             <li key={index} className={props.currentPage === page ? 'active' : ''}>
-                                <a href="javascript:void(0)" onClick={() => props.handlePageChange(page)}>{page}</a>
+                                <Link to="" onClick={() => props.handlePageChange(page)}>{page}</Link>
                             </li>
                         ))}
                         {/* Next Page Button */}
                         <li>
-                            <a href="javascript:void(0)" onClick={() => props.handlePageChange(props.totalPages)}>Last</a>
+                            <Link to="" onClick={() => props.handlePageChange(props.totalPages)}>Last</Link>
                         </li>
                     </ul>
                 </div>
