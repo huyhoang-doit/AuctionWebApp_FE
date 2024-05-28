@@ -20,6 +20,7 @@ import AuctionList from "../pages/AuctionList/AuctionList";
 export default function RouterCom() {
     return (
         <Routes>
+            {/* ///// */}
             <Route path="/" element={<Index />} />
             <Route path="/gioi-thieu" element={<About />} />
             <Route path="/checkout" element={<Checkout />} />
@@ -31,7 +32,7 @@ export default function RouterCom() {
             <Route path="/danh-sach-dau-gia/name/:txtSearch" element={<AuctionList />} />
             <Route path="/danh-sach-dau-gia/date/:fromDateFilter/:toDateFilter" element={<AuctionList />} />
             <Route path="/tai-san-dau-gia/:id" element={<AuctionDetail />} />
-
+            {/* ///// */}
 
             {/* ///// */}
             <Route element={<GuestRoute />}>

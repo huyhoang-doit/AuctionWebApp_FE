@@ -1,9 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-
-
 const Login: React.FC = () => {
   const [loginRequest, setLoginRequest] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -19,10 +16,9 @@ const Login: React.FC = () => {
     e.preventDefault();
     const { email, password } = loginRequest;
     
-    // Dummy validation logic
     if (email === "admin@example.com" && password === "admin") {
       setError("");
-      navigate('/admin'); // Redirect to admin page after successful login
+      navigate('/admin');
     } else {
       setError("Invalid email or password");
     }

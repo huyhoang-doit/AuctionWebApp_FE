@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 function App() {
   const location = useLocation();
-  const isLoginPage = location.pathname === '/login';
+  const isLoginPage = location.pathname === '/dang-nhap';
 
   return (
     <>
