@@ -1,4 +1,5 @@
 import { AuctionHistory } from "../models/AuctionHistory";
+import { fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
 
 interface ResultInteface {
@@ -71,6 +72,7 @@ export async function getBidByUsername(username: string): Promise<ResultInteface
 
 
 export async function bidByUser(username: string, auctionId: number, priceGiven: number): Promise<boolean> {
+    const token = localStorage.getItem("access_token");
     const bidTime = new Date().toISOString();
 
     const bid = {
@@ -79,17 +81,11 @@ export async function bidByUser(username: string, auctionId: number, priceGiven:
         priceGiven: priceGiven,
         bidTime: bidTime
     }
-    // endpoint
+    // // endpoint
     const URL = `http://localhost:8080/api/v1/auction-history`;
-    // request
+    // // request
     try {
-        const response = await fetch(URL, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(bid),
-        });
+        const response = await fetchWithToken(URL, 'POST', token, bid);
 
         if (!response.ok) {
             throw new Error(`Không thể truy cập ${URL}`);

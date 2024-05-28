@@ -1,4 +1,5 @@
+import { logout } from "../api/AuthenticationAPI";
+
 export const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/dang-nhap";
+    logout();
 };

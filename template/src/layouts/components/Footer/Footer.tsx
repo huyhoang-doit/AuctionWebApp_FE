@@ -102,7 +102,7 @@ export default function Footer() {
                                     <div className="footer-logo">
                                         <a href="">
                                             <img width="150" height="70"
-                                                src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/menu/logo/1.png"
+                                                src="/assets/images/menu/logo/1.png"
 
                                             />
                                         </a>

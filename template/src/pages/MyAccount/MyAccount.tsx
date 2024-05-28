@@ -10,7 +10,7 @@ import { TransactionHistory } from "./Components/TransactionHistory";
 import { MyJewelryList } from "./Components/MyJewelryList";
 
 export default function MyAccount() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const user = useAccount(token);
     const [userState, setUserState] = useState<User | null>(user);
     const [transactions, setTransactions] = useState<Transaction[]>([])

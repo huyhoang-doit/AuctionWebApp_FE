@@ -141,7 +141,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
               <a href="">
                 <img
                   className="img-full"
-                  src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/banner/3-1.jpg"
+                  src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/banner/3-1.jpg?token=GHSAT0AAAAAACO3AQYJ5VWGDDL55QCLRBY4ZSVZESQ"
                   alt=" Banner"
                 />
               </a>

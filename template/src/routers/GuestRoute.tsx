@@ -3,7 +3,7 @@ import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 
 
 const GuestRoute: React.FC = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const navigate = useNavigate();
 
     useEffect(() => {
