@@ -1,4 +1,5 @@
 import { User } from "../models/User";
+import { ensureAccessToken, fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
 
 export const checkEmailExist = async (email: string) => {
@@ -36,14 +37,12 @@ export const getUserLogin = async (username: string): Promise<User> => {
 
 export const editProfileUser = async (user: User): Promise<User> => {
   const URL = `http://localhost:8080/api/v1/user`;
+  
+  await ensureAccessToken();
 
-  const response = await fetch(URL, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(user)
-  });
+  const token = localStorage.getItem("access_token");
+  const response = await fetchWithToken(URL, 'PUT', token, user);
+
   if (!response.ok) {
     throw new Error(`Error: ${response.statusText}`);
   }

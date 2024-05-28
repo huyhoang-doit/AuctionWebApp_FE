@@ -5,13 +5,10 @@ import { handleLogout } from '../../../utils/logout';
 import { formatNumber, formatNumberAcceptNull } from '../../../utils/formatNumber';
 import { numberToVietnameseText } from '../../../utils/numberToVietnameseText';
 import { Image } from '../../../models/Image';
-<<<<<<< HEAD
 import { Jewelry } from '../../../models/Jewelry';
 import { bidByUser } from '../../../api/AuctionHistoryAPI';
 import { Auction } from '../../../models/Auction';
-=======
 import { formatDateString } from '../../../utils/formatDateString';
->>>>>>> de93bc1023bd2ab81606c2c8c52f2f1ab620dc93
 // *** MODAL FOR USER
 export const ViewTransactionModal = () => {
   const [show, setShow] = useState(false);

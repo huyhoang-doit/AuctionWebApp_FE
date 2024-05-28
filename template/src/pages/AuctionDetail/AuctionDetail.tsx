@@ -22,7 +22,7 @@ export default function AuctionDetail() {
     const [staff, setStaff] = useState<User | null>(null);
     const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
     const { id } = useParams();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const user = useAccount(token);
     let auctionId = 0;
 

@@ -16,7 +16,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ roles }) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const navigate = useNavigate();
 
     useEffect(() => {

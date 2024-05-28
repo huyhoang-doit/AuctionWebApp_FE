@@ -1,8 +1,4 @@
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
-import {AssignAuctionModal } from "./Modal/Modal"
-=======
->>>>>>> de93bc1023bd2ab81606c2c8c52f2f1ab620dc93
 import { MyAccountDetail } from "./Components/MyAccountDetail";
 import useAccount from "../../hooks/useAccount";
 import { useEffect, useState } from "react";
@@ -10,7 +6,7 @@ import { User } from "../../models/User";
 import JewelriesWaitList from "./Components/staff/JewelriesWaitList";
 import AssignedAuctionList from "./Components/staff/AssignedAuctionList";
 export default function MyAccountStaff() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("access_token");
   const user = useAccount(token);
 
   const [userState, setUserState] = useState<User | null>(user);

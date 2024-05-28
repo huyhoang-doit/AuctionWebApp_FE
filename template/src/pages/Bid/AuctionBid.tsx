@@ -14,7 +14,7 @@ import { BidInfo } from "./Components/BidInfo";
 import useAccount from "../../hooks/useAccount";
 
 export const AuctionBid = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const [auction, setAuction] = useState<Auction | null>(null);
     const [jewelry, setJewelry] = useState<Jewelry | null>(null);
     const [staff, setStaff] = useState<User | null>(null);

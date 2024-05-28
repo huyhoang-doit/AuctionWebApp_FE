@@ -13,7 +13,7 @@ import useAccount from "../../hooks/useAccount";
 
 
 export default function RegisterForAuction() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const [auction, setAuction] = useState<Auction | null>(null);
     const [jewelry, setJewelry] = useState<Jewelry | null>(null);
     const [jewelryUser, setJewelryUser] = useState<User | null>(null);

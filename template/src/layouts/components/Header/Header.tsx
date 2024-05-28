@@ -27,7 +27,7 @@ export default function Header() {
                                 <div className="header-logo">
                                     <Link to={"/"}>
                                         <img
-                                            src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/menu/logo/1.png"
+                                            src="/assets/images/menu/logo/1.png"
                                             alt="DGS's Logo"
                                         />
                                     </Link>
@@ -87,7 +87,7 @@ export default function Header() {
                                 <div className="header-logo">
                                     <Link to={"/"}>
                                         <img
-                                            src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/menu/logo/1.png"
+                                            src="/assets/images/menu/logo/1.png"
                                             alt="Umino's Header Logo"
                                         />
                                     </Link>
