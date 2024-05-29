@@ -22,7 +22,6 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
     // endpoint
     const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
     // request
-    
     const response = await MyRequest(URL);
     const responseData = response.content;
     const totalPages = response.totalPages;
@@ -47,10 +46,6 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
                 jewelry: {
                     id: responseData[key].jewelry.id,
                     name: responseData[key].jewelry.name,
-                    user: {
-                        id: responseData[key].jewelry.user.id,
-                        fullName: responseData[key].jewelry.user.fullName,
-                    },
                 },
             })
         }

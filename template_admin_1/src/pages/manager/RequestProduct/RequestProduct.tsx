@@ -20,6 +20,30 @@ const RequestProduct = () => {
     handleCloseModal();
   };
 
+  // Tạo danh sách sản phẩm
+  const products = Array.from({ length: 20 }, (_, index) => ({
+    id: index + 1,
+    code: `SP000${index + 1}`,
+    name: `Đồng Hồ Thụy Sĩ ${index + 1}`,
+    category: 'Đồng hồ',
+    // Thêm các thông tin khác nếu cần
+  }));
+
+  // Quy định số sản phẩm mỗi trang là 10
+  //useState(1) sẽ tạo ra một biến state mới có tên là currentPage và gán giá trị ban đầu của nó là 1.
+  //currentPage là giá trị hiện tại của trang đang được hiển thị.
+  //setCurrentPage là hàm để cập nhật giá trị mới cho currentPage.
+  //Khi người dùng chuyển đến trang mới, bạn sẽ cập nhật giá trị của currentPage bằng cách gọi hàm setCurrentPage với giá trị mới của trang.
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Tính chỉ số sản phẩm bắt đầu và kết thúc cho trang hiện tại
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, products.length);
+
+  // Tạo danh sách sản phẩm cho trang hiện tại
+  const currentProducts = products.slice(startIndex, endIndex);
+
   return (
     <>
       <section className="main_content dashboard_part">
@@ -62,21 +86,100 @@ const RequestProduct = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <th scope="row"> <a href="#" className="question_content"> 1</a></th>
-                          <td>SP0001</td>
-                          <td>Đồng Hồ Thụy Sĩ</td>
-                          <td>Đồng hồ</td>
-                          <td>.....</td>
-                          <td>.....</td>
-                          <td>
-                            <Link to={"/manager/View/ViewProducts"} className="btn btn-sm btn-warning">Xem</Link>
-                            <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
-                          </td>
-                        </tr>
+                        {currentProducts.map((product, index) => (
+                          <tr key={product.id}>
+                            <th scope="row"> <a href="#" className="question_content">{startIndex + index + 1}</a></th>
+                            <td>{product.code}</td>
+                            <td>{product.name}</td>
+                            <td>{product.category}</td>
+                            <td>.....</td>
+                            <td>.....</td>
+                            <td>
+                              <Link to={`/manager/View/ViewProducts/${product.id}`} className="btn btn-sm btn-warning">Xem</Link>
+                              <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
+
+
+                        {/* 10 sản phẩm chuyển trang và cộng thêm số trang */}
+                  <ul className="pagination" style={{marginTop: '30px'}}> 
+                    <li className="pagination-item">
+                      <a
+                        href="#"
+                        className="pagination-item__link "
+                        onClick={() =>
+                          setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+                        }
+                      >
+                        <i className="pagination-item__icon fas fa-angle-left"></i>
+                      </a>
+                    </li>
+
+                    {Array.from({ length: Math.ceil(products.length / itemsPerPage) }, (_, i) => (
+                      <li key={i} className="pagination-item">
+                        <a
+                          href="#"
+                          className={`pagination-item__link ${currentPage === i + 1 ? 'active' : ''}`}
+                          onClick={() => setCurrentPage(i + 1)}
+                        >
+                          {i + 1}
+                        </a>
+                      </li>
+                    ))}
+
+                    <li className="pagination-item">
+                      <a
+                        href="#"
+                        className="pagination-item__link "
+                        onClick={() =>
+                          setCurrentPage((prevPage) =>
+                            Math.min(prevPage + 1, Math.ceil(products.length / itemsPerPage))
+                          )
+                        }
+                      >
+                        <i className="pagination-item__icon fas fa-angle-right"></i>
+                      </a>
+                    </li>
+                  </ul>
+
+                        {/* Cuộn kéo chay bình thường không chức năng */}
+                  {/* <ul className="pagination" >
+          <li className="pagination-item" style={{marginTop: '30px'}} >
+          <a href="" className="pagination-item__link ">
+           <i className="pagination-item__icon fas fa-angle-left"></i>
+         </a>
+         </li>
+
+         <li className="pagination-item">
+         <a href="" className="pagination-item__link">1</a>
+         </li>
+
+         <li className="pagination-item">
+         <a href="" className="pagination-item__link">2</a>
+         </li>
+
+        <li className="pagination-item">
+       <a href="" className="pagination-item__link">3</a>
+         </li>
+
+       <li className="pagination-item">
+      <a href="" className="pagination-item__link">4</a>
+         </li>
+
+         <li className="pagination-item">
+         <a href="" className="pagination-item__link">5</a>
+     </li>
+         <li className="pagination-item">
+       <a href="" className="pagination-item__link ">
+         <i className="pagination-item__icon fas fa-angle-right"></i>
+        </a>
+      </li>
+         </ul> */}
+
                   {/* Modal */}
                   <Modal show={showModal} onHide={handleCloseModal}>
                     <Modal.Header closeButton>
@@ -101,5 +204,37 @@ const RequestProduct = () => {
     </>
   );
 };
+{/* <ul className="pagination" >
+<li className="pagination-item">
+ <a href="" className="pagination-item__link ">
+   <i className="pagination-item__icon fas fa-angle-left"></i>
+ </a>
+</li>
+
+<li className="pagination-item">
+ <a href="" className="pagination-item__link">1</a>
+</li>
+
+<li className="pagination-item">
+ <a href="" className="pagination-item__link">2</a>
+</li>
+
+<li className="pagination-item">
+ <a href="" className="pagination-item__link">3</a>
+</li>
+
+<li className="pagination-item">
+ <a href="" className="pagination-item__link">4</a>
+</li>
+
+<li className="pagination-item">
+ <a href="" className="pagination-item__link">5</a>
+</li>
+<li className="pagination-item">
+ <a href="" className="pagination-item__link ">
+   <i className="pagination-item__icon fas fa-angle-right"></i>
+ </a>
+</li>
+</ul> */}
 
 export default RequestProduct;
