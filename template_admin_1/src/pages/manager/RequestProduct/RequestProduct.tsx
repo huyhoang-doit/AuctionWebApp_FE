@@ -30,6 +30,10 @@ const RequestProduct = () => {
   }));
 
   // Quy định số sản phẩm mỗi trang là 10
+  //useState(1) sẽ tạo ra một biến state mới có tên là currentPage và gán giá trị ban đầu của nó là 1.
+  //currentPage là giá trị hiện tại của trang đang được hiển thị.
+  //setCurrentPage là hàm để cập nhật giá trị mới cho currentPage.
+  //Khi người dùng chuyển đến trang mới, bạn sẽ cập nhật giá trị của currentPage bằng cách gọi hàm setCurrentPage với giá trị mới của trang.
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
