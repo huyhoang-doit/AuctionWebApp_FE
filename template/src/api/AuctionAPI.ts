@@ -45,11 +45,7 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
                 state: responseData[key].state,
                 jewelry: {
                     id: responseData[key].jewelry.id,
-                    name: response[key].jewelry.name,
-                    user: {
-                        id: responseData[key].jewelry.user.id,
-                        fullName: responseData[key].jewelry.user.fullName,
-                    },
+                    name: responseData[key].jewelry.name,
                 },
             })
         }

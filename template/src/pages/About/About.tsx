@@ -34,23 +34,15 @@ export default function About() {
                                     </div>
                                     <div className="about-us_content">
                                         <h3 className="heading">
-                                            We Are A Furniture Agency Focused On
-                                            Delivering Content And Utility
-                                            User-Experiences.
+                                            Chúng tôi tự hào là nền tảng đấu giá trực tuyến hàng đầu Việt Nam,
+                                            tập trung vào việc cung cấp nội dung và trải nghiệm hữu ích cho người dùng.
                                         </h3>
                                         <p className="short-desc">
-                                            Adipiscing lacus ut elementum, nec
-                                            duis, tempor litora turpis dapibus.
-                                            Imperdiet cursus odio tortor in
-                                            elementum. Egestas nunc eleifend
-                                            feugiat lectus laoreet, vel nunc
-                                            taciti integer cras. Hac pede dis,
-                                            praesent nibh ac dui mauris sit.
-                                            Pellentesque mi, facilisi mauris,
-                                            elit sociis leo sodales accumsan.
-                                            Iaculis ac fringilla torquent lorem
-                                            consectetuer, sociosqu phasellus
-                                            risus urna aliquam, ornare.
+                                            Chúng tôi cung cấp một nền tảng nơi người dùng có thể dễ dàng tham gia các phiên đấu giá trực tuyến,
+                                            đảm bảo tính minh bạch và công bằng trong từng giao dịch.
+                                            Với đội ngũ chuyên gia thẩm định uy tín và hệ thống bảo mật tiên tiến,
+                                            DGS cam kết mang đến trải nghiệm mua bán trang sức đẳng cấp và đáng tin cậy cho mọi khách hàng.
+                                            Ngoài ra, người dùng còn có thể đăng ký đấu giá các sản phẩm của mình, tạo cơ hội trao đổi và kinh doanh hiệu quả.
                                         </p>
                                         <div className="aurhor-signature">
                                             <img
@@ -82,9 +74,9 @@ export default function About() {
                                             Creative Design
                                         </h3>
                                         <p className="short-desc">
-                                            Erat metus sodales eget dolor
-                                            consectetuer, porta ut purus at et
-                                            alias, nulla ornare velit amet enim
+                                            Chúng tôi tự hào mang đến những thiết kế sáng tạo,
+                                            độc đáo và tinh tế cho mọi sản phẩm trang sức,
+                                            giúp bạn tỏa sáng và thể hiện phong cách riêng biệt.
                                         </p>
                                         <div className="team-member_img img-hover_effect">
                                             <a href="javascript:void(0)">
@@ -100,12 +92,9 @@ export default function About() {
                                             What do we do?
                                         </h3>
                                         <p className="short-desc">
-                                            Sed ut perspiciatis unde omnis iste
-                                            natus error sit voluptatem
-                                            accusantium doloremque laudantium,
-                                            totam rem aperiam, eaque ipsa quae
-                                            ab illo inventore veritatis et quasi
-                                            architecto
+                                            Chúng tôi cung cấp nền tảng đấu giá trực tuyến cho các sản phẩm trang sức cao cấp.
+                                            Tại đây, người dùng có thể tham gia đấu giá,
+                                            mua bán các mặt hàng trang sức quý giá một cách an toàn và tin cậy.
                                         </p>
                                     </div>
                                 </div>
@@ -123,9 +112,9 @@ export default function About() {
                                             100% Money Back Guarantee
                                         </h3>
                                         <p className="short-desc">
-                                            Erat metus sodales eget dolor
-                                            consectetuer, porta ut purus at et
-                                            alias, nulla ornare velit amet enim
+                                            Chúng tôi cam kết đảm bảo hoàn tiền 100%
+                                            nếu bạn không hài lòng với sản phẩm,
+                                            nhằm mang lại sự yên tâm và tin tưởng tuyệt đối khi mua sắm tại DGS.
                                         </p>
                                         <div className="team-member_img img-hover_effect">
                                             <a href="javascript:void(0)">
@@ -139,12 +128,9 @@ export default function About() {
                                     <div className="additional-content">
                                         <h3 className="heading">Our Mission</h3>
                                         <p className="short-desc">
-                                            Sed ut perspiciatis unde omnis iste
-                                            natus error sit voluptatem
-                                            accusantium doloremque laudantium,
-                                            totam rem aperiam, eaque ipsa quae
-                                            ab illo inventore veritatis et quasi
-                                            architecto
+                                            Sứ mệnh của chúng tôi là tạo ra một môi trường đấu giá trang sức trực tuyến công bằng và minh bạch,
+                                            mang lại giá trị thực sự cho cả người mua và người bán,
+                                            đồng thời thúc đẩy sự phát triển của thị trường trang sức.
                                         </p>
                                     </div>
                                 </div>
@@ -162,9 +148,8 @@ export default function About() {
                                             Online Support 24/7
                                         </h3>
                                         <p className="short-desc">
-                                            Erat metus sodales eget dolor
-                                            consectetuer, porta ut purus at et
-                                            alias, nulla ornare velit amet enim
+                                            Đội ngũ hỗ trợ trực tuyến của chúng tôi luôn sẵn sàng phục vụ bạn 24/7,
+                                            đảm bảo giải đáp mọi thắc mắc và hỗ trợ kịp thời để bạn có trải nghiệm mua sắm hoàn hảo.
                                         </p>
                                         <div className="team-member_img img-hover_effect">
                                             <a href="javascript:void(0)">
@@ -180,12 +165,9 @@ export default function About() {
                                             History Of Us
                                         </h3>
                                         <p className="short-desc">
-                                            Sed ut perspiciatis unde omnis iste
-                                            natus error sit voluptatem
-                                            accusantium doloremque laudantium,
-                                            totam rem aperiam, eaque ipsa quae
-                                            ab illo inventore veritatis et quasi
-                                            architecto
+                                            Diamond Gold Silver (DGS) được thành lập từ tháng 5 năm 2024
+                                            với mục tiêu kết nối những người yêu trang sức và
+                                            tạo ra một cộng đồng đấu giá sôi động.
                                         </p>
                                     </div>
                                 </div>
@@ -204,9 +186,9 @@ export default function About() {
                                         <h3>Why You Choose Us ?</h3>
                                     </div>
                                     <p className="short-desc">
-                                        Mirum est notare quam littera gothica,
-                                        quam nunc putamus parum claram
-                                        anteposuerit litterarum.
+                                        Với phương châm hoạt động: “Đem lại hiệu quả kinh tế vượt trội”,
+                                        chúng tôi hy vọng sẽ làm hài lòng Quý Khách và mong muốn được đồng hành cùng
+                                        Quý Khách hàng trong suốt quá trình hoạt động và phát triển.
                                     </p>
                                     <div className="frequently-accordion about-us_accordion">
                                         <div id="accordion">
@@ -224,7 +206,7 @@ export default function About() {
                                                             aria-expanded="true"
                                                             aria-bs-controls="collapseOne"
                                                         >
-                                                            Fast Free Delivery
+                                                            An Toàn và Tin Cậy
                                                             <i className="ion-chevron-down"></i>
                                                         </a>
                                                     </h5>
@@ -237,31 +219,17 @@ export default function About() {
                                                 >
                                                     <div className="card-body">
                                                         <h3 className="heading">
-                                                            Nam Liber Tempor Cum
-                                                            Soluta Nobis
-                                                            Eleifend Option
+
                                                         </h3>
                                                         <p className="short-desc">
-                                                            Congue nihil
-                                                            imperdiet doming id
-                                                            quod mazim placerat
-                                                            facer possim assum.
-                                                            Typi non habent
-                                                            claritatem insitam
-                                                            est usus legentis in
-                                                            iis qui facit eorum
-                                                            claritatem.
-                                                            Investigationes
-                                                            demonstraverunt
-                                                            lectores legere me.
+                                                            Chúng tôi cam kết cung cấp môi trường đấu giá
+                                                            trực tuyến an toàn với các biện pháp bảo mật cao,
+                                                            đảm bảo quyền lợi cho cả người mua và người bán.
                                                         </p>
                                                         <p className="additional-desc">
-                                                            Claritas est etiam
-                                                            processus dynamicus,
-                                                            qui sequitur
-                                                            mutationem
-                                                            consuetudium
-                                                            lectorum.
+                                                            Tất cả giao dịch trên DGS đều được mã hóa và bảo vệ bằng công nghệ tiên tiến,
+                                                            giúp bảo mật thông tin cá nhân và tài sản của bạn.
+                                                            Bạn có thể yên tâm tham gia đấu giá mà không lo lắng về rủi ro.
                                                         </p>
                                                     </div>
                                                 </div>
@@ -280,8 +248,7 @@ export default function About() {
                                                             aria-expanded="false"
                                                             aria-bs-controls="collapseTwo"
                                                         >
-                                                            More Than 30 Years
-                                                            In The Business
+                                                            Đa Dạng Sản Phẩm
                                                             <i className="ion-chevron-down"></i>
                                                         </a>
                                                     </h5>
@@ -294,31 +261,19 @@ export default function About() {
                                                 >
                                                     <div className="card-body">
                                                         <h3 className="heading">
-                                                            Nam Liber Tempor Cum
-                                                            Soluta Nobis
-                                                            Eleifend Option
+
                                                         </h3>
                                                         <p className="short-desc">
-                                                            Congue nihil
-                                                            imperdiet doming id
-                                                            quod mazim placerat
-                                                            facer possim assum.
-                                                            Typi non habent
-                                                            claritatem insitam
-                                                            est usus legentis in
-                                                            iis qui facit eorum
-                                                            claritatem.
-                                                            Investigationes
-                                                            demonstraverunt
-                                                            lectores legere me.
+                                                            Diamond Gold Silver (DGS) mang đến cho bạn
+                                                            một bộ sưu tập trang sức phong phú,
+                                                            từ những món trang sức cổ điển đến hiện đại,
+                                                            đáp ứng mọi sở thích và nhu cầu.
                                                         </p>
                                                         <p className="additional-desc">
-                                                            Claritas est etiam
-                                                            processus dynamicus,
-                                                            qui sequitur
-                                                            mutationem
-                                                            consuetudium
-                                                            lectorum.
+                                                            Chúng tôi hợp tác với nhiều nhà cung cấp uy tín
+                                                            để mang đến những sản phẩm chất lượng nhất.
+                                                            Bạn có thể dễ dàng tìm thấy những món trang sức độc đáo và quý hiếm,
+                                                            phù hợp với phong cách cá nhân của mình.
                                                         </p>
                                                     </div>
                                                 </div>
@@ -337,7 +292,7 @@ export default function About() {
                                                             aria-expanded="false"
                                                             aria-bs-controls="collapseTwo2"
                                                         >
-                                                            100% Organic Foods
+                                                            Hỗ Trợ Khách Hàng 24/7
                                                             <i className="ion-chevron-down"></i>
                                                         </a>
                                                     </h5>
@@ -350,31 +305,18 @@ export default function About() {
                                                 >
                                                     <div className="card-body">
                                                         <h3 className="heading">
-                                                            Nam Liber Tempor Cum
-                                                            Soluta Nobis
-                                                            Eleifend Option
+
                                                         </h3>
                                                         <p className="short-desc">
-                                                            Congue nihil
-                                                            imperdiet doming id
-                                                            quod mazim placerat
-                                                            facer possim assum.
-                                                            Typi non habent
-                                                            claritatem insitam
-                                                            est usus legentis in
-                                                            iis qui facit eorum
-                                                            claritatem.
-                                                            Investigationes
-                                                            demonstraverunt
-                                                            lectores legere me.
+                                                            Đội ngũ hỗ trợ khách hàng của chúng tôi luôn
+                                                            sẵn sàng giải đáp mọi thắc mắc và hỗ trợ bạn bất cứ lúc nào,
+                                                            giúp bạn có trải nghiệm mua sắm tốt nhất.
                                                         </p>
                                                         <p className="additional-desc">
-                                                            Claritas est etiam
-                                                            processus dynamicus,
-                                                            qui sequitur
-                                                            mutationem
-                                                            consuetudium
-                                                            lectorum.
+                                                            Dù bạn gặp vấn đề gì trong quá trình đấu giá hay có bất kỳ câu hỏi nào,
+                                                            đội ngũ chuyên viên của chúng tôi luôn
+                                                            ở đây để hỗ trợ bạn qua nhiều kênh liên lạc khác nhau như chat trực tuyến,
+                                                            email và điện thoại.
                                                         </p>
                                                     </div>
                                                 </div>
@@ -393,8 +335,7 @@ export default function About() {
                                                             aria-expanded="false"
                                                             aria-bs-controls="collapseThree"
                                                         >
-                                                            Best Shopping
-                                                            Strategies
+                                                            Đảm Bảo Hoàn Tiền 100%
                                                             <i className="ion-chevron-down"></i>
                                                         </a>
                                                     </h5>
@@ -407,31 +348,17 @@ export default function About() {
                                                 >
                                                     <div className="card-body">
                                                         <h3 className="heading">
-                                                            Nam Liber Tempor Cum
-                                                            Soluta Nobis
-                                                            Eleifend Option
+
                                                         </h3>
                                                         <p className="short-desc">
-                                                            Congue nihil
-                                                            imperdiet doming id
-                                                            quod mazim placerat
-                                                            facer possim assum.
-                                                            Typi non habent
-                                                            claritatem insitam
-                                                            est usus legentis in
-                                                            iis qui facit eorum
-                                                            claritatem.
-                                                            Investigationes
-                                                            demonstraverunt
-                                                            lectores legere me.
+                                                            Chúng tôi cung cấp chính sách hoàn tiền linh hoạt,
+                                                            giúp bạn hoàn toàn yên tâm khi tham gia đấu giá tại DGS.
                                                         </p>
                                                         <p className="additional-desc">
-                                                            Claritas est etiam
-                                                            processus dynamicus,
-                                                            qui sequitur
-                                                            mutationem
-                                                            consuetudium
-                                                            lectorum.
+                                                            Nếu bạn không hài lòng với sản phẩm đã mua,
+                                                            bạn có thể yêu cầu hoàn tiền trong vòng 30 ngày.
+                                                            Quy trình hoàn tiền của chúng tôi nhanh chóng và đơn giản,
+                                                            đảm bảo bạn luôn cảm thấy thoải mái khi mua sắm.
                                                         </p>
                                                     </div>
                                                 </div>
