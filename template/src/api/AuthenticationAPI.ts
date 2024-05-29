@@ -32,11 +32,11 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
             body: JSON.stringify(loginRequest),
         });
 
-        console.log(response)
         if (response.status === 200) {
             const data = await response.json();
             const jwt = data.access_token;
             const refreshToken = data.refresh_token;
+
             localStorage.setItem('access_token', jwt);
             localStorage.setItem('refresh_token', refreshToken);
             return true;
@@ -133,7 +133,7 @@ export const logout = async () => {
 
 let refreshTokenPromise: Promise<string | void> | null = null;
 export async function ensureAccessToken() {
-    
+
     if (refreshTokenPromise) {
         await refreshTokenPromise;
         return;

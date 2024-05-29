@@ -45,41 +45,44 @@ export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
             role="tabpanel"
             aria-labelledby="account-address-tab"
         >
-            <div className="myaccount-orders">
-                <h4 className="small-title">
-                    Lịch sử tham gia đấu giá
-                </h4>
-                <div className="table-responsive">
-                    <table className="table table-bordered table-hover">
-                        <tbody>
-                            <tr>
-                                <th>Mã phiên</th>
-                                <th>Tên phiên</th>
-                                <th>Thời gian</th>
-                                <th>Số tiền (VNĐ)</th>
-                            </tr>
-                            {
-                                userAuctionHistories.map((auctionHistory, index) => (
-                                    <tr key={index}>
-                                        <td>
-                                            {auctionHistory.auction?.id}
-                                        </td>
-                                        <td>
-                                            {auctionHistory.auction?.name}
-                                        </td>
-                                        <td>
-                                            {formatDateString(auctionHistory.time ? auctionHistory.time : "")}
-                                        </td>
-                                        <td>
-                                            {formatNumber(auctionHistory.priceGiven)}
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
+            {userAuctionHistories.length === 0 ?
+                <h4>Hiện bạn chưa có lịch sử trả giá nào</h4> :
+                <div className="myaccount-orders">
+                    <h4 className="small-title">
+                        Lịch sử tham gia đấu giá
+                    </h4>
+                    <div className="table-responsive">
+                        <table className="table table-bordered table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>Mã phiên</th>
+                                    <th>Tên phiên</th>
+                                    <th>Thời gian</th>
+                                    <th>Số tiền (VNĐ)</th>
+                                </tr>
+                                {
+                                    userAuctionHistories.map((auctionHistory, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                {auctionHistory.auction?.id}
+                                            </td>
+                                            <td>
+                                                {auctionHistory.auction?.name}
+                                            </td>
+                                            <td>
+                                                {formatDateString(auctionHistory.time ? auctionHistory.time : "")}
+                                            </td>
+                                            <td>
+                                                {formatNumber(auctionHistory.priceGiven)}
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }

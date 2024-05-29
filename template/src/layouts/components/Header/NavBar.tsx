@@ -2,7 +2,6 @@ import React from "react"
 import { Link, NavLink } from "react-router-dom"
 import useAccount from "../../../hooks/useAccount";
 import { useCategories } from "../../../hooks/useCategories";
-import { LogoutModal } from "../../../pages/MyAccount/Modal/Modal";
 
 export const NavBar = () => {
     const categories = useCategories();
@@ -114,9 +113,8 @@ export const NavBar = () => {
                             user &&
                             <div className="login-area">
                                 <Link to={"/thong-tin-ca-nhan"}>
-                                    Profile
-                                </Link><span> | </span>
-                                <LogoutModal />
+                                    THÔNG TIN CÁ NHÂN
+                                </Link>
                             </div>
                         }
                     </div>
