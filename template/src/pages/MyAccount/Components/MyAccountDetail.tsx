@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { User } from "../../../models/User";
 import { editProfileUser } from "../../../api/UserAPI";
 import { SaveEditProfileModal } from "../Modal/Modal";
@@ -11,7 +11,6 @@ interface MyAccountDetailProps {
 }
 
 export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
-    const [avatar, setAvatar] = useState<File | null>(null);
     const [user, setUser] = useState<User | null>(props.user);
     const [notification, setNotification] = useState("");
     const [isEditing, setIsEditing] = useState(false);
@@ -53,8 +52,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                     };
 
                     const response = await editProfileUser(updatedUser);
-                    props.setUser(response); // Update the user state with the response from the API
-                    setAvatar(file);
+                    props.setUser(response);
                 }
             } catch (error) {
                 console.error("Error converting file to Base64: ", error);
@@ -80,6 +78,11 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         } else {
             setIsEditing(true);
         }
+    };
+
+    const handleBankChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        const selectedBank = banks.find(bank => bank.id === parseInt(event.target.value));
+        setUser({ ...user, bank: selectedBank });
     };
 
     return (
@@ -214,8 +217,8 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                     </div>
 
                                     <div className="col-md-12 mt-4">
-                                        <label >Ngân hàng</label>
-                                        <select defaultValue={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
+                                        <label>Ngân hàng</label>
+                                        <select  onChange={handleBankChange} disabled defaultValue={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
                                         >
                                             {banks.map((bank) => (
                                                 <option style={{ padding: '5px' }} key={bank.id} value={bank.id}>

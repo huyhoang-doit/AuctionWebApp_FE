@@ -8,6 +8,7 @@ import { getTransactionsByUsername } from "../../api/TransactionAPI";
 import { Transaction } from "../../models/Transaction";
 import { TransactionHistory } from "./Components/TransactionHistory";
 import { MyJewelryList } from "./Components/MyJewelryList";
+import { LogoutModal } from "./Modal/Modal";
 
 export default function MyAccount() {
     const token = localStorage.getItem("access_token");
@@ -23,8 +24,8 @@ export default function MyAccount() {
                 .then((response) => {
                     setTransactions(response.transactionsData);
                 })
-                .catch((error) => {
-                    console.error(error.message);
+                .catch(() => {
+                    setTransactions([])
                 });
         }
     }, [user]);
@@ -105,6 +106,12 @@ export default function MyAccount() {
                                         >
                                             Sản phẩm yêu cầu
                                         </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to={""}
+                                        >
+                                            <LogoutModal/>
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>
