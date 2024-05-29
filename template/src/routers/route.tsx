@@ -7,7 +7,6 @@ import Contact from "../pages/Contact/Contact";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import MyAccount from "../pages/MyAccount/MyAccount";
-import ShopLeftSibar from "../pages/ShopLeftSibar/ShopLeftSibar";
 import Error from "../pages/404/Error";
 import { PageSendJewelry } from "../pages/FormSendJewelry/PageSendJewelry";
 import MyAccountStaff from "../pages/MyAccount/MyAccountStaff";
@@ -16,30 +15,31 @@ import GuestRoute from "./GuestRoute";
 import RegisterForAuction from "../pages/RegisterForAuction/RegisterForAuction";
 import AuctionDetail from "../pages/AuctionDetail/AuctionDetail";
 import { AuctionBid } from "../pages/Bid/AuctionBid";
+import AuctionList from "../pages/AuctionList/AuctionList";
 
 export default function RouterCom() {
     return (
         <Routes>
-
-            <Route path="/about" element={<About />} />
+            {/* ///// */}
             <Route path="/" element={<Index />} />
+            <Route path="/gioi-thieu" element={<About />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/lien-he" element={<Contact />} />
             <Route path="/activation/:token" element={<Login />} />
-            <Route path="/shop-left-sibar" element={<ShopLeftSibar />} />
-            <Route path="/shop-left-sibar/state/:state" element={<ShopLeftSibar />} />
-            <Route path="/shop-left-sibar/category/:cateId" element={<ShopLeftSibar />} />
-            <Route path="/shop-left-sibar/name/:txtSearch" element={<ShopLeftSibar />} />
-            <Route path="/shop-left-sibar/date/:fromDateFilter/:toDateFilter" element={<ShopLeftSibar />} />
-            <Route path="/single-auction/:id" element={<AuctionDetail />} />
-
+            <Route path="/danh-sach-dau-gia" element={<AuctionList />} />
+            <Route path="/danh-sach-dau-gia/state/:state" element={<AuctionList />} />
+            <Route path="/danh-sach-dau-gia/category/:cateId" element={<AuctionList />} />
+            <Route path="/danh-sach-dau-gia/name/:txtSearch" element={<AuctionList />} />
+            <Route path="/danh-sach-dau-gia/date/:fromDateFilter/:toDateFilter" element={<AuctionList />} />
+            <Route path="/tai-san-dau-gia/:id" element={<AuctionDetail />} />
+            {/* ///// */}
 
             {/* ///// */}
             <Route element={<GuestRoute />}>
-                <Route path="/login" element={<Login />} />
+                <Route path="/dang-nhap" element={<Login />} />
             </Route>
             <Route element={<GuestRoute />}>
-                <Route path="/register" element={<Register />} />
+                <Route path="/dang-ky" element={<Register />} />
             </Route>
             {/* ///// */}
 
@@ -54,7 +54,7 @@ export default function RouterCom() {
                 <Route path="/dau-gia-san-pham/:id" element={<AuctionBid />} />
             </Route>
             <Route element={<ProtectedRoute roles={['MEMBER', 'MANAGER', 'ADMIN']} />}>
-                <Route path="/my-account" element={<MyAccount />} />
+                <Route path="/thong-tin-ca-nhan" element={<MyAccount />} />
             </Route>
             <Route element={<ProtectedRoute roles={['STAFF', 'ADMIN']} />}>
                 <Route path="/my-account-staff" element={<MyAccountStaff />} />

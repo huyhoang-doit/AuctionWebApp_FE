@@ -111,7 +111,7 @@ export default function Login() {
                                         </div>
                                     </div>
 
-                                    <Link to={"/register"}>
+                                    <Link to={"/dang-ky"}>
                                         Bạn chưa có tài khoản ?
                                     </Link>
                                 </div>

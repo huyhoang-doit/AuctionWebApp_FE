@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { User } from "../../models/User";
 import JewelriesWaitList from "./Components/staff/JewelriesWaitList";
 import AssignedAuctionList from "./Components/staff/AssignedAuctionList";
+import JewelriesHandOverList from "./Components/staff/JewelriesHandOverList";
 export default function MyAccountStaff() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("access_token");
   const user = useAccount(token);
 
   const [userState, setUserState] = useState<User | null>(user);
@@ -105,7 +106,7 @@ export default function MyAccountStaff() {
                     role="tabpanel"
                     aria-labelledby="account-orders-tab"
                   >
-                    <JewelriesWaitList />
+                    <JewelriesWaitList user={userState} setUser={setUserState} />
                   </div>
                   <div
                     className="tab-pane fade"
@@ -113,52 +114,7 @@ export default function MyAccountStaff() {
                     role="tabpanel"
                     aria-labelledby="account-address-tab"
                   >
-
-                    <div className="myaccount-orders">
-                      <h4 className="small-title">
-                        Danh sách trang sức bàn giao
-                      </h4>
-                      <div className="table-responsive">
-                        <table className="table table-bordered table-hover">
-                          <tbody>
-                            <tr>
-                              <th>Mã trang sức</th>
-                              <th>Tên trang sức</th>
-                              <th>Phiên đấu</th>
-                              <th>Người chiến thắng</th>
-                              <th>Ảnh</th>
-                              <th>Trạng thái</th>
-                              <th>Xem chi tiết</th>
-                            </tr>
-                            <tr>
-                              <td>
-                                <a
-                                  className="account-order-id"
-                                  href="javascript:void(0)"
-                                >
-                                  #5364
-                                </a>
-                              </td>
-                              <td>
-                                Trang sức nữ
-                              </td>
-                              <td>PĐG0001</td>
-                              <td>
-                                US0001
-                              </td>
-                              <td>
-                                <img style={{ width: '60px', height: '60px' }} src="https://imagev3.vietnamplus.vn/w1000/Uploaded/2024/mzdic/2021_03_27/Diamond640x480.jpg.webp" />
-                              </td>
-                              <td>
-                                Chưa thanh toán
-                              </td>
-                              <td>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                    <JewelriesHandOverList user={userState} setUser={setUserState} />
                   </div>
                   <div
                     className="tab-pane fade"
@@ -167,52 +123,6 @@ export default function MyAccountStaff() {
                     aria-labelledby="account-address-tab"
                   >
                     <AssignedAuctionList user={userState} setUser={setUserState} />
-                    {/* <div className="myaccount-orders">
-                      <h4 className="small-title">
-                        Danh sách phiên được phân công
-                      </h4>
-                      <div className="table-responsive">
-                        <table className="table table-bordered table-hover">
-                          <tbody>
-                            <tr>
-                              <th>Mã phiên</th>
-                              <th>Tên phiên</th>
-                              <th>Ngày</th>
-                              <th>Thời gian</th>
-                              <th>Số lượng tham gia</th>
-                              <th>Trạng thái</th>
-                              <th>Xem chi tiết</th>
-                            </tr>
-                            <tr>
-                              <td>
-                                <a
-                                  className="account-order-id"
-                                  href="javascript:void(0)"
-                                >
-                                  PDG0001
-                                </a>
-                              </td>
-                              <td>
-                                Đấu giá trang sức nữ
-                              </td>
-                              <td>17/01/2003</td>
-                              <td>
-                                US0001
-                              </td>
-                              <td>
-                                12
-                              </td>
-                              <td>
-                                WAITING
-                              </td>
-                              <td>
-                                <AssignAuctionModal />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div> */}
                   </div>
 
                 </div>

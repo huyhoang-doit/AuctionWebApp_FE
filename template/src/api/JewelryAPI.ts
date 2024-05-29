@@ -66,3 +66,30 @@ export async function getJewelriesWaitList(): Promise<Jewelry[]> {
 
   return getJewelries(URL);
 }
+
+export async function setJewelryHidden(id: number): Promise<boolean> {
+  // endpoint
+  const URL: string = `http://localhost:8080/api/v1/jewelry/${id}`;
+
+  console.log(URL)
+  const response = await fetch(URL, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    console.error('Failed to delete the jewelry:', errorDetails);
+    return false
+  }
+
+  return true;
+}
+
+export async function getJewelriesHandOverList(): Promise<Jewelry[]> {
+  // endpoint
+  const URL: string = `http://localhost:8080/api/v1/jewelry/in-handover-list`;
+
+  return getJewelries(URL);
+}

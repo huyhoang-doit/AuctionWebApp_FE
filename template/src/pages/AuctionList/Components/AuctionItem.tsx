@@ -150,14 +150,14 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
                                     data-bs-toggle="modal"
                                     data-bs-target="#exampleModalCenter"
                                 >
-                                    <a
-                                        href="javascript:void(0)"
+                                    <Link
+                                        to=""
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="top"
                                         title="Quick View"
                                     >
                                         <i className="ion-ios-search"></i>
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
@@ -204,7 +204,7 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
             <div className="list-slide_item">
                 <div className="single-product">
                     <div className="product-img">
-                        <Link to={"/single-auction/" + props.auction.id}>
+                        <Link to={"/tai-san-dau-gia/" + props.auction.id}>
                             <img
                                 src={imageData}
                                 alt="Umino's Product Image"
@@ -219,7 +219,7 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
                                 </span>
                             </div>
                             <h6 className="fw-bold product-name">
-                                <Link to={"/single-auction/" + props.auction.id}>
+                                <Link to={"/tai-san-dau-gia/" + props.auction.id}>
                                     Tên phiên: {props.auction.name}
                                 </Link>
                             </h6>
@@ -255,7 +255,7 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
                                     </div>
                                 )}
                             </div>
-                            <Link to={"/single-auction/" + props.auction.id}>
+                            <Link to={"/tai-san-dau-gia/" + props.auction.id}>
                                 <button
                                     className="btn btn-danger mb-4 mt-2" style={{ width: "200px", padding: "10px 20px" }}>
                                     Chi tiết

@@ -36,7 +36,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
   }, [props.state]);
 
   const handleCheckboxChange = (index: number) => {
-    navigate(`/shop-left-sibar`)
+    navigate(`/danh-sach-dau-gia`)
     // Nếu checkbox đc click
     if (index === 0) {
       // Nếu chọn tất cả thì những còn lại bỏ
@@ -61,12 +61,12 @@ const SideBar: React.FC<SideBarProps> = (props) => {
   };
 
   const handleFilter = (fromDateFilter: string, toDateFilter: string) => {
-    const url = !fromDateFilter && !toDateFilter ? '/shop-left-sibar' : `/shop-left-sibar/date/${fromDateFilter}/${toDateFilter}`;
+    const url = !fromDateFilter && !toDateFilter ? '/danh-sach-dau-gia' : `/danh-sach-dau-gia/date/${fromDateFilter}/${toDateFilter}`;
     navigate(url);
   };
 
   const debouncedTxtSearchChange = useDebouncedCallback((value: string) => {
-    navigate(value ? `/shop-left-sibar/name/${value}` : '/shop-left-sibar');
+    navigate(value ? `/danh-sach-dau-gia/name/${value}` : '/danh-sach-dau-gia');
   }, 1000);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -141,7 +141,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
               <a href="">
                 <img
                   className="img-full"
-                  src="https://raw.githubusercontent.com/huyhoang-doit/AuctionWebApp_FE/master/template/public/assets/images/banner/3-1.jpg"
+                  src="https://raw.githubusercontent.com/phuuthanh2003/AuctionWebApp_FE/master/template/public/assets/images/banner/3-1.jpg?token=GHSAT0AAAAAACO3AQYJ5VWGDDL55QCLRBY4ZSVZESQ"
                   alt=" Banner"
                 />
               </a>

@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Jewelry } from '../../../../models/Jewelry'
-import { getJewelriesWaitList } from '../../../../api/JewelryAPI'
-import { JewelryWaitSingle } from './JewelryWaitSingle'
-import { User } from '../../../../models/User'
+import { Jewelry } from '../../../../models/Jewelry';
+import { getJewelriesHandOverList } from '../../../../api/JewelryAPI';
+import { User } from '../../../../models/User';
+import JewelryHandOverSingle from './JewelryHandOverSingle';
 
-interface JewelriesWaitListProps {
+interface JewelriesHandOverListProps {
   user: User | null;
   setUser: (user: User) => void;
 }
-
-const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
+const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
   const [listJewelries, setListJewelries] = useState<Jewelry[]>([])
   useEffect(() => {
-    getJewelriesWaitList()
+    getJewelriesHandOverList()
       .then((response) => {
         setListJewelries(response);
       })
@@ -24,7 +23,7 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
     <>
       <div className="myaccount-orders">
         <h4 className="small-title">
-          Danh sách sản phẩm gửi đến
+          Danh sách trang sức bàn giao
         </h4>
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
@@ -32,13 +31,13 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
               <tr>
                 <th>Mã trang sức</th>
                 <th>Tên trang sức</th>
-                <th>Người gửi</th>
-                <th>Giá</th>
-                <th>Ảnh</th>
+                <th>Phiên đấu</th>
+                <th>Giá cuối</th>
+                <th>Người thắng</th>
                 <th>Xem chi tiết</th>
               </tr>
               {listJewelries.map((jewelry) => (
-                <JewelryWaitSingle key={jewelry.id} jewelry={jewelry} user={props.user} />
+                <JewelryHandOverSingle key={jewelry.id} jewelry={jewelry} user={props.user} />
               ))}
             </tbody>
           </table>
@@ -48,4 +47,4 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   )
 }
 
-export default JewelriesWaitList
+export default JewelriesHandOverList
