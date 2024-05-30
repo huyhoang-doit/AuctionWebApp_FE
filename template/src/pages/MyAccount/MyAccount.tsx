@@ -13,7 +13,7 @@ export default function MyAccount() {
     const user = useAccount(token);
     const [userState, setUserState] = useState<User | null>(user);
     // const [transactions, setTransactions] = useState<Transaction[]>([])
-    
+
     useEffect(() => {
         setUserState(user);
     }, [user])
@@ -98,7 +98,7 @@ export default function MyAccount() {
                                     <li className="nav-item">
                                         <Link to={""}
                                         >
-                                            <LogoutModal/>
+                                            <LogoutModal />
                                         </Link>
                                     </li>
                                 </ul>

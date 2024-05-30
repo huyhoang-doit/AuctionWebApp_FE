@@ -22,28 +22,35 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   }, [])
   return (
     <>
-      <div className="myaccount-orders">
-        <h4 className="small-title">
-          Danh sách sản phẩm gửi đến
-        </h4>
-        <div className="table-responsive">
-          <table className="table table-bordered table-hover">
-            <tbody>
-              <tr>
-                <th>Mã trang sức</th>
-                <th>Tên trang sức</th>
-                <th>Người gửi</th>
-                <th>Giá</th>
-                <th>Ảnh</th>
-                <th>Xem chi tiết</th>
-              </tr>
-              {listJewelries.map((jewelry) => (
-                <JewelryWaitSingle key={jewelry.id} jewelry={jewelry} user={props.user} />
-              ))}
-            </tbody>
-          </table>
+      <div
+        className="tab-pane fade"
+        id="account-orders"
+        role="tabpanel"
+        aria-labelledby="account-orders-tab"
+      >
+        <div className="myaccount-orders">
+          <h4 className="small-title">
+            Danh sách sản phẩm gửi đến
+          </h4>
+          <div className="table-responsive">
+            <table className="table table-bordered table-hover">
+              <tbody>
+                <tr>
+                  <th>Mã trang sức</th>
+                  <th>Tên trang sức</th>
+                  <th>Người gửi</th>
+                  <th>Giá</th>
+                  <th>Ảnh</th>
+                  <th>Xem chi tiết</th>
+                </tr>
+                {listJewelries.map((jewelry) => (
+                  <JewelryWaitSingle key={jewelry.id} jewelry={jewelry} user={props.user} />
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </div >
     </>
   )
 }
