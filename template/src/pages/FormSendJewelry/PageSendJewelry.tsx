@@ -6,7 +6,7 @@ import useAccount from "../../hooks/useAccount";
 
 export const PageSendJewelry = () => {
     const categories: Category[] = useCategories();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const user = useAccount(token);
 
     const [productName, setProductName] = useState('');

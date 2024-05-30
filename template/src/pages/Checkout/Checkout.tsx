@@ -4,7 +4,7 @@ export default function Checkout() {
     const navigate = useNavigate();
 
     const handleToLogin = () => {
-        navigate("/login");
+        navigate("/dang-nhap");
     };
     return (
         <>

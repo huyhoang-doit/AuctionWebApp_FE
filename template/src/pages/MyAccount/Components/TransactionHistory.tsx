@@ -10,7 +10,7 @@ interface TransactionHistoryProps {
     transactions: Transaction[];
 }
 
-export const TransactionHistory: React.FC<TransactionHistoryProps> = ({transactions}) => {
+export const TransactionHistory: React.FC<TransactionHistoryProps> = ({ transactions }) => {
     return (<div
         className="tab-pane fade"
         id="transaction-history"
@@ -37,12 +37,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({transacti
 
                                 <tr>
                                     <td>
-                                        <a
-                                            className="account-order-id"
-                                            href="javascript:void(0)"
-                                        >
-                                            {transaction.id}
-                                        </a>
+                                        {transaction.id}
                                     </td>
                                     <td>
                                         <TypeTransaction type={transaction.type} />

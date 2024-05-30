@@ -4,6 +4,8 @@ import { Auction } from '../../../../models/Auction'
 import { getAuctionByStaffId } from '../../../../api/AuctionAPI'
 import { formatDateString } from '../../../../utils/formatDateString'
 import { User } from '../../../../models/User'
+import { Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 interface MyAccountDetailProps {
   user: User | null;
   setUser: (user: User) => void;
@@ -28,7 +30,6 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
   }, [props.user])
 
 
-  console.log(auctions)
   return (
     <>
       <div className="myaccount-orders">
@@ -66,6 +67,9 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
                   </td>
                   <td>
                     <AssignAuctionModal auction={auction} />
+                    <Link to={"/tai-san-dau-gia/" + auction.id} className='ms-2 btn btn-warning btn-sm'>
+                      Đến
+                    </Link>
                   </td>
                 </tr>
               )

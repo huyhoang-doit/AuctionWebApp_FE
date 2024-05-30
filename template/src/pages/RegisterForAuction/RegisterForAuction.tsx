@@ -13,7 +13,7 @@ import useAccount from "../../hooks/useAccount";
 
 
 export default function RegisterForAuction() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const [auction, setAuction] = useState<Auction | null>(null);
     const [jewelry, setJewelry] = useState<Jewelry | null>(null);
     const [jewelryUser, setJewelryUser] = useState<User | null>(null);
@@ -71,7 +71,7 @@ export default function RegisterForAuction() {
 
     return (
         <>
-            <body className="template-color-1">
+            <div className="template-color-1">
                 <div className="main-wrapper">
                     {/* <!-- Begin Umino's Breadcrumb Area --> */}
                     <div className="breadcrumb-area">
@@ -296,7 +296,7 @@ export default function RegisterForAuction() {
                         </div>
                     </div>
                 </div>
-            </body >
+            </div >
         </>
     );
 }

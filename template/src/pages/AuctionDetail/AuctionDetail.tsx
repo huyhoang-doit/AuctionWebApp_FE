@@ -22,7 +22,7 @@ export default function AuctionDetail() {
     const [staff, setStaff] = useState<User | null>(null);
     const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
     const { id } = useParams();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const user = useAccount(token);
     let auctionId = 0;
 
@@ -149,7 +149,7 @@ export default function AuctionDetail() {
 
     return (
         <>
-            <body className="template-color-1">
+            <div className="template-color-1">
                 <div className="main-wrapper">
                     {/* <!-- Begin Umino's Breadcrumb Area --> */}
                     <div className="breadcrumb-area">
@@ -379,7 +379,7 @@ export default function AuctionDetail() {
 
                     <AuctionTabDetail auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
-            </body >
+            </div>
         </>
     );
 }

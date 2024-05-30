@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { AuctionHistory } from "../../../models/AuctionHistory";
-import { getAuctionHistoriesByUsername } from "../../../api/AuctionHistoryAPI";
+import { getBidByUsername } from "../../../api/AuctionHistoryAPI";
 import { formatNumber } from "../../../utils/formatNumber";
 import { formatDateString } from "../../../utils/formatDateString";
 import { Error } from "../../Error-Loading/Error";
 import { Loading } from "../../Error-Loading/Loading";
 
-interface MyAccountAuctionHistoryProps {
+interface MyBidHistoryProps {
     username: string | undefined;
 }
 
-export const MyAccountAuctionHistory: React.FC<MyAccountAuctionHistoryProps> = ({ username }) => {
+export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
     const [userAuctionHistories, setUserAuctionHistories] = useState<AuctionHistory[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -18,7 +18,7 @@ export const MyAccountAuctionHistory: React.FC<MyAccountAuctionHistoryProps> = (
     useEffect(() => {
         if (username) {
             setLoading(true);
-            getAuctionHistoriesByUsername(username)
+            getBidByUsername(username)
                 .then((response) => {
                     setUserAuctionHistories(response.auctionHistoriesData);
                     setLoading(false);
@@ -31,7 +31,7 @@ export const MyAccountAuctionHistory: React.FC<MyAccountAuctionHistoryProps> = (
     }, [username]);
 
     if (loading) {
-        <Loading/>
+        <Loading />
     }
 
     if (error) {
@@ -54,25 +54,24 @@ export const MyAccountAuctionHistory: React.FC<MyAccountAuctionHistoryProps> = (
                         <tbody>
                             <tr>
                                 <th>Mã phiên</th>
+                                <th>Tên phiên</th>
                                 <th>Thời gian</th>
-                                <th>Số tiền</th>
+                                <th>Số tiền (VNĐ)</th>
                             </tr>
                             {
                                 userAuctionHistories.map((auctionHistory, index) => (
                                     <tr key={index}>
                                         <td>
-                                            <a
-                                                className="account-order-id"
-                                                href="javascript:void(0)"
-                                            >
-                                                {auctionHistory.id}
-                                            </a>
+                                            {auctionHistory.auction?.id}
+                                        </td>
+                                        <td>
+                                            {auctionHistory.auction?.name}
                                         </td>
                                         <td>
                                             {formatDateString(auctionHistory.time ? auctionHistory.time : "")}
                                         </td>
                                         <td>
-                                            {formatNumber(auctionHistory.priceGiven)} VNĐ
+                                            {formatNumber(auctionHistory.priceGiven)}
                                         </td>
                                     </tr>
                                 ))

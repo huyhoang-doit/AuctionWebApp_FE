@@ -8,7 +8,7 @@ interface SideBarCategoryItemProps {
 export const SideBarCategoryItem: React.FC<SideBarCategoryItemProps> = (props) => {
     return (
         <li>
-            <Link to={"/shop-left-sibar/category/" + props.category?.id}>
+            <Link to={"/danh-sach-dau-gia/category/" + props.category?.id}>
                 {props.category?.name}
             </Link>
         </li>

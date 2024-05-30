@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import useAccount from "../../hooks/useAccount";
 import { MyAccountDetail } from "./Components/MyAccountDetail";
-import { MyAccountAuctionHistory } from "./Components/MyAccountAuctionHistory";
+import { MyBidHistory } from "./Components/MyBidHistory";
 import React, { useEffect, useState } from "react";
 import { User } from "../../models/User";
 import { getTransactionsByUsername } from "../../api/TransactionAPI";
@@ -10,7 +10,7 @@ import { TransactionHistory } from "./Components/TransactionHistory";
 import { MyJewelryList } from "./Components/MyJewelryList";
 
 export default function MyAccount() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const user = useAccount(token);
     const [userState, setUserState] = useState<User | null>(user);
     const [transactions, setTransactions] = useState<Transaction[]>([])
@@ -115,7 +115,7 @@ export default function MyAccount() {
                                 >
                                     <MyAccountDetail user={userState} setUser={setUserState} />
                                     <TransactionHistory transactions={transactions} />
-                                    <MyAccountAuctionHistory username={user?.username} />
+                                    <MyBidHistory username={user?.username} />
                                     <MyJewelryList />
                                 </div>
                             </div>

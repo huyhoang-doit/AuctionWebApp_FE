@@ -12,6 +12,7 @@ import ViewStaff from '../pages/admin/View/ViewStaff'
 import ViewTransactionSeller from '../pages/admin/View/ViewTransactionSeller'
 import ViewTransactionBuyer from '../pages/admin/View/ViewTransactionBuyer'
 import ViewTransactionUser from '../pages/admin/View/ViewTransactionUser'
+import ViewProfile from '../pages/admin/View/ViewProfile'
 
 const RouterComAdmin = () => {
   return (
@@ -30,6 +31,7 @@ const RouterComAdmin = () => {
         <Route path="/admin/view/ViewTransactionSeller" element={<ViewTransactionSeller />} />
         <Route path="/admin/view/ViewTransactionBuyer" element={<ViewTransactionBuyer />} />
         <Route path="/admin/view/ViewTransactionUser" element={<ViewTransactionUser />} />
+        <Route path="/admin/view/ViewProfile" element={<ViewProfile />} />
       </Routes>
     </>
   )

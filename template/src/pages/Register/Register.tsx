@@ -406,7 +406,7 @@ export default function Register() {
                                         </div>
                                     </div>
 
-                                    <Link to={"/login"}>
+                                    <Link to={"/dang-nhap"}>
                                         Bạn đã có tài khoản?
                                     </Link>
                                 </div>
