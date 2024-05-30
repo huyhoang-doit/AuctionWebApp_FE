@@ -32,11 +32,11 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
             body: JSON.stringify(loginRequest),
         });
 
-        console.log(response)
         if (response.status === 200) {
             const data = await response.json();
             const jwt = data.access_token;
             const refreshToken = data.refresh_token;
+
             localStorage.setItem('access_token', jwt);
             localStorage.setItem('refresh_token', refreshToken);
             return true;
@@ -133,7 +133,7 @@ export const logout = async () => {
 
 let refreshTokenPromise: Promise<string | void> | null = null;
 export async function ensureAccessToken() {
-    
+
     if (refreshTokenPromise) {
         await refreshTokenPromise;
         return;
@@ -171,7 +171,7 @@ export const refreshToken = async () => {
         console.error('Failed to refresh token:', error);
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-        // window.location.href = '/dang-nhap';
+        window.location.href = '/dang-nhap';
         return;
     }
 };
@@ -197,47 +197,3 @@ export const fetchWithToken = async (url: string, method: string, token: string 
     }
     return response;
 };
-
-
-// Function to rotate refresh token
-export const rotateRefreshToken = async () => {
-    const refreshToken = localStorage.getItem('refresh_token');
-
-    if (!refreshToken) {
-        return null;
-    }
-
-    try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/rotate-refresh-token', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${refreshToken}`
-            },
-        });
-
-        if (!response.ok) {
-            console.error('Failed to rotate refresh token');
-            return;
-        }
-
-        const data = await response.json();
-
-        // Update stored refresh token with the new one
-        localStorage.setItem('refresh_token', data.refresh_token);
-
-        // Token rotation successful
-        return data.new_refresh_token;
-    } catch (error) {
-        console.error('Failed to rotate refresh token:', error);
-        return;
-    }
-};
-
-export const startTokenRefreshInterval = () => {
-    setInterval(async () => {
-        await rotateRefreshToken();
-    }, 4 * 3600 * 1000);
-};
-
-startTokenRefreshInterval();

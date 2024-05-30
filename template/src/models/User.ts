@@ -23,7 +23,7 @@ export class User {
         firstName: string, lastName: string, password:
             string, email: string, phone: string, address: string, 
             province: string, city: string, yob: string, cccd: string,
-             bank: Bank, bankAccountNumber: string, bankAccountName: string) {
+            bank: Bank, bankAccountNumber: string, bankAccountName: string) {
         this.id = id;
         this.username = username;
         this.fullName = fullName;
