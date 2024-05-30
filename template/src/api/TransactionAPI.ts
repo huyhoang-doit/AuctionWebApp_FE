@@ -2,31 +2,54 @@ import { Transaction } from "../models/Transaction";
 import { MyRequest } from "./MyRequest";
 
 interface ResultInteface {
-    transactionsData: Transaction[];
+    transactions: Transaction[]
+    totalElements: number
 }
 
-export const getTransactionsByUsername = async (username: string): Promise<ResultInteface> => {
-    const transactions: Transaction[] = [];
+interface ResultIntefaceDashboard {
+    numberTransactionsRequest: number;
+    totalPriceJewelryWonByUsername: number;
+    totalJewelryWon: number,
+    totalBid: number;
+}
+
+export const getTransactionsDashboardByUsername = async (username: string): Promise<ResultIntefaceDashboard> => {
     // end-point
     const URL = `http://localhost:8080/api/v1/transaction/get-by-user-name/${username}`;
     // call api
     const response = await MyRequest(URL);
+    return {
+        numberTransactionsRequest: response.numberTransactionsRequest,
+        totalPriceJewelryWonByUsername: response.totalPriceJewelryWonByUsername,
+        totalJewelryWon: response.totalJewelryWon,
+        totalBid: response.totalBid,
+    };
+};
 
+export const getTransactionsByUsername = async (username: string, page: number): Promise<ResultInteface> => {
+    const transactions: Transaction[] = [];
+    // end-point
+    const URL = `http://localhost:8080/api/v1/transaction/get-by-username?username=${username}&page=${page - 1}`;
+    // call api
+    const response = await MyRequest(URL);
+    const responseData = response.content;
     if (response) {
-        for (const key in response) {
+        for (const key in responseData) {
             transactions.push({
-                id: response[key].id,
-                createDate: response[key].createDate,
-                totalPrice: response[key].totalPrice,
-                feesIncurred: response[key].feesIncurred,
-                state: response[key].state,
-                type: response[key].type,
+                id: responseData[key].id,
+                createDate: responseData[key].createDate,
+                totalPrice: responseData[key].totalPrice,
+                feesIncurred: responseData[key].feesIncurred,
+                state: responseData[key].state,
+                type: responseData[key].type,
+                auction: responseData[key].auction
             })
         }
     } else {
         throw new Error("Transaction không tồn tại");
     }
     return {
-        transactionsData: transactions
+        transactions: transactions,
+        totalElements: response.totalElements
     };
 };

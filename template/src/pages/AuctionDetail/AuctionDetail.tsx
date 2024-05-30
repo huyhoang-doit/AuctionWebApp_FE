@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Auction } from "../../models/Auction";
 import { getAuction } from "../../api/AuctionAPI";
 import { formatDateString } from "../../utils/formatDateString";
@@ -12,6 +12,8 @@ import { AuctionRegistration } from "../../models/AuctionRegistration";
 import { getAuctionRegistrationsByAuctionId } from "../../api/AuctionRegistrationAPI";
 import useAccount from "../../hooks/useAccount";
 import { AuctionTabDetail } from "./Components/AuctionTabDetail";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function AuctionDetail() {
@@ -25,6 +27,17 @@ export default function AuctionDetail() {
     const token = localStorage.getItem("access_token");
     const user = useAccount(token);
     let auctionId = 0;
+    const location = useLocation();
+
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const paymentStatus = searchParams.get('paymentStatus');
+
+        if (paymentStatus === 'success') {
+            toast.success("Đăng kí tham gia phiên thành công!");
+        }
+    }, [])
 
     try {
         auctionId = parseInt(id + "");
@@ -379,6 +392,7 @@ export default function AuctionDetail() {
 
                     <AuctionTabDetail auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
+                <ToastContainer />
             </div>
         </>
     );

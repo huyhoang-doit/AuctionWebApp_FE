@@ -6,6 +6,11 @@ interface ResultInteface {
     auctionHistoriesData: AuctionHistory[];
 }
 
+interface ResultIntefacePageable {
+    auctionHistoriesData: AuctionHistory[];
+    totalElements: number;
+}
+
 export async function getAuctionHistoriesByAuctionId(auctionId: number): Promise<ResultInteface> {
     const auctionHistories: AuctionHistory[] = [];
     // endpoint
@@ -31,10 +36,10 @@ export async function getAuctionHistoriesByAuctionId(auctionId: number): Promise
     return { auctionHistoriesData: auctionHistories };
 }
 
-export async function getBidByUsername(username: string): Promise<ResultInteface> {
+export async function getBidByUsername(username: string, page: number): Promise<ResultIntefacePageable> {
     const auctionHistories: AuctionHistory[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction-history/get-by-username?username=${username}`;
+    const URL = `http://localhost:8080/api/v1/auction-history/get-by-username?username=${username}&page=${page - 1}`;
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
@@ -57,6 +62,7 @@ export async function getBidByUsername(username: string): Promise<ResultInteface
                     startDate: responseData[key].auction.startDate,
                     endDate: responseData[key].auction.endDate,
                     countdownDuration: responseData[key].auction.countdownDuration,
+                    jewelry: responseData[key].jewelry
                 },
                 user: {
                     id: responseData[key].user.id,
@@ -67,7 +73,10 @@ export async function getBidByUsername(username: string): Promise<ResultInteface
     } else {
         throw new Error("Không tìm thấy");
     }
-    return { auctionHistoriesData: auctionHistories };
+    return { 
+        auctionHistoriesData: auctionHistories,
+        totalElements: response.totalElements,
+     };
 }
 
 

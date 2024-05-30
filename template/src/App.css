@@ -303,3 +303,22 @@ input[type="file"] {
     color: #262626 !important;
     
 }
+
+.rating-flex {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 35px;
+}
+
+.rating-div {
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 2px;
+    padding: 16px;
+    width: 25%;
+}
+
+.rating-number {
+    font-weight: 600;
+    font-size: 22px;
+}
