@@ -6,23 +6,10 @@ import { useDebouncedCallback } from "use-debounce";
 import { register } from "../../api/AuthenticationAPI";
 import { getAllBanks } from "../../api/BankAPI";
 import { Bank } from "../../models/Bank";
-
-interface City {
-    Id: string;
-    Name: string;
-    Districts: District[];
-}
-
-interface District {
-    Id: string;
-    Name: string;
-    Wards: Ward[];
-}
-
-interface Ward {
-    Id: string;
-    Name: string;
-}
+import { City } from "../../models/City";
+import { Ward } from "../../models/Ward";
+import { District } from "../../models/District";
+import { getAddressVietNam } from "../../api/AddressAPI";
 
 export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -67,18 +54,16 @@ export default function Register() {
         bankAccountName: "",
     });
 
-    // ================================================================
-
     useEffect(() => {
-        fetch('https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json')
-            .then(response => response.json())
+        getAddressVietNam()
             .then(data => {
-                setCities(data);
+                if (data) {
+                    setCities(data);
+                }
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-        // ================================================================
 
         getAllBanks()
             .then((response) => {
@@ -97,7 +82,7 @@ export default function Register() {
         setSelectedDistrictId('');
         setSelectedWardId('');
         const selectedCity = cities.find(city => city.Id === cityId);
-        
+
         if (selectedCity) {
             setDistricts(selectedCity.Districts);
             setRegisterRequest((prevValue) => ({ ...prevValue, city: selectedCity.Name }));
@@ -384,7 +369,7 @@ export default function Register() {
                                         </div>
                                         <div className="col-md-4 mb-4">
                                             <label>Tỉnh</label>
-                                            <select id="city" value={selectedCityId}  onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
+                                            <select id="city" value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
                                                 <option value="DEFAULT" selected>Chọn tỉnh thành</option>
                                                 {cities.map(city => (
                                                     <option key={city.Id} value={city.Id}>{city.Name}</option>
@@ -393,7 +378,7 @@ export default function Register() {
                                         </div>
                                         <div className="col-md-4 mb-4">
                                             <label>Quận / Huyện</label>
-                                            <select id="district"  value={selectedDistrictId} onChange={handleDistrictChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
+                                            <select id="district" value={selectedDistrictId} onChange={handleDistrictChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
                                                 <option value="" selected>Chọn quận huyện</option>
                                                 {districts.map(district => (
                                                     <option key={district.Id} value={district.Id}>{district.Name}</option>
