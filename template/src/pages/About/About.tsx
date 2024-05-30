@@ -71,7 +71,7 @@ export default function About() {
                                             />
                                         </div>
                                         <h3 className="title">
-                                            Creative Design
+                                            Thiết kế sáng tạo
                                         </h3>
                                         <p className="short-desc">
                                             Chúng tôi tự hào mang đến những thiết kế sáng tạo,
@@ -89,7 +89,7 @@ export default function About() {
                                     </div>
                                     <div className="additional-content">
                                         <h3 className="heading">
-                                            What do we do?
+                                            Chúng tôi làm gì?
                                         </h3>
                                         <p className="short-desc">
                                             Chúng tôi cung cấp nền tảng đấu giá trực tuyến cho các sản phẩm trang sức cao cấp.
@@ -109,7 +109,7 @@ export default function About() {
                                             />
                                         </div>
                                         <h3 className="title">
-                                            100% Money Back Guarantee
+                                            Đảm bảo hoàn tiền 100%
                                         </h3>
                                         <p className="short-desc">
                                             Chúng tôi cam kết đảm bảo hoàn tiền 100%
@@ -126,7 +126,9 @@ export default function About() {
                                         </div>
                                     </div>
                                     <div className="additional-content">
-                                        <h3 className="heading">Our Mission</h3>
+                                        <h3 className="heading">
+                                            Sứ mệnh của chúng tôi
+                                        </h3>
                                         <p className="short-desc">
                                             Sứ mệnh của chúng tôi là tạo ra một môi trường đấu giá trang sức trực tuyến công bằng và minh bạch,
                                             mang lại giá trị thực sự cho cả người mua và người bán,
@@ -145,7 +147,7 @@ export default function About() {
                                             />
                                         </div>
                                         <h3 className="title">
-                                            Online Support 24/7
+                                            Hỗ trợ trực tuyến 24/7
                                         </h3>
                                         <p className="short-desc">
                                             Đội ngũ hỗ trợ trực tuyến của chúng tôi luôn sẵn sàng phục vụ bạn 24/7,
@@ -162,7 +164,7 @@ export default function About() {
                                     </div>
                                     <div className="additional-content">
                                         <h3 className="heading">
-                                            History Of Us
+                                            Lịch sử của chúng tôi
                                         </h3>
                                         <p className="short-desc">
                                             Diamond Gold Silver (DGS) được thành lập từ tháng 5 năm 2024
@@ -183,7 +185,7 @@ export default function About() {
                             <div className="col-lg-6">
                                 <div className="accordion-area">
                                     <div className="umino-section_title">
-                                        <h3>Why You Choose Us ?</h3>
+                                        <h3>Tại sao bạn nên chọn chúng tôi?</h3>
                                     </div>
                                     <p className="short-desc">
                                         Với phương châm hoạt động: “Đem lại hiệu quả kinh tế vượt trội”,
@@ -388,12 +390,13 @@ export default function About() {
                                                     />
                                                 </div>
                                                 <p className="short-desc">
-                                                    Support and response has
-                                                    been amazing, helping me
-                                                    with several issues I came
-                                                    across and got them solved
-                                                    almost the same day. A
-                                                    pleasure to work with them!
+                                                    Được sự hỗ trợ và hướng dẫn trực tiếp
+                                                    của giảng viên Nguyễn Thế Hoàng.
+                                                    Với kiến thức và kinh nghiệm sâu rộng của mình,
+                                                    thầy đã giúp chung tôi dễ dàng hơn trong việc giải quyết
+                                                    các vấn đề gặp phải trong quá trình phát triển.
+                                                    Rất vui được làm việc với thầy!
+
                                                 </p>
                                             </div>
                                         </div>
@@ -420,12 +423,11 @@ export default function About() {
                                                     />
                                                 </div>
                                                 <p className="short-desc">
-                                                    Support and response has
-                                                    been amazing, helping me
-                                                    with several issues I came
-                                                    across and got them solved
-                                                    almost the same day. A
-                                                    pleasure to work with them!
+                                                    Giám đốc AZ của chúng tôi được biết đến
+                                                    với độ tin cậy và kiến ​​thức chuyên môn,
+                                                    khiến họ trở thành một nhân vật đáng tin cậy trong ngành.
+                                                    Họ xử lý tất cả các khía cạnh hoạt động một cách chính xác,
+                                                    đảm bảo trải nghiệm liền mạch cho tất cả người dùng của chúng tôi.
                                                 </p>
                                             </div>
                                         </div>
