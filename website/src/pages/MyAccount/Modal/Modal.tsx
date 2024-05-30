@@ -285,7 +285,7 @@ interface JewelryCreateRequestModalProps {
   jewelry: Jewelry;
   images: Image[];
   valuation: number | undefined;
-  user: User
+  user: User | null
 }
 
 
@@ -819,17 +819,18 @@ export const LogoutModal = () => {
 };
 
 interface SaveEditProfileModalProps {
+  user: User | null
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
-  handleEdit: () => void;
+  handleEdit: (isConfirm: boolean) => void;
 }
 
-export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEditing, setIsEditing, handleEdit }) => {
+export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ user, isEditing, setIsEditing, handleEdit }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => {
-    toast.success("Cập nhật thông tin thành công!");
+    handleEdit(false);
     changeState();
-    setShow(false)
+    setShow(false);
   };
   const handleShow = () => setShow(true);
 
@@ -841,11 +842,10 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEd
 
     inputs.forEach((input) => {
       if (!isEditing) {
-        input.removeAttribute('readonly');
+        input.removeAttribute('readOnly');
         input.classList.remove('input-required');
       } else {
-        handleEdit();
-        input.setAttribute('readonly', '');
+        input.setAttribute('readOnly', '');
         input.classList.add('input-required');
       }
     });
@@ -855,11 +855,27 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEd
         select.removeAttribute('disabled');
         select.classList.remove('input-required');
       } else {
-        handleEdit();
         select.setAttribute('disabled', '');
         select.classList.add('input-required');
       }
     });
+  };
+
+
+  const handleSave = () => {
+    if (user?.district === "") {
+      toast.error("Vui lòng chọn quận/huyện.");
+      setShow(false);
+      return;
+    }
+    if (user?.ward === "") {
+      toast.error("Vui lòng chọn phường/xã.");
+      setShow(false);
+      return;
+    }
+    handleEdit(true);
+    setShow(false);
+    changeState();
   };
 
   return (
@@ -876,7 +892,6 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEd
         style={{ backgroundColor: "black", border: "none" }}
       >
         {isEditing ? "Lưu" : "Chỉnh sửa"}
-        <ToastContainer />
       </button>
       {show && (
         <div className='overlay' >
@@ -894,13 +909,14 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEd
               <Button variant="dark" onClick={handleClose}>
                 Hủy
               </Button>
-              <Button variant="warning" onClick={handleClose}>
+              <Button variant="warning" onClick={handleSave}>
                 Lưu
               </Button>
             </Modal.Footer>
           </Modal>
         </div>
       )}
+      <ToastContainer />
     </>
   );
 };

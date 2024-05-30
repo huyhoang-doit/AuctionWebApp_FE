@@ -37,7 +37,7 @@ export const getUserLogin = async (username: string): Promise<User> => {
 
 export const editProfileUser = async (user: User): Promise<User> => {
   const URL = `http://localhost:8080/api/v1/user`;
-  
+
   await ensureAccessToken();
 
   const token = localStorage.getItem("access_token");
