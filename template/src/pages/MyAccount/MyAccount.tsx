@@ -4,8 +4,6 @@ import { MyAccountDetail } from "./Components/MyAccountDetail";
 import { MyBidHistory } from "./Components/MyBidHistory";
 import React, { useEffect, useState } from "react";
 import { User } from "../../models/User";
-import { getTransactionsByUsername } from "../../api/TransactionAPI";
-import { Transaction } from "../../models/Transaction";
 import { TransactionHistory } from "./Components/TransactionHistory";
 import { MyJewelryList } from "./Components/MyJewelryList";
 import { LogoutModal } from "./Modal/Modal";
@@ -14,21 +12,11 @@ export default function MyAccount() {
     const token = localStorage.getItem("access_token");
     const user = useAccount(token);
     const [userState, setUserState] = useState<User | null>(user);
-    const [transactions, setTransactions] = useState<Transaction[]>([])
-
+    // const [transactions, setTransactions] = useState<Transaction[]>([])
+    
     useEffect(() => {
         setUserState(user);
-        if (user) {
-            const username = user.username ? user.username : "";
-            getTransactionsByUsername(username)
-                .then((response) => {
-                    setTransactions(response.transactionsData);
-                })
-                .catch(() => {
-                    setTransactions([])
-                });
-        }
-    }, [user]);
+    }, [user])
 
     return (
         <>
@@ -73,12 +61,12 @@ export default function MyAccount() {
                                             className="nav-link"
                                             id="account-orders-tab"
                                             data-bs-toggle="tab"
-                                            href="#transaction-history"
+                                            href="#bid-activity"
                                             role="tab"
                                             aria-controls="account-orders"
                                             aria-selected="false"
                                         >
-                                            Lịch sử giao dịch
+                                            Đấu giá của tôi
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -121,8 +109,8 @@ export default function MyAccount() {
                                     id="account-page-tab-content"
                                 >
                                     <MyAccountDetail user={userState} setUser={setUserState} />
-                                    <TransactionHistory transactions={transactions} />
                                     <MyBidHistory username={user?.username} />
+                                    <TransactionHistory user={user} />
                                     <MyJewelryList />
                                 </div>
                             </div>

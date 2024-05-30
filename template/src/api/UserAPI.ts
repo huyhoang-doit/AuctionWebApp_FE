@@ -42,7 +42,6 @@ export const editProfileUser = async (user: User): Promise<User> => {
 
   const token = localStorage.getItem("access_token");
   const response = await fetchWithToken(URL, 'PUT', token, user);
-
   if (!response.ok) {
     throw new Error(`Error: ${response.statusText}`);
   }

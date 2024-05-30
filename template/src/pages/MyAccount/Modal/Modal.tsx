@@ -11,6 +11,8 @@ import { Auction } from '../../../models/Auction';
 import { formatDateString } from '../../../utils/formatDateString';
 import { setJewelryHidden } from '../../../api/JewelryAPI';
 import { User } from '../../../models/User';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // *** MODAL FOR USER
 export const ViewTransactionModal = () => {
   const [show, setShow] = useState(false);
@@ -255,9 +257,6 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
                         />
                       </div>
                     </div>
-
-
-
                   </div>
                 </div>
               </form>
@@ -828,6 +827,7 @@ interface SaveEditProfileModalProps {
 export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEditing, setIsEditing, handleEdit }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => {
+    toast.success("Cập nhật thông tin thành công!");
     changeState();
     setShow(false)
   };
@@ -876,6 +876,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEd
         style={{ backgroundColor: "black", border: "none" }}
       >
         {isEditing ? "Lưu" : "Chỉnh sửa"}
+        <ToastContainer />
       </button>
       {show && (
         <div className='overlay' >

@@ -30,15 +30,17 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(loginRequest),
+            credentials: 'include',
         });
 
         if (response.status === 200) {
             const data = await response.json();
             const jwt = data.access_token;
-            const refreshToken = data.refresh_token;
+            // const refreshToken = data.refresh_token;
 
             localStorage.setItem('access_token', jwt);
-            localStorage.setItem('refresh_token', refreshToken);
+            // localStorage.setItem('refresh_token', refreshToken);
+
             return true;
         } else if (response.status === 202) {
             throw new Error('Your account is inactive, you need check email to active your account!');
@@ -65,8 +67,6 @@ export const register = async (registerRequest: RegisterRequest): Promise<boolea
             },
             body: JSON.stringify({ ...registerRequest, role }),
         });
-
-        console.log(response);
 
         if (!response.ok) {
             throw new Error(`Không thể truy cập ${URL}`);
@@ -113,13 +113,14 @@ export const logout = async () => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`
-            }
+            },
+            credentials: 'include',
         });
 
         if (response.ok) {
             // Clear tokens from local storage
             localStorage.removeItem('access_token');
-            localStorage.removeItem('refresh_token');
+            // localStorage.removeItem('refresh_token');
 
             // Redirect to login page
             window.location.href = '/dang-nhap';
@@ -145,17 +146,18 @@ export async function ensureAccessToken() {
 }
 
 export const refreshToken = async () => {
-    const token = localStorage.getItem('refresh_token');
-    if (!token) {
-        return;
-    }
+    // const token = localStorage.getItem('refresh_token');
+    // if (!token) {
+    //     return;
+    // }
     try {
         const response = await fetch('http://localhost:8080/api/v1/auth/refresh-token', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
+            credentials: 'include',
         });
 
         if (!response.ok) {
@@ -164,13 +166,15 @@ export const refreshToken = async () => {
         const data = await response.json();
 
         localStorage.setItem('access_token', data.access_token);
-        localStorage.setItem('refresh_token', data.refresh_token);
+        // localStorage.setItem('refresh_token', data.refresh_token);
 
         return data.access_token;
     } catch (error) {
         console.error('Failed to refresh token:', error);
         localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
+        console.log("hello");
+        
+        // localStorage.removeItem('refresh_token');
         window.location.href = '/dang-nhap';
         return;
     }
@@ -190,6 +194,7 @@ export const fetchWithToken = async (url: string, method: string, token: string 
 
     if (response.status === 401) {
         const newToken = await refreshToken();
+      
         if (newToken) {
             // Retry request with new token
             response = await fetchWithToken(url, method, newToken, body);

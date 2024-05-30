@@ -12,6 +12,8 @@ import { AuctionTabDetail } from "../AuctionDetail/Components/AuctionTabDetail";
 import { BidConfirm } from "../MyAccount/Modal/Modal";
 import { BidInfo } from "./Components/BidInfo";
 import useAccount from "../../hooks/useAccount";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const AuctionBid = () => {
     const token = localStorage.getItem("access_token");
@@ -336,6 +338,18 @@ export const AuctionBid = () => {
                     <AuctionTabDetail auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
             </div >
+
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light" />
         </>
     )
 }

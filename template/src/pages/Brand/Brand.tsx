@@ -34,7 +34,7 @@ export default function Brand() {
             partialVisibilityGutter: 30 // this is needed to tell the amount of px that should be visible.
         }
     }
-    
+
     return (
         <div className="umino-brand_area" style={{ marginTop: "120px" }}>
             <div className="container">
