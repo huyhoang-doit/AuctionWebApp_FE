@@ -4,10 +4,6 @@ import { editProfileUser } from "../../../api/UserAPI";
 import { SaveEditProfileModal } from "../Modal/Modal";
 import { getAllBanks } from "../../../api/BankAPI";
 import { Bank } from "../../../models/Bank";
-import { getAddressVietNam } from "../../../api/AddressAPI";
-import { City } from "../../../models/City";
-import { District } from "../../../models/District";
-import { Ward } from "../../../models/Ward";
 
 interface MyAccountDetailProps {
     user: User | null;
@@ -19,28 +15,12 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     const [notification, setNotification] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [banks, setBanks] = useState<Bank[]>([]);
-    const [cities, setCities] = useState<City[]>([]);
-    const [selectedCityId, setSelectedCityId] = useState<string>('');
-    const [districts, setDistricts] = useState<District[]>([]);
-    const [selectedDistrictId, setSelectedDistrictId] = useState<string>('');
-    const [wards, setWards] = useState<Ward[]>([]);
-    const [selectedWardId, setSelectedWardId] = useState<string>('');
-
-    // useEffect(() => {
-    //     setUser(props.user);
-    // }, [props.user]);
-
 
     useEffect(() => {
-        getAddressVietNam()
-            .then(data => {
-                if (data) {
-                    setCities(data);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        setUser(props.user);
+    }, [props.user]);
+
+    useEffect(() => {
         getAllBanks()
             .then((response) => {
                 setBanks(response);
@@ -49,28 +29,6 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                 console.error(error.message);
             });
     }, [])
-
-
-
-    useEffect(() => {
-        const userCity = cities.find(city => city.Name === user?.city);
-        const userDistrict = userCity?.Districts.find(district => district.Name === user?.district);
-        const userWard = userDistrict?.Wards.find(ward => ward.Name === user?.ward);
-
-        if (userCity) {
-            setSelectedCityId(userCity.Id);
-        }
-
-        if (userDistrict) {
-            setSelectedDistrictId(userDistrict.Id);
-        }
-
-        if (userWard) {
-            setSelectedWardId(userWard.Id);
-        }
-
-        setUser(props.user);
-    }, [props.user, cities, districts, wards, user]);
 
     const getBase64 = (file: File): Promise<string | null> => {
         return new Promise((resolve, reject) => {
@@ -125,44 +83,6 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     const handleBankChange = (event: ChangeEvent<HTMLSelectElement>) => {
         const selectedBank = banks.find(bank => bank.id === parseInt(event.target.value));
         setUser({ ...user, bank: selectedBank });
-    };
-
-    const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const cityId = event.target.value;
-        setSelectedCityId(cityId);
-        setDistricts([]);
-        setWards([]);
-        setSelectedDistrictId('');
-        setSelectedWardId('');
-        const selectedCity = cities.find(city => city.Id === cityId);
-
-        if (selectedCity) {
-            setDistricts(selectedCity.Districts);
-            setUser({ ...user, city: selectedCity.Name });
-        }
-    };
-
-    const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const districtId = event.target.value;
-        setSelectedDistrictId(districtId);
-        setWards([]);
-        setSelectedWardId('');
-        const selectedDistrict = districts.find(district => district.Id === districtId);
-
-        if (selectedDistrict) {
-            setWards(selectedDistrict.Wards);
-            setUser({ ...user, district: selectedDistrict.Name });
-        }
-    };
-
-    const handleWardChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const wardId = event.target.value;
-        setSelectedWardId(wardId);
-
-        const selectedWard = wards.find(ward => ward.Id === wardId);
-        if (selectedWard) {
-            setUser({ ...user, ward: selectedWard.Name });
-        }
     };
 
     return (
@@ -262,7 +182,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                                         />
                                     </div>
-                                    <div className="col-md-12 mt-4">
+                                    <div className="col-md-4 mt-4">
                                         <label>Địa chỉ</label>
                                         <input
                                             className="input-required"
@@ -273,36 +193,32 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             onChange={(e) => setUser({ ...user, address: e.target.value })}
                                         />
                                     </div>
-                                    <div className="col-md-4">
+                                    <div className="col-md-4 mt-4">
                                         <label>Tỉnh</label>
-                                        <select id="city" value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
-                                            <option value={selectedCityId} selected>{user.city}</option>
-                                            {cities.map(city => (
-                                                <option key={city.Id} value={city.Id}>{city.Name}</option>
-                                            ))}
-                                        </select>
+                                        <input
+                                            className="input-required"
+                                            type="text"
+                                            placeholder="Nhập tỉnh"
+                                            readOnly
+                                            defaultValue={user?.province}
+                                            onChange={(e) => setUser({ ...user, province: e.target.value })}
+                                        />
                                     </div>
-                                    <div className="col-md-4 mb-4">
-                                        <label>Quận / Huyện</label>
-                                        <select id="district" value={selectedDistrictId} onChange={handleDistrictChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
-                                            <option value={selectedDistrictId} selected>{user.district}</option>
-                                            {districts.map(district => (
-                                                <option key={district.Id} value={district.Id}>{district.Name}</option>
-                                            ))}
-                                        </select>
+                                    <div className="col-md-4 mt-4">
+                                        <label>Thành phố</label>
+                                        <input
+                                            className="input-required"
+                                            type="text"
+                                            placeholder="Nhập thành phố"
+                                            readOnly
+                                            defaultValue={user?.city}
+                                            onChange={(e) => setUser({ ...user, city: e.target.value })}
+                                        />
                                     </div>
-                                    <div className="col-md-4 mb-4">
-                                        <label>Phường / Xã</label>
-                                        <select id="ward" value={selectedWardId} onChange={handleWardChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
-                                            <option value={selectedWardId} selected>{user.ward}</option>
-                                            {wards.map(ward => (
-                                                <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div className="col-md-12 mb-4">
+
+                                    <div className="col-md-12 mt-4">
                                         <label>Ngân hàng</label>
-                                        <select onChange={handleBankChange} disabled defaultValue={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
+                                        <select  onChange={handleBankChange} disabled defaultValue={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
                                         >
                                             {banks.map((bank) => (
                                                 <option style={{ padding: '5px' }} key={bank.id} value={bank.id}>
