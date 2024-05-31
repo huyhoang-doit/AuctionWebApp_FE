@@ -89,6 +89,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                     };
 
                     const response = await editProfileUser(updatedUser);
+                    toast.success("Cập nhật ảnh đại diện thành công!");
                     props.setUser(response);
                 }
             } catch (error) {
@@ -280,7 +281,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                         <select id="city" disabled={!isEditing} value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
                                             {/* <option disabled value={""}>{user.city}</option> */}
                                             {cities.map(city => (
-                                                <option selected={city.Id === selectedCityId} key={city.Id} value={city.Id}>{city.Name}</option>
+                                                <option  key={city.Id} value={city.Id}>{city.Name}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -289,7 +290,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                         <select id="district" disabled={!isEditing} value={selectedDistrictId} onChange={handleDistrictChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
                                             <option disabled value={""}>{user.district}</option>
                                             {districts.map(district => (
-                                                <option selected={district.Id === selectedDistrictId} key={district.Id} value={district.Id}>{district.Name}</option>
+                                                <option  key={district.Id} value={district.Id}>{district.Name}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -298,7 +299,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                         <select id="ward" disabled={!isEditing} value={selectedWardId} onChange={handleWardChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
                                             <option disabled value={""}>{user.ward}</option>
                                             {wards.map(ward => (
-                                                <option selected={ward.Id === selectedWardId} key={ward.Id} value={ward.Id}>{ward.Name}</option>
+                                                <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
                                             ))}
                                         </select>
 

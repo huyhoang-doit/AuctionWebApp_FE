@@ -4,14 +4,17 @@ import { User } from "../../../models/User"
 import { Auction } from "../../../models/Auction"
 import { AuctionDetailHistory } from "./AuctionDetailHistory"
 import { AuctionDetailJewelry } from "./AuctionDetailJewelry"
+import { AuctionHistory } from "../../../models/AuctionHistory"
 
 interface AuctionTabDetailProps {
     auction: Auction | null,
     jewelry: Jewelry | null,
     staff: User | null,
+    auctionHistories: AuctionHistory[],
+    setBidPerPage: (bid: number) => void;
 }
 
-export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ auction, jewelry, staff }) => {
+export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ auctionHistories, setBidPerPage, auction, jewelry, staff }) => {
     return (
         <div className="sp-tab_area">
             <div className="container">
@@ -57,7 +60,7 @@ export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ auction, jew
                             <div className="tab-content umino-tab_content">
 
                                 {auction?.state !== 'WAITING' &&
-                                    <AuctionDetailHistory auction={auction} />}
+                                    <AuctionDetailHistory setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} />}
                                 <AuctionDetailJewelry auction={auction} jewelry={jewelry} />
                                 <div
                                     id="specification"

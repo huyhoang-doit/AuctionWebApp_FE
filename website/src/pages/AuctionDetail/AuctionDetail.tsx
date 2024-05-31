@@ -14,6 +14,8 @@ import useAccount from "../../hooks/useAccount";
 import { AuctionTabDetail } from "./Components/AuctionTabDetail";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { getAuctionHistoriesByAuctionId } from "../../api/AuctionHistoryAPI";
+import { AuctionHistory } from "../../models/AuctionHistory";
 
 
 export default function AuctionDetail() {
@@ -28,7 +30,20 @@ export default function AuctionDetail() {
     const user = useAccount(token);
     let auctionId = 0;
     const location = useLocation();
+    const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
+    const [bidPerPage, setBidPerPage] = useState<number>(3);
 
+    useEffect(() => {
+        if (auctionId !== null) {
+            getAuctionHistoriesByAuctionId(auctionId, bidPerPage)
+                .then((response) => {
+                    setAuctionHistories(response.auctionHistoriesData);
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                });
+        }
+    }, [auctionId, bidPerPage])
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -390,7 +405,7 @@ export default function AuctionDetail() {
 
                     {/* Begin Umino's Single Product Tab Area  */}
 
-                    <AuctionTabDetail auction={auction} staff={staff} jewelry={jewelry} />
+                    <AuctionTabDetail auctionHistories={auctionHistories} setBidPerPage={setBidPerPage} auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
                 <ToastContainer />
             </div>

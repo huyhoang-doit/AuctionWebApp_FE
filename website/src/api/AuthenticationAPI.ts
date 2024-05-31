@@ -192,13 +192,33 @@ export const fetchWithToken = async (url: string, method: string, token: string 
         },
         body: JSON.stringify(body),
     });
-
-    if (response.status === 401) {
+    
+    if (response.status === 401 || response.status === 403) {
         const newToken = await refreshToken();
       
         if (newToken) {
             // Retry request with new token
             response = await fetchWithToken(url, method, newToken, body);
+        }
+    }
+    return response;
+};
+
+export const fetchNoBodyWithToken = async (url: string, method: string, token: string | null) => {
+    let response = await fetch(url, {
+        method: `${method}`,
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    
+    if (response.status === 401 || response.status === 403) {
+        const newToken = await refreshToken();
+      
+        if (newToken) {
+            // Retry request with new token
+            response = await fetchNoBodyWithToken(url, method, newToken);
         }
     }
     return response;

@@ -16,7 +16,8 @@ const useAccount = (token : string | null) => {
                         setAccount(data);
                     })
                     .catch((error) => {
-                        console.log(error.message);
+                        console.error("Failed to fetch user data:", error.message);
+                        setAccount(null);
                     });
             }
         }

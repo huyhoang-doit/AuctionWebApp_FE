@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useParams } from "react-router-dom";
 import { Auction } from "../../models/Auction";
@@ -9,11 +9,12 @@ import { User } from "../../models/User";
 import { formatNumber } from "../../utils/formatNumber";
 import { AuctionDetailJewelry } from "../AuctionDetail/Components/AuctionDetailJewelry";
 import { handlePay } from "../../api/PaymentAPI";
-import useAccount from "../../hooks/useAccount";
+import { UserContext } from "../../hooks/useContext";
 
 
 export default function RegisterForAuction() {
-    const token = localStorage.getItem("access_token");
+    // const token = localStorage.getItem("access_token");
+    // const user = useAccount(token)
     const [auction, setAuction] = useState<Auction | null>(null);
     const [jewelry, setJewelry] = useState<Jewelry | null>(null);
     const [jewelryUser, setJewelryUser] = useState<User | null>(null);
@@ -22,7 +23,12 @@ export default function RegisterForAuction() {
     const [checkbox2, setCheckbox2] = useState(false);
     const [checkbox3, setCheckbox3] = useState(false);
     const [amount, setAmount] = useState(0);
-    const user = useAccount(token)
+    const context = useContext(UserContext);
+    let user = null;
+    if (context?.user) {
+        user = context.user;
+    }
+    
     const { id } = useParams();
     let auctionId = 0;
 

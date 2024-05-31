@@ -6,13 +6,15 @@ import { formatNumber, formatNumberAcceptNull } from '../../../utils/formatNumbe
 import { numberToVietnameseText } from '../../../utils/numberToVietnameseText';
 import { Image } from '../../../models/Image';
 import { Jewelry } from '../../../models/Jewelry';
-import { bidByUser } from '../../../api/AuctionHistoryAPI';
+import { bidByUser, confirmDeleteBid, getAuctionHistoriesByAuctionId } from '../../../api/AuctionHistoryAPI';
 import { Auction } from '../../../models/Auction';
 import { formatDateString } from '../../../utils/formatDateString';
 import { setJewelryHidden } from '../../../api/JewelryAPI';
 import { User } from '../../../models/User';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import { AuctionHistory } from '../../../models/AuctionHistory';
 // *** MODAL FOR USER
 export const ViewTransactionModal = () => {
   const [show, setShow] = useState(false);
@@ -520,10 +522,11 @@ interface BidConfirmProps {
   setAuction: (auction: Auction) => void;
   username: string | undefined;
   auction: Auction | null,
+  setAuctionHistories: (auctionHistories: AuctionHistory[]) => void;
 }
 
 // Modal for Jewelry HandOver
-export const BidConfirm: React.FC<BidConfirmProps> = ({ bidValue, username, auction, setDisplayValue, setAuction }) => {
+export const BidConfirm: React.FC<BidConfirmProps> = ({ setAuctionHistories, bidValue, username, auction, setDisplayValue, setAuction }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -534,6 +537,9 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({ bidValue, username, auct
       bidByUser(username, auction?.id, bidValue)
         .then((response) => {
           if (response === true) {
+            getAuctionHistoriesByAuctionId(auction.id, 3).then((updatedHistories) => {
+              setAuctionHistories(updatedHistories.auctionHistoriesData);
+            });
             setDisplayValue(formatNumber(bidValue || 0));
             setAuction({ ...auction, lastPrice: bidValue });
           }
@@ -1248,6 +1254,86 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ user
         </div>
       )}
       <ToastContainer />
+    </>
+  );
+};
+
+interface BidConfirmDeleteProps {
+  bidCode: string;
+  user: User | null;
+  auction: Auction | undefined;
+}
+
+export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({ bidCode, user, auction }) => {
+  const [show, setShow] = useState(false);
+  const [bidCodeConfirm, setBidCodeConfirm] = useState("");
+  const navigate = useNavigate();
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleConfirm = () => {
+    if (bidCodeConfirm !== bidCode) {
+      toast.error("Mã xác nhận không đúng.");
+      setBidCodeConfirm("")
+      setShow(false);
+      return;
+    }
+    if (user && auction) {
+      confirmDeleteBid(user?.id, auction.id);
+      toast.success("Xóa thành công.");
+      setBidCodeConfirm("")
+      navigate("/tai-san-dau-gia/" + auction.id)
+    }
+    setShow(false);
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        className="text-danger"
+        id="save-profile-tab"
+        data-bs-toggle="tab"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        onClick={handleShow}>
+        <i className="fa-solid fa-trash"></i>
+      </button>
+      {show && (
+        <div className='overlay' >
+          <Modal
+            show={show}
+            onHide={handleClose}
+            centered
+            backdropClassName="custom-backdrop"
+          >
+            <Modal.Body >
+              <div className="swal2-icon swal2-warning swal2-icon-show" style={{ display: "flex" }}>
+                <div className="swal2-icon-content">!</div>
+              </div>
+              <h2 className="swal2-title" id="swal2-title" style={{ display: "flex", justifyContent: "center" }}>Xác nhận rút lại giá đã trả.</h2>
+              <h5>
+                Nếu rút lại giá đã trả bạn sẽ mất tiền đặt trước và bị truất quyền đấu giá! Nhập mã xác nhận để rút lại giá đã trả:
+                <span className="text-danger fw-bold">{bidCode}</span>
+              </h5>
+              <input value={bidCodeConfirm} onChange={(e) => setBidCodeConfirm(e.target.value)}
+                type="text" style={{ fontSize: "20px", width: "100%", height: "40px", color: "black", border: "#0D6EFD 1px solid" }} />
+
+            </Modal.Body>
+            <Modal.Footer>
+              <Button style={{ color: "white", border: "none" }} className='bg-primary' onClick={handleClose}>
+                Hủy
+              </Button>
+              <Button className='bg-danger text-white' style={{ border: "none" }} onClick={handleConfirm}>
+                Xác nhận
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
+
     </>
   );
 };

@@ -1,12 +1,20 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Link, NavLink } from "react-router-dom"
-import useAccount from "../../../hooks/useAccount";
 import { useCategories } from "../../../hooks/useCategories";
+import { UserContext } from "../../../hooks/useContext";
 
 export const NavBar = () => {
     const categories = useCategories();
-    const token = localStorage.getItem("access_token");
-    const user = useAccount(token);
+    // const token = localStorage.getItem("access_token");
+    // const user = useAccount(token);
+
+    const context = useContext(UserContext);
+
+    let user = null;
+
+    if (context?.user) {
+        user = context.user;
+    }
 
     return (
         <div className="header-bottom_area ">

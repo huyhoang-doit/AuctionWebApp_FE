@@ -1,22 +1,25 @@
 import { Link } from "react-router-dom";
-import useAccount from "../../hooks/useAccount";
+// import useAccount from "../../hooks/useAccount";
 import { MyAccountDetail } from "./Components/MyAccountDetail";
 import { MyBidHistory } from "./Components/MyBidHistory";
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { User } from "../../models/User";
 import { TransactionHistory } from "./Components/TransactionHistory";
 import { MyJewelryList } from "./Components/MyJewelryList";
 import { LogoutModal } from "./Modal/Modal";
+import { UserContext } from "../../hooks/useContext";
 
 export default function MyAccount() {
-    const token = localStorage.getItem("access_token");
-    const user = useAccount(token);
-    const [userState, setUserState] = useState<User | null>(user);
-    // const [transactions, setTransactions] = useState<Transaction[]>([])
+    // const token = localStorage.getItem("access_token");
+    // const user = useAccount(token);
+    // const [userState, setUserState] = useState<User | null>(user);
+    const context = useContext(UserContext);
+    const [userState, setUserState] = useState<User | null>(null);
 
     useEffect(() => {
-        setUserState(user);
-    }, [user])
+        if (context && context.user)
+            setUserState(context?.user);
+    }, [context])
 
     return (
         <>
@@ -109,9 +112,10 @@ export default function MyAccount() {
                                     id="account-page-tab-content"
                                 >
                                     <MyAccountDetail user={userState} setUser={setUserState} />
-                                    <MyBidHistory username={user?.username} />
-                                    <TransactionHistory user={user} />
-                                    <MyJewelryList />
+                                    <MyBidHistory username={userState?.username} />
+                                    <TransactionHistory user={userState} />
+                                    <MyJewelryList username={userState?.username} />
+
                                 </div>
                             </div>
                         </div>
