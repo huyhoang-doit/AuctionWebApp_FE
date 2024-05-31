@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react"; // Thêm useState để quản lý trang hiện tại
+import { Breadcrumb } from 'react-bootstrap';
 
 const AuctionsList = () => {
   // Tạo một mảng lưu các phần tử để biểu diễn danh sách sản phẩm
@@ -24,6 +25,12 @@ const AuctionsList = () => {
           <div className="container-fluid plr_30 body_white_bg pt_30">
             <div className="row justify-content-center">
               <div className="col-12">
+              <div className="breadcrumb-area">
+                  <Breadcrumb>
+                    <Breadcrumb.Item href="/admin">Trang chủ</Breadcrumb.Item>
+                    <Breadcrumb.Item >Danh sách các phiên đấu giá</Breadcrumb.Item>
+                  </Breadcrumb>
+                </div>
                 <div className="QA_section">
                   <div className="white_box_tittle list_header">
                     <h4>Các phiên đấu giá</h4>

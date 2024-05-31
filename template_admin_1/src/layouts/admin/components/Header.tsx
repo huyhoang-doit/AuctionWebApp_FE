@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom';
 const Header = () => {
   return (
     <div className="header_iner d-flex justify-content-between align-items-center py-2">
@@ -18,7 +18,7 @@ const Header = () => {
           <div className="profile_info_iner">
 
             <div className="profile_info_details">
-              <a href="#">My Profile <i className="ti-user"></i></a>
+            <Link to="/admin/view/viewProfile">My Profile <i className="ti-user"></i></Link>
               <a href="#">Settings <i className="ti-settings"></i></a>
               <a href="#">Log Out <i className="ti-shift-left"></i></a>
             </div>
