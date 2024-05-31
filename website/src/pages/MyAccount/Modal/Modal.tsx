@@ -15,7 +15,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { AuctionHistory } from '../../../models/AuctionHistory';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 // *** MODAL FOR USER
+
+
+interface BidConfirmDeleteProps {
+  bidCode: string;
+  user: User | null;
+  auction: Auction | undefined;
+}
+
 export const ViewTransactionModal = () => {
   const [show, setShow] = useState(false);
 
@@ -569,7 +579,7 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({ setAuctionHistories, bid
       </button>
       {show && (
         <div className='overlay' >
-          <Modal
+          {/* <Modal
             show={show}
             onHide={handleClose}
             centered
@@ -590,7 +600,7 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({ setAuctionHistories, bid
                 Xác nhận
               </Button>
             </Modal.Footer>
-          </Modal>
+          </Modal> */}
         </div>
       )}
 
@@ -927,35 +937,8 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ user
   );
 };
 
-interface BidConfirmDeleteProps {
-  bidCode: string;
-  user: User | null;
-  auction: Auction | undefined;
-}
-
 export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({ bidCode, user, auction }) => {
-  const [show, setShow] = useState(false);
-  const [bidCodeConfirm, setBidCodeConfirm] = useState("");
   const navigate = useNavigate();
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleConfirm = () => {
-    if (bidCodeConfirm !== bidCode) {
-      toast.error("Mã xác nhận không đúng.");
-      setBidCodeConfirm("")
-      setShow(false);
-      return;
-    }
-    if (user && auction) {
-      confirmDeleteBid(user?.id, auction.id);
-      toast.success("Xóa thành công.");
-      setBidCodeConfirm("")
-      navigate("/tai-san-dau-gia/" + auction.id)
-    }
-    setShow(false);
-  }
 
   return (
     <>
@@ -967,42 +950,39 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({ bidCode, use
         role="tab"
         aria-controls="account-details"
         aria-selected="false"
-        onClick={handleShow}>
+        onClick={() =>
+          Swal.fire({
+            icon: "error",
+            title: 'Xác nhận rút lại giá đã trả?',
+            input: 'text',
+            html: `
+            <div>Nếu rút lại giá đã trả, bạn sẽ mất tiền đặt trước và bị truất quyền đấu giá! Vui lòng nhập mã xác nhận để tiếp tục.</div>
+            <br/><div>Mã xác nhận: <span class="fw-bold text-danger">${bidCode}</span></div>`,
+            inputPlaceholder: 'Nhập mã xác nhận...',
+            inputAttributes: {
+              maxLength: 10,
+              autocapitalize: 'off',
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy',
+            showLoaderOnConfirm: true,
+            preConfirm: (inputValue: string) => {
+              if (!inputValue || inputValue.trim() !== bidCode) {
+                Swal.showValidationMessage('Mã xác nhận không đúng.');
+                return;
+              }
+              if (user && auction) {
+                confirmDeleteBid(user?.id, auction?.id);
+                toast.success("Xóa thành công.");
+                navigate("/tai-san-dau-gia/" + auction.id)
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+          })}
+      >
         <i className="fa-solid fa-trash"></i>
-      </button>
-      {show && (
-        <div className='overlay' >
-          <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdropClassName="custom-backdrop"
-          >
-            <Modal.Body >
-              <div className="swal2-icon swal2-warning swal2-icon-show" style={{ display: "flex" }}>
-                <div className="swal2-icon-content">!</div>
-              </div>
-              <h2 className="swal2-title" id="swal2-title" style={{ display: "flex", justifyContent: "center" }}>Xác nhận rút lại giá đã trả.</h2>
-              <h5>
-                Nếu rút lại giá đã trả bạn sẽ mất tiền đặt trước và bị truất quyền đấu giá! Nhập mã xác nhận để rút lại giá đã trả:
-                <span className="text-danger fw-bold">{bidCode}</span>
-              </h5>
-              <input value={bidCodeConfirm} onChange={(e) => setBidCodeConfirm(e.target.value)}
-                type="text" style={{ fontSize: "20px", width: "100%", height: "40px", color: "black", border: "#0D6EFD 1px solid" }} />
-
-            </Modal.Body>
-            <Modal.Footer>
-              <Button style={{ color: "white", border: "none" }} className='bg-primary' onClick={handleClose}>
-                Hủy
-              </Button>
-              <Button className='bg-danger text-white' style={{ border: "none" }} onClick={handleConfirm}>
-                Xác nhận
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-
+      </button >
     </>
   );
 };

@@ -30,6 +30,7 @@
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
     "styled-components": "^6.1.11",
+    "sweetalert2": "^11.11.0",
     "use-debounce": "^10.0.0"
   },
   "devDependencies": {
@@ -41,6 +42,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "sass": "^1.77.4",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }
