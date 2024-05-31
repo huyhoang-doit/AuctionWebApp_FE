@@ -159,7 +159,7 @@ export default function Register() {
         let phoneError = "";
         const isWrong = isPhoneNumberWrongFormat(phone);
         if (isWrong) {
-            phoneError = "Số điện thoại phải có ít nhất 10 ký tự và bắt đầu từ 0!";
+            phoneError = "Số điện thoại phải có ít nhất 10 ký tự và bắt đầu từ 0";
         }
         setErrors((prevErrors) => ({ ...prevErrors, phone: phoneError }));
         setRegisterRequest((preValue) => ({ ...preValue, phone }));

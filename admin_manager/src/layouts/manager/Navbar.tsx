@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   return (
-    <nav className="sidebar">
+    
+ <nav className="sidebar border border-r-1" style={{backgroundColor: '#f7faff', width: '20%'}}>
       <div className="logo d-flex justify-content-between">
         <Link to={"/manager"}><img src="assets/img/menu/logo/1.png" /></Link>
         <div className="sidebar_close_icon d-lg-none">
@@ -31,6 +32,7 @@ const Navbar = () => {
         </li>
       </ul>
     </nav>
+   
   )
 }
 

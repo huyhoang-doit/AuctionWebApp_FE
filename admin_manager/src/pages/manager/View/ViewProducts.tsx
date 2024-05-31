@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './ViewProducts.css'; // Tạo và nhập tệp CSS riêng cho kiểu tùy chỉnh
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const ViewProducts = () => {
   const [price, setPrice] = useState('10,000,000 VND');
@@ -54,39 +55,49 @@ const ViewProducts = () => {
                             </div>
                             <div className="col-md-6 mb-3">
                               <label>Mức giá</label>
-                              <input 
-                                type="text" 
-                                className="form-control" 
-                                value={price} 
-                                onChange={handlePriceChange} 
+                              <input
+                                type="text"
+                                className="form-control"
+                                value={price}
+                                onChange={handlePriceChange}
                               />
                             </div>
                             <div className="col-md-6 mb-3">
                               <label>Trạng thái</label>
                               <div>
-                                <input 
-                                  type="radio" 
-                                  value="Xác nhận" 
-                                  checked={status === 'Xác nhận'} 
-                                  onChange={handleStatusChange} 
+                                <input
+                                  type="radio"
+                                  value="Xác nhận"
+                                  checked={status === 'Xác nhận'}
+                                  onChange={handleStatusChange}
                                 /> Xác nhận
-                                <input 
-                                  type="radio" 
-                                  value="Chưa xác nhận" 
-                                  checked={status === 'Chưa xác nhận'} 
-                                  onChange={handleStatusChange} 
+                                <input
+                                  type="radio"
+                                  value="Chưa xác nhận"
+                                  checked={status === 'Chưa xác nhận'}
+                                  onChange={handleStatusChange}
                                   className="ms-3"
                                 /> Chưa xác nhận
                               </div>
                             </div>
                             <div className="col-md-12 mb-3">
                               <label>Mô tả</label>
-                              <textarea 
-                                className="form-control" 
-                                rows={5} 
-                                placeholder="Mô tả chi tiết sản phẩm..." 
-                                readOnly
-                              ></textarea>
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data="<p>Mô tả trang sức</p>"
+                                onReady={editor => {
+                                  console.log('Editor is ready to use!', editor);
+                                }}
+                                onChange={(event) => {
+                                  console.log(event);
+                                }}
+                                onBlur={(event, editor) => {
+                                  console.log('Blur.', editor);
+                                }}
+                                onFocus={(event, editor) => {
+                                  console.log('Focus.', editor);
+                                }}
+                              />
                             </div>
                           </div>
                         </div>

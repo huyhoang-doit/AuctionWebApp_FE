@@ -1,8 +1,8 @@
-import React from 'react'
 
+import { Link } from 'react-router-dom';
 const Header = () => {
   return (
-    <div className="header_iner d-flex justify-content-between align-items-center py-2">
+    <div className="d-flex justify-content-between align-items-center py-2 border border-b-1` " style={{position: "fixed", width: "100%", zIndex: "10", background: "#fff"}}>
       <div className="sidebar_icon d-lg-none">
         <i className="ti-menu"></i>
       </div>
@@ -18,7 +18,7 @@ const Header = () => {
           <div className="profile_info_iner">
 
             <div className="profile_info_details">
-              <a href="#">My Profile <i className="ti-user"></i></a>
+            <Link to="/admin/view/viewProfile">My Profile <i className="ti-user"></i></Link>
               <a href="#">Settings <i className="ti-settings"></i></a>
               <a href="#">Log Out <i className="ti-shift-left"></i></a>
             </div>

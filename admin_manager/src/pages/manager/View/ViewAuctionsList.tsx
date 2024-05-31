@@ -3,50 +3,52 @@ import { Link } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import './ViewProducts.css'; // Tạo và nhập tệp CSS riêng cho kiểu tùy chỉnh
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { writer } from 'repl';
 
 const ViewProducts = () => {
     const [price, setPrice] = useState('10,000,000 VND');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [status, setStatus] = useState('Chưa xác nhận');
     const [startingPrice, setStartingPrice] = useState(0);
+    const [description, setDescription] = useState("");
     const [deposit, setDeposit] = useState(0);
     const [minimumIncrement, setMinimumIncrement] = useState(0);
     const [maximumIncrement, setMaximumIncrement] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-  
+
     const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPrice(e.target.value);
+        setPrice(e.target.value);
     };
-  
+
     const handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setStatus(e.target.value);
+        setStatus(e.target.value);
     };
-  
-    
-  
+
     const handleStartingPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setStartingPrice(Number(e.target.value));
+        setStartingPrice(Number(e.target.value));
     };
-  
+
     const handleDepositChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setDeposit(Number(e.target.value));
+        setDeposit(Number(e.target.value));
     };
-  
+
     const handleMinimumIncrementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setMinimumIncrement(Number(e.target.value));
+        setMinimumIncrement(Number(e.target.value));
     };
-  
+
     const handleMaximumIncrementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setMaximumIncrement(Number(e.target.value));
+        setMaximumIncrement(Number(e.target.value));
     };
-  
+
     const handleStartDateChange = (date: Date) => {
-      setStartDate(date);
+        setStartDate(date);
     };
-  
+
     const handleEndDateChange = (date: Date) => {
-      setEndDate(date);
+        setEndDate(date);
     };
     return (
         <>
@@ -176,12 +178,23 @@ const ViewProducts = () => {
                                                         </div>
                                                         <div className="col-md-12 mb-3">
                                                             <label>Mô tả</label>
-                                                            <textarea
-                                                                className="form-control"
-                                                                rows={5}
-                                                                placeholder="Mô tả chi tiết sản phẩm..."
-                                                                readOnly
-                                                            ></textarea>
+                                                            <CKEditor
+                                                                editor={ClassicEditor}
+                                                                data={description}
+                                                                onReady={editor => {
+                                                                    editor.editing.view.change((writer) => {
+                                                                        const root = editor.editing.view.document.getRoot();
+                                                                        if (root) {
+                                                                            writer.setStyle('height', '200px', root);
+                                                                        }
+                                                                    })
+                                                                }}
+                                                                onChange={(event, editor) => {
+                                                                    const data = editor.getData();
+                                                                    console.log(data)
+                                                                    setDescription(data);
+                                                                }}
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
