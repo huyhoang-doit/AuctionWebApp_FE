@@ -4,6 +4,11 @@ import { editProfileUser } from "../../../api/UserAPI";
 import { SaveEditProfileModal } from "../Modal/Modal";
 import { getAllBanks } from "../../../api/BankAPI";
 import { Bank } from "../../../models/Bank";
+import { getAddressVietNam } from "../../../api/AddressAPI";
+import { City } from "../../../models/City";
+import { District } from "../../../models/District";
+import { Ward } from "../../../models/Ward";
+import { toast } from "react-toastify";
 
 interface MyAccountDetailProps {
     user: User | null;
@@ -12,13 +17,17 @@ interface MyAccountDetailProps {
 
 export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     const [user, setUser] = useState<User | null>(props.user);
-    const [notification, setNotification] = useState("");
+    const [originalUser, setOriginalUser] = useState<User | null>(props.user);
     const [isEditing, setIsEditing] = useState(false);
     const [banks, setBanks] = useState<Bank[]>([]);
 
-    useEffect(() => {
-        setUser(props.user);
-    }, [props.user]);
+    const [cities, setCities] = useState<City[]>([]);
+    const [selectedCityId, setSelectedCityId] = useState<string>('');
+    const [districts, setDistricts] = useState<District[]>([]);
+    const [selectedDistrictId, setSelectedDistrictId] = useState<string>('');
+    const [wards, setWards] = useState<Ward[]>([]);
+    const [selectedWardId, setSelectedWardId] = useState<string>('');
+
 
     useEffect(() => {
         getAllBanks()
@@ -28,7 +37,35 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
             .catch((error) => {
                 console.error(error.message);
             });
+
+
     }, [])
+
+    useEffect(() => {
+        setUser(props.user);
+        setOriginalUser(props.user);
+    }, [props.user])
+
+    useEffect(() => {
+        const userCity = cities.find(city => city.Name === user?.city);
+        const userDistrict = userCity?.Districts.find(district => district.Name === user?.district);
+        const userWard = userDistrict?.Wards.find(ward => ward.Name === user?.ward);
+
+        if (userCity) {
+            setSelectedCityId(userCity.Id);
+            setDistricts(userCity?.Districts);
+        }
+
+        if (userDistrict) {
+            setSelectedDistrictId(userDistrict.Id);
+            setWards(userDistrict?.Wards);
+        }
+
+        if (userWard) {
+            setSelectedWardId(userWard.Id);
+        }
+    }, [user]);
+
 
     const getBase64 = (file: File): Promise<string | null> => {
         return new Promise((resolve, reject) => {
@@ -64,14 +101,19 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         return <div>Loading user details...</div>;
     }
 
-    const handleEdit = async () => {
-        if (isEditing && user) {
+    const handleEdit = async (confirm: boolean) => {
+        if (isEditing === true && user) {
             try {
-                const response = await editProfileUser(user);
-
-                props.setUser(response);
-
-                setNotification("Cập nhật thông tin thành công!");
+                if (!confirm) {
+                    setUser(originalUser)
+                    toast.info("Thông tin chưa được cập nhật.");
+                    return;
+                } else {
+                    const response = await editProfileUser(user);
+                    props.setUser(response);
+                    toast.success("Cập nhật thông tin thành công!");
+                    return
+                }
             } catch (error) {
                 console.error("Error updating user profile: ", error);
             }
@@ -85,6 +127,46 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         setUser({ ...user, bank: selectedBank });
     };
 
+
+    const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const cityId = event.target.value;
+        setSelectedCityId(cityId);
+        setDistricts([]);
+        setWards([]);
+        setSelectedDistrictId('');
+        setSelectedWardId('');
+        const selectedCity = cities.find(city => city.Id === cityId);
+
+        if (selectedCity) {
+            setDistricts(selectedCity.Districts);
+            setUser(prevUser => prevUser ? { ...prevUser, city: selectedCity.Name, district: "", ward: "" } : null);
+        }
+    };
+
+    const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const districtId = event.target.value;
+        setSelectedDistrictId(districtId);
+        setWards([]);
+        setSelectedWardId('');
+        const selectedDistrict = districts.find(district => district.Id === districtId);
+
+        if (selectedDistrict) {
+            setWards(selectedDistrict.Wards);
+            setUser(prevUser => prevUser ? { ...prevUser, district: selectedDistrict.Name, ward: "" } : null);
+        }
+    };
+
+    const handleWardChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const wardId = event.target.value;
+        setSelectedWardId(wardId);
+        const selectedWard = wards.find(ward => ward.Id === wardId);
+
+        if (selectedWard) {
+            setUser(prevUser => prevUser ? { ...prevUser, ward: selectedWard.Name } : null);
+        }
+    };
+
+    
     return (
         <div
             className="tab-pane fade active"
@@ -113,7 +195,6 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             Đổi ảnh đại diện
                                         </label>
                                         <input onChange={handleAvatarChange} id='customFile' type="file" accept="image/*" />
-                                        {notification && <span className="fw-bold" style={{ color: "green" }}>{notification}</span>}
                                     </div>
                                 </div>
 
@@ -126,7 +207,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             placeholder="Nhập số căn cước"
                                             readOnly
                                             style={{ backgroundColor: "#F5F5F5" }}
-                                            defaultValue={user?.cccd}
+                                            value={user?.cccd}
                                         />
                                     </div>
                                     <div className="col-md-6">
@@ -136,7 +217,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập năm sinh"
                                             readOnly
-                                            defaultValue={user?.yob}
+                                            value={user?.yob}
                                             onChange={(e) => setUser({ ...user, yob: e.target.value })}
                                         />
 
@@ -148,7 +229,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             placeholder="Nhập username của bạn"
                                             readOnly
                                             style={{ backgroundColor: "#F5F5F5" }}
-                                            defaultValue={user?.username}
+                                            value={user?.username}
                                         />
                                     </div>
                                     <div className="col-md-6 mt-4">
@@ -158,7 +239,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             placeholder="Nhập Email của bạn"
                                             style={{ backgroundColor: "#F5F5F5" }}
                                             readOnly
-                                            defaultValue={user?.email}
+                                            value={user?.email}
                                         />
                                     </div>
                                     <div className="col-md-6 mt-4">
@@ -167,7 +248,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập họ của bạn"
                                             readOnly
-                                            defaultValue={user?.firstName || ""}
+                                            value={user?.firstName || ""}
                                             onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                                         />
                                     </div>
@@ -178,7 +259,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             className="mb-0 input-required"
                                             placeholder="Nhập tên của bạn"
                                             readOnly
-                                            defaultValue={user?.lastName}
+                                            value={user?.lastName}
                                             onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                                         />
                                     </div>
@@ -189,37 +270,45 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập địa chỉ của bạn"
                                             readOnly
-                                            defaultValue={user?.address}
+                                            value={user?.address}
                                             onChange={(e) => setUser({ ...user, address: e.target.value })}
                                         />
                                     </div>
                                     <div className="col-md-4 mt-4">
                                         <label>Tỉnh</label>
-                                        <input
-                                            className="input-required"
-                                            type="text"
-                                            placeholder="Nhập tỉnh"
-                                            readOnly
-                                            defaultValue={user?.province}
-                                            onChange={(e) => setUser({ ...user, province: e.target.value })}
-                                        />
+
+                                        <select id="city" disabled={!isEditing} value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
+                                            {/* <option disabled value={""}>{user.city}</option> */}
+                                            {cities.map(city => (
+                                                <option selected={city.Id === selectedCityId} key={city.Id} value={city.Id}>{city.Name}</option>
+                                            ))}
+                                        </select>
                                     </div>
-                                    <div className="col-md-4 mt-4">
-                                        <label>Thành phố</label>
-                                        <input
-                                            className="input-required"
-                                            type="text"
-                                            placeholder="Nhập thành phố"
-                                            readOnly
-                                            defaultValue={user?.city}
-                                            onChange={(e) => setUser({ ...user, city: e.target.value })}
-                                        />
+                                    <div className="col-md-4 mb-4">
+                                        <label>Quận / Huyện</label>
+                                        <select id="district" disabled={!isEditing} value={selectedDistrictId} onChange={handleDistrictChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
+                                            <option disabled value={""}>{user.district}</option>
+                                            {districts.map(district => (
+                                                <option selected={district.Id === selectedDistrictId} key={district.Id} value={district.Id}>{district.Name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="col-md-4 mb-4">
+                                        <label>Phường / Xã</label>
+                                        <select id="ward" disabled={!isEditing} value={selectedWardId} onChange={handleWardChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
+                                            <option disabled value={""}>{user.ward}</option>
+                                            {wards.map(ward => (
+                                                <option selected={ward.Id === selectedWardId} key={ward.Id} value={ward.Id}>{ward.Name}</option>
+                                            ))}
+                                        </select>
+
                                     </div>
 
                                     <div className="col-md-12 mt-4">
                                         <label>Ngân hàng</label>
-                                        <select  onChange={handleBankChange} disabled defaultValue={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
-                                        >
+
+                                        <select onChange={handleBankChange} disabled value={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
+
                                             {banks.map((bank) => (
                                                 <option style={{ padding: '5px' }} key={bank.id} value={bank.id}>
                                                     {bank.bankName} ({bank.tradingName})
@@ -234,7 +323,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập số tài khoản ngân hàng của bạn"
                                             readOnly
-                                            defaultValue={user?.bankAccountNumber}
+                                            value={user?.bankAccountNumber}
                                             onChange={(e) => setUser({ ...user, bankAccountNumber: e.target.value })}
                                         />
                                     </div>
@@ -245,7 +334,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập tên chủ tài khoản ngân hàng"
                                             readOnly
-                                            defaultValue={user?.bankAccountName}
+                                            value={user?.bankAccountName}
                                             onChange={(e) => setUser({ ...user, bankAccountName: e.target.value })}
                                         />
                                     </div>
@@ -256,12 +345,12 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             type="text"
                                             placeholder="Nhập số điện thoại của bạn"
                                             readOnly
-                                            defaultValue={user?.phone}
+                                            value={user?.phone}
                                             onChange={(e) => setUser({ ...user, phone: e.target.value })}
                                         />
                                     </div>
                                     <div className="col-12">
-                                        <SaveEditProfileModal handleEdit={handleEdit} isEditing={isEditing} setIsEditing={setIsEditing} />
+                                        <SaveEditProfileModal user={user} handleEdit={handleEdit} isEditing={isEditing} setIsEditing={setIsEditing} />
                                     </div>
                                 </div>
                             </div>
