@@ -141,12 +141,11 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
             onHide={handleCloseJewelryDetail}
             centered
             backdrop="static"
-            size="lg"
           >
             <Modal.Header>
               <Modal.Title className='w-100'>
 
-                <div className='col-12 text-center'>Thông tin sản phẩm</div>
+                <div className='col-12 text-center'>Thông tin tài sản</div>
                 <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{jewelry.name}</span></div>
               </Modal.Title>
             </Modal.Header>
@@ -158,92 +157,78 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
                       <div className="country-select clearfix">
                       </div>
                     </div>
-                    <div className="col-md-6 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>
-                          Mã trang sức{" "}
-                        </label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={jewelry.id}
-                          readOnly={true}
-                        />
+                    <div className="col-md-12 fw-medium">
+                      <div className="checkout-form-list mb-2 row">
+                        <div className='col-md-6'>
+                          <label>
+                            Chủ tài sản:
+                          </label>
+                          <span className='fw-bold'> {jewelry.user?.fullName}</span>
+                        </div>
+                        <div className='col-md-6'>
+                          <label>
+                            Mã người dùng:
+                          </label>
+                          <span className='fw-bold'> {jewelry.user?.id}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-6 fw-medium">
-                      <div className="checkout-form-list">
+                      <div className="checkout-form-list mb-2">
                         <label>
-                          Danh mục
+                          Mã tài sản:{" "}
                         </label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={jewelry.category?.name}
-                          readOnly={true}
-                        />
+                        <span className='fw-bold'> {jewelry.id}</span>
                       </div>
-                    </div>
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
+                      <div className="checkout-form-list mb-2">
                         <label>
-                          Chất liệu
+                          Tên:
                         </label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={jewelry.material}
-                          readOnly={true}
-                        />
+                        <span className='fw-bold'> {jewelry.name}</span>
                       </div>
-                    </div>
-
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>
-                          Thương hiệu
-                        </label>
-                        <input
-                          placeholder="Street address"
-                          type="text"
-                          value={jewelry.brand}
-                          readOnly={true}
-                        />
+                      <div className="checkout-form-list mb-2 row">
+                        <div className='col-md-6'>
+                          <label>
+                            Danh mục:
+                          </label>
+                          <span className='fw-bold'> {jewelry.category?.name}</span>
+                        </div>
+                        <div className='col-md-6'>
+                          <label>
+                            Thương hiệu:
+                          </label>
+                          <span className='fw-bold'> {jewelry.brand}</span>
+                        </div>
+                        <div className='col-md-6'>
+                          <label>
+                            Chất liệu:
+                          </label>
+                          <span className='fw-bold'> {jewelry.material}</span>
+                        </div>
+                        <div className='col-md-6'>
+                          <label>
+                            Trọng lượng (g):
+                          </label>
+                          <span className='fw-bold'> {jewelry.weight}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>
-                          Cân nặng (g)
-                        </label>
-                        <input
-                          placeholder="Street address"
-                          type="text"
-                          value={jewelry.weight}
-                          readOnly={true}
-                        />
-                      </div>
-
-
-                    </div>
-                    <div className="order-notes fw-medium">
-                      <div className="checkout-form-list checkout-form-list-2">
-                        <label>Mô tả sản phẩm </label>
-                        <textarea
+                      <div className="checkout-form-list checkout-form-list-2 mb-2">
+                        <label>Mô tả </label><br />
+                        <textarea className='w-100 h-auto p-1'
                           id="checkout-mess"
                           value={jewelry.description}
                         ></textarea>
                       </div>
-                    </div>
-                    <div className="order-notes col-md-12 fw-medium">
-                      <div className="checkout-form-list checkout-form-list-2 row">
-                        <label>Hình ảnh sản phẩm </label>
-                        {React.Children.toArray(images.map(
-                          (img: Image) =>
-                            <div className='col-md-3'>
-                              <img src={img.data} alt="Ảnh sản phẩm" />
-                            </div>
-                        ))}
+                      <div className="w-100 fw-medium">
+                        <div className="checkout-form-list row">
+                          <label>
+                            Hình ảnh
+                          </label>
+                          {React.Children.toArray(images.map(
+                            (img: Image) =>
+                              <div className='col-md-3'>
+                                <img src={img.data} alt="Ảnh sản phẩm" />
+                              </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -301,7 +286,7 @@ interface JewelryCreateRequestModalProps {
 }
 
 
-export const JewelryPaymentRequestModal: React.FC<JewelryCreateRequestModalProps> = ({ show, handleClose, jewelry, images, valuation, user }) => {
+export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps> = ({ show, handleClose, jewelry, images, valuation, user }) => {
   return (
     <>{show && (
       <div className='overlay' >
@@ -310,11 +295,10 @@ export const JewelryPaymentRequestModal: React.FC<JewelryCreateRequestModalProps
           onHide={handleClose}
           centered
           backdrop="static"
-          size="lg"
         >
           <Modal.Header>
             <Modal.Title className='w-100'>
-              <div className='col-12 text-center'>Tạo yêu cầu phê duyệt sản phẩm</div>
+              <div className='col-12 text-center'>Tạo yêu cầu phê duyệt tài sản</div>
               <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{jewelry.name}</span></div>
               <h5 className='col-12'>Nhân viên gửi yêu cầu - <span className=' fw-bold'>{user?.firstName}</span></h5>
               <h5 className='col-12'>Mã nhân viên - <span className=' fw-bold'>{user?.id}</span></h5>
@@ -331,7 +315,7 @@ export const JewelryPaymentRequestModal: React.FC<JewelryCreateRequestModalProps
                   <div className="col-md-6 fw-medium">
                     <div className="checkout-form-list">
                       <label>
-                        Mã trang sức{" "}
+                        Mã tài sản{" "}
                       </label>
                       <input
                         placeholder=""
@@ -398,7 +382,7 @@ export const JewelryPaymentRequestModal: React.FC<JewelryCreateRequestModalProps
                   </div>
                   <div className="order-notes fw-medium">
                     <div className="checkout-form-list checkout-form-list-2">
-                      <label>Mô tả sản phẩm </label>
+                      <label>Mô tả </label>
                       <textarea
                         id="checkout-mess"
                         value={jewelry.description}
@@ -793,8 +777,8 @@ interface JewelryHanOverModalProps {
   jewelry: Jewelry;
   images: Image[];
   user: User | null;
-  winner: User | null
-  auction: Auction | null
+  winner: User | null;
+  auction: Auction | undefined | null
 }
 export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelry, images, user, winner, auction }) => {
   const [show, setShow] = useState(false);
@@ -905,13 +889,13 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
                         <label>
                           Bắt đầu:
                         </label>
-                        <span className='fw-bold'> {formatDateString(auction?.startDate)}</span>
+                        <span className='fw-bold'> {formatDateString(auction.startDate)}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
                         <label>
                           Kết thúc:
                         </label>
-                        <span className='fw-bold'> {formatDateString(auction?.endDate)}</span>
+                        <span className='fw-bold'> {formatDateString(auction.endDate)}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
                         <label>Trạng thái: </label>
@@ -952,7 +936,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
                           <label>
                             Địa chỉ:
                           </label>
-                          <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.province} </span>
+                          <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.district} </span>
                         </div>
                         <div className="checkout-form-list mb-2">
                           <label>Email:  </label>
@@ -1006,7 +990,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
 interface CreateTransactionWinnerModal {
   show: boolean;
   handleClose: () => void;
-  auction: Auction | null;
+  auction: Auction | undefined | null;
   winner: User | null
   user: User | null
 }
@@ -1062,7 +1046,7 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
                           <label>
                             Địa chỉ:
                           </label>
-                          <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.province} </span>
+                          <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.district} </span>
                         </div>
                         <div className="checkout-form-list mb-2">
                           <label>Email:  </label>

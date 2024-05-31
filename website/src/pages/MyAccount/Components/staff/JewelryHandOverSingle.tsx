@@ -5,7 +5,6 @@ import { User } from '../../../../models/User';
 import { Link } from 'react-router-dom';
 import { Auction } from '../../../../models/Auction';
 import { formatNumberAcceptNull } from '../../../../utils/formatNumber';
-import { AuctionHistory } from '../../../../models/AuctionHistory';
 import { getAuctionByJewelryId } from '../../../../api/AuctionAPI';
 import { getWinnerByAuctionId } from '../../../../api/UserAPI';
 import { getImagesByJewelryId } from '../../../../api/ImageApi';
@@ -15,12 +14,10 @@ type JewelryHandOverSingleProps = {
   user: User | null
 }
 const JewelryHandOverSingle: React.FC<JewelryHandOverSingleProps> = ({ jewelry, user }) => {
-  const [image, setImage] = useState<Image | null>(null);
   const [images, setImages] = useState<Image[]>([]);
-  const [auction, setAuction] = useState<Auction | null>(null);
+  const [auction, setAuction] = useState<Auction | null | undefined>(null);
   const [winner, setWinner] = useState<User | null>(null);
   const [auctions, setAuctions] = useState<Auction[]>([]);
-  const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
 
   useEffect(() => {
     if (auction !== null) {
