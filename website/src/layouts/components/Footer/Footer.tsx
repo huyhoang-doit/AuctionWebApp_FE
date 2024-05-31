@@ -11,7 +11,7 @@ export default function Footer() {
                         <div className="row">
                             <div className="col-lg-4 order-1 order-lg-1">
                                 <div className="footer-widgets_title">
-                                    <h4>Công ty đấu giá Diamond Gold Silver (DGS)</h4>
+                                    <h4 style={{lineHeight: "32px"}}>Công ty đấu giá Diamond Gold Silver (DGS)</h4>
                                 </div>
                                 <div className="footer-widgets footer-contact_info">
                                     <ul>
