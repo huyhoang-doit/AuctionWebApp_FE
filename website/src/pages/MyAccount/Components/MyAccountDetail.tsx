@@ -284,7 +284,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             onChange={(e) => setUser({ ...user, address: e.target.value })}
                                         />
                                     </div>
-                                    <div className="col-md-4 mb-4">
+                                    <div className="col-md-4">
                                         <label>Tỉnh</label>
 
                                         <select id="city" disabled={!isEditing} value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
@@ -294,7 +294,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             ))}
                                         </select>
                                     </div>
-                                    <div className="col-md-4 mb-4">
+                                    <div className="col-md-4">
                                         <label>Quận / Huyện</label>
                                         <select id="district" disabled={!isEditing} value={selectedDistrictId} onChange={handleDistrictChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
                                             <option disabled value={""}>{user.district}</option>
@@ -303,7 +303,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             ))}
                                         </select>
                                     </div>
-                                    <div className="col-md-4 mb-4">
+                                    <div className="col-md-4">
                                         <label>Phường / Xã</label>
                                         <select id="ward" disabled={!isEditing} value={selectedWardId} onChange={handleWardChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
                                             <option disabled value={""}>{user.ward}</option>
