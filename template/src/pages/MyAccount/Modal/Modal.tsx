@@ -784,9 +784,6 @@ export const LogoutModal = () => {
   return (
     <>
       <span
-        // className="nav-link"
-        id="account-details-tab"
-        data-bs-toggle="tab"
         style={{ cursor: "pointer" }}
         role="tab"
         aria-controls="account-details"
@@ -840,6 +837,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEd
     setIsEditing(!isEditing);
 
     const inputs = document.querySelectorAll('input[type="text"]');
+    const selects = document.querySelectorAll('select');
 
     inputs.forEach((input) => {
       if (!isEditing) {
@@ -851,20 +849,29 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ isEd
         input.classList.add('input-required');
       }
     });
+
+    selects.forEach((select) => {
+      if (!isEditing) {
+        select.removeAttribute('disabled');
+        select.classList.remove('input-required');
+      } else {
+        handleEdit();
+        select.setAttribute('disabled', '');
+        select.classList.add('input-required');
+      }
+    });
   };
 
   return (
     <>
       <button
+        type="button"
         className="btn btn-xs btn-primary mb-3 mt-2"
         id="save-profile-tab"
-        type="button"
         data-bs-toggle="tab"
-        // href="#account-details"
         role="tab"
         aria-controls="account-details"
         aria-selected="false"
-        // onClick={handleShow}
         onClick={!isEditing ? changeState : handleShow}
         style={{ backgroundColor: "black", border: "none" }}
       >

@@ -3,13 +3,11 @@ import { Image } from '../../../../models/Image'
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
 import { Jewelry } from '../../../../models/Jewelry';
 import { User } from '../../../../models/User';
-import { JewelryModal } from '../../Modal/Modal';
 import { Link } from 'react-router-dom';
-import { getAuctionByJewelryId } from '../../../../api/AuctionAPI';
 import { Auction } from '../../../../models/Auction';
 import { formatNumberAcceptNull } from '../../../../utils/formatNumber';
 import { AuctionHistory } from '../../../../models/AuctionHistory';
-import { getAuctionHistoriesByAuctionId, getAuctionHistoriesWhenFinished } from '../../../../api/AuctionHistoryAPI';
+import { getAuctionHistoriesWhenFinished } from '../../../../api/AuctionHistoryAPI';
 type JewelryHandOverSingleProps = {
   jewelry: Jewelry;
   user: User | null

@@ -7,11 +7,11 @@ import { AuctionDetailJewelry } from "./AuctionDetailJewelry"
 
 interface AuctionTabDetailProps {
     auction: Auction | null,
-    jewelry: Jewelry| null,
-    staff: User| null,
+    jewelry: Jewelry | null,
+    staff: User | null,
 }
 
-export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({auction, jewelry, staff}) => {
+export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ auction, jewelry, staff }) => {
     return (
         <div className="sp-tab_area">
             <div className="container">
