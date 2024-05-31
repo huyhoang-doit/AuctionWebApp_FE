@@ -1,10 +1,52 @@
-import React from 'react'
+import React from 'react';
+import { Bar, Doughnut, Line } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 const Index = () => {
+  // Dữ liệu cho biểu đồ Bar
+  const barData = {
+    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11','Tháng 12'],
+    datasets: [
+      {
+        label: 'vnđ',
+        backgroundColor: 'rgba(75,192,192,1)',
+        borderColor: 'rgba(0,0,0,1)',
+        borderWidth: 2,
+        data: [50000000, 20000000, 80000000, 75000000, 56000000, 45670000, 40200000, 34000000, 26000000, 55000000, 90000000,60000000]
+      }
+    ]
+  };
+
+  // Dữ liệu cho biểu đồ Doughnut
+  const doughnutData = {
+    labels: ['Đấu giá thất bại', 'Đấu giá thành công'],
+    datasets: [
+      {
+        label: '%',
+        backgroundColor: ['#DF67C1', '#6AE0BD'],
+        data: [5, 95]
+      }
+    ]
+  };
+
+  // Dữ liệu cho biểu đồ Line
+  const lineData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+      {
+        label: 'Người',
+        fill: false,
+        tension: 0.1, 
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+        data: [65, 59, 63, 71, 83, 94, 96]
+      }
+    ]
+  };
+
   return (
     <div>
       <section className="main_content dashboard_part">
-
         <div className="main_content_iner ">
           <div className="container-fluid plr_30 body_white_bg pt_30">
             <div className="row justify-content-center">
@@ -17,22 +59,22 @@ const Index = () => {
                           <div className="single_quick_activity">
                             <h4>Doanh thu tuần qua</h4>
                             <h3>$ <span className="counter">5,79,000</span> </h3>
-                            <p>Saved 25%</p>
+                            
                           </div>
                           <div className="single_quick_activity">
                             <h4>Số phiên đấu giá tuần qua</h4>
-                            <h3><span className="counter">79</span> </h3>
-                            <p>Saved 25%</p>
+                            <h3><span className="counter">79 Phiên</span> </h3>
+                            
                           </div>
                           <div className="single_quick_activity">
                             <h4>Số lượng người dùng</h4>
-                            <h3><span className="counter">92</span> </h3>
-                            <p>Saved 25%</p>
+                            <h3><span className="counter">920 Người</span> </h3>
+                            
                           </div>
                           <div className="single_quick_activity">
                             <h4></h4>
                             <h3>Số lượng ...<span className="counter">1000</span> </h3>
-                            <p>Saved 65%</p>
+                            
                           </div>
                         </div>
                       </div>
@@ -45,20 +87,20 @@ const Index = () => {
                   <div className="box_header  box_header_block ">
                     <div className="main-title">
                       <h3 className="mb-0">Doanh thu theo tháng</h3>
-                      <span>Avg. $5,309</span>
+                      <span>60.000.000 vnđ</span>
                     </div>
                     <div className="box_select d-flex">
                       <select className="nice_Select2 mr_5">
-                        <option value="1">Monthly</option>
-                        <option value="1">Monthly</option>
+                        <option value="1">Hằng tuần</option>
+                        <option value="2">Hằng tháng</option>
                       </select>
                       <select className="nice_Select2 ">
-                        <option value="1">Last Year</option>
-                        <option value="1">this Year</option>
+                        <option value="1">Năm ngoái</option>
+                        <option value="1">Năm nay</option>
                       </select>
                     </div>
                   </div>
-                  <div id="bar_active"></div>
+                  <Bar data={barData} />
                 </div>
               </div>
               <div className="col-md-6 col-lg-6 col-xl-3 ">
@@ -68,39 +110,35 @@ const Index = () => {
                       <h3 className="mb-0">Tỷ lệ giao dịch</h3>
                     </div>
                   </div>
-                  <div id="radial_2"></div>
-                  <div className="radial_footer">
-                    <div className="radial_footer_inner d-flex justify-content-between">
-                      <div className="left_footer">
-                        <h5> <span style={{ backgroundColor: '#EDECFE' }}></span> Thất bại</h5>
-                      </div>
-                      <div className="left_footer">
-                        <h5> <span style={{ backgroundColor: '#A4A1FB' }}></span> Thành công</h5>
-                      </div>
-                    </div>
-                  </div>
+                  <Doughnut data={doughnutData} />
                 </div>
               </div>
-              <div className="col-md-6 col-lg-6 col-xl-3">
-                <div className="white_box min_430">
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
                   <div className="box_header  box_header_block">
                     <div className="main-title">
-                      <h3 className="mb-0">% of Expenses Budget</h3>
+                      <h3 className="mb-0">Số lượng người dùng</h3>
                     </div>
                   </div>
-                  <div id="radial_1"></div>
-                  <div className="radial_footer">
-                    <div className="radial_footer_inner d-flex justify-content-between">
-                      <div className="left_footer">
-                        <h5> <span style={{ backgroundColor: '#EDECFE' }}></span> Blance</h5>
-                        <p>-$18,570</p>
-                      </div>
-                      <div className="left_footer">
-                        <h5> <span style={{ backgroundColor: '#A4A1FB' }}></span> Blance</h5>
-                        <p>$31,430</p>
+                  <Line data={lineData} />
+                </div>
+              </div>
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block align-items- ">
+                    <div className="main-title">
+                      <h3 className="mb-0">Cost of goods / Services</h3>
+                    </div>
+                    <div className="title_info">
+                      <p>1 Jan 2020 to 31 Dec 2020 </p>
+                      <div className="legend_style text-end">
+                        <li> <span style={{ backgroundColor: '#A4A1FB' }}></span> Services</li>
+                        <li className="inactive"> <span style={{ backgroundColor: '#A4A1FB' }}></span> Avarage
+                        </li>
                       </div>
                     </div>
                   </div>
+                  <Line data={lineData} />
                 </div>
               </div>
             </div>
@@ -108,7 +146,7 @@ const Index = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Index
+export default Index;

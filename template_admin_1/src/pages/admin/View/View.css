@@ -1,0 +1,62 @@
+.main_content {
+    background: #f8f9fa;
+}
+
+.dashboard_part {
+    padding: 20px;
+}
+
+.main_content_iner {
+    padding: 30px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.profile_section {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.profile_picture img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile_info {
+    margin-left: 20px;
+    flex: 1;
+}
+
+.profile_info .row > .col-md-6 {
+    padding-bottom: 15px;
+}
+
+.profile_details h3, .bank_info h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+.QA_section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.me-2 {
+    margin-right: .5rem;
+}

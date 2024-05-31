@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Breadcrumb } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const RequestProduct = () => {
@@ -51,6 +51,12 @@ const RequestProduct = () => {
           <div className="container-fluid plr_30 body_white_bg pt_30">
             <div className="row justify-content-center">
               <div className="col-12">
+                <div className="breadcrumb-area">
+                  <Breadcrumb>
+                    <Breadcrumb.Item href="/admin">Trang chủ</Breadcrumb.Item>
+                    <Breadcrumb.Item >Danh sách các yêu cầu đấu giá</Breadcrumb.Item>
+                  </Breadcrumb>
+                </div>
                 <div className="QA_section">
                   <div className="white_box_tittle list_header">
                     <h4>Các yêu cầu đấu giá</h4>
@@ -95,7 +101,7 @@ const RequestProduct = () => {
                             <td>.....</td>
                             <td>.....</td>
                             <td>
-                              <Link to={`/manager/View/ViewProducts/${product.id}`} className="btn btn-sm btn-warning">Xem</Link>
+                              <Link to={`/manager/View/ViewProducts`} className="btn btn-sm btn-warning">Xem</Link>
                               <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
                             </td>
                           </tr>
@@ -105,8 +111,8 @@ const RequestProduct = () => {
                   </div>
 
 
-                        {/* 10 sản phẩm chuyển trang và cộng thêm số trang */}
-                  <ul className="pagination" style={{marginTop: '30px'}}> 
+                  {/* 10 sản phẩm chuyển trang và cộng thêm số trang */}
+                  <ul className="pagination" style={{ marginTop: '30px' }}>
                     <li className="pagination-item">
                       <a
                         href="#"
@@ -146,7 +152,7 @@ const RequestProduct = () => {
                     </li>
                   </ul>
 
-                        {/* Cuộn kéo chay bình thường không chức năng */}
+                  {/* Cuộn kéo chay bình thường không chức năng */}
                   {/* <ul className="pagination" >
           <li className="pagination-item" style={{marginTop: '30px'}} >
           <a href="" className="pagination-item__link ">
