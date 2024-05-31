@@ -6,6 +6,7 @@ import { User } from "../../models/User";
 import JewelriesWaitList from "./Components/staff/JewelriesWaitList";
 import AssignedAuctionList from "./Components/staff/AssignedAuctionList";
 import JewelriesHandOverList from "./Components/staff/JewelriesHandOverList";
+import { LogoutModal } from "./Modal/Modal";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);
@@ -92,6 +93,12 @@ export default function MyAccountStaff() {
                       Các phiên đấu giá được phân công
                     </a>
                   </li>
+                  <li className="nav-item">
+                    <Link to={""}
+                    >
+                      <LogoutModal />
+                    </Link>
+                  </li>
                 </ul>
               </div>
               <div className="col-lg-9">
@@ -100,30 +107,12 @@ export default function MyAccountStaff() {
                   id="account-page-tab-content"
                 >
                   <MyAccountDetail user={userState} setUser={setUserState} />
-                  <div
-                    className="tab-pane fade"
-                    id="account-orders"
-                    role="tabpanel"
-                    aria-labelledby="account-orders-tab"
-                  >
-                    <JewelriesWaitList user={userState} setUser={setUserState} />
-                  </div>
-                  <div
-                    className="tab-pane fade"
-                    id="account-address"
-                    role="tabpanel"
-                    aria-labelledby="account-address-tab"
-                  >
-                    <JewelriesHandOverList user={userState} setUser={setUserState} />
-                  </div>
-                  <div
-                    className="tab-pane fade"
-                    id="auction-job"
-                    role="tabpanel"
-                    aria-labelledby="account-address-tab"
-                  >
-                    <AssignedAuctionList user={userState} setUser={setUserState} />
-                  </div>
+
+                  <JewelriesWaitList user={userState} setUser={setUserState} />
+
+                  <JewelriesHandOverList user={userState} setUser={setUserState} />
+
+                  <AssignedAuctionList user={userState} setUser={setUserState} />
 
                 </div>
               </div>

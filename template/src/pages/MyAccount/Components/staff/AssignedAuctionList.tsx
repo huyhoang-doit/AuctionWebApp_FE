@@ -31,7 +31,12 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
 
 
   return (
-    <>
+    <><div
+      className="tab-pane fade"
+      id="auction-job"
+      role="tabpanel"
+      aria-labelledby="account-address-tab"
+    >
       <div className="myaccount-orders">
         <h4 className="small-title">
           Danh sách phiên được phân công
@@ -79,6 +84,7 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
           </table>
         </div>
       </div>
+    </div>
     </>
   )
 }
