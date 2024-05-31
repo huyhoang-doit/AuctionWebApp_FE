@@ -55,3 +55,10 @@ export const getUserById = async (id: number): Promise<User> => {
   return response;
 };
 
+export const getWinnerByAuctionId = async (auctionID: number | undefined): Promise<User> => {
+  const URL = `http://localhost:8080/api/v1/user/get-winner-auction/${auctionID}`;
+  const response = await MyRequest(URL);
+  // console.log(response)
+  return response;
+};
+

@@ -1,9 +1,0 @@
-.slide-item{
-    border:1px solid #ccc;
-    margin-top: 20px;
-    border-radius: 2px;
-
-    &:hover{
-        border: 1px solid #ffc107;
-    }
-}

@@ -301,7 +301,7 @@ interface JewelryCreateRequestModalProps {
 }
 
 
-export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps> = ({ show, handleClose, jewelry, images, valuation, user }) => {
+export const JewelryPaymentRequestModal: React.FC<JewelryCreateRequestModalProps> = ({ show, handleClose, jewelry, images, valuation, user }) => {
   return (
     <>{show && (
       <div className='overlay' >
@@ -789,7 +789,338 @@ export const AssignAuctionModal: React.FC<AuctionType> = ({ auction }) => {
   );
 };
 
-// Modal Logout
+interface JewelryHanOverModalProps {
+  jewelry: Jewelry;
+  images: Image[];
+  user: User | null;
+  winner: User | null
+  auction: Auction | null
+}
+export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelry, images, user, winner, auction }) => {
+  const [show, setShow] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const handleCloseJewelryDetail = () => setShow(false);
+  const handleShowJewelryDetail = () => setShow(true);
+
+  const handleShowCreateModal = () => {
+    setShow(false); // Close the JewelryModal
+    setShowCreateModal(true); // Open the JewelryCreateRequestModal
+  };
+  const handleCloseCreateModal = () => setShowCreateModal(false);
+  return (
+    <>
+      <Button variant="dark" size="sm" onClick={handleShowJewelryDetail}>
+        Xem
+      </Button>
+      {show && (
+        <div className='overlay' >
+          <Modal
+            show={show}
+            onHide={handleCloseJewelryDetail}
+            centered
+            backdrop="static"
+            size="lg"
+          >
+            <Modal.Header>
+              <Modal.Title className='w-100'>
+
+                <div className='col-12 text-center'>Bàn giao sản phẩm</div>
+                <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{jewelry.name}</span></div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form action="javascript:void(0)">
+                <div className="checkbox-form">
+                  <div className="row">
+                    <div className="col-md-6 fw-medium">
+                      <h4 className=' fw-medium'>1. Thông tin tài sản</h4>
+                      <div className="checkout-form-list mb-2">
+                        <label>
+                          Mã trang sức:{" "}
+                        </label>
+                        <span className='fw-bold'> {jewelry.id}</span>
+                      </div>
+                      <div className="checkout-form-list mb-2">
+                        <label>
+                          Tên:
+                        </label>
+                        <span className='fw-bold'> {jewelry.name}</span>
+                      </div>
+                      <div className="checkout-form-list mb-2 row">
+                        <div className='col-md-6'>
+                          <label>
+                            Thương hiệu:
+                          </label>
+                          <span className='fw-bold'> {jewelry.brand}</span>
+                        </div>
+                        <div className='col-md-6'>
+                          <label>
+                            Chất liệu:
+                          </label>
+                          <span className='fw-bold'> {jewelry.material}</span>
+                        </div>
+                        <div className='col-md-6'>
+                          <label>
+                            Trọng lượng (g):
+                          </label>
+                          <span className='fw-bold'> {jewelry.weight}</span>
+                        </div>
+                      </div>
+                      <div className="checkout-form-list checkout-form-list-2 mb-2">
+                        <label>Mô tả sản phẩm </label><br />
+                        <textarea className='w-100 h-auto p-1'
+                          id="checkout-mess"
+                          value={jewelry.description}
+                        ></textarea>
+                      </div>
+                      <div className="w-100 fw-medium">
+                        <div className="checkout-form-list row">
+                          <label>
+                            Hình ảnh
+                          </label>
+                          {React.Children.toArray(images.map(
+                            (img: Image) =>
+                              <div className='col-md-3'>
+                                <img src={img.data} alt="Ảnh sản phẩm" />
+                              </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6 fw-medium">
+                      <h4 className=' fw-medium'>2. Phiên đấu</h4>
+                      <div className="checkout-form-list mb-2">
+                        <label>
+                          Mã phiên:{" "}
+                        </label>
+                        <span className='fw-bold'> {auction?.id}</span>
+                      </div>
+                      <div className="checkout-form-list mb-2">
+                        <label>
+                          Tên:
+                        </label>
+                        <span className='fw-bold'> {auction?.name}</span>
+                      </div>
+                      <div className="checkout-form-list mb-2 ">
+                        <label>
+                          Bắt đầu:
+                        </label>
+                        <span className='fw-bold'> {formatDateString(auction?.startDate)}</span>
+                      </div>
+                      <div className="checkout-form-list mb-2">
+                        <label>
+                          Kết thúc:
+                        </label>
+                        <span className='fw-bold'> {formatDateString(auction?.endDate)}</span>
+                      </div>
+                      <div className="checkout-form-list mb-2">
+                        <label>Trạng thái: </label>
+                        <span className='fw-bold text-uppercase text-success'> {auction?.state}</span>
+                      </div>
+                      <div className="w-100 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>
+                            Giá cuối:
+                          </label>
+                          <span className='fw-bold text-uppercase text-danger'> {formatNumberAcceptNull(auction?.lastPrice)} VND</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-12 fw-medium row">
+                      <h4 className=' fw-medium'>3. Người đấu giá thành công</h4>
+                      <div className="checkout-form-list mb-2 col-md-6">
+                        <div className='checkout-form-list mb-2'>
+                          <label>
+                            Mã người dùng:{" "}
+                          </label>
+                          <span className='fw-bold'> {winner?.id}</span>
+
+                        </div>
+                        <div className="checkout-form-list mb-2 ">
+                          <label>
+                            Tên người dùng:
+                          </label>
+                          <span className='fw-bold'> {winner?.firstName} {winner?.lastName}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2 ">
+                          <label>
+                            Số CCCD:
+                          </label>
+                          <span className='fw-bold'> {winner?.cccd}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2">
+                          <label>
+                            Địa chỉ:
+                          </label>
+                          <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.province} </span>
+                        </div>
+                        <div className="checkout-form-list mb-2">
+                          <label>Email:  </label>
+                          <span className='fw-semibold'> {winner?.email}</span>
+                        </div>
+                      </div>
+                      <div className="checkout-form-list mb-2 col-md-6 border p-2 row">
+                        <div className="checkout-form-list mb-0 col-md-6">
+                          <img src={winner?.bank?.logo} alt="bank" />
+                        </div>
+                        <div className='checkout-form-list mb-2 col-md-12'>
+                          <label>
+                            Thẻ ngân hàng:{" "}
+                          </label>
+                          <span className='fw-bold text-uppercase'> {winner?.bank?.bankName}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2 col-md-12 ">
+                          <label>
+                            Mã số thẻ:
+                          </label>
+                          <span className='fw-bold text-success'> {winner?.bankAccountName} - {winner?.bankAccountNumber}</span>
+                        </div>
+
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleCloseJewelryDetail}>
+                Đóng
+              </Button >
+              <Button variant="warning" onClick={handleShowCreateModal}>
+                Tạo hóa đơn giao dịch
+              </Button>
+
+            </Modal.Footer>
+          </Modal>
+        </div >
+      )}
+
+      <CreateTransactionWinnerModal show={showCreateModal} handleClose={handleCloseCreateModal} auction={auction} winner={winner} user={user} />
+    </>
+  );
+};
+
+interface CreateTransactionWinnerModal {
+  show: boolean;
+  handleClose: () => void;
+  auction: Auction | null;
+  winner: User | null
+  user: User | null
+}
+
+
+export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal> = ({ show, handleClose, user, auction, winner }) => {
+  return (
+    <>{show && (
+      <div className='overlay' >
+        <Modal
+          show={show}
+          onHide={handleClose}
+          centered
+          backdrop="static"
+          size="lg"
+        >
+          <Modal.Header>
+            <Modal.Title className='w-100'>
+              <div className='col-12 text-center'>Hóa đơn điện tử</div>
+              <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{auction?.name}</span></div>
+              <h5 className='col-12'>Nhân viên  - <span className=' fw-bold'>{user?.firstName}</span></h5>
+              <h5 className='col-12'>Mã nhân viên - <span className=' fw-bold'>{user?.id}</span></h5>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form action="javascript:void(0)">
+              <div className="checkbox-form">
+                <div className="row">
+                  <div className="col-md-12 ">
+                    <div className="col-md-12 fw-medium row">
+                      <h4 className=' fw-medium'>Người thanh toán</h4>
+                      <div className="checkout-form-list mb-2 col-md-6">
+                        <div className='checkout-form-list mb-2'>
+                          <label>
+                            Mã người dùng:{" "}
+                          </label>
+                          <span className='fw-bold'> {winner?.id}</span>
+
+                        </div>
+                        <div className="checkout-form-list mb-2 ">
+                          <label>
+                            Tên người dùng:
+                          </label>
+                          <span className='fw-bold'> {winner?.firstName} {winner?.lastName}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2 ">
+                          <label>
+                            Số CCCD:
+                          </label>
+                          <span className='fw-bold'> {winner?.cccd}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2">
+                          <label>
+                            Địa chỉ:
+                          </label>
+                          <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.province} </span>
+                        </div>
+                        <div className="checkout-form-list mb-2">
+                          <label>Email:  </label>
+                          <span className='fw-semibold'> {winner?.email}</span>
+                        </div>
+                      </div>
+                      <div className="checkout-form-list mb-2 col-md-6 border p-2 row">
+                        <div className="checkout-form-list mb-0 col-md-6">
+                          <img src={winner?.bank?.logo} alt="bank" />
+                        </div>
+                        <div className='checkout-form-list mb-2 col-md-12'>
+                          <label>
+                            Thẻ ngân hàng:{" "}
+                          </label>
+                          <span className='fw-bold text-uppercase'> {winner?.bank?.bankName}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2 col-md-12 ">
+                          <label>
+                            Mã số thẻ:
+                          </label>
+                          <span className='fw-bold text-success'> {winner?.bankAccountName} - {winner?.bankAccountNumber}</span>
+                        </div>
+
+                      </div>
+                      <div className="checkout-form-list mb-2 col-md-12 p-2 row">
+                        <div className='checkout-form-list mb-2 col-md-12'>
+                          <label>
+                            Số tiền cần trả:{" "}
+                          </label>
+                          <span className='fw-bold text-uppercase fs-4 text-success'>    {formatNumberAcceptNull(auction?.lastPrice)} VND</span>
+                        </div>
+                        <div className='mt-3'>
+                          <span style={{ fontSize: '12px' }}>(*)Nhấn gửi yêu cầu để thông báo đến người dùng về giao dịch này</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="dark" onClick={handleClose}>
+              Đóng
+            </Button>
+            <Button variant="warning" onClick={handleClose}>
+              Gửi yêu cầu
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    )}
+
+    </>
+  );
+};
+
+// MODAL FOR ALL ACCOUNT
 export const LogoutModal = () => {
   const [show, setShow] = useState(false);
 
