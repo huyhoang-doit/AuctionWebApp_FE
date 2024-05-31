@@ -5,6 +5,7 @@ import { handleActiveUser, login } from "../../api/AuthenticationAPI";
 export default function Login() {
     const [loginRequest, setLoginRequest] = useState({
         username: "",
+        email: "",
         password: "",
     });
     const [error, setError] = useState("");

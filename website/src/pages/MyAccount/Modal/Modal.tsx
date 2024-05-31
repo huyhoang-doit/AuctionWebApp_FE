@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuctionHistory } from '../../../models/AuctionHistory';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
+import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from '../../../utils/checkRegister';
 // *** MODAL FOR USER
 
 
@@ -521,30 +522,6 @@ interface BidConfirmProps {
 
 // Modal for Jewelry HandOver
 export const BidConfirm: React.FC<BidConfirmProps> = ({ setAuctionHistories, bidValue, username, auction, setDisplayValue, setAuction }) => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleConfirmBid = () => {
-    if (username !== undefined && auction && bidValue) {
-      bidByUser(username, auction?.id, bidValue)
-        .then((response) => {
-          if (response === true) {
-            getAuctionHistoriesByAuctionId(auction.id, 3).then((updatedHistories) => {
-              setAuctionHistories(updatedHistories.auctionHistoriesData);
-            });
-            setDisplayValue(formatNumber(bidValue || 0));
-            setAuction({ ...auction, lastPrice: bidValue });
-          }
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-      setShow(false);
-    }
-  }
-
   return (
     <>
       <button
@@ -557,37 +534,39 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({ setAuctionHistories, bid
           padding: "10px 10px",
           fontSize: "16px"
         }}
-        onClick={handleShow}
+        onClick={() =>
+          Swal.fire({
+            icon: "question",
+            html: `
+            <div>Trả giá trang sức với: ${formatNumber(bidValue)} VNĐ.</div>
+            <div>Giá của bạn: <span class="fw-bold text-danger">${numberToVietnameseText(bidValue)}.</span></div>`,
+            showCancelButton: true,
+            cancelButtonText: 'Hủy',
+            confirmButtonText: 'Xác nhận',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+              if (username !== undefined && auction && bidValue) {
+                bidByUser(username, auction?.id, bidValue)
+                  .then((response) => {
+                    if (response === true) {
+                      getAuctionHistoriesByAuctionId(auction.id, 3).then((updatedHistories) => {
+                        setAuctionHistories(updatedHistories.auctionHistoriesData);
+                      });
+                      setDisplayValue(formatNumber(bidValue || 0));
+                      setAuction({ ...auction, lastPrice: bidValue });
+                      toast.success('Trả giá thành công!');
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(error.message);
+                  });
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+          })}
       >
         <i className="fa fa-gavel" style={{ marginRight: "7px" }}></i>Trả giá
       </button>
-      {show && (
-        <div className='overlay' >
-          {/* <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdropClassName="custom-backdrop"
-          >
-            <Modal.Body>
-              <div className="swal2-icon swal2-warning swal2-icon-show" style={{ display: "flex" }}>
-                <div className="swal2-icon-content">?</div>
-              </div>
-              <h2 className="swal2-title" id="swal2-title" style={{ display: "flex", justifyContent: "center" }}>Trả giá trang sức với: {formatNumber(bidValue)} VNĐ.</h2>
-              <h5 id="swal2-title" style={{ display: "flex", justifyContent: "center" }}>Giá của bạn: {numberToVietnameseText(bidValue)}.</h5>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button style={{ color: "white", border: "none", backgroundColor: "#767678" }} onClick={handleClose}>
-                Hủy
-              </Button>
-              <Button className='bg-primary text-white' onClick={handleConfirmBid}>
-                Xác nhận
-              </Button>
-            </Modal.Footer>
-          </Modal> */}
-        </div>
-      )}
-
     </>
   );
 };
@@ -962,9 +941,6 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
 
                       </div>
                     </div>
-
-
-
                   </div>
                 </div>
               </form>
@@ -1106,45 +1082,31 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
 
 // MODAL FOR ALL ACCOUNT
 export const LogoutModal = () => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   return (
     <>
-      <span
+      <div
         style={{ cursor: "pointer" }}
         role="tab"
         aria-controls="account-details"
         aria-selected="false"
-        onClick={handleShow}
+        // onClick={handleShow}
+        onClick={() =>
+          Swal.fire({
+            icon: "warning",
+            html: `
+            <h4>Xác nhận đăng xuất.</h4>
+            <div>Bạn có chắc muốn đăng xuất khỏi tài khoản ngay bây giờ?</span></div>`,
+            showCancelButton: true,
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+              handleLogout()
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+          })}
       > ĐĂNG XUẤT
-      </span>
-      {show && (
-        <div className='overlay' >
-          <Modal
-            show={show}
-            centered
-            onHide={handleClose}
-            backdropClassName="custom-backdrop"
-          >
-            <Modal.Header >
-              <Modal.Title>Xác nhận đăng xuất </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Bạn có chắc muốn đăng xuất khỏi tài khoản ngay bây giờ?</Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleClose}>
-                Hủy
-              </Button>
-              <Button variant="warning" onClick={() => handleLogout()}>
-                Đăng xuất
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-
+      </div>
     </>
   );
 };
@@ -1194,16 +1156,25 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ user
 
 
   const handleSave = () => {
-    if (user?.district === "") {
-      toast.error("Vui lòng chọn quận/huyện.");
-      setShow(false);
-      return;
+    const isPhoneNumberValid = !isPhoneNumberWrongFormat(user?.phone ?? "");
+    const isYearOfBirthValid = !isYearOfBirthWrongFormat(user?.yob ?? "");
+    
+    const errorMessages = [
+      { isValid: isYearOfBirthValid, message: "Vui lòng chọn đúng định dạng ngày sinh." },
+      { isValid: isPhoneNumberValid, message: "Vui lòng chọn đúng số điện thoại." },
+      { isValid: user?.district, message: "Vui lòng chọn quận/huyện." },
+      { isValid: user?.ward, message: "Vui lòng chọn phường/xã." },
+      { isValid: user?.bankAccountNumber, message: "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước." },
+      { isValid: user?.bankAccountName, message: "Vui lòng nhập tên chủ thẻ ngân hàng." }
+    ];
+    for (const { isValid, message } of errorMessages) {
+      if (!isValid) {
+        toast.error(message);
+        setShow(false);
+        return;
+      }
     }
-    if (user?.ward === "") {
-      toast.error("Vui lòng chọn phường/xã.");
-      setShow(false);
-      return;
-    }
+  
     handleEdit(true);
     setShow(false);
     changeState();
