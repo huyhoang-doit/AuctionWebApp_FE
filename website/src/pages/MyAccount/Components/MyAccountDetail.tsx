@@ -20,6 +20,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     const [originalUser, setOriginalUser] = useState<User | null>(props.user);
     const [isEditing, setIsEditing] = useState(false);
     const [banks, setBanks] = useState<Bank[]>([]);
+
     const [cities, setCities] = useState<City[]>([]);
     const [selectedCityId, setSelectedCityId] = useState<string>('');
     const [districts, setDistricts] = useState<District[]>([]);
@@ -27,16 +28,8 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     const [wards, setWards] = useState<Ward[]>([]);
     const [selectedWardId, setSelectedWardId] = useState<string>('');
 
+
     useEffect(() => {
-        getAddressVietNam()
-            .then(data => {
-                if (data) {
-                    setCities(data);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
         getAllBanks()
             .then((response) => {
                 setBanks(response);
@@ -44,6 +37,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
             .catch((error) => {
                 console.error(error.message);
             });
+
 
     }, [])
 
@@ -71,6 +65,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
             setSelectedWardId(userWard.Id);
         }
     }, [user]);
+
 
     const getBase64 = (file: File): Promise<string | null> => {
         return new Promise((resolve, reject) => {
@@ -133,6 +128,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         setUser({ ...user, bank: selectedBank });
     };
 
+
     const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const cityId = event.target.value;
         setSelectedCityId(cityId);
@@ -171,6 +167,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         }
     };
 
+    
     return (
         <div
             className="tab-pane fade active"
@@ -267,7 +264,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                                         />
                                     </div>
-                                    <div className="col-md-12 mt-4">
+                                    <div className="col-md-4 mt-4">
                                         <label>Địa chỉ</label>
                                         <input
                                             className="input-required"
@@ -278,8 +275,9 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             onChange={(e) => setUser({ ...user, address: e.target.value })}
                                         />
                                     </div>
-                                    <div className="col-md-4">
+                                    <div className="col-md-4 mt-4">
                                         <label>Tỉnh</label>
+
                                         <select id="city" disabled={!isEditing} value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
                                             {/* <option disabled value={""}>{user.city}</option> */}
                                             {cities.map(city => (
@@ -304,10 +302,14 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                                 <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
                                             ))}
                                         </select>
+
                                     </div>
-                                    <div className="col-md-12 mb-4">
+
+                                    <div className="col-md-12 mt-4">
                                         <label>Ngân hàng</label>
+
                                         <select onChange={handleBankChange} disabled value={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
+
                                             {banks.map((bank) => (
                                                 <option style={{ padding: '5px' }} key={bank.id} value={bank.id}>
                                                     {bank.bankName} ({bank.tradingName})

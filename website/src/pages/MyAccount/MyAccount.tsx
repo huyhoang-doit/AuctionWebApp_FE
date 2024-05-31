@@ -115,6 +115,7 @@ export default function MyAccount() {
                                     <MyBidHistory username={userState?.username} />
                                     <TransactionHistory user={userState} />
                                     <MyJewelryList username={userState?.username} />
+
                                 </div>
                             </div>
                         </div>
