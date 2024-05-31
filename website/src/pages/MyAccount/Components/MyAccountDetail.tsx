@@ -4,11 +4,11 @@ import { editProfileUser } from "../../../api/UserAPI";
 import { SaveEditProfileModal } from "../Modal/Modal";
 import { getAllBanks } from "../../../api/BankAPI";
 import { Bank } from "../../../models/Bank";
-import { getAddressVietNam } from "../../../api/AddressAPI";
 import { City } from "../../../models/City";
 import { District } from "../../../models/District";
 import { Ward } from "../../../models/Ward";
 import { toast } from "react-toastify";
+import { getAddressVietNam } from "../../../api/AddressAPI";
 
 interface MyAccountDetailProps {
     user: User | null;
@@ -30,6 +30,15 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
 
 
     useEffect(() => {
+        getAddressVietNam()
+            .then(data => {
+                if (data) {
+                    setCities(data);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
         getAllBanks()
             .then((response) => {
                 setBanks(response);
@@ -264,7 +273,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                                         />
                                     </div>
-                                    <div className="col-md-4 mt-4">
+                                    <div className="col-md-12 mt-4">
                                         <label>Địa chỉ</label>
                                         <input
                                             className="input-required"
@@ -275,7 +284,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             onChange={(e) => setUser({ ...user, address: e.target.value })}
                                         />
                                     </div>
-                                    <div className="col-md-4 mt-4">
+                                    <div className="col-md-4 mb-4">
                                         <label>Tỉnh</label>
 
                                         <select id="city" disabled={!isEditing} value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
