@@ -10,6 +10,7 @@ export default function Login() {
     const [error, setError] = useState("");
     const [notification, setNotification] = useState("");
     const { token } = useParams();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         if (token) {
@@ -35,6 +36,7 @@ export default function Login() {
     const handleLogin = async () => {
         const success = await login(loginRequest, setError);
         if (success) {
+            // navigate("/")
             window.location.href = '/';
         }
     };

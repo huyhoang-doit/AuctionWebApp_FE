@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Auction } from "../../models/Auction";
 import { User } from "../../models/User";
 import { Jewelry } from "../../models/Jewelry";
@@ -11,21 +11,27 @@ import ImageProduct from "../AuctionDetail/AuctionImageProduct";
 import { AuctionTabDetail } from "../AuctionDetail/Components/AuctionTabDetail";
 import { BidConfirm } from "../MyAccount/Modal/Modal";
 import { BidInfo } from "./Components/BidInfo";
-import useAccount from "../../hooks/useAccount";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from "../../hooks/useContext";
+import { AuctionHistory } from "../../models/AuctionHistory";
+import { getAuctionHistoriesByAuctionId } from "../../api/AuctionHistoryAPI";
 
 export const AuctionBid = () => {
-    const token = localStorage.getItem("access_token");
     const [auction, setAuction] = useState<Auction | null>(null);
     const [jewelry, setJewelry] = useState<Jewelry | null>(null);
     const [staff, setStaff] = useState<User | null>(null);
-
     const [bidValue, setBidValue] = useState<number>(auction?.lastPrice || 0);
     const [displayValue, setDisplayValue] = useState<string>("");
     const [errorBidValue, setErrorBidValue] = useState("");
     const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
-    const user = useAccount(token);
+    const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
+    const [bidPerPage, setBidPerPage] = useState<number>(3);
+    const context = useContext(UserContext);
+    let user = null;
+    if (context?.user) {
+        user = context.user;
+    }
     const { id } = useParams();
     let auctionId = 0;
 
@@ -38,6 +44,18 @@ export const AuctionBid = () => {
         auctionId = 0;
         console.log("Error parsing auction id: " + error);
     }
+
+    useEffect(() => {
+        if (auctionId !== null) {
+            getAuctionHistoriesByAuctionId(auctionId, bidPerPage)
+                .then((response) => {
+                    setAuctionHistories(response.auctionHistoriesData);
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                });
+        }
+    }, [auctionId, bidPerPage])
 
     useEffect(() => {
         getAuction(auctionId)
@@ -188,7 +206,7 @@ export const AuctionBid = () => {
                 </button>
             );
         } else if (bidValue >= ((auction?.lastPrice || 0) + (auction?.priceStep || 0))) {
-            return <BidConfirm setDisplayValue={setDisplayValue} setAuction={setAuction} username={user?.username} auction={auction} bidValue={bidValue} />;
+            return <BidConfirm setAuctionHistories={setAuctionHistories} setDisplayValue={setDisplayValue} setAuction={setAuction} username={user?.username} auction={auction} bidValue={bidValue} />;
         } else {
             return (
                 <button
@@ -335,7 +353,7 @@ export const AuctionBid = () => {
                             </div>
                         </div>
                     </div>
-                    <AuctionTabDetail auction={auction} staff={staff} jewelry={jewelry} />
+                    <AuctionTabDetail setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
             </div >
 
