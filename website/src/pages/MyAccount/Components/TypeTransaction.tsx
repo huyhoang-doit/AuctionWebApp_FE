@@ -1,8 +1,12 @@
+import React from 'react';
+
 interface StateTransactionProps {
     type: string;
 }
 
-export const TypeTransaction: React.FC<StateTransactionProps> = (props) => {
+export const TypeTransaction: React.FC<StateTransactionProps> = ({ type }) => {
+    const defaultView = <></>;
+
     const currentView = {
         REGISTRATION: <span className="fw-bold" >
             Đăng kí tham gia phiên
@@ -16,6 +20,7 @@ export const TypeTransaction: React.FC<StateTransactionProps> = (props) => {
         PAYMENT_TO_BUYER: <span className="fw-bold" >
             Thanh toán cho người mua
         </span>,
-    }[props.type]
-    return currentView;
+    }[type];
+
+    return currentView || defaultView;
 }

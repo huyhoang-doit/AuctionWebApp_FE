@@ -4,6 +4,20 @@ import { formatVND } from "../../utils/formatVND";
 import { useCategories } from "../../hooks/useCategories";
 import useAccount from "../../hooks/useAccount";
 
+
+interface JewelryRequest {
+    id: number;
+    name: string;
+    price: string;
+    category: string;
+    description: string;
+    material: string;
+    brand: string;
+    weight: string;
+    images: string;
+    user: string;
+}
+
 export const PageSendJewelry = () => {
     const categories: Category[] = useCategories();
     const token = localStorage.getItem("access_token");
@@ -19,7 +33,7 @@ export const PageSendJewelry = () => {
     const [images, setImages] = useState<File[]>([]);
     const [base64Images, setBase64Images] = useState<string[]>([]);
     const [notification, setNotification] = useState("");
-    const [jewelryRequest, setJewelryRequest] = useState({
+    const [jewelryRequest, setJewelryRequest] = useState<JewelryRequest>({
         id: 0,
         name: '',
         price: '',
@@ -30,7 +44,7 @@ export const PageSendJewelry = () => {
         weight: '',
         images: '',
         user: ''
-    })
+    });
 
 
 
@@ -105,11 +119,11 @@ export const PageSendJewelry = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Kiểm tra nếu có bất kỳ thuộc tính nào của jewelryRequest không được cung cấp, hiển thị thông báo và không tiếp tục xử lý
-        const missingFields = Object.keys(jewelryRequest).filter(key => !jewelryRequest[key]);
-        if (missingFields.length > 0) {
-            setNotification("Vui lòng điền đầy đủ thông tin");
-            return;
-        }
+        // const missingFields = Object.keys(jewelryRequest).filter((key: keyof JewelryRequest) => !jewelryRequest[key]);
+        // if (missingFields.length > 0) {
+        //     setNotification("Vui lòng điền đầy đủ thông tin");
+        //     return;
+        // }
 
         // Nếu tất cả các thuộc tính được cung cấp, tiến hành gửi dữ liệu
         try {
