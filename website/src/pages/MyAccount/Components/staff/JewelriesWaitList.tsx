@@ -3,6 +3,7 @@ import { Jewelry } from '../../../../models/Jewelry'
 import { getJewelriesWaitList } from '../../../../api/JewelryAPI'
 import { JewelryWaitSingle } from './JewelryWaitSingle'
 import { User } from '../../../../models/User'
+import { PaginationControl } from 'react-bootstrap-pagination-control'
 
 interface JewelriesWaitListProps {
   user: User | null;
@@ -11,15 +12,23 @@ interface JewelriesWaitListProps {
 
 const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   const [listJewelries, setListJewelries] = useState<Jewelry[]>([])
+  const [user, setUser] = useState<User | null>(props.user);
+  const [page, setPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+
   useEffect(() => {
-    getJewelriesWaitList()
+    setUser(props.user);
+  }, [props.user]);
+  useEffect(() => {
+    getJewelriesWaitList(page)
       .then((response) => {
-        setListJewelries(response);
+        setListJewelries(response.jeweriesData);
+        setTotalElements(response.totalElements);
       })
       .catch((error) => {
         console.error(error.message);
       });
-  }, [])
+  }, [props.user, page])
   return (
     <>
       <div
@@ -48,6 +57,18 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
                 ))}
               </tbody>
             </table>
+            <div className="mt-4">
+              <PaginationControl
+                page={page}
+                between={5}
+                total={totalElements}
+                limit={5}
+                changePage={(page) => {
+                  setPage(page);
+                }}
+                ellipsis={1}
+              />
+            </div>
           </div>
         </div>
       </div >

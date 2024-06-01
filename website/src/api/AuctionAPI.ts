@@ -311,41 +311,47 @@ export async function getAuctionsByStateNotPageale(state: string): Promise<Resul
     return { auctionsData: auctions };
 }
 
-export async function getAuctionByStaffId(staffId: number): Promise<ResultInteface> {
+export async function getAuctionByStaffId(staffId: number, page: number): Promise<ResultPageableInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/get-by-staff-id/${staffId}`;
+    const URL = `http://localhost:8080/api/v1/auction/get-by-staff/${staffId}?page=${page - 1}`;
 
     // request
     const response = await MyRequest(URL);
-
+    const responseData = response.content;
+    const totalPages = response.totalPages;
+    const totalAuctions = response.totalElements;
+    const numberAuctionsPerPage = response.totalElements;
     if (response) {
-        for (const key in response) {
+        for (const key in responseData) {
             auctions.push({
-                id: response[key].id,
-                name: response[key].name,
-                description: response[key].description,
-                firstPrice: response[key].firstPrice,
-                lastPrice: response[key].lastPrice,
-                participationFee: response[key].participationFee,
-                deposit: response[key].deposit,
-                priceStep: response[key].priceStep,
-                startDate: response[key].startDate,
-                endDate: response[key].endDate,
-                countdownDuration: response[key].countdownDuration,
-                state: response[key].state,
+                id: responseData[key].id,
+                name: responseData[key].name,
+                description: responseData[key].description,
+                firstPrice: responseData[key].firstPrice,
+                lastPrice: responseData[key].lastPrice,
+                participationFee: responseData[key].participationFee,
+                deposit: responseData[key].deposit,
+                priceStep: responseData[key].priceStep,
+                startDate: responseData[key].startDate,
+                endDate: responseData[key].endDate,
+                countdownDuration: responseData[key].countdownDuration,
+                state: responseData[key].state,
                 jewelry: {
-                    id: response[key].jewelry.id,
-                    name: response[key].jewelry.name
+                    id: responseData[key].jewelry.id,
+                    name: responseData[key].jewelry.name
                 },
             })
         }
     } else {
         throw new Error("Phiên không tồn tại");
     }
-    return { auctionsData: auctions };
-
-
+    return {
+        auctionsData: auctions,
+        numberAuctionsPerPage: numberAuctionsPerPage,
+        totalPages: totalPages,
+        totalAuctions: totalAuctions,
+    };
 }
 
 export async function getAuctionByJewelryId(id: number): Promise<ResultInteface> {

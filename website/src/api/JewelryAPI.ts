@@ -20,7 +20,7 @@ interface ResultPageableInteface {
 export async function getJewelriesPagination(username: string, page: number): Promise<ResultPageableInteface> {
   const jeweriesData: Jewelry[] = [];
 
-  
+
   const URL = `http://localhost:8080/api/v1/jewelry/sorted-and-paged?username=${username}&page=${page - 1}`;
   // request
   const response = await MyRequest(URL);
@@ -95,11 +95,34 @@ export const sendJewelryFromUser = async (jewelryRequest: JewelryRequest): Promi
   }
 };
 
-export async function getJewelriesWaitList(): Promise<Jewelry[]> {
+export async function getJewelriesWaitList(page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `http://localhost:8080/api/v1/jewelry/in-wait-list`;
+  const URL: string = `http://localhost:8080/api/v1/jewelry/in-wait-list?page=${page - 1}`;
 
-  return getJewelries(URL);
+  const jewelrys: Jewelry[] = [];
+  // request
+  const response = await MyRequest(URL);
+  const responseData = response.content;
+  const totalElements = response.totalElements;
+
+  for (const key in responseData) {
+    jewelrys.push({
+      id: responseData[key].id,
+      name: responseData[key].name,
+      price: responseData[key].price,
+      state: responseData[key].state,
+      category: responseData[key].category,
+      description: responseData[key].description,
+      material: responseData[key].material,
+      brand: responseData[key].brand,
+      weight: responseData[key].weight,
+      user: responseData[key].user
+    })
+  }
+  return {
+    jeweriesData: jewelrys,
+    totalElements: totalElements
+  }
 }
 
 export async function setJewelryHidden(id: number): Promise<boolean> {
@@ -122,9 +145,31 @@ export async function setJewelryHidden(id: number): Promise<boolean> {
   return true;
 }
 
-export async function getJewelriesHandOverList(): Promise<Jewelry[]> {
+export async function getJewelriesHandOverList(page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `http://localhost:8080/api/v1/jewelry/in-handover-list`;
+  const URL: string = `http://localhost:8080/api/v1/jewelry/in-handover-list?page=${page - 1}`;
+  const jewelrys: Jewelry[] = [];
+  // request
+  const response = await MyRequest(URL);
+  const responseData = response.content;
+  const totalElements = response.totalElements;
 
-  return getJewelries(URL);
+  for (const key in responseData) {
+    jewelrys.push({
+      id: responseData[key].id,
+      name: responseData[key].name,
+      price: responseData[key].price,
+      state: responseData[key].state,
+      category: responseData[key].category,
+      description: responseData[key].description,
+      material: responseData[key].material,
+      brand: responseData[key].brand,
+      weight: responseData[key].weight,
+      user: responseData[key].user
+    })
+  }
+  return {
+    jeweriesData: jewelrys,
+    totalElements: totalElements
+  }
 }
