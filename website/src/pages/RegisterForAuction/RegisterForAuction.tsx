@@ -24,11 +24,11 @@ export default function RegisterForAuction() {
     const [checkbox3, setCheckbox3] = useState(false);
     const [amount, setAmount] = useState(0);
     const context = useContext(UserContext);
-    let user = null;
+    let user: User | null = null;
     if (context?.user) {
         user = context.user;
     }
-    
+
     const { id } = useParams();
     let auctionId = 0;
 

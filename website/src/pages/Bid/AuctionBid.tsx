@@ -4,7 +4,6 @@ import { User } from "../../models/User";
 import { Jewelry } from "../../models/Jewelry";
 import { changeStateAuction, getAuction } from "../../api/AuctionAPI";
 import { useParams } from "react-router-dom";
-// import useAccount from "../../hooks/useAccount";
 import { formatNumber } from "../../utils/formatNumber";
 import { formatDateString } from "../../utils/formatDateString";
 import ImageProduct from "../AuctionDetail/AuctionImageProduct";
@@ -16,6 +15,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from "../../hooks/useContext";
 import { AuctionHistory } from "../../models/AuctionHistory";
 import { getAuctionHistoriesByAuctionId } from "../../api/AuctionHistoryAPI";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 export const AuctionBid = () => {
     const [auction, setAuction] = useState<Auction | null>(null);
@@ -27,8 +28,14 @@ export const AuctionBid = () => {
     const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
     const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
     const [bidPerPage, setBidPerPage] = useState<number>(3);
+    //----------------------------------------------------------------
+    const [connected, setConnected] = useState(false);
+    const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
+    const socket = new SockJS('http://localhost:8080/ws');
+    //----------------------------------------------------------------
+
     const context = useContext(UserContext);
-    let user = null;
+    let user: User | null = null;
     if (context?.user) {
         user = context.user;
     }
@@ -44,6 +51,32 @@ export const AuctionBid = () => {
         auctionId = 0;
         console.log("Error parsing auction id: " + error);
     }
+
+    useEffect(() => {
+        const newClient = Stomp.over(socket);
+        newClient.connect(
+          {},
+          (frame) => {
+            console.log("Connected: " + frame);
+            setConnected(true);
+            newClient.subscribe("/topic/auction", () => {
+            });
+          },
+          (error) => {
+            console.error("Connection error: ", error);
+          }
+        );
+    
+        setStompClient(newClient);
+        return () => {
+          if (connected) {
+            newClient.disconnect(() => {
+              setConnected(false);
+              console.log("Disconnected");
+            });
+          }
+        };
+      }, []);
 
     useEffect(() => {
         if (auctionId !== null) {

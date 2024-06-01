@@ -4,14 +4,15 @@ import { formatNumber } from "../../../utils/formatNumber";
 import { formatDateString } from "../../../utils/formatDateString";
 import { UserContext } from "../../../hooks/useContext";
 import { BidConfirmDelete } from "../../MyAccount/Modal/Modal";
+import { User } from "../../../models/User";
 
-interface AuctionHistoryItem {
+interface AuctionHistoryItemProps {
     auctionHistories: AuctionHistory[];
 }
 
-export const AuctionHistoryItem: React.FC<AuctionHistoryItem> = ({auctionHistories}) => {
+export const AuctionHistoryItem: React.FC<AuctionHistoryItemProps> = ({auctionHistories}) => {
     const context = useContext(UserContext);
-    let user = null;
+    let user: User | null = null;
     
     if (context) {
         user = context.user;

@@ -81,7 +81,7 @@ const Slider = () => {
                   <div className="banner-img">
                     <Link to={`/danh-sach-dau-gia/category/` + 4}>
                       <img
-                        src="assets/images/banner/1-1.jpg"
+                        src="/assets/images/banner/1-1.jpg"
                         alt="Umino's Banner"
                       />
                     </Link>
@@ -123,7 +123,7 @@ const Slider = () => {
                       <div className="banner-img">
                         <Link to={`/danh-sach-dau-gia/category/` + 5}>
                           <img
-                            src="assets/images/banner/1-3.jpg"
+                            src="/assets/images/banner/1-3.jpg"
                             alt="Umino's Banner"
                           />
                         </Link>

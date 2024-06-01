@@ -15,7 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { AuctionHistory } from '../../../models/AuctionHistory';
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss'
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from '../../../utils/checkRegister';
 // *** MODAL FOR USER
@@ -868,13 +868,13 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
                         <label>
                           Bắt đầu:
                         </label>
-                        <span className='fw-bold'> {formatDateString(auction.startDate)}</span>
+                        <span className='fw-bold'> {formatDateString("")}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
                         <label>
                           Kết thúc:
                         </label>
-                        <span className='fw-bold'> {formatDateString(auction.endDate)}</span>
+                        <span className='fw-bold'> {formatDateString("")}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
                         <label>Trạng thái: </label>
@@ -1119,13 +1119,14 @@ interface SaveEditProfileModalProps {
 }
 
 export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ user, isEditing, setIsEditing, handleEdit }) => {
-  const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   const handleClose = () => {
     handleEdit(false);
     changeState();
-    setShow(false);
+    setShowModal(false);
   };
-  const handleShow = () => setShow(true);
+  const handleShow = () => setShowModal(true);
 
   const changeState = () => {
     setIsEditing(!isEditing);
@@ -1158,7 +1159,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ user
   const handleSave = () => {
     const isPhoneNumberValid = !isPhoneNumberWrongFormat(user?.phone ?? "");
     const isYearOfBirthValid = !isYearOfBirthWrongFormat(user?.yob ?? "");
-    
+
     const errorMessages = [
       { isValid: isYearOfBirthValid, message: "Vui lòng chọn đúng định dạng ngày sinh." },
       { isValid: isPhoneNumberValid, message: "Vui lòng chọn đúng số điện thoại." },
@@ -1170,13 +1171,13 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ user
     for (const { isValid, message } of errorMessages) {
       if (!isValid) {
         toast.error(message);
-        setShow(false);
+        setShowModal(false);
         return;
       }
     }
-  
+
     handleEdit(true);
-    setShow(false);
+    setShowModal(false);
     changeState();
   };
 
@@ -1195,10 +1196,10 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ user
       >
         {isEditing ? "Lưu" : "Chỉnh sửa"}
       </button>
-      {show && (
+      {showModal && (
         <div className='overlay' >
           <Modal
-            show={show}
+            show={showModal}
             centered
             onHide={handleClose}
             backdropClassName="custom-backdrop"
