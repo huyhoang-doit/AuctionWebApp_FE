@@ -62,7 +62,7 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
                   <td>
                     <a
                       className="account-order-id"
-                      href="javascript:void(0)"
+                      href=""
                     >
                       {auction.id}
                     </a>

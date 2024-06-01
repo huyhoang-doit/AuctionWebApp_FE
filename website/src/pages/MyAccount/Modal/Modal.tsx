@@ -151,7 +151,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <form action="javascript:void(0)">
+              <form action="">
                 <div className="checkbox-form">
                   <div className="row">
                     <div className="col-md-12 ">
@@ -213,7 +213,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
                       </div>
                       <div className="checkout-form-list checkout-form-list-2 mb-2">
                         <label>Mô tả </label><br />
-                        <textarea className='w-100 h-auto p-1'
+                        <textarea readOnly className='w-100 h-auto p-1'
                           id="checkout-mess"
                           value={jewelry.description}
                         ></textarea>
@@ -306,7 +306,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form action="javascript:void(0)">
+            <form action="">
               <div className="checkbox-form">
                 <div className="row">
                   <div className="col-md-12 ">
@@ -384,7 +384,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                   <div className="order-notes fw-medium">
                     <div className="checkout-form-list checkout-form-list-2">
                       <label>Mô tả </label>
-                      <textarea
+                      <textarea readOnly
                         id="checkout-mess"
                         value={jewelry.description}
                       ></textarea>
@@ -601,7 +601,7 @@ export const AssignAuctionModal: React.FC<AuctionType> = ({ auction }) => {
                 <div className='col-12 text-center'>Thông tin phiên đấu</div>
                 <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{auction.name}</span></div></Modal.Title>
             </Modal.Header>
-            <Modal.Body> <form action="javascript:void(0)">
+            <Modal.Body> <form action="">
               <div className="checkbox-form">
                 <div className="row">
                   <div className="col-md-12">
@@ -703,7 +703,7 @@ export const AssignAuctionModal: React.FC<AuctionType> = ({ auction }) => {
                   <div className="order-notes col-md-12 fw-medium">
                     <div className="checkout-form-list checkout-form-list-2">
                       <label>Mô tả </label>
-                      <textarea
+                      <textarea readOnly
                         id="checkout-mess"
                         value={auction.description}
                       ></textarea>
@@ -792,7 +792,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <form action="javascript:void(0)">
+              <form action="">
                 <div className="checkbox-form">
                   <div className="row">
                     <div className="col-md-6 fw-medium">
@@ -831,7 +831,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
                       </div>
                       <div className="checkout-form-list checkout-form-list-2 mb-2">
                         <label>Mô tả sản phẩm </label><br />
-                        <textarea className='w-100 h-auto p-1'
+                        <textarea readOnly className='w-100 h-auto p-1'
                           id="checkout-mess"
                           value={jewelry.description}
                         ></textarea>
@@ -868,13 +868,13 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
                         <label>
                           Bắt đầu:
                         </label>
-                        <span className='fw-bold'> {formatDateString("")}</span>
+                        <span className='fw-bold'> {formatDateString(auction?.startDate ? auction.startDate : "")}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
                         <label>
                           Kết thúc:
                         </label>
-                        <span className='fw-bold'> {formatDateString("")}</span>
+                        <span className='fw-bold'> {formatDateString(auction?.endDate ? auction.endDate : "")}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
                         <label>Trạng thái: </label>
@@ -992,7 +992,7 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form action="javascript:void(0)">
+            <form action="">
               <div className="checkbox-form">
                 <div className="row">
                   <div className="col-md-12 ">
@@ -1187,7 +1187,6 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ user
         type="button"
         className="btn btn-xs btn-primary mb-3 mt-2"
         id="save-profile-tab"
-        data-bs-toggle="tab"
         role="tab"
         aria-controls="account-details"
         aria-selected="false"
@@ -1233,7 +1232,6 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({ bidCode, use
         type="button"
         className="text-danger"
         id="save-profile-tab"
-        data-bs-toggle="tab"
         role="tab"
         aria-controls="account-details"
         aria-selected="false"
