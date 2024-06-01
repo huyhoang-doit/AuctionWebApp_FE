@@ -22,7 +22,7 @@ interface RegisterRequest {
 export const login = async (loginRequest: LoginRequest, setError: (message: string) => void) => {
     // end-point
     const URL = `http://localhost:8080/api/v1/auth/authenticate`;
-
+    const request = {...loginRequest, email: loginRequest.username}
     // call api
     try {
         const response = await fetch(URL, {
@@ -30,7 +30,7 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(loginRequest),
+            body: JSON.stringify(request),
             credentials: 'include',
         });
 

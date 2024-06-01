@@ -99,8 +99,7 @@ export default function MyAccount() {
                                         </a>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to={""}
-                                        >
+                                        <Link to={""}>
                                             <LogoutModal />
                                         </Link>
                                     </li>
@@ -115,7 +114,6 @@ export default function MyAccount() {
                                     <MyBidHistory username={userState?.username} />
                                     <TransactionHistory user={userState} />
                                     <MyJewelryList username={userState?.username} />
-
                                 </div>
                             </div>
                         </div>

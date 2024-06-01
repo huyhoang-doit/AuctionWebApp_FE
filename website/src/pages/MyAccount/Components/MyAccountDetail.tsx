@@ -9,6 +9,7 @@ import { District } from "../../../models/District";
 import { Ward } from "../../../models/Ward";
 import { toast } from "react-toastify";
 import { getAddressVietNam } from "../../../api/AddressAPI";
+import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../../utils/checkRegister";
 
 interface MyAccountDetailProps {
     user: User | null;
@@ -28,6 +29,19 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     const [wards, setWards] = useState<Ward[]>([]);
     const [selectedWardId, setSelectedWardId] = useState<string>('');
 
+    const [errors, setErrors] = useState({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        phone: "",
+        yob: "",
+        CCCD: "",
+        register: "",
+        bankId: "",
+        bankAccountNumber: "",
+        bankAccountName: "",
+    });
 
     useEffect(() => {
         getAddressVietNam()
@@ -137,7 +151,6 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         setUser({ ...user, bank: selectedBank });
     };
 
-
     const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const cityId = event.target.value;
         setSelectedCityId(cityId);
@@ -176,6 +189,47 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         }
     };
 
+    const onChangeYob = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const yob = e.target.value;
+        let yobError = "";
+        const isWrong = isYearOfBirthWrongFormat(yob);
+        if (isWrong) {
+            yobError = "Năm sinh không hợp lệ!";
+        }
+        setErrors(prevErrors => ({...prevErrors, yob: yobError }));
+        setUser({ ...user, yob: e.target.value })
+    }
+
+    const onChangePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const phone = e.target.value;
+        let phoneError = "";
+        const isWrong = isPhoneNumberWrongFormat(phone);
+        if (isWrong) {
+            phoneError = "Số điện thoại phải có ít nhất 10 ký tự và bắt đầu từ 0";
+        }
+        setErrors((prevErrors) => ({ ...prevErrors, phone: phoneError }));
+        setUser({ ...user, phone: e.target.value });
+    }
+
+    const onChangeBankAccountNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        let bankAccountNumberError = "";
+        if (value === '') {
+            bankAccountNumberError = "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước";
+        }
+        setErrors((prevErrors) => ({ ...prevErrors, bankAccountNumber: bankAccountNumberError }));
+        setUser({ ...user, bankAccountNumber: value });
+    }
+
+    const onChangeBankAccountName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        let bankAccountNameError = "";
+        if (value === '') {
+            bankAccountNameError = "Vui lòng nhập tên chủ thẻ ngân hàng";
+        }
+        setErrors((prevErrors) => ({ ...prevErrors, bankAccountName: bankAccountNameError }));
+        setUser({ ...user, bankAccountName: value });
+    }
     
     return (
         <div
@@ -207,7 +261,6 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                         <input onChange={handleAvatarChange} id='customFile' type="file" accept="image/*" />
                                     </div>
                                 </div>
-
                                 <div className="row mb-4">
                                     <div className="col-md-6">
                                         <label>Số CCCD</label>
@@ -228,9 +281,9 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             placeholder="Nhập năm sinh"
                                             readOnly
                                             value={user?.yob}
-                                            onChange={(e) => setUser({ ...user, yob: e.target.value })}
+                                            onChange={onChangeYob}
                                         />
-
+                                        {errors.yob && <span className="text-danger">{errors.yob}</span>}
                                     </div>
                                     <div className="col-md-6 mt-4">
                                         <label>Tên tài khoản</label>
@@ -284,7 +337,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             onChange={(e) => setUser({ ...user, address: e.target.value })}
                                         />
                                     </div>
-                                    <div className="col-md-4 mb-4">
+                                    <div className="col-md-4">
                                         <label>Tỉnh</label>
 
                                         <select id="city" disabled={!isEditing} value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
@@ -294,7 +347,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             ))}
                                         </select>
                                     </div>
-                                    <div className="col-md-4 mb-4">
+                                    <div className="col-md-4">
                                         <label>Quận / Huyện</label>
                                         <select id="district" disabled={!isEditing} value={selectedDistrictId} onChange={handleDistrictChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
                                             <option disabled value={""}>{user.district}</option>
@@ -303,7 +356,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             ))}
                                         </select>
                                     </div>
-                                    <div className="col-md-4 mb-4">
+                                    <div className="col-md-4">
                                         <label>Phường / Xã</label>
                                         <select id="ward" disabled={!isEditing} value={selectedWardId} onChange={handleWardChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
                                             <option disabled value={""}>{user.ward}</option>
@@ -311,14 +364,10 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                                 <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
                                             ))}
                                         </select>
-
                                     </div>
-
                                     <div className="col-md-12 mt-4">
                                         <label>Ngân hàng</label>
-
                                         <select onChange={handleBankChange} disabled value={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
-
                                             {banks.map((bank) => (
                                                 <option style={{ padding: '5px' }} key={bank.id} value={bank.id}>
                                                     {bank.bankName} ({bank.tradingName})
@@ -334,8 +383,9 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             placeholder="Nhập số tài khoản ngân hàng của bạn"
                                             readOnly
                                             value={user?.bankAccountNumber}
-                                            onChange={(e) => setUser({ ...user, bankAccountNumber: e.target.value })}
+                                            onChange={onChangeBankAccountNumber}
                                         />
+                                        {errors.bankAccountNumber && <span className="text-danger">{errors.bankAccountNumber}</span>}
                                     </div>
                                     <div className="col-md-6 mt-4">
                                         <label>Tên chủ tài khoản ngân hàng</label>
@@ -345,10 +395,11 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             placeholder="Nhập tên chủ tài khoản ngân hàng"
                                             readOnly
                                             value={user?.bankAccountName}
-                                            onChange={(e) => setUser({ ...user, bankAccountName: e.target.value })}
+                                            onChange={onChangeBankAccountName}
                                         />
+                                        {errors.bankAccountName && <span className="text-danger">{errors.bankAccountName}</span>}
                                     </div>
-                                    <div className="col-md-12 mt-4">
+                                    <div className="col-md-12">
                                         <label>Sô điện thoại</label>
                                         <input
                                             className="input-required"
@@ -356,8 +407,9 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                             placeholder="Nhập số điện thoại của bạn"
                                             readOnly
                                             value={user?.phone}
-                                            onChange={(e) => setUser({ ...user, phone: e.target.value })}
+                                            onChange={onChangePhoneNumber}
                                         />
+                                        {errors.phone && <span className="text-danger">{errors.phone}</span>}
                                     </div>
                                     <div className="col-12">
                                         <SaveEditProfileModal user={user} handleEdit={handleEdit} isEditing={isEditing} setIsEditing={setIsEditing} />

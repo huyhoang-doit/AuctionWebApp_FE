@@ -8,7 +8,7 @@ const Banner02 = () => {
           <div className="col-lg-6 img-hover_effect">
             <div className="banner-item">
               <div className="banner-img">
-                <NavLink to={"/shop-left-sibar"}>
+                <NavLink onClick={() => (window.scrollTo({ top: 100, behavior: 'smooth' }))}  to={"/danh-sach-dau-gia"}>
                   <img
                     className="img-full"
                     src="assets/images/banner/1-6.jpg"
@@ -20,7 +20,7 @@ const Banner02 = () => {
                 <span>Hãy đến với chúng tôi</span>
                 <h4>Trang sức ở đây là </h4>
                 <h3>Chính hiệu</h3>
-                <NavLink to={"/shop-left-sibar"}>
+                <NavLink to={"/danh-sach-dau-gia"}>
                   <span onClick={() => (window.scrollTo({ top: 100, behavior: 'smooth' }))} className="btn btn-dark fw-bold">
                     Các phiên đấu
                   </span>
@@ -32,7 +32,7 @@ const Banner02 = () => {
             <div className="banner-item img-hover_effect">
               <div className="banner-img">
 
-                <NavLink to={"/shop-left-sibar"}>
+                <NavLink onClick={() => (window.scrollTo({ top: 100, behavior: 'smooth' }))}  to={"/danh-sach-dau-gia"}>
                   <img
                     className="img-full"
                     src="assets/images/banner/1-7.jpg"
@@ -44,7 +44,7 @@ const Banner02 = () => {
                 <span>Kiểm định</span>
                 <h4>Đội ngũ</h4>
                 <h3>Chuyên gia uy tín</h3>
-                <NavLink to={"/shop-left-sibar"}>
+                <NavLink to={"/danh-sach-dau-gia"}>
                   <span onClick={() => (window.scrollTo({ top: 100, behavior: 'smooth' }))} className="btn btn-warning fw-bold">
                     Các phiên đấu
                   </span>
