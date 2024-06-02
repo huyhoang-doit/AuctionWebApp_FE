@@ -1,49 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Breadcrumb } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-import './ManageUser.css';
-const users = [
-  { id: 1, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 2, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 3, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 4, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 5, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 6, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 7, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 8, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 9, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 10, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 11, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 12, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 13, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 15, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 16, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 17, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 18, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 19, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 20, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-];
+import { getMembers } from '../../../api/UserAPI';
+import { User } from '../../../models/User';
+import { UserStateView } from './UserStateView';
 
 const ManageStaff = () => {
   const [showModal, setShowModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
   const [searchInput, setSearchInput] = useState('');
-  const [filteredUsers, setFilteredUsers] = useState(users);
+  const [staffs, setStaffs] = useState<User[]>([])
+  const [filteredUsers, setFilteredUsers] = useState(staffs);
   const itemsPerPage = 10;
 
- 
+  useEffect(() => {
+    getMembers(1, "STAFF")
+      .then((response) =>
+        setStaffs(response.usersData)
+      )
+  }, [])
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -58,23 +33,17 @@ const ManageStaff = () => {
     handleCloseModal();
   };
 
-  const handlePageChange = (selectedPage: { selected: number }) => {
-    setCurrentPage(selectedPage.selected);
-  };
-
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchInput(value);
     if (value === '') {
-      setFilteredUsers(users);
+      setFilteredUsers(staffs);
     } else {
-      const filtered = users.filter(user => user.id.toString().includes(value));
+      const filtered = staffs.filter(staff => staff.id.toString().includes(value));
       setFilteredUsers(filtered);
     }
   };
 
-  const offset = currentPage * itemsPerPage;
-  const currentPageData = filteredUsers.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(filteredUsers.length / itemsPerPage);
 
   return (
@@ -82,7 +51,7 @@ const ManageStaff = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center px-4 py-3">
+            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 100px" }}>
               <div className="col-12">
                 {/* Breadcrumb Area */}
                 <div className="breadcrumb-area">
@@ -134,21 +103,23 @@ const ManageStaff = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {currentPageData.map((user) => (
+                        {staffs.map((user) => (
                           <tr key={user.id}>
                             <th scope="row">
                               <a href="#" className="question_content">{user.id}</a>
                             </th>
                             <td>{user.username}</td>
-                            <td>{user.fullname}</td>
+                            <td>{user.fullName}</td>
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td>
-                              <a  className="status_btn">{user.status}</a>
+                              <a className={`status_btn ${user.state === 'ACTIVE' ? '' : user.state === 'DISABLE' ? 'bg-error' : 'bg-warn'}`}>
+                                <UserStateView state={user.state || ''} />
+                              </a>
                             </td>
                             <td>
                               <div className="btn-group">
-                                <Link to="/admin/view/viewStaff" className="btn btn-sm btn-warning">Xem</Link>
+                                <Link to={`/admin/chi-tiet-nguoi-dung/` + user.id} className="btn btn-sm btn-warning">Xem</Link>
                                 <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
                               </div>
                             </td>
@@ -164,7 +135,6 @@ const ManageStaff = () => {
                         pageCount={pageCount}
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={5}
-                        onPageChange={handlePageChange}
                         containerClassName={"pagination"}
                         activeClassName={"active"}
                       />

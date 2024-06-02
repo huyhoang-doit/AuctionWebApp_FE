@@ -1249,15 +1249,15 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({ bidCode, use
             confirmButtonText: 'Xác nhận',
             cancelButtonText: 'Hủy',
             showLoaderOnConfirm: true,
-            preConfirm: (inputValue: string) => {
+            preConfirm: async (inputValue: string) => {
               if (!inputValue || inputValue.trim() !== bidCode) {
                 Swal.showValidationMessage('Mã xác nhận không đúng.');
                 return;
               }
               if (user && auction) {
-                confirmDeleteBid(user?.id, auction?.id);
+                await confirmDeleteBid(user?.id, auction?.id);
                 toast.success("Xóa thành công.");
-                navigate("/tai-san-dau-gia/" + auction.id)
+                navigate("/tai-san-dau-gia/" + auction.id);
               }
             },
             allowOutsideClick: () => !Swal.isLoading(),

@@ -49,7 +49,7 @@ const RequestProduct = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner ">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center px-4 py-3">
+            <div className="row justify-content-center" style={{padding: "50px 0px 0px 100px"}}>
               <div className="col-12">
                 <div className="breadcrumb-area">
                   <Breadcrumb>
