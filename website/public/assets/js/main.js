@@ -1635,6 +1635,3 @@
     },
   });
 })(jQuery);
-setTimeout(function() {
-  // Code to execute after 5 seconds
-}, 5000); // 5000 milliseconds = 5 seconds
