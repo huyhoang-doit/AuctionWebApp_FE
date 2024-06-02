@@ -266,7 +266,7 @@ export default function RegisterForAuction() {
                                             </ul>
                                         </div>
                                         <div className="tab-content umino-tab_content">
-                                            <AuctionDetailJewelry auction={auction} jewelry={jewelry} />
+                                            <AuctionDetailJewelry isBid={false} auction={auction} jewelry={jewelry} />
                                             <div
                                                 id="specification"
                                                 className="tab-pane active"

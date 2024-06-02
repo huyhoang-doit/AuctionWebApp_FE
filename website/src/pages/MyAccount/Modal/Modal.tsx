@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuctionHistory } from '../../../models/AuctionHistory';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss'
+import Stomp from "stompjs";
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from '../../../utils/checkRegister';
 import { RequestApproval } from '../../../models/RequestApproval';
 import changeStateRequest from '../../../api/RequestApprovalAPI';
@@ -270,7 +271,6 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
               <Button variant="warning" onClick={handleShowCreateModal}>
                 Tạo yêu cầu
               </Button>
-
             </Modal.Footer>
           </Modal>
         </div >
@@ -515,10 +515,12 @@ interface BidConfirmProps {
   username: string | undefined;
   auction: Auction | null,
   setAuctionHistories: (auctionHistories: AuctionHistory[]) => void;
+  stompClient: Stomp.Client | null;
+  connected: boolean;
 }
 
 // Modal for Jewelry HandOver
-export const BidConfirm: React.FC<BidConfirmProps> = ({ setAuctionHistories, bidValue, username, auction, setDisplayValue, setAuction }) => {
+export const BidConfirm: React.FC<BidConfirmProps> = ({ stompClient, connected, setAuctionHistories, bidValue, username, auction, setDisplayValue, setAuction }) => {
   return (
     <>
       <button
@@ -546,9 +548,19 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({ setAuctionHistories, bid
                 bidByUser(username, auction?.id, bidValue)
                   .then((response) => {
                     if (response === true) {
-                      getAuctionHistoriesByAuctionId(auction.id, 3).then((updatedHistories) => {
-                        setAuctionHistories(updatedHistories.auctionHistoriesData);
-                      });
+                      getAuctionHistoriesByAuctionId(auction.id, 3)
+                        .then((updatedHistories) => {
+                          setAuctionHistories(updatedHistories.auctionHistoriesData);
+                        });
+                      if (stompClient && connected) {
+                        stompClient.send(
+                          "/app/update-auction",
+                          {},
+                          JSON.stringify(auction.id)
+                        );
+                      } else {
+                        console.error("WebSocket client is not connected.");
+                      }
                       setDisplayValue(formatNumber(bidValue || 0));
                       setAuction({ ...auction, lastPrice: bidValue });
                       toast.success('Trả giá thành công!');
@@ -1256,6 +1268,7 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({ bidCode, use
               }
               if (user && auction) {
                 await confirmDeleteBid(user?.id, auction?.id);
+                
                 toast.success("Xóa thành công.");
                 navigate("/tai-san-dau-gia/" + auction.id);
               }
