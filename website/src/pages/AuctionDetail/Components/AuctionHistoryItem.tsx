@@ -41,10 +41,7 @@ export const AuctionHistoryItem: React.FC<AuctionHistoryItemProps> = ({auctionHi
                                 <td className={`col-2 ${rowClassName}`}>{formatDateString(auctionHistory.time ? auctionHistory.time : "")}</td>
                                 <td className={`col-1 ${rowClassName}`}>{auctionHistory.bidCode}</td>
                                 <td className={`col-1 text-center`}>
-                                    {user?.id == auctionHistory.user.id && isFirstIndex &&
-                                        // <button className={`${rowClassName}`}>
-                                        //     <i className="fa-solid fa-trash"></i>
-                                        // </button>
+                                    {user?.id === auctionHistory.user.id && isFirstIndex &&
                                         <BidConfirmDelete user={user} auction={auctionHistory.auction} bidCode={auctionHistory.bidCode} />
                                     }
                                 </td>

@@ -49,7 +49,7 @@ const Index = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner ">
           <div className="container-fluid pr_30 body_white_bg" style={{marginTop : '110px'}}>
-            <div className="row justify-content-center px-5 py-3">
+            <div className="row justify-content-center" style={{padding: "30px 0px 0px 100px"}}>
               <div className="col-lg-12">
                 <div className="single_element">
                   <div className="quick_activity">

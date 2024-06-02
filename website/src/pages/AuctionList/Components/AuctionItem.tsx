@@ -6,100 +6,18 @@ import { Link } from "react-router-dom";
 import { StateAuctionView } from "./StateAuctionView";
 import { changeStateAuction } from "../../../api/AuctionAPI";
 import useIconImage from "../../../hooks/useIconImage";
+import useCountDown from "../../../hooks/useCountDown";
 
 
 interface AuctionItemProps {
     auction: Auction;
 }
 
-export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
-    const jewelryId: number | null = props.auction.jewelry ? props.auction.jewelry.id : null;
-    const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
+export const AuctionItem: React.FC<AuctionItemProps> = ({auction}) => {
+    const jewelryId: number | null = auction.jewelry ? auction.jewelry.id : null;
+    const timeLeft = useCountDown(auction);
     const imageData = useIconImage(jewelryId);
 
-    useEffect(() => {
-        if (props.auction && props.auction.startDate && props.auction.endDate) {
-            const now = new Date().getTime();
-            const startDate = new Date(formatDateString(props.auction.startDate)).getTime();
-            const endDate = new Date(formatDateString(props.auction.endDate)).getTime();
-
-            if (props.auction.state === 'ONGOING') {
-                // Calculate countdown until end date
-                const distanceToEnd = endDate - now;
-
-                if (distanceToEnd < 0) {
-                    setTimeLeft("Phiên đấu giá đã kết thúc");
-                    changeStateAuction(props.auction.id, 'FINISHED');
-                    return;
-                }
-
-                const daysToEnd = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
-                const hoursToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutesToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60)) / (1000 * 60));
-                const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
-
-                setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
-            } else if (props.auction.state === 'WAITING') {
-                // Calculate countdown until start date
-                const distanceToStart = startDate - now;
-
-                if (distanceToStart < 0) {
-                    setTimeLeft("Phiên đấu giá đang diễn ra");
-                    changeStateAuction(props.auction.id, 'ONGOING');
-                    return;
-                }
-
-                const daysToStart = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
-                const hoursToStart = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutesToStart = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
-                const secondsToStart = Math.floor((distanceToStart % (1000 * 60)) / 1000);
-
-                setTimeLeft({ days: daysToStart, hours: hoursToStart, minutes: minutesToStart, seconds: secondsToStart });
-            } else if (props.auction.state === 'FINISHED') {
-                // Auction finished
-                setTimeLeft("Phiên đấu giá đã kết thúc");
-                return;
-            }
-
-            const timer = setInterval(() => {
-                const now = new Date().getTime();
-
-                if (props.auction.state === 'ONGOING') {
-                    const distanceToEnd = endDate - now;
-
-                    if (distanceToEnd < 0) {
-                        setTimeLeft("Phiên đấu giá đã kết thúc");
-                        clearInterval(timer);
-                        return;
-                    }
-
-                    const daysToEnd = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
-                    const hoursToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutesToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60)) / (1000 * 60));
-                    const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
-
-                    setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
-                } else if (props.auction.state === 'WAITING') {
-                    const distanceToStart = startDate - now;
-
-                    if (distanceToStart < 0) {
-                        setTimeLeft("Phiên đấu giá đang diễn ra");
-                        clearInterval(timer);
-                        return;
-                    }
-
-                    const daysToStart = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
-                    const hoursToStart = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutesToStart = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
-                    const secondsToStart = Math.floor((distanceToStart % (1000 * 60)) / 1000);
-
-                    setTimeLeft({ days: daysToStart, hours: hoursToStart, minutes: minutesToStart, seconds: secondsToStart });
-                }
-            }, 1000);
-
-            return () => clearInterval(timer);
-        }
-    }, [props.auction]);
 
     return (
         <div className="col-lg-4 col-md-4 col-sm-6">
@@ -166,7 +84,7 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
                         <div className="product-desc_info">
                             <div className="price-box">
                                 <span className="new-price">
-                                    {props.auction.firstPrice}
+                                    {auction.firstPrice}
                                 </span>
                                 <span className="old-price">
                                     $100.00
@@ -204,7 +122,7 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
             <div className="list-slide_item">
                 <div className="single-product">
                     <div className="product-img">
-                        <Link to={"/tai-san-dau-gia/" + props.auction.id}>
+                        <Link to={"/tai-san-dau-gia/" + auction.id}>
                             <img
                                 src={imageData}
                                 alt="Umino's Product Image"
@@ -215,20 +133,20 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
                         <div className="product-desc_info">
                             <div className="price-box">
                                 <span className="new-price">
-                                    Giá khởi điểm: {formatNumber(props.auction.firstPrice)} VNĐ
+                                    Giá khởi điểm: {formatNumber(auction.firstPrice)} VNĐ
                                 </span>
                             </div>
                             <h6 className="fw-bold product-name">
-                                <Link to={"/tai-san-dau-gia/" + props.auction.id}>
-                                    Tên phiên: {props.auction.name}
+                                <Link to={"/tai-san-dau-gia/" + auction.id}>
+                                    Tên phiên: {auction.name}
                                 </Link>
                             </h6>
                             <h6 className="product-name">
-                                Tên chủ tài sản: {props.auction.jewelry?.user?.fullName}
+                                Tên chủ tài sản: {auction.jewelry?.user?.fullName}
                             </h6>
                             <div className="product-short_desc">
                                 <p>
-                                    Trạng thái: <StateAuctionView state={props.auction.state} />
+                                    Trạng thái: <StateAuctionView state={auction.state} />
                                 </p>
                             </div>
                             <div className="umino-countdown_area mb-4">
@@ -255,7 +173,7 @@ export const AuctionItem: React.FC<AuctionItemProps> = (props) => {
                                     </div>
                                 )}
                             </div>
-                            <Link to={"/tai-san-dau-gia/" + props.auction.id}>
+                            <Link to={"/tai-san-dau-gia/" + auction.id}>
                                 <button
                                     className="btn btn-danger mb-4 mt-2" style={{ width: "200px", padding: "10px 20px" }}>
                                     Chi tiết

@@ -1,6 +1,7 @@
+
+import { fetchGetWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "../../../website/src/api/MyRequest";
 import { User } from "../models/User";
-import { ensureAccessToken, fetchWithToken } from "./AuthenticationAPI";
 
 interface ResultPageableInteface {
     usersData: User[];
@@ -64,15 +65,47 @@ export const getWinnerByAuctionId = async (auctionID: number | undefined): Promi
     return response;
 };
 
-export const editProfileUser = async (user: User): Promise<User> => {
-    const URL = `http://localhost:8080/api/v1/user`;
-  
-    await ensureAccessToken();
-  
-    const token = localStorage.getItem("access_token");
-    const response = await fetchWithToken(URL, 'PUT', token, user);
-    if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
+export async function getMembers(page: number, role: string): Promise<ResultPageableInteface> {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        throw new Error("No access token found");
     }
-    return response.json();
-  };
+
+    const URL = `http://localhost:8080/api/v1/user/staff?page=${page - 1}&role=${role}`;
+
+    const response = await fetchGetWithToken(URL, 'GET', token)
+
+    if (!response.ok) {
+        throw new Error(`Cannot access ${URL}`);
+    }
+
+    const data = await response.json();
+
+    const users: User[] = data.content.map((user: User) => ({
+        id: user.id,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        fullName: user.fullName,
+        phone: user.phone,
+        address: user.address,
+        district: user.district,
+        ward: user.ward,
+        city: user.city,
+        yob: user.yob,
+        cccd: user.cccd,
+        state: user.state,
+        avatar: user.avatar,
+        bankAccountNumber: user.bankAccountNumber,
+        bankAccountName: user.bankAccountName
+    }));
+
+    return {
+        usersData: users,
+        totalElements: data.totalElements,
+    };
+}
+
+
+

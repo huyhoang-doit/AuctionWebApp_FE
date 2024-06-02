@@ -1,18 +1,31 @@
-import React from 'react';
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
+import { useEffect, useState } from 'react';
+import { getDashBoardInformation } from '../../../api/DashBoardAPI';
 
 const Index = () => {
+  const [totalUser, setTotalUser] = useState(0);
+  const [totalAuctions, setTotalAuctions] = useState(0);
+
+  useEffect(() => {
+    getDashBoardInformation()
+      .then((response) => {
+        setTotalUser(response.totalUser)
+        setTotalAuctions(response.totalAuctions)
+      }
+      )
+  }, [])
+
   // Dữ liệu cho biểu đồ Bar
   const barData = {
-    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11','Tháng 12'],
+    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
     datasets: [
       {
         label: 'vnđ',
         backgroundColor: 'rgba(75,192,192,1)',
         borderColor: 'rgba(0,0,0,1)',
         borderWidth: 2,
-        data: [50000000, 20000000, 80000000, 75000000, 56000000, 45670000, 40200000, 34000000, 26000000, 55000000, 90000000,60000000]
+        data: [50000000, 20000000, 80000000, 75000000, 56000000, 45670000, 40200000, 34000000, 26000000, 55000000, 90000000, 60000000]
       }
     ]
   };
@@ -36,7 +49,7 @@ const Index = () => {
       {
         label: 'Người',
         fill: false,
-        tension: 0.1, 
+        tension: 0.1,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
         data: [65, 59, 63, 71, 83, 94, 96]
@@ -48,8 +61,8 @@ const Index = () => {
     <>
       <section className="main_content dashboard_part" >
         <div className="main_content_iner " >
-          <div className="container-fluid body_white_bg " style={{marginTop : '100px'}}>
-            <div className="row justify-content-center px-5 py-3" >
+          <div className="container-fluid body_white_bg " style={{ marginTop: '100px' }}>
+            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 100px" }}>
               <div className="col-lg-12">
                 <div className="single_element">
                   <div className="quick_activity">
@@ -59,22 +72,19 @@ const Index = () => {
                           <div className="single_quick_activity">
                             <h4>Doanh thu tuần qua</h4>
                             <h3>$ <span className="counter">5,79,000</span> </h3>
-                            
+
                           </div>
                           <div className="single_quick_activity">
                             <h4>Số phiên đấu giá tuần qua</h4>
-                            <h3><span className="counter">79 Phiên</span> </h3>
-                            
+                            <h3><span className="counter">{totalAuctions} Phiên</span> </h3>
                           </div>
                           <div className="single_quick_activity">
                             <h4>Số lượng người dùng</h4>
-                            <h3><span className="counter">920 Người</span> </h3>
-                            
+                            <h3><span className="counter">{totalUser} Người</span> </h3>
                           </div>
                           <div className="single_quick_activity">
                             <h4></h4>
                             <h3>Số lượng ...<span className="counter">1000</span> </h3>
-                            
                           </div>
                         </div>
                       </div>
