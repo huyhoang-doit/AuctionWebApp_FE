@@ -18,6 +18,8 @@ import { AuctionHistory } from '../../../models/AuctionHistory';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss'
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from '../../../utils/checkRegister';
+import { RequestApproval } from '../../../models/RequestApproval';
+import changeStateRequest from '../../../api/RequestApprovalAPI';
 // *** MODAL FOR USER
 
 
@@ -102,23 +104,25 @@ export const ViewJewelryRequestModal = () => {
 };
 
 interface JewelryModalProps {
-  jewelry: Jewelry;
+  jewelry: Jewelry | undefined;
   images: Image[];
-  user: User | null
+  user: User | null;
+  request: RequestApproval;
 }
 
 // *** MODAL FOR STAFF ***
 // Modal for Jewelry List
-export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, user }) => {
+export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, user, request }) => {
   const [show, setShow] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [valuation, setValuation] = useState<number | undefined>(0);
+  const [valuation, setValuation] = useState<number | undefined>(request.valuation);
 
 
   const handleChangePrice = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value.replace(/[^0-9]/g, '');
     const numericValue = parseInt(value);
     setValuation(numericValue)
+    request.valuation = numericValue
 
   };
 
@@ -147,7 +151,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
               <Modal.Title className='w-100'>
 
                 <div className='col-12 text-center'>Thông tin tài sản</div>
-                <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{jewelry.name}</span></div>
+                <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{jewelry?.name}</span></div>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -164,58 +168,58 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
                           <label>
                             Chủ tài sản:
                           </label>
-                          <span className='fw-bold'> {jewelry.user?.fullName}</span>
+                          <span className='fw-bold'> {jewelry?.user?.fullName}</span>
                         </div>
                         <div className='col-md-6'>
                           <label>
                             Mã người dùng:
                           </label>
-                          <span className='fw-bold'> {jewelry.user?.id}</span>
+                          <span className='fw-bold'> {jewelry?.user?.id}</span>
                         </div>
                       </div>
                       <div className="checkout-form-list mb-2">
                         <label>
                           Mã tài sản:{" "}
                         </label>
-                        <span className='fw-bold'> {jewelry.id}</span>
+                        <span className='fw-bold'> {jewelry?.id}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
                         <label>
                           Tên:
                         </label>
-                        <span className='fw-bold'> {jewelry.name}</span>
+                        <span className='fw-bold'> {jewelry?.name}</span>
                       </div>
                       <div className="checkout-form-list mb-2 row">
                         <div className='col-md-6'>
                           <label>
                             Danh mục:
                           </label>
-                          <span className='fw-bold'> {jewelry.category?.name}</span>
+                          <span className='fw-bold'> {jewelry?.category?.name}</span>
                         </div>
                         <div className='col-md-6'>
                           <label>
                             Thương hiệu:
                           </label>
-                          <span className='fw-bold'> {jewelry.brand}</span>
+                          <span className='fw-bold'> {jewelry?.brand}</span>
                         </div>
                         <div className='col-md-6'>
                           <label>
                             Chất liệu:
                           </label>
-                          <span className='fw-bold'> {jewelry.material}</span>
+                          <span className='fw-bold'> {jewelry?.material}</span>
                         </div>
                         <div className='col-md-6'>
                           <label>
                             Trọng lượng (g):
                           </label>
-                          <span className='fw-bold'> {jewelry.weight}</span>
+                          <span className='fw-bold'> {jewelry?.weight}</span>
                         </div>
                       </div>
                       <div className="checkout-form-list checkout-form-list-2 mb-2">
                         <label>Mô tả </label><br />
                         <textarea readOnly className='w-100 h-auto p-1'
                           id="checkout-mess"
-                          value={jewelry.description}
+                          value={jewelry?.description}
                         ></textarea>
                       </div>
                       <div className="w-100 fw-medium">
@@ -238,7 +242,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
                         <input className=' fw-bold'
                           placeholder=""
                           type="text"
-                          value={formatNumber(jewelry.price)}
+                          value={formatNumber(request?.desiredPrice)}
                           readOnly={true}
                         />
                       </div>
@@ -272,7 +276,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
         </div >
       )}
 
-      <JewelryCreateRequestModal show={showCreateModal} handleClose={handleCloseCreateModal} jewelry={jewelry} images={images} valuation={valuation} user={user} />
+      <JewelryCreateRequestModal show={showCreateModal} handleClose={handleCloseCreateModal} request={request} jewelry={jewelry} images={images} user={user} />
     </>
   );
 };
@@ -280,14 +284,14 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
 interface JewelryCreateRequestModalProps {
   show: boolean;
   handleClose: () => void;
-  jewelry: Jewelry;
+  jewelry: Jewelry | undefined;
   images: Image[];
-  valuation: number | undefined;
-  user: User | null
+  user: User | null;
+  request: RequestApproval;
 }
 
 
-export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps> = ({ show, handleClose, jewelry, images, valuation, user }) => {
+export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps> = ({ show, handleClose, jewelry, images, user, request }) => {
   return (
     <>{show && (
       <div className='overlay' >
@@ -300,7 +304,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
           <Modal.Header>
             <Modal.Title className='w-100'>
               <div className='col-12 text-center'>Tạo yêu cầu phê duyệt tài sản</div>
-              <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{jewelry.name}</span></div>
+              <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{jewelry?.name}</span></div>
               <h5 className='col-12'>Nhân viên gửi yêu cầu - <span className=' fw-bold'>{user?.firstName}</span></h5>
               <h5 className='col-12'>Mã nhân viên - <span className=' fw-bold'>{user?.id}</span></h5>
             </Modal.Title>
@@ -321,7 +325,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                       <input
                         placeholder=""
                         type="text"
-                        value={jewelry.id}
+                        value={jewelry?.id}
                         readOnly={true}
                       />
                     </div>
@@ -334,7 +338,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                       <input
                         placeholder=""
                         type="text"
-                        value={jewelry.category?.name}
+                        value={jewelry?.category?.name}
                         readOnly={true}
                       />
                     </div>
@@ -347,7 +351,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                       <input
                         placeholder=""
                         type="text"
-                        value={jewelry.material}
+                        value={jewelry?.material}
                         readOnly={true}
                       />
                     </div>
@@ -361,7 +365,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                       <input
                         placeholder="Street address"
                         type="text"
-                        value={jewelry.brand}
+                        value={jewelry?.brand}
                         readOnly={true}
                       />
                     </div>
@@ -374,7 +378,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                       <input
                         placeholder="Street address"
                         type="text"
-                        value={jewelry.weight}
+                        value={jewelry?.weight}
                         readOnly={true}
                       />
                     </div>
@@ -386,7 +390,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                       <label>Mô tả </label>
                       <textarea readOnly
                         id="checkout-mess"
-                        value={jewelry.description}
+                        value={jewelry?.description}
                       ></textarea>
                     </div>
                   </div>
@@ -407,7 +411,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                       <input className=' fw-bold'
                         placeholder=""
                         type="text"
-                        value={formatNumber(jewelry.price)}
+                        value={formatNumber(request.desiredPrice)}
                         readOnly={true}
                       />
                     </div>
@@ -419,7 +423,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                         className=' fw-bold'
                         placeholder=""
                         type="text"
-                        value={formatNumber(valuation)}
+                        value={formatNumber(request.valuation)}
                         readOnly={true}
                       />
                     </div>
@@ -448,25 +452,26 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
 };
 
 interface DeleteJewelryModalProps {
-  jewelry: Jewelry;
-  notification: string;
-  setNotification: React.Dispatch<React.SetStateAction<string>>
+  jewelry: Jewelry | undefined;
+  setNotification: React.Dispatch<React.SetStateAction<string>>;
+  request: RequestApproval;
+  handleChangeList: () => Promise<void>
 }
 
 // Delete Jewelry Modal
-export const DeleteJewelryModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, notification, setNotification }) => {
+export const DeleteJewelryModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, setNotification, request, handleChangeList }) => {
   const [show, setShow] = useState(false);
 
-
   const handleClose = () => {
-    setNotification('')
-    setShow(false)
-  }
+    setNotification('');
+    setShow(false);
+  };
   const handleShow = () => setShow(true);
   const handleDelete = async () => {
     try {
-      const resultDelete = await setJewelryHidden(jewelry.id);
+      const resultDelete = await changeStateRequest(request.id, 'HIDDEN');
       if (resultDelete) {
+        await handleChangeList();
         handleClose();
       } else {
         setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
@@ -474,27 +479,20 @@ export const DeleteJewelryModal: React.FC<DeleteJewelryModalProps> = ({ jewelry,
     } catch (error) {
       setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
     }
-  }
+  };
 
   return (
     <>
       <Button variant="danger" size="sm" onClick={handleShow} className='ms-2'>
-        xóa
+        Xóa
       </Button>
       {show && (
         <div className='overlay'>
-          <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdropClassName="custom-backdrop"
-          >
-            <Modal.Header >
-              <Modal.Title>Xác nhận xóa sản phẩm {jewelry?.name} </Modal.Title>
+          <Modal show={show} onHide={handleClose} centered backdropClassName="custom-backdrop">
+            <Modal.Header>
+              <Modal.Title>Xác nhận xóa sản phẩm {jewelry?.name}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-              Bạn có chắc muốn xóa sản phẩm này khỏi danh sách chờ không?
-              <h6 className='text-danger'>{notification}</h6></Modal.Body>
+            <Modal.Body>Bạn có chắc muốn xóa sản phẩm này khỏi danh sách chờ không?</Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
                 Hủy
@@ -506,7 +504,6 @@ export const DeleteJewelryModal: React.FC<DeleteJewelryModalProps> = ({ jewelry,
           </Modal>
         </div>
       )}
-
     </>
   );
 };

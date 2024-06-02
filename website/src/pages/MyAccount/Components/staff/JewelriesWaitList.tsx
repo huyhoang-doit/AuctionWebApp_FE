@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Jewelry } from '../../../../models/Jewelry'
-import { getJewelriesWaitList } from '../../../../api/JewelryAPI'
+import React, { useCallback, useEffect, useState } from 'react'
 import { JewelryWaitSingle } from './JewelryWaitSingle'
 import { User } from '../../../../models/User'
 import { PaginationControl } from 'react-bootstrap-pagination-control'
+import { getRequestByRoleOfSender } from '../../../../api/RequestApprovalAPI'
+import { RequestApproval } from '../../../../models/RequestApproval'
 
 interface JewelriesWaitListProps {
   user: User | null;
@@ -11,24 +11,29 @@ interface JewelriesWaitListProps {
 }
 
 const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
-  const [listJewelries, setListJewelries] = useState<Jewelry[]>([])
+  const [listRequests, setListRequests] = useState<RequestApproval[]>([]);
   const [user, setUser] = useState<User | null>(props.user);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+  const [notification, setNotification] = useState<string>('');
 
   useEffect(() => {
     setUser(props.user);
   }, [props.user]);
+
+  const handleChangeList = useCallback(async () => {
+    try {
+      const response = await getRequestByRoleOfSender('MEMBER', page);
+      setListRequests(response.requestsData);
+      setTotalElements(response.totalElements);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [page]);
+
   useEffect(() => {
-    getJewelriesWaitList(page)
-      .then((response) => {
-        setListJewelries(response.jeweriesData);
-        setTotalElements(response.totalElements);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  }, [props.user, page])
+    handleChangeList();
+  }, [user, page, handleChangeList]);
   return (
     <>
       <div
@@ -52,8 +57,8 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
                   <th>Ảnh</th>
                   <th>Xem chi tiết</th>
                 </tr>
-                {listJewelries.map((jewelry) => (
-                  <JewelryWaitSingle key={jewelry.id} jewelry={jewelry} user={props.user} />
+                {listRequests.map((request) => (
+                  <JewelryWaitSingle key={request.id} request={request} jewelry={request.jewelry} user={props.user} setNotification={setNotification} handleChangeList={handleChangeList} />
                 ))}
               </tbody>
             </table>
