@@ -24,8 +24,7 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
       .then((response) => {
         setListJewelries(response.jeweriesData);
         setTotalElements(response.totalElements);
-        console.log(listJewelries)
-        console.log(totalElements)
+
       })
       .catch((error) => {
         console.error(error.message);

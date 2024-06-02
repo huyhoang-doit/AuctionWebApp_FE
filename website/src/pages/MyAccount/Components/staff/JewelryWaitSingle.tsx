@@ -3,19 +3,24 @@ import { Link } from 'react-router-dom'
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
 import { Jewelry } from '../../../../models/Jewelry'
 import { Image } from '../../../../models/Image'
-import { JewelryModal } from '../../Modal/Modal'
+import { DeleteJewelryModal, JewelryModal } from '../../Modal/Modal'
 import { User } from '../../../../models/User'
+import { RequestApproval } from '../../../../models/RequestApproval'
+import { formatNumberAcceptNull } from '../../../../utils/formatNumber'
 
 type JewelryWaitSingleProps = {
-  jewelry: Jewelry;
-  user: User | null
+  request: RequestApproval;
+  jewelry: Jewelry | undefined;
+  user: User | null,
+  handleChangeList: () => Promise<void>
+  setNotification: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ jewelry, user }) => {
+export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ request, jewelry, user, setNotification, handleChangeList }) => {
   const [image, setImage] = useState<Image | null>(null)
   const [images, setImages] = useState<Image[]>([])
   useEffect(() => {
-    getIconImageByJewelryId(jewelry.id)
+    getIconImageByJewelryId(jewelry?.id ? jewelry.id : 1)
       .then((response) => {
         setImage(response);
       })
@@ -23,7 +28,7 @@ export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ jewelry, u
         console.error(error.message);
       });
 
-    getImagesByJewelryId(jewelry.id)
+    getImagesByJewelryId(jewelry?.id ? jewelry.id : 1)
       .then((response) => {
         setImages(response);
       })
@@ -40,22 +45,22 @@ export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ jewelry, u
             className="account-order-id"
             to={""}
           >
-            {jewelry.id}
+            {jewelry?.id}
           </Link>
         </td>
         <td>
-          {jewelry.name}
+          {jewelry?.name}
         </td>
-        <td>{jewelry.user?.lastName}</td>
+        <td>{jewelry?.user?.lastName}</td>
         <td>
-          {jewelry.price}
-        </td>
-        <td>
-          <img style={{ width: '60px', height: '60px' }} src={image?.data} />
+          {formatNumberAcceptNull(request?.desiredPrice)}
         </td>
         <td>
-          <JewelryModal jewelry={jewelry} images={images} user={user} />
-          {/* <DeleteJewelryModal jewelry={jewelry} notification={notification} setNotification={setNotification} /> */}
+          <img style={{ width: '60px', height: '60px' }} src={image?.data} alt='jewelry' />
+        </td>
+        <td>
+          <JewelryModal jewelry={jewelry} images={images} user={user} request={request} />
+          <DeleteJewelryModal jewelry={jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} />
         </td>
       </tr>
     </>

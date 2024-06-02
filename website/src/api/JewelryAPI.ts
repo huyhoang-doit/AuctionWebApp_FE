@@ -104,6 +104,8 @@ export async function getJewelriesWaitList(page: number): Promise<ResultPageable
   const response = await MyRequest(URL);
   const responseData = response.content;
   const totalElements = response.totalElements;
+  console.log(responseData)
+
 
   for (const key in responseData) {
     jewelrys.push({
