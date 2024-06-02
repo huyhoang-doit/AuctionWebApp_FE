@@ -3,7 +3,7 @@ import { User } from "./User";
 
 export class AuctionHistory {
     id: number;
-    priceGiven: number;
+    priceGiven: number; 
     time?: string;
     user: User;
     auction?: Auction;

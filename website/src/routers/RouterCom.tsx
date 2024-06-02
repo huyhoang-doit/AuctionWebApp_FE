@@ -16,6 +16,7 @@ import RegisterForAuction from "../pages/RegisterForAuction/RegisterForAuction";
 import AuctionDetail from "../pages/AuctionDetail/AuctionDetail";
 import { AuctionBid } from "../pages/Bid/AuctionBid";
 import AuctionList from "../pages/AuctionList/AuctionList";
+import { AuctionRegistrationGuard } from "./AuctionRegistrationGuard";
 
 export default function RouterCom() {
     return (
@@ -34,7 +35,7 @@ export default function RouterCom() {
             <Route path="/tai-san-dau-gia/:id" element={<AuctionDetail />} />
             {/* ///// */}
 
-            {/* ///// */}
+            {/* ///        CHƯA CÓ TOKEN THÌ VÀO ĐC       // */}
             <Route element={<GuestRoute />}>
                 <Route path="/dang-nhap" element={<Login />} />
             </Route>
@@ -43,15 +44,19 @@ export default function RouterCom() {
             </Route>
             {/* ///// */}
 
+
+
+            {/* ///         ĐĂNG KÍ PHIÊN THÌ ĐC VÀO      // */}
+            <Route path="/dau-gia-san-pham/:id" element={<AuctionRegistrationGuard element={<AuctionBid />} />} />
             {/* ///// */}
+
+
+            {/* //          PHÂN QUYỀN                   /// */}
             <Route element={<ProtectedRoute roles={['MEMBER', 'STAFF', 'MANAGER', 'ADMIN']} />}>
                 <Route path="/form-send-jewerly" element={<PageSendJewelry />} />
             </Route>
             <Route element={<ProtectedRoute roles={['MEMBER', 'ADMIN']} />}>
                 <Route path="/dang-ki-dau-gia/:id" element={<RegisterForAuction />} />
-            </Route>
-            <Route element={<ProtectedRoute roles={['MEMBER', 'ADMIN']} />}>
-                <Route path="/dau-gia-san-pham/:id" element={<AuctionBid />} />
             </Route>
             <Route element={<ProtectedRoute roles={['MEMBER', 'MANAGER', 'ADMIN']} />}>
                 <Route path="/thong-tin-ca-nhan" element={<MyAccount />} />

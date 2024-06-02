@@ -7,6 +7,7 @@ import { AuctionDetailJewelry } from "./AuctionDetailJewelry"
 import { AuctionHistory } from "../../../models/AuctionHistory"
 
 interface AuctionTabDetailProps {
+    isBid: boolean,
     auction: Auction | null,
     jewelry: Jewelry | null,
     staff: User | null,
@@ -14,7 +15,7 @@ interface AuctionTabDetailProps {
     setBidPerPage: (bid: number) => void;
 }
 
-export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ auctionHistories, setBidPerPage, auction, jewelry, staff }) => {
+export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ isBid, auctionHistories, setBidPerPage, auction, jewelry, staff }) => {
     return (
         <div className="sp-tab_area">
             <div className="container">
@@ -23,7 +24,7 @@ export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ auctionHisto
                         <div className="sp-product-tab_nav">
                             <div className="product-tab">
                                 <ul className="nav product-menu">
-                                    {auction?.state !== 'WAITING' &&
+                                    {isBid &&
                                         <li>
                                             <a
                                                 className="active"
@@ -38,7 +39,7 @@ export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ auctionHisto
                                     }
                                     <li>
                                         <a
-                                            className={auction?.state === 'WAITING' ? `active` : ""}
+                                            className={!isBid ? `active` : ""}
                                             data-bs-toggle="tab"
                                             href="#description"
                                         >
@@ -59,9 +60,10 @@ export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ auctionHisto
                             </div>
                             <div className="tab-content umino-tab_content">
 
-                                {auction?.state !== 'WAITING' &&
-                                    <AuctionDetailHistory setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} />}
-                                <AuctionDetailJewelry auction={auction} jewelry={jewelry} />
+                                {isBid &&
+                                    <AuctionDetailHistory setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} />
+                                }
+                                <AuctionDetailJewelry isBid={isBid} auction={auction} jewelry={jewelry} />
                                 <div
                                     id="specification"
                                     className="tab-pane"

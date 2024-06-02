@@ -7,12 +7,13 @@ import { numberToVietnameseText } from "../../../utils/numberToVietnameseText";
 interface AuctionDetailJewelryProps {
     auction: Auction | null;
     jewelry: Jewelry | null;
+    isBid: boolean
 }
 
 export const AuctionDetailJewelry: React.FC<AuctionDetailJewelryProps> = (props) => {
     return (
         <div
-            className={props.auction?.state === 'WAITING' ? `active tab-pane` : "tab-pane"}
+            className={!props.isBid ? `active tab-pane` : "tab-pane"}
             id="description"
             role="tabpanel"
         >

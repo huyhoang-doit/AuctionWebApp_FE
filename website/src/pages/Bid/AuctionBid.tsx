@@ -9,11 +9,11 @@ import ImageProduct from "../AuctionDetail/AuctionImageProduct";
 import { AuctionTabDetail } from "../AuctionDetail/Components/AuctionTabDetail";
 import { BidConfirm } from "../MyAccount/Modal/Modal";
 import { BidInfo } from "./Components/BidInfo";
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from "../../hooks/useContext";
 import { AuctionHistory } from "../../models/AuctionHistory";
 import { getAuctionHistoriesByAuctionId } from "../../api/AuctionHistoryAPI";
+import { ToastContainer, toast } from 'react-toastify';
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import useCountDown from "../../hooks/useCountDown";
@@ -55,28 +55,35 @@ export const AuctionBid = () => {
     useEffect(() => {
         const newClient = Stomp.over(socket);
         newClient.connect(
-          {},
-          (frame) => {
-            // console.log("Connected: " + frame);
-            setConnected(true);
-            newClient.subscribe("/topic/auction", () => {
-            });
-          },
-          (error) => {
-            console.error("Connection error: ", error);
-          }
+            {},
+            (frame) => {
+                setConnected(true);
+                newClient.subscribe("/user/auction", (message) => {
+                    const receivedData = JSON.parse(message.body);
+                    setAuction(prevAuction => ({
+                        ...prevAuction!,
+                        lastPrice: receivedData,
+                    }));
+                    setBidValue(receivedData)
+                    setDisplayValue(formatNumber(receivedData));
+                    toast.warn('Giá cuối đã thay đổi!');
+                });
+            },
+            (error) => {
+                console.error("Connection error: ", error);
+            }
         );
-    
+
         setStompClient(newClient);
         return () => {
-          if (connected) {
-            newClient.disconnect(() => {
-              setConnected(false);
-            //   console.log("Disconnected");
-            });
-          }
+            if (connected) {
+                newClient.disconnect(() => {
+                    setConnected(false);
+                    // console.log("Disconnected");
+                });
+            }
         };
-      }, []);
+    }, []);
 
     useEffect(() => {
         if (auctionId !== null) {
@@ -88,7 +95,7 @@ export const AuctionBid = () => {
                     console.error(error.message);
                 });
         }
-    }, [auctionId, bidPerPage])
+    }, [auctionId, bidPerPage, bidValue])
 
     useEffect(() => {
         getAuction(auctionId)
@@ -186,7 +193,7 @@ export const AuctionBid = () => {
                 </button>
             );
         } else if (bidValue >= ((auction?.lastPrice || 0) + (auction?.priceStep || 0))) {
-            return <BidConfirm setAuctionHistories={setAuctionHistories} setDisplayValue={setDisplayValue} setAuction={setAuction} username={user?.username} auction={auction} bidValue={bidValue} />;
+            return <BidConfirm stompClient={stompClient} connected={connected} setAuctionHistories={setAuctionHistories} setDisplayValue={setDisplayValue} setAuction={setAuction} username={user?.username} auction={auction} bidValue={bidValue} />;
         } else {
             return (
                 <button
@@ -333,7 +340,7 @@ export const AuctionBid = () => {
                             </div>
                         </div>
                     </div>
-                    <AuctionTabDetail setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} staff={staff} jewelry={jewelry} />
+                    <AuctionTabDetail isBid={true} setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
             </div >
 

@@ -324,7 +324,7 @@ export default function AuctionDetail() {
 
                     {/* Begin Umino's Single Product Tab Area  */}
 
-                    <AuctionTabDetail auctionHistories={auctionHistories} setBidPerPage={setBidPerPage} auction={auction} staff={staff} jewelry={jewelry} />
+                    <AuctionTabDetail isBid={false} auctionHistories={auctionHistories} setBidPerPage={setBidPerPage} auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
                 <ToastContainer />
             </div>

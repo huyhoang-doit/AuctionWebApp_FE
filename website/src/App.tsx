@@ -1,9 +1,9 @@
 import './App.css';
 import { UserContext } from './hooks/useContext';
 import Header from './layouts/components/Header/Header';
-import RouterCom from './routers/route';
 import Footer from './layouts/components/Footer/Footer';
 import useAccount from './hooks/useAccount';
+import RouterCom from './routers/RouterCom';
 
 function App() {
   const token = localStorage.getItem("access_token");
