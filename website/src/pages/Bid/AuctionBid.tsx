@@ -2,10 +2,9 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Auction } from "../../models/Auction";
 import { User } from "../../models/User";
 import { Jewelry } from "../../models/Jewelry";
-import { changeStateAuction, getAuction } from "../../api/AuctionAPI";
+import { getAuction } from "../../api/AuctionAPI";
 import { useParams } from "react-router-dom";
 import { formatNumber } from "../../utils/formatNumber";
-import { formatDateString } from "../../utils/formatDateString";
 import ImageProduct from "../AuctionDetail/AuctionImageProduct";
 import { AuctionTabDetail } from "../AuctionDetail/Components/AuctionTabDetail";
 import { BidConfirm } from "../MyAccount/Modal/Modal";
@@ -17,6 +16,7 @@ import { AuctionHistory } from "../../models/AuctionHistory";
 import { getAuctionHistoriesByAuctionId } from "../../api/AuctionHistoryAPI";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import useCountDown from "../../hooks/useCountDown";
 
 export const AuctionBid = () => {
     const [auction, setAuction] = useState<Auction | null>(null);
@@ -25,9 +25,9 @@ export const AuctionBid = () => {
     const [bidValue, setBidValue] = useState<number>(auction?.lastPrice || 0);
     const [displayValue, setDisplayValue] = useState<string>("");
     const [errorBidValue, setErrorBidValue] = useState("");
-    const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
     const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
     const [bidPerPage, setBidPerPage] = useState<number>(3);
+    const timeLeft = useCountDown(auction);
     //----------------------------------------------------------------
     const [connected, setConnected] = useState(false);
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
@@ -57,7 +57,7 @@ export const AuctionBid = () => {
         newClient.connect(
           {},
           (frame) => {
-            console.log("Connected: " + frame);
+            // console.log("Connected: " + frame);
             setConnected(true);
             newClient.subscribe("/topic/auction", () => {
             });
@@ -72,7 +72,7 @@ export const AuctionBid = () => {
           if (connected) {
             newClient.disconnect(() => {
               setConnected(false);
-              console.log("Disconnected");
+            //   console.log("Disconnected");
             });
           }
         };
@@ -104,59 +104,6 @@ export const AuctionBid = () => {
             });
         window.scrollTo(0, 0);
     }, [auctionId]);
-
-    useEffect(() => {
-        if (auction && auction.startDate && auction.endDate) {
-            const now = new Date().getTime();
-            const endDate = new Date(formatDateString(auction.endDate)).getTime();
-
-            if (auction.state === 'ONGOING') {
-                // Calculate countdown until end date
-                const distanceToEnd = endDate - now;
-
-                if (distanceToEnd < 0) {
-                    setTimeLeft("Phiên đấu giá đã kết thúc");
-                    changeStateAuction(auction.id, 'FINISHED');
-                    return;
-                }
-
-                const daysToEnd = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
-                const hoursToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutesToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60)) / (1000 * 60));
-                const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
-
-                setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
-            } else if (auction.state === 'FINISHED') {
-                // Auction finished
-                setTimeLeft("Phiên đấu giá đã kết thúc");
-                return;
-            }
-
-            const timer = setInterval(() => {
-                const now = new Date().getTime();
-
-                if (auction.state === 'ONGOING') {
-                    const distanceToEnd = endDate - now;
-
-                    if (distanceToEnd < 0) {
-                        setTimeLeft("Phiên đấu giá đã kết thúc");
-                        clearInterval(timer);
-                        return;
-                    }
-
-                    const daysToEnd = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
-                    const hoursToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutesToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60)) / (1000 * 60));
-                    const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
-
-                    setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
-                }
-            }, 1000);
-
-            return () => clearInterval(timer);
-        }
-    }, [auction]);
-
 
     useEffect(() => {
         setDisplayValue(formatNumber(bidValue));
@@ -345,7 +292,7 @@ export const AuctionBid = () => {
                                         </div>
                                         <div className="register-form" style={{ borderRadius: "0px" }}>
                                             <div className="row">
-                                                <h4 className="no-margin fw-bold">ĐẶT GIÁ (VNĐ)</h4>
+                                                <h4 className="no-margin fw-bold mb-4">ĐẶT GIÁ (VNĐ)</h4>
                                                 <BidInfo auction={auction} />
                                                 <div className="col-9 d-flex align-items-center">
                                                     <button

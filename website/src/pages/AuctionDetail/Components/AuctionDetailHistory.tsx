@@ -10,8 +10,6 @@ interface AuctionDetailHistoryProps {
 }
 
 export const AuctionDetailHistory: React.FC<AuctionDetailHistoryProps> = ({ auctionHistories, setBidPerPage }) => {
-
-
     return (<div
         id="history"
         className="tab-pane active show"
