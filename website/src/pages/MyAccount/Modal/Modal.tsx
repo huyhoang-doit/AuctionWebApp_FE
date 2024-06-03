@@ -21,6 +21,7 @@ import Stomp from "stompjs";
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from '../../../utils/checkRegister';
 import { RequestApproval } from '../../../models/RequestApproval';
 import changeStateRequest from '../../../api/RequestApprovalAPI';
+import { changePassword } from '../../../api/AuthenticationAPI';
 // *** MODAL FOR USER
 
 
@@ -1268,7 +1269,7 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({ bidCode, use
               }
               if (user && auction) {
                 await confirmDeleteBid(user?.id, auction?.id);
-                
+
                 toast.success("Xóa thành công.");
                 navigate("/tai-san-dau-gia/" + auction.id);
               }
@@ -1277,6 +1278,71 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({ bidCode, use
           })}
       >
         <i className="fa-solid fa-trash"></i>
+      </button >
+    </>
+  );
+};
+
+interface ChangePasswordConfirmProps {
+  request: {
+    token: string,
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  };
+  setRequest: (request: {
+    token: string;
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }) => void;
+}
+
+export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({ request, setRequest }) => {
+  const handleChangePassword = async () => {
+    if (request.newPassword !== request.confirmPassword) {
+      Swal.fire('Lỗi', 'Mật khẩu xác nhận không trùng khớp', 'error');
+      return;
+    }
+    try {
+      const response = await changePassword(request);
+      if (response.status === 200) {
+        Swal.fire(response.message, 'Mật khẩu đã được đổi', 'success');
+        setRequest({
+          token: "",
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        })
+      } else if (response.status === 404) {
+        Swal.fire(response.message, 'Đổi mật khẩu thất bại', 'error');
+      }
+    } catch (error) {
+      Swal.fire('Lỗi', 'Đã xảy ra lỗi khi đổi mật khẩu', 'error');
+    }
+  };
+  return (
+    <>
+      <button
+        type="button"
+        className="btn btn-xs btn-dark mt-4"
+        id="save-profile-tab"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        onClick={() =>
+          Swal.fire({
+            icon: "warning",
+            title: 'Bạn có chắc muốn đổi mật khẩu',
+            showCancelButton: true,
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy',
+            showLoaderOnConfirm: true,
+            preConfirm: handleChangePassword,
+            allowOutsideClick: () => !Swal.isLoading(),
+          })}
+      >
+        Đổi mật khẩu
       </button >
     </>
   );

@@ -3,6 +3,12 @@ interface LoginRequest {
     password: string;
 }
 
+interface ChangePasswordRequest {
+    token: string;
+    oldPassword: string;
+    newPassword: string;
+}
+
 interface RegisterRequest {
     id: number,
     username: string;
@@ -22,7 +28,7 @@ interface RegisterRequest {
 export const login = async (loginRequest: LoginRequest, setError: (message: string) => void) => {
     // end-point
     const URL = `http://localhost:8080/api/v1/auth/authenticate`;
-    const request = {...loginRequest, email: loginRequest.username}
+    const request = { ...loginRequest, email: loginRequest.username }
     // call api
     try {
         const response = await fetch(URL, {
@@ -51,6 +57,38 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
     } catch (error) {
         setError((error as Error).message);
         return false;
+    }
+};
+
+interface ChangePasswordResponse {
+    message: string;
+    status: number;
+}
+
+export const changePassword = async (changePasswordRequest: ChangePasswordRequest): Promise<ChangePasswordResponse> => {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+        return { message: "Đã xảy ra lỗi trong quá trình đổi mật khẩu", status: 401 };
+    }
+
+    changePasswordRequest = { ...changePasswordRequest, token: accessToken }
+
+    const URL = `http://localhost:8080/api/v1/auth/change-password`;
+
+    try {
+        const response = await fetchWithToken(URL, 'POST', accessToken, changePasswordRequest);
+        
+        if (response.status === 404) {
+            return { message: "Mật khẩu cũ không đúng.", status: 404 };
+        }
+
+        if (response.status === 200) {
+            return { message: "Đổi mật khẩu thành công", status: 200 };
+        } else {
+            throw new Error('Đã xảy ra lỗi trong quá trình đổi mật khẩu');
+        }
+    } catch (error) {
+        return { message: "Đã xảy ra lỗi trong quá trình đổi mật khẩu", status: 400 };
     }
 };
 
@@ -174,7 +212,7 @@ export const refreshToken = async () => {
         console.error('Failed to refresh token:', error);
         localStorage.removeItem('access_token');
         console.log("hello");
-        
+
         // localStorage.removeItem('refresh_token');
         window.location.href = '/dang-nhap';
         return;
@@ -192,10 +230,10 @@ export const fetchWithToken = async (url: string, method: string, token: string 
         },
         body: JSON.stringify(body),
     });
-    
+
     if (response.status === 401 || response.status === 403) {
         const newToken = await refreshToken();
-      
+
         if (newToken) {
             // Retry request with new token
             response = await fetchWithToken(url, method, newToken, body);
@@ -212,10 +250,10 @@ export const fetchNoBodyWithToken = async (url: string, method: string, token: s
             'Authorization': `Bearer ${token}`
         },
     });
-    
+
     if (response.status === 401 || response.status === 403) {
         const newToken = await refreshToken();
-      
+
         if (newToken) {
             // Retry request with new token
             response = await fetchNoBodyWithToken(url, method, newToken);

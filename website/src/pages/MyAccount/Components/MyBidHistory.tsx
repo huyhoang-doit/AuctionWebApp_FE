@@ -15,8 +15,8 @@ export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
     const [userAuctionHistories, setUserAuctionHistories] = useState<AuctionHistory[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [page, setPage] = useState(1)
-    const [totalElements, setTotalElements] = useState(0)
+    const [page, setPage] = useState(1);
+    const [totalElements, setTotalElements] = useState(0);
 
     useEffect(() => {
         if (username) {
