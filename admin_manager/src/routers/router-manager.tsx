@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import Index from '../pages/manager/Index/Index'
+import Index from '../pages/Index/Index'
 import RequestProduct from '../pages/manager/RequestProduct/RequestProduct'
 import AuctionsList from '../pages/manager/Auctions/AuctionsList'
 import CreateAuction from '../pages/manager/Auctions/CreateAuction'
