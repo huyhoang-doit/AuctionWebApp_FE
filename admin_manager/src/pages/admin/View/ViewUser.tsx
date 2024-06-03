@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { getUserById } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 
 const ViewManager = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [birthDate, setBirthDate] = useState<Date | null>(null);
 
   const { id } = useParams();
   let userId = 0;
@@ -57,20 +55,32 @@ const ViewManager = () => {
                               <input type="text" className="form-control" value={user?.id} readOnly />
                             </div>
                             <div className="col-md-6 mb-3">
-                              <label>Tên tài khoản</label>
-                              <input type="text" className="form-control" value={user?.username} readOnly />
+                              <label>Căn cước công dân</label>
+                              <input type="text" className="form-control" value={user?.cccd} readOnly />
                             </div>
                             <div className="col-md-6 mb-3">
-                              <label>Họ và tên</label>
-                              <input type="text" className="form-control" value={user?.fullName} readOnly />
+                              <label>Tên tài khoản</label>
+                              <input type="text" className="form-control" value={user?.username} readOnly />
                             </div>
                             <div className="col-md-6 mb-3">
                               <label>Email</label>
                               <input type="email" className="form-control" value={user?.email} readOnly />
                             </div>
                             <div className="col-md-6 mb-3">
+                              <label>Họ đệm</label>
+                              <input type="text" className="form-control" value={user?.firstName} readOnly />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                              <label>Tên</label>
+                              <input type="text" className="form-control" value={user?.lastName} readOnly />
+                            </div>
+                            <div className="col-md-6 mb-3">
                               <label>Số điện thoại</label>
                               <input type="text" className="form-control" value={user?.phone} readOnly />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                              <label>Năm sinh</label>
+                              <input type="text" className="form-control" value={user?.yob} readOnly />
                             </div>
                             <div className="col-md-6 mb-3">
                               <label>Số địa chỉ</label>
@@ -89,31 +99,38 @@ const ViewManager = () => {
                               <input type="text" className="form-control" value={user?.ward} readOnly />
                             </div>
                             <div className="col-md-6 mb-3">
+                              <label>Số tài khoản ngân hàng</label>
+                              <input type="text" className="form-control" value={user?.bankAccountNumber} readOnly />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                              <label>Tên tài khoản ngân hàng</label>
+                              <input type="text" className="form-control" value={user?.bankAccountName} readOnly />
+                            </div>
+                            <div className="col-md-6 mb-3">
                               <label>Trạng thái</label>
                               <div>
                                 <input
+                                  className='me-2 ms-2'
+                                  name='state'
                                   type="radio"
-                                  value="Active"
+                                  value="ACTIVE"
                                   checked={user?.state === 'ACTIVE'}
-                                />
+                                />Đã kích hoạt<br/>
                                 <input
+                                  className='me-2 ms-2'
                                   type="radio"
-                                  value="Inactive"
+                                  name='state'
+                                  value="INACTIVE"
                                   checked={user?.state === 'INACTIVE'}
-                                  className="ms-3"
-                                /> Inactive
+                                /> Chưa kích hoạt<br/>
+                                <input
+                                  className='me-2 ms-2'
+                                  type="radio"
+                                  name='state'
+                                  value="ACTIVE"
+                                  checked={user?.state === 'DISABLE'}
+                                />Vô hiệu hóa
                               </div>
-                            </div>
-                            <div className="col-md-6 mb-3">
-                              <label>Ngày tháng năm sinh</label>
-                              <DatePicker
-                                selected={birthDate}
-                                onChange={(date) => setBirthDate(date)}
-                                className="form-control"
-                                dateFormat="dd/MM/yyyy"
-                                isClearable
-                                placeholderText="Chọn ngày"
-                              />
                             </div>
                           </div>
                         </div>

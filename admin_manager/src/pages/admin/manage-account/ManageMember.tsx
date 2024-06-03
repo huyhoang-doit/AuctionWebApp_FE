@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Breadcrumb } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import ReactPaginate from 'react-paginate';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
+import { PaginationControl } from 'react-bootstrap-pagination-control';
 
 
 const ManageUser = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [members, setMembers] = useState<User[]>([]);
-  const [filteredUsers, setFilteredUsers] = useState(members);
-  const itemsPerPage = 10;
+  const [page, setPage] = useState(1)
+  const [totalElements, setTotalElements] = useState(0)
 
   useEffect(() => {
-    getMembers(1, "MEMBER")
-      .then((response) =>
+    getMembers("MEMBER", page)
+      .then((response) => {
         setMembers(response.usersData)
-      )
-  }, [])
+        setTotalElements(response.totalElements)
+      })
+  }, [page])
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -34,23 +35,11 @@ const ManageUser = () => {
     handleCloseModal();
   };
 
-  const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchInput(value);
-    if (value === '') {
-      setFilteredUsers(members);
-    } else {
-      const filtered = members.filter(member => member.id.toString().includes(value));
-      setFilteredUsers(filtered);
-    }
-  };
-
-  const pageCount = Math.ceil(filteredUsers.length / itemsPerPage);
 
   return (
     <>
       <section className="main_content dashboard_part">
-        <div className="main_content_iner">
+        <div className="main_content_iner mb-0">
           <div className="container-fluid plr_30 body_white_bg pt_30">
             <div className="row justify-content-center" style={{ padding: "50px 0px 0px 100px" }}>
               <div className="col-12">
@@ -74,7 +63,7 @@ const ManageUser = () => {
                                 type="text"
                                 placeholder="Tìm kiếm..."
                                 value={searchInput}
-                                onChange={handleSearchInput}
+                              // onChange={handleSearchInput}
                               />
                             </div>
                             <button type="submit" onClick={(e) => e.preventDefault()}>
@@ -128,18 +117,6 @@ const ManageUser = () => {
                         ))}
                       </tbody>
                     </table>
-                    <div className="pagination-container">
-                      <ReactPaginate
-                        previousLabel={"previous"}
-                        nextLabel={"next"}
-                        breakLabel={"..."}
-                        pageCount={pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                      />
-                    </div>
                   </div>
                   <Modal show={showModal} onHide={handleCloseModal}>
                     <Modal.Header closeButton>
@@ -160,6 +137,16 @@ const ManageUser = () => {
             </div>
           </div>
         </div>
+        <PaginationControl
+          page={page}
+          between={3}
+          total={totalElements}
+          limit={5}
+          changePage={(page) => {
+            setPage(page)
+          }}
+          ellipsis={1}
+        />
       </section>
     </>
   );

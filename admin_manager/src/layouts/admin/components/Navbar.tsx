@@ -1,29 +1,20 @@
 import { Link } from 'react-router-dom'
-import useAccount from '../../../hooks/useAccount';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 
-  interface CustomJwtPayload extends JwtPayload {
-    authorities: { authority: string }[];
+interface CustomJwtPayload extends JwtPayload {
+  authorities: { authority: string }[];
+}
+
+const Navbar = () => {
+  const token = localStorage.getItem("access_token");
+
+  let userRole = '';
+
+  if (token) {
+    const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
+    userRole = decodedData.authorities[0].authority;
   }
-  
-  const Navbar = () => {
-    const token = localStorage.getItem("access_token");
-    const user = useAccount(token);
-    let userRole = '';
-  
-    if (token) {
-      const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
-      userRole = decodedData.authorities[0].authority;
-    }
-
-  // if (roles && !roles.some(role => userRoles.includes(role))) {
-  //     navigate('/404');
-  // }
-
-  // if (userRoles.includes('STAFF')) {
-  //     navigate('/my-account-staff');
-  // }
 
   return (
 
