@@ -30,6 +30,12 @@ const Navbar = () => {
             <span>Danh sách các phiên đấu giá</span>
           </Link>
         </li>
+        <li >
+          <Link className="has-arrow" to={"/manager/staffList"} aria-expanded="false">
+            <img src="assets/img/menu-icon/7.svg" />
+            <span>Danh sách các nhân viên</span>
+          </Link>
+        </li>
       </ul>
     </nav>
    

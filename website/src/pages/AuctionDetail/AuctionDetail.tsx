@@ -16,6 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { getAuctionHistoriesByAuctionId } from "../../api/AuctionHistoryAPI";
 import { AuctionHistory } from "../../models/AuctionHistory";
+import useCountDown from "../../hooks/useCountDown";
 
 
 export default function AuctionDetail() {
@@ -24,7 +25,7 @@ export default function AuctionDetail() {
     const [jewelryUser, setJewelryUser] = useState<User | null>(null);
     const [auctionRegistations, setAuctionRegistations] = useState<AuctionRegistration[]>([]);
     const [staff, setStaff] = useState<User | null>(null);
-    const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | string>('');
+    const timeLeft = useCountDown(auction);
     const { id } = useParams();
     const token = localStorage.getItem("access_token");
     const user = useAccount(token);
@@ -32,6 +33,16 @@ export default function AuctionDetail() {
     const location = useLocation();
     const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
     const [bidPerPage, setBidPerPage] = useState<number>(3);
+
+    try {
+        auctionId = parseInt(id + "");
+        if (Number.isNaN(auctionId)) {
+            auctionId = 0;
+        }
+    } catch (error) {
+        auctionId = 0;
+        console.log("Error parsing auction id: " + error);
+    }
 
     useEffect(() => {
         if (auctionId !== null) {
@@ -54,16 +65,6 @@ export default function AuctionDetail() {
         }
     }, [])
 
-    try {
-        auctionId = parseInt(id + "");
-        if (Number.isNaN(auctionId)) {
-            auctionId = 0;
-        }
-    } catch (error) {
-        auctionId = 0;
-        console.log("Error parsing auction id: " + error);
-    }
-
     useEffect(() => {
         getAuctionRegistrationsByAuctionId(auctionId)
             .then((response) => {
@@ -84,88 +85,6 @@ export default function AuctionDetail() {
             });
         window.scrollTo(0, 0);
     }, [auctionId]);
-
-    useEffect(() => {
-        if (auction && auction.startDate && auction.endDate) {
-            const now = new Date().getTime();
-            const startDate = new Date(formatDateString(auction.startDate)).getTime();
-            const endDate = new Date(formatDateString(auction.endDate)).getTime();
-
-            if (auction.state === 'ONGOING') {
-                // Calculate countdown until end date
-                const distanceToEnd = endDate - now;
-
-                if (distanceToEnd < 0) {
-                    setTimeLeft("Phiên đấu giá đã kết thúc");
-                    return;
-                }
-
-                const daysToEnd = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
-                const hoursToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutesToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60)) / (1000 * 60));
-                const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
-
-                setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
-            } else if (auction.state === 'WAITING') {
-                // Calculate countdown until start date
-                const distanceToStart = startDate - now;
-
-                if (distanceToStart < 0) {
-                    setTimeLeft("Phiên đấu giá đang diễn ra");
-                    return;
-                }
-
-                const daysToStart = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
-                const hoursToStart = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutesToStart = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
-                const secondsToStart = Math.floor((distanceToStart % (1000 * 60)) / 1000);
-
-                setTimeLeft({ days: daysToStart, hours: hoursToStart, minutes: minutesToStart, seconds: secondsToStart });
-            } else if (auction.state === 'FINISHED') {
-                // Auction finished
-                setTimeLeft("Phiên đấu giá đã kết thúc");
-                return;
-            }
-
-            const timer = setInterval(() => {
-                const now = new Date().getTime();
-
-                if (auction.state === 'ONGOING') {
-                    const distanceToEnd = endDate - now;
-
-                    if (distanceToEnd < 0) {
-                        setTimeLeft("Phiên đấu giá đã kết thúc");
-                        clearInterval(timer);
-                        return;
-                    }
-
-                    const daysToEnd = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
-                    const hoursToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutesToEnd = Math.floor((distanceToEnd % (1000 * 60 * 60)) / (1000 * 60));
-                    const secondsToEnd = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
-
-                    setTimeLeft({ days: daysToEnd, hours: hoursToEnd, minutes: minutesToEnd, seconds: secondsToEnd });
-                } else if (auction.state === 'WAITING') {
-                    const distanceToStart = startDate - now;
-
-                    if (distanceToStart < 0) {
-                        setTimeLeft("Phiên đấu giá đang diễn ra");
-                        clearInterval(timer);
-                        return;
-                    }
-
-                    const daysToStart = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
-                    const hoursToStart = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutesToStart = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
-                    const secondsToStart = Math.floor((distanceToStart % (1000 * 60)) / 1000);
-
-                    setTimeLeft({ days: daysToStart, hours: hoursToStart, minutes: minutesToStart, seconds: secondsToStart });
-                }
-            }, 1000);
-
-            return () => clearInterval(timer);
-        }
-    }, [auction]);
 
     const checkAlreadyRegistered = () => {
         if (auctionRegistations && auctionRegistations.length > 0) {
@@ -405,7 +324,7 @@ export default function AuctionDetail() {
 
                     {/* Begin Umino's Single Product Tab Area  */}
 
-                    <AuctionTabDetail auctionHistories={auctionHistories} setBidPerPage={setBidPerPage} auction={auction} staff={staff} jewelry={jewelry} />
+                    <AuctionTabDetail isBid={false} auctionHistories={auctionHistories} setBidPerPage={setBidPerPage} auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
                 <ToastContainer />
             </div>
