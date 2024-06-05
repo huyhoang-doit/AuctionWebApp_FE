@@ -8,11 +8,9 @@ import { TransactionHistory } from "./Components/TransactionHistory";
 import { MyJewelryList } from "./Components/MyJewelryList";
 import { LogoutModal } from "./Modal/Modal";
 import { UserContext } from "../../hooks/useContext";
+import { ChangePassword } from "./Components/staff/ChangePassword";
 
 export default function MyAccount() {
-    // const token = localStorage.getItem("access_token");
-    // const user = useAccount(token);
-    // const [userState, setUserState] = useState<User | null>(user);
     const context = useContext(UserContext);
     const [userState, setUserState] = useState<User | null>(null);
 
@@ -57,6 +55,19 @@ export default function MyAccount() {
                                             aria-selected="true"
                                         >
                                             Thông tin cá nhân
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a
+                                            className="nav-link"
+                                            id="change-password-tab"
+                                            data-bs-toggle="tab"
+                                            href="#change-password"
+                                            role="tab"
+                                            aria-controls="account-dashboard"
+                                            aria-selected="true"
+                                        >
+                                            Đổi mật khẩu
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -111,6 +122,7 @@ export default function MyAccount() {
                                     id="account-page-tab-content"
                                 >
                                     <MyAccountDetail user={userState} setUser={setUserState} />
+                                    <ChangePassword user={userState} />
                                     <MyBidHistory username={userState?.username} />
                                     <TransactionHistory user={userState} />
                                     <MyJewelryList username={userState?.username} />

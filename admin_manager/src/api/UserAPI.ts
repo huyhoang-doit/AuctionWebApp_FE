@@ -65,7 +65,7 @@ export const getWinnerByAuctionId = async (auctionID: number | undefined): Promi
     return response;
 };
 
-export async function getMembers(page: number, role: string): Promise<ResultPageableInteface> {
+export async function getMembers(role: string, page: number): Promise<ResultPageableInteface> {
     const token = localStorage.getItem('access_token');
     if (!token) {
         throw new Error("No access token found");

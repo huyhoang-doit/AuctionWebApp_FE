@@ -6,6 +6,7 @@ import CreateAuction from "../pages/manager/Auctions/CreateAuction";
 import ViewProducts from "../pages/manager/View/ViewProducts";
 import ViewAuctionsList from "../pages/manager/View/ViewAuctionsList";
 import StaffList from "../pages/manager/ManagerStaff/StaffList";
+
 const RouterComManager = () => {
   return (
     <>

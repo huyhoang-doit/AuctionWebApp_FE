@@ -1,8 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
-import Index from '../pages/admin/Index/Index'
 import ManageManager from '../pages/admin/manage-account/ManageManager'
 import ManageStaff from '../pages/admin/manage-account/ManageStaff'
-import ManageUser from '../pages/admin/manage-account/ManageUser'
+import ManageUser from '../pages/admin/manage-account/ManageMember'
 import TransactionWithSeller from '../pages/admin/transaction/TransactionWithSeller'
 import TransactionWithBuyer from '../pages/admin/transaction/TransactionWithBuyer'
 import TransactionWithUser from '../pages/admin/transaction/TransactionWithUser'
@@ -12,6 +11,7 @@ import ViewTransactionBuyer from '../pages/admin/View/ViewTransactionBuyer'
 import ViewTransactionUser from '../pages/admin/View/ViewTransactionUser'
 import ViewProfile from '../pages/admin/View/ViewProfile'
 import GuestRoute from './GuestRoute'
+import Index from '../pages/Index/Index'
 
 const RouterComAdmin = () => {
   return (

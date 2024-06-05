@@ -196,7 +196,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         if (isWrong) {
             yobError = "Năm sinh không hợp lệ!";
         }
-        setErrors(prevErrors => ({...prevErrors, yob: yobError }));
+        setErrors(prevErrors => ({ ...prevErrors, yob: yobError }));
         setUser({ ...user, yob: e.target.value })
     }
 
@@ -230,7 +230,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         setErrors((prevErrors) => ({ ...prevErrors, bankAccountName: bankAccountNameError }));
         setUser({ ...user, bankAccountName: value });
     }
-    
+
     return (
         <div
             className="tab-pane fade active"
@@ -343,7 +343,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                         <select id="city" disabled={!isEditing} value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
                                             {/* <option disabled value={""}>{user.city}</option> */}
                                             {cities.map(city => (
-                                                <option  key={city.Id} value={city.Id}>{city.Name}</option>
+                                                <option key={city.Id} value={city.Id}>{city.Name}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -352,7 +352,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                         <select id="district" disabled={!isEditing} value={selectedDistrictId} onChange={handleDistrictChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
                                             <option disabled value={""}>{user.district}</option>
                                             {districts.map(district => (
-                                                <option  key={district.Id} value={district.Id}>{district.Name}</option>
+                                                <option key={district.Id} value={district.Id}>{district.Name}</option>
                                             ))}
                                         </select>
                                     </div>
