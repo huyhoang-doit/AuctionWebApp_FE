@@ -1,6 +1,8 @@
+import { Jewelry } from './../models/Jewelry';
 import { RequestApproval } from "../models/RequestApproval";
 import { User } from "../models/User";
 import { MyRequest } from "./MyRequest";
+import { fetchWithToken } from './AuthenticationAPI';
 
 interface ResultPageableInteface {
   requestsData: RequestApproval[];
@@ -203,4 +205,30 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
     totalElements: totalElements
   };
 }
+
+interface SendReqeustFromUser {
+  senderId: number | undefined;
+  jewelryId: number;
+  requestTime: string
+}
+
+export const sendRequestApprovalFromUser = async (request: SendReqeustFromUser): Promise<boolean> => {
+  const accessToken = localStorage.getItem('access_token');
+  // end-point
+  const URL = `http://localhost:8080/api/v1/request-approval/send-from-user`;
+  // call api
+  try {
+    const response = await fetchWithToken(URL, 'POST', accessToken, request);
+
+    console.log(response);
+
+    if (!response.ok) {
+      throw new Error(`Không thể truy cập ${URL}`);
+    }
+    return true;
+  } catch (error) {
+    console.error("Error: " + error);
+    return false;
+  }
+};
 

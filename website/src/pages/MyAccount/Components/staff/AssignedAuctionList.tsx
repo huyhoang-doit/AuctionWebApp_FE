@@ -60,17 +60,12 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
               {auctions.map((auction) => (
                 <tr key={auction.id}>
                   <td>
-                    <a
-                      className="account-order-id"
-                      href=""
-                    >
-                      {auction.id}
-                    </a>
+                    {auction.id}
                   </td>
                   <td>{auction.name}</td>
                   <td>{formatDateString(auction.startDate)}</td>
                   <td>
-                    <span className='fw-bold'>
+                    <span className={`fw-bold ${auction.state === 'WAITING' ? 'text-warning' : auction.state === 'ONGOING' ? 'text-success' : ''}`}>
                       {auction.state}
                     </span>
                   </td>
