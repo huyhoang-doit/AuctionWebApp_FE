@@ -1,15 +1,18 @@
 import { Image } from "../models/Image";
 import { Jewelry } from "../models/Jewelry";
+import { fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
 
 interface JewelryRequest {
   id: number;
   name: string;
-  price: number | string;
+  price: number;
+  category: string | undefined;
+  description: string;
+  material: string;
   brand: string;
-  description?: string;
-  images: Array<Image> | string;
-  user: string;
+  weight: number;
+  userId: number | undefined;
 }
 
 interface ResultPageableInteface {
@@ -71,17 +74,12 @@ async function getJewelries(URL: string): Promise<Jewelry[]> {
 }
 
 export const sendJewelryFromUser = async (jewelryRequest: JewelryRequest): Promise<boolean> => {
+  const accessToken = localStorage.getItem('access_token');
   // end-point
-  const URL = `http://localhost:8080/api/v1/auth/`;
+  const URL = `http://localhost:8080/api/v1/jewelry/jewelry-request`;
   // call api
   try {
-    const response = await fetch(URL, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({ ...jewelryRequest }),
-    });
+    const response = await fetchWithToken(URL, 'POST', accessToken, jewelryRequest);
 
     console.log(response);
 
@@ -174,4 +172,12 @@ export async function getJewelriesHandOverList(page: number): Promise<ResultPage
     jeweriesData: jewelrys,
     totalElements: totalElements
   }
+}
+
+export async function getLatestJewelry(): Promise<Jewelry> {
+  const URL = 'http://localhost:8080/api/v1/jewelry/latest'
+  const response = await MyRequest(URL);
+  console.log(response);
+
+  return response;
 }
