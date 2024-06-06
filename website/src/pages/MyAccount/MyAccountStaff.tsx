@@ -24,7 +24,7 @@ export default function MyAccountStaff() {
           <div className="breadcrumb-content">
             <ul>
               <li>
-                <Link to={'/'} >Home</Link>
+                <Link to={"/"}>Home</Link>
               </li>
               <li className="active">Tài khoản của tôi</li>
             </ul>
@@ -108,8 +108,7 @@ export default function MyAccountStaff() {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <Link to={""}
-                    >
+                    <Link to={""}>
                       <LogoutModal />
                     </Link>
                   </li>
@@ -126,10 +125,15 @@ export default function MyAccountStaff() {
 
                   <JewelriesWaitList user={userState} setUser={setUserState} />
 
-                  <JewelriesHandOverList user={userState} setUser={setUserState} />
+                  <JewelriesHandOverList
+                    user={userState}
+                    setUser={setUserState}
+                  />
 
-                  <AssignedAuctionList user={userState} setUser={setUserState} />
-
+                  <AssignedAuctionList
+                    user={userState}
+                    setUser={setUserState}
+                  />
                 </div>
               </div>
             </div>
