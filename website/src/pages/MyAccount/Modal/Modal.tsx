@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import './Modal.css';
 import { handleLogout } from '../../../utils/logout';
@@ -22,6 +22,7 @@ import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from '../../../uti
 import { RequestApproval } from '../../../models/RequestApproval';
 import changeStateRequest from '../../../api/RequestApprovalAPI';
 import { changePassword } from '../../../api/AuthenticationAPI';
+import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi';
 // *** MODAL FOR USER
 
 
@@ -67,9 +68,31 @@ export const ViewTransactionModal = () => {
     </>
   );
 }
+interface MyRequestProps {
+  request: RequestApproval
+}
 
-export const ViewJewelryRequestModal = () => {
+export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({ request }) => {
   const [show, setShow] = useState(false);
+  const [image, setImage] = useState<Image | null>(null)
+  const [images, setImages] = useState<Image[]>([])
+  useEffect(() => {
+    getIconImageByJewelryId(request.jewelry?.id ? request.jewelry?.id : 1)
+      .then((response) => {
+        setImage(response);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+
+    getImagesByJewelryId(request.jewelry?.id ? request.jewelry?.id : 1)
+      .then((response) => {
+        setImages(response);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }, [request])
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -86,12 +109,120 @@ export const ViewJewelryRequestModal = () => {
             onHide={handleClose}
             centered
             backdropClassName="custom-backdrop"
-            size="lg"
           >
             <Modal.Header >
-              <Modal.Title>Thông tin sản phẩm yêu cầu </Modal.Title>
+              <Modal.Title className='w-100'>
+
+                <div className='col-12 text-center'>Thông tin tài sản</div>
+                <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{request.jewelry?.name}</span></div>
+              </Modal.Title>
             </Modal.Header>
-            <Modal.Body>...</Modal.Body>
+            <Modal.Body>
+              <form action="">
+                <div className="checkbox-form">
+                  <div className="row">
+                    <div className="col-md-12 ">
+                      <div className="country-select clearfix">
+                      </div>
+                    </div>
+                    <div className="col-md-12 fw-medium">
+                      <div className="checkout-form-list mb-2">
+                        <label>
+                          Mã tài sản:{" "}
+                        </label>
+                        <span className='fw-bold'> {request.jewelry?.id}</span>
+                      </div>
+                      <div className="checkout-form-list mb-2">
+                        <label>
+                          Tên:
+                        </label>
+                        <span className='fw-bold'> {request.jewelry?.name}</span>
+                      </div>
+                      <div className="checkout-form-list mb-2 row">
+                        <div className='col-md-6'>
+                          <label>
+                            Danh mục:
+                          </label>
+                          <span className='fw-bold'> {request.jewelry?.category?.name}</span>
+                        </div>
+                        <div className='col-md-6'>
+                          <label>
+                            Thương hiệu:
+                          </label>
+                          <span className='fw-bold'> {request.jewelry?.brand}</span>
+                        </div>
+                        <div className='col-md-6'>
+                          <label>
+                            Chất liệu:
+                          </label>
+                          <span className='fw-bold'> {request.jewelry?.material}</span>
+                        </div>
+                        <div className='col-md-6'>
+                          <label>
+                            Trọng lượng (g):
+                          </label>
+                          <span className='fw-bold'> {request.jewelry?.weight}</span>
+                        </div>
+                      </div>
+                      <div className="checkout-form-list checkout-form-list-2 mb-2">
+                        <label>Mô tả </label><br />
+                        <textarea readOnly className='w-100 h-auto p-1'
+                          id="checkout-mess"
+                          value={request.jewelry?.description}
+                        ></textarea>
+                      </div>
+                      <div className="w-100 fw-medium">
+                        <div className="checkout-form-list row">
+                          <label>
+                            Hình ảnh
+                          </label>
+                          {React.Children.toArray(images.map(
+                            (img: Image) =>
+                              <div className='col-md-3'>
+                                <img src={img.data} alt="Ảnh sản phẩm" />
+                              </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="checkout-form-list">
+                        <label className='text-danger fw-bold'>Giá đề xuất</label>
+                        <input className=' fw-bold'
+                          placeholder=""
+                          type="text"
+                          value={formatNumber(request?.desiredPrice)}
+                          readOnly={true}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="checkout-form-list">
+                        <label className='fw-bold'>Trạng thái</label>
+                        {request.state === 'HIDDEN' ? (
+                          <input
+                            className=' fw-bold text-danger'
+                            placeholder=""
+                            type="text"
+                            value='Đã bị hủy'
+                            readOnly={true}
+                          />
+                        ) : (
+                          <input
+                            className=' fw-bold text-success'
+                            placeholder=""
+                            type="text"
+                            value={`${request.isConfirm ? 'Đã phê duyệt' : 'Chưa phê duyệt'}`}
+                            readOnly={true}
+                          />
+                        )}
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
                 Đóng
@@ -460,7 +591,7 @@ interface DeleteJewelryModalProps {
 }
 
 // Delete Jewelry Modal
-export const DeleteJewelryModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, setNotification, request, handleChangeList }) => {
+export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, setNotification, request, handleChangeList }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => {

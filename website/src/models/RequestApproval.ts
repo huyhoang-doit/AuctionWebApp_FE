@@ -12,7 +12,7 @@ export class RequestApproval {
   sender?: User;
   responder?: User;
   staff?: User;
-  state?: boolean;
+  state?: string;
 
   constructor(
     id: number,
@@ -21,7 +21,7 @@ export class RequestApproval {
     responseTime?: string,
     jewelry?: Jewelry,
     sender?: User,
-    state?: boolean,
+    state?: string,
     desiredPrice?: number,
     requestTime?: string,
     responder?: User,

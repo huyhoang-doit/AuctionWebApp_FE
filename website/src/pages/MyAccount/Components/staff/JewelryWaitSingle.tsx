@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
 import { Jewelry } from '../../../../models/Jewelry'
 import { Image } from '../../../../models/Image'
-import { DeleteJewelryModal, JewelryModal } from '../../Modal/Modal'
+import { DeleteJewelryRequestModal, JewelryModal } from '../../Modal/Modal'
 import { User } from '../../../../models/User'
 import { RequestApproval } from '../../../../models/RequestApproval'
 import { formatNumberAcceptNull } from '../../../../utils/formatNumber'
@@ -60,7 +60,7 @@ export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ request, j
         </td>
         <td>
           <JewelryModal jewelry={jewelry} images={images} user={user} request={request} />
-          <DeleteJewelryModal jewelry={jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} />
+          <DeleteJewelryRequestModal jewelry={jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} />
         </td>
       </tr>
     </>

@@ -152,6 +152,8 @@ export const PageSendJewelry = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log(jewelryRequest);
+
         if (images.length === 0) {
             setNotification('Vui lòng cung cấp ảnh cho sản phẩm')
             return
