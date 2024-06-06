@@ -15,6 +15,7 @@ const RouterComManager = () => {
         <Route path="/manager/request" element={<RequestProduct />} />
         <Route path="/manager/auction" element={<AuctionsList />} />
         <Route path="/manager/staffList" element={<StaffList />} />
+        {/* Hiện thông tin staff */}
         <Route path="/manager/account/staff" element={<StaffList />} />
         <Route path="/manager/create-auction" element={<CreateAuction />} />
         <Route path="/manager/view/viewproducts" element={<ViewProducts />} />
