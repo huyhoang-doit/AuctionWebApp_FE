@@ -119,6 +119,8 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
         request.jewelry.user.bankAccountNumber,
         request.jewelry.user.bankAccountName
       ),
+      brand: request.jewelry.brand,
+      category: request.jewelry.category,
       material: request.jewelry.material,
       weight: request.jewelry.weight
     };
@@ -231,4 +233,130 @@ export const sendRequestApprovalFromUser = async (request: SendReqeustFromUser):
     return false;
   }
 };
+export async function getRequestByUserId(userId: number, page: number): Promise<ResultPageableInteface> {
+  // endpoint
+  const URL: string = `http://localhost:8080/api/v1/request-approval/user/${userId}?page=${page - 1}`;
 
+  console.log(URL);
+
+  const requests: RequestApproval[] = [];
+  // request
+  const response = await MyRequest(URL);
+
+  const responseData = response.content;
+  const totalElements = response.totalElements;
+
+  for (const key in responseData) {
+    const request = responseData[key];
+
+    const jewelry = {
+      id: request.jewelry.id,
+      name: request.jewelry.name,
+      description: request.jewelry.description,
+      user: new User(
+        request.jewelry.user.id,
+        request.jewelry.user.username,
+        request.jewelry.user.fullName,
+        request.jewelry.user.firstName,
+        request.jewelry.user.lastName,
+        request.jewelry.user.password,
+        request.jewelry.user.email,
+        request.jewelry.user.phone,
+        request.jewelry.user.address,
+        request.jewelry.user.district,
+        request.jewelry.user.ward,
+        request.jewelry.user.city,
+        request.jewelry.user.yob,
+        request.jewelry.user.cccd,
+        request.jewelry.user.bank,
+        request.jewelry.user.bankAccountNumber,
+        request.jewelry.user.bankAccountName
+      ),
+      brand: request.jewelry.brand,
+      category: request.jewelry.category,
+      material: request.jewelry.material,
+      weight: request.jewelry.weight
+    };
+
+    const staff = request.staff ? new User(
+      request.staff.id,
+      request.staff.username,
+      request.staff.fullName,
+      request.staff.firstName,
+      request.staff.lastName,
+      request.staff.password,
+      request.staff.email,
+      request.staff.phone,
+      request.staff.address,
+      request.staff.district,
+      request.staff.ward,
+      request.staff.city,
+      request.staff.yob,
+      request.staff.cccd,
+      request.staff.bank,
+      request.staff.bankAccountNumber,
+      request.staff.bankAccountName
+    ) : undefined;
+
+    const sender = request.sender ? new User(
+      request.sender.id,
+      request.sender.username,
+      request.sender.fullName,
+      request.sender.firstName,
+      request.sender.lastName,
+      request.sender.password,
+      request.sender.email,
+      request.sender.phone,
+      request.sender.address,
+      request.sender.district,
+      request.sender.ward,
+      request.sender.city,
+      request.sender.yob,
+      request.sender.cccd,
+      request.sender.bank,
+      request.sender.bankAccountNumber,
+      request.sender.bankAccountName
+    ) : undefined;
+
+    const responder = request.responder ? new User(
+      request.responder.id,
+      request.responder.username,
+      request.responder.fullName,
+      request.responder.firstName,
+      request.responder.lastName,
+      request.responder.password,
+      request.responder.email,
+      request.responder.phone,
+      request.responder.address,
+      request.responder.district,
+      request.responder.ward,
+      request.responder.city,
+      request.responder.yob,
+      request.responder.cccd,
+      request.responder.bank,
+      request.responder.bankAccountNumber,
+      request.responder.bankAccountName
+    ) : undefined;
+
+    requests.push({
+      id: request.id,
+      isConfirm: request.confirm,
+      desiredPrice: request.desiredPrice,
+      valuation: request.valuation,
+      requestTime: request.requestTime,
+      responseTime: request.responseTime,
+      state: request.state,
+      jewelry: jewelry,
+      staff: staff,
+      sender: sender,
+      responder: responder,
+    });
+
+    console.log(requests);
+  }
+
+  return {
+    requestsData: requests,
+    totalElements: totalElements
+  };
+}

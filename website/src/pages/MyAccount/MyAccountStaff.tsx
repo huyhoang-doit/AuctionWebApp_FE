@@ -7,6 +7,7 @@ import JewelriesWaitList from "./Components/staff/JewelriesWaitList";
 import AssignedAuctionList from "./Components/staff/AssignedAuctionList";
 import JewelriesHandOverList from "./Components/staff/JewelriesHandOverList";
 import { LogoutModal } from "./Modal/Modal";
+import { ChangePassword } from "./Components/staff/ChangePassword";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);
@@ -52,6 +53,19 @@ export default function MyAccountStaff() {
                       aria-selected="true"
                     >
                       Thông tin tài khoản
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      id="change-password-tab"
+                      data-bs-toggle="tab"
+                      href="#change-password"
+                      role="tab"
+                      aria-controls="account-dashboard"
+                      aria-selected="true"
+                    >
+                      Đổi mật khẩu
                     </a>
                   </li>
                   <li className="nav-item">
@@ -106,6 +120,8 @@ export default function MyAccountStaff() {
                   id="account-page-tab-content"
                 >
                   <MyAccountDetail user={userState} setUser={setUserState} />
+
+                  <ChangePassword user={userState} />
 
                   <JewelriesWaitList user={userState} setUser={setUserState} />
 

@@ -1,29 +1,46 @@
-import React, { useEffect, useState } from "react"
-import { ViewTransactionModal } from "../Modal/Modal"
-import { Jewelry } from "../../../models/Jewelry";
-import { getJewelriesPagination } from "../../../api/JewelryAPI";
+import React, { useCallback, useEffect, useState } from "react"
+import { DeleteJewelryRequestModal, ViewJewelryRequestModal, ViewTransactionModal } from "../Modal/Modal"
 import { formatNumber } from "../../../utils/formatNumber";
 import { PaginationControl } from "react-bootstrap-pagination-control";
+import { getRequestByUserId } from "../../../api/RequestApprovalAPI";
+import { RequestApproval } from "../../../models/RequestApproval";
 
 interface MyJewelryListProps {
-    username: string | undefined;
+    userId: number | undefined;
 }
 
-export const MyJewelryList: React.FC<MyJewelryListProps> = ({ username }) => {
-    const [myJewelryList, setMyJewelryList] = useState<Jewelry[]>([]);
+export const MyJewelryList: React.FC<MyJewelryListProps> = ({ userId }) => {
+    const [myJewelryRequestList, setMyJewelryRequestList] = useState<RequestApproval[]>([]);
     const [totalElements, setTotalElements] = useState(0)
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
+    const [notification, setNotification] = useState<string>('');
+
     useEffect(() => {
-        if (username) {
-            getJewelriesPagination(username, page)
+        if (userId) {
+            getRequestByUserId(userId, page)
                 .then((response) => {
-                    setMyJewelryList(response.jeweriesData);
+                    setMyJewelryRequestList(response.requestsData);
                     setTotalElements(response.totalElements);
                 })
                 .catch(() => {
                 });
         }
-    }, [username, page]);
+    }, [userId, page]);
+    const handleChangeList = useCallback(async () => {
+        if (userId) {
+            try {
+                const response = await getRequestByUserId(userId, page)
+                setMyJewelryRequestList(response.requestsData);
+                setTotalElements(response.totalElements);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }, [userId, page]);
+
+    useEffect(() => {
+        handleChangeList();
+    }, [userId, page, handleChangeList]);
     return (<div
         className="tab-pane fade"
         id="jewelry-request"
@@ -45,26 +62,34 @@ export const MyJewelryList: React.FC<MyJewelryListProps> = ({ username }) => {
                             <th>Trạng thái</th>
                             <th>Thao tác</th>
                         </tr>
-                        {React.Children.toArray(myJewelryList.map(
-                            (jewelry) =>
+                        {React.Children.toArray(myJewelryRequestList.map(
+                            (request) =>
                                 <tr>
                                     <td>
-                                        {jewelry.id}
+                                        {request.jewelry?.id}
                                     </td>
                                     <td>
-                                        {jewelry.name}
+                                        {request.jewelry?.name}
                                     </td>
                                     <td>
-                                        {formatNumber(jewelry.price)}
+                                        {formatNumber(request.desiredPrice)}
                                     </td>
                                     <td>
-                                        {formatNumber(jewelry.price)}
+                                        {formatNumber(request.valuation)}
                                     </td>
+
+                                    {request.state === 'HIDDEN' ? (
+                                        <td className="fw-semibold text-danger">
+                                            Đã bị hủy
+                                        </td>
+                                    ) : (
+                                        <td className={`fw-semibold ${request.isConfirm ? 'text-success' : 'text-dark'}`}>
+                                            {request.isConfirm ? 'Đã phê duyệt' : 'Chưa phê duyệt'}
+                                        </td>
+                                    )}
                                     <td>
-                                        {jewelry.state}
-                                    </td>
-                                    <td>
-                                        <ViewTransactionModal />
+                                        <ViewJewelryRequestModal request={request} />
+                                        {/* <DeleteJewelryRequestModal jewelry={request.jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} /> */}
                                     </td>
                                 </tr>
                         ))}
