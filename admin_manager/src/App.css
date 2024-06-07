@@ -9,3 +9,22 @@
 .bg-error {
     background-color: #bb2d3b;
 }
+
+// CSS color pagination
+.mt-4 .{
+    background-color: black;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+
+  .page-link {
+    color: black;
+  }
+  
+  .active>.page-link {
+    color: yellow;
+    background-color: black;
+    border: none
+   
+  }

@@ -22,7 +22,7 @@ interface RegisterRequest {
 export const login = async (loginRequest: LoginRequest, setError: (message: string) => void) => {
     // end-point
     const URL = `http://localhost:8080/api/v1/auth/authenticate`;
-    const request = {...loginRequest, email: loginRequest.username}
+    const request = { ...loginRequest, email: loginRequest.username }
     // call api
     try {
         const response = await fetch(URL, {
@@ -174,7 +174,7 @@ export const refreshToken = async () => {
         console.error('Failed to refresh token:', error);
         localStorage.removeItem('access_token');
         console.log("hello");
-        
+
         // localStorage.removeItem('refresh_token');
         window.location.href = '/dang-nhap';
         return;
@@ -191,10 +191,10 @@ export const fetchGetWithToken = async (url: string, method: string, token: stri
             'Authorization': `Bearer ${token}`
         },
     });
-    
+
     if (response.status === 401 || response.status === 403) {
         const newToken = await refreshToken();
-      
+
         if (newToken) {
             // Retry request with new token
             response = await fetchGetWithToken(url, method, newToken);
@@ -211,13 +211,35 @@ export const fetchNoBodyWithToken = async (url: string, method: string, token: s
             'Authorization': `Bearer ${token}`
         },
     });
-    
+
     if (response.status === 401 || response.status === 403) {
         const newToken = await refreshToken();
-      
+
         if (newToken) {
             // Retry request with new token
             response = await fetchNoBodyWithToken(url, method, newToken);
+        }
+    }
+    return response;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const fetchWithToken = async (url: string, method: string, token: string | null, body: any) => {
+    let response = await fetch(url, {
+        method: `${method}`,
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(body),
+    });
+
+    if (response.status === 401 || response.status === 403) {
+        const newToken = await refreshToken();
+
+        if (newToken) {
+            // Retry request with new token
+            response = await fetchWithToken(url, method, newToken, body);
         }
     }
     return response;

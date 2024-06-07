@@ -8,7 +8,6 @@ import AssignedAuctionList from "./Components/staff/AssignedAuctionList";
 import JewelriesHandOverList from "./Components/staff/JewelriesHandOverList";
 import { LogoutModal } from "./Modal/Modal";
 import { ChangePassword } from "./Components/staff/ChangePassword";
-import { ToastContainer, toast } from 'react-toastify';
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);

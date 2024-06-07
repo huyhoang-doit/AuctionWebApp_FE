@@ -603,7 +603,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
             <Button variant="dark" onClick={handleClose}>
               Đóng
             </Button>
-            <Button variant="warning" onClick={handleClose}>
+            <Button variant="warning" onClick={handleConfirm}>
               Gửi yêu cầu
             </Button>
           </Modal.Footer>
