@@ -152,7 +152,6 @@ export const PageSendJewelry = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(jewelryRequest);
 
         if (images.length === 0) {
             setNotification('Vui lòng cung cấp ảnh cho sản phẩm')
@@ -166,7 +165,6 @@ export const PageSendJewelry = () => {
                 const newJewelry: Jewelry = await getLatestJewelry()
                 if (newJewelry) {
                     const newJewelryId = newJewelry.id
-                    console.log(newJewelryId);
 
                     const iconImage = await setImageForJewelry({ data: base64Images[0], jewelryId: newJewelryId }, true)
                     processImages(base64Images, newJewelryId)
@@ -186,7 +184,27 @@ export const PageSendJewelry = () => {
                         const sendRequest = await sendRequestApprovalFromUser(newSendRequestBody)
                         if (sendRequest) {
                             console.log("Gửi yêu cầu cho sản phẩm mới thành công");
-
+                            setProductName('')
+                            setProductType(categories[0].name);
+                            setPrice(0);
+                            setPriceDisplay('')
+                            setBrand('')
+                            setWeight(0)
+                            setDescription('')
+                            setMaterial('Bạc')
+                            setImages([])
+                            setBase64Images([])
+                            setJewelryRequest({
+                                id: 0,
+                                name: '',
+                                price: 0,
+                                category: '',
+                                description: '',
+                                material: '',
+                                brand: '',
+                                weight: 0,
+                                userId: user?.id
+                            })
                             setNotification("Yêu cầu của bạn đã được gửi thành công.");
                         }
                     }
@@ -241,7 +259,7 @@ export const PageSendJewelry = () => {
                                                 required
                                             >
                                                 {categories.map((category) => (
-                                                    <option style={{ padding: '5px' }} key={category.id} value={category.id}>
+                                                    <option style={{ padding: '5px' }} key={category.id} value={category.name}>
                                                         {category.name}
                                                     </option>
                                                 ))}

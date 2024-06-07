@@ -11,7 +11,6 @@ import {
   getTransactionsByUsername,
   getTransactionsDashboardByUsername,
 } from "../../../api/TransactionAPI";
-import "./TransactionHistory.css";
 
 interface TransactionHistoryProps {
   user: User | null;
@@ -48,13 +47,13 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
             totalBid: response.totalBid,
           });
         })
-        .catch(() => {});
+        .catch(() => { });
       getTransactionsByUsername(username, page)
         .then((response) => {
           setTransactions(response.transactions);
           setTotalElements(response.totalElements);
         })
-        .catch(() => {});
+        .catch(() => { });
     }
   }, [user, page]);
 

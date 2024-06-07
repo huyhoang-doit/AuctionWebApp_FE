@@ -20,7 +20,7 @@ import 'sweetalert2/src/sweetalert2.scss'
 import Stomp from "stompjs";
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from '../../../utils/checkRegister';
 import { RequestApproval } from '../../../models/RequestApproval';
-import changeStateRequest from '../../../api/RequestApprovalAPI';
+import changeStateRequest, { confirmRequest, sendRequestApprovalFromStaff } from '../../../api/RequestApprovalAPI';
 import { changePassword } from '../../../api/AuthenticationAPI';
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi';
 // *** MODAL FOR USER
@@ -241,11 +241,12 @@ interface JewelryModalProps {
   images: Image[];
   user: User | null;
   request: RequestApproval;
+  handleChangeList: () => Promise<void>
 }
 
 // *** MODAL FOR STAFF ***
 // Modal for Jewelry List
-export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, user, request }) => {
+export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, user, request, handleChangeList }) => {
   const [show, setShow] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [valuation, setValuation] = useState<number | undefined>(request.valuation);
@@ -408,7 +409,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
         </div >
       )}
 
-      <JewelryCreateRequestModal show={showCreateModal} handleClose={handleCloseCreateModal} request={request} jewelry={jewelry} images={images} user={user} />
+      <JewelryCreateRequestModal show={showCreateModal} handleClose={handleCloseCreateModal} request={request} jewelry={jewelry} images={images} user={user} handleChangeList={handleChangeList} />
     </>
   );
 };
@@ -420,10 +421,40 @@ interface JewelryCreateRequestModalProps {
   images: Image[];
   user: User | null;
   request: RequestApproval;
+  handleChangeList: () => Promise<void>
 }
 
 
-export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps> = ({ show, handleClose, jewelry, images, user, request }) => {
+export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps> = ({ show, handleClose, jewelry, images, user, request, handleChangeList }) => {
+  const handleSendRequestFromStaff = async () => {
+    const requestBody = {
+      id: 0,
+      senderId: user?.id,
+      requestApprovalId: request.id,
+      valuation: request.valuation,
+      requestTime: new Date().toISOString()
+    }
+    console.log(requestBody);
+
+    const newRequest = await sendRequestApprovalFromStaff(requestBody)
+    if (newRequest) {
+      console.log('Staff send request thanh cong');
+      handleChangeList()
+
+    }
+  }
+
+  const handleConfirm = async () => {
+    const confirm = await confirmRequest(request.id, user?.id)
+    if (confirm) {
+      console.log('confirm thành công')
+      handleSendRequestFromStaff()
+    }
+    handleClose()
+  }
+
+
+
   return (
     <>{show && (
       <div className='overlay' >
@@ -571,7 +602,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
             <Button variant="dark" onClick={handleClose}>
               Đóng
             </Button>
-            <Button variant="warning" onClick={handleClose}>
+            <Button variant="warning" onClick={handleConfirm}>
               Gửi yêu cầu
             </Button>
           </Modal.Footer>
@@ -605,6 +636,7 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
       if (resultDelete) {
         await handleChangeList();
         handleClose();
+        toast.success("Xóa thành công.");
       } else {
         setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
       }
@@ -636,6 +668,7 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
           </Modal>
         </div>
       )}
+      <ToastContainer />
     </>
   );
 };
