@@ -15,12 +15,17 @@ export default function Login() {
 
     useEffect(() => {
         if (token) {
+            if (token === "reset-success") {
+                setNotification("Đổi mật khẩu thành công vui lòng đăng nhập!");
+                return;
+            }
             handleActiveUser(token)
                 .then((result) => {
                     if (result) {
                         setNotification("Kích hoạt tài khoản thành công vui lòng đăng nhập!");
                     }
                     else {
+                        setNotification('');
                         setError("Kích hoạt tài khoản không thành công");
                     }
                 })
@@ -100,10 +105,9 @@ export default function Login() {
 
                                         <div className="col-md-4">
                                             <div className="forgotton-password_info">
-                                                <a href="#">
-                                                    {" "}
+                                                <Link to={"/quen-mat-khau"}>
                                                     Quên mật khẩu?
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
                                         <div className="col-md-12">
