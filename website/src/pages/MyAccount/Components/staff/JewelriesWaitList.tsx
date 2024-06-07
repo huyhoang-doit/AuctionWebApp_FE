@@ -77,6 +77,7 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
           </div>
         </div>
       </div >
+
     </>
   )
 }

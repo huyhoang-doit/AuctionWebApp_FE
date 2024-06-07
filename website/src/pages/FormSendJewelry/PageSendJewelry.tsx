@@ -6,6 +6,7 @@ import { getLatestJewelry, sendJewelryFromUser } from "../../api/JewelryAPI";
 import { Jewelry } from "../../models/Jewelry";
 import { processImages, setImageForJewelry } from "../../api/ImageApi";
 import { sendRequestApprovalFromUser } from "../../api/RequestApprovalAPI";
+import { ToastContainer, toast } from "react-toastify";
 
 interface JewelryRequest {
     id: number;
@@ -184,6 +185,7 @@ export const PageSendJewelry = () => {
                         const sendRequest = await sendRequestApprovalFromUser(newSendRequestBody)
                         if (sendRequest) {
                             console.log("Gửi yêu cầu cho sản phẩm mới thành công");
+                            toast.success("Gửi yêu cầu cho sản phẩm mới thành công");
                             setProductName('')
                             setProductType(categories[0].name);
                             setPrice(0);
@@ -205,7 +207,7 @@ export const PageSendJewelry = () => {
                                 weight: 0,
                                 userId: user?.id
                             })
-                            setNotification("Yêu cầu của bạn đã được gửi thành công.");
+                            setNotification("");
                         }
                     }
                 }
@@ -341,6 +343,7 @@ export const PageSendJewelry = () => {
                                             <button className="umino-register_btn" type="submit">
                                                 Gửi yêu cầu
                                             </button>
+                                            <ToastContainer />
                                         </div>
                                     </div>
                                 </div>

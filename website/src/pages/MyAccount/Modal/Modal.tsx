@@ -449,6 +449,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
     if (confirm) {
       console.log('confirm thành công')
       handleSendRequestFromStaff()
+      toast.success("Định giá cho tài sản đã được gửi đi")
     }
     handleClose()
   }
@@ -602,14 +603,13 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
             <Button variant="dark" onClick={handleClose}>
               Đóng
             </Button>
-            <Button variant="warning" onClick={handleConfirm}>
+            <Button variant="warning" onClick={handleClose}>
               Gửi yêu cầu
             </Button>
           </Modal.Footer>
         </Modal>
       </div>
     )}
-
     </>
   );
 };
@@ -646,10 +646,18 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
   };
 
   return (
-    <>
-      <Button variant="danger" size="sm" onClick={handleShow} className='ms-2'>
-        Xóa
-      </Button>
+    <><button
+      type="button"
+      className="btn btn-sm btn-danger ms-2 "
+      id="save-profile-tab"
+      role="tab"
+      aria-controls="account-details"
+      aria-selected="false"
+      onClick={handleShow}
+
+    >
+      Xóa
+    </button>
       {show && (
         <div className='overlay'>
           <Modal show={show} onHide={handleClose} centered backdropClassName="custom-backdrop">
