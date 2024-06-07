@@ -18,6 +18,8 @@ import { AuctionBid } from "../pages/Bid/AuctionBid";
 import AuctionList from "../pages/AuctionList/AuctionList";
 import { AuctionRegistrationGuard } from "./AuctionRegistrationGuard";
 import { ChangePassword } from "../pages/MyAccount/Components/staff/ChangePassword";
+import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "../pages/ForgotPassword/ResetPassord";
 
 export default function RouterCom() {
     return (
@@ -41,7 +43,16 @@ export default function RouterCom() {
                 <Route path="/dang-nhap" element={<Login />} />
             </Route>
             <Route element={<GuestRoute />}>
+                <Route path="/reset-thanh-cong/:token" element={<Login />} />
+            </Route>
+            <Route element={<GuestRoute />}>
                 <Route path="/dang-ky" element={<Register />} />
+            </Route>
+            <Route element={<GuestRoute />}>
+                <Route path="/reset-mat-khau/:token" element={<ResetPassword />} />
+            </Route>
+            <Route element={<GuestRoute />}>
+                <Route path="/quen-mat-khau" element={<ForgotPassword />} />
             </Route>
             {/* ///// */}
 

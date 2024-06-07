@@ -92,6 +92,56 @@ export const changePassword = async (changePasswordRequest: ChangePasswordReques
     }
 };
 
+export const forgotPassword = async (email: string, setError: (message: string) => void) => {
+    const URL = `http://localhost:8080/api/v1/auth/forgot-password`;
+
+    try {
+        const response = await fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        if (response.ok) {
+            return true;
+        }
+        
+        if (response.status === 403) {
+            throw new Error('Bạn không có quyền truy cập. Vui lòng liên hệ quản trị viên để được hỗ trợ.');
+        }
+        else {
+            throw new Error('Email không tồn tại');
+        }
+    } catch (error) {
+        setError((error as Error).message);
+        return false;
+    }
+}
+
+export const resetPassword = async (password: string, token: string) => {
+    const URL = `http://localhost:8080/api/v1/auth/reset-password`;
+    
+    try {
+        const response = await fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token, password }),
+        });
+
+        if (response.ok) {
+            return true;
+        } else {
+            throw new Error('Đã xảy ra lỗi trong quá trình đổi mật khẩu');
+        }
+    } catch (error) {
+        console.error("Error: " + error);
+        return false;
+    }
+};
 
 export const register = async (registerRequest: RegisterRequest): Promise<boolean> => {
     // end-point
