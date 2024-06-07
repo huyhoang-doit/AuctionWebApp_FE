@@ -18,12 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Build Admin Manager Project
-      run: |
-        cd admin_manager
-        npm ci
-        npm run build
-    
     - name: Build Website Project
       run: |
         cd website
