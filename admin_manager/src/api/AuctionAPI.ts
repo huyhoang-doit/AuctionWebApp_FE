@@ -59,6 +59,62 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
         totalAuctions: totalAuctions,
     };
 }
+export async function getAllAuctions(state: string, page: number): Promise<ResultPageableInteface> {
+    const auctions: Auction[] = [];
+    // endpoint
+    const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&page=${page - 1}`;
+    // request
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+    const totalPages = response.totalPages;
+    const totalAuctions = response.totalElements;
+    const numberAuctionsPerPage = response.numberOfElements;
+
+    if (responseData) {
+        for (const key in responseData) {
+            const response = responseData[key]
+            auctions.push({
+                id: response.id,
+                name: response.name,
+                description: response.description,
+                firstPrice: response.firstPrice,
+                lastPrice: response.lastPrice,
+                participationFee: response.participationFee,
+                deposit: response.deposit,
+                priceStep: response.priceStep,
+                startDate: response.startDate,
+                endDate: response.endDate,
+                countdownDuration: response.countdownDuration,
+                state: response.state,
+                jewelry: {
+                    id: response.jewelry.id,
+                    name: response.jewelry.name,
+                    description: response.jewelry.description,
+                    user: {
+                        id: response.jewelry.user.id,
+                        username: response.jewelry.user.username,
+                        fullName: response.jewelry.user.fullName,
+                    },
+                    material: response.jewelry.material,
+                    weight: response.jewelry.weight
+                },
+                user: {
+                    id: response.user.id,
+                    username: response.user.username,
+                    fullName: response.user.fullName,
+                }
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return {
+        auctionsData: auctions,
+        numberAuctionsPerPage: numberAuctionsPerPage,
+        totalPages: totalPages,
+        totalAuctions: totalAuctions,
+    };
+}
 
 export async function gettop3PriceAndState(): Promise<ResultInteface> {
     const auctions: Auction[] = [];
