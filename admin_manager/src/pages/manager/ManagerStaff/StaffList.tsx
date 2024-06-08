@@ -5,7 +5,7 @@ import { getMembers } from "../../../api/UserAPI";
 import { User } from "../../../models/User";
 import { UserStateView } from "./UserStateView";
 import { PaginationControl } from "react-bootstrap-pagination-control";
-
+import "./StaffList.css";
 const StaffList = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchInput, setSearchInput] = useState("");
