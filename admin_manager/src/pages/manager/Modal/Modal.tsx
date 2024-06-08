@@ -204,11 +204,12 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
 interface DeleteJewelryModalProps {
   jewelry: Jewelry | undefined;
   request: RequestApproval;
-  handleChangeList: () => Promise<void>
+  handleChangeList: () => Promise<void>;
+  user: User | null
 }
 
 // Delete Jewelry Modal
-export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, request, handleChangeList }) => {
+export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, request, user, handleChangeList }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => {
@@ -217,13 +218,16 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
   const handleShow = () => setShow(true);
   const handleDelete = async () => {
     try {
-      const resultDelete = await changeStateRequest(request.id, 'HIDDEN');
-      if (resultDelete) {
-        await handleChangeList();
-        handleClose();
-        toast.success("Xóa thành công.");
-        console.log('Xóa thành công');
+      if (user) {
+        const resultDelete = await changeStateRequest(request.id, user?.id, 'HIDDEN');
+        if (resultDelete) {
+          await handleChangeList();
+          handleClose();
+          toast.success("Xóa thành công.");
+        } else {
+          console.log('Xóa thất bại');
 
+        }
       }
     } catch (error) {
       console.log('Xóa thất bại');

@@ -592,9 +592,6 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                       />
                     </div>
                   </div>
-
-
-
                 </div>
               </div>
             </form>
@@ -610,6 +607,7 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
         </Modal>
       </div>
     )}
+      {/* <ToastContainer /> */}
     </>
   );
 };
@@ -619,10 +617,11 @@ interface DeleteJewelryModalProps {
   setNotification: React.Dispatch<React.SetStateAction<string>>;
   request: RequestApproval;
   handleChangeList: () => Promise<void>
+  user: User | null;
 }
 
 // Delete Jewelry Modal
-export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, setNotification, request, handleChangeList }) => {
+export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, setNotification, request, user, handleChangeList }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => {
@@ -632,32 +631,36 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
   const handleShow = () => setShow(true);
   const handleDelete = async () => {
     try {
-      const resultDelete = await changeStateRequest(request.id, 'HIDDEN');
-      if (resultDelete) {
-        await handleChangeList();
-        handleClose();
-        toast.success("Xóa thành công.");
-      } else {
-        setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
+      if (user) {
+        const resultDelete = await changeStateRequest(request.id, user?.id, 'HIDDEN');
+        if (resultDelete) {
+          await handleChangeList();
+          handleClose();
+          toast.success("Xóa thành công.");
+        } else {
+          setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
+        }
       }
+
     } catch (error) {
       setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
     }
   };
 
   return (
-    <><button
-      type="button"
-      className="btn btn-sm btn-danger ms-2 "
-      id="save-profile-tab"
-      role="tab"
-      aria-controls="account-details"
-      aria-selected="false"
-      onClick={handleShow}
+    <>
+      <button
+        type="button"
+        className="btn btn-sm btn-danger ms-2 "
+        id="save-profile-tab"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        onClick={handleShow}
 
-    >
-      Xóa
-    </button>
+      >
+        Xóa
+      </button>
       {show && (
         <div className='overlay'>
           <Modal show={show} onHide={handleClose} centered backdropClassName="custom-backdrop">

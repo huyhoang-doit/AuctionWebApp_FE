@@ -50,7 +50,7 @@ const RequestSingle: React.FC<RequestSingleProps> = ({ request, user, handleChan
         <td>{formatDateStringAcceptNull(request.requestTime)}</td>
         <td>
           <JewelryModal jewelry={request.jewelry} images={images} user={user} request={request} handleChangeList={handleChangeList} />
-          <DeleteJewelryRequestModal jewelry={request.jewelry} request={request} handleChangeList={handleChangeList} />
+          <DeleteJewelryRequestModal jewelry={request.jewelry} request={request} user={user} handleChangeList={handleChangeList} />
         </td>
       </tr>
     </>

@@ -132,9 +132,9 @@ export async function getRequestById(requestId: number): Promise<RequestApproval
   }
 }
 
-export default async function changeStateRequest(requestId: number, state: string): Promise<boolean> {
+export default async function changeStateRequest(requestId: number, responderId: number | undefined, state: string): Promise<boolean> {
   // endpoint
-  const URL = `http://localhost:8080/api/v1/request-approval/set-state/${requestId}?state=${state}`;
+  const URL = `http://localhost:8080/api/v1/request-approval/set-state/${requestId}?responderId=${responderId}&state=${state}`;
   // request
   const response = await fetch(URL, {
     method: 'PUT',
