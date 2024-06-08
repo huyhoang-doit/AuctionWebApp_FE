@@ -24,7 +24,7 @@ const Navbar = () => {
         <li>
           <Link
             className="has-arrow"
-            to={"/manager/request"}
+            to={"/manager/yeu-cau-dau-gia"}
             aria-expanded="false"
           >
             <img src="assets/img/menu-icon/2.svg" />
@@ -34,7 +34,7 @@ const Navbar = () => {
         <li>
           <Link
             className="has-arrow"
-            to={"/manager/auction"}
+            to={"/manager/cac-phien-dau-gia"}
             aria-expanded="false"
           >
             <img src="assets/img/menu-icon/7.svg" />
@@ -44,11 +44,21 @@ const Navbar = () => {
         <li>
           <Link
             className="has-arrow"
-            to={"/manager/staffList"}
+            to={"/manager/tai-san-dang-cho"}
             aria-expanded="false"
           >
-            <img src="assets/img/menu-icon/7.svg" />
-            <span>Danh sách các nhân viên</span>
+            <img src="assets/img/menu-icon/6.svg" />
+            <span>Danh sách tài sản đủ điều kiện đấu giá</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="has-arrow"
+            to={"/manager/danh-sach-nhan-vien"}
+            aria-expanded="false"
+          >
+            <img src="assets/img/menu-icon/6.svg" />
+            <span>Danh sách nhân viên</span>
           </Link>
         </li>
       </ul>

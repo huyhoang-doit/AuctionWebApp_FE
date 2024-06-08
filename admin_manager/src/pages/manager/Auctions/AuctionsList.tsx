@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react"; // Thêm useState để quản lý trang hiện tại
-import { Breadcrumb, Dropdown } from 'react-bootstrap';
+import { Breadcrumb, Dropdown, Spinner } from 'react-bootstrap';
 import { Auction } from "../../../models/Auction";
 import { User } from "../../../models/User";
 import { getAllAuctions } from "../../../api/AuctionAPI";
@@ -19,6 +19,7 @@ const AuctionsList = () => {
   const [totalElements, setTotalElements] = useState(0);
   const [auctionState, setAuctionState] = useState('WAITING');
   const [userState, setUserState] = useState<User | null>(user);
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
@@ -26,13 +27,19 @@ const AuctionsList = () => {
   }, [user]);
 
   const handleChangeList = useCallback(async () => {
+    setLoading(true); // Bắt đầu tải
     try {
       const response = await getAllAuctions(auctionState, page);
+      if (!response) {
+        setLoading(false);
+        return;
+      }
       setListAuctions(response.auctionsData);
       setTotalElements(response.totalAuctions);
     } catch (error) {
       console.error(error);
     }
+    setLoading(false); // Kết thúc tải
   }, [page, auctionState]);
 
   useEffect(() => {
@@ -96,9 +103,18 @@ const AuctionsList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {listAuctions.map((auction) => (
-                          <AuctionSingle key={auction.id} auction={auction} />
-                        ))}
+                        {loading ? (
+                          <tr>
+                            <td colSpan={7} className="text-center">
+                              <Spinner animation="border" />
+                            </td>
+                          </tr>
+
+                        ) : (
+                          listAuctions.map((auction) => (
+                            <AuctionSingle key={auction.id} auction={auction} />
+                          ))
+                        )}
                       </tbody>
                     </table>
                   </div>
