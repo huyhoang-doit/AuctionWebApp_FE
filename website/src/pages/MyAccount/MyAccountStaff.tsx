@@ -8,6 +8,7 @@ import AssignedAuctionList from "./Components/staff/AssignedAuctionList";
 import JewelriesHandOverList from "./Components/staff/JewelriesHandOverList";
 import { LogoutModal } from "./Modal/Modal";
 import { ChangePassword } from "./Components/staff/ChangePassword";
+import StaffRequestList from "./Components/staff/StaffRequestList";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);
@@ -84,6 +85,19 @@ export default function MyAccountStaff() {
                   <li className="nav-item">
                     <a
                       className="nav-link"
+                      id="account-details-tab"
+                      data-bs-toggle="tab"
+                      href="#staff-request"
+                      role="tab"
+                      aria-controls="account-details"
+                      aria-selected="false"
+                    >
+                      Danh sách các yêu cầu gửi đi
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
                       id="account-address-tab"
                       data-bs-toggle="tab"
                       href="#account-address"
@@ -128,6 +142,8 @@ export default function MyAccountStaff() {
                     user={userState}
                     setUser={setUserState}
                   />
+
+                  <StaffRequestList userId={userState?.id} />
 
                   <AssignedAuctionList
                     user={userState}

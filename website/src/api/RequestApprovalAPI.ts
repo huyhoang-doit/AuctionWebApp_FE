@@ -310,7 +310,6 @@ export const sendRequestApprovalFromUser = async (request: SendRequestFromUser):
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, request);
 
-    console.log(response);
 
     if (!response.ok) {
       throw new Error(`Không thể truy cập ${URL}`);
@@ -337,7 +336,6 @@ export const sendRequestApprovalFromStaff = async (request: SendRequestFromStaff
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, request);
 
-    console.log(response);
 
     if (!response.ok) {
       throw new Error(`Không thể truy cập ${URL}`);
@@ -467,7 +465,6 @@ export async function getRequestByUserId(userId: number, page: number): Promise<
       responder: responder,
     });
 
-    console.log(requests);
   }
 
   return {

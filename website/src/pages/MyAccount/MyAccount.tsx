@@ -5,10 +5,11 @@ import { MyBidHistory } from "./Components/MyBidHistory";
 import { useContext, useEffect, useState } from "react";
 import { User } from "../../models/User";
 import { TransactionHistory } from "./Components/TransactionHistory";
-import { MyJewelryList } from "./Components/MyJewelryList";
+import { MyJewelryRequestList } from "./Components/MyJewelryRequestList";
 import { LogoutModal } from "./Modal/Modal";
 import { UserContext } from "../../hooks/useContext";
 import { ChangePassword } from "./Components/staff/ChangePassword";
+import MyJewellryList from "./Components/MyJewellryList";
 
 export default function MyAccount() {
     const context = useContext(UserContext);
@@ -101,12 +102,25 @@ export default function MyAccount() {
                                             className="nav-link"
                                             id="account-details-tab"
                                             data-bs-toggle="tab"
+                                            href="#my-jewelry"
+                                            role="tab"
+                                            aria-controls="account-details"
+                                            aria-selected="false"
+                                        >
+                                            Tài sản của tôi
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a
+                                            className="nav-link"
+                                            id="account-details-tab"
+                                            data-bs-toggle="tab"
                                             href="#jewelry-request"
                                             role="tab"
                                             aria-controls="account-details"
                                             aria-selected="false"
                                         >
-                                            Sản phẩm yêu cầu
+                                            Các yêu cầu đã gửi
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -125,7 +139,8 @@ export default function MyAccount() {
                                     <ChangePassword user={userState} />
                                     <MyBidHistory username={userState?.username} />
                                     <TransactionHistory user={userState} />
-                                    <MyJewelryList userId={userState?.id} />
+                                    <MyJewellryList user={userState} setUser={setUserState} />
+                                    <MyJewelryRequestList userId={userState?.id} />
                                 </div>
                             </div>
                         </div>

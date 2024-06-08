@@ -21,3 +21,15 @@ export const formatDateTime = (date: Date) => {
 export const formatTime = (date: Date) => {
     return date.toLocaleTimeString();
 };
+
+export const formatDateStringAcceptNull = (isoString: string | undefined): string => {
+    if (isoString === undefined) {
+        return 'Invalid date';
+    }
+    try {
+        const date = parseISO(isoString);
+        return format(date, 'MM/dd/yyyy HH:mm:ss');
+    } catch (error) {
+        return 'Invalid date';
+    }
+};

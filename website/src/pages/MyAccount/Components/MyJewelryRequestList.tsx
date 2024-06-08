@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { DeleteJewelryRequestModal, ViewJewelryRequestModal, ViewTransactionModal } from "../Modal/Modal"
+import { ViewJewelryRequestModal } from "../Modal/Modal"
 import { formatNumber } from "../../../utils/formatNumber";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { getRequestByUserId } from "../../../api/RequestApprovalAPI";
 import { RequestApproval } from "../../../models/RequestApproval";
+import { formatDateStringAcceptNull } from "../../../utils/formatDateString";
 
 interface MyJewelryListProps {
     userId: number | undefined;
 }
 
-export const MyJewelryList: React.FC<MyJewelryListProps> = ({ userId }) => {
+export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) => {
     const [myJewelryRequestList, setMyJewelryRequestList] = useState<RequestApproval[]>([]);
     const [totalElements, setTotalElements] = useState(0)
     const [page, setPage] = useState(1);
-    const [notification, setNotification] = useState<string>('');
 
     useEffect(() => {
         if (userId) {
@@ -56,9 +56,9 @@ export const MyJewelryList: React.FC<MyJewelryListProps> = ({ userId }) => {
                     <tbody>
                         <tr>
                             <th>Mã sản phẩm</th>
-                            <th>Tên trang sức</th>
-                            <th>Giá yêu cầu (VNĐ)</th>
-                            <th>Được định giá (VNĐ)</th>
+                            <th>Tên</th>
+                            <th>Giá mong muốn (VNĐ)</th>
+                            <th>Thời gian gửi</th>
                             <th>Trạng thái</th>
                             <th>Thao tác</th>
                         </tr>
@@ -75,7 +75,7 @@ export const MyJewelryList: React.FC<MyJewelryListProps> = ({ userId }) => {
                                         {formatNumber(request.desiredPrice)}
                                     </td>
                                     <td>
-                                        {formatNumber(request.valuation)}
+                                        {formatDateStringAcceptNull(request?.requestTime)}
                                     </td>
 
                                     {request.state === 'HIDDEN' ? (
@@ -84,7 +84,7 @@ export const MyJewelryList: React.FC<MyJewelryListProps> = ({ userId }) => {
                                         </td>
                                     ) : (
                                         <td className={`fw-semibold ${request.isConfirm ? 'text-success' : 'text-dark'}`}>
-                                            {request.isConfirm ? 'Đã phê duyệt' : 'Chưa phê duyệt'}
+                                            {request.isConfirm ? 'Đang xử lý' : 'Chưa phê duyệt'}
                                         </td>
                                     )}
                                     <td>
