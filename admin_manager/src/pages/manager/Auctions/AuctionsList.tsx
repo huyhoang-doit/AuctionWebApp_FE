@@ -1,31 +1,63 @@
 import { Link } from "react-router-dom";
-import { useState } from "react"; // Thêm useState để quản lý trang hiện tại
-import { Breadcrumb } from 'react-bootstrap';
+import { useCallback, useEffect, useState } from "react"; // Thêm useState để quản lý trang hiện tại
+import { Breadcrumb, Dropdown, Spinner } from 'react-bootstrap';
+import { Auction } from "../../../models/Auction";
+import { User } from "../../../models/User";
+import { getAllAuctions } from "../../../api/AuctionAPI";
+import { PaginationControl } from "react-bootstrap-pagination-control";
+import useAccount from "../../../hooks/useAccount";
+import AuctionSingle from "./AuctionSingle";
 
 const AuctionsList = () => {
-  // Tạo một mảng lưu các phần tử để biểu diễn danh sách sản phẩm
-  const products = Array.from({ length: 20 }, (_, index) => index + 1);
-  
-  
-  //=== Quy định sản phẩm mỗi trang là 10
-  const itemsPerPage = 10; // Số sản phẩm mỗi trang
-  const [currentPage, setCurrentPage] = useState(1); // Sử dụng useState để lưu trạng thái của trang hiện tại.
+  //
+  const token = localStorage.getItem("access_token");
+  const user = useAccount(token);
+  const states = ['WAITING', 'ONGOING', 'FINISHED']
 
-  // Tính chỉ số sản phẩm bắt đầu và kết thúc cho trang hiện tại
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, products.length);
+  const [listAuctions, setListAuctions] = useState<Auction[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const [auctionState, setAuctionState] = useState('WAITING');
+  const [userState, setUserState] = useState<User | null>(user);
+  const [loading, setLoading] = useState(true);
 
-  // Tạo danh sách sản phẩm cho trang hiện tại
-  const currentProducts = products.slice(startIndex, endIndex);  //Sử dụng slice để lấy danh sách sản phẩm cho trang hiện tại.
-  //===
+
+  useEffect(() => {
+    setUserState(user);
+  }, [user]);
+
+  const handleChangeList = useCallback(async () => {
+    setLoading(true); // Bắt đầu tải
+    try {
+      const response = await getAllAuctions(auctionState, page);
+      if (!response) {
+        setLoading(false);
+        return;
+      }
+      setListAuctions(response.auctionsData);
+      setTotalElements(response.totalAuctions);
+    } catch (error) {
+      console.error(error);
+    }
+    setLoading(false); // Kết thúc tải
+  }, [page, auctionState]);
+
+  useEffect(() => {
+    handleChangeList();
+  }, [user, page, handleChangeList]);
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setAuctionState(e.target.value);
+  };
+
   return (
     <>
       <section className="main_content dashboard_part">
         <div className="main_content_iner ">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{padding: "50px 0px 0px 100px"}}>
+            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 100px" }}>
               <div className="col-12">
-              <div className="breadcrumb-area">
+                <div className="breadcrumb-area">
                   <Breadcrumb>
                     <Breadcrumb.Item href="/admin">Trang chủ</Breadcrumb.Item>
                     <Breadcrumb.Item >Danh sách các phiên đấu giá</Breadcrumb.Item>
@@ -37,112 +69,65 @@ const AuctionsList = () => {
                     <div className="box_right d-flex lms_block">
                       <div className="serach_field_2">
                         <div className="search_inner">
-                          <form>
-                            <div className="search_field">
-                              <input type="text" placeholder="Tìm kiếm..." />
-                            </div>
-                            <button type="submit">
-                              {" "}
-                              <i className="ti-search"></i>{" "}
-                            </button>
-                          </form>
+
                         </div>
                       </div>
                       <div className="add_button ms-2">
-                        <a
-                          href="#"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addcategory"
-                          className="btn_1"
+                        <label>Trạng thái</label>
+                        <select
+                          value={auctionState}
+                          onChange={handleCategoryChange}
+                          style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
+                          required
                         >
-                          Tìm kiếm
-                        </a>
+                          {states.map((state, index) => (
+                            <option style={{ padding: '5px' }} key={index} value={state}>
+                              {state}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </div>
-                  <div className="QA_table ">
-                    <table className="table lms_table_active">
+                  <div className="">
+                    <table className="table text-center">
                       <thead>
                         <tr>
-                          <th scope="col">STT</th>
                           <th scope="col">Mã phiên</th>
                           <th scope="col">Tên phiên</th>
-                          <th scope="col">....</th>
-                          <th scope="col">....</th>
+                          <th scope="col">Thời gian bắt đầu</th>
+                          <th scope="col">Thời gian kết thúc</th>
+                          <th scope="col">Nhân viên quản lý</th>
                           <th scope="col">Trạng thái</th>
                           <th scope="col">Thao tác</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {currentProducts.map((product, index) => (
-                          <tr key={startIndex + index}>
-                            <th scope="row">
-                              {" "}
-                              <a href="#" className="question_content">
-                                {startIndex + index + 1}
-                              </a>
-                            </th>
-                            <td>PDG000{product}</td>
-                            <td>Đấu giá Đồng hồ</td>
-                            <td>.....</td>
-                            <td>.....</td>
-                            <td>
-                              <a href="#" className="status_btn">
-                                WAITING
-                              </a>
-                            </td>
-                            <td>
-                              <Link
-                                to={"/manager/View/ViewAuctionsList"}
-                                className="btn btn-sm btn-warning"
-                              >
-                                Xem
-                              </Link>
+                        {loading ? (
+                          <tr>
+                            <td colSpan={7} className="text-center">
+                              <Spinner animation="border" />
                             </td>
                           </tr>
-                        ))}
+
+                        ) : (
+                          listAuctions.map((auction) => (
+                            <AuctionSingle key={auction.id} auction={auction} />
+                          ))
+                        )}
                       </tbody>
                     </table>
                   </div>
-                  <ul className="pagination" style={{marginTop: '30px'}}> {/* Thêm margin-top theo yêu cầu */}
-                    <li className="pagination-item">
-                      <a
-                        href="#"
-                        className="pagination-item__link "
-                        onClick={() =>
-                          setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
-                        }
-                      >
-                        <i className="pagination-item__icon fas fa-angle-left"></i>
-                      </a>
-                    </li>
-
-                    {Array.from({ length: Math.ceil(products.length / itemsPerPage) }, (_, i) => (
-                      <li key={i} className="pagination-item">
-                        <a
-                          href="#"
-                          className={`pagination-item__link ${currentPage === i + 1 ? 'active' : ''}`}
-                          onClick={() => setCurrentPage(i + 1)}
-                        >
-                          {i + 1}
-                        </a>
-                      </li>
-                    ))}
-
-                    <li className="pagination-item">
-                      <a
-                        href="#"
-                        className="pagination-item__link "
-                        onClick={() =>
-                          setCurrentPage((prevPage) =>
-                            Math.min(prevPage + 1, Math.ceil(products.length / itemsPerPage))
-                          )
-                        }
-                      >
-                        <i className="pagination-item__icon fas fa-angle-right"></i>
-                      </a>
-                    </li>
-                  </ul>
+                  <PaginationControl
+                    page={page}
+                    between={5}
+                    total={totalElements}
+                    limit={5}
+                    changePage={(page) => {
+                      setPage(page);
+                    }}
+                    ellipsis={1}
+                  />
                 </div>
               </div>
             </div>

@@ -21,7 +21,7 @@ const JewelryHandOverSingle: React.FC<JewelryHandOverSingleProps> = ({ jewelry, 
 
   useEffect(() => {
     if (auction !== null) {
-      getWinnerByAuctionId(4)
+      getWinnerByAuctionId(auction?.id)
         .then((response) => {
           setWinner(response);
         })

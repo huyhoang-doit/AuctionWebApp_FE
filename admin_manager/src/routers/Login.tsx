@@ -43,7 +43,7 @@ export default function Login() {
         setLoginRequest({ ...loginRequest, email: loginRequest.username });
         const success = await login(loginRequest, setError)
         if (success) {
-            window.location.href = '/admin';
+            window.location.href = '/manager';
         }
     };
 
@@ -74,7 +74,7 @@ export default function Login() {
                             label="Enter your usename / email"
                             name="username"
                             autoFocus
-                            onChange={(e) => setLoginRequest({...loginRequest, username: e.target.value})}
+                            onChange={(e) => setLoginRequest({ ...loginRequest, username: e.target.value })}
                         />
                         <TextField
                             margin="normal"
@@ -85,7 +85,7 @@ export default function Login() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            onChange={(e) => setLoginRequest({...loginRequest, password: e.target.value})}
+                            onChange={(e) => setLoginRequest({ ...loginRequest, password: e.target.value })}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}

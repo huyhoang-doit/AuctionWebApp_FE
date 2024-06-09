@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import ManageManager from '../pages/admin/manage-account/ManageManager'
 import ManageStaff from '../pages/admin/manage-account/ManageStaff'
-import ManageUser from '../pages/admin/manage-account/ManageUser'
+import ManageUser from '../pages/admin/manage-account/ManageMember'
 import TransactionWithSeller from '../pages/admin/transaction/TransactionWithSeller'
 import TransactionWithBuyer from '../pages/admin/transaction/TransactionWithBuyer'
 import TransactionWithUser from '../pages/admin/transaction/TransactionWithUser'

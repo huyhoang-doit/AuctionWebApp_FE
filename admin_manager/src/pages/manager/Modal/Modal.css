@@ -1,0 +1,81 @@
+
+
+.custom-backdrop {
+  opacity: 0.5 !important;
+  background-color: black !important;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.checkbox-form {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.checkbox-form .row {
+  margin-bottom: 20px;
+}
+
+.checkbox-form .checkout-form-list {
+  margin-bottom: 15px;
+}
+
+.checkbox-form .checkout-form-list label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.checkbox-form .checkout-form-list input,
+.checkbox-form .checkout-form-list textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+.checkbox-form .checkout-form-list input[readOnly],
+.checkbox-form .checkout-form-list textarea[readOnly] {
+  background-color: #e9ecef;
+}
+
+.checkbox-form .checkout-form-list input.fw-bold {
+  font-weight: 700;
+}
+
+.checkbox-form .checkout-form-list input.fw-bold.text-danger {
+  color: #dc3545;
+}
+
+.checkbox-form .checkout-form-list input.fw-bold.text-success {
+  color: #28a745;
+}
+
+.checkbox-form .checkout-form-list textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+@media (min-width: 768px) {
+  .checkbox-form .col-md-6,
+  .checkbox-form .col-md-9,
+  .checkbox-form .col-md-3,
+  .checkbox-form .col-md-4,
+  .checkbox-form .col-md-12 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+} 

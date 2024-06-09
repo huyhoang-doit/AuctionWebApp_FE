@@ -5,14 +5,13 @@ import { MyBidHistory } from "./Components/MyBidHistory";
 import { useContext, useEffect, useState } from "react";
 import { User } from "../../models/User";
 import { TransactionHistory } from "./Components/TransactionHistory";
-import { MyJewelryList } from "./Components/MyJewelryList";
+import { MyJewelryRequestList } from "./Components/MyJewelryRequestList";
 import { LogoutModal } from "./Modal/Modal";
 import { UserContext } from "../../hooks/useContext";
+import { ChangePassword } from "./Components/staff/ChangePassword";
+import MyJewellryList from "./Components/MyJewellryList";
 
 export default function MyAccount() {
-    // const token = localStorage.getItem("access_token");
-    // const user = useAccount(token);
-    // const [userState, setUserState] = useState<User | null>(user);
     const context = useContext(UserContext);
     const [userState, setUserState] = useState<User | null>(null);
 
@@ -62,6 +61,19 @@ export default function MyAccount() {
                                     <li className="nav-item">
                                         <a
                                             className="nav-link"
+                                            id="change-password-tab"
+                                            data-bs-toggle="tab"
+                                            href="#change-password"
+                                            role="tab"
+                                            aria-controls="account-dashboard"
+                                            aria-selected="true"
+                                        >
+                                            Đổi mật khẩu
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a
+                                            className="nav-link"
                                             id="account-orders-tab"
                                             data-bs-toggle="tab"
                                             href="#bid-activity"
@@ -90,12 +102,25 @@ export default function MyAccount() {
                                             className="nav-link"
                                             id="account-details-tab"
                                             data-bs-toggle="tab"
+                                            href="#my-jewelry"
+                                            role="tab"
+                                            aria-controls="account-details"
+                                            aria-selected="false"
+                                        >
+                                            Tài sản cần xác nhận
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a
+                                            className="nav-link"
+                                            id="account-details-tab"
+                                            data-bs-toggle="tab"
                                             href="#jewelry-request"
                                             role="tab"
                                             aria-controls="account-details"
                                             aria-selected="false"
                                         >
-                                            Sản phẩm yêu cầu
+                                            Các yêu cầu đã gửi
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -111,9 +136,11 @@ export default function MyAccount() {
                                     id="account-page-tab-content"
                                 >
                                     <MyAccountDetail user={userState} setUser={setUserState} />
+                                    <ChangePassword user={userState} />
                                     <MyBidHistory username={userState?.username} />
                                     <TransactionHistory user={userState} />
-                                    <MyJewelryList username={userState?.username} />
+                                    <MyJewellryList user={userState} setUser={setUserState} />
+                                    <MyJewelryRequestList userId={userState?.id} />
                                 </div>
                             </div>
                         </div>

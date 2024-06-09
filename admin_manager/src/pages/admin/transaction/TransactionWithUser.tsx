@@ -5,35 +5,35 @@ import ReactPaginate from 'react-paginate';
 import './TransactionWithBuyer.css';
 const users = [
   { id: 1, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 2, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 3, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 4, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 5, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 6, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 7, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 8, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 9, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 10, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 11, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 12, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 13, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 15, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 16, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 17, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 18, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 19, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 20, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
-    { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 2, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 3, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 4, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 5, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 6, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 7, username: 'Nhân viên 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 8, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 9, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 10, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 11, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 12, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 13, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 15, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 16, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 17, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 18, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 19, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 20, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
 ];
 
 const TransactionWithUser = () => {
@@ -43,7 +43,7 @@ const TransactionWithUser = () => {
   const [filteredUsers, setFilteredUsers] = useState(users);
   const itemsPerPage = 10;
 
- 
+
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -124,7 +124,7 @@ const TransactionWithUser = () => {
                     <table className="table lms_table_active">
                       <thead>
                         <tr>
-                        <th scope="col">ID</th>
+                          <th scope="col">ID</th>
                           <th scope="col">....</th>
                           <th scope="col">....</th>
                           <th scope="col">....</th>
@@ -144,7 +144,7 @@ const TransactionWithUser = () => {
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td>
-                              <a  className="status_btn">{user.status}</a>
+                              <a className="status_btn">{user.status}</a>
                             </td>
                             <td>
                               <div className="btn-group">

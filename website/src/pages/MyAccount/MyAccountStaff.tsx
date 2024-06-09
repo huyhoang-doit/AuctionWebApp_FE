@@ -7,6 +7,9 @@ import JewelriesWaitList from "./Components/staff/JewelriesWaitList";
 import AssignedAuctionList from "./Components/staff/AssignedAuctionList";
 import JewelriesHandOverList from "./Components/staff/JewelriesHandOverList";
 import { LogoutModal } from "./Modal/Modal";
+import { ChangePassword } from "./Components/staff/ChangePassword";
+import StaffRequestList from "./Components/staff/StaffRequestList";
+import { ToastContainer } from "react-toastify";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);
@@ -23,7 +26,7 @@ export default function MyAccountStaff() {
           <div className="breadcrumb-content">
             <ul>
               <li>
-                <Link to={'/'} >Home</Link>
+                <Link to={"/"}>Home</Link>
               </li>
               <li className="active">Tài khoản của tôi</li>
             </ul>
@@ -57,6 +60,19 @@ export default function MyAccountStaff() {
                   <li className="nav-item">
                     <a
                       className="nav-link"
+                      id="change-password-tab"
+                      data-bs-toggle="tab"
+                      href="#change-password"
+                      role="tab"
+                      aria-controls="account-dashboard"
+                      aria-selected="true"
+                    >
+                      Đổi mật khẩu
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
                       id="account-orders-tab"
                       data-bs-toggle="tab"
                       href="#account-orders"
@@ -65,6 +81,19 @@ export default function MyAccountStaff() {
                       aria-selected="false"
                     >
                       Danh sách trang sức được gửi tới
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      id="account-details-tab"
+                      data-bs-toggle="tab"
+                      href="#staff-request"
+                      role="tab"
+                      aria-controls="account-details"
+                      aria-selected="false"
+                    >
+                      Danh sách các yêu cầu gửi đi
                     </a>
                   </li>
                   <li className="nav-item">
@@ -94,8 +123,7 @@ export default function MyAccountStaff() {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <Link to={""}
-                    >
+                    <Link to={""}>
                       <LogoutModal />
                     </Link>
                   </li>
@@ -108,16 +136,26 @@ export default function MyAccountStaff() {
                 >
                   <MyAccountDetail user={userState} setUser={setUserState} />
 
+                  <ChangePassword user={userState} />
+
                   <JewelriesWaitList user={userState} setUser={setUserState} />
+                  <JewelriesHandOverList
+                    user={userState}
+                    setUser={setUserState}
+                  />
 
-                  <JewelriesHandOverList user={userState} setUser={setUserState} />
+                  <StaffRequestList userId={userState?.id} />
 
-                  <AssignedAuctionList user={userState} setUser={setUserState} />
-
+                  <AssignedAuctionList
+                    user={userState}
+                    setUser={setUserState}
+                  />
                 </div>
               </div>
+              <ToastContainer />
             </div>
           </div>
+
         </div>
       </main>
     </>

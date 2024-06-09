@@ -1,52 +1,80 @@
 import { useEffect, useState } from "react";
-import { Category } from "../../models/Category";
-import { formatVND } from "../../utils/formatVND";
 import { useCategories } from "../../hooks/useCategories";
 import useAccount from "../../hooks/useAccount";
-
+import { formatNumber } from "../../utils/formatNumber";
+import { getLatestJewelry, sendJewelryFromUser } from "../../api/JewelryAPI";
+import { Jewelry } from "../../models/Jewelry";
+import { processImages, setImageForJewelry } from "../../api/ImageApi";
+import { sendRequestApprovalFromUser } from "../../api/RequestApprovalAPI";
+import { ToastContainer, toast } from "react-toastify";
 
 interface JewelryRequest {
     id: number;
     name: string;
-    price: string;
-    category: string;
+    price: number;
+    category: string | undefined;
     description: string;
     material: string;
     brand: string;
-    weight: string;
-    images: string;
-    user: string;
+    weight: number;
+    userId: number | undefined;
 }
 
+interface ImageRequest {
+    data: string;
+    jewelryId: number;
+}
+interface SendReqeustFromUser {
+    senderId: number | undefined;
+    jewelryId: number;
+    requestTime: string
+}
 export const PageSendJewelry = () => {
-    const categories: Category[] = useCategories();
+    const categories = useCategories();
+
+
+
     const token = localStorage.getItem("access_token");
     const user = useAccount(token);
 
     const [productName, setProductName] = useState('');
-    const [productType, setProductType] = useState<string | number>('');
+    const [productType, setProductType] = useState<string | undefined>('');
     const [price, setPrice] = useState<number | undefined>(undefined);
     const [priceDisplay, setPriceDisplay] = useState('');
     const [brand, setBrand] = useState('');
+    const [weight, setWeight] = useState(0);
     const [description, setDescription] = useState('');
-    const [material, setMaterial] = useState('');
+    const [material, setMaterial] = useState('Bạc');
     const [images, setImages] = useState<File[]>([]);
     const [base64Images, setBase64Images] = useState<string[]>([]);
     const [notification, setNotification] = useState("");
     const [jewelryRequest, setJewelryRequest] = useState<JewelryRequest>({
         id: 0,
         name: '',
-        price: '',
+        price: 0,
         category: '',
         description: '',
         material: '',
         brand: '',
-        weight: '',
-        images: '',
-        user: ''
+        weight: 0,
+        userId: user?.id
     });
 
+    useEffect(() => {
+        if (user) {
+            setJewelryRequest((prevRequest) => ({ ...prevRequest, userId: user.id }));
+        }
+    }, [user]);
 
+    useEffect(() => {
+        if (categories.length > 0) {
+            setProductType(categories[0].name);
+            setJewelryRequest((prevRequest) => ({ ...prevRequest, category: categories[0].name }));
+        }
+    }, [categories]);
+    useEffect(() => {
+        setJewelryRequest({ ...jewelryRequest, category: productType, material: material })
+    }, [])
 
     const handleProductNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setProductName(e.target.value);
@@ -55,7 +83,7 @@ export const PageSendJewelry = () => {
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setProductType(e.target.value);
-        setJewelryRequest({ ...jewelryRequest, material: e.target.value });
+        setJewelryRequest({ ...jewelryRequest, category: e.target.value });
     };
 
     const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,29 +91,34 @@ export const PageSendJewelry = () => {
         const numericValue = parseInt(value.replace(/[^0-9]/g, ''), 10);
         if (!isNaN(numericValue)) {
             setPrice(numericValue);
-            setPriceDisplay(formatVND(numericValue));
+            setPriceDisplay(formatNumber(numericValue));
+            setJewelryRequest({ ...jewelryRequest, price: numericValue });
         } else {
-            setPrice(undefined);
+            setPrice(0);
             setPriceDisplay('');
+            setJewelryRequest({ ...jewelryRequest, price: numericValue });
         }
     };
 
     const handleBrandChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBrand(e.target.value);
-    };
+        setJewelryRequest({ ...jewelryRequest, brand: e.target.value });
+    }
 
     const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(e.target.value);
+        setJewelryRequest({ ...jewelryRequest, description: e.target.value });
     };
 
-    const handleMaterialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleMaterialChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setMaterial(e.target.value);
         setJewelryRequest({ ...jewelryRequest, material: e.target.value });
     };
 
     const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setBrand(e.target.value);
-        setJewelryRequest({ ...jewelryRequest, brand: e.target.value });
+        const value = parseFloat(e.target.value);
+        setWeight(value);
+        setJewelryRequest({ ...jewelryRequest, weight: value });
     };
 
     const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,21 +149,70 @@ export const PageSendJewelry = () => {
         });
     };
 
+
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Kiểm tra nếu có bất kỳ thuộc tính nào của jewelryRequest không được cung cấp, hiển thị thông báo và không tiếp tục xử lý
-        // const missingFields = Object.keys(jewelryRequest).filter((key: keyof JewelryRequest) => !jewelryRequest[key]);
-        // if (missingFields.length > 0) {
-        //     setNotification("Vui lòng điền đầy đủ thông tin");
-        //     return;
-        // }
 
-        // Nếu tất cả các thuộc tính được cung cấp, tiến hành gửi dữ liệu
+        if (images.length === 0) {
+            setNotification('Vui lòng cung cấp ảnh cho sản phẩm')
+            return
+        }
+        console.log(jewelryRequest);
         try {
-            // Gửi dữ liệu bằng cách sử dụng jewelryRequest
-            // Ví dụ:
-            // await sendJewelryRequest(jewelryRequest);
-            setNotification("Yêu cầu của bạn đã được gửi thành công!");
+            const sendJewelry = await sendJewelryFromUser(jewelryRequest)
+            if (sendJewelry) {
+                console.log("tạo sp mới thành công")
+                const newJewelry: Jewelry = await getLatestJewelry()
+                if (newJewelry) {
+                    const newJewelryId = newJewelry.id
+
+                    const iconImage = await setImageForJewelry({ data: base64Images[0], jewelryId: newJewelryId }, true)
+                    processImages(base64Images, newJewelryId)
+                        .then(() => {
+                            console.log('Thêm ảnh thành công');
+                        })
+                        .catch((error) => {
+                            console.error('Error processing images:', error);
+                        });
+
+                    if (iconImage) {
+                        const newSendRequestBody: SendReqeustFromUser = {
+                            senderId: user?.id,
+                            jewelryId: newJewelry.id,
+                            requestTime: new Date().toISOString()
+                        }
+                        const sendRequest = await sendRequestApprovalFromUser(newSendRequestBody)
+                        if (sendRequest) {
+                            console.log("Gửi yêu cầu cho sản phẩm mới thành công");
+                            toast.success("Gửi yêu cầu cho sản phẩm mới thành công");
+                            setProductName('')
+                            setProductType('Dây chuyền');
+                            setPrice(0);
+                            setPriceDisplay('')
+                            setBrand('')
+                            setWeight(0)
+                            setDescription('')
+                            setMaterial('Bạc')
+                            setImages([])
+                            setBase64Images([])
+                            setJewelryRequest({
+                                id: 0,
+                                name: '',
+                                price: 0,
+                                category: '',
+                                description: '',
+                                material: '',
+                                brand: '',
+                                weight: 0,
+                                userId: user?.id
+                            })
+                            setNotification("");
+                        }
+                    }
+                }
+            }
+
         } catch (error) {
             console.error("Error sending jewelry request:", error);
             setNotification("Đã xảy ra lỗi khi gửi yêu cầu. Vui lòng thử lại sau.");
@@ -178,9 +260,8 @@ export const PageSendJewelry = () => {
                                                 style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
                                                 required
                                             >
-                                                <option value="">Chọn loại sản phẩm</option>
                                                 {categories.map((category) => (
-                                                    <option style={{ padding: '5px' }} key={category.id} value={category.id}>
+                                                    <option style={{ padding: '5px' }} key={category.id} value={category.name}>
                                                         {category.name}
                                                     </option>
                                                 ))}
@@ -209,20 +290,24 @@ export const PageSendJewelry = () => {
                                         </div>
                                         <div className="col-md-6">
                                             <label>Chất liệu</label>
-                                            <input
-                                                type="text"
-                                                placeholder="Nhập chất liệu"
-                                                value={brand}
+                                            <select
+                                                value={material}
                                                 onChange={handleMaterialChange}
+                                                style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
                                                 required
-                                            />
+                                            >
+                                                <option value="Bạc">Bạc</option>
+                                                <option value="Vàng">Vàng</option>
+                                                <option value="Kim cương">Kim cương</option>
+                                            </select>
                                         </div>
                                         <div className="col-md-6">
-                                            <label>Cân nặng</label>
+                                            <label>Cân nặng (g)</label>
                                             <input
-                                                type="text"
+                                                type="number"
+                                                step="0.01"
                                                 placeholder="Nhập cân nặng"
-                                                value={brand}
+                                                value={weight}
                                                 onChange={handleWeightChange}
                                                 required
                                             />
@@ -239,14 +324,13 @@ export const PageSendJewelry = () => {
                                         </div>
                                         <div className="col-md-8 row" style={{ marginTop: "60px" }}>
                                             <div className="col-md-6">
-                                                <label className="btn btn-dark" htmlFor="jewelry-img">Ảnh sản phẩm</label>
+                                                <label className="btn btn-dark" style={{ width: '140px', height: '30px' }} htmlFor="jewelry-img">Ảnh sản phẩm</label>
                                                 <input
                                                     id="jewelry-img"
                                                     type="file"
-                                                    placeholder="Chọn ảnh sản phẩm"
+                                                    name="jewelryImages"
                                                     multiple
                                                     onChange={handleImagesChange}
-                                                    required
                                                 />
                                             </div>
                                             <div className="col-md-6">
@@ -259,10 +343,12 @@ export const PageSendJewelry = () => {
                                             <button className="umino-register_btn" type="submit">
                                                 Gửi yêu cầu
                                             </button>
+                                            <ToastContainer />
                                         </div>
                                     </div>
                                 </div>
                             </form>
+                            {notification && <p>{notification}</p>}
                         </div>
                     </div>
                 </div>

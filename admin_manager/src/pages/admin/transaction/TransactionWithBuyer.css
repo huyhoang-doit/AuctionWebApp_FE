@@ -1,4 +1,5 @@
 .pagination-container {
+
     display: flex;
     justify-content: flex-end;  /* Align to bottom-right */
     margin-top: 20px;
@@ -49,3 +50,4 @@
   .breadcrumb .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
   }
+

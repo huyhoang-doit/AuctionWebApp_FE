@@ -1,23 +1,27 @@
 import { Link } from 'react-router-dom'
-import useAccount from '../../../hooks/useAccount';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
+import useAccount from '../../../hooks/useAccount';
+import { NavbarBrand } from 'react-bootstrap';
 
 
-  interface CustomJwtPayload extends JwtPayload {
-    authorities: { authority: string }[];
+interface CustomJwtPayload extends JwtPayload {
+  authorities: { authority: string }[];
+}
+
+const Navbar = () => {
+  const token = localStorage.getItem("access_token");
+
+  let userRole = '';
+
+  if (token) {
+    const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
+    userRole = decodedData.authorities[0].authority;
   }
-  
-  const Navbar = () => {
-    const token = localStorage.getItem("access_token");
-    const user = useAccount(token);
-    let userRole = '';
-  
-    if (token) {
-      const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
-      userRole = decodedData.authorities[0].authority;
-    }
 
   
+  
+  
+
 
   return (
 
