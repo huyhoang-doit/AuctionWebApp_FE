@@ -109,14 +109,7 @@ const Index = () => {
       }
     ]
   };
-
-
-
-
-
-
-
-  return (
+return (
     <section className="main_content dashboard_part" >
       <div className="main_content_iner " >
         <div className="container-fluid body_white_bg " style={{ marginTop: '100px' }}>
@@ -150,65 +143,65 @@ const Index = () => {
               </div>
             </div>
             {userRole === 'ADMIN' && <>
-            <div className="col-lg-12 col-xl-6">
-              <div className="white_box mb_30 min_430">
-                <div className="box_header  box_header_block ">
-                  <div className="main-title">
-                    <h3 className="mb-0">Doanh thu theo tháng</h3>
-                    <span>60.000.000 vnđ</span>
-                  </div>
-                  <div className="box_select d-flex">
-                    <select className="nice_Select2 mr_5">
-                      <option value="1">Hằng tuần</option>
-                      <option value="2">Hằng tháng</option>
-                    </select>
-                    <select className="nice_Select2 ">
-                      <option value="1">Năm ngoái</option>
-                      <option value="1">Năm nay</option>
-                    </select>
-                  </div>
-                </div>
-                <Bar data={barData1} />
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-6 col-xl-3 ">
-              <div className="white_box mb_30 min_430">
-                <div className="box_header  box_header_block">
-                  <div className="main-title">
-                    <h3 className="mb-0">Tỷ lệ giao dịch</h3>
-                  </div>
-                </div>
-                <Doughnut data={doughnutData1} />
-              </div>
-            </div>
-            <div className="col-lg-12 col-xl-6">
-              <div className="white_box mb_30 min_430">
-                <div className="box_header  box_header_block">
-                  <div className="main-title">
-                    <h3 className="mb-0">Số lượng người dùng</h3>
-                  </div>
-                </div>
-                <Line data={lineData1} />
-              </div>
-            </div>
-            <div className="col-lg-12 col-xl-6">
-              <div className="white_box mb_30 min_430">
-                <div className="box_header  box_header_block align-items- ">
-                  <div className="main-title">
-                    <h3 className="mb-0">Cost of goods / Services</h3>
-                  </div>
-                  <div className="title_info">
-                    <p>1 Jan 2020 to 31 Dec 2020 </p>
-                    <div className="legend_style text-end">
-                      <li> <span style={{ backgroundColor: '#A4A1FB' }}></span> Services</li>
-                      <li className="inactive"> <span style={{ backgroundColor: '#A4A1FB' }}></span> Avarage
-                      </li>
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block ">
+                    <div className="main-title">
+                      <h3 className="mb-0">Doanh thu theo tháng</h3>
+                      <span>60.000.000 vnđ</span>
+                    </div>
+                    <div className="box_select d-flex">
+                      <select className="nice_Select2 mr_5">
+                        <option value="1">Hằng tuần</option>
+                        <option value="2">Hằng tháng</option>
+                      </select>
+                      <select className="nice_Select2 ">
+                        <option value="1">Năm ngoái</option>
+                        <option value="1">Năm nay</option>
+                      </select>
                     </div>
                   </div>
+                  <Bar data={barData1} />
                 </div>
-                <Line data={lineData} />
               </div>
-            </div></>
+              <div className="col-md-6 col-lg-6 col-xl-3 ">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block">
+                    <div className="main-title">
+                      <h3 className="mb-0">Tỷ lệ giao dịch</h3>
+                    </div>
+                  </div>
+                  <Doughnut data={doughnutData1} />
+                </div>
+              </div>
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block">
+                    <div className="main-title">
+                      <h3 className="mb-0">Số lượng người dùng</h3>
+                    </div>
+                  </div>
+                  <Line data={lineData1} />
+                </div>
+              </div>
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block align-items- ">
+                    <div className="main-title">
+                      <h3 className="mb-0">Cost of goods / Services</h3>
+                    </div>
+                    <div className="title_info">
+                      <p>1 Jan 2020 to 31 Dec 2020 </p>
+                      <div className="legend_style text-end">
+                        <li> <span style={{ backgroundColor: '#A4A1FB' }}></span> Services</li>
+                        <li className="inactive"> <span style={{ backgroundColor: '#A4A1FB' }}></span> Avarage
+                        </li>
+                      </div>
+                    </div>
+                  </div>
+                  <Line data={lineData} />
+                </div>
+              </div></>
             }
             {userRole === 'MANAGER' && <>
               <div className="col-lg-12 col-xl-6">

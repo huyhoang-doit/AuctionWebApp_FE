@@ -55,15 +55,7 @@ const ViewProfile = () => {
                             </div>
                             <div className="col-md-6 mb-3">
                               <label>Date of Birth</label>
-                              <DatePicker
-                                selected={birthDate}
-                                onChange={(date) => setBirthDate(date)}
-                                className="form-control"
-                                dateFormat="dd/MM/yyyy"
-                                isClearable
-                                placeholderText="Select date"
-                                readOnly
-                              />
+                              <input type="text" className="form-control" placeholder="2990" readOnly />
                             </div>
                             <div className="col-md-6 mb-3">
                               <label>Address</label>
@@ -77,23 +69,6 @@ const ViewProfile = () => {
                               <label>Password</label>
                               <input type="password" className="form-control" placeholder="********" readOnly />
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-12 mt-4">
-                        <h3>Bank Information</h3>
-                        <div className="row">
-                          <div className="col-md-6 mb-3">
-                            <label>Bank</label>
-                            <input type="text" className="form-control" placeholder="XYZ Bank" readOnly />
-                          </div>
-                          <div className="col-md-6 mb-3">
-                            <label>Account Number</label>
-                            <input type="text" className="form-control" placeholder="9876543210" readOnly />
-                          </div>
-                          <div className="col-md-6 mb-3">
-                            <label>IBAN</label>
-                            <input type="text" className="form-control" placeholder="US29NWBK60161331926819" readOnly />
                           </div>
                         </div>
                       </div>

@@ -37,4 +37,15 @@
     font-size: 1.2rem;  /* Increase font size */
     padding: 10px 15px; /* Increase padding */
   }
+  .breadcrumb-area {
+    margin-bottom: 20px;
+  }
   
+  .breadcrumb {
+    background: none;
+    padding: 0;
+  }
+  
+  .breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+  }

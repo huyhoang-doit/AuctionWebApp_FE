@@ -17,13 +17,7 @@ import { JwtPayload, jwtDecode } from 'jwt-decode';
       userRole = decodedData.authorities[0].authority;
     }
 
-  // if (roles && !roles.some(role => userRoles.includes(role))) {
-  //     navigate('/404');
-  // }
-
-  // if (userRoles.includes('STAFF')) {
-  //     navigate('/my-account-staff');
-  // }
+  
 
   return (
 

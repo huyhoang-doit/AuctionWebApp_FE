@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
-
+import './Manager.css';
 
 const ManageUser = () => {
   const [showModal, setShowModal] = useState(false);
@@ -52,19 +52,19 @@ const ManageUser = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 100px" }}>
+            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 5px" }}>
               <div className="col-12">
                 {/* Breadcrumb Area */}
                 <div className="breadcrumb-area">
                   <Breadcrumb>
                     <Breadcrumb.Item href="/admin">Trang chủ</Breadcrumb.Item>
                     <Breadcrumb.Item >Quản lý tài khoản</Breadcrumb.Item>
-                    <Breadcrumb.Item href="/admin/account/user">Người dùng</Breadcrumb.Item>
+                    <Breadcrumb.Item href="/admin/account/user">Quản lý</Breadcrumb.Item>
                   </Breadcrumb>
                 </div>
                 <div className="QA_section">
                   <div className="white_box_tittle list_header">
-                    <h4>Danh sách người dùng</h4>
+                    <h4>Danh sách quản lý</h4>
                     <div className="box_right d-flex lms_block">
                       <div className="serach_field_2">
                         <div className="search_inner">
@@ -91,7 +91,7 @@ const ManageUser = () => {
                     </div>
                   </div>
                   <div className="QA_table">
-                    <table className="table lms_table_active">
+                    <table >
                       <thead>
                         <tr>
                           <th scope="col">ID</th>
@@ -145,7 +145,7 @@ const ManageUser = () => {
                     <Modal.Header closeButton>
                       <Modal.Title>Xác nhận xóa</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Bạn có chắc chắn muốn xóa người dùng này ?</Modal.Body>
+                    <Modal.Body>Bạn có chắc chắn muốn xóa quản lý này ?</Modal.Body>
                     <Modal.Footer>
                       <Button variant="secondary" onClick={handleCloseModal}>
                         Hủy

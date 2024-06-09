@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
-
+import './Manager.css';
 
 const ManageManager = () => {
   const [showModal, setShowModal] = useState(false);
@@ -52,7 +52,7 @@ const ManageManager = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 100px" }}>
+            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 5px" }}>
               <div className="col-12">
                 {/* Breadcrumb Area */}
                 <div className="breadcrumb-area">
@@ -90,8 +90,8 @@ const ManageManager = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="QA_table">
-                    <table className="table lms_table_active">
+                  <div className="QA_table right-margin-5px">
+                    <table >
                       <thead>
                         <tr>
                           <th scope="col">ID</th>

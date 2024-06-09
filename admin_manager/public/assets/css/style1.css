@@ -3192,18 +3192,18 @@ table.dataTable {
 
 .sidebar::-webkit-scrollbar-track,
 body::-webkit-scrollbar-track {
-    background-color: #ddd
+    background-color: #ffffff
 }
 
 .sidebar::-webkit-scrollbar,
 body::-webkit-scrollbar {
     width: 6px;
-    background-color: #ddd
+    background-color: #8b8888
 }
 
 .sidebar::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb {
-    background-color: #f8dbdd
+    background-color: #c0bcbc
 }
 
 body::-webkit-scrollbar {
@@ -6489,3 +6489,7 @@ canvas#highlights {
   
   
 /* ===========================================================================================*/
+::-webkit-scrollbar-thumb:hover {
+    background: #888; /* Màu xám khi hover */
+  }
+  
