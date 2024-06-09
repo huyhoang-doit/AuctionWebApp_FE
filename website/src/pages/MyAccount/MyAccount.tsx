@@ -107,7 +107,7 @@ export default function MyAccount() {
                                             aria-controls="account-details"
                                             aria-selected="false"
                                         >
-                                            Tài sản của tôi
+                                            Tài sản cần xác nhận
                                         </a>
                                     </li>
                                     <li className="nav-item">

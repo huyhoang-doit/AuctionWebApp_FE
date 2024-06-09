@@ -187,7 +187,7 @@ export const PageSendJewelry = () => {
                             console.log("Gửi yêu cầu cho sản phẩm mới thành công");
                             toast.success("Gửi yêu cầu cho sản phẩm mới thành công");
                             setProductName('')
-                            setProductType(categories[0].name);
+                            setProductType('Dây chuyền');
                             setPrice(0);
                             setPriceDisplay('')
                             setBrand('')

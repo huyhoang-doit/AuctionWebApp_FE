@@ -9,6 +9,7 @@ import JewelriesHandOverList from "./Components/staff/JewelriesHandOverList";
 import { LogoutModal } from "./Modal/Modal";
 import { ChangePassword } from "./Components/staff/ChangePassword";
 import StaffRequestList from "./Components/staff/StaffRequestList";
+import { ToastContainer } from "react-toastify";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);
@@ -151,7 +152,7 @@ export default function MyAccountStaff() {
                   />
                 </div>
               </div>
-
+              <ToastContainer />
             </div>
           </div>
 

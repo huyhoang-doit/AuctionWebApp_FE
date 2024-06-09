@@ -389,7 +389,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
   return (
     <>
       <Button variant="dark" size="sm" onClick={handleShowJewelryDetail}>
-        View
+        Xem
       </Button>
       {show && (
         <div className='overlay' >
@@ -524,6 +524,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
         </div >
       )}
 
+
       <JewelryCreateRequestModal show={showCreateModal} handleClose={handleCloseCreateModal} request={request} jewelry={jewelry} images={images} user={user} handleChangeList={handleChangeList} />
     </>
   );
@@ -564,9 +565,10 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
     if (confirm) {
       console.log('confirm thành công')
       handleSendRequestFromStaff()
-      toast.success("Định giá cho tài sản đã được gửi đi")
+
     }
     handleClose()
+    toast.success("Định giá cho tài sản đã được gửi đi")
   }
 
 
@@ -719,7 +721,6 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
         </Modal>
       </div>
     )}
-      {/* <ToastContainer /> */}
     </>
   );
 };
@@ -791,7 +792,6 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
           </Modal>
         </div>
       )}
-      <ToastContainer />
     </>
   );
 };

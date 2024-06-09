@@ -5,6 +5,7 @@ import { PaginationControl } from "react-bootstrap-pagination-control";
 import { getRequestByUserId } from "../../../api/RequestApprovalAPI";
 import { RequestApproval } from "../../../models/RequestApproval";
 import { formatDateStringAcceptNull } from "../../../utils/formatDateString";
+import { Spinner } from "react-bootstrap";
 
 interface MyJewelryListProps {
     userId: number | undefined;
@@ -14,19 +15,27 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
     const [myJewelryRequestList, setMyJewelryRequestList] = useState<RequestApproval[]>([]);
     const [totalElements, setTotalElements] = useState(0)
     const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if (userId) {
-            getRequestByUserId(userId, page)
-                .then((response) => {
-                    setMyJewelryRequestList(response.requestsData);
-                    setTotalElements(response.totalElements);
-                })
-                .catch(() => {
-                });
-        }
-    }, [userId, page]);
+
+    // useEffect(() => {
+    //     setLoading(true)
+
+    //     if (userId) {
+    //         getRequestByUserId(userId, page)
+    //             .then((response) => {
+    //                 setMyJewelryRequestList(response.requestsData);
+    //                 setTotalElements(response.totalElements);
+    //             })
+    //             .catch(() => {
+    //             });
+    //     }
+    //     setLoading(false)
+
+    // }, [userId, page]);
     const handleChangeList = useCallback(async () => {
+        setLoading(true)
+
         if (userId) {
             try {
                 const response = await getRequestByUserId(userId, page)
@@ -36,6 +45,8 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                 console.error(error);
             }
         }
+        setLoading(false)
+
     }, [userId, page]);
 
     useEffect(() => {
@@ -61,8 +72,14 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                             <th>Thời gian gửi</th>
                             <th>Trạng thái</th>
                             <th>Thao tác</th>
-                        </tr>
-                        {React.Children.toArray(myJewelryRequestList.map(
+                        </tr>{loading ? (
+                            <tr>
+                                <td colSpan={6} className="text-center">
+                                    <Spinner animation="border" />
+                                </td>
+                            </tr>
+
+                        ) : (myJewelryRequestList.length > 0 ? (React.Children.toArray(myJewelryRequestList.map(
                             (request) =>
                                 <tr>
                                     <td>
@@ -84,7 +101,7 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                                         </td>
                                     ) : (
                                         <td className={`fw-semibold ${request.isConfirm ? 'text-success' : 'text-dark'}`}>
-                                            {request.isConfirm ? 'Đang xử lý' : 'Chưa phê duyệt'}
+                                            {request.isConfirm ? 'Đã phê duyệt' : 'Chưa phê duyệt'}
                                         </td>
                                     )}
                                     <td>
@@ -92,7 +109,9 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                                         {/* <DeleteJewelryRequestModal jewelry={request.jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} /> */}
                                     </td>
                                 </tr>
-                        ))}
+                        ))) : (<td colSpan={6} className="text-center">
+                            <h5 className='fw-semibold lh-base mt-2'>Chưa có yêu cầu nào được gửi đi</h5>
+                        </td>))}
                     </tbody>
                 </table>
             </div>

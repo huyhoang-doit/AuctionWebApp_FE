@@ -5,6 +5,7 @@ import { formatNumber } from '../../../../utils/formatNumber';
 import { formatDateStringAcceptNull } from '../../../../utils/formatDateString';
 import { ViewJewelryRequestModal, ViewStaffRequestModal } from '../../Modal/Modal';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
+import { Spinner } from 'react-bootstrap';
 interface StaffRequestListProps {
   userId: number | undefined;
 }
@@ -12,8 +13,11 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({ userId }) => {
   const [myJewelryRequestList, setMyJewelryRequestList] = useState<RequestApproval[]>([]);
   const [totalElements, setTotalElements] = useState(0)
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
+    setLoading(true)
     if (userId) {
       getRequestByUserId(userId, page)
         .then((response) => {
@@ -23,6 +27,7 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({ userId }) => {
         .catch(() => {
         });
     }
+    setLoading(false)
   }, [userId, page]);
   const handleChangeList = useCallback(async () => {
     if (userId) {
@@ -59,8 +64,14 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({ userId }) => {
               <th>Thời gian gửi</th>
               <th>Trạng thái</th>
               <th>Thao tác</th>
-            </tr>
-            {React.Children.toArray(myJewelryRequestList.map(
+            </tr>{loading ? (
+              <tr>
+                <td colSpan={6} className="text-center">
+                  <Spinner animation="border" />
+                </td>
+              </tr>
+
+            ) : (myJewelryRequestList.length > 0 ? (React.Children.toArray(myJewelryRequestList.map(
               (request) =>
                 <tr>
                   <td>
@@ -90,7 +101,9 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({ userId }) => {
                     {/* <DeleteJewelryRequestModal jewelry={request.jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} /> */}
                   </td>
                 </tr>
-            ))}
+            ))) : (<td colSpan={6} className="text-center">
+              <h5 className='fw-semibold lh-base mt-2'>Chưa có yêu cầu nào được gửi đi</h5>
+            </td>))}
           </tbody>
         </table>
       </div>
