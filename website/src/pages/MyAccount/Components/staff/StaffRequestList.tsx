@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { getRequestByUserId } from '../../../../api/RequestApprovalAPI';
 import { RequestApproval } from '../../../../models/RequestApproval';
 import { formatNumber } from '../../../../utils/formatNumber';
@@ -28,7 +28,7 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({ userId }) => {
         });
     }
     setLoading(false)
-  }, [userId, page]);
+  }, [userId]);
   const handleChangeList = useCallback(async () => {
     if (userId) {
       try {

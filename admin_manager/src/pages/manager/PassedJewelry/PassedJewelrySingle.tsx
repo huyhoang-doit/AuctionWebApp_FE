@@ -3,8 +3,8 @@ import { RequestApproval } from '../../../models/RequestApproval'
 import { User } from '../../../models/User'
 import { Image } from '../../../models/Image'
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi'
-import { formatDateStringAcceptNull } from '../../../utils/formatDateString'
 import { formatNumber } from '../../../utils/formatNumber'
+import { CreateNewAuctionModal } from '../Modal/Modal'
 interface RequestSingleProps {
   request: RequestApproval,
   user: User | null,
@@ -46,8 +46,7 @@ const PassedJewelrySingle: React.FC<RequestSingleProps> = ({ request, user, hand
         <td>{formatNumber(request.valuation)}</td>
         <td>{request.staff?.fullName}</td>
         <td>
-          {/* <JewelryModal jewelry={request.jewelry} images={images} user={user} request={request} handleChangeList={handleChangeList} />
-          <DeleteJewelryRequestModal jewelry={request.jewelry} request={request} user={user} handleChangeList={handleChangeList} /> */}
+          <CreateNewAuctionModal request={request} jewelry={request.jewelry} user={userState} images={images} handleChangeList={handleChangeList} />
         </td>
       </tr>
     </>

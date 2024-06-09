@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { JewelryWaitSingle } from './JewelryWaitSingle'
 import { User } from '../../../../models/User'
 import { PaginationControl } from 'react-bootstrap-pagination-control'

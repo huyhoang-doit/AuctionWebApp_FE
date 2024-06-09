@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "../../../models/Image";
 import { Jewelry } from "../../../models/Jewelry";
 import { RequestApproval } from "../../../models/RequestApproval";
@@ -6,11 +6,19 @@ import { User } from "../../../models/User";
 import { Button, Modal } from "react-bootstrap";
 import { formatNumber, formatNumberAcceptNull } from "../../../utils/formatNumber";
 import changeStateRequest, { confirmRequest, sendRequestApprovalFromManager } from "../../../api/RequestApprovalAPI";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import './Modal.css';
 import { formatDateString } from "../../../utils/formatDateString";
 import { Auction } from "../../../models/Auction";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Link } from "react-router-dom";
+import { getMembers } from "../../../api/UserAPI";
 
+
+
+// *** MODAL FOR MANAGER ***
+// Modal for Jewelry List
 interface JewelryModalProps {
   jewelry: Jewelry | undefined;
   images: Image[];
@@ -18,9 +26,6 @@ interface JewelryModalProps {
   request: RequestApproval;
   handleChangeList: () => Promise<void>
 }
-
-// *** MODAL FOR MANAGER ***
-// Modal for Jewelry List
 export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, user, request, handleChangeList }) => {
   const [show, setShow] = useState(false);
 
@@ -59,7 +64,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
   return (
     <>
       <Button variant="dark" size="sm" onClick={handleShowJewelryDetail}>
-        View
+        Xem
       </Button>
       {show && (
         <div className='overlay' >
@@ -151,12 +156,12 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
                           <label>
                             Hình ảnh
                           </label>
-                          {/* {React.Children.toArray(images.map(
+                          {React.Children.toArray(images.map(
                             (img: Image) =>
                               <div className='col-md-3'>
-                                <img src={img.data} alt="Ảnh sản phẩm" />
+                                <img src={img.data} alt="Ảnh sản phẩm" className="w-100" />
                               </div>
-                          ))} */}
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -273,7 +278,6 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
 };
 
 // Manage Auctions Modal
-
 
 type AuctionType = {
   auction: Auction;
@@ -453,6 +457,339 @@ export const AuctionModal: React.FC<AuctionType> = ({ auction }) => {
           </Modal>
         </div>
       )}
+
+    </>
+  );
+};
+
+// CREATE NEW AUCTION MODAL
+interface CreateNewAuctionModalProps {
+  request: RequestApproval;
+  jewelry: Jewelry | undefined;
+  images: Image[];
+  user: User | null;
+  handleChangeList: () => Promise<void>
+}
+export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ request, jewelry, images, user, handleChangeList }) => {
+  const [show, setShow] = useState(false);
+  const [showContinueModal, setShowContinueModal] = useState(false);
+  const handleCloseCreateAuction = () => setShow(false);
+  const handleShowCreateAuction = () => setShow(true);
+
+  const handleShowSelectStaffModal = () => {
+    setShow(false); // Close the JewelryModal
+    setShowContinueModal(true); // Open the JewelryCreateRequestModal
+  };
+
+  const handleComback = () => {
+    handleCloseSelectStaffModal()
+    handleShowCreateAuction()
+  }
+
+  const handleCloseSelectStaffModal = () => setShowContinueModal(false);
+  return (
+    <>
+      <Button variant="warning" size="sm" onClick={handleShowCreateAuction}>
+        Tạo phiên đấu giá
+      </Button>
+      {show && (
+        <div className='overlay' >
+          <Modal
+            show={show}
+            onHide={handleCloseCreateAuction}
+            centered
+            backdrop="static"
+            size="lg"
+          >
+            <Modal.Header>
+              <Modal.Title className='w-100'>
+                <div className='col-12 text-center'>Tạo phiên đấu giá </div>
+                <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{request.jewelry?.name}</span></div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className='p-4 fs-6'>
+              <form action="">
+                <div className="checkbox-form fw-medium row mb-3">
+                  <h4 className=' fw-medium text-center text-decoration-underline'>1. Thông tin tài sản</h4>
+                  <div className="col-md-8 checkout-form-list mb-2">
+                    <span>
+                      Chủ tài sản:{"   "}
+                    </span>
+                    <span className='fw-bold'> {request?.responder?.fullName}</span>
+                  </div>
+                  <div className="col-md-4 checkout-form-list mb-2">
+                    <span>
+                      Mã người dùng:{"   "}
+                    </span>
+                    <span className='fw-bold'>{request?.responder?.id}</span>
+                  </div>
+                  <div className="col-md-8 checkout-form-list mb-2">
+                    <span>
+                      Tên tài sản:{"   "}
+                    </span>
+                    <span className='fw-bold'> {jewelry?.name}</span>
+                  </div>
+                  <div className="col-md-4 checkout-form-list mb-2">
+                    <span>
+                      Mã tài sản:
+                    </span>
+                    <span className='fw-bold'> {jewelry?.id}</span>
+                  </div>
+                  <div className="mb-2">
+                    <div className="row px-2 pt-4 border">
+                      <div className='col-md-6 mb-2'>
+                        <div className="mb-2">
+                          <span>
+                            Thương hiệu:
+                          </span>
+                          <span className='fw-bold'> {jewelry?.brand}</span>
+                        </div>
+                        <div className="mb-2">
+                          <span>
+                            Chất liệu:
+                          </span>
+                          <span className='fw-bold'> {jewelry?.material}</span>
+                        </div>
+                        <div>
+                          <span>
+                            Trọng lượng (g):
+                          </span>
+                          <span className='fw-bold'> {jewelry?.weight}</span>
+                        </div>
+                      </div>
+                      <div className='col-md-6'>
+                        <div className="checkout-form-list checkout-form-list-2">
+                          <span>Mô tả </span><br />
+                          <textarea readOnly className='w-100 mt-2 p-2' style={{ height: '100px' }}
+                            id="checkout-mess"
+                            value={jewelry?.description}
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div className="w-100 fw-medium border">
+                    <div className="checkout-form-list row px-2 pt-4">
+                      <label>
+                        Hình ảnh
+                      </label>
+                      {React.Children.toArray(images.map(
+                        (img: Image) =>
+                          <div className='col-md-2'>
+                            <img src={img.data} alt="Ảnh sản phẩm" style={{ width: '100%' }} />
+                          </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <form action="">
+                <div className="checkbox-form fw-medium row ">
+                  <h4 className='fw-medium text-center text-decoration-underline'>2. Nhập thông tin phiên đấu giá</h4>
+                  <div className="col-md-12 mb-2 mt-3">
+                    <label htmlFor="txtAuctionName">
+                      Tên phiên:{" "}
+                    </label>
+                    <input
+                      id="txtAuctionName"
+                      className='fw-semibold p-2 w-100'
+                      placeholder=" Nhập tên phiên đấu giá"
+                      type="text"
+                      value=''
+                    />
+                  </div>
+                  {/* <div className="col-md-4 mb-2">
+
+                  </div> */}
+                  <div className="col-md-6 mt-2">
+                    <div className="checkout-form-list mb-2">
+                      <span>
+                        Phí tham gia:
+                      </span>
+                      <span className='fw-bold'> 200.000 VND</span>
+                    </div>
+                    <div className="checkout-form-list mb-2">
+                      <span>
+                        Giá khởi điểm:
+                      </span>{' '}
+                      <span className='fw-bold'> {formatNumber(request?.valuation)} VND</span>
+                    </div>
+                    <div className="checkout-form-list mb-2">
+                      <span>Tiền đặt trước:</span>{' '}
+                      <span className='fw-bold'>{formatNumber(request && request.valuation ? Math.round((request.valuation * 0.1) / 50000) * 50000 : 0)} VND</span>
+                    </div>
+                    <div className="checkout-form-list mb-2">
+                      <span>
+                        Bước giá:
+                      </span>
+                      <span className='fw-bold'> {formatNumber(request && request.valuation ? Math.round((request.valuation * 0.05) / 50000) * 50000 : 0)} VND</span>
+                    </div>
+                  </div>
+                  <div className="col-md-6 mt-3" style={{ fontSize: '12px' }}>
+                    <ul>
+                      <li>(*) Giá khởi điểm được cung cấp từ định giá của tài sản.</li>
+                      <li>Tiền đặt trước được tính từ 9% - 11% định giá của tài sản. (Được làm tròn với bội số của 50.000 VND)</li>
+                      <li>Bước giá được tính từ 5% định giá của tài sản. (Được làm tròn với bội số của 50.000 VND)</li>
+                      <li></li>
+                    </ul>
+                  </div>
+                  <div className="col-md-6 mb-2 mt-2" style={{ display: 'flex', flexDirection: 'column' }}>
+                    <label style={{ marginBottom: '5px' }} htmlFor="txtStart">Thời gian bắt đầu:</label>
+                    <input className="p-3" type="datetime-local" name="txtDatetimeLocal" id="txtStart" min={new Date().toISOString().split('.')[0]} required />
+                  </div>
+                  <div className="col-md-6 mb-2 mt-2" style={{ display: 'flex', flexDirection: 'column' }}>
+                    <label style={{ marginBottom: '5px' }} htmlFor="txtEnd">Thời gian kết thúc:</label>
+                    <input className="p-3" type="datetime-local" name="txtDatetimeLocal" id="txtEnd" min={new Date().toISOString().split('.')[0]} required />
+                  </div>
+                  <div className="col-md-12 mt-2">
+                    <label style={{ marginBottom: '5px' }} htmlFor="txtStart">Mô tả cho phiên:</label>
+                    <div>
+                      <CKEditor
+                        editor={ClassicEditor}
+                        data={request.jewelry?.description}
+                        onReady={editor => {
+                          editor.editing.view.change((writer) => {
+                            const root = editor.editing.view.document.getRoot();
+                            if (root) {
+                              writer.setStyle('height', '200px', root);
+                            }
+                          })
+                        }}
+                        onChange={(event, editor) => {
+                          const data = editor.getData();
+                          console.log(data)
+                          // setDescription(data);
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                </div>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleCloseCreateAuction}>
+                Đóng
+              </Button >
+              <Button variant="warning" onClick={handleShowSelectStaffModal}>
+                Tiếp tục
+              </Button>
+
+            </Modal.Footer>
+          </Modal>
+        </div >
+      )}
+
+      <SelectStaffForAucionModal show={showContinueModal} handleClose={handleCloseSelectStaffModal} user={user} handleComback={handleComback} />
+    </>
+  );
+};
+
+interface SelectStaffForAucionModal {
+  show: boolean;
+  handleClose: () => void;
+  handleComback: () => void;
+  user: User | null
+}
+
+
+export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({ show, handleClose, user, handleComback }) => {
+  // const [staffs, setStaffs] = useState<User[]>([]);
+  // const [page, setPage] = useState(1);
+  // const [totalElements, setTotalElements] = useState(0);
+  // useEffect(() => {
+  //   getMembers("STAFF", 1).then((response) => {
+  //     setStaffs(response.usersData);
+  //     setTotalElements(response.totalElements);
+  //   });
+  // }, [page]);
+  return (
+    <>{show && (
+      <div className='overlay' >
+        <Modal
+          show={show}
+          onHide={handleClose}
+          centered
+          backdrop="static"
+          size="lg"
+        >
+          <Modal.Header>
+            <Modal.Title className='w-100'>
+              <div className='col-12 text-center'>Nhân viên quản lý phiên</div>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="QA_section">
+              <div className="white_box_tittle list_header">
+                <h4>Danh sách nhân viên</h4>
+                <div className="box_right d-flex lms_block">
+                </div>
+              </div>
+              <div className="QA_table">
+                <table className="table lms_table_active">
+                  <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Tên</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Số điện thoại</th>
+                      <th scope="col">Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* {staffs.map((staff) => (
+                      <tr key={staff.id}>
+                        <th scope="row">
+                          <a href="#" className="question_content">
+                            {staff.id}
+                          </a>
+                        </th>
+                        <td>{staff.fullName}</td>
+                        <td>{staff.fullName}</td>
+                        <td>{staff.email}</td>
+                        <td>{staff.phone}</td>
+                        <td>
+                        </td>
+                        <td>
+                          <div className="btn-group">
+                            <Link
+                              to={`/admin/chi-tiet-nguoi-dung/` + user?.id}
+                              className="btn btn-sm btn-warning"
+                            >
+                              Xem
+                            </Link>
+                            <Button
+                              variant="danger"
+                              size="sm"
+                            onClick={handleShowModal}
+                            >
+                              Xóa
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))} */}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="dark" onClick={handleClose}>
+              Đóng
+            </Button>
+            <Button variant="dark" onClick={handleComback}>
+              Quay lại
+            </Button>
+            <Button variant="warning" onClick={handleClose}>
+              Hoàn tất
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    )}
 
     </>
   );
