@@ -400,7 +400,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                         {errors.bankAccountName && <span className="text-danger">{errors.bankAccountName}</span>}
                                     </div>
                                     <div className="col-md-12">
-                                        <label>Sô điện thoại</label>
+                                        <label>Số điện thoại</label>
                                         <input
                                             className="input-required"
                                             type="text"
