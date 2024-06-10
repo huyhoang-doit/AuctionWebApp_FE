@@ -1,64 +1,129 @@
-
 import { RequestApproval } from './../models/RequestApproval';
-
+import { Jewelry } from './../models/Jewelry';
 import { User } from "../models/User";
 import { MyRequest } from "./MyRequest";
 import { fetchWithToken } from './AuthenticationAPI';
-import BASE_URL from '../config/config';
 
 interface ResultPageableInteface {
   requestsData: RequestApproval[];
   totalElements: number
 }
 
-
 export async function getRequestById(requestId: number): Promise<RequestApproval | null> {
   // endpoint
-  const URL = `${BASE_URL}/request-approval/id/${requestId}`;
+  const URL = `http://localhost:8080/api/v1/request-approval/id/${requestId}`;
 
   try {
     // request
-    const response = await MyRequest(URL);
+    let response = await MyRequest(URL);
 
     if (response) {
-      return {
+      const jewelry = {
+        id: response.jewelry.id,
+        name: response.jewelry.name,
+        description: response.jewelry.description,
+        user: new User(
+          response.jewelry.user.id,
+          response.jewelry.user.username,
+          response.jewelry.user.fullName,
+          response.jewelry.user.firstName,
+          response.jewelry.user.lastName,
+          response.jewelry.user.password,
+          response.jewelry.user.email,
+          response.jewelry.user.phone,
+          response.jewelry.user.address,
+          response.jewelry.user.district,
+          response.jewelry.user.ward,
+          response.jewelry.user.city,
+          response.jewelry.user.yob,
+          response.jewelry.user.cccd,
+          response.jewelry.user.bank,
+          response.jewelry.user.bankAccountNumber,
+          response.jewelry.user.bankAccountName
+        ),
+        brand: response.jewelry.brand,
+        category: response.jewelry.category,
+        material: response.jewelry.material,
+        weight: response.jewelry.weight
+      };
+
+      const staff = response.staff ? new User(
+        response.staff.id,
+        response.staff.username,
+        response.staff.fullName,
+        response.staff.firstName,
+        response.staff.lastName,
+        response.staff.password,
+        response.staff.email,
+        response.staff.phone,
+        response.staff.address,
+        response.staff.district,
+        response.staff.ward,
+        response.staff.city,
+        response.staff.yob,
+        response.staff.cccd,
+        response.staff.bank,
+        response.staff.bankAccountNumber,
+        response.staff.bankAccountName
+      ) : undefined;
+
+      const sender = response.sender ? new User(
+        response.sender.id,
+        response.sender.username,
+        response.sender.fullName,
+        response.sender.firstName,
+        response.sender.lastName,
+        response.sender.password,
+        response.sender.email,
+        response.sender.phone,
+        response.sender.address,
+        response.sender.district,
+        response.sender.ward,
+        response.sender.city,
+        response.sender.yob,
+        response.sender.cccd,
+        response.sender.bank,
+        response.sender.bankAccountNumber,
+        response.sender.bankAccountName
+      ) : undefined;
+
+      const responder = response.responder ? new User(
+        response.responder.id,
+        response.responder.username,
+        response.responder.fullName,
+        response.responder.firstName,
+        response.responder.lastName,
+        response.responder.password,
+        response.responder.email,
+        response.responder.phone,
+        response.responder.address,
+        response.responder.district,
+        response.responder.ward,
+        response.responder.city,
+        response.responder.yob,
+        response.responder.cccd,
+        response.responder.bank,
+        response.responder.bankAccountNumber,
+        response.responder.bankAccountName
+      ) : undefined;
+
+      response = {
         id: response.id,
-        isConfirm: response?.confirm,
-        desiredPrice: response?.desiredPrice,
-        valuation: response?.valuation,
-        requestTime: response?.requestTime,
-        responseTime: response?.responseTime,
-        state: response?.state,
-        jewelry: {
-          id: response.jewelry.id,
-          name: response.jewelry.name,
-          description: response.jewelry.description,
-          user: {
-            id: response.jewelry.user.id,
-            username: response.jewelry.user.username,
-            fullName: response.jewelry.user.fullName,
-          },
-          material: response.jewelry.material,
-          weight: response.jewelry.weight
-        },
-        staff: {
-          id: response?.staff.id,
-          username: response?.staff.username,
-          fullName: response?.staff.fullName,
-        },
-        sender: {
-          id: response?.sender.id,
-          username: response?.sender.username,
-          fullName: response?.sender.fullName,
-        },
-        responder: {
-          id: response?.responder.id,
-          username: response?.responder.username,
-          fullName: response?.responder.fullName,
-        },
-      }
+        isConfirm: response.confirm,
+        desiredPrice: response.desiredPrice,
+        valuation: response.valuation,
+        requestTime: response.requestTime,
+        responseTime: response.responseTime,
+        state: response.state,
+        jewelry: jewelry,
+        staff: staff,
+        sender: sender,
+        responder: responder,
+      };
+      return response;
+
     } else {
-      throw new Error("Phiên không tồn tại");
+      throw new Error("Yêu cầu không tồn tại");
     }
   } catch (error) {
     console.error("Error", error);
@@ -66,11 +131,10 @@ export async function getRequestById(requestId: number): Promise<RequestApproval
   }
 }
 
-export default async function changeStateRequest(requestId: number, state: string): Promise<boolean> {
+export default async function changeStateRequest(requestId: number, responderId: number | undefined, state: string): Promise<boolean> {
   // endpoint
-  const URL = `${BASE_URL}/request-approval/set-state/${requestId}?state=${state}`;
+  const URL = `http://localhost:8080/api/v1/request-approval/set-state/${requestId}?responderId=${responderId}&state=${state}`;
   // request
-  console.log(URL)
   const response = await fetch(URL, {
     method: 'PUT',
     headers: {
@@ -85,10 +149,32 @@ export default async function changeStateRequest(requestId: number, state: strin
 
   return true;
 }
+export async function confirmRequest(requestId: number, responderId: number | undefined): Promise<boolean> {
+  // endpoint
+  const URL = `http://localhost:8080/api/v1/request-approval/confirm/${requestId}?responderId=${responderId}`;
+
+  // request
+  console.log(URL)
+  const response = await fetch(URL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  console.log(response);
+
+  if (!response.ok) {
+    const errorDetails = await response.text();  // Get error details as text
+    console.error('Failed to update the book:', errorDetails);
+    return false
+  }
+
+  return true;
+}
 
 export async function getRequestByRoleOfSender(role: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `${BASE_URL}/request-approval/sender/${role}?page=${page - 1}`;
+  const URL: string = `http://localhost:8080/api/v1/request-approval/sender/${role}?page=${page - 1}`;
 
   const requests: RequestApproval[] = [];
   // request
@@ -202,7 +288,6 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
       responder: responder,
     });
 
-    console.log(requests);
   }
 
   return {
@@ -211,21 +296,46 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
   };
 }
 
-interface SendReqeustFromUser {
+interface SendRequestFromUser {
   senderId: number | undefined;
   jewelryId: number;
   requestTime: string
 }
 
-export const sendRequestApprovalFromUser = async (request: SendReqeustFromUser): Promise<boolean> => {
+export const sendRequestApprovalFromUser = async (request: SendRequestFromUser): Promise<boolean> => {
   const accessToken = localStorage.getItem('access_token');
   // end-point
-  const URL = `${BASE_URL}/request-approval/send-from-user`;
+  const URL = `http://localhost:8080/api/v1/request-approval/send-from-user`;
   // call api
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, request);
 
-    console.log(response);
+
+    if (!response.ok) {
+      throw new Error(`Không thể truy cập ${URL}`);
+    }
+    return true;
+  } catch (error) {
+    console.error("Error: " + error);
+    return false;
+  }
+};
+
+interface SendRequestFromStaff {
+  senderId: number | undefined;
+  requestApprovalId: number;
+  valuation: number | undefined;
+  requestTime: string;
+}
+
+export const sendRequestApprovalFromStaff = async (request: SendRequestFromStaff): Promise<boolean> => {
+  const accessToken = localStorage.getItem('access_token');
+  // end-point
+  const URL = `http://localhost:8080/api/v1/request-approval/send-from-staff`;
+  // call api
+  try {
+    const response = await fetchWithToken(URL, 'POST', accessToken, request);
+
 
     if (!response.ok) {
       throw new Error(`Không thể truy cập ${URL}`);
@@ -238,7 +348,7 @@ export const sendRequestApprovalFromUser = async (request: SendReqeustFromUser):
 };
 export async function getRequestByUserId(userId: number, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `${BASE_URL}/request-approval/user/${userId}?page=${page - 1}`;
+  const URL: string = `http://localhost:8080/api/v1/request-approval/user/${userId}?page=${page - 1}`;
 
   console.log(URL);
 
@@ -355,7 +465,6 @@ export async function getRequestByUserId(userId: number, page: number): Promise<
       responder: responder,
     });
 
-    console.log(requests);
   }
 
   return {
