@@ -488,6 +488,21 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ re
   const [showContinueModal, setShowContinueModal] = useState(false);
   const handleCloseCreateAuction = () => setShow(false);
   const handleShowCreateAuction = () => setShow(true);
+
+  //
+  const firstPrice: number = request?.valuation ? request.valuation : 0
+  const deposit: number = (request && request.valuation ? Math.round((request.valuation * 0.1) / 50000) * 50000 : 0)
+  const priceStep: number = (request && request.valuation ? Math.round((request.valuation * 0.05) / 50000) * 50000 : 0)
+  const jewelryId = request.jewelry?.id ? request.jewelry.id : 0
+
+  //
+  const [errorTime, setErrorTime] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  //
+  const [name, setName] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [newAuctionRequest, setNewAuctionRequest] = useState<NewAuctionRequestProps>(
     {
       id: 0,
@@ -495,17 +510,62 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ re
       startDate: '',
       endDate: '',
       description: '',
-      firstPrice: 0,
-      deposit: 0,
-      priceStep: 0,
-      jewelryId: 0,
+      firstPrice: firstPrice,
+      deposit: deposit,
+      priceStep: priceStep,
+      jewelryId: jewelryId,
       staffId: 0,
     }
   );
 
+
+  const updateName = (name: string) => {
+    setName(name)
+    setError(null)
+    setNewAuctionRequest((prev) => ({ ...prev, name: name }));
+  };
+
+  const updateStartDate = (startDate: string) => {
+    setStartDate(startDate)
+    setNewAuctionRequest((prev) => ({ ...prev, startDate: startDate }));
+    setErrorTime(null);
+    setError(null)
+  };
+
+  const updateEndDate = (endDate: string) => {
+    const start = new Date(newAuctionRequest.startDate).getTime();
+    const end = new Date(endDate).getTime()
+    const fourHours = 4 * 60 * 60 * 1000
+
+    if (end - start < fourHours) {
+      setErrorTime('Thời gian kết thúc phải sau thời gian bắt đầu ít nhất 4 tiếng')
+      setEndDate('')
+    } else {
+      setErrorTime(null);
+      setError(null)
+      setEndDate(endDate)
+      setNewAuctionRequest((prev) => ({ ...prev, endDate: endDate }))
+    }
+
+
+  };
+
+
+  const updateDescription = (description: string) => {
+    setDescription(description)
+    setNewAuctionRequest((prev) => ({ ...prev, description: description }));
+  };
+
   const handleShowSelectStaffModal = () => {
-    setShow(false); // Close the JewelryModal
-    setShowContinueModal(true); // Open the JewelryCreateRequestModal
+    if (name === '' || startDate === '' || endDate === '') {
+      setError('Cần cung cấp đủ thông tin')
+    } else {
+      setShow(false); // Close the JewelryModal
+      setShowContinueModal(true); // Open the JewelryCreateRequestModal
+      console.log(newAuctionRequest);
+    }
+
+
   };
 
   const handleComback = () => {
@@ -624,7 +684,9 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ re
                       className='fw-semibold p-2 w-100'
                       placeholder=" Nhập tên phiên đấu giá"
                       type="text"
-                      value=''
+                      value={name}
+                      onChange={(e) => updateName(e.target.value)}
+                      required
                     />
                   </div>
 
@@ -639,17 +701,17 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ re
                       <span>
                         Giá khởi điểm:
                       </span>{' '}
-                      <span className='fw-bold'> {formatNumber(request?.valuation)} VND</span>
+                      <span className='fw-bold'> {formatNumber(firstPrice)} VND</span>
                     </div>
                     <div className="checkout-form-list mb-2">
                       <span>Tiền đặt trước:</span>{' '}
-                      <span className='fw-bold'>{formatNumber(request && request.valuation ? Math.round((request.valuation * 0.1) / 50000) * 50000 : 0)} VND</span>
+                      <span className='fw-bold'>{formatNumber(deposit)} VND</span>
                     </div>
                     <div className="checkout-form-list mb-2">
                       <span>
                         Bước giá:
                       </span>
-                      <span className='fw-bold'> {formatNumber(request && request.valuation ? Math.round((request.valuation * 0.05) / 50000) * 50000 : 0)} VND</span>
+                      <span className='fw-bold'> {formatNumber(priceStep)} VND</span>
                     </div>
                   </div>
                   <div className="col-md-6 mt-3" style={{ fontSize: '12px' }}>
@@ -662,12 +724,13 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ re
                   </div>
                   <div className="col-md-6 mb-2 mt-2" style={{ display: 'flex', flexDirection: 'column' }}>
                     <label style={{ marginBottom: '5px' }} htmlFor="txtStart">Thời gian bắt đầu:</label>
-                    <input className="p-3" type="datetime-local" name="txtDatetimeLocal" id="txtStart" min={new Date().toISOString().split('.')[0]} required />
+                    <input className="p-3" type="datetime-local" name="txtDatetimeLocal" id="txtStart" value={startDate} onChange={(e) => { updateStartDate(e.target.value) }} min={new Date().toISOString().split('.')[0]} required />
                   </div>
                   <div className="col-md-6 mb-2 mt-2" style={{ display: 'flex', flexDirection: 'column' }}>
                     <label style={{ marginBottom: '5px' }} htmlFor="txtEnd">Thời gian kết thúc:</label>
-                    <input className="p-3" type="datetime-local" name="txtDatetimeLocal" id="txtEnd" min={new Date().toISOString().split('.')[0]} required />
+                    <input className="p-3" type="datetime-local" name="txtDatetimeLocal" id="txtEnd" value={endDate} onChange={(e) => { updateEndDate(e.target.value) }} min={new Date().toISOString().split('.')[0]} required />
                   </div>
+                  {errorTime && <p style={{ color: 'red' }}>{errorTime}</p>}
                   <div className="col-md-12 mt-2">
                     <label style={{ marginBottom: '5px' }} htmlFor="txtStart">Mô tả cho phiên:</label>
                     <div>
@@ -685,29 +748,33 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ re
                         onChange={(event, editor) => {
                           const data = editor.getData();
                           console.log(data)
-                          // setDescription(data);
+                          updateDescription(data);
                         }}
                       />
                     </div>
                   </div>
 
                 </div>
+
+                {error && <div className="me-5 text-end w-100"><p style={{ color: 'red' }}>{error}</p></div>}
               </form>
             </Modal.Body>
+
             <Modal.Footer>
               <Button variant="dark" onClick={handleCloseCreateAuction}>
                 Đóng
               </Button >
-              <Button variant="warning" onClick={handleShowSelectStaffModal}>
+              <Button variant="warning" onClick={handleShowSelectStaffModal} >
                 Tiếp tục
               </Button>
+
 
             </Modal.Footer>
           </Modal>
         </div >
       )}
 
-      <SelectStaffForAucionModal show={showContinueModal} handleClose={handleCloseSelectStaffModal} user={user} handleComback={handleComback} />
+      <SelectStaffForAucionModal show={showContinueModal} handleClose={handleCloseSelectStaffModal} user={user} handleComback={handleComback} newAuction={newAuctionRequest} />
     </>
   );
 };
@@ -716,11 +783,12 @@ interface SelectStaffForAucionModal {
   show: boolean;
   handleClose: () => void;
   handleComback: () => void;
-  user: User | null
+  user: User | null;
+  newAuction: NewAuctionRequestProps
 }
 
 
-export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({ show, handleClose, user, handleComback }) => {
+export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({ show, handleClose, user, handleComback, newAuction }) => {
   const [staffs, setStaffs] = useState<User[]>([]);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
@@ -741,6 +809,13 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
     setSelected(true)
     const response = await getUserById(staffId)
     setStaff(response)
+    newAuction.staffId = staffId
+  }
+
+  const completeCreateAuction = async () => {
+    console.log(newAuction);
+
+    handleClose()
   }
   return (
     <>{show && (
@@ -806,7 +881,14 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
                       <th scope="col">Thao tác</th>
                     </tr>
                   </thead>
-                  <tbody>{staffs.map((staff) => (
+                  <tbody>{loading ? (
+                    <tr>
+                      <td colSpan={5} className="text-center">
+                        <Spinner animation="border" />
+                      </td>
+                    </tr>
+
+                  ) : (staffs.map((staff) => (
                     <tr key={staff.id}>
                       <td>{staff.id}</td>
                       <td>{staff.fullName}</td>
@@ -821,7 +903,7 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  )))}
                   </tbody>
                 </table>
                 <PaginationControl
@@ -844,7 +926,7 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
             <Button variant="dark" onClick={handleComback}>
               Quay lại
             </Button>
-            <Button variant="warning" onClick={handleClose}>
+            <Button variant="warning" onClick={completeCreateAuction}>
               Hoàn tất
             </Button>
           </Modal.Footer>
