@@ -12,14 +12,14 @@ import StaffRequestList from "./Components/staff/StaffRequestList";
 import { ToastContainer } from "react-toastify";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
-  const user = useAccount(token);
+  const {account, setAccount} = useAccount(token);
 
-  const [userState, setUserState] = useState<User | null>(user);
+  const [userState, setUserState] = useState<User | null>(account);
   const [listNumber, setListNumber] = useState<number>(0)
 
   useEffect(() => {
-    setUserState(user);
-  }, [user]);
+    setUserState(account);
+  }, [account]);
   return (
     <>
       <div className="breadcrumb-area">
