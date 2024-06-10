@@ -66,14 +66,14 @@ export const getWinnerByAuctionId = async (auctionID: number | undefined): Promi
 };
 
 export async function getMembers(role: string, page: number): Promise<ResultPageableInteface> {
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-        throw new Error("No access token found");
-    }
+    // const token = localStorage.getItem('access_token');
+    // // if (!token) {
+    // //     throw new Error("No access token found");
+    // // }
 
     const URL = `http://localhost:8080/api/v1/user/staff?page=${page - 1}&role=${role}`;
 
-    const response = await fetchGetWithToken(URL, 'GET', token)
+    const response = await MyRequest(URL)
 
     if (!response.ok) {
         throw new Error(`Cannot access ${URL}`);
