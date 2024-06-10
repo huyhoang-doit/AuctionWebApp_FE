@@ -200,9 +200,9 @@ export const PageSendJewelry = () => {
                                 id: 0,
                                 name: '',
                                 price: 0,
-                                category: '',
+                                category: productType,
                                 description: '',
-                                material: '',
+                                material: material,
                                 brand: '',
                                 weight: 0,
                                 userId: user?.id

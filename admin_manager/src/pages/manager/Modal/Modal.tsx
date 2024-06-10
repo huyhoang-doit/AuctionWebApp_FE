@@ -3,7 +3,7 @@ import { Image } from "../../../models/Image";
 import { Jewelry } from "../../../models/Jewelry";
 import { RequestApproval } from "../../../models/RequestApproval";
 import { User } from "../../../models/User";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import { formatNumber, formatNumberAcceptNull } from "../../../utils/formatNumber";
 import changeStateRequest, { confirmRequest, sendRequestApprovalFromManager } from "../../../api/RequestApprovalAPI";
 import { toast } from "react-toastify";
@@ -12,8 +12,8 @@ import { formatDateString } from "../../../utils/formatDateString";
 import { Auction } from "../../../models/Auction";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Link } from "react-router-dom";
 import { getMembers } from "../../../api/UserAPI";
+import { PaginationControl } from "react-bootstrap-pagination-control";
 
 
 
@@ -696,15 +696,19 @@ interface SelectStaffForAucionModal {
 
 
 export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({ show, handleClose, user, handleComback }) => {
-  // const [staffs, setStaffs] = useState<User[]>([]);
-  // const [page, setPage] = useState(1);
-  // const [totalElements, setTotalElements] = useState(0);
-  // useEffect(() => {
-  //   getMembers("STAFF", 1).then((response) => {
-  //     setStaffs(response.usersData);
-  //     setTotalElements(response.totalElements);
-  //   });
-  // }, [page]);
+  const [staffs, setStaffs] = useState<User[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true)
+    getMembers("STAFF", 1).then((response) => {
+      setStaffs(response.usersData);
+      setTotalElements(response.totalElements);
+    });
+    setLoading(false)
+  }, [page]);
   return (
     <>{show && (
       <div className='overlay' >
@@ -721,14 +725,14 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className="QA_section">
+            <div className="">
               <div className="white_box_tittle list_header">
                 <h4>Danh sách nhân viên</h4>
                 <div className="box_right d-flex lms_block">
                 </div>
               </div>
               <div className="QA_table">
-                <table className="table lms_table_active">
+                <table className="table lms_table_active text-center">
                   <thead>
                     <tr>
                       <th scope="col">ID</th>
@@ -738,41 +742,41 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
                       <th scope="col">Thao tác</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {/* {staffs.map((staff) => (
-                      <tr key={staff.id}>
-                        <th scope="row">
-                          <a href="#" className="question_content">
-                            {staff.id}
-                          </a>
-                        </th>
-                        <td>{staff.fullName}</td>
-                        <td>{staff.fullName}</td>
-                        <td>{staff.email}</td>
-                        <td>{staff.phone}</td>
-                        <td>
-                        </td>
-                        <td>
-                          <div className="btn-group">
-                            <Link
-                              to={`/admin/chi-tiet-nguoi-dung/` + user?.id}
-                              className="btn btn-sm btn-warning"
-                            >
-                              Xem
-                            </Link>
-                            <Button
-                              variant="danger"
-                              size="sm"
-                            onClick={handleShowModal}
-                            >
-                              Xóa
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))} */}
+                  <tbody>{loading ? (
+                    <tr>
+                      <td colSpan={5} className="text-center">
+                        <Spinner animation="border" />
+                      </td>
+                    </tr>
+
+                  ) : (staffs.map((staff) => (
+                    <tr key={staff.id}>
+                      <td>{staff.id}</td>
+                      <td>{staff.fullName}</td>
+                      <td>{staff.email}</td>
+                      <td>{staff.phone}</td>
+
+                      <td>
+                        <div className="btn-group">
+                          <Button size="sm">
+                            Chọn
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  )))}
                   </tbody>
                 </table>
+                <PaginationControl
+                  page={page}
+                  between={3}
+                  total={totalElements}
+                  limit={5}
+                  changePage={(page) => {
+                    setPage(page);
+                  }}
+                  ellipsis={1}
+                />
               </div>
             </div>
           </Modal.Body>

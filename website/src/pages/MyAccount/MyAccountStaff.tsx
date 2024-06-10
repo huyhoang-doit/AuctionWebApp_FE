@@ -71,7 +71,7 @@ export default function MyAccountStaff() {
                       Đổi mật khẩu
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => { setListNumber(3) }}>
                     <a
                       className="nav-link"
                       id="account-orders-tab"
@@ -84,7 +84,7 @@ export default function MyAccountStaff() {
                       Danh sách trang sức được gửi tới
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => { setListNumber(4) }}>
                     <a
                       className="nav-link"
                       id="account-details-tab"
@@ -139,13 +139,13 @@ export default function MyAccountStaff() {
 
                   <ChangePassword user={userState} />
 
-                  <JewelriesWaitList user={userState} setUser={setUserState} />
+                  <JewelriesWaitList user={userState} setUser={setUserState} listNumber={listNumber} />
                   <JewelriesHandOverList
                     user={userState}
                     setUser={setUserState}
                   />
 
-                  <StaffRequestList userId={userState?.id} />
+                  <StaffRequestList userId={userState?.id} listNumber={listNumber} />
 
                   <AssignedAuctionList
                     user={userState}
@@ -153,7 +153,7 @@ export default function MyAccountStaff() {
                   />
                 </div>
               </div>
-              <ToastContainer />
+              {/* <ToastContainer /> */}
             </div>
           </div>
 

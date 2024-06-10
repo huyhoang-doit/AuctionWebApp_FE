@@ -8,8 +8,9 @@ import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { Spinner } from 'react-bootstrap';
 interface StaffRequestListProps {
   userId: number | undefined;
+  listNumber: number
 }
-const StaffRequestList: React.FC<StaffRequestListProps> = ({ userId }) => {
+const StaffRequestList: React.FC<StaffRequestListProps> = ({ userId, listNumber }) => {
   const [myJewelryRequestList, setMyJewelryRequestList] = useState<RequestApproval[]>([]);
   const [totalElements, setTotalElements] = useState(0)
   const [page, setPage] = useState(1);
@@ -28,7 +29,7 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({ userId }) => {
         });
     }
     setLoading(false)
-  }, [userId]);
+  }, [userId, listNumber]);
   const handleChangeList = useCallback(async () => {
     if (userId) {
       try {
@@ -43,7 +44,7 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({ userId }) => {
 
   useEffect(() => {
     handleChangeList();
-  }, [userId, page, handleChangeList]);
+  }, [userId, page, handleChangeList, listNumber]);
   return (<div
     className="tab-pane fade"
     id="staff-request"

@@ -9,6 +9,7 @@ import { Spinner, ToastContainer } from 'react-bootstrap'
 interface JewelriesWaitListProps {
   user: User | null;
   setUser: (user: User) => void;
+  listNumber: number
 }
 
 const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
@@ -36,11 +37,11 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
     }
     setLoading(false)
 
-  }, [page]);
+  }, [page, props.listNumber]);
 
   useEffect(() => {
     handleChangeList();
-  }, [user, page, handleChangeList]);
+  }, [user, page, handleChangeList, props.listNumber]);
   return (
     <>
       <div
