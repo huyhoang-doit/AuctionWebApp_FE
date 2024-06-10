@@ -51,7 +51,6 @@ const SideBar: React.FC<SideBarProps> = (props) => {
         newCheckboxValues[0] = false;
       }
 
-
       // Chuyển đổi trạng thái đã chọn của hộp kiểm tại chỉ mục đã chỉ định
       newCheckboxValues[index] = !newCheckboxValues[index];
 
@@ -138,18 +137,15 @@ const SideBar: React.FC<SideBarProps> = (props) => {
         <div className="umino-sidebar_categories umino-banner_area sidebar-banner_area">
           <div className="banner-item img-hover_effect">
             <div className="banner-img">
-              <a href="">
-                <img
-                  className="img-full"
-                  src="/assets/images/banner/3-1.jpg"
-                  alt=" Banner"
-                />
-              </a>
+              <img
+                className="img-full"
+                src="/assets/images/banner/3-1.jpg"
+                alt=" Banner"
+              />
             </div>
             <div className="banner-content banner-content-2">
               <span>Auction Company</span>
               <h4>DGS</h4>
-              <h3></h3>
             </div>
           </div>
         </div>

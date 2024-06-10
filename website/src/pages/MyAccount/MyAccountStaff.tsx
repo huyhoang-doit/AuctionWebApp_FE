@@ -8,18 +8,15 @@ import AssignedAuctionList from "./Components/staff/AssignedAuctionList";
 import JewelriesHandOverList from "./Components/staff/JewelriesHandOverList";
 import { LogoutModal } from "./Modal/Modal";
 import { ChangePassword } from "./Components/staff/ChangePassword";
-import StaffRequestList from "./Components/staff/StaffRequestList";
-import { ToastContainer } from "react-toastify";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
-  const user = useAccount(token);
+  const {account, setAccount} = useAccount(token);
 
-  const [userState, setUserState] = useState<User | null>(user);
-  const [listNumber, setListNumber] = useState<number>(0)
+  const [userState, setUserState] = useState<User | null>(account);
 
   useEffect(() => {
-    setUserState(user);
-  }, [user]);
+    setUserState(account);
+  }, [account]);
   return (
     <>
       <div className="breadcrumb-area">
@@ -71,7 +68,7 @@ export default function MyAccountStaff() {
                       Đổi mật khẩu
                     </a>
                   </li>
-                  <li className="nav-item" onClick={() => { setListNumber(3) }}>
+                  <li className="nav-item">
                     <a
                       className="nav-link"
                       id="account-orders-tab"
@@ -82,19 +79,6 @@ export default function MyAccountStaff() {
                       aria-selected="false"
                     >
                       Danh sách trang sức được gửi tới
-                    </a>
-                  </li>
-                  <li className="nav-item" onClick={() => { setListNumber(4) }}>
-                    <a
-                      className="nav-link"
-                      id="account-details-tab"
-                      data-bs-toggle="tab"
-                      href="#staff-request"
-                      role="tab"
-                      aria-controls="account-details"
-                      aria-selected="false"
-                    >
-                      Danh sách các yêu cầu gửi đi
                     </a>
                   </li>
                   <li className="nav-item">
@@ -139,13 +123,12 @@ export default function MyAccountStaff() {
 
                   <ChangePassword user={userState} />
 
-                  <JewelriesWaitList user={userState} setUser={setUserState} listNumber={listNumber} />
+                  <JewelriesWaitList user={userState} setUser={setUserState} />
+
                   <JewelriesHandOverList
                     user={userState}
                     setUser={setUserState}
                   />
-
-                  <StaffRequestList userId={userState?.id} listNumber={listNumber} />
 
                   <AssignedAuctionList
                     user={userState}
@@ -153,10 +136,8 @@ export default function MyAccountStaff() {
                   />
                 </div>
               </div>
-              {/* <ToastContainer /> */}
             </div>
           </div>
-
         </div>
       </main>
     </>

@@ -59,8 +59,8 @@ export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ request, j
           <img style={{ width: '60px', height: '60px' }} src={image?.data} alt='jewelry' />
         </td>
         <td>
-          <JewelryModal jewelry={jewelry} images={images} user={user} request={request} handleChangeList={handleChangeList} />
-          <DeleteJewelryRequestModal jewelry={jewelry} request={request} user={user} setNotification={setNotification} handleChangeList={handleChangeList} />
+          <JewelryModal jewelry={jewelry} images={images} user={user} request={request} />
+          <DeleteJewelryRequestModal jewelry={jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} />
         </td>
       </tr>
     </>

@@ -1,5 +1,4 @@
 import { RequestApproval } from './../models/RequestApproval';
-import { Jewelry } from './../models/Jewelry';
 import { User } from "../models/User";
 import { MyRequest } from "./MyRequest";
 import { fetchWithToken } from './AuthenticationAPI';

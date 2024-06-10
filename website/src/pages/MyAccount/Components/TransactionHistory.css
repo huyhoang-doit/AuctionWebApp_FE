@@ -1,0 +1,5 @@
+.active>.page-link {
+  color: yellow;
+  background-color: black;
+  border-color: black;
+}

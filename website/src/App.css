@@ -271,17 +271,18 @@ input[type="file"] {
 .select2-container--default .select2-results__option--disabled {
     color: #999;
 }
- /* Header css */
+
+/* Header css */
 .category-menu {
 
-   
-    .category-menu-list{
+
+    .category-menu-list {
         display: none;
     }
 
 
-    &:hover{
-        .category-menu-list{
+    &:hover {
+        .category-menu-list {
             display: block;
         }
     }
@@ -301,7 +302,7 @@ input[type="file"] {
     line-height: 28px !important;
     text-align: center !important;
     color: #262626 !important;
-    
+
 }
 
 .rating-flex {
@@ -323,21 +324,12 @@ input[type="file"] {
     font-size: 22px;
 }
 
-// CSS color pagination
-.mt-4 .{
-    background-color: black;
-    padding: 10px;
-    border-radius: 5px;
-    font-weight: bold;
-  }
-
-  .page-link {
+.page-link {
     color: black;
-  }
-  
-  .active>.page-link {
+}
+
+.active>.page-link {
     color: yellow;
     background-color: black;
     border: none
-   
-  }
+}

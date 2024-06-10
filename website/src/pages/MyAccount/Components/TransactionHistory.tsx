@@ -11,7 +11,7 @@ import {
   getTransactionsByUsername,
   getTransactionsDashboardByUsername,
 } from "../../../api/TransactionAPI";
-import { Spinner } from "react-bootstrap";
+import "./TransactionHistory.css";
 
 interface TransactionHistoryProps {
   user: User | null;
@@ -34,11 +34,8 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
-  const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
-    setLoading(true)
     if (user) {
       const username = user.username ? user.username : "";
       getTransactionsDashboardByUsername(username)
@@ -51,15 +48,14 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
             totalBid: response.totalBid,
           });
         })
-        .catch(() => { });
+        .catch(() => {});
       getTransactionsByUsername(username, page)
         .then((response) => {
           setTransactions(response.transactions);
           setTotalElements(response.totalElements);
         })
-        .catch(() => { });
+        .catch(() => {});
     }
-    setLoading(false)
   }, [user, page]);
 
   return (
@@ -110,12 +106,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                 <th>Trạng thái</th>
                 <th>Xem chi tiết</th>
               </tr>
-              {loading ? (<tr>
-                <td colSpan={7} className="text-center">
-                  <Spinner animation="border" />
-                </td>
-              </tr>
-              ) : (transactions.length > 0 ? (React.Children.toArray(
+              {React.Children.toArray(
                 transactions.map((transaction) => (
                   <tr>
                     <td>{transaction.id}</td>
@@ -133,11 +124,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     </td>
                   </tr>
                 ))
-              )) : (<td colSpan={7} className="text-center">
-                <h5 className='fw-semibold lh-base mt-2'>Chưa thực hiện đấu giá nào</h5>
-              </td>)
               )}
-              { }
             </tbody>
           </table>
         </div>

@@ -5,19 +5,18 @@ import { MyBidHistory } from "./Components/MyBidHistory";
 import { useContext, useEffect, useState } from "react";
 import { User } from "../../models/User";
 import { TransactionHistory } from "./Components/TransactionHistory";
-import { MyJewelryRequestList } from "./Components/MyJewelryRequestList";
+import { MyJewelryList } from "./Components/MyJewelryList";
 import { LogoutModal } from "./Modal/Modal";
 import { UserContext } from "../../hooks/useContext";
 import { ChangePassword } from "./Components/staff/ChangePassword";
-import MyJewellryList from "./Components/MyJewellryList";
 
 export default function MyAccount() {
     const context = useContext(UserContext);
     const [userState, setUserState] = useState<User | null>(null);
 
     useEffect(() => {
-        if (context && context.user)
-            setUserState(context?.user);
+        if (context && context.account)
+            setUserState(context?.account);
     }, [context])
 
     return (
@@ -102,25 +101,12 @@ export default function MyAccount() {
                                             className="nav-link"
                                             id="account-details-tab"
                                             data-bs-toggle="tab"
-                                            href="#my-jewelry"
-                                            role="tab"
-                                            aria-controls="account-details"
-                                            aria-selected="false"
-                                        >
-                                            Tài sản cần xác nhận
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a
-                                            className="nav-link"
-                                            id="account-details-tab"
-                                            data-bs-toggle="tab"
                                             href="#jewelry-request"
                                             role="tab"
                                             aria-controls="account-details"
                                             aria-selected="false"
                                         >
-                                            Các yêu cầu đã gửi
+                                            Sản phẩm yêu cầu
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -139,8 +125,7 @@ export default function MyAccount() {
                                     <ChangePassword user={userState} />
                                     <MyBidHistory username={userState?.username} />
                                     <TransactionHistory user={userState} />
-                                    <MyJewellryList user={userState} setUser={setUserState} />
-                                    <MyJewelryRequestList userId={userState?.id} />
+                                    <MyJewelryList userId={userState?.id} />
                                 </div>
                             </div>
                         </div>

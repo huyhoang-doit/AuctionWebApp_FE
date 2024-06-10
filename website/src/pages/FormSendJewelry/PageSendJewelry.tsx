@@ -6,7 +6,6 @@ import { getLatestJewelry, sendJewelryFromUser } from "../../api/JewelryAPI";
 import { Jewelry } from "../../models/Jewelry";
 import { processImages, setImageForJewelry } from "../../api/ImageApi";
 import { sendRequestApprovalFromUser } from "../../api/RequestApprovalAPI";
-import { ToastContainer, toast } from "react-toastify";
 
 interface JewelryRequest {
     id: number;
@@ -35,7 +34,7 @@ export const PageSendJewelry = () => {
 
 
     const token = localStorage.getItem("access_token");
-    const user = useAccount(token);
+    const {account, setAccount} = useAccount(token);
 
     const [productName, setProductName] = useState('');
     const [productType, setProductType] = useState<string | undefined>('');
@@ -57,14 +56,14 @@ export const PageSendJewelry = () => {
         material: '',
         brand: '',
         weight: 0,
-        userId: user?.id
+        userId: account?.id
     });
 
     useEffect(() => {
-        if (user) {
-            setJewelryRequest((prevRequest) => ({ ...prevRequest, userId: user.id }));
+        if (account) {
+            setJewelryRequest((prevRequest) => ({ ...prevRequest, userId: account.id }));
         }
-    }, [user]);
+    }, [account]);
 
     useEffect(() => {
         if (categories.length > 0) {
@@ -153,6 +152,7 @@ export const PageSendJewelry = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log(jewelryRequest);
 
         if (images.length === 0) {
             setNotification('Vui lòng cung cấp ảnh cho sản phẩm')
@@ -166,6 +166,7 @@ export const PageSendJewelry = () => {
                 const newJewelry: Jewelry = await getLatestJewelry()
                 if (newJewelry) {
                     const newJewelryId = newJewelry.id
+                    console.log(newJewelryId);
 
                     const iconImage = await setImageForJewelry({ data: base64Images[0], jewelryId: newJewelryId }, true)
                     processImages(base64Images, newJewelryId)
@@ -178,36 +179,15 @@ export const PageSendJewelry = () => {
 
                     if (iconImage) {
                         const newSendRequestBody: SendReqeustFromUser = {
-                            senderId: user?.id,
+                            senderId: account?.id,
                             jewelryId: newJewelry.id,
                             requestTime: new Date().toISOString()
                         }
                         const sendRequest = await sendRequestApprovalFromUser(newSendRequestBody)
                         if (sendRequest) {
                             console.log("Gửi yêu cầu cho sản phẩm mới thành công");
-                            toast.success("Gửi yêu cầu cho sản phẩm mới thành công");
-                            setProductName('')
-                            setProductType('Dây chuyền');
-                            setPrice(0);
-                            setPriceDisplay('')
-                            setBrand('')
-                            setWeight(0)
-                            setDescription('')
-                            setMaterial('Bạc')
-                            setImages([])
-                            setBase64Images([])
-                            setJewelryRequest({
-                                id: 0,
-                                name: '',
-                                price: 0,
-                                category: productType,
-                                description: '',
-                                material: material,
-                                brand: '',
-                                weight: 0,
-                                userId: user?.id
-                            })
-                            setNotification("");
+
+                            setNotification("Yêu cầu của bạn đã được gửi thành công.");
                         }
                     }
                 }
@@ -261,7 +241,7 @@ export const PageSendJewelry = () => {
                                                 required
                                             >
                                                 {categories.map((category) => (
-                                                    <option style={{ padding: '5px' }} key={category.id} value={category.name}>
+                                                    <option style={{ padding: '5px' }} key={category.id} value={category.id}>
                                                         {category.name}
                                                     </option>
                                                 ))}
@@ -343,7 +323,6 @@ export const PageSendJewelry = () => {
                                             <button className="umino-register_btn" type="submit">
                                                 Gửi yêu cầu
                                             </button>
-                                            <ToastContainer />
                                         </div>
                                     </div>
                                 </div>
