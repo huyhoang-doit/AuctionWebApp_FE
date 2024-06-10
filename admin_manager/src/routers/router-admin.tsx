@@ -12,24 +12,27 @@ import ViewTransactionUser from '../pages/admin/View/ViewTransactionUser'
 import ViewProfile from '../pages/admin/View/ViewProfile'
 import GuestRoute from './GuestRoute'
 import Index from '../pages/Index/Index'
+import ProtectedRoute from './ProtectedRoute'
 
 const RouterComAdmin = () => {
   return (
     <>
       <Routes>
-        <Route element={<GuestRoute />}>
-          <Route path="/admin" element={<Index />} />
-          <Route path="/admin/account/manager" element={<ManageManager />} />
-          <Route path="/admin/account/staff" element={<ManageStaff />} />
-          <Route path="/admin/account/user" element={<ManageUser />} />
-          <Route path="/admin/transaction/seller" element={<TransactionWithSeller />} />
-          <Route path="/admin/transaction/buyer" element={<TransactionWithBuyer />} />
-          <Route path="/admin/transaction/user" element={<TransactionWithUser />} />
-          <Route path="/admin/chi-tiet-nguoi-dung/:id" element={<ViewUser />} />
-          <Route path="/admin/view/ViewTransactionSeller" element={<ViewTransactionSeller />} />
-          <Route path="/admin/view/ViewTransactionBuyer" element={<ViewTransactionBuyer />} />
-          <Route path="/admin/view/ViewTransactionUser" element={<ViewTransactionUser />} />
-          <Route path="/admin/view/ViewProfile" element={<ViewProfile />} />
+        <Route element={<ProtectedRoute roles={['ADMIN']} />}>
+          <Route element={<GuestRoute />}>
+            <Route path="/admin" element={<Index />} />
+            <Route path="/admin/account/manager" element={<ManageManager />} />
+            <Route path="/admin/account/staff" element={<ManageStaff />} />
+            <Route path="/admin/account/user" element={<ManageUser />} />
+            <Route path="/admin/transaction/seller" element={<TransactionWithSeller />} />
+            <Route path="/admin/transaction/buyer" element={<TransactionWithBuyer />} />
+            <Route path="/admin/transaction/user" element={<TransactionWithUser />} />
+            <Route path="/admin/chi-tiet-nguoi-dung/:id" element={<ViewUser />} />
+            <Route path="/admin/view/ViewTransactionSeller" element={<ViewTransactionSeller />} />
+            <Route path="/admin/view/ViewTransactionBuyer" element={<ViewTransactionBuyer />} />
+            <Route path="/admin/view/ViewTransactionUser" element={<ViewTransactionUser />} />
+            <Route path="/admin/view/ViewProfile" element={<ViewProfile />} />
+          </Route>
         </Route>
       </Routes>
     </>
