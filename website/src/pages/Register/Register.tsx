@@ -244,11 +244,10 @@ export default function Register() {
         const isPhoneNumberValid = !isPhoneNumberWrongFormat(registerRequest.phone);
         const isYearOfBirthValid = !isYearOfBirthWrongFormat(registerRequest.yob);
         const isCitizenIdValid = !isCitizenIdWrongFormat(registerRequest.CCCD);
-
         if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid || !isPhoneNumberValid || !isYearOfBirthValid || !isCitizenIdValid) {
-            console.log(isUsernameValid);
             return;
         }
+        
 
         if (registerRequest.bankAccountNumber === '') {
             setErrors((prevErrors) => ({ ...prevErrors, bankAccountNumber: "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước" }));
@@ -269,7 +268,7 @@ export default function Register() {
         clearErrors();
 
         const isSuccess = await register(registerRequest);
-
+        
         if (!isSuccess) {
             setNotification("Xảy ra lỗi trong quá trình đăng kí tài khoản!")
             return;
@@ -452,7 +451,7 @@ export default function Register() {
                                             <label >Tên ngân hàng</label>
                                             <select defaultValue={0} onChange={onChangeSelectRegisterRequest("bankId")} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
                                             >
-                                                <option disabled defaultValue={0}>Chọn</option>
+                                                <option selected disabled defaultValue={0}>Chọn</option>
                                                 {banks.map((bank) => (
                                                     <option style={{ padding: '5px' }} key={bank.id} value={bank.id}>
                                                         {bank.bankName} ({bank.tradingName})

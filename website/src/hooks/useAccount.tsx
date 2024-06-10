@@ -22,7 +22,7 @@ const useAccount = (token : string | null) => {
             }
         }
     }, [token]);
-    return account;
+    return {account, setAccount};
 }
 
 export default useAccount;

@@ -1,3 +1,4 @@
+import BASE_URL from "../config/config";
 import { AuctionHistory } from "../models/AuctionHistory";
 import { fetchNoBodyWithToken, fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
@@ -11,10 +12,11 @@ interface ResultIntefacePageable {
     totalElements: number;
 }
 
+
 export async function getAuctionHistoriesByAuctionId(auctionId: number, perPage: number): Promise<ResultInteface> {
     const auctionHistories: AuctionHistory[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction-history/get-by-auction?id=${auctionId}&size=${perPage}`;
+    const URL = `${BASE_URL}/auction-history/get-by-auction?id=${auctionId}&size=${perPage}`;
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
@@ -55,7 +57,7 @@ export async function getAuctionHistoriesByAuctionId(auctionId: number, perPage:
 export async function getBidByUsername(username: string, page: number): Promise<ResultIntefacePageable> {
     const auctionHistories: AuctionHistory[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction-history/get-by-username?username=${username}&page=${page - 1}`;
+    const URL = `${BASE_URL}/auction-history/get-by-username?username=${username}&page=${page - 1}`;
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
@@ -108,7 +110,7 @@ export async function bidByUser(username: string, auctionId: number, priceGiven:
         bidTime: bidTime
     }
     // // endpoint
-    const URL = `http://localhost:8080/api/v1/auction-history`;
+    const URL = `${BASE_URL}/auction-history`;
     // // request
     try {
         const response = await fetchWithToken(URL, 'POST', token, bid);
@@ -125,7 +127,7 @@ export async function bidByUser(username: string, auctionId: number, priceGiven:
 export async function getAuctionHistoriesWhenFinished(auctionId: number | undefined): Promise<ResultInteface> {
     const auctionHistories: AuctionHistory[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction-history/get-when-auction-finished/${auctionId}`;
+    const URL = `${BASE_URL}/auction-history/get-when-auction-finished/${auctionId}`;
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
@@ -150,7 +152,7 @@ export async function getAuctionHistoriesWhenFinished(auctionId: number | undefi
 
 export const confirmDeleteBid = async (userId: number, auctionId: number) => {
     const token = localStorage.getItem("access_token");
-    const URL = `http://localhost:8080/api/v1/auction-history/bids/${userId}/${auctionId}`;
+    const URL = `${BASE_URL}/auction-history/bids/${userId}/${auctionId}`;
     try {
         const response = await fetchNoBodyWithToken(URL, "DELETE", token);
 

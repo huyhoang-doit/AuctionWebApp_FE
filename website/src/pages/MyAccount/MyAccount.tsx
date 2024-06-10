@@ -16,8 +16,8 @@ export default function MyAccount() {
     const [userState, setUserState] = useState<User | null>(null);
 
     useEffect(() => {
-        if (context && context.user)
-            setUserState(context?.user);
+        if (context && context.account)
+            setUserState(context?.account);
     }, [context])
 
     return (
@@ -108,19 +108,6 @@ export default function MyAccount() {
                                             aria-selected="false"
                                         >
                                             Tài sản cần xác nhận
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a
-                                            className="nav-link"
-                                            id="account-details-tab"
-                                            data-bs-toggle="tab"
-                                            href="#jewelry-request"
-                                            role="tab"
-                                            aria-controls="account-details"
-                                            aria-selected="false"
-                                        >
-                                            Các yêu cầu đã gửi
                                         </a>
                                     </li>
                                     <li className="nav-item">

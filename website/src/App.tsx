@@ -4,13 +4,12 @@ import Header from './layouts/components/Header/Header';
 import Footer from './layouts/components/Footer/Footer';
 import useAccount from './hooks/useAccount';
 import RouterCom from './routers/RouterCom';
-
 function App() {
   const token = localStorage.getItem("access_token");
-  const user = useAccount(token);
+  const { account, setAccount } = useAccount(token);
   return (
     <>
-      <UserContext.Provider value={{ user }} >
+      <UserContext.Provider value={{ account, setAccount }} >
         <Header />
         <RouterCom />
         <Footer />

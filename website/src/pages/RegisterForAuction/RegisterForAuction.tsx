@@ -25,8 +25,8 @@ export default function RegisterForAuction() {
     const [amount, setAmount] = useState(0);
     const context = useContext(UserContext);
     let user: User | null = null;
-    if (context?.user) {
-        user = context.user;
+    if (context?.account) {
+        user = context.account;
     }
 
     const { id } = useParams();

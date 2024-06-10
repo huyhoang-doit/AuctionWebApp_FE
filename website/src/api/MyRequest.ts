@@ -1,5 +1,3 @@
-
-
 export async function MyRequest(URL: string): Promise<any> {
     const response = await fetch(URL);
     

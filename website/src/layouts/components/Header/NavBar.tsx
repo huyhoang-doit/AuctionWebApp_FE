@@ -12,8 +12,8 @@ export const NavBar = () => {
 
     let user = null;
 
-    if (context?.user) {
-        user = context.user;
+    if (context?.account) {
+        user = context.account;
     }
 
     return (
