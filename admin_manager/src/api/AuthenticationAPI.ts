@@ -1,3 +1,5 @@
+import BASE_URL from "../config/config";
+
 interface LoginRequest {
     username: string;
     password: string;
@@ -21,7 +23,7 @@ interface RegisterRequest {
 
 export const login = async (loginRequest: LoginRequest, setError: (message: string) => void) => {
     // end-point
-    const URL = `http://localhost:8080/api/v1/auth/authenticate`;
+    const URL = `${BASE_URL}/auth/authenticate`;
     const request = { ...loginRequest, email: loginRequest.username }
     // call api
     try {
@@ -57,7 +59,7 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
 
 export const register = async (registerRequest: RegisterRequest): Promise<boolean> => {
     // end-point
-    const URL = `http://localhost:8080/api/v1/auth/register`;
+    const URL = `${BASE_URL}/auth/register`;
     const role = "MEMBER"
     // call api
     try {
@@ -81,7 +83,7 @@ export const register = async (registerRequest: RegisterRequest): Promise<boolea
 
 export const handleActiveUser = async (token: string): Promise<boolean> => {
     try {
-        const URL: string = `http://localhost:8080/api/v1/auth/activation`;
+        const URL: string = `${BASE_URL}/auth/activation`;
         const response = await fetch(URL, {
             method: 'POST',
             headers: {
@@ -109,7 +111,7 @@ export const logout = async () => {
     }
 
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/logout', {
+        const response = await fetch('${BASE_URL}/auth/logout', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -152,7 +154,7 @@ export const refreshToken = async () => {
     //     return;
     // }
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/refresh-token', {
+        const response = await fetch('${BASE_URL}/auth/refresh-token', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

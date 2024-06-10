@@ -12,7 +12,7 @@ import { formatDateString } from "../../../utils/formatDateString";
 import { Auction } from "../../../models/Auction";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { getMembers } from "../../../api/UserAPI";
+import { getMembers, getUserById } from "../../../api/UserAPI";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 
 
@@ -470,11 +470,38 @@ interface CreateNewAuctionModalProps {
   user: User | null;
   handleChangeList: () => Promise<void>
 }
+
+interface NewAuctionRequestProps {
+  id: number;
+  name: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  firstPrice: number;
+  deposit: number;
+  priceStep: number;
+  jewelryId: number;
+  staffId: number;
+}
 export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ request, jewelry, images, user, handleChangeList }) => {
   const [show, setShow] = useState(false);
   const [showContinueModal, setShowContinueModal] = useState(false);
   const handleCloseCreateAuction = () => setShow(false);
   const handleShowCreateAuction = () => setShow(true);
+  const [newAuctionRequest, setNewAuctionRequest] = useState<NewAuctionRequestProps>(
+    {
+      id: 0,
+      name: '',
+      startDate: '',
+      endDate: '',
+      description: '',
+      firstPrice: 0,
+      deposit: 0,
+      priceStep: 0,
+      jewelryId: 0,
+      staffId: 0,
+    }
+  );
 
   const handleShowSelectStaffModal = () => {
     setShow(false); // Close the JewelryModal
@@ -600,9 +627,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ re
                       value=''
                     />
                   </div>
-                  {/* <div className="col-md-4 mb-2">
 
-                  </div> */}
                   <div className="col-md-6 mt-2">
                     <div className="checkout-form-list mb-2">
                       <span>
@@ -700,15 +725,23 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState(false);
+  const [staff, setStaff] = useState<User>()
 
   useEffect(() => {
     setLoading(true)
-    getMembers("STAFF", 1).then((response) => {
+    getMembers('STAFF', page).then((response) => {
       setStaffs(response.usersData);
       setTotalElements(response.totalElements);
     });
     setLoading(false)
   }, [page]);
+
+  const selectStaff = async (staffId: number) => {
+    setSelected(true)
+    const response = await getUserById(staffId)
+    setStaff(response)
+  }
   return (
     <>{show && (
       <div className='overlay' >
@@ -730,8 +763,39 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
                 <h4>Danh sách nhân viên</h4>
                 <div className="box_right d-flex lms_block">
                 </div>
-              </div>
-              <div className="QA_table">
+              </div>{selected && <div className="row">
+                <div className="col-md-4">
+                  <div style={{ width: '100%', height: '220px', overflow: 'hidden', borderRadius: '50%', position: 'relative' }}>
+                    <img src={staff?.avatar} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+                  </div>
+                </div>
+                <div className="col-md-8 ps-5 mt-3">
+                  <div className="checkout-form-list mb-2">
+                    <span>
+                      Mã nhân viên:
+                    </span>
+                    <span className='fw-bold'> {staff?.id}</span>
+                  </div>
+                  <div className="checkout-form-list mb-2">
+                    <span>
+                      Tên:
+                    </span>{' '}
+                    <span className='fw-bold'> {staff?.fullName}</span>
+                  </div>
+                  <div className="checkout-form-list mb-2">
+                    <span>Số điện thoại:</span>{' '}
+                    <span className='fw-bold'>{staff?.phone}</span>
+                  </div>
+                  <div className="checkout-form-list mb-2">
+                    <span>
+                      Email:
+                    </span>
+                    <span className='fw-bold'> {staff?.phone}</span>
+                  </div>
+                </div>
+              </div>}
+
+              <div className="QA_table border mt-4">
                 <table className="table lms_table_active text-center">
                   <thead>
                     <tr>
@@ -742,14 +806,7 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
                       <th scope="col">Thao tác</th>
                     </tr>
                   </thead>
-                  <tbody>{loading ? (
-                    <tr>
-                      <td colSpan={5} className="text-center">
-                        <Spinner animation="border" />
-                      </td>
-                    </tr>
-
-                  ) : (staffs.map((staff) => (
+                  <tbody>{staffs.map((staff) => (
                     <tr key={staff.id}>
                       <td>{staff.id}</td>
                       <td>{staff.fullName}</td>
@@ -758,13 +815,13 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
 
                       <td>
                         <div className="btn-group">
-                          <Button size="sm">
+                          <Button size="sm" onClick={() => { selectStaff(staff.id) }}>
                             Chọn
                           </Button>
                         </div>
                       </td>
                     </tr>
-                  )))}
+                  ))}
                   </tbody>
                 </table>
                 <PaginationControl

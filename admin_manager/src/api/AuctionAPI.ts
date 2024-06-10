@@ -1,3 +1,4 @@
+import BASE_URL from "../config/config";
 import { Auction } from "../models/Auction";
 import { MyRequest } from "./MyRequest";
 
@@ -20,7 +21,7 @@ interface Pageable {
 export async function getAuctions(state: string, cateId: number, pageable: Pageable): Promise<ResultPageableInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
+    const URL = `${BASE_URL}/auction/sorted-and-paged?state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
@@ -62,7 +63,7 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
 export async function getAllAuctions(state: string, page: number): Promise<ResultPageableInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/sorted-and-paged?state=${state}&page=${page - 1}`;
+    const URL = `${BASE_URL}/auction/sorted-and-paged?state=${state}&page=${page - 1}`;
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
@@ -119,7 +120,7 @@ export async function getAllAuctions(state: string, page: number): Promise<Resul
 export async function gettop3PriceAndState(): Promise<ResultInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/get-top-3-price?state=ONGOING&state=WAITING`;
+    const URL = `${BASE_URL}/auction/get-top-3-price?state=ONGOING&state=WAITING`;
 
     // request
     const response = await MyRequest(URL);
@@ -153,7 +154,7 @@ export async function gettop3PriceAndState(): Promise<ResultInteface> {
 
 export async function getAuction(auctionId: number): Promise<Auction | null> {
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/id/${auctionId}`;
+    const URL = `${BASE_URL}/auction/id/${auctionId}`;
 
     try {
         // request
@@ -204,7 +205,7 @@ export async function getAuctionByStates(selectedStates: string[], pageable: Pag
     const auctions: Auction[] = [];
     const selectedStatesQuery = selectedStates.join(',');
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/get-by-states?states=${selectedStatesQuery}&page=${pageable.page - 1}&size=${pageable.size}`;
+    const URL = `${BASE_URL}/auction/get-by-states?states=${selectedStatesQuery}&page=${pageable.page - 1}&size=${pageable.size}`;
     // request
 
     const response = await MyRequest(URL);
@@ -247,7 +248,7 @@ export async function getAuctionByStates(selectedStates: string[], pageable: Pag
 export async function getAuctionByFilterDay(startDate: string, endDate: string): Promise<ResultInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/get-by-day/${startDate}/${endDate}`;
+    const URL = `${BASE_URL}/auction/get-by-day/${startDate}/${endDate}`;
 
     // request
     const response = await MyRequest(URL);
@@ -281,7 +282,7 @@ export async function getAuctionByFilterDay(startDate: string, endDate: string):
 
 export async function changeStateAuction(auctionId: number, state: string): Promise<boolean> {
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/set-state/${auctionId}?state=${state}`;
+    const URL = `${BASE_URL}/auction/set-state/${auctionId}?state=${state}`;
     // request
     console.log(URL)
     const response = await fetch(URL, {
@@ -302,7 +303,7 @@ export async function changeStateAuction(auctionId: number, state: string): Prom
 export async function getAuctionsByName(txtSearch: string): Promise<ResultInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/get-by-name/${txtSearch}`;
+    const URL = `${BASE_URL}/auction/get-by-name/${txtSearch}`;
     // request
     const response = await MyRequest(URL);
 
@@ -336,7 +337,7 @@ export async function getAuctionsByName(txtSearch: string): Promise<ResultIntefa
 export async function getAuctionsByStateNotPageale(state: string): Promise<ResultInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/get-by-state?state=${state}`;
+    const URL = `${BASE_URL}/auction/get-by-state?state=${state}`;
     // request
     const response = await MyRequest(URL);
 
@@ -370,7 +371,7 @@ export async function getAuctionsByStateNotPageale(state: string): Promise<Resul
 export async function getAuctionByStaffId(staffId: number, page: number): Promise<ResultPageableInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/get-by-staff/${staffId}?page=${page - 1}`;
+    const URL = `${BASE_URL}/auction/get-by-staff/${staffId}?page=${page - 1}`;
 
     // request
     const response = await MyRequest(URL);
@@ -413,7 +414,7 @@ export async function getAuctionByStaffId(staffId: number, page: number): Promis
 export async function getAuctionByJewelryId(id: number): Promise<ResultInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `http://localhost:8080/api/v1/auction/get-by-jewelry/${id}`;
+    const URL = `${BASE_URL}/auction/get-by-jewelry/${id}`;
 
     // request
     const response = await MyRequest(URL);

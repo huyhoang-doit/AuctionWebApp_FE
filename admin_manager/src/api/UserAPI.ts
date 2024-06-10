@@ -2,6 +2,7 @@
 import { fetchGetWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "../../../website/src/api/MyRequest";
 import { User } from "../models/User";
+import BASE_URL from "../config/config";
 
 interface ResultPageableInteface {
     usersData: User[];
@@ -9,7 +10,7 @@ interface ResultPageableInteface {
 }
 
 export const checkEmailExist = async (email: string) => {
-    const URL = `http://localhost:8080/api/v1/user/by-email/${email}`;
+    const URL = `${BASE_URL}/user/by-email/${email}`;
     try {
         const response = await MyRequest(URL);
         if (response) {
@@ -22,7 +23,7 @@ export const checkEmailExist = async (email: string) => {
 };
 
 export const checkUsernameExist = async (username: string) => {
-    const URL = `http://localhost:8080/api/v1/user/by-username/${username}`;
+    const URL = `${BASE_URL}/user/by-username/${username}`;
     try {
         const response = await MyRequest(URL);
         if (response) {
@@ -35,7 +36,7 @@ export const checkUsernameExist = async (username: string) => {
 };
 
 export const getUserLogin = async (username: string): Promise<User> => {
-    const URL = `http://localhost:8080/api/v1/user/by-username/${username}`;
+    const URL = `${BASE_URL}/user/by-username/${username}`;
     const response = await MyRequest(URL);
     // console.log(response)
     return response;
@@ -46,7 +47,7 @@ export const getUserById = async (id: number): Promise<User> => {
     if (!token) {
         throw new Error("No access token found");
     }
-    const URL = `http://localhost:8080/api/v1/user/${id}`;
+    const URL = `${BASE_URL}/user/${id}`;
     const response = await fetch(URL, {
         method: 'GET',
         headers: {
@@ -59,21 +60,21 @@ export const getUserById = async (id: number): Promise<User> => {
 };
 
 export const getWinnerByAuctionId = async (auctionID: number | undefined): Promise<User> => {
-    const URL = `http://localhost:8080/api/v1/user/get-winner-auction/${auctionID}`;
+    const URL = `${BASE_URL}/user/get-winner-auction/${auctionID}`;
     const response = await MyRequest(URL);
     // console.log(response)
     return response;
 };
 
 export async function getMembers(role: string, page: number): Promise<ResultPageableInteface> {
-    // const token = localStorage.getItem('access_token');
-    // // if (!token) {
-    // //     throw new Error("No access token found");
-    // // }
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        throw new Error("No access token found");
+    }
 
-    const URL = `http://localhost:8080/api/v1/user/staff?page=${page - 1}&role=${role}`;
+    const URL = `${BASE_URL}/user/staff?page=${page - 1}&role=${role}`;
 
-    const response = await MyRequest(URL)
+    const response = await fetchGetWithToken(URL, 'GET', token)
 
     if (!response.ok) {
         throw new Error(`Cannot access ${URL}`);

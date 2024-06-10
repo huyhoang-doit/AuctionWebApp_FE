@@ -1,7 +1,7 @@
-import { Jewelry } from './../models/Jewelry';
 import { Image } from './../models/Image';
 import { MyRequest } from "./MyRequest";
 import { fetchWithToken } from './AuthenticationAPI';
+import BASE_URL from '../config/config';
 
 
 async function getImages(URL: string): Promise<Image[]> {
@@ -23,14 +23,14 @@ async function getImages(URL: string): Promise<Image[]> {
 
 export async function getImagesByJewelryId(jewelryId: number): Promise<Image[]> {
     // endpoint
-    const URL: string = `http://localhost:8080/api/v1/image/get-by-jewelry/${jewelryId}`;
+    const URL: string = `${BASE_URL}/image/get-by-jewelry/${jewelryId}`;
 
     return getImages(URL);
 }
 
 export async function getIconImageByJewelryId(jewelryId: number): Promise<Image> {
     // endpoint
-    const URL: string = `http://localhost:8080/api/v1/image/get-icon-jewelry/${jewelryId}`;
+    const URL: string = `${BASE_URL}/image/get-icon-jewelry/${jewelryId}`;
 
     const response = await MyRequest(URL);
 
@@ -49,7 +49,7 @@ export const setImageForJewelry = async (imageRequest: ImageRequest, icon: boole
     const isIcon: boolean = icon
     const body = { ...imageRequest, icon: isIcon }
     // end-point
-    const URL = `http://localhost:8080/api/v1/image/add-image`;
+    const URL = `${BASE_URL}/image/add-image`;
     // call api
     try {
         const response = await fetchWithToken(URL, 'POST', accessToken, body);

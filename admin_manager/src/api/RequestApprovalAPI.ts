@@ -1,9 +1,9 @@
 
-import { Jewelry } from './../models/Jewelry';
 import { User } from "../models/User";
 import { MyRequest } from "./MyRequest";
 import { fetchWithToken } from './AuthenticationAPI';
 import { RequestApproval } from '../models/RequestApproval';
+import BASE_URL from '../config/config';
 
 interface ResultPageableInteface {
   requestsData: RequestApproval[];
@@ -12,7 +12,7 @@ interface ResultPageableInteface {
 
 export async function getRequestById(requestId: number): Promise<RequestApproval | null> {
   // endpoint
-  const URL = `http://localhost:8080/api/v1/request-approval/id/${requestId}`;
+  const URL = `${BASE_URL}/request-approval/id/${requestId}`;
 
   try {
     // request
@@ -39,6 +39,7 @@ export async function getRequestById(requestId: number): Promise<RequestApproval
           response.jewelry.user.yob,
           response.jewelry.user.cccd,
           response.jewelry.user.bank,
+          response.jewelry.user.state,
           response.jewelry.user.bankAccountNumber,
           response.jewelry.user.bankAccountName
         ),
@@ -64,6 +65,7 @@ export async function getRequestById(requestId: number): Promise<RequestApproval
         response.staff.yob,
         response.staff.cccd,
         response.staff.bank,
+        response.staff.state,
         response.staff.bankAccountNumber,
         response.staff.bankAccountName
       ) : undefined;
@@ -84,6 +86,7 @@ export async function getRequestById(requestId: number): Promise<RequestApproval
         response.sender.yob,
         response.sender.cccd,
         response.sender.bank,
+        response.sender.state,
         response.sender.bankAccountNumber,
         response.sender.bankAccountName
       ) : undefined;
@@ -104,6 +107,7 @@ export async function getRequestById(requestId: number): Promise<RequestApproval
         response.responder.yob,
         response.responder.cccd,
         response.responder.bank,
+        response.responder.state,
         response.responder.bankAccountNumber,
         response.responder.bankAccountName
       ) : undefined;
@@ -134,7 +138,7 @@ export async function getRequestById(requestId: number): Promise<RequestApproval
 
 export default async function changeStateRequest(requestId: number, responderId: number | undefined, state: string): Promise<boolean> {
   // endpoint
-  const URL = `http://localhost:8080/api/v1/request-approval/set-state/${requestId}?responderId=${responderId}&state=${state}`;
+  const URL = `${BASE_URL}/request-approval/set-state/${requestId}?responderId=${responderId}&state=${state}`;
   // request
   const response = await fetch(URL, {
     method: 'PUT',
@@ -152,7 +156,7 @@ export default async function changeStateRequest(requestId: number, responderId:
 }
 export async function confirmRequest(requestId: number, responderId: number | undefined): Promise<boolean> {
   // endpoint
-  const URL = `http://localhost:8080/api/v1/request-approval/confirm/${requestId}?responderId=${responderId}`;
+  const URL = `${BASE_URL}/request-approval/confirm/${requestId}?responderId=${responderId}`;
 
   // request
   console.log(URL)
@@ -175,7 +179,7 @@ export async function confirmRequest(requestId: number, responderId: number | un
 
 export async function getRequestByRoleOfSender(role: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `http://localhost:8080/api/v1/request-approval/sender/${role}?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/sender/${role}?page=${page - 1}`;
 
   const requests: RequestApproval[] = [];
   // request
@@ -300,7 +304,7 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
 
 export async function getRequestPassed(page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `http://localhost:8080/api/v1/request-approval/request-passed?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/request-passed?page=${page - 1}`;
 
   const requests: RequestApproval[] = [];
   // request
@@ -331,6 +335,7 @@ export async function getRequestPassed(page: number): Promise<ResultPageableInte
         request.jewelry.user.yob,
         request.jewelry.user.cccd,
         request.jewelry.user.bank,
+        request.jewelry.user.state,
         request.jewelry.user.bankAccountNumber,
         request.jewelry.user.bankAccountName
       ),
@@ -356,6 +361,7 @@ export async function getRequestPassed(page: number): Promise<ResultPageableInte
       request.staff.yob,
       request.staff.cccd,
       request.staff.bank,
+      request.staff.state,
       request.staff.bankAccountNumber,
       request.staff.bankAccountName
     ) : undefined;
@@ -376,6 +382,7 @@ export async function getRequestPassed(page: number): Promise<ResultPageableInte
       request.sender.yob,
       request.sender.cccd,
       request.sender.bank,
+      request.sender.state,
       request.sender.bankAccountNumber,
       request.sender.bankAccountName
     ) : undefined;
@@ -396,6 +403,7 @@ export async function getRequestPassed(page: number): Promise<ResultPageableInte
       request.responder.yob,
       request.responder.cccd,
       request.responder.bank,
+      request.responder.state,
       request.responder.bankAccountNumber,
       request.responder.bankAccountName
     ) : undefined;
@@ -431,7 +439,7 @@ interface SendRequestFromUser {
 export const sendRequestApprovalFromUser = async (request: SendRequestFromUser): Promise<boolean> => {
   const accessToken = localStorage.getItem('access_token');
   // end-point
-  const URL = `http://localhost:8080/api/v1/request-approval/send-from-user`;
+  const URL = `${BASE_URL}/request-approval/send-from-user`;
   // call api
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, request);
@@ -457,7 +465,7 @@ interface SendRequestFromManager {
 export const sendRequestApprovalFromManager = async (request: SendRequestFromManager): Promise<boolean> => {
   const accessToken = localStorage.getItem('access_token');
   // end-point
-  const URL = `http://localhost:8080/api/v1/request-approval/send-from-manager`;
+  const URL = `${BASE_URL}/request-approval/send-from-manager`;
   // call api
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, request);
@@ -475,7 +483,7 @@ export const sendRequestApprovalFromManager = async (request: SendRequestFromMan
 };
 export async function getRequestByUserId(userId: number, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `http://localhost:8080/api/v1/request-approval/user/${userId}?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/user/${userId}?page=${page - 1}`;
 
   console.log(URL);
 
@@ -509,6 +517,7 @@ export async function getRequestByUserId(userId: number, page: number): Promise<
         request.jewelry.user.yob,
         request.jewelry.user.cccd,
         request.jewelry.user.bank,
+        request.jewelry.user.state,
         request.jewelry.user.bankAccountNumber,
         request.jewelry.user.bankAccountName
       ),
@@ -534,6 +543,7 @@ export async function getRequestByUserId(userId: number, page: number): Promise<
       request.staff.yob,
       request.staff.cccd,
       request.staff.bank,
+      request.staff.state,
       request.staff.bankAccountNumber,
       request.staff.bankAccountName
     ) : undefined;
@@ -554,6 +564,7 @@ export async function getRequestByUserId(userId: number, page: number): Promise<
       request.sender.yob,
       request.sender.cccd,
       request.sender.bank,
+      request.sender.state,
       request.sender.bankAccountNumber,
       request.sender.bankAccountName
     ) : undefined;
@@ -574,6 +585,7 @@ export async function getRequestByUserId(userId: number, page: number): Promise<
       request.responder.yob,
       request.responder.cccd,
       request.responder.bank,
+      request.responder.state,
       request.responder.bankAccountNumber,
       request.responder.bankAccountName
     ) : undefined;
