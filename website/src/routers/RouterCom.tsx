@@ -17,7 +17,6 @@ import AuctionDetail from "../pages/AuctionDetail/AuctionDetail";
 import { AuctionBid } from "../pages/Bid/AuctionBid";
 import AuctionList from "../pages/AuctionList/AuctionList";
 import { AuctionRegistrationGuard } from "./AuctionRegistrationGuard";
-import { ChangePassword } from "../pages/MyAccount/Components/staff/ChangePassword";
 import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../pages/ForgotPassword/ResetPassord";
 

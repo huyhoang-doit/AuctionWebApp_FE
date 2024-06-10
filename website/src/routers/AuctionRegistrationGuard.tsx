@@ -17,8 +17,8 @@ export function AuctionRegistrationGuard({ element }: AuctionRegistrationGuardPr
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     let user: User | null = null;
-    if (context?.user) {
-        user = context.user;
+    if (context?.account) {
+        user = context.account;
     }
     useEffect(() => {
         if (!token) {

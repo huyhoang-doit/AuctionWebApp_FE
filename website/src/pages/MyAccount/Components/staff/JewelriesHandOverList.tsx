@@ -4,7 +4,6 @@ import { getJewelriesHandOverList } from '../../../../api/JewelryAPI';
 import { User } from '../../../../models/User';
 import JewelryHandOverSingle from './JewelryHandOverSingle';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
-import { Spinner } from 'react-bootstrap';
 
 interface JewelriesHandOverListProps {
   user: User | null;
@@ -15,15 +14,12 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
   const [user, setUser] = useState<User | null>(props.user);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
-  const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     setUser(props.user);
   }, [props.user]);
 
   useEffect(() => {
-    setLoading(true)
     getJewelriesHandOverList(page)
       .then((response) => {
         setListJewelries(response.jeweriesData);
@@ -33,7 +29,6 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
       .catch((error) => {
         console.error(error.message);
       });
-    setLoading(false)
   }, [props.user, page])
   return (
     <>
@@ -57,18 +52,10 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
                   <th>Giá cuối</th>
                   <th>Người thắng</th>
                   <th>Xem chi tiết</th>
-                </tr>{loading ? (
-                  <tr>
-                    <td colSpan={6} className="text-center">
-                      <Spinner animation="border" />
-                    </td>
-                  </tr>
-
-                ) : (listJewelries.length > 0 ? (listJewelries.map((jewelry) => (
+                </tr>
+                {listJewelries.map((jewelry) => (
                   <JewelryHandOverSingle key={jewelry.id} jewelry={jewelry} user={props.user} />
-                ))) : (<td colSpan={6} className="text-center">
-                  <h5 className='fw-semibold lh-base mt-2'>Chưa có yêu cầu nào cần bàn giao</h5>
-                </td>))}
+                ))}
               </tbody>
             </table>
             <div className="mt-4">

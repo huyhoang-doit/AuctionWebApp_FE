@@ -5,17 +5,20 @@ import { formatDateString } from "../../../utils/formatDateString";
 import { UserContext } from "../../../hooks/useContext";
 import { BidConfirmDelete } from "../../MyAccount/Modal/Modal";
 import { User } from "../../../models/User";
+import Stomp from "stompjs";
 
 interface AuctionHistoryItemProps {
     auctionHistories: AuctionHistory[];
+    stompClient: Stomp.Client | null;
+    connected: boolean;
 }
 
-export const AuctionHistoryItem: React.FC<AuctionHistoryItemProps> = ({auctionHistories}) => {
+export const AuctionHistoryItem: React.FC<AuctionHistoryItemProps> = ({stompClient, connected, auctionHistories}) => {
     const context = useContext(UserContext);
     let user: User | null = null;
     
     if (context) {
-        user = context.user;
+        user = context.account;
     }
 
     return (
@@ -42,7 +45,7 @@ export const AuctionHistoryItem: React.FC<AuctionHistoryItemProps> = ({auctionHi
                                 <td className={`col-1 ${rowClassName}`}>{auctionHistory.bidCode}</td>
                                 <td className={`col-1 text-center`}>
                                     {user?.id === auctionHistory.user.id && isFirstIndex &&
-                                        <BidConfirmDelete user={user} auction={auctionHistory.auction} bidCode={auctionHistory.bidCode} />
+                                        <BidConfirmDelete stompClient={stompClient} connected={connected} user={user} auction={auctionHistory.auction} bidCode={auctionHistory.bidCode} />
                                     }
                                 </td>
                             </tr>)

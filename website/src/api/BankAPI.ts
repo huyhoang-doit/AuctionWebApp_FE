@@ -1,6 +1,6 @@
+import BASE_URL from "../config/config";
 import { Bank } from "../models/Bank";
 import { MyRequest } from "./MyRequest";
-
 
 async function getBanks(URL: string): Promise<Bank[]> {
     const result: Bank[] = [];
@@ -20,7 +20,7 @@ async function getBanks(URL: string): Promise<Bank[]> {
 
 export async function getAllBanks(): Promise<Bank[]> {
     // endpoint
-    const URL: string = `http://localhost:8080/api/v1/bank`;
+    const URL: string = `${BASE_URL}/bank`;
 
     return getBanks(URL);
 }

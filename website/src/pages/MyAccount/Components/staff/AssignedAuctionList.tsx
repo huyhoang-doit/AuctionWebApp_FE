@@ -7,7 +7,6 @@ import { User } from '../../../../models/User'
 import { Link } from 'react-router-dom'
 import { PaginationControl } from 'react-bootstrap-pagination-control'
 import "../../../../utils/pagination.css"
-import { Spinner } from 'react-bootstrap'
 interface MyAccountDetailProps {
   user: User | null;
   setUser: (user: User) => void;
@@ -17,15 +16,12 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
   const [user, setUser] = useState<User | null>(props.user);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
-  const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     setUser(props.user);
   }, [props.user]);
 
   useEffect(() => {
-    setLoading(true)
     if (props.user && props.user.id) {
       getAuctionByStaffId(props.user.id, page)
         .then((response) => {
@@ -36,7 +32,6 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
           console.error(error.message);
         });
     }
-    setLoading(false)
   }, [props.user, page]);
 
   return (
@@ -61,35 +56,27 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
                 <th>Xem chi tiết</th>
               </tr>
             </thead>
-            <tbody>{loading ? (
-              <tr>
-                <td colSpan={6} className="text-center">
-                  <Spinner animation="border" />
-                </td>
-              </tr>
-
-            ) : (auctions.length > 0 ? (auctions.map((auction) => (
-              <tr key={auction.id}>
-                <td>
-                  {auction.id}
-                </td>
-                <td>{auction.name}</td>
-                <td>{formatDateString(auction.startDate)}</td>
-                <td>
-                  <span className={`fw-bold ${auction.state === 'WAITING' ? 'text-warning' : auction.state === 'ONGOING' ? 'text-success' : ''}`}>
-                    {auction.state}
-                  </span>
-                </td>
-                <td>
-                  <AssignAuctionModal auction={auction} />
-                  <Link to={`/tai-san-dau-gia/${auction.id}`} className='ms-2 btn btn-warning btn-sm'>
-                    Đến
-                  </Link>
-                </td>
-              </tr>
-            ))) : (<td colSpan={6} className="text-center">
-              <h5 className='fw-semibold lh-base mt-2'>Hiện tại chưa có phiên nào được phân công</h5>
-            </td>))}
+            <tbody>
+              {auctions.map((auction) => (
+                <tr key={auction.id}>
+                  <td>
+                    {auction.id}
+                  </td>
+                  <td>{auction.name}</td>
+                  <td>{formatDateString(auction.startDate)}</td>
+                  <td>
+                    <span className={`fw-bold ${auction.state === 'WAITING' ? 'text-warning' : auction.state === 'ONGOING' ? 'text-success' : ''}`}>
+                      {auction.state}
+                    </span>
+                  </td>
+                  <td>
+                    <AssignAuctionModal auction={auction} />
+                    <Link to={`/tai-san-dau-gia/${auction.id}`} className='ms-2 btn btn-warning btn-sm'>
+                      Đến
+                    </Link>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
           <div className="mt-4">

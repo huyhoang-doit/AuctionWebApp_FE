@@ -1,3 +1,5 @@
+import BASE_URL from "../config/config";
+
 interface LoginRequest {
     username: string;
     password: string;
@@ -8,6 +10,7 @@ interface ChangePasswordRequest {
     oldPassword: string;
     newPassword: string;
 }
+
 
 interface RegisterRequest {
     id: number,
@@ -27,7 +30,7 @@ interface RegisterRequest {
 
 export const login = async (loginRequest: LoginRequest, setError: (message: string) => void) => {
     // end-point
-    const URL = `http://localhost:8080/api/v1/auth/authenticate`;
+    const URL = `${BASE_URL}/auth/authenticate`;
     const request = { ...loginRequest, email: loginRequest.username }
     // call api
     try {
@@ -73,7 +76,7 @@ export const changePassword = async (changePasswordRequest: ChangePasswordReques
 
     changePasswordRequest = { ...changePasswordRequest, token: accessToken }
 
-    const URL = `http://localhost:8080/api/v1/auth/change-password`;
+    const URL = `${BASE_URL}/auth/change-password`;
 
     try {
         const response = await fetchWithToken(URL, 'POST', accessToken, changePasswordRequest);
@@ -93,7 +96,7 @@ export const changePassword = async (changePasswordRequest: ChangePasswordReques
 };
 
 export const forgotPassword = async (email: string, setError: (message: string) => void) => {
-    const URL = `http://localhost:8080/api/v1/auth/forgot-password`;
+    const URL = `${BASE_URL}/auth/forgot-password`;
 
     try {
         const response = await fetch(URL, {
@@ -121,7 +124,7 @@ export const forgotPassword = async (email: string, setError: (message: string) 
 }
 
 export const resetPassword = async (password: string, token: string) => {
-    const URL = `http://localhost:8080/api/v1/auth/reset-password`;
+    const URL = `${BASE_URL}/auth/reset-password`;
     
     try {
         const response = await fetch(URL, {
@@ -145,7 +148,7 @@ export const resetPassword = async (password: string, token: string) => {
 
 export const register = async (registerRequest: RegisterRequest): Promise<boolean> => {
     // end-point
-    const URL = `http://localhost:8080/api/v1/auth/register`;
+    const URL = `${BASE_URL}/auth/register`;
     const role = "MEMBER"
     // call api
     try {
@@ -169,7 +172,7 @@ export const register = async (registerRequest: RegisterRequest): Promise<boolea
 
 export const handleActiveUser = async (token: string): Promise<boolean> => {
     try {
-        const URL: string = `http://localhost:8080/api/v1/auth/activation`;
+        const URL: string = `${BASE_URL}/auth/activation`;
         const response = await fetch(URL, {
             method: 'POST',
             headers: {
@@ -197,7 +200,7 @@ export const logout = async () => {
     }
 
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/logout', {
+        const response = await fetch(`${BASE_URL}/auth/logout`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -240,7 +243,7 @@ export const refreshToken = async () => {
     //     return;
     // }
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/refresh-token', {
+        const response = await fetch(`${BASE_URL}/auth/refresh-token`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

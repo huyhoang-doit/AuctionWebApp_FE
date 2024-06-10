@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { User } from "../../../models/User";
 import { editProfileUser } from "../../../api/UserAPI";
 import { SaveEditProfileModal } from "../Modal/Modal";
@@ -10,6 +10,7 @@ import { Ward } from "../../../models/Ward";
 import { toast } from "react-toastify";
 import { getAddressVietNam } from "../../../api/AddressAPI";
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../../utils/checkRegister";
+import { UserContext } from "../../../hooks/useContext";
 
 interface MyAccountDetailProps {
     user: User | null;
@@ -21,7 +22,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     const [originalUser, setOriginalUser] = useState<User | null>(props.user);
     const [isEditing, setIsEditing] = useState(false);
     const [banks, setBanks] = useState<Bank[]>([]);
-
+    const context = useContext(UserContext);
     const [cities, setCities] = useState<City[]>([]);
     const [selectedCityId, setSelectedCityId] = useState<string>('');
     const [districts, setDistricts] = useState<District[]>([]);
@@ -103,18 +104,22 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
         if (e.target.files && user) {
             const file = e.target.files[0];
             try {
-                const base64 = await getBase64(file);
-
-                if (base64) {
-                    const updatedUser: User = {
-                        ...user,
-                        avatar: base64
-                    };
-
-                    const response = await editProfileUser(updatedUser);
-                    toast.success("Cập nhật ảnh đại diện thành công!");
-                    props.setUser(response);
-                }
+                // if (file) {
+                    const base64 = await getBase64(file);
+                    if (base64) {
+                        const updatedUser: User = {
+                            ...user,
+                            avatar: base64
+                        };
+                        const response = await editProfileUser(updatedUser);
+                        toast.success("Cập nhật ảnh đại diện thành công!");
+                        setUser(response)
+                        props.setUser(response);
+                        if (context && context.account) {
+                            context.setAccount(response);
+                        }
+                    }
+                // }
             } catch (error) {
                 console.error("Error converting file to Base64: ", error);
             }
@@ -135,6 +140,9 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                 } else {
                     const response = await editProfileUser(user);
                     props.setUser(response);
+                    if (context && context.account) {
+                        context.setAccount(response);
+                    }
                     toast.success("Cập nhật thông tin thành công!");
                     return
                 }
@@ -254,7 +262,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                         <img className="rounded-circle border border-4" src={user?.avatar} alt="" />
                                     </div>
                                     <div className="col-md-8 profile-header-info">
-                                        <h4 className="fw-bold m-t-sm">{user?.fullName}</h4>
+                                        <h4 className="fw-bold m-t-sm">{context?.account?.fullName}</h4>
                                         <label htmlFor="customFile" className="custom-file-upload btn btn-xs btn-primary mt-4" style={{ backgroundColor: "black", border: "none", color: "white", width: "140px" }}>
                                             Đổi ảnh đại diện
                                         </label>
@@ -339,9 +347,8 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                                     </div>
                                     <div className="col-md-4">
                                         <label>Tỉnh</label>
-
                                         <select id="city" disabled={!isEditing} value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
-                                            {/* <option disabled value={""}>{user.city}</option> */}
+                                            <option disabled value={""}>{user.city}</option>
                                             {cities.map(city => (
                                                 <option key={city.Id} value={city.Id}>{city.Name}</option>
                                             ))}

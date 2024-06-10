@@ -4,8 +4,8 @@ import { getBidByUsername } from "../../../api/AuctionHistoryAPI";
 import { formatNumber } from "../../../utils/formatNumber";
 import { formatDateString } from "../../../utils/formatDateString";
 import { Error } from "../../Error-Loading/Error";
+import { Loading } from "../../Error-Loading/Loading";
 import { PaginationControl } from 'react-bootstrap-pagination-control';
-import { Spinner } from "react-bootstrap";
 
 interface MyBidHistoryProps {
     username: string | undefined;
@@ -18,9 +18,7 @@ export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
 
-
     useEffect(() => {
-        setLoading(true);
         if (username) {
             setLoading(true);
             getBidByUsername(username, page)
@@ -34,11 +32,11 @@ export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
                     setLoading(false);
                 });
         }
-        setLoading(false);
-
     }, [username, page]);
 
-
+    if (loading) {
+        <Loading />
+    }
 
     if (error) {
         <Error error={error} />
@@ -63,31 +61,25 @@ export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
                                 <th>Tên phiên</th>
                                 <th>Thời gian</th>
                                 <th>Số tiền (VNĐ)</th>
-                            </tr>{loading ? (<tr>
-                                <td colSpan={4} className="text-center">
-                                    <Spinner animation="border" />
-                                </td>
                             </tr>
-                            ) : (userAuctionHistories.length > 0 ? (userAuctionHistories.map((auctionHistory, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        {auctionHistory.auction?.id}
-                                    </td>
-                                    <td>
-                                        {auctionHistory.auction?.name}
-                                    </td>
-                                    <td>
-                                        {formatDateString(auctionHistory.time ? auctionHistory.time : "")}
-                                    </td>
-                                    <td>
-                                        {formatNumber(auctionHistory.priceGiven)}
-                                    </td>
-                                </tr>
-                            ))) : (<td colSpan={4} className="text-center">
-                                <h5 className='fw-semibold lh-base mt-2'>Chưa có đấu giá nào </h5>
-                            </td>)
-                            )}
-
+                            {
+                                userAuctionHistories.map((auctionHistory, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            {auctionHistory.auction?.id}
+                                        </td>
+                                        <td>
+                                            {auctionHistory.auction?.name}
+                                        </td>
+                                        <td>
+                                            {formatDateString(auctionHistory.time ? auctionHistory.time : "")}
+                                        </td>
+                                        <td>
+                                            {formatNumber(auctionHistory.priceGiven)}
+                                        </td>
+                                    </tr>
+                                ))
+                            }
                         </tbody>
                     </table>
                 </div>

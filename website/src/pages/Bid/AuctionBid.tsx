@@ -17,6 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import useCountDown from "../../hooks/useCountDown";
+import { BASE_WS } from "../../config/config";
 
 export const AuctionBid = () => {
     const [auction, setAuction] = useState<Auction | null>(null);
@@ -31,13 +32,13 @@ export const AuctionBid = () => {
     //----------------------------------------------------------------
     const [connected, setConnected] = useState(false);
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
-    const socket = new SockJS('http://localhost:8080/ws');
+    const socket = new SockJS(`${BASE_WS}/ws`);
     //----------------------------------------------------------------
 
     const context = useContext(UserContext);
     let user: User | null = null;
-    if (context?.user) {
-        user = context.user;
+    if (context?.account) {
+        user = context.account;
     }
     const { id } = useParams();
     let auctionId = 0;
@@ -193,7 +194,9 @@ export const AuctionBid = () => {
                 </button>
             );
         } else if (bidValue >= ((auction?.lastPrice || 0) + (auction?.priceStep || 0))) {
-            return <BidConfirm stompClient={stompClient} connected={connected} setAuctionHistories={setAuctionHistories} setDisplayValue={setDisplayValue} setAuction={setAuction} username={user?.username} auction={auction} bidValue={bidValue} />;
+            return <BidConfirm
+                stompClient={stompClient} connected={connected}
+                setAuctionHistories={setAuctionHistories} setDisplayValue={setDisplayValue} setAuction={setAuction} username={user?.username} auction={auction} bidValue={bidValue} />;
         } else {
             return (
                 <button
@@ -340,10 +343,10 @@ export const AuctionBid = () => {
                             </div>
                         </div>
                     </div>
-                    <AuctionTabDetail isBid={true} setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} staff={staff} jewelry={jewelry} />
+                    <AuctionTabDetail stompClient={stompClient} connected={connected}
+                     isBid={true} setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
             </div >
-
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

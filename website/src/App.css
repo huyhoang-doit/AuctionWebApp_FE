@@ -322,22 +322,3 @@ input[type="file"] {
     font-weight: 600;
     font-size: 22px;
 }
-
-// CSS color pagination
-.mt-4 .{
-    background-color: black;
-    padding: 10px;
-    border-radius: 5px;
-    font-weight: bold;
-  }
-
-  .page-link {
-    color: black;
-  }
-  
-  .active>.page-link {
-    color: yellow;
-    background-color: black;
-    border: none
-   
-  }

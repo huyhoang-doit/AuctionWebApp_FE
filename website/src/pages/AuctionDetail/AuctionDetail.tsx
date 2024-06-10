@@ -28,7 +28,7 @@ export default function AuctionDetail() {
     const timeLeft = useCountDown(auction);
     const { id } = useParams();
     const token = localStorage.getItem("access_token");
-    const user = useAccount(token);
+    const {account, setAccount} = useAccount(token);
     let auctionId = 0;
     const location = useLocation();
     const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
@@ -88,7 +88,7 @@ export default function AuctionDetail() {
 
     const checkAlreadyRegistered = () => {
         if (auctionRegistations && auctionRegistations.length > 0) {
-            return auctionRegistations.some(registration => registration.user?.id === user?.id);
+            return auctionRegistations.some(registration => registration.user?.id === account?.id);
         }
         return false;
     }
@@ -324,7 +324,7 @@ export default function AuctionDetail() {
 
                     {/* Begin Umino's Single Product Tab Area  */}
 
-                    <AuctionTabDetail isBid={false} auctionHistories={auctionHistories} setBidPerPage={setBidPerPage} auction={auction} staff={staff} jewelry={jewelry} />
+                    <AuctionTabDetail stompClient={null} connected={false} isBid={false} auctionHistories={auctionHistories} setBidPerPage={setBidPerPage} auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
                 <ToastContainer />
             </div>
