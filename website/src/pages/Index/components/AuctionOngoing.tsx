@@ -47,9 +47,6 @@ const AuctionOngoing = () => {
           <div className="col-lg-12">
             <div className="umino-product_slider slider-navigation_style-1" >
               <div className="row">
-                {/* {auctions.map((auction) => (
-                  <SingleAuction auction={auction} key={auction.id} />
-                ))} */}
                 <Carousel swipeable={false}
                   draggable={false}
                   showDots

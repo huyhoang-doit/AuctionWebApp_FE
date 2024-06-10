@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { forgotPassword, handleActiveUser, login } from "../../api/AuthenticationAPI";
+import { useParams } from "react-router-dom";
+import { forgotPassword, handleActiveUser } from "../../api/AuthenticationAPI";
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState("");

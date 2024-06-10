@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
 import { Auction } from "../../../models/Auction";
 import { formatNumber } from "../../../utils/formatNumber";
-import { formatDateString } from "../../../utils/formatDateString";
 import { Link } from "react-router-dom";
 import { StateAuctionView } from "./StateAuctionView";
-import { changeStateAuction } from "../../../api/AuctionAPI";
 import useIconImage from "../../../hooks/useIconImage";
 import useCountDown from "../../../hooks/useCountDown";
 
@@ -18,7 +15,6 @@ export const AuctionItem: React.FC<AuctionItemProps> = ({auction}) => {
     const timeLeft = useCountDown(auction);
     const imageData = useIconImage(jewelryId);
 
-
     return (
         <div className="col-lg-4 col-md-4 col-sm-6">
             <div className="slide-item">
@@ -28,7 +24,7 @@ export const AuctionItem: React.FC<AuctionItemProps> = ({auction}) => {
                             <img
                                 className="primary-img"
                                 src="assets/images/product/medium-size/1-2.jpg"
-                                alt="Umino's Product Image"
+                                alt=""
                             />
                         </a>
                         <div className="add-actions">
@@ -125,7 +121,7 @@ export const AuctionItem: React.FC<AuctionItemProps> = ({auction}) => {
                         <Link to={"/tai-san-dau-gia/" + auction.id}>
                             <img
                                 src={imageData}
-                                alt="Umino's Product Image"
+                                alt=""
                             />
                         </Link>
                     </div>

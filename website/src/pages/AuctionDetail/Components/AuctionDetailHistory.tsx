@@ -2,14 +2,17 @@ import React from "react";
 import { Auction } from "../../../models/Auction";
 import { AuctionHistory } from "../../../models/AuctionHistory";
 import { AuctionHistoryItem } from "./AuctionHistoryItem";
+import Stomp from "stompjs";
 
 interface AuctionDetailHistoryProps {
     auction: Auction | null,
     auctionHistories: AuctionHistory[];
     setBidPerPage: (bid: number) => void;
+    stompClient: Stomp.Client | null;
+    connected: boolean;
 }
 
-export const AuctionDetailHistory: React.FC<AuctionDetailHistoryProps> = ({ auctionHistories, setBidPerPage }) => {
+export const AuctionDetailHistory: React.FC<AuctionDetailHistoryProps> = ({ stompClient, connected, auctionHistories, setBidPerPage }) => {
     return (<div
         id="history"
         className="tab-pane active show"
@@ -50,7 +53,7 @@ export const AuctionDetailHistory: React.FC<AuctionDetailHistoryProps> = ({ auct
                         <th className="col-1"><b>Rút lại giá</b></th>
                     </tr>
                 </thead>
-                <AuctionHistoryItem auctionHistories={auctionHistories} />
+                <AuctionHistoryItem stompClient={stompClient} connected={connected} auctionHistories={auctionHistories} />
             </table>
         </div>
     </div >

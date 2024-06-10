@@ -35,7 +35,7 @@ export const PageSendJewelry = () => {
 
 
     const token = localStorage.getItem("access_token");
-    const user = useAccount(token);
+    const {account} = useAccount(token);
 
     const [productName, setProductName] = useState('');
     const [productType, setProductType] = useState<string | undefined>('');
@@ -57,14 +57,14 @@ export const PageSendJewelry = () => {
         material: '',
         brand: '',
         weight: 0,
-        userId: user?.id
+        userId: account?.id
     });
 
     useEffect(() => {
-        if (user) {
-            setJewelryRequest((prevRequest) => ({ ...prevRequest, userId: user.id }));
+        if (account) {
+            setJewelryRequest((prevRequest) => ({ ...prevRequest, userId: account.id }));
         }
-    }, [user]);
+    }, [account]);
 
     useEffect(() => {
         if (categories.length > 0) {
@@ -178,7 +178,7 @@ export const PageSendJewelry = () => {
 
                     if (iconImage) {
                         const newSendRequestBody: SendReqeustFromUser = {
-                            senderId: user?.id,
+                            senderId: account?.id,
                             jewelryId: newJewelry.id,
                             requestTime: new Date().toISOString()
                         }
@@ -205,7 +205,7 @@ export const PageSendJewelry = () => {
                                 material: material,
                                 brand: '',
                                 weight: 0,
-                                userId: user?.id
+                                userId: account?.id
                             })
                             setNotification("");
                         }

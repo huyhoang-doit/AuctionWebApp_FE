@@ -5,6 +5,7 @@ import { Auction } from "../../../models/Auction"
 import { AuctionDetailHistory } from "./AuctionDetailHistory"
 import { AuctionDetailJewelry } from "./AuctionDetailJewelry"
 import { AuctionHistory } from "../../../models/AuctionHistory"
+import Stomp from "stompjs";
 
 interface AuctionTabDetailProps {
     isBid: boolean,
@@ -13,9 +14,11 @@ interface AuctionTabDetailProps {
     staff: User | null,
     auctionHistories: AuctionHistory[],
     setBidPerPage: (bid: number) => void;
+    stompClient: Stomp.Client | null;
+    connected: boolean;
 }
 
-export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ isBid, auctionHistories, setBidPerPage, auction, jewelry, staff }) => {
+export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ stompClient, connected, isBid, auctionHistories, setBidPerPage, auction, jewelry, staff }) => {
     return (
         <div className="sp-tab_area">
             <div className="container">
@@ -61,7 +64,7 @@ export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ isBid, aucti
                             <div className="tab-content umino-tab_content">
 
                                 {isBid &&
-                                    <AuctionDetailHistory setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} />
+                                    <AuctionDetailHistory stompClient={stompClient} connected={connected} setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} />
                                 }
                                 <AuctionDetailJewelry isBid={isBid} auction={auction} jewelry={jewelry} />
                                 <div

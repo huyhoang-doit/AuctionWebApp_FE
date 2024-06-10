@@ -1,4 +1,4 @@
-import { Image } from "../models/Image";
+import BASE_URL from "../config/config";
 import { Jewelry } from "../models/Jewelry";
 import { fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
@@ -24,7 +24,7 @@ export async function getJewelriesPagination(username: string, page: number): Pr
   const jeweriesData: Jewelry[] = [];
 
 
-  const URL = `http://localhost:8080/api/v1/jewelry/sorted-and-paged?username=${username}&page=${page - 1}`;
+  const URL = `${BASE_URL}/jewelry/sorted-and-paged?username=${username}&page=${page - 1}`;
   // request
   const response = await MyRequest(URL);
   const responseData = response.content;
@@ -76,7 +76,7 @@ async function getJewelries(URL: string): Promise<Jewelry[]> {
 export const sendJewelryFromUser = async (jewelryRequest: JewelryRequest): Promise<boolean> => {
   const accessToken = localStorage.getItem('access_token');
   // end-point
-  const URL = `http://localhost:8080/api/v1/jewelry/jewelry-request`;
+  const URL = `${BASE_URL}/jewelry/jewelry-request`;
   // call api
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, jewelryRequest);
@@ -95,7 +95,7 @@ export const sendJewelryFromUser = async (jewelryRequest: JewelryRequest): Promi
 
 export async function getJewelriesWaitList(page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `http://localhost:8080/api/v1/jewelry/in-wait-list?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/jewelry/in-wait-list?page=${page - 1}`;
 
   const jewelrys: Jewelry[] = [];
   // request
@@ -127,7 +127,7 @@ export async function getJewelriesWaitList(page: number): Promise<ResultPageable
 
 export async function setJewelryHidden(id: number): Promise<boolean> {
   // endpoint
-  const URL: string = `http://localhost:8080/api/v1/jewelry/${id}`;
+  const URL: string = `${BASE_URL}/jewelry/${id}`;
 
   console.log(URL)
   const response = await fetch(URL, {
@@ -147,7 +147,7 @@ export async function setJewelryHidden(id: number): Promise<boolean> {
 
 export async function getJewelriesHandOverList(page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `http://localhost:8080/api/v1/jewelry/in-handover-list?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/jewelry/in-handover-list?page=${page - 1}`;
   const jewelrys: Jewelry[] = [];
   // request
   const response = await MyRequest(URL);
@@ -175,7 +175,7 @@ export async function getJewelriesHandOverList(page: number): Promise<ResultPage
 }
 
 export async function getLatestJewelry(): Promise<Jewelry> {
-  const URL = 'http://localhost:8080/api/v1/jewelry/latest'
+  const URL = `${BASE_URL}/jewelry/latest`
   const response = await MyRequest(URL);
   console.log(response);
 

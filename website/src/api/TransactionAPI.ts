@@ -1,3 +1,4 @@
+import BASE_URL from "../config/config";
 import { Transaction } from "../models/Transaction";
 import { MyRequest } from "./MyRequest";
 
@@ -15,7 +16,7 @@ interface ResultIntefaceDashboard {
 
 export const getTransactionsDashboardByUsername = async (username: string): Promise<ResultIntefaceDashboard> => {
     // end-point
-    const URL = `http://localhost:8080/api/v1/transaction/get-by-user-name/${username}`;
+    const URL = `${BASE_URL}/transaction/get-by-user-name/${username}`;
     // call api
     const response = await MyRequest(URL);
     return {
@@ -29,7 +30,7 @@ export const getTransactionsDashboardByUsername = async (username: string): Prom
 export const getTransactionsByUsername = async (username: string, page: number): Promise<ResultInteface> => {
     const transactions: Transaction[] = [];
     // end-point
-    const URL = `http://localhost:8080/api/v1/transaction/get-by-username?username=${username}&page=${page - 1}`;
+    const URL = `${BASE_URL}/transaction/get-by-username?username=${username}&page=${page - 1}`;
     // call api
     const response = await MyRequest(URL);
     const responseData = response.content;

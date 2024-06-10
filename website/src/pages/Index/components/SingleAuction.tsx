@@ -3,13 +3,14 @@ import { Auction } from "../../../models/Auction";
 import { formatNumber } from "../../../utils/formatNumber";
 import useIconImage from "../../../hooks/useIconImage";
 import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
+import useCountDown from "../../../hooks/useCountDown";
 
 interface SingleAuctionProps {
   auction: Auction;
 }
 
 const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
-
+  const timeLeft = useCountDown(props.auction);
   const jewelryId: number | null = props.auction.jewelry ? props.auction.jewelry.id : null;
   const imageData = useIconImage(jewelryId);
 
@@ -26,7 +27,7 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
               <img
                 className="primary-img"
                 src={imageData}
-                alt="Umino's Product Image"
+                alt=""
               />
             </Link>
           </div>
