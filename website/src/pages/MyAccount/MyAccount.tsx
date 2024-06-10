@@ -102,12 +102,12 @@ export default function MyAccount() {
                                             className="nav-link"
                                             id="account-details-tab"
                                             data-bs-toggle="tab"
-                                            href="#jewelry-request"
+                                            href="#my-jewelry"
                                             role="tab"
                                             aria-controls="account-details"
                                             aria-selected="false"
                                         >
-                                            Các yêu cầu đã gửi
+                                            Tài sản cần xác nhận
                                         </a>
                                     </li>
                                     <li className="nav-item">
