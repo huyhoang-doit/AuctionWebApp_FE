@@ -1047,6 +1047,8 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({ stompClient, connected, 
                       setDisplayValue(formatNumber(bidValue || 0));
                       setAuction({ ...auction, lastPrice: bidValue });
                       toast.success('Trả giá thành công!');
+                    } else {
+                      toast.error('Trả giá không thành thành công, vui lòng thực hiện lại!');
                     }
                   })
                   .catch((error) => {
