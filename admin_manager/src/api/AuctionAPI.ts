@@ -1,5 +1,6 @@
 import BASE_URL from "../config/config";
 import { Auction } from "../models/Auction";
+import { fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
 
 interface ResultPageableInteface {
@@ -445,3 +446,38 @@ export async function getAuctionByJewelryId(id: number): Promise<ResultInteface>
     }
     return { auctionsData: auctions };
 }
+
+interface NewAuctionRequestProps {
+    id: number;
+    name: string;
+    startDate: string;
+    endDate: string;
+    description: string;
+    firstPrice: number;
+    deposit: number;
+    priceStep: number;
+    jewelryId: number;
+    staffId: number;
+}
+
+export const createNewAuctionFromManager = async (request: NewAuctionRequestProps): Promise<boolean> => {
+    const accessToken = localStorage.getItem('access_token');
+    // end-point
+    const URL = `${BASE_URL}/auction/create-new`;
+    const participationFee: number = 200000
+
+    // call api
+    try {
+        const response = await fetchWithToken(URL, 'POST', accessToken, { ...request, participationFee });
+
+        console.log(response);
+
+        if (!response.ok) {
+            throw new Error(`Không thể truy cập ${URL}`);
+        }
+        return true;
+    } catch (error) {
+        console.error("Error: " + error);
+        return false;
+    }
+};

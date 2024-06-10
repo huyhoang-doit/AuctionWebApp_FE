@@ -14,6 +14,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { getMembers, getUserById } from "../../../api/UserAPI";
 import { PaginationControl } from "react-bootstrap-pagination-control";
+import { createNewAuctionFromManager } from "../../../api/AuctionAPI";
 
 
 
@@ -546,8 +547,13 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ re
       setEndDate(endDate)
       setNewAuctionRequest((prev) => ({ ...prev, endDate: endDate }))
     }
+  };
 
-
+  // Calculate the minimum date for the start date input (next day)
+  const getNextDayMinDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split('.')[0]; // Format as 'yyyy-MM-ddTHH:mm'
   };
 
 
@@ -572,6 +578,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ re
     handleCloseSelectStaffModal()
     handleShowCreateAuction()
   }
+
 
   const handleCloseSelectStaffModal = () => setShowContinueModal(false);
   return (
@@ -724,11 +731,11 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({ re
                   </div>
                   <div className="col-md-6 mb-2 mt-2" style={{ display: 'flex', flexDirection: 'column' }}>
                     <label style={{ marginBottom: '5px' }} htmlFor="txtStart">Thời gian bắt đầu:</label>
-                    <input className="p-3" type="datetime-local" name="txtDatetimeLocal" id="txtStart" value={startDate} onChange={(e) => { updateStartDate(e.target.value) }} min={new Date().toISOString().split('.')[0]} required />
+                    <input className="p-3" type="datetime-local" name="txtDatetimeLocal" id="txtStart" value={startDate} onChange={(e) => { updateStartDate(e.target.value) }} min={getNextDayMinDate()} required />
                   </div>
                   <div className="col-md-6 mb-2 mt-2" style={{ display: 'flex', flexDirection: 'column' }}>
                     <label style={{ marginBottom: '5px' }} htmlFor="txtEnd">Thời gian kết thúc:</label>
-                    <input className="p-3" type="datetime-local" name="txtDatetimeLocal" id="txtEnd" value={endDate} onChange={(e) => { updateEndDate(e.target.value) }} min={new Date().toISOString().split('.')[0]} required />
+                    <input className="p-3" type="datetime-local" name="txtDatetimeLocal" id="txtEnd" value={endDate} onChange={(e) => { updateEndDate(e.target.value) }} min={getNextDayMinDate()} required />
                   </div>
                   {errorTime && <p style={{ color: 'red' }}>{errorTime}</p>}
                   <div className="col-md-12 mt-2">
@@ -813,8 +820,10 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
   }
 
   const completeCreateAuction = async () => {
-    console.log(newAuction);
-
+    const response = await createNewAuctionFromManager(newAuction)
+    if (response) {
+      console.log("Dang ky phien dau gia moi thanh cong");
+    }
     handleClose()
   }
   return (
