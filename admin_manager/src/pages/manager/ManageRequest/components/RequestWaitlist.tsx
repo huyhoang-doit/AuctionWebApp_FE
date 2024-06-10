@@ -82,10 +82,12 @@ const RequestWaitlist = () => {
                             </td>
                           </tr>
 
-                        ) : (listRequests.map((request) => (
+                        ) : (listRequests.length > 0 ? (listRequests.map((request) => (
                           <RequestSingle key={request.id} request={request} user={userState} handleChangeList={handleChangeList} />
 
-                        )))
+                        ))) : (<td colSpan={7} className="text-center">
+                          <h5 className='fw-semibold lh-base mt-2'>Không có yêu cầu nào được gửi đến</h5>
+                        </td>))
                         }
                       </tbody>
                     </table>

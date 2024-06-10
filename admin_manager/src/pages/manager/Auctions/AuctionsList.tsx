@@ -44,10 +44,11 @@ const AuctionsList = () => {
 
   useEffect(() => {
     handleChangeList();
-  }, [user, page, handleChangeList]);
+  }, [user, page, auctionState, handleChangeList]);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setAuctionState(e.target.value);
+    setPage(1);
   };
 
   return (
@@ -110,11 +111,13 @@ const AuctionsList = () => {
                             </td>
                           </tr>
 
-                        ) : (
-                          listAuctions.map((auction) => (
+                        ) : (listAuctions.length > 0 ?
+                          (listAuctions.map((auction) => (
                             <AuctionSingle key={auction.id} auction={auction} />
-                          ))
-                        )}
+                          ))) : (<td colSpan={7} className="text-center">
+                            <h5 className='fw-semibold lh-base mt-2'>Không có phiên đấu giá nào </h5>
+                          </td>))
+                        }
                       </tbody>
                     </table>
                   </div>

@@ -15,6 +15,7 @@ export default function MyAccountStaff() {
   const user = useAccount(token);
 
   const [userState, setUserState] = useState<User | null>(user);
+  const [listNumber, setListNumber] = useState<number>(0)
 
   useEffect(() => {
     setUserState(user);
