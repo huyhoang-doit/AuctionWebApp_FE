@@ -104,9 +104,9 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
               <tr>
                 <th>Mã giao dịch</th>
                 <th>Tên tài sản</th>
-                <th>Loại giao dịch</th>
-                <th>Ngày</th>
+                <th>Ngày tạo</th>
                 <th>Số tiền (VNĐ)</th>
+                <th>Loại giao dịch</th>
                 <th>Trạng thái</th>
                 <th>Xem chi tiết</th>
               </tr>
@@ -120,11 +120,11 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                   <tr>
                     <td>{transaction.id}</td>
                     <td>{transaction.auction?.jewelry?.name}</td>
+                    <td>{formatDateString(transaction.createDate)}</td>
+                    <td>{formatNumber(transaction.totalPrice)}</td>
                     <td>
                       <TypeTransaction type={transaction.type} />
                     </td>
-                    <td>{formatDateString(transaction.createDate)}</td>
-                    <td>{formatNumber(transaction.totalPrice)}</td>
                     <td>
                       <StateTransaction state={transaction.state} />
                     </td>

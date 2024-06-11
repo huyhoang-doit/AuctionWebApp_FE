@@ -229,7 +229,7 @@ export async function changeStateAuction(auctionId: number, state: string): Prom
     // endpoint
     const URL = `${BASE_URL}/auction/set-state/${auctionId}?state=${state}`;
     // request
-    console.log(URL)
+    
     const response = await fetch(URL, {
         method: 'PUT',
         headers: {
@@ -238,7 +238,7 @@ export async function changeStateAuction(auctionId: number, state: string): Prom
     });
     if (!response.ok) {
         const errorDetails = await response.text();  // Get error details as text
-        console.error('Failed to update the book:', errorDetails);
+        console.error('Failed to update the auction state:', errorDetails);
         return false
     }
 

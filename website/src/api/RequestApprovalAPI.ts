@@ -350,8 +350,6 @@ export async function getRequestByUserId(userId: number, page: number): Promise<
   // endpoint
   const URL: string = `http://localhost:8080/api/v1/request-approval/user/${userId}?page=${page - 1}`;
 
-  console.log(URL);
-
   const requests: RequestApproval[] = [];
   // request
   const response = await MyRequest(URL);
