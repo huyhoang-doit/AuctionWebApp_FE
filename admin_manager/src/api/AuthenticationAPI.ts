@@ -108,7 +108,7 @@ export const logout = async () => {
     }
 
     try {
-        const response = await fetch('${BASE_URL}/auth/logout', {
+        const response = await fetch(`${BASE_URL}/auth/logout`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ export const refreshToken = async () => {
     //     return;
     // }
     try {
-        const response = await fetch('${BASE_URL}/auth/refresh-token', {
+        const response = await fetch(`${BASE_URL}/auth/refresh-token`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

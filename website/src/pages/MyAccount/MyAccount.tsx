@@ -111,6 +111,19 @@ export default function MyAccount() {
                                         </a>
                                     </li>
                                     <li className="nav-item">
+                                        <a
+                                            className="nav-link"
+                                            id="account-details-tab"
+                                            data-bs-toggle="tab"
+                                            href="#jewelry-request"
+                                            role="tab"
+                                            aria-controls="account-details"
+                                            aria-selected="false"
+                                        >
+                                            Các yêu cầu đã gửi
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
                                         <Link to={""}>
                                             <LogoutModal />
                                         </Link>

@@ -210,6 +210,7 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
         request.jewelry.user.yob,
         request.jewelry.user.cccd,
         request.jewelry.user.bank,
+        request.jewelry.user.state,
         request.jewelry.user.bankAccountNumber,
         request.jewelry.user.bankAccountName
       ),
@@ -235,6 +236,7 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
       request.staff.yob,
       request.staff.cccd,
       request.staff.bank,
+      request.staff.state,
       request.staff.bankAccountNumber,
       request.staff.bankAccountName
     ) : undefined;
@@ -255,6 +257,7 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
       request.sender.yob,
       request.sender.cccd,
       request.sender.bank,
+      request.sender.state,
       request.sender.bankAccountNumber,
       request.sender.bankAccountName
     ) : undefined;
@@ -275,6 +278,7 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
       request.responder.yob,
       request.responder.cccd,
       request.responder.bank,
+      request.responder.state,
       request.responder.bankAccountNumber,
       request.responder.bankAccountName
     ) : undefined;

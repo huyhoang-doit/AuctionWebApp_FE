@@ -3,6 +3,8 @@ import { Jewelry } from './../models/Jewelry';
 import { User } from "../models/User";
 import { MyRequest } from "./MyRequest";
 import { fetchWithToken } from './AuthenticationAPI';
+import BASE_URL from "../config/config";
+
 
 interface ResultPageableInteface {
   requestsData: RequestApproval[];
@@ -11,7 +13,7 @@ interface ResultPageableInteface {
 
 export async function getRequestById(requestId: number): Promise<RequestApproval | null> {
   // endpoint
-  const URL = `http://localhost:8080/api/v1/request-approval/id/${requestId}`;
+  const URL = `${BASE_URL}/request-approval/id/${requestId}`;
 
   try {
     // request
@@ -133,7 +135,7 @@ export async function getRequestById(requestId: number): Promise<RequestApproval
 
 export default async function changeStateRequest(requestId: number, responderId: number | undefined, state: string): Promise<boolean> {
   // endpoint
-  const URL = `http://localhost:8080/api/v1/request-approval/set-state/${requestId}?responderId=${responderId}&state=${state}`;
+  const URL = `${BASE_URL}/request-approval/set-state/${requestId}?responderId=${responderId}&state=${state}`;
   // request
   const response = await fetch(URL, {
     method: 'PUT',
@@ -151,7 +153,7 @@ export default async function changeStateRequest(requestId: number, responderId:
 }
 export async function confirmRequest(requestId: number, responderId: number | undefined): Promise<boolean> {
   // endpoint
-  const URL = `http://localhost:8080/api/v1/request-approval/confirm/${requestId}?responderId=${responderId}`;
+  const URL = `${BASE_URL}/request-approval/confirm/${requestId}?responderId=${responderId}`;
 
   // request
   console.log(URL)
@@ -174,7 +176,7 @@ export async function confirmRequest(requestId: number, responderId: number | un
 
 export async function getRequestByRoleOfSender(role: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `http://localhost:8080/api/v1/request-approval/sender/${role}?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/sender/${role}?page=${page - 1}`;
 
   const requests: RequestApproval[] = [];
   // request
@@ -305,7 +307,7 @@ interface SendRequestFromUser {
 export const sendRequestApprovalFromUser = async (request: SendRequestFromUser): Promise<boolean> => {
   const accessToken = localStorage.getItem('access_token');
   // end-point
-  const URL = `http://localhost:8080/api/v1/request-approval/send-from-user`;
+  const URL = `${BASE_URL}/request-approval/send-from-user`;
   // call api
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, request);
@@ -331,7 +333,7 @@ interface SendRequestFromStaff {
 export const sendRequestApprovalFromStaff = async (request: SendRequestFromStaff): Promise<boolean> => {
   const accessToken = localStorage.getItem('access_token');
   // end-point
-  const URL = `http://localhost:8080/api/v1/request-approval/send-from-staff`;
+  const URL = `${BASE_URL}/request-approval/send-from-staff`;
   // call api
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, request);
@@ -348,7 +350,8 @@ export const sendRequestApprovalFromStaff = async (request: SendRequestFromStaff
 };
 export async function getRequestByUserId(userId: number, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `http://localhost:8080/api/v1/request-approval/user/${userId}?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/user/${userId}?page=${page - 1}`;
+
 
   const requests: RequestApproval[] = [];
   // request
