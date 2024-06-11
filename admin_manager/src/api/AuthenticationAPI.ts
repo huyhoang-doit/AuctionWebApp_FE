@@ -23,7 +23,7 @@ interface RegisterRequest {
 
 export const login = async (loginRequest: LoginRequest, setError: (message: string) => void) => {
     // end-point
-    const URL = `${BASE_URL}/auth/authenticate`;
+    const URL = `${BASE_URL}/auth/authenticate-admin-manager`;
     const request = { ...loginRequest, email: loginRequest.username }
     // call api
     try {
@@ -36,19 +36,16 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
             credentials: 'include',
         });
 
+        console.log(response)
         if (response.status === 200) {
             const data = await response.json();
             const jwt = data.access_token;
-            // const refreshToken = data.refresh_token;
-
             localStorage.setItem('access_token', jwt);
-            // localStorage.setItem('refresh_token', refreshToken);
-
             return true;
-        } else if (response.status === 202) {
-            throw new Error('Your account is inactive, you need check email to active your account!');
+        } else if (response.status === 403) {
+            throw new Error('Bạn không có quyền truy cập.');
         } else {
-            throw new Error('Login failed. Please check your username and password!');
+            throw new Error('Xác thực không thành công, vui lòng kiểm tra lại thông tin.');
         }
     } catch (error) {
         setError((error as Error).message);

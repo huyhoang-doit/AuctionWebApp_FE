@@ -114,13 +114,11 @@ export async function bidByUser(username: string, auctionId: number, priceGiven:
     // // request
     try {
         const response = await fetchWithToken(URL, 'POST', token, bid);
-
         if (!response.ok) {
             throw new Error(`Không thể truy cập ${URL}`);
         }
         return true;
     } catch (error) {
-        console.error("Error: " + error);
         return false;
     }
 }

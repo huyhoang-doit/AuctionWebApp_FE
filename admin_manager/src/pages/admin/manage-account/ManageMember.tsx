@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal, Button, Breadcrumb } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getMembers } from '../../../api/UserAPI';
@@ -46,9 +46,13 @@ const ManageUser = () => {
                 {/* Breadcrumb Area */}
                 <div className="breadcrumb-area">
                   <Breadcrumb>
-                    <Breadcrumb.Item href="/admin">Trang chủ</Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                      <Link to="/admin">Trang chủ</Link>
+                    </Breadcrumb.Item>
                     <Breadcrumb.Item >Quản lý tài khoản</Breadcrumb.Item>
-                    <Breadcrumb.Item href="/admin/account/user">Người dùng</Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                      <Link to="/admin/account/user">Người dùng</Link>
+                    </Breadcrumb.Item>
                   </Breadcrumb>
                 </div>
                 <div className="QA_section">

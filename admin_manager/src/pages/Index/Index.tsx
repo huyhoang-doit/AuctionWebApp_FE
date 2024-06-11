@@ -110,12 +110,6 @@ const Index = () => {
     ]
   };
 
-
-
-
-
-
-
   return (
     <section className="main_content dashboard_part" >
       <div className="main_content_iner " >
