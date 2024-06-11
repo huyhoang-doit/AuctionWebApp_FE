@@ -9,7 +9,7 @@ import { MyJewelryRequestList } from "./Components/MyJewelryRequestList";
 import { LogoutModal } from "./Modal/Modal";
 import { UserContext } from "../../hooks/useContext";
 import { ChangePassword } from "./Components/staff/ChangePassword";
-import MyJewellryList from "./Components/MyJewellryList";
+import MyJewelryList from "./Components/MyJewellryList";
 
 export default function MyAccount() {
     const context = useContext(UserContext);
@@ -139,7 +139,7 @@ export default function MyAccount() {
                                     <ChangePassword user={userState} />
                                     <MyBidHistory username={userState?.username} />
                                     <TransactionHistory user={userState} />
-                                    <MyJewellryList user={userState} setUser={setUserState} />
+                                    <MyJewelryList user={userState} setUser={setUserState} />
                                     <MyJewelryRequestList userId={userState?.id} />
                                 </div>
                             </div>

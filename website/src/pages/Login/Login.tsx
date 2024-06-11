@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { handleActiveUser, login } from "../../api/AuthenticationAPI";
 
@@ -11,7 +11,6 @@ export default function Login() {
     const [error, setError] = useState("");
     const [notification, setNotification] = useState("");
     const { token } = useParams();
-    // const navigate = useNavigate();
 
     useEffect(() => {
         if (token) {
@@ -44,6 +43,12 @@ export default function Login() {
         if (success) {
             // navigate("/")
             window.location.href = '/';
+        }
+    };
+
+    const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleLogin();
         }
     };
 
@@ -80,6 +85,7 @@ export default function Login() {
                                                 value={loginRequest.username}
                                                 onChange={onChangeLoginRequest("username")}
                                                 placeholder="Nhập tên đăng nhập/ Email"
+                                                onKeyPress={handleKeyPress}
                                             />
                                         </div>
                                         <div className="col-12 mb--20">
@@ -89,6 +95,7 @@ export default function Login() {
                                                 value={loginRequest.password}
                                                 onChange={onChangeLoginRequest("password")}
                                                 placeholder="Nhập mật khẩu"
+                                                onKeyPress={handleKeyPress}
                                             />
                                         </div>
                                         <div className="col-md-8">

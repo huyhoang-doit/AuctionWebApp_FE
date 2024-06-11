@@ -10,7 +10,8 @@ interface MyJewelriesProps {
   user: User | null;
   setUser: (user: User) => void;
 }
-const MyJewellryList: React.FC<MyJewelriesProps> = (props) => {
+
+const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
   const [listRequests, setListRequests] = useState<RequestApproval[]>([]);
   const [user, setUser] = useState<User | null>(props.user);
   const [page, setPage] = useState(1);
@@ -26,7 +27,6 @@ const MyJewellryList: React.FC<MyJewelriesProps> = (props) => {
     setLoading(true)
     try {
       const response = await getRequestByRoleOfSender('MANAGER', page);
-      console.log(response);
 
       setListRequests(response.requestsData);
       setTotalElements(response.totalElements);
@@ -95,4 +95,4 @@ const MyJewellryList: React.FC<MyJewelriesProps> = (props) => {
   )
 }
 
-export default MyJewellryList
+export default MyJewelryList

@@ -16,8 +16,10 @@ import { getAuctionHistoriesByAuctionId } from "../../api/AuctionHistoryAPI";
 import { ToastContainer, toast } from 'react-toastify';
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import useCountDown from "../../hooks/useCountDown";
 import { BASE_WS } from "../../config/config";
+import useCountDownBid from "../../hooks/useCountDownBid";
+import Swal from "sweetalert2";
+import { createTransactionForWinner } from "../../api/TransactionAPI";
 
 export const AuctionBid = () => {
     const [auction, setAuction] = useState<Auction | null>(null);
@@ -28,14 +30,13 @@ export const AuctionBid = () => {
     const [errorBidValue, setErrorBidValue] = useState("");
     const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
     const [bidPerPage, setBidPerPage] = useState<number>(3);
-    const timeLeft = useCountDown(auction);
-    //----------------------------------------------------------------
+    const timeLeft = useCountDownBid(auction);
     const [connected, setConnected] = useState(false);
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
+    const [isEnding, setIsEnding] = useState(false);
     const socket = new SockJS(`${BASE_WS}/ws`);
-    //----------------------------------------------------------------
-
     const context = useContext(UserContext);
+
     let user: User | null = null;
     if (context?.account) {
         user = context.account;
@@ -52,6 +53,43 @@ export const AuctionBid = () => {
         auctionId = 0;
         console.log("Error parsing auction id: " + error);
     }
+
+    useEffect(() => {
+        const handleAuctionEnd = async () => {
+            if (
+                typeof timeLeft === 'object' &&
+                timeLeft.days === 0 &&
+                timeLeft.hours === 0 &&
+                timeLeft.minutes === 0 &&
+                timeLeft.seconds === 0
+            ) {
+                const isSuccess = await createTransactionForWinner(auctionId);
+                if (isSuccess) {
+                    Swal.fire({
+                        icon: "success",
+                        html: `
+                            <div>Phiên đấu giá đã kết thúc</div>
+                            <div>Đã gửi yêu cầu thanh toán cho người thắng</div>`,
+                        showCancelButton: false,
+                        confirmButtonText: 'Đồng ý',
+                        allowOutsideClick: () => !Swal.isLoading(),
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "success",
+                        html: `
+                            <div>Phiên đấu giá đã kết thúc</div>`,
+                        showCancelButton: false,
+                        confirmButtonText: 'Đồng ý',
+                        allowOutsideClick: () => !Swal.isLoading(),
+                    });
+                }
+                setIsEnding(true);
+            }
+        };
+
+        handleAuctionEnd();
+    }, [timeLeft]);
 
     useEffect(() => {
         const newClient = Stomp.over(socket);
@@ -304,37 +342,41 @@ export const AuctionBid = () => {
                                             <div className="row">
                                                 <h4 className="no-margin fw-bold mb-4">ĐẶT GIÁ (VNĐ)</h4>
                                                 <BidInfo auction={auction} />
-                                                <div className="col-9 d-flex align-items-center">
-                                                    <button
-                                                        style={{ borderRadius: '0px', border: "1px solid rgba(0,0,0,.09)" }}
-                                                        type="button"
-                                                        className="btn btn-"
-                                                        onClick={handleDecrement}
-                                                    >
-                                                        -
-                                                    </button>
-                                                    <input
-                                                        type="text"
-                                                        className="no-spinners form-control fw-bold text-center"
-                                                        style={{ borderRadius: '0px' }}
-                                                        value={displayValue}
-                                                        onChange={handleInputChange}
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        style={{ borderRadius: '0px', border: "1px solid rgba(0,0,0,.09)" }}
-                                                        className="btn btn-outline-secondary"
-                                                        onClick={handleIncrement}
-                                                    >
-                                                        +
-                                                    </button>
-                                                </div>
-                                                <div className="col-3">
-                                                    {renderBidButton()}
-                                                </div>
-                                                <div className="col-9">
-                                                    {renderHigherBidButton()}
-                                                </div>
+                                                {!isEnding &&
+                                                    <>
+                                                        <div className="col-9 d-flex align-items-center">
+                                                            <button
+                                                                style={{ borderRadius: '0px', border: "1px solid rgba(0,0,0,.09)" }}
+                                                                type="button"
+                                                                className="btn btn-"
+                                                                onClick={handleDecrement}
+                                                            >
+                                                                -
+                                                            </button>
+                                                            <input
+                                                                type="text"
+                                                                className="no-spinners form-control fw-bold text-center"
+                                                                style={{ borderRadius: '0px' }}
+                                                                value={displayValue}
+                                                                onChange={handleInputChange}
+                                                            />
+                                                            <button
+                                                                type="button"
+                                                                style={{ borderRadius: '0px', border: "1px solid rgba(0,0,0,.09)" }}
+                                                                className="btn btn-outline-secondary"
+                                                                onClick={handleIncrement}
+                                                            >
+                                                                +
+                                                            </button>
+                                                        </div>
+                                                        <div className="col-3">
+                                                            {renderBidButton()}
+                                                        </div>
+                                                        <div className="col-9">
+                                                            {renderHigherBidButton()}
+                                                        </div>
+                                                    </>
+                                                }
                                                 {errorBidValue && <span className="fw-bold text-danger mt-2">{errorBidValue}</span>}
                                             </div>
                                         </div>
@@ -344,7 +386,7 @@ export const AuctionBid = () => {
                         </div>
                     </div>
                     <AuctionTabDetail stompClient={stompClient} connected={connected}
-                     isBid={true} setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} staff={staff} jewelry={jewelry} />
+                        isBid={true} setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
             </div >
             <ToastContainer
