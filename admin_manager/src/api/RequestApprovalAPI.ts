@@ -154,6 +154,33 @@ export default async function changeStateRequest(requestId: number, responderId:
 
   return true;
 }
+
+interface cancelRequestProps {
+  requestId: number,
+  note: string
+}
+
+export async function cancelRequest(request: cancelRequestProps): Promise<boolean> {
+  const accessToken = localStorage.getItem('access_token');
+  // endpoint
+  const URL = `${BASE_URL}/request-approval/cancel-request`;
+
+  try {
+    const response = await fetchWithToken(URL, 'PUT', accessToken, request);
+
+
+    if (!response.ok) {
+      throw new Error(`Không thể truy cập ${URL}`);
+    }
+    return true;
+  } catch (error) {
+    console.error("Error: " + error);
+    return false;
+  }
+
+}
+
+
 export async function confirmRequest(requestId: number, responderId: number | undefined): Promise<boolean> {
   // endpoint
   const URL = `${BASE_URL}/request-approval/confirm/${requestId}?responderId=${responderId}`;

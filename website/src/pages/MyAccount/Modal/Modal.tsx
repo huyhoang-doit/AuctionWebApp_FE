@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Form } from 'react-bootstrap';
 import './Modal.css';
 import { handleLogout } from '../../../utils/logout';
 import { formatNumber, formatNumberAcceptNull } from '../../../utils/formatNumber';
@@ -18,7 +18,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss'
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from '../../../utils/checkRegister';
 import { RequestApproval } from '../../../models/RequestApproval';
-import changeStateRequest, { confirmRequest, sendRequestApprovalFromStaff } from '../../../api/RequestApprovalAPI';
+import changeStateRequest, { cancelRequest, confirmRequest, sendRequestApprovalFromStaff } from '../../../api/RequestApprovalAPI';
 import { changePassword } from '../../../api/AuthenticationAPI';
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi';
 import Stomp from "stompjs";
@@ -387,6 +387,17 @@ export const ViewStaffRequestModal: React.FC<MyRequestProps> = ({ request }) => 
 
                       </div>
                     </div>
+                    {request.state === 'HIDDEN' &&
+                      (<>
+                        <div className="col-md-6">
+                          <div className="checkout-form-list">
+                            <label className='fw-bold'>*Lý do:{' '}</label>
+                            <p className="fw-semibold">
+                              {request.note}
+                            </p>
+                          </div>
+                        </div>
+                      </>)}
                   </div>
                 </div>
               </form>
@@ -552,6 +563,17 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({ request }) =
 
                       </div>
                     </div>
+                    {request.state === 'HIDDEN' &&
+                      (<>
+                        <div className="col-md-6">
+                          <div className="checkout-form-list">
+                            <label className='fw-bold'>*Lý do:{' '}</label>
+                            <p className="fw-semibold">
+                              {request.note}
+                            </p>
+                          </div>
+                        </div>
+                      </>)}
                   </div>
                 </div>
               </form>
@@ -946,17 +968,28 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
   );
 };
 
+// Delete Jewelry Modal
 interface DeleteJewelryModalProps {
   jewelry: Jewelry | undefined;
-  setNotification: React.Dispatch<React.SetStateAction<string>>;
   request: RequestApproval;
   handleChangeList: () => Promise<void>
   user: User | null;
 }
+interface cancelRequestProps {
+  requestId: number,
+  note: string
+}
 
-// Delete Jewelry Modal
-export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, setNotification, request, user, handleChangeList }) => {
+
+export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, request, user, handleChangeList }) => {
   const [show, setShow] = useState(false);
+  const [reason, setReason] = useState('');
+  const [notification, setNotification] = useState('');
+  const [cancel, setCancel] = useState<cancelRequestProps>({
+    requestId: request.id,
+    note: reason
+
+  });
 
   const handleClose = () => {
     setNotification('');
@@ -964,21 +997,33 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
   };
   const handleShow = () => setShow(true);
   const handleDelete = async () => {
-    try {
-      if (user) {
-        const resultDelete = await changeStateRequest(request.id, user?.id, 'HIDDEN');
-        if (resultDelete) {
-          await handleChangeList();
-          handleClose();
-          toast.success("Xóa thành công.");
-        } else {
-          setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
+    if (reason === '') {
+      setNotification("Cung cấp lý do hủy yêu cầu tài sản");
+    } else {
+      try {
+        if (user) {
+          const setState = await changeStateRequest(request.id, user?.id, 'HIDDEN');
+          const setNote = await cancelRequest(cancel)
+          if (setState && setNote) {
+            await handleChangeList();
+            handleClose();
+            toast.success("Xóa thành công.");
+          } else {
+            setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
+          }
         }
-      }
 
-    } catch (error) {
-      setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
+      } catch (error) {
+        setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
+      }
     }
+
+  };
+
+  const handleReasonChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setNotification('')
+    setReason(event.target.value);
+    setCancel({ ...cancel, note: event.target.value });
   };
 
   return (
@@ -993,21 +1038,39 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
         onClick={handleShow}
 
       >
-        Xóa
+        Hủy
       </button>
       {show && (
         <div className='overlay'>
           <Modal show={show} onHide={handleClose} centered backdropClassName="custom-backdrop">
-            <Modal.Header>
-              <Modal.Title>Xác nhận xóa sản phẩm {jewelry?.name}</Modal.Title>
+            <Modal.Header className='text-center w-100'>
+              <Modal.Title className='w-100'>
+                <div className='col-12 text-center'>Xác nhận hủy yêu cầu</div>
+                <div className='col-12 mb-3 text-center '><span className='text-danger fw-bold'>{jewelry?.name}</span></div>
+              </Modal.Title>
             </Modal.Header>
-            <Modal.Body>Bạn có chắc muốn xóa sản phẩm này khỏi danh sách chờ không?</Modal.Body>
+            <Modal.Body>
+              <p className='fw-semibold'>Bạn có chắc muốn xóa sản phẩm này khỏi danh sách chờ không?</p>
+              <Form>
+                <Form.Group controlId="formReason">
+                  <Form.Label className='fw-semibold'>Nhập lý do <span className='text-danger'>*</span></Form.Label>
+                  <p className='text-danger fw-semibold'>{notification}</p>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    value={reason}
+                    onChange={handleReasonChange}
+                    required
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
                 Hủy
               </Button>
               <Button variant="danger" onClick={handleDelete}>
-                Xóa
+                Xác nhận
               </Button>
             </Modal.Footer>
           </Modal>
