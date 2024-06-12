@@ -60,7 +60,7 @@ export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ request, j
         </td>
         <td>
           <JewelryModal jewelry={jewelry} images={images} user={user} request={request} handleChangeList={handleChangeList} />
-          <DeleteJewelryRequestModal jewelry={jewelry} request={request} user={user} setNotification={setNotification} handleChangeList={handleChangeList} />
+          <DeleteJewelryRequestModal jewelry={jewelry} request={request} user={user} handleChangeList={handleChangeList} />
         </td>
       </tr>
     </>

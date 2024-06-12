@@ -12,7 +12,7 @@ import StaffRequestList from "./Components/staff/StaffRequestList";
 import { ToastContainer } from "react-toastify";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
-  const {account, setAccount} = useAccount(token);
+  const { account, setAccount } = useAccount(token);
 
   const [userState, setUserState] = useState<User | null>(account);
   const [listNumber, setListNumber] = useState<number>(0)
@@ -153,7 +153,7 @@ export default function MyAccountStaff() {
                   />
                 </div>
               </div>
-              {/* <ToastContainer /> */}
+              <ToastContainer />
             </div>
           </div>
 

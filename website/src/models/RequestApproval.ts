@@ -13,6 +13,7 @@ export class RequestApproval {
   responder?: User;
   staff?: User;
   state?: string;
+  note?: string;
 
   constructor(
     id: number,
@@ -25,7 +26,8 @@ export class RequestApproval {
     desiredPrice?: number,
     requestTime?: string,
     responder?: User,
-    staff?: User
+    staff?: User,
+    note?: string
   ) {
     this.id = id;
     this.isConfirm = isConfirm;
@@ -38,5 +40,6 @@ export class RequestApproval {
     this.responder = responder;
     this.staff = staff;
     this.state = state;
+    this.note = note
   }
 }

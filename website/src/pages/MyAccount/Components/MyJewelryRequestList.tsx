@@ -18,21 +18,6 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
     const [loading, setLoading] = useState(true);
 
 
-    // useEffect(() => {
-    //     setLoading(true)
-
-    //     if (userId) {
-    //         getRequestByUserId(userId, page)
-    //             .then((response) => {
-    //                 setMyJewelryRequestList(response.requestsData);
-    //                 setTotalElements(response.totalElements);
-    //             })
-    //             .catch(() => {
-    //             });
-    //     }
-    //     setLoading(false)
-
-    // }, [userId, page]);
     const handleChangeList = useCallback(async () => {
         setLoading(true)
 

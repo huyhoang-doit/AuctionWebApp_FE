@@ -3,9 +3,9 @@ import { Image } from "../../../models/Image";
 import { Jewelry } from "../../../models/Jewelry";
 import { RequestApproval } from "../../../models/RequestApproval";
 import { User } from "../../../models/User";
-import { Button, Modal, Spinner } from "react-bootstrap";
+import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import { formatNumber, formatNumberAcceptNull } from "../../../utils/formatNumber";
-import changeStateRequest, { confirmRequest, sendRequestApprovalFromManager } from "../../../api/RequestApprovalAPI";
+import changeStateRequest, { cancelRequest, confirmRequest, sendRequestApprovalFromManager } from "../../../api/RequestApprovalAPI";
 import { toast } from "react-toastify";
 import './Modal.css';
 import { formatDateString } from "../../../utils/formatDateString";
@@ -209,66 +209,108 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({ jewelry, images, use
 };
 
 
+// Delete Jewelry Modal
 interface DeleteJewelryModalProps {
   jewelry: Jewelry | undefined;
   request: RequestApproval;
-  handleChangeList: () => Promise<void>;
-  user: User | null
+  handleChangeList: () => Promise<void>
+  user: User | null;
+}
+interface cancelRequestProps {
+  requestId: number,
+  note: string
 }
 
-// Delete Jewelry Modal
+
 export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ jewelry, request, user, handleChangeList }) => {
   const [show, setShow] = useState(false);
+  const [reason, setReason] = useState('');
+  const [notification, setNotification] = useState('');
+  const [cancel, setCancel] = useState<cancelRequestProps>({
+    requestId: request.id,
+    note: reason
+
+  });
 
   const handleClose = () => {
+    setNotification('');
     setShow(false);
   };
   const handleShow = () => setShow(true);
   const handleDelete = async () => {
-    try {
-      if (user) {
-        const resultDelete = await changeStateRequest(request.id, user?.id, 'HIDDEN');
-        if (resultDelete) {
-          await handleChangeList();
-          handleClose();
-          toast.success("Xóa thành công.");
-        } else {
-          console.log('Xóa thất bại');
-
+    if (reason === '') {
+      setNotification("Cung cấp lý do hủy yêu cầu tài sản");
+    } else {
+      try {
+        if (user) {
+          const setState = await changeStateRequest(request.id, user?.id, 'HIDDEN');
+          const setNote = await cancelRequest(cancel)
+          if (setState && setNote) {
+            await handleChangeList();
+            handleClose();
+            toast.success("Xóa thành công.");
+          } else {
+            setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
+          }
         }
-      }
-    } catch (error) {
-      console.log('Xóa thất bại');
 
+      } catch (error) {
+        setNotification("Hệ thống có một chút sự cố, chưa thể xóa được trang sức này");
+      }
     }
+
+  };
+
+  const handleReasonChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setNotification('')
+    setReason(event.target.value);
+    setCancel({ ...cancel, note: event.target.value });
   };
 
   return (
-    <><button
-      type="button"
-      className="btn btn-sm btn-danger ms-2 "
-      id="save-profile-tab"
-      role="tab"
-      aria-controls="account-details"
-      aria-selected="false"
-      onClick={handleShow}
-
-    >
-      Xóa
-    </button>
+    <>
+      <button
+        type="button"
+        className="btn btn-sm btn-danger ms-2 "
+        id="save-profile-tab"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        onClick={handleShow}
+      >
+        Hủy
+      </button>
       {show && (
         <div className='overlay'>
           <Modal show={show} onHide={handleClose} centered backdropClassName="custom-backdrop">
-            <Modal.Header>
-              <Modal.Title>Xác nhận xóa sản phẩm {jewelry?.name}</Modal.Title>
+            <Modal.Header className='text-center w-100'>
+              <Modal.Title className='w-100'>
+                <div className='col-12 text-center'>Xác nhận hủy yêu cầu</div>
+                <div className='col-12 mb-3 text-center '><span className='text-danger fw-bold'>{jewelry?.name}</span></div>
+              </Modal.Title>
             </Modal.Header>
-            <Modal.Body>Bạn có chắc muốn xóa sản phẩm này khỏi danh sách chờ không?</Modal.Body>
+            <Modal.Body>
+              <p className='fw-semibold'>Bạn có chắc muốn xóa sản phẩm này khỏi danh sách chờ không?</p>
+              <Form>
+                <Form.Group controlId="formReason">
+                  <Form.Label className='fw-semibold'>Nhập lý do <span className='text-danger'>*</span></Form.Label>
+                  <p className='text-danger fw-semibold'>{notification}</p>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    value={reason}
+                    onChange={handleReasonChange}
+                    required
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
                 Hủy
               </Button>
               <Button variant="danger" onClick={handleDelete}>
-                Xóa
+                Xác nhận
               </Button>
             </Modal.Footer>
           </Modal>

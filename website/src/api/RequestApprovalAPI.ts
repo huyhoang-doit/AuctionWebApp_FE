@@ -121,6 +121,7 @@ export async function getRequestById(requestId: number): Promise<RequestApproval
         staff: staff,
         sender: sender,
         responder: responder,
+        note: response.note
       };
       return response;
 
@@ -172,6 +173,31 @@ export async function confirmRequest(requestId: number, responderId: number | un
   }
 
   return true;
+}
+
+interface cancelRequestProps {
+  requestId: number,
+  note: string
+}
+
+export async function cancelRequest(request: cancelRequestProps): Promise<boolean> {
+  const accessToken = localStorage.getItem('access_token');
+  // endpoint
+  const URL = `${BASE_URL}/request-approval/cancel-request`;
+
+  try {
+    const response = await fetchWithToken(URL, 'PUT', accessToken, request);
+
+
+    if (!response.ok) {
+      throw new Error(`Không thể truy cập ${URL}`);
+    }
+    return true;
+  } catch (error) {
+    console.error("Error: " + error);
+    return false;
+  }
+
 }
 
 export async function getRequestByRoleOfSender(role: string, page: number): Promise<ResultPageableInteface> {
@@ -288,6 +314,7 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
       staff: staff,
       sender: sender,
       responder: responder,
+      note: request.note
     });
 
   }
@@ -464,6 +491,7 @@ export async function getRequestByUserId(userId: number, page: number): Promise<
       staff: staff,
       sender: sender,
       responder: responder,
+      note: request.note
     });
 
   }
