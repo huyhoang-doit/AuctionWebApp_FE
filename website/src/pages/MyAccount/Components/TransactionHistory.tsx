@@ -100,7 +100,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
         </div>
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
-            <tbody>
+            <thead>
               <tr>
                 <th className="text-start">Mã giao dịch</th>
                 <th >Tên tài sản</th>
@@ -110,11 +110,14 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                 <th >Trạng thái</th>
                 <th>Xem chi tiết</th>
               </tr>
-              {loading ? (<tr>
-                <td colSpan={7} className="text-center">
-                  <Spinner animation="border" />
-                </td>
-              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={7} className="text-center">
+                    <Spinner animation="border" />
+                  </td>
+                </tr>
               ) : (transactions.length > 0 ? (React.Children.toArray(
                 transactions.map((transaction) => (
                   <tr>
@@ -125,7 +128,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     <td className="text-start">
                       <TypeTransaction type={transaction.type} />
                     </td>
-                    <td className="text-center"  style={{width: "125px"}}>
+                    <td className="text-center" style={{ width: "125px" }}>
                       <StateTransaction state={transaction.state} />
                     </td>
                     <td>
@@ -133,9 +136,12 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     </td>
                   </tr>
                 ))
-              )) : (<td colSpan={7} className="text-center">
-                <h5 className='fw-semibold lh-base mt-2'>Chưa thực hiện đấu giá nào</h5>
-              </td>)
+              )) : (
+                <tr>
+                  <td colSpan={7} className="text-center">
+                    <h5 className='fw-semibold lh-base mt-2'>Chưa thực hiện đấu giá nào</h5>
+                  </td>
+                </tr>)
               )}
               { }
             </tbody>
