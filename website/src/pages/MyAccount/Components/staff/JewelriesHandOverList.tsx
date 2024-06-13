@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { Jewelry } from '../../../../models/Jewelry';
-import { getJewelriesHandOverList } from '../../../../api/JewelryAPI';
 import { User } from '../../../../models/User';
 import JewelryHandOverSingle from './JewelryHandOverSingle';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { Spinner } from 'react-bootstrap';
+import { Transaction } from '../../../../models/Transaction';
+import { getTransactionsByTypeAndState } from '../../../../api/TransactionAPI';
 
 interface JewelriesHandOverListProps {
   user: User | null;
   setUser: (user: User) => void;
 }
 const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
-  const [listJewelries, setListJewelries] = useState<Jewelry[]>([])
+  const [listTransactions, setListTransactions] = useState<Transaction[]>([])
   const [user, setUser] = useState<User | null>(props.user);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
+  const type: string = 'PAYMENT_TO_WINNER';
+  const state: string = 'SUCCEED'
 
 
   useEffect(() => {
@@ -24,9 +26,11 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
 
   useEffect(() => {
     setLoading(true)
-    getJewelriesHandOverList(page)
+    getTransactionsByTypeAndState(type, state, page)
       .then((response) => {
-        setListJewelries(response.jeweriesData);
+        console.log('giao dịch duocj tim thay');
+
+        setListTransactions(response.transactions);
         setTotalElements(response.totalElements);
 
       })
@@ -55,8 +59,8 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
                   <th>Tên trang sức</th>
                   <th>Phiên đấu</th>
                   <th>Giá cuối</th>
-                  <th>Người thắng</th>
-                  <th>Xem chi tiết</th>
+                  <th>Phương thức thanh toán</th>
+                  <th>Thao tác</th>
                 </tr>{loading ? (
                   <tr>
                     <td colSpan={6} className="text-center">
@@ -64,10 +68,10 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
                     </td>
                   </tr>
 
-                ) : (listJewelries.length > 0 ? (listJewelries.map((jewelry) => (
-                  <JewelryHandOverSingle key={jewelry.id} jewelry={jewelry} user={props.user} />
+                ) : (listTransactions.length > 0 ? (listTransactions.map((transaction) => (
+                  <JewelryHandOverSingle key={transaction.id} transaction={transaction} user={props.user} />
                 ))) : (<td colSpan={6} className="text-center">
-                  <h5 className='fw-semibold lh-base mt-2'>Chưa có yêu cầu nào cần bàn giao</h5>
+                  <h5 className='fw-semibold lh-base mt-2'>Không có giao dịch nào</h5>
                 </td>))}
               </tbody>
             </table>

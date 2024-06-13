@@ -1,79 +1,48 @@
 import React, { useEffect, useState } from 'react'
 import { Image } from '../../../../models/Image'
-import { Jewelry } from '../../../../models/Jewelry';
 import { User } from '../../../../models/User';
-import { Link } from 'react-router-dom';
 import { Auction } from '../../../../models/Auction';
 import { formatNumberAcceptNull } from '../../../../utils/formatNumber';
-import { getAuctionByJewelryId } from '../../../../api/AuctionAPI';
-import { getWinnerByAuctionId } from '../../../../api/UserAPI';
 import { getImagesByJewelryId } from '../../../../api/ImageApi';
 import { JewelryHanOverModal } from '../../Modal/Modal';
+import { Transaction } from '../../../../models/Transaction';
 type JewelryHandOverSingleProps = {
-  jewelry: Jewelry;
+  transaction: Transaction;
   user: User | null
 }
-const JewelryHandOverSingle: React.FC<JewelryHandOverSingleProps> = ({ jewelry, user }) => {
+const JewelryHandOverSingle: React.FC<JewelryHandOverSingleProps> = ({ transaction, user }) => {
   const [images, setImages] = useState<Image[]>([]);
-  const [auction, setAuction] = useState<Auction | null | undefined>(null);
-  const [winner, setWinner] = useState<User | null>(null);
-  const [auctions, setAuctions] = useState<Auction[]>([]);
+  const [auction, setAuction] = useState<Auction | null | undefined>(transaction.auction);
+  const jewelry = transaction.auction?.jewelry
 
   useEffect(() => {
-    if (auction !== null) {
-      getWinnerByAuctionId(auction?.id)
-        .then((response) => {
-          setWinner(response);
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
-    }
-  }, [auction]);
-
-  useEffect(() => {
-    getAuctionByJewelryId(jewelry.id)
-      .then((response) => {
-        setAuctions(response.auctionsData);
-        const lastAuction: Auction | undefined = response.auctionsData.pop();
-        setAuction(lastAuction);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-
-    getImagesByJewelryId(jewelry.id)
+    getImagesByJewelryId(jewelry?.id ? jewelry.id : 1)
       .then((response) => {
         setImages(response);
       })
       .catch((error) => {
         console.error(error.message);
       });
-  }, [jewelry.id]);
+  }, [transaction]);
 
   return (
     <>
       <tr>
         <td>
-          <Link
-            className="account-order-id"
-            to={""}
-          >
-            {jewelry.id}
-          </Link>
+          {jewelry?.id}
         </td>
         <td>
-          {jewelry.name}
+          {jewelry?.name}
         </td>
         <td>{auction?.id}</td>
         <td>
           {formatNumberAcceptNull(auction?.lastPrice)}
         </td>
-        <td>
-          {winner?.lastName}
+        <td className='fw-semibold'>
+          {transaction.paymentMethod === 'COD' ? 'Tại quầy' : 'Chuyển khoản'}
         </td>
         <td>
-          <JewelryHanOverModal jewelry={jewelry} images={images} user={user} winner={winner} auction={auction} />
+          <JewelryHanOverModal transaction={transaction} images={images} user={user} jewelry={jewelry} auction={auction} />
           {/* <DeleteJewelryModal jewelry={jewelry} notification={notification} setNotification={setNotification} /> */}
         </td>
       </tr>

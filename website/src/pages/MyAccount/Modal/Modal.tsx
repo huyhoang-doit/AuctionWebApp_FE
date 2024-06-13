@@ -22,6 +22,7 @@ import changeStateRequest, { cancelRequest, confirmRequest, sendRequestApprovalF
 import { changePassword } from '../../../api/AuthenticationAPI';
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi';
 import Stomp from "stompjs";
+import { Transaction } from '../../../models/Transaction';
 
 // *** MODAL FOR USER
 
@@ -1340,13 +1341,15 @@ export const AssignAuctionModal: React.FC<AuctionType> = ({ auction }) => {
 };
 
 interface JewelryHanOverModalProps {
-  jewelry: Jewelry;
+  transaction: Transaction;
   images: Image[];
   user: User | null;
-  winner: User | null;
+  jewelry: Jewelry | undefined;
   auction: Auction | undefined | null
 }
-export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelry, images, user, winner, auction }) => {
+export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ transaction, images, user, jewelry, auction }) => {
+  const winner = transaction.user
+
   const [show, setShow] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const handleCloseJewelryDetail = () => setShow(false);
@@ -1374,8 +1377,8 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
             <Modal.Header>
               <Modal.Title className='w-100'>
 
-                <div className='col-12 text-center'>Bàn giao sản phẩm</div>
-                <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{jewelry.name}</span></div>
+                <div className='col-12 text-center'>Tài sản bàn giao</div>
+                <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{jewelry?.name}</span></div>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -1386,41 +1389,41 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
                       <h4 className=' fw-medium'>1. Thông tin tài sản</h4>
                       <div className="checkout-form-list mb-2">
                         <label>
-                          Mã trang sức:{" "}
+                          Mã tài sản:{" "}
                         </label>
-                        <span className='fw-bold'> {jewelry.id}</span>
+                        <span className='fw-bold'> {jewelry?.id}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
                         <label>
                           Tên:
                         </label>
-                        <span className='fw-bold'> {jewelry.name}</span>
+                        <span className='fw-bold'> {jewelry?.name}</span>
                       </div>
                       <div className="checkout-form-list mb-2 row">
-                        <div className='col-md-6'>
+                        <div className='col-md-6 mb-2'>
                           <label>
                             Thương hiệu:
                           </label>
-                          <span className='fw-bold'> {jewelry.brand}</span>
+                          <span className='fw-bold'> {jewelry?.brand}</span>
                         </div>
                         <div className='col-md-6'>
                           <label>
                             Chất liệu:
                           </label>
-                          <span className='fw-bold'> {jewelry.material}</span>
+                          <span className='fw-bold'> {jewelry?.material}</span>
                         </div>
                         <div className='col-md-6'>
                           <label>
                             Trọng lượng (g):
                           </label>
-                          <span className='fw-bold'> {jewelry.weight}</span>
+                          <span className='fw-bold'> {jewelry?.weight}</span>
                         </div>
                       </div>
                       <div className="checkout-form-list checkout-form-list-2 mb-2">
                         <label>Mô tả sản phẩm </label><br />
-                        <textarea readOnly className='w-100 h-auto p-1'
+                        <textarea readOnly className='w-100 p-2' style={{ height: '100px' }}
                           id="checkout-mess"
-                          value={jewelry.description}
+                          value={jewelry?.description}
                         ></textarea>
                       </div>
                       <div className="w-100 fw-medium">
@@ -1490,7 +1493,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
                           <label>
                             Tên người dùng:
                           </label>
-                          <span className='fw-bold'> {winner?.firstName} {winner?.lastName}</span>
+                          <span className='fw-bold'> {winner?.fullName}</span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
                           <label>
@@ -1502,7 +1505,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
                           <label>
                             Địa chỉ:
                           </label>
-                          <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.district} </span>
+                          <span className='fw-semibold'>  {winner?.address}, {winner?.ward}, {winner?.district}, {winner?.city} </span>
                         </div>
                         <div className="checkout-form-list mb-2">
                           <label>Email:  </label>
@@ -1521,11 +1524,10 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
                         </div>
                         <div className="checkout-form-list mb-2 col-md-12 ">
                           <label>
-                            Mã số thẻ:
+                            Mã số thẻ:{" "}
                           </label>
-                          <span className='fw-bold text-success'> {winner?.bankAccountName} - {winner?.bankAccountNumber}</span>
+                          <span className='fw-bold text-success'>{winner?.bankAccountName} - {winner?.bankAccountNumber}</span>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -1537,7 +1539,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
                 Đóng
               </Button >
               <Button variant="warning" onClick={handleShowCreateModal}>
-                Tạo hóa đơn giao dịch
+                Tiến hành bàn giao
               </Button>
 
             </Modal.Footer>
@@ -1545,21 +1547,21 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({ jewelr
         </div >
       )}
 
-      <CreateTransactionWinnerModal show={showCreateModal} handleClose={handleCloseCreateModal} auction={auction} winner={winner} user={user} />
+      <CreateHandoverReportModal show={showCreateModal} handleClose={handleCloseCreateModal} auction={auction} jewelry={jewelry} user={user} />
     </>
   );
 };
 
-interface CreateTransactionWinnerModalProps {
+interface CreateHandoverReportModalProps {
   show: boolean;
   handleClose: () => void;
   auction: Auction | undefined | null;
-  winner: User | null
+  jewelry: Jewelry | undefined
   user: User | null
 }
 
 
-export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModalProps> = ({ show, handleClose, user, auction, winner }) => {
+export const CreateHandoverReportModal: React.FC<CreateHandoverReportModalProps> = ({ show, handleClose, user, auction, jewelry }) => {
   return (
     <>{show && (
       <div className='overlay' >
@@ -1572,14 +1574,14 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
         >
           <Modal.Header>
             <Modal.Title className='w-100'>
-              <div className='col-12 text-center'>Hóa đơn điện tử</div>
-              <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{auction?.name}</span></div>
-              <h5 className='col-12'>Nhân viên  - <span className=' fw-bold'>{user?.firstName}</span></h5>
+              <div className='col-12 text-center'>Thông tin bàn giao sản phẩm</div>
+              <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{jewelry?.name}</span></div>
+              <h5 className='col-12'>Nhân viên  - <span className=' fw-bold'>{user?.fullName}</span></h5>
               <h5 className='col-12'>Mã nhân viên - <span className=' fw-bold'>{user?.id}</span></h5>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form action="">
+            {/* <form action="">
               <div className="checkbox-form">
                 <div className="row">
                   <div className="col-md-12 ">
@@ -1590,47 +1592,47 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
                           <label>
                             Mã người dùng:{" "}
                           </label>
-                          <span className='fw-bold'> {winner?.id}</span>
+                          <span className='fw-bold'> {jewelry?.id}</span>
 
                         </div>
                         <div className="checkout-form-list mb-2 ">
                           <label>
                             Tên người dùng:
                           </label>
-                          <span className='fw-bold'> {winner?.firstName} {winner?.lastName}</span>
+                          <span className='fw-bold'> {jewelry?.id}</span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
                           <label>
                             Số CCCD:
                           </label>
-                          <span className='fw-bold'> {winner?.cccd}</span>
+                          <span className='fw-bold'> {jewelry?.id}</span>
                         </div>
                         <div className="checkout-form-list mb-2">
                           <label>
                             Địa chỉ:
                           </label>
-                          <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.district} </span>
+                          <span className='fw-semibold'> {jewelry?.id} </span>
                         </div>
                         <div className="checkout-form-list mb-2">
                           <label>Email:  </label>
-                          <span className='fw-semibold'> {winner?.email}</span>
+                          <span className='fw-semibold'>{jewelry?.id}</span>
                         </div>
                       </div>
                       <div className="checkout-form-list mb-2 col-md-6 border p-2 row">
                         <div className="checkout-form-list mb-0 col-md-6">
-                          <img src={winner?.bank?.logo} alt="bank" />
+                          <img src='' alt="bank" />
                         </div>
                         <div className='checkout-form-list mb-2 col-md-12'>
                           <label>
                             Thẻ ngân hàng:{" "}
                           </label>
-                          <span className='fw-bold text-uppercase'> {winner?.bank?.bankName}</span>
+                          <span className='fw-bold text-uppercase'> {jewelry?.id}</span>
                         </div>
                         <div className="checkout-form-list mb-2 col-md-12 ">
                           <label>
                             Mã số thẻ:
                           </label>
-                          <span className='fw-bold text-success'> {winner?.bankAccountName} - {winner?.bankAccountNumber}</span>
+                          <span className='fw-bold text-success'>{jewelry?.id}</span>
                         </div>
 
                       </div>
@@ -1649,14 +1651,14 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
                   </div>
                 </div>
               </div>
-            </form>
+            </form> */}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="dark" onClick={handleClose}>
               Đóng
             </Button>
             <Button variant="warning" onClick={handleClose}>
-              Gửi yêu cầu
+              Xác nhận
             </Button>
           </Modal.Footer>
         </Modal>
