@@ -23,6 +23,7 @@
     "@types/jquery": "^3.5.30",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
+    "ckeditor5-custom-build": "file:ckeditor5",
     "dayjs": "^1.11.11",
     "jquery": "^3.7.1",
     "jwt-decode": "^4.0.0",
