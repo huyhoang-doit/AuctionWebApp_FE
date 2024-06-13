@@ -2,14 +2,12 @@ import { Bar, Doughnut, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { useEffect, useState } from 'react';
 import { getDashBoardInformation } from '../../api/DashBoardAPI';
-import useAccount from '../../hooks/useAccount';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 const Index = () => {
   const [totalUser, setTotalUser] = useState(0);
   const [totalAuctions, setTotalAuctions] = useState(0);
   const token = localStorage.getItem("access_token");
-  const user = useAccount(token);
   let userRole = '';
   interface CustomJwtPayload extends JwtPayload {
     authorities: { authority: string }[];
