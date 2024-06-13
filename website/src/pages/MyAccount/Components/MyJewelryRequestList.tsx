@@ -51,12 +51,12 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                 <table className="table table-bordered table-hover">
                     <tbody>
                         <tr>
-                            <th>Mã sản phẩm</th>
-                            <th>Tên</th>
-                            <th>Giá mong muốn (VNĐ)</th>
-                            <th>Thời gian gửi</th>
-                            <th>Trạng thái</th>
-                            <th>Thao tác</th>
+                            <th className="text-start">Mã sản phẩm</th>
+                            <th className="text-start">Tên</th>
+                            <th className="text-start">Giá mong muốn (VNĐ)</th>
+                            <th className="text-start">Thời gian gửi</th>
+                            <th className="text-start">Trạng thái</th>
+                            <th className="text-start">Thao tác</th>
                         </tr>{loading ? (
                             <tr>
                                 <td colSpan={6} className="text-center">
@@ -67,25 +67,25 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                         ) : (myJewelryRequestList.length > 0 ? (React.Children.toArray(myJewelryRequestList.map(
                             (request) =>
                                 <tr>
-                                    <td>
+                                    <td className="text-start">
                                         {request.jewelry?.id}
                                     </td>
-                                    <td>
+                                    <td className="text-start">
                                         {request.jewelry?.name}
                                     </td>
-                                    <td>
+                                    <td className="text-start">
                                         {formatNumber(request.desiredPrice)}
                                     </td>
-                                    <td>
+                                    <td className="text-start">
                                         {formatDateStringAcceptNull(request?.requestTime)}
                                     </td>
 
                                     {request.state === 'HIDDEN' ? (
-                                        <td className="fw-semibold text-danger">
+                                        <td className="fw-semibold text-start text-danger">
                                             Đã bị hủy
                                         </td>
                                     ) : (
-                                        <td className={`fw-semibold ${request.isConfirm ? 'text-success' : 'text-dark'}`}>
+                                        <td className={`fw-semibold text-start ${request.isConfirm ? 'text-success' : 'text-dark'}`}>
                                             {request.isConfirm ? 'Đã phê duyệt' : 'Chưa phê duyệt'}
                                         </td>
                                     )}

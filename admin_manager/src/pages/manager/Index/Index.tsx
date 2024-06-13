@@ -1,9 +1,7 @@
-import React from "react";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 import "chart.js/auto";
 import { useEffect, useState } from "react";
 import { getDashBoardInformation } from "../../../api/DashBoardAPI";
-
 const Index = () => {
   const [totalUser, setTotalUser] = useState(0);
   const [totalAuctions, setTotalAuctions] = useState(0);

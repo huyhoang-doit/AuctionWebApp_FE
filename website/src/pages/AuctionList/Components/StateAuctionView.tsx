@@ -10,21 +10,21 @@ export const StateAuctionView: React.FC<StateAuctionViewProps> = ({ state }) => 
     switch (state) {
         case 'ONGOING':
             currentView = (
-                <span className="text-warning fw-bold">
+                <span className="text-success fs-5 fw-bold">
                     Đang diễn ra
                 </span>
             );
             break;
         case 'WAITING':
             currentView = (
-                <span className="text-warning fw-bold">
+                <span className="text-warning fs-5 fw-bold">
                     Đang chờ
                 </span>
             );
             break;
         case 'FINISHED':
             currentView = (
-                <span className="text-warning fw-bold">
+                <span className="text-danger fs-5 fw-bold">
                     Đã kết thúc
                 </span>
             );

@@ -439,29 +439,6 @@ export default function About() {
                 </div>
                 {/* <!-- Accordion With Testimonials Area End Here --> */}
             </div>
-            <div className="container-fluid no-padding" style={{ background: "#FFFFFF", borderBottom: "1px solid #E0E0E0", position: "relative" }}>
-                <div className="container second-content no-padding">
-                    <img className="left-item-image" src="/auctionart/upload/image/banner-leftimg-gallery.png" alt="Alternate Text" />
-                    <img className="right-item-image" src="/auctionart/upload/image/banner-rightimg-gallery.png" alt="Alternate Text" />
-
-                    <div className="famous-talk">
-                        <div className="famous-talk-left">
-                            <img className="img-voice" src="/auctionart/upload/image/voice.png" alt="Alternate Text" />
-                            <p className="voice-text" style={{ marginTop: "7px" }}>
-                                “Chúng tôi muốn đi trước, đón đầu để đến khi thế giới nhìn vào, họ cũng thấy, ở Việt Nam có những nhà bán đấu giá có uy tín, họ cũng sẽ gửi tài sản về đây nhờ mình bán, hoặc mời mình ra nước ngoài hợp tác. Con đường còn rất dài, chúng tôi mới chỉ như một đứa bé đang chập chững tập đi.
-                            </p>
-                            <p className="voice-text" style={{ marginTop: "20px" }}>
-                                Chỉ mong Lạc Việt sẽ là con tàu dẫn đầu, sau này càng nhiều tàu đi càng đông vui, cùng đến đích, tàu đi trước cản sóng cho tàu đi sau, vượt sóng lớn an toàn”
-                            </p>
-                        </div>
-                        <div className="famous-talk-right">
-                            <img src="/auctionart/upload/image/honghanh-ceo.png" alt="Alternate Text" className="honghanh-image" />
-                            <p className="ceo-name">Bà Đỗ Thị Hồng Hạnh</p>
-                            <p className="ceo-pos">Tổng Giám đốc</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <Brand />
         </>
     );
