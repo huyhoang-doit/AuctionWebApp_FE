@@ -7,6 +7,11 @@ interface ResultInteface {
     auctionRegistrationsData: AuctionRegistration[];
 }
 
+interface ResultPagingInteface {
+    auctionRegistrationsData: AuctionRegistration[]
+    totalElements: number
+}
+
 
 export async function getAuctionRegistrationsByAuctionId(auctionId: number): Promise<ResultInteface> {
     const auctionRegistrations: AuctionRegistration[] = [];
@@ -32,3 +37,38 @@ export async function getAuctionRegistrationsByAuctionId(auctionId: number): Pro
     }
     return { auctionRegistrationsData: auctionRegistrations };
 }
+
+export async function getAuctionRegistrationByUserId(userId: number, page: number): Promise<ResultPagingInteface> {
+    const auctionRegistrations: AuctionRegistration[] = [];
+    const URL = `${BASE_URL}/auction-registration/get-by-user?userId=${userId}&page=${page - 1}`;
+
+    try {
+        const response = await MyRequest(URL);
+
+        if (!response || !response.content) {
+            throw new Error("Không tìm thấy");
+        }
+
+        const responseData = response.content;
+
+        for (const item of responseData) {
+            auctionRegistrations.push({
+                id: item.id,
+                registrationFee: item.registrationFee,
+                registrationDate: item.registrationDate,
+                state: item.state,
+                user: item.user,
+                auction: item.auction,
+            });
+        }
+
+        return {
+            auctionRegistrationsData: auctionRegistrations,
+            totalElements: response.totalElements,
+        };
+    } catch (error) {
+        console.error('Error fetching auction registrations:', error);
+        throw error;
+    }
+}
+

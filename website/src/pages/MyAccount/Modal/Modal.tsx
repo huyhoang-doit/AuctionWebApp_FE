@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Spinner } from 'react-bootstrap';
 import './Modal.css';
 import { handleLogout } from '../../../utils/logout';
 import { formatNumber, formatNumberAcceptNull } from '../../../utils/formatNumber';
 import { numberToVietnameseText } from '../../../utils/numberToVietnameseText';
 import { Image } from '../../../models/Image';
 import { Jewelry } from '../../../models/Jewelry';
-import { bidByUser, confirmDeleteBid, getAuctionHistoriesByAuctionId } from '../../../api/AuctionHistoryAPI';
+import { bidByUser, confirmDeleteBid, getAuctionHistoriesByAuctionId, getAuctionHistoriesByAuctionIdAndUserId } from '../../../api/AuctionHistoryAPI';
 import { Auction } from '../../../models/Auction';
 import { formatDateString, formatDateStringAcceptNull } from '../../../utils/formatDateString';
 import { User } from '../../../models/User';
@@ -23,6 +23,7 @@ import { changePassword } from '../../../api/AuthenticationAPI';
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi';
 import Stomp from "stompjs";
 import { Transaction } from '../../../models/Transaction';
+import { PaginationControl } from 'react-bootstrap-pagination-control';
 
 // *** MODAL FOR USER
 
@@ -1072,6 +1073,132 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
               </Button>
               <Button variant="danger" onClick={handleDelete}>
                 Xác nhận
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
+    </>
+  );
+};
+
+
+// Modal view AUCTION HISTORY
+interface ViewBidHistoryModalProps {
+  auctionId: number | undefined;
+  userId: number | undefined
+}
+
+export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({ auctionId, userId }) => {
+  const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
+  const [totalElements, setTotalElements] = useState(0)
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true)
+    if (userId) {
+      getAuctionHistoriesByAuctionIdAndUserId(auctionId, userId, page)
+        .then((response) => {
+          setAuctionHistories(response.auctionHistoriesData);
+          setTotalElements(response.totalElements);
+        })
+        .catch(() => {
+        });
+    }
+    setLoading(false)
+  }, [auctionId, userId]);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
+
+  return (
+    <>
+      <button
+        type="button"
+        className="btn btn-sm btn-warning ms-2 "
+        id="save-profile-tab"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        onClick={handleShow}
+
+      >
+        Lịch sử đặt giá
+      </button>
+      {show && (
+        <div className='overlay'>
+          <Modal show={show} onHide={handleClose} centered backdropClassName="custom-backdrop" size='xl'>
+            <Modal.Header className='text-center w-100'>
+              <Modal.Title className='w-100'>
+                <div className='col-12 text-center'>Lịch sử đặt giá phiên đấu</div>
+                <div className='col-12 mb-3 text-center '><span className='text-danger fw-bold'>{auctionId}</span></div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="myaccount-orders">
+
+                <div className="table-responsive mt-2">
+                  <table className="table table-bordered table-hover">
+                    <tbody>
+                      <tr>
+                        <th>Mã số</th>
+                        <th>BID</th>
+                        <th>Giá đã đặt (VND)</th>
+                        <th>Thời gian </th>
+
+                      </tr>{loading ? (
+                        <tr>
+                          <td colSpan={4} className="text-center">
+                            <Spinner animation="border" />
+                          </td>
+                        </tr>
+
+                      ) : (auctionHistories.length > 0 ? (React.Children.toArray(auctionHistories.map(
+                        (auctionHistory) =>
+                          <tr>
+                            <td className='fw-semibold'>
+                              {auctionHistory.id}
+                            </td>
+                            <td className='fw-semibold text-danger'>
+                              {auctionHistory.bidCode}
+                            </td>
+                            <td>
+                              {formatNumber(auctionHistory.priceGiven)}
+                            </td>
+                            <td>
+                              {formatDateStringAcceptNull(auctionHistory.time)}
+                            </td>
+
+                          </tr>
+                      ))) : (<td colSpan={4} className="text-center">
+                        <h5 className='fw-semibold lh-base mt-2'>Chưa có đặt giá nào cho phiên này</h5>
+                      </td>))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className="mt-4">
+                <PaginationControl
+                  page={page}
+                  between={3}
+                  total={totalElements}
+                  limit={5}
+                  changePage={(page) => {
+                    setPage(page)
+                  }}
+                  ellipsis={1}
+                />
+              </div>
+
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleClose}>
+                Đóng
               </Button>
             </Modal.Footer>
           </Modal>

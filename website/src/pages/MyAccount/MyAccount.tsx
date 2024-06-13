@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 // import useAccount from "../../hooks/useAccount";
 import { MyAccountDetail } from "./Components/MyAccountDetail";
-import { MyBidHistory } from "./Components/MyBidHistory";
+import { MyBidHistoryList } from "./Components/MyBidHistoryList";
 import { useContext, useEffect, useState } from "react";
 import { User } from "../../models/User";
 import { TransactionHistory } from "./Components/TransactionHistory";
@@ -137,7 +137,7 @@ export default function MyAccount() {
                                 >
                                     <MyAccountDetail user={userState} setUser={setUserState} />
                                     <ChangePassword user={userState} />
-                                    <MyBidHistory username={userState?.username} />
+                                    <MyBidHistoryList user={userState} />
                                     <TransactionHistory user={userState} />
                                     <MyJewelryList user={userState} setUser={setUserState} />
                                     <MyJewelryRequestList userId={userState?.id} />

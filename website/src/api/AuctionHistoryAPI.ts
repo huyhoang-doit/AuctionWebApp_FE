@@ -13,6 +13,50 @@ interface ResultIntefacePageable {
 }
 
 
+export async function getAuctionHistoriesByAuctionIdAndUserId(auctionId: number | undefined, userId: number, page: number): Promise<ResultIntefacePageable> {
+    const auctionHistories: AuctionHistory[] = [];
+    // endpoint
+    const URL = `${BASE_URL}/auction-history/get-by-auction-and-user?auctionId=${auctionId}&userId=${userId}&page=${page - 1}`;
+    // request
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+    if (response) {
+        for (const key in responseData) {
+            auctionHistories.push({
+                id: responseData[key].id,
+                priceGiven: responseData[key].priceGiven,
+                time: responseData[key].time,
+                bidCode: responseData[key].bidCode,
+                user: {
+                    id: responseData[key].user.id,
+                    fullName: responseData[key].user.fullName,
+                },
+                auction: {
+                    id: responseData[key].auction.id,
+                    name: responseData[key].auction.name,
+                    description: responseData[key].auction.description,
+                    firstPrice: responseData[key].auction.firstPrice,
+                    lastPrice: responseData[key].auction.lastPrice,
+                    priceStep: responseData[key].auction.priceStep,
+                    participationFee: responseData[key].auction.participationFee,
+                    deposit: responseData[key].auction.deposit,
+                    state: responseData[key].auction.state,
+                    startDate: responseData[key].auction.startDate,
+                    endDate: responseData[key].auction.endDate,
+                    countdownDuration: responseData[key].auction.countdownDuration,
+                    jewelry: responseData[key].jewelry
+                }
+            })
+        }
+    } else {
+        throw new Error("Không tìm thấy");
+    }
+    return {
+        auctionHistoriesData: auctionHistories,
+        totalElements: response.totalElements,
+    };
+}
+
 export async function getAuctionHistoriesByAuctionId(auctionId: number, perPage: number): Promise<ResultInteface> {
     const auctionHistories: AuctionHistory[] = [];
     // endpoint

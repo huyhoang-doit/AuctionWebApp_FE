@@ -5,11 +5,18 @@ export class AuctionRegistration {
     id: number;
     registrationFee?: number;
     registrationDate?: string;
-    state? : string;
+    state?: string;
     user?: User;
     auction?: Auction;
 
-    constructor(id: number, registrationFee: number, registrationDate: string, state: string,  user: User, auction: Auction) {
+    constructor(
+        id: number,
+        user?: User,
+        auction?: Auction,
+        registrationFee?: number,
+        registrationDate?: string,
+        state?: string
+    ) {
         this.id = id;
         this.user = user;
         this.registrationFee = registrationFee;
@@ -17,5 +24,4 @@ export class AuctionRegistration {
         this.state = state;
         this.auction = auction;
     }
-
 }

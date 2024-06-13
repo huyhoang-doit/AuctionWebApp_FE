@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { AuctionHistory } from "../../../models/AuctionHistory";
-import { getBidByUsername } from "../../../api/AuctionHistoryAPI";
-import { formatNumber } from "../../../utils/formatNumber";
-import { formatDateString } from "../../../utils/formatDateString";
 import { Error } from "../../Error-Loading/Error";
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { Spinner } from "react-bootstrap";
+import { getAuctionRegistrationByUserId } from "../../../api/AuctionRegistrationAPI";
+import { AuctionRegistration } from "../../../models/AuctionRegistration";
+import { User } from "../../../models/User";
+import MyBidHistorySingle from "./MyBidHistorySingle";
 
-interface MyBidHistoryProps {
-    username: string | undefined;
+interface MyBidHistoryListProps {
+    user: User | null;
 }
 
-export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
-    const [userAuctionHistories, setUserAuctionHistories] = useState<AuctionHistory[]>([]);
+export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user }) => {
+    const [userAuctionRegistration, setUserAuctionRegistration] = useState<AuctionRegistration[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState(1);
@@ -21,11 +21,11 @@ export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
 
     useEffect(() => {
         setLoading(true);
-        if (username) {
+        if (user) {
             setLoading(true);
-            getBidByUsername(username, page)
+            getAuctionRegistrationByUserId(user.id, page)
                 .then((response) => {
-                    setUserAuctionHistories(response.auctionHistoriesData);
+                    setUserAuctionRegistration(response.auctionRegistrationsData);
                     setTotalElements(response.totalElements)
                     setLoading(false);
                 })
@@ -36,7 +36,7 @@ export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
         }
         setLoading(false);
 
-    }, [username, page]);
+    }, [user, page]);
 
 
 
@@ -61,28 +61,15 @@ export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
                             <tr>
                                 <th>Mã phiên</th>
                                 <th>Tên phiên</th>
-                                <th>Thời gian</th>
-                                <th>Số tiền (VNĐ)</th>
+                                <th>Kết quả</th>
+                                <th>Thao tác</th>
                             </tr>{loading ? (<tr>
                                 <td colSpan={4} className="text-center">
                                     <Spinner animation="border" />
                                 </td>
                             </tr>
-                            ) : (userAuctionHistories.length > 0 ? (userAuctionHistories.map((auctionHistory, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        {auctionHistory.auction?.id}
-                                    </td>
-                                    <td>
-                                        {auctionHistory.auction?.name}
-                                    </td>
-                                    <td>
-                                        {formatDateString(auctionHistory.time ? auctionHistory.time : "")}
-                                    </td>
-                                    <td>
-                                        {formatNumber(auctionHistory.priceGiven)}
-                                    </td>
-                                </tr>
+                            ) : (userAuctionRegistration.length > 0 ? (userAuctionRegistration.map((auctionRegistration, index) => (
+                                <MyBidHistorySingle key={index} auctionRegistration={auctionRegistration} />
                             ))) : (<td colSpan={4} className="text-center">
                                 <h5 className='fw-semibold lh-base mt-2'>Chưa có đấu giá nào </h5>
                             </td>)
