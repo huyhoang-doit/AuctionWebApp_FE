@@ -59,10 +59,10 @@ export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
                     <table className="table table-bordered table-hover">
                         <tbody>
                             <tr>
-                                <th>Mã phiên</th>
-                                <th>Tên phiên</th>
-                                <th>Thời gian</th>
-                                <th>Số tiền (VNĐ)</th>
+                                <th  className="text-start">Mã phiên</th>
+                                <th  className="text-start">Tên phiên</th>
+                                <th  className="text-start">Thời gian</th>
+                                <th  className="text-start">Số tiền (VNĐ)</th>
                             </tr>{loading ? (<tr>
                                 <td colSpan={4} className="text-center">
                                     <Spinner animation="border" />
@@ -70,16 +70,16 @@ export const MyBidHistory: React.FC<MyBidHistoryProps> = ({ username }) => {
                             </tr>
                             ) : (userAuctionHistories.length > 0 ? (userAuctionHistories.map((auctionHistory, index) => (
                                 <tr key={index}>
-                                    <td>
+                                    <td  className="text-start">
                                         {auctionHistory.auction?.id}
                                     </td>
-                                    <td>
+                                    <td  className="text-start">
                                         {auctionHistory.auction?.name}
                                     </td>
-                                    <td>
+                                    <td  className="text-start">
                                         {formatDateString(auctionHistory.time ? auctionHistory.time : "")}
                                     </td>
-                                    <td>
+                                    <td  className="text-start">
                                         {formatNumber(auctionHistory.priceGiven)}
                                     </td>
                                 </tr>

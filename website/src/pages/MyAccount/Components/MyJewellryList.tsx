@@ -55,12 +55,12 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
             <table className="table table-bordered table-hover">
               <tbody>
                 <tr>
-                  <th>Mã trang sức</th>
-                  <th>Tên trang sức</th>
-                  <th>Ảnh</th>
-                  <th>Giá mong muốn</th>
-                  <th>Định giá</th>
-                  <th>Thao tác</th>
+                  <th className="text-start">Mã trang sức</th>
+                  <th className="text-start">Tên trang sức</th>
+                  <th className="text-start">Ảnh</th>
+                  <th className="text-start">Giá mong muốn</th>
+                  <th className="text-start">Định giá</th>
+                  <th className="text-start">Thao tác</th>
                 </tr>{loading ? (
                   <tr>
                     <td colSpan={6} className="text-center">

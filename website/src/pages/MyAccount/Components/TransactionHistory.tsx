@@ -102,12 +102,12 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
-                <th>Mã giao dịch</th>
-                <th>Tên tài sản</th>
-                <th>Ngày tạo</th>
-                <th>Số tiền (VNĐ)</th>
-                <th>Loại giao dịch</th>
-                <th>Trạng thái</th>
+                <th className="text-start">Mã giao dịch</th>
+                <th >Tên tài sản</th>
+                <th >Ngày tạo</th>
+                <th >Số tiền (VNĐ)</th>
+                <th >Loại giao dịch</th>
+                <th >Trạng thái</th>
                 <th>Xem chi tiết</th>
               </tr>
               {loading ? (<tr>
@@ -119,13 +119,13 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                 transactions.map((transaction) => (
                   <tr>
                     <td>{transaction.id}</td>
-                    <td>{transaction.auction?.jewelry?.name}</td>
-                    <td>{formatDateString(transaction.createDate)}</td>
-                    <td>{formatNumber(transaction.totalPrice)}</td>
-                    <td>
+                    <td className="text-start">{transaction.auction?.jewelry?.name}</td>
+                    <td className="text-center">{formatDateString(transaction.createDate)}</td>
+                    <td className="text-start">{formatNumber(transaction.totalPrice)}</td>
+                    <td className="text-start">
                       <TypeTransaction type={transaction.type} />
                     </td>
-                    <td>
+                    <td className="text-center"  style={{width: "125px"}}>
                       <StateTransaction state={transaction.state} />
                     </td>
                     <td>

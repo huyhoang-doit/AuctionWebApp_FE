@@ -40,9 +40,18 @@ export default function Login() {
 
     const handleLogin = async () => {
         const success = await login(loginRequest, setError);
+
         if (success) {
             // navigate("/")
             window.location.href = '/';
+        } else {
+            setLoginRequest(
+                {
+                    username: "",
+                    email: "",
+                    password: "",
+                }
+            )
         }
     };
 

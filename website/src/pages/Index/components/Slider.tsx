@@ -73,7 +73,6 @@ const Slider = () => {
                   <div className="banner-content">
                     <span>Sàn đấu giá</span>
                     <h4>Hoa tai</h4>
-                    <h3></h3>
                     <Link to={`/danh-sach-dau-gia/category/` + 4}>
                       <i className="fa fa-arrow-circle-right"></i>
                     </Link>
@@ -95,7 +94,6 @@ const Slider = () => {
                       <div className="banner-content">
                         <span>Sàn đấu giá</span>
                         <h4>Nhẫn</h4>
-                        <h3></h3>
                         <Link to={`/danh-sach-dau-gia/category/` + 2}>
                           <i className="fa fa-arrow-circle-right"></i>
                         </Link>
