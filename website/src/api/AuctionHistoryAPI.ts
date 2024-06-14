@@ -13,10 +13,10 @@ interface ResultIntefacePageable {
 }
 
 
-export async function getAuctionHistoriesByAuctionIdAndUserId(auctionId: number | undefined, userId: number, page: number): Promise<ResultIntefacePageable> {
+export async function getAuctionHistoriesByAuctionIdAndUserId(auctionId: number | undefined, userId: number, state: string, page: number): Promise<ResultIntefacePageable> {
     const auctionHistories: AuctionHistory[] = [];
     // endpoint
-    const URL = `${BASE_URL}/auction-history/get-by-auction-and-user?auctionId=${auctionId}&userId=${userId}&page=${page - 1}`;
+    const URL = `${BASE_URL}/auction-history/get-by-auction-and-user?auctionId=${auctionId}&userId=${userId}&state=${state}&page=${page - 1}`;
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;

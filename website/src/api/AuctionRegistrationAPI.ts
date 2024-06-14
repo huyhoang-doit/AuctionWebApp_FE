@@ -26,7 +26,7 @@ export async function getAuctionRegistrationsByAuctionId(auctionId: number): Pro
                 id: response[key].id,
                 registrationFee: response[key].registrationFee,
                 registrationDate: response[key].registrationDate,
-                state: response[key].state,
+                state: response[key].auctionRegistrationState,
                 user: {
                     id: response[key].user.id,
                 }
@@ -56,7 +56,7 @@ export async function getAuctionRegistrationByUserId(userId: number, page: numbe
                 id: item.id,
                 registrationFee: item.registrationFee,
                 registrationDate: item.registrationDate,
-                state: item.state,
+                state: item.auctionRegistrationState,
                 user: item.user,
                 auction: item.auction,
             });

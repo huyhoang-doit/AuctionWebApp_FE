@@ -1,5 +1,6 @@
 import BASE_URL from "../config/config";
 import { Transaction } from "../models/Transaction";
+import { User } from "../models/User";
 import { MyRequest } from "./MyRequest";
 
 interface ResultInteface {
@@ -55,24 +56,27 @@ export const getTransactionsByUsername = async (username: string, page: number):
     };
 };
 
-export const createTransactionForWinner = async (auctionId: number): Promise<boolean> => {
+export const createTransactionForWinner = async (auctionId: number): Promise<User | null> => {
     // end-point
     const URL = `${BASE_URL}/transaction/create-transaction-for-winner/${auctionId}`;
-    // call api
-    const response = await fetch(URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
+    try {
+        // call api
+        const response = await fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            return null;
         }
-    });
 
-    if (!response.ok) {
-        const errorDetails = await response.text();  // Get error details as text
-        console.error('Failed to create transaction:', errorDetails);
-        return false
+        const userWinner = await response.json();
+        return userWinner;
+    } catch (error) {
+        return null;
     }
-
-    return true;
 };
 
 export async function getTransactionsByTypeAndState(type: string, state: string, page: number): Promise<ResultInteface> {
