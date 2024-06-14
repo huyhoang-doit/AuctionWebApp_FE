@@ -147,12 +147,10 @@ export async function ensureAccessToken() {
 
 export const refreshToken = async () => {
     try {
-        console.log('Refreshing token...');
         const response = await fetch(`${BASE_URL}/auth/refresh-token`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // 'Authorization': `Bearer ${token}`
             },
             credentials: 'include',
         });
@@ -169,7 +167,6 @@ export const refreshToken = async () => {
         console.error('Failed to refresh token:', error);
         localStorage.removeItem('access_token');
 
-        // localStorage.removeItem('refresh_token');
         window.location.href = '/dang-nhap';
         return;
     }
@@ -187,12 +184,11 @@ export const fetchGetWithToken = async (url: string, method: string, token: stri
     });
 
     if (response.status === 401 || response.status === 403) {
-        // const newToken = await refreshToken();
-        console.log(response)
-        // if (newToken) {
-        //     // Retry request with new token
-        //     response = await fetchGetWithToken(url, method, newToken);
-        // }
+        const newToken = await refreshToken();
+        if (newToken) {
+            // Retry request with new token
+            response = await fetchGetWithToken(url, method, newToken);
+        }
     }
     return response;
 };

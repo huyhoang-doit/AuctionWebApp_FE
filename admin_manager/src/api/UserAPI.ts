@@ -74,8 +74,7 @@ export async function getMembers(role: string, page: number): Promise<ResultPage
 
     const URL = `${BASE_URL}/user/staff?page=${page - 1}&role=${role}`;
 
-    const response = await MyRequest(URL)
-    console.log(response)
+    const response = await fetchGetWithToken(URL, 'GET', token)
 
     if (!response.ok) {
         throw new Error(`Cannot access ${URL}`);
