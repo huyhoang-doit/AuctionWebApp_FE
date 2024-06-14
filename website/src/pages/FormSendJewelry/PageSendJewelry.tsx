@@ -6,7 +6,7 @@ import { getLatestJewelry, sendJewelryFromUser } from "../../api/JewelryAPI";
 import { Jewelry } from "../../models/Jewelry";
 import { processImages, setImageForJewelry } from "../../api/ImageApi";
 import { sendRequestApprovalFromUser } from "../../api/RequestApprovalAPI";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 interface JewelryRequest {
     id: number;
@@ -343,7 +343,6 @@ export const PageSendJewelry = () => {
                                             <button className="umino-register_btn" type="submit">
                                                 Gửi yêu cầu
                                             </button>
-                                            <ToastContainer />
                                         </div>
                                     </div>
                                 </div>

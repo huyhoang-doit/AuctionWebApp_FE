@@ -10,7 +10,7 @@ import { bidByUser, confirmDeleteBid, getAuctionHistoriesByAuctionId, getAuction
 import { Auction } from '../../../models/Auction';
 import { formatDateString, formatDateStringAcceptNull } from '../../../utils/formatDateString';
 import { User } from '../../../models/User';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { AuctionHistory } from '../../../models/AuctionHistory';
@@ -1928,7 +1928,6 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({ user
           </Modal>
         </div>
       )}
-      <ToastContainer />
     </>
   );
 };

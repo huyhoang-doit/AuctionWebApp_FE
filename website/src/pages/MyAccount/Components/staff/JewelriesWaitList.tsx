@@ -4,7 +4,7 @@ import { User } from '../../../../models/User'
 import { PaginationControl } from 'react-bootstrap-pagination-control'
 import { getRequestByRoleOfSender } from '../../../../api/RequestApprovalAPI'
 import { RequestApproval } from '../../../../models/RequestApproval'
-import { Spinner, ToastContainer } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 
 interface JewelriesWaitListProps {
   user: User | null;
@@ -77,7 +77,6 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
                 )}
               </tbody>
             </table>
-            <ToastContainer />
             <div className="mt-4">
               <PaginationControl
                 page={page}
