@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getAuctionHistoriesByAuctionId } from "../../api/AuctionHistoryAPI";
 import { AuctionHistory } from "../../models/AuctionHistory";
 import useCountDown from "../../hooks/useCountDown";
+import { InfoBlock } from "./Components/InfoBlock";
 
 
 export default function AuctionDetail() {
@@ -28,7 +29,7 @@ export default function AuctionDetail() {
     const timeLeft = useCountDown(auction);
     const { id } = useParams();
     const token = localStorage.getItem("access_token");
-    const {account, setAccount} = useAccount(token);
+    const { account, setAccount } = useAccount(token);
     let auctionId = 0;
     const location = useLocation();
     const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
@@ -238,13 +239,17 @@ export default function AuctionDetail() {
                                                 <div className="col-6">
                                                     <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>{auction?.startDate ? formatDateString(auction?.endDate) : ""}</p>
                                                 </div>
-                                                <div className="col-6 col-xs-6">
-                                                    <b className="spanauctionproperty">Giá trúng tối thiểu:</b>
-                                                </div>
-                                                <div className="col-6 col-xs-6 right-info-text no-margin" style={{ color: "#b41712" }}>
-                                                    <span className="fw-bold spanColorAuctionproperty novaticPrice">{formatNumber(auction?.firstPrice)}</span>
-                                                    <span className="fw-bold spanColorAuctionproperty"> VNĐ</span>
-                                                </div>
+                                                {auction?.state === "FINISHED" ? (
+                                                    <>
+                                                        <InfoBlock label="Giá cuối cùng sau khi kết thúc:" value={formatNumber(auction?.lastPrice)} />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        {(auction?.state === "ONGOING" || auction?.state === "WAITING") && (
+                                                            <InfoBlock label="Giá trúng tối thiểu:" value={formatNumber(auction?.firstPrice)} />
+                                                        )}
+                                                    </>
+                                                )}
                                                 <div className="row mt-2" style={{
                                                     display: "flex",
                                                     justifyContent: "center",
@@ -327,7 +332,7 @@ export default function AuctionDetail() {
                     <AuctionTabDetail stompClient={null} connected={false} isBid={false} auctionHistories={auctionHistories} setBidPerPage={setBidPerPage} auction={auction} staff={staff} jewelry={jewelry} />
                 </div>
                 <ToastContainer />
-            </div>
+            </div >
         </>
     );
 }
