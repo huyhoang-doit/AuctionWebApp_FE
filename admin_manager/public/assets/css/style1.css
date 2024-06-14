@@ -2462,9 +2462,10 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child::before {
     position: absolute;
     right: 0;
     background-color: #4d4f5c;
-    text-align: right;
-    width: 215px;
-    padding: 30px 30px 20px;
+    text-align: center;
+    width: 200px;
+    font-size: 16px;
+    padding: 10px;
     opacity: 0;
     visibility: hidden;
     top: 77px;
@@ -2508,16 +2509,15 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child::before {
 }
 
 .profile_info .profile_info_details {
-    margin-top: 20px;
-    border-top: 1px solid #79838b;
-    padding-top: 10px
+    margin-left: 20px;
 }
 
 .profile_info .profile_info_details a {
     color: #fff;
-    font-size: 13px;
+    font-size: 16px;
     display: block;
     padding: 10px 0
+    margin-left: 20px;
 }
 
 .profile_info .profile_info_details a:hover {

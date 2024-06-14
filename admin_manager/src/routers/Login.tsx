@@ -59,19 +59,18 @@ export default function Login() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
+                    <img style={{ width: '100px', marginBottom: '10px' }} src="/assets/img/menu/logo/1.png" alt="logo" />
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Đăng nhập
                     </Typography>
+
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
                             fullWidth
                             id="text"
-                            label="Enter your usename / email"
+                            label="Tên tài khoản"
                             name="username"
                             autoFocus
                             onChange={(e) => setLoginRequest({ ...loginRequest, username: e.target.value })}
@@ -81,23 +80,24 @@ export default function Login() {
                             required
                             fullWidth
                             name="password"
-                            label="Password"
+                            label="Mật khẩu"
                             type="password"
                             id="password"
                             autoComplete="current-password"
                             onChange={(e) => setLoginRequest({ ...loginRequest, password: e.target.value })}
                         />
-                        <FormControlLabel
+                        {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
+                            label="Nhớ mật khẩu"
+                        /> */}
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            style={{ color: "#000", backgroundColor: "#FFC700" }}
                         >
-                            Sign In
+                            Đăng nhập
                         </Button>
                         {error && <span className='fw-bold text-danger'>{error}</span>}
                     </Box>
