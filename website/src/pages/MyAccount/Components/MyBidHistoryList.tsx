@@ -57,24 +57,30 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user }) => {
             <div className="myaccount-orders">
                 <div className="table-responsive">
                     <table className="table table-bordered table-hover">
-                        <tbody>
+                        <thead>
                             <tr>
                                 <th>Mã phiên</th>
                                 <th>Tên phiên</th>
                                 <th>Kết quả</th>
                                 <th>Thao tác</th>
-                            </tr>{loading ? (<tr>
-                                <td colSpan={4} className="text-center">
-                                    <Spinner animation="border" />
-                                </td>
                             </tr>
+                        </thead>
+                        <tbody>
+                            {loading ? (
+                                <tr>
+                                    <td colSpan={4} className="text-center">
+                                        <Spinner animation="border" />
+                                    </td>
+                                </tr>
                             ) : (userAuctionRegistration.length > 0 ? (userAuctionRegistration.map((auctionRegistration, index) => (
                                 <MyBidHistorySingle key={index} auctionRegistration={auctionRegistration} />
-                            ))) : (<td colSpan={4} className="text-center">
-                                <h5 className='fw-semibold lh-base mt-2'>Chưa có đấu giá nào </h5>
-                            </td>)
+                            ))) : (
+                                <tr>
+                                    <td colSpan={4} className="text-center">
+                                        <h5 className='fw-semibold lh-base mt-2'>Chưa có đấu giá nào </h5>
+                                    </td>
+                                </tr>)
                             )}
-
                         </tbody>
                     </table>
                 </div>

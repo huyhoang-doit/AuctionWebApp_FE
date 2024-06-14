@@ -49,7 +49,7 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
             </h4>
             <div className="table-responsive">
                 <table className="table table-bordered table-hover">
-                    <tbody>
+                    <thead>
                         <tr>
                             <th className="text-start">Mã sản phẩm</th>
                             <th className="text-start">Tên</th>
@@ -57,7 +57,10 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                             <th className="text-start">Thời gian gửi</th>
                             <th className="text-start">Trạng thái</th>
                             <th className="text-start">Thao tác</th>
-                        </tr>{loading ? (
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {loading ? (
                             <tr>
                                 <td colSpan={6} className="text-center">
                                     <Spinner animation="border" />
@@ -94,9 +97,12 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                                         {/* <DeleteJewelryRequestModal jewelry={request.jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} /> */}
                                     </td>
                                 </tr>
-                        ))) : (<td colSpan={6} className="text-center">
-                            <h5 className='fw-semibold lh-base mt-2'>Chưa có yêu cầu nào được gửi đi</h5>
-                        </td>))}
+                        ))) : (
+                            <tr>
+                                <td colSpan={6} className="text-center">
+                                    <h5 className='fw-semibold lh-base mt-2'>Chưa có yêu cầu nào được gửi đi</h5>
+                                </td>
+                            </tr>))}
                     </tbody>
                 </table>
             </div>

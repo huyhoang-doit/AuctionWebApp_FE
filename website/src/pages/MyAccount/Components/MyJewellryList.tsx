@@ -53,7 +53,7 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
           </h4>
           <div className="table-responsive">
             <table className="table table-bordered table-hover">
-              <tbody>
+              <thead>
                 <tr>
                   <th className="text-start">Mã trang sức</th>
                   <th className="text-start">Tên trang sức</th>
@@ -61,7 +61,10 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
                   <th className="text-start">Giá mong muốn</th>
                   <th className="text-start">Định giá</th>
                   <th className="text-start">Thao tác</th>
-                </tr>{loading ? (
+                </tr>
+              </thead>
+              <tbody>
+                {loading ? (
                   <tr>
                     <td colSpan={6} className="text-center">
                       <Spinner animation="border" />
@@ -70,9 +73,12 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
 
                 ) : (listRequests.length > 0 ? (listRequests.map((request) => (
                   <MyJewelrySingle key={request.id} request={request} jewelry={request.jewelry} user={props.user} handleChangeList={handleChangeList} />
-                ))) : (<td colSpan={6} className="text-center">
-                  <h5 className='fw-semibold lh-base mt-2'>Không có sản phẩm nào đợi xác nhận</h5>
-                </td>))}
+                ))) : (
+                  <tr>
+                    <td colSpan={6} className="text-center">
+                      <h5 className='fw-semibold lh-base mt-2'>Không có sản phẩm nào đợi xác nhận</h5>
+                    </td>
+                  </tr>))}
               </tbody>
             </table>
             <div className="mt-4">

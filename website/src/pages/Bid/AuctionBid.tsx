@@ -20,6 +20,7 @@ import { BASE_WS } from "../../config/config";
 import useCountDownBid from "../../hooks/useCountDownBid";
 import Swal from "sweetalert2";
 import { createTransactionForWinner } from "../../api/TransactionAPI";
+import { numberToVietnameseText } from "../../utils/numberToVietnameseText";
 
 export const AuctionBid = () => {
     const [auction, setAuction] = useState<Auction | null>(null);
@@ -63,22 +64,29 @@ export const AuctionBid = () => {
                 timeLeft.minutes === 0 &&
                 timeLeft.seconds === 0
             ) {
-                const isSuccess = await createTransactionForWinner(auctionId);
-                if (isSuccess) {
+                const userWin = await createTransactionForWinner(auctionId);
+                if (userWin) {
+                    const isUserWinner = userWin.username === user?.username;
                     Swal.fire({
                         icon: "success",
-                        html: `
-                            <div>Phiên đấu giá đã kết thúc</div>
-                            <div>Đã gửi yêu cầu thanh toán cho người thắng</div>`,
+                        html: isUserWinner
+                            ? `
+                                <div><strong>Phiên đấu giá đã kết thúc</strong></div>
+                                <div style="color: green; margin: 5px 0px"><strong>Bạn đã thắng phiên đấu giá này.</strong></div>
+                                <div>Hệ thống đã gửi yêu cầu thanh toán cho bạn, vui lòng vào hồ sơ cá nhân để tiến hành thanh toán.</div>`
+                            : `
+                                <div><strong>Phiên đấu giá đã kết thúc</strong></div>
+                                <div><strong>${userWin.fullName}</strong> đã thắng phiên đấu giá này với giá cuối cùng là ${formatNumber(auction?.lastPrice)} (${numberToVietnameseText(auction?.lastPrice ?? 0)}).</div>`,
                         showCancelButton: false,
                         confirmButtonText: 'Đồng ý',
                         allowOutsideClick: () => !Swal.isLoading(),
                     });
                 } else {
                     Swal.fire({
-                        icon: "success",
+                        icon: "error",
                         html: `
-                            <div>Phiên đấu giá đã kết thúc</div>`,
+                            <div><strong>Phiên đấu giá đã kết thúc</strong></div>
+                            <div style="color: red; margin: 5px 0px"><strong>Không có người thắng trong phiên đấu giá này.</strong></div>`,
                         showCancelButton: false,
                         confirmButtonText: 'Đồng ý',
                         allowOutsideClick: () => !Swal.isLoading(),
@@ -87,9 +95,8 @@ export const AuctionBid = () => {
                 setIsEnding(true);
             }
         };
-
         handleAuctionEnd();
-    }, [timeLeft]);
+    }, [timeLeft, auctionId, user, auction]);
 
     useEffect(() => {
         const newClient = Stomp.over(socket);
@@ -99,13 +106,15 @@ export const AuctionBid = () => {
                 setConnected(true);
                 newClient.subscribe("/user/auction", (message) => {
                     const receivedData = JSON.parse(message.body);
-                    setAuction(prevAuction => ({
-                        ...prevAuction!,
-                        lastPrice: receivedData,
-                    }));
-                    setBidValue(receivedData)
-                    setDisplayValue(formatNumber(receivedData));
-                    toast.warn('Giá cuối đã thay đổi!');
+                    if (receivedData.auctionId === auctionId) {
+                        setAuction(prevAuction => ({
+                            ...prevAuction!,
+                            lastPrice: receivedData.lastPrice,
+                        }));
+                        setBidValue(receivedData.lastPrice)
+                        setDisplayValue(formatNumber(receivedData.lastPrice));
+                        toast.warn('Giá cuối đã thay đổi!');
+                    }
                 });
             },
             (error) => {
@@ -142,11 +151,15 @@ export const AuctionBid = () => {
                 setAuction(auction);
                 setJewelry(auction?.jewelry ?? null);
                 setStaff(auction?.user ?? null);
-                setDisplayValue(formatNumber(auction?.lastPrice ?? auction?.firstPrice ?? 0));
+                if (auction?.state === "FINISHED") {
+                    setIsEnding(true)
+                }
+                const price = auction?.lastPrice ?? auction?.firstPrice ?? 0;
+                setDisplayValue(formatNumber(price));
                 setBidValue(auction?.lastPrice ?? auction?.firstPrice ?? 0);
             })
             .catch((error) => {
-                console.log(error.message);
+                console.error(error.message);
             });
         window.scrollTo(0, 0);
     }, [auctionId]);
