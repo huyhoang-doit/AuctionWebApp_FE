@@ -1086,10 +1086,11 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({ j
 // Modal view AUCTION HISTORY
 interface ViewBidHistoryModalProps {
   auctionId: number | undefined;
-  userId: number | undefined
+  userId: number | undefined;
+  auctionHistoryState: string
 }
 
-export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({ auctionId, userId }) => {
+export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({ auctionId, userId, auctionHistoryState }) => {
   const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
   const [totalElements, setTotalElements] = useState(0)
   const [page, setPage] = useState(1);
@@ -1098,7 +1099,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({ auctio
   useEffect(() => {
     setLoading(true)
     if (userId) {
-      getAuctionHistoriesByAuctionIdAndUserId(auctionId, userId, page)
+      getAuctionHistoriesByAuctionIdAndUserId(auctionId, userId, auctionHistoryState, page)
         .then((response) => {
           setAuctionHistories(response.auctionHistoriesData);
           setTotalElements(response.totalElements);
@@ -1120,7 +1121,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({ auctio
     <>
       <button
         type="button"
-        className="btn btn-sm btn-warning ms-2 "
+        className="btn btn-sm btn-dark ms-2 "
         id="save-profile-tab"
         role="tab"
         aria-controls="account-details"
