@@ -11,7 +11,6 @@ const PassedJewelriesList = () => {
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);
 
-  //
   const [listRequests, setListRequests] = useState<RequestApproval[]>([]);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
@@ -26,6 +25,7 @@ const PassedJewelriesList = () => {
   const handleChangeList = useCallback(async () => {
     setLoading(true)
     try {
+      //
       const response = await getRequestPassed(page);
       setListRequests(response.requestsData);
       setTotalElements(response.totalElements);

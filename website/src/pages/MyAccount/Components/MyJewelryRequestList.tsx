@@ -49,14 +49,14 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
             </h4>
             <div className="table-responsive">
                 <table className="table table-bordered table-hover">
-                    <thead>
+                    <thead className="text-center">
                         <tr>
-                            <th className="text-start">Mã sản phẩm</th>
-                            <th className="text-start">Tên</th>
-                            <th className="text-start">Giá mong muốn (VNĐ)</th>
-                            <th className="text-start">Thời gian gửi</th>
-                            <th className="text-start">Trạng thái</th>
-                            <th className="text-start">Thao tác</th>
+                            <th >Mã sản phẩm</th>
+                            <th >Tên</th>
+                            <th >Giá mong muốn (VNĐ)</th>
+                            <th >Thời gian gửi</th>
+                            <th >Trạng thái</th>
+                            <th >Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>

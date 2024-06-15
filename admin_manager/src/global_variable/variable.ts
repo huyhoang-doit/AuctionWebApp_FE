@@ -1,0 +1,2 @@
+const PARTICIPATION_FEE = 200000
+export default PARTICIPATION_FEE

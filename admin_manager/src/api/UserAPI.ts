@@ -2,7 +2,7 @@
 import { fetchGetWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "../../../website/src/api/MyRequest";
 import { User } from "../models/User";
-import BASE_URL from "../config/config";
+import BASE_URL from "../global_variable/config";
 
 interface ResultPageableInteface {
     usersData: User[];
