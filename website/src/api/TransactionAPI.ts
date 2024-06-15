@@ -43,8 +43,11 @@ export const getTransactionsByUsername = async (username: string, page: number):
                 totalPrice: responseData[key].totalPrice,
                 feesIncurred: responseData[key].feesIncurred,
                 state: responseData[key].state,
+                paymentMethod: responseData[key].paymentMethod,
+                paymentTime: responseData[key].paymentTime,
                 type: responseData[key].type,
-                auction: responseData[key].auction
+                auction: responseData[key].auction,
+                user: responseData[key].user
             })
         }
     } else {
