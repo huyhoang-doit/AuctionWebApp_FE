@@ -134,7 +134,7 @@ export default function MyAccountStaff() {
                   className="tab-content myaccount-tab-content "
                   id="account-page-tab-content"
                 >
-                  <MyAccountDetail user={userState} setUser={setUserState} />
+                  <MyAccountDetail isAfterPay={false} user={userState} setUser={setUserState} />
 
                   <ChangePassword user={userState} />
 

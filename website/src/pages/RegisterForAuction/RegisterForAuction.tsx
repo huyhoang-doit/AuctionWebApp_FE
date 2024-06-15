@@ -71,7 +71,7 @@ export default function RegisterForAuction() {
 
     const handlePayment = () => {
         if (user) {
-            handlePay(amount, auctionId, user?.username ? user.username : "");
+            handlePay(amount, auctionId, user?.username ? user.username : "", 0);
         }
     }
 

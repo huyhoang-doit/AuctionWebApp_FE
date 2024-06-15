@@ -33,8 +33,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ roles }) => {
         if (decodedData.exp < currentTime) {
             Swal.fire({
                 icon: 'warning',
-                title: 'Phiên hết hạn',
-                text: 'Phiên của bạn đã hết hạn. Xin vui lòng đăng nhập lại.',
+                title: 'Phiên đăng nhập hết hạn',
+                text: 'Phiên đăng nhập của bạn đã hết hạn. Xin vui lòng đăng nhập lại.',
             }).then(() => {
                 localStorage.removeItem("access_token");
                 navigate('/dang-nhap');
