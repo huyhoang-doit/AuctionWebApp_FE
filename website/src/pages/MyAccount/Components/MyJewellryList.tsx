@@ -53,14 +53,14 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
           </h4>
           <div className="table-responsive">
             <table className="table table-bordered table-hover">
-              <thead>
+              <thead className='text-center'>
                 <tr>
-                  <th className="text-start">Mã trang sức</th>
-                  <th className="text-start">Tên trang sức</th>
-                  <th className="text-start">Ảnh</th>
-                  <th className="text-start">Giá mong muốn</th>
-                  <th className="text-start">Định giá</th>
-                  <th className="text-start">Thao tác</th>
+                  <th >Mã trang sức</th>
+                  <th >Tên trang sức</th>
+                  <th >Ảnh</th>
+                  <th >Giá mong muốn</th>
+                  <th >Định giá</th>
+                  <th >Thao tác</th>
                 </tr>
               </thead>
               <tbody>

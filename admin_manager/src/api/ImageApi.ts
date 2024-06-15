@@ -1,7 +1,7 @@
 import { Image } from './../models/Image';
 import { MyRequest } from "./MyRequest";
 import { fetchWithToken } from './AuthenticationAPI';
-import BASE_URL from '../config/config';
+import BASE_URL from '../global_variable/config';
 
 
 async function getImages(URL: string): Promise<Image[]> {

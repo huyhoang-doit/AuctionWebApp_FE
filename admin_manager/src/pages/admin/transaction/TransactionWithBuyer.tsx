@@ -1,48 +1,66 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Breadcrumb, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import './TransactionWithBuyer.css';
 
-const users = [
+interface User {
+  id: number;
+  username: string;
+  fullname: string;
+  email: string;
+  phone: string;
+  status: string;
+}
+
+const users: User[] = [
   { id: 14, username: 'Quản lý 1', fullname: 'Lê Quang Sơn', email: 'lequangson@gmail.com', phone: '0999990999', status: 'Active' },
+  // Add more user data as needed
 ];
 
 const TransactionWithBuyer = () => {
-  const token = localStorage.getItem("access_token");
-  const [page, setPage] = useState(1);
-  const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchInput, setSearchInput] = useState('');
   const [filteredUsers, setFilteredUsers] = useState(users);
   const [loading, setLoading] = useState(false);
   const itemsPerPage = 10;
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setSelectedUser(null); // Clear selectedUser when modal is closed
   };
 
-  const handleShowModal = () => {
+  const handleViewShowModal = (user: User) => {
+    setSelectedUser(user);
     setShowModal(true);
   };
 
   const handleDeleteProduct = () => {
     console.log('Xóa sản phẩm');
+    // Perform deletion logic here
     handleCloseModal();
   };
 
-  const handlePageChange = (page:number) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const handleSearchInput = (event:React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchInput(value);
     setLoading(true);
     if (value === '') {
       setFilteredUsers(users);
     } else {
-      const filtered = users.filter(user => user.id.toString().includes(value));
+      const filtered = users.filter(user =>
+        user.id.toString().includes(value) ||
+        user.username.toLowerCase().includes(value.toLowerCase()) ||
+        user.fullname.toLowerCase().includes(value.toLowerCase()) ||
+        user.email.toLowerCase().includes(value.toLowerCase()) ||
+        user.phone.includes(value)
+      );
       setFilteredUsers(filtered);
     }
     setLoading(false);
@@ -118,9 +136,7 @@ const TransactionWithBuyer = () => {
                         ) : (
                           currentPageData.map((user) => (
                             <tr key={user.id}>
-                              <th scope="row">
-                                <a href="#" className="question_content">{user.id}</a>
-                              </th>
+                              <td>{user.id}</td>
                               <td>{user.username}</td>
                               <td>{user.fullname}</td>
                               <td>{user.email}</td>
@@ -130,8 +146,10 @@ const TransactionWithBuyer = () => {
                               </td>
                               <td>
                                 <div className="btn-group">
-                                  <Link to="/admin/view/ViewTransactionBuyer" className="btn btn-sm btn-warning">Xem</Link>
-                                  <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
+                                  <button className="btn btn-primary" onClick={() => handleViewShowModal(user)}>
+                                    Xem
+                                  </button>
+                                  
                                 </div>
                               </td>
                             </tr>
@@ -149,20 +167,95 @@ const TransactionWithBuyer = () => {
                     ellipsis={1}
                   />
                 </div>
-                <Modal show={showModal} onHide={handleCloseModal}>
+                {/* Modal hiển thị thông tin chi tiết */}
+                {selectedUser && (
+                  <Modal show={showModal} onHide={handleCloseModal} centered>
                   <Modal.Header closeButton>
-                    <Modal.Title>Xác nhận xóa</Modal.Title>
+                    <Modal.Title className="w-100 text-center">
+                      Thông tin chi tiết người dùng
+                    </Modal.Title>
                   </Modal.Header>
-                  <Modal.Body>Bạn có chắc chắn muốn xóa lịch sử giao dịch này?</Modal.Body>
+                  <Modal.Body>
+                    <div className="row">
+                      <div className="col-md-12">
+                      </div>
+                      <div className="col-md-6 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>ID Người dùng</label>
+                          <input
+                            placeholder=""
+                            type="text"
+                            value={selectedUser.id}
+                            readOnly={true}
+                          />
+                        </div>
+                        </div>
+                      <div className="col-md-6 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>Chức vụ người dùng</label>
+                          <input
+                            placeholder=""
+                            type="text"
+                            value={selectedUser.username}
+                            readOnly={true}
+                          />
+                        </div>
+                        
+                      </div>
+                      <div className="col-md-6 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>Email người dùng</label>
+                          <input
+                            placeholder=""
+                            type="text"
+                            value={selectedUser.email}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>Họ và tên (VNĐ)</label>
+                          <input
+                            placeholder=""
+                            type="text"
+                            value={selectedUser.fullname}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>Số điện thoại</label>
+                          <input
+                            placeholder=""
+                            type="text"
+                            value={selectedUser.phone}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>Trạng thái</label>
+                          <input
+                            placeholder=""
+                            type="text"
+                            value={selectedUser.status}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                      {/* Các thông tin khác của phiên đấu giá */}
+                    </div>
+                  </Modal.Body>
                   <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
-                      Hủy
-                    </Button>
-                    <Button variant="danger" onClick={handleDeleteProduct}>
-                      Xóa
+                      Đóng
                     </Button>
                   </Modal.Footer>
                 </Modal>
+                )}
               </div>
             </div>
           </div>

@@ -22,7 +22,8 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { getMembers, getUserById } from "../../../api/UserAPI";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { createNewAuctionFromManager } from "../../../api/AuctionAPI";
-import Editor from "ckeditor5-custom-build/build/myckeditor";
+import PARTICIPATION_FEE from "../../../global_variable/variable";
+import { descriptionAuction } from "../../../utils/descriptionAuction";
 
 // *** MODAL FOR MANAGER ***
 // Modal for Jewelry List
@@ -560,6 +561,15 @@ interface NewAuctionRequestProps {
   jewelryId: number;
   staffId: number;
 }
+interface DescriptionAuctionProps {
+  jewelry: string;
+  participationFee: number;
+  firstPrice: number;
+  deposit: number;
+  priceStep: number;
+  startDate: string;
+  endDate: string;
+}
 export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
   request,
   jewelry,
@@ -573,6 +583,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
   const handleShowCreateAuction = () => setShow(true);
 
   //
+  const participationFee: number = PARTICIPATION_FEE
   const firstPrice: number = request?.valuation ? request.valuation : 0;
   const deposit: number =
     request && request.valuation
@@ -664,6 +675,27 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
     handleShowCreateAuction();
   };
 
+  useEffect(() => {
+    const desString = descriptionAuction({
+      jewelry,
+      participationFee,
+      firstPrice,
+      deposit,
+      priceStep,
+      startDate,
+      endDate
+    });
+
+    setDescription(desString);
+  }, [
+    jewelry,
+    participationFee,
+    firstPrice,
+    deposit,
+    priceStep,
+    startDate,
+    endDate
+  ]);
   const handleCloseSelectStaffModal = () => setShowContinueModal(false);
   return (
     <>
@@ -785,7 +817,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                   <div className="col-md-6 mt-2">
                     <div className="checkout-form-list mb-2">
                       <span>Phí tham gia:</span>
-                      <span className="fw-bold"> 200.000 VND</span>
+                      <span className="fw-bold"> {formatNumber(participationFee)} VND</span>
                     </div>
                     <div className="checkout-form-list mb-2">
                       <span>Giá khởi điểm:</span>{" "}
@@ -872,7 +904,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                     <div>
                       <CKEditor
                         editor={ClassicEditor}
-                        data={request.jewelry?.description}
+                        data={description}
                         config={{
                           ckbox: {
                             tokenUrl:
@@ -926,6 +958,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
         user={user}
         handleComback={handleComback}
         newAuction={newAuctionRequest}
+        handleChangeList={handleChangeList}
       />
     </>
   );
@@ -937,6 +970,7 @@ interface SelectStaffForAucionModal {
   handleComback: () => void;
   user: User | null;
   newAuction: NewAuctionRequestProps;
+  handleChangeList: () => Promise<void>;
 }
 
 export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
@@ -945,6 +979,7 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
   user,
   handleComback,
   newAuction,
+  handleChangeList
 }) => {
   const [staffs, setStaffs] = useState<User[]>([]);
   const [page, setPage] = useState(1);
@@ -973,6 +1008,7 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
     const response = await createNewAuctionFromManager(newAuction);
     if (response) {
       console.log("Dang ky phien dau gia moi thanh cong");
+      handleChangeList()
     }
     handleClose();
   };

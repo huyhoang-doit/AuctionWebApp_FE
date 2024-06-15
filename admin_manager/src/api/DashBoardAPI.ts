@@ -1,4 +1,4 @@
-import BASE_URL from "../config/config";
+import BASE_URL from "../global_variable/config";
 import { fetchGetWithToken } from "./AuthenticationAPI";
 
 export const getDashBoardInformation = async () => {

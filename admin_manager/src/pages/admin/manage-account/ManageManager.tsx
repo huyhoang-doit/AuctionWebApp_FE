@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Breadcrumb } from 'react-bootstrap';
+import { Modal, Button, Breadcrumb, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 
-
 const ManageManager = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-  const [managers, setManagers] = useState<User[]>([])
-
-  const [page, setPage] = useState(1)
-  const [totalElements, setTotalElements] = useState(0)
+  const [managers, setManagers] = useState<User[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getMembers("MANAGER", 1)
+    setLoading(true);
+    getMembers("MANAGER", page)
       .then((response) => {
-        setManagers(response.usersData)
-        setTotalElements(response.totalElements)
+        setManagers(response.usersData);
+        setTotalElements(response.totalElements);
       })
-  }, [page])
+      .finally(() => setLoading(false));
+  }, [page]);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -31,9 +32,20 @@ const ManageManager = () => {
     setShowModal(true);
   };
 
-  const handleDeleteProduct = () => {
-    console.log('Xóa sản phẩm');
+  const handleDeleteManager = () => {
+    // You would typically implement the delete logic here
+    console.log('Xóa quản lý');
     handleCloseModal();
+  };
+
+  const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(event.target.value);
+  };
+
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Implement search logic here
+    console.log('Search:', searchInput);
   };
 
   return (
@@ -47,7 +59,7 @@ const ManageManager = () => {
                 <div className="breadcrumb-area">
                   <Breadcrumb>
                     <Breadcrumb.Item href="/admin">Trang chủ</Breadcrumb.Item>
-                    <Breadcrumb.Item >Quản lý tài khoản</Breadcrumb.Item>
+                    <Breadcrumb.Item>Quản lý tài khoản</Breadcrumb.Item>
                     <Breadcrumb.Item href="/admin/account/user">Quản lý</Breadcrumb.Item>
                   </Breadcrumb>
                 </div>
@@ -57,16 +69,16 @@ const ManageManager = () => {
                     <div className="box_right d-flex lms_block">
                       <div className="serach_field_2">
                         <div className="search_inner">
-                          <form>
+                          <form onSubmit={handleSearchSubmit}>
                             <div className="search_field">
                               <input
                                 type="text"
                                 placeholder="Tìm kiếm..."
                                 value={searchInput}
-                              // onChange={handleSearchInput}
+                                onChange={handleSearchInput}
                               />
                             </div>
-                            <button type="submit" onClick={(e) => e.preventDefault()}>
+                            <button type="submit">
                               <i className="ti-search"></i>
                             </button>
                           </form>
@@ -93,28 +105,40 @@ const ManageManager = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {managers.map((user) => (
-                          <tr key={user.id}>
-                            <th scope="row">
-                              <a href="#" className="question_content">{user.id}</a>
-                            </th>
-                            <td>{user.username}</td>
-                            <td>{user.fullName}</td>
-                            <td>{user.email}</td>
-                            <td>{user.phone}</td>
-                            <td>
-                              <a className={`status_btn ${user.state === 'ACTIVE' ? '' : user.state === 'DISABLE' ? 'bg-error' : 'bg-warn'}`}>
-                                <UserStateView state={user.state || ''} />
-                              </a>
-                            </td>
-                            <td>
-                              <div className="btn-group">
-                                <Link to={`/admin/chi-tiet-nguoi-dung/` + user.id} className="btn btn-sm btn-warning">Xem</Link>
-                                <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
-                              </div>
+                        {loading ? (
+                          <tr>
+                            <td colSpan={7} className="text-center">
+                              <Spinner animation="border" />
                             </td>
                           </tr>
-                        ))}
+                        ) : managers.length === 0 ? (
+                          <tr>
+                            <td colSpan={7} className="text-center">Không có dữ liệu</td>
+                          </tr>
+                        ) : (
+                          managers.map((user) => (
+                            <tr key={user.id}>
+                              <th scope="row">
+                                <a href="#" className="question_content">{user.id}</a>
+                              </th>
+                              <td>{user.username}</td>
+                              <td>{user.fullName}</td>
+                              <td>{user.email}</td>
+                              <td>{user.phone}</td>
+                              <td>
+                                <a className={`status_btn ${user.state === 'ACTIVE' ? '' : user.state === 'DISABLE' ? 'bg-error' : 'bg-warn'}`}>
+                                  <UserStateView state={user.state || ''} />
+                                </a>
+                              </td>
+                              <td>
+                                <div className="btn-group">
+                                  <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-warning">Xem</Link>
+                                  <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -122,12 +146,12 @@ const ManageManager = () => {
                     <Modal.Header closeButton>
                       <Modal.Title>Xác nhận xóa</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Bạn có chắc chắn muốn xóa quản lý này ?</Modal.Body>
+                    <Modal.Body>Bạn có chắc chắn muốn xóa quản lý này?</Modal.Body>
                     <Modal.Footer>
                       <Button variant="secondary" onClick={handleCloseModal}>
                         Hủy
                       </Button>
-                      <Button variant="danger" onClick={handleDeleteProduct}>
+                      <Button variant="danger" onClick={handleDeleteManager}>
                         Xóa
                       </Button>
                     </Modal.Footer>
@@ -142,9 +166,7 @@ const ManageManager = () => {
           between={3}
           total={totalElements}
           limit={5}
-          changePage={(page) => {
-            setPage(page)
-          }}
+          changePage={(page) => setPage(page)}
           ellipsis={1}
         />
       </section>

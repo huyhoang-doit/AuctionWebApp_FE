@@ -534,7 +534,7 @@ export const RefuseJewelryRequestModal: React.FC<RefuseJewelryModalProps> = ({ j
   return (
     <><button
       type="button"
-      className="btn btn-sm btn-danger ms-2 "
+      className="btn btn-sm btn-danger "
       id="save-profile-tab"
       role="tab"
       aria-controls="account-details"
