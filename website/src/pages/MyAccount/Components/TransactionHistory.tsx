@@ -3,7 +3,7 @@ import { TypeTransaction } from "./TypeTransaction";
 import { formatDateString } from "../../../utils/formatDateString";
 import { formatNumber } from "../../../utils/formatNumber";
 import { StateTransaction } from "./StateTransaction";
-import { ViewTransactionModal } from "../Modal/Modal";
+import { TransactionModal, ViewTransactionModal } from "../Modal/Modal";
 import { Transaction } from "../../../models/Transaction";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { User } from "../../../models/User";
@@ -104,7 +104,6 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
               <tr>
                 <th className="text-start">Mã giao dịch</th>
                 <th >Tên tài sản</th>
-                <th >Ngày tạo</th>
                 <th >Số tiền (VNĐ)</th>
                 <th >Loại giao dịch</th>
                 <th >Trạng thái</th>
@@ -123,7 +122,6 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                   <tr>
                     <td>{transaction.id}</td>
                     <td className="text-start">{transaction.auction?.jewelry?.name}</td>
-                    <td className="text-center">{formatDateString(transaction.createDate)}</td>
                     <td className="text-start">{formatNumber(transaction.totalPrice)}</td>
                     <td className="text-start">
                       <TypeTransaction type={transaction.type} />
@@ -131,8 +129,10 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     <td className="text-center" style={{ width: "125px" }}>
                       <StateTransaction state={transaction.state} />
                     </td>
-                    <td>
-                      <ViewTransactionModal />
+                    <td style={{ width: "125px" }}>
+                      {transaction.state === 'SUCCEED' ? <ViewTransactionModal transaction={transaction} /> : <TransactionModal transaction={transaction} />}
+
+
                     </td>
                   </tr>
                 ))
