@@ -57,32 +57,31 @@ const App: React.FC = () => {
     <div>
       <h1>Danh sách phiên đấu giá</h1>
       <table className="table">
-  <thead>
-    <tr>
-      <th scope="col">Mã phiên</th>
-      <th scope="col">Tên phiên</th>
-      <th scope="col">Người phụ trách</th>
-      <th scope="col">Trạng thái</th>
-      <th scope="col">Hành động</th>
-    </tr>
-  </thead>
-  <tbody>
-    {auctions.map((auction) => (
-      <tr key={auction.id}>
-        <td>{auction.id}</td>
-        <td>{auction.name}</td>
-        <td>{auction.user?.fullName}</td>
-        <td>{auction.state}</td>
-        <td>
-          <button className="btn btn-sm btn-primary" onClick={() => handleShowModal(auction)}>
-            Xem
-          </button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-
+        <thead>
+          <tr>
+            <th>Mã phiên</th>
+            <th>Tên phiên</th>
+            <th>Người phụ trách</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {auctions.map((auction) => (
+            <tr key={auction.id}>
+              <td>{auction.id}</td>
+              <td>{auction.name}</td>
+              <td>{auction.user?.fullName}</td>
+              <td>{auction.state}</td>
+              <td>
+                <button className="btn btn-primary" onClick={() => handleShowModal(auction)}>
+                  View
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       {/* Modal hiển thị thông tin chi tiết phiên đấu giá */}
       {selectedAuction && (
