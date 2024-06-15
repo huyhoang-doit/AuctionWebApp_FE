@@ -3,7 +3,7 @@ import { User } from "../models/User";
 import { MyRequest } from "./MyRequest";
 import { fetchWithToken } from './AuthenticationAPI';
 import { RequestApproval } from '../models/RequestApproval';
-import BASE_URL from '../config/config';
+import BASE_URL from '../global_variable/config';
 
 interface ResultPageableInteface {
   requestsData: RequestApproval[];

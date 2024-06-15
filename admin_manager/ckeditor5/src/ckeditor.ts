@@ -19,14 +19,13 @@ import {
 	Image,
 	ImageCaption,
 	ImageInsert,
-	ImageResize,
 	ImageStyle,
 	ImageToolbar,
 	ImageUpload,
 	PictureEditing
 } from '@ckeditor/ckeditor5-image';
 import { Indent } from '@ckeditor/ckeditor5-indent';
-import { Link, LinkImage } from '@ckeditor/ckeditor5-link';
+import { Link } from '@ckeditor/ckeditor5-link';
 import { List } from '@ckeditor/ckeditor5-list';
 import { MediaEmbed } from '@ckeditor/ckeditor5-media-embed';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
@@ -56,14 +55,12 @@ class Editor extends ClassicEditor {
 		Image,
 		ImageCaption,
 		ImageInsert,
-		ImageResize,
 		ImageStyle,
 		ImageToolbar,
 		ImageUpload,
 		Indent,
 		Italic,
 		Link,
-		LinkImage,
 		List,
 		MediaEmbed,
 		Paragraph,
@@ -95,13 +92,13 @@ class Editor extends ClassicEditor {
 				'mediaEmbed',
 				'undo',
 				'redo',
+				'fontBackgroundColor',
+				'fontColor',
 				'ckbox',
 				'ckboxImageEdit',
 				'imageInsert',
-				'fontBackgroundColor',
-				'fontSize',
 				'fontFamily',
-				'fontColor'
+				'fontSize'
 			]
 		},
 		language: 'en',
@@ -111,8 +108,7 @@ class Editor extends ClassicEditor {
 				'toggleImageCaption',
 				'imageStyle:inline',
 				'imageStyle:block',
-				'imageStyle:side',
-				'linkImage'
+				'imageStyle:side'
 			]
 		},
 		table: {

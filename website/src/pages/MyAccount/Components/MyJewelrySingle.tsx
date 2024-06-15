@@ -40,7 +40,7 @@ const MyJewelrySingle: React.FC<JewelrySingleProps> = ({ request, jewelry, user,
         <td>
           {jewelry?.id}
         </td>
-        <td>
+        <td className="text-start">
           {jewelry?.name}
         </td>
         <td><img style={{ width: '60px', height: '60px' }} src={image?.data} alt='jewelry' /></td>
@@ -50,7 +50,7 @@ const MyJewelrySingle: React.FC<JewelrySingleProps> = ({ request, jewelry, user,
         <td className='fw-semibold text-success'>
           {formatNumberAcceptNull(request?.valuation)}
         </td>
-        <td>
+        <td style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', width: '180px' }}>
           <ConfirmModal jewelry={jewelry} images={images} user={user} request={request} handleChangeList={handleChangeList} />
           <RefuseJewelryRequestModal jewelry={jewelry} request={request} user={user} handleChangeList={handleChangeList} />
         </td>
