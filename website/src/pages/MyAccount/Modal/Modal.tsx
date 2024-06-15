@@ -25,6 +25,7 @@ import Stomp from "stompjs";
 import { Transaction } from '../../../models/Transaction';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { TypeTransaction } from '../Components/TypeTransaction';
+import { handlePay } from '../../../api/PaymentAPI';
 
 // *** MODAL FOR USER
 
@@ -64,7 +65,6 @@ interface ViewTransactionModalProps {
 
 export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({ transaction }) => {
   const payer = transaction.user;
-  console.log(transaction);
 
   const [show, setShow] = useState(false);
 
@@ -309,7 +309,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ transaction 
           </Modal>
         </div>
       )}
-      <CreateTransactionWinnerModal show={showCreateModal} handleClose={handleCloseCreateModal} auction={transaction.auction} winner={payer} />
+      <CreateTransactionWinnerModal transaction={transaction} show={showCreateModal} handleClose={handleCloseCreateModal} auction={transaction.auction} winner={payer} />
     </>
   );
 }
@@ -319,6 +319,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ transaction 
 
 
 interface CreateTransactionWinnerModalProps {
+  transaction: Transaction;
   show: boolean;
   handleClose: () => void;
   auction: Auction | undefined | null;
@@ -326,10 +327,16 @@ interface CreateTransactionWinnerModalProps {
 }
 
 
-export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModalProps> = ({ show, handleClose, auction, winner }) => {
+export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModalProps> = ({ transaction, show, handleClose, auction, winner }) => {
+  const handlePayment = () => {
+    if (winner) {
+      if (auction && winner)
+        handlePay(auction.lastPrice, auction?.id, winner?.username ? winner.username : "", transaction.id);
+    }
+  }
   return (
     <>{show && (
-      <div className='overlay' >
+      <div className='overlay'>
         <Modal
           show={show}
           onHide={handleClose}
@@ -404,7 +411,7 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
                           <label>
                             Số tiền cần trả:{" "}
                           </label>
-                          <span className='fw-bold text-uppercase fs-4 text-success'>    {formatNumberAcceptNull(auction?.lastPrice)} VND</span>
+                          <span className='fw-bold text-uppercase fs-4 text-success'> {formatNumberAcceptNull(auction?.lastPrice)} VND</span>
                         </div>
                         <div className='mt-3'>
                           <span style={{ fontSize: '12px' }}>(*)Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ.</span>
@@ -420,7 +427,7 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
             <Button variant="dark" onClick={handleClose}>
               Đóng
             </Button>
-            <Button variant="warning" onClick={handleClose}>
+            <Button variant="warning" onClick={handlePayment}>
               Thanh toán
             </Button>
           </Modal.Footer>

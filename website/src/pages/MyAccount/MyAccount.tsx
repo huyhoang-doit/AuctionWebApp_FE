@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 // import useAccount from "../../hooks/useAccount";
 import { MyAccountDetail } from "./Components/MyAccountDetail";
 import { MyBidHistoryList } from "./Components/MyBidHistoryList";
@@ -10,10 +10,29 @@ import { LogoutModal } from "./Modal/Modal";
 import { UserContext } from "../../hooks/useContext";
 import { ChangePassword } from "./Components/staff/ChangePassword";
 import MyJewelryList from "./Components/MyJewellryList";
+import swal from 'sweetalert';
 
 export default function MyAccount() {
     const context = useContext(UserContext);
     const [userState, setUserState] = useState<User | null>(null);
+    const location = useLocation();
+    const [isAfterPay, setIsAfterPay] = useState(false);
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const paymentStatus = searchParams.get('paymentStatus');
+
+        if (paymentStatus === 'success') {
+            swal("Success", "Bạn đã thanh toán thành công!", "success");
+            setIsAfterPay(true);
+        } else if (paymentStatus === 'failed') {
+            swal("Error", "Bạn thanh toán không thành công!", "error");
+            setIsAfterPay(true);
+        }
+        return () => {
+            setIsAfterPay(false);
+        };
+    }, [location.search]);
 
     useEffect(() => {
         if (context && context.account)
@@ -47,7 +66,7 @@ export default function MyAccount() {
                                 >
                                     <li className="nav-item">
                                         <a
-                                            className="nav-link active"
+                                            className={`nav-link ${!isAfterPay ? 'active' : ''}`}
                                             id="account-dashboard-tab"
                                             data-bs-toggle="tab"
                                             href="#account-details"
@@ -86,7 +105,7 @@ export default function MyAccount() {
                                     </li>
                                     <li className="nav-item">
                                         <a
-                                            className="nav-link"
+                                            className={`nav-link ${isAfterPay ? 'active' : ''}`}
                                             id="account-address-tab"
                                             data-bs-toggle="tab"
                                             href="#auction-activity"
@@ -135,10 +154,10 @@ export default function MyAccount() {
                                     className="tab-content myaccount-tab-content"
                                     id="account-page-tab-content"
                                 >
-                                    <MyAccountDetail user={userState} setUser={setUserState} />
+                                    <MyAccountDetail isAfterPay={isAfterPay} user={userState} setUser={setUserState} />
                                     <ChangePassword user={userState} />
                                     <MyBidHistoryList user={userState} />
-                                    <TransactionHistory user={userState} />
+                                    <TransactionHistory isAfterPay={isAfterPay} user={userState} />
                                     <MyJewelryList user={userState} setUser={setUserState} />
                                     <MyJewelryRequestList userId={userState?.id} />
                                 </div>

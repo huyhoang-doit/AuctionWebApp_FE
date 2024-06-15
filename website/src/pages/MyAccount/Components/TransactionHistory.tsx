@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { TypeTransaction } from "./TypeTransaction";
-import { formatDateString } from "../../../utils/formatDateString";
 import { formatNumber } from "../../../utils/formatNumber";
 import { StateTransaction } from "./StateTransaction";
 import { TransactionModal, ViewTransactionModal } from "../Modal/Modal";
@@ -15,10 +14,11 @@ import { Spinner } from "react-bootstrap";
 
 interface TransactionHistoryProps {
   user: User | null;
+  isAfterPay: boolean;
 }
 
 export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
-  user,
+  user, isAfterPay
 }) => {
   const [transactionsDashboard, setTransactionsDashboard] = useState<{
     numberTransactionsRequest: number;
@@ -46,7 +46,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
           setTransactionsDashboard({
             numberTransactionsRequest: response.numberTransactionsRequest,
             totalPriceJewelryWonByUsername:
-              response.totalPriceJewelryWonByUsername,
+            response.totalPriceJewelryWonByUsername,
             totalJewelryWon: response.totalJewelryWon,
             totalBid: response.totalBid,
           });
@@ -64,7 +64,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
 
   return (
     <div
-      className="tab-pane fade"
+      className={`tab-pane fade ${isAfterPay ? "active" : ""}`}
       id="auction-activity"
       role="tabpanel"
       aria-labelledby="account-orders-tab"
@@ -131,8 +131,6 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     </td>
                     <td style={{ width: "125px" }}>
                       {transaction.state === 'SUCCEED' ? <ViewTransactionModal transaction={transaction} /> : <TransactionModal transaction={transaction} />}
-
-
                     </td>
                   </tr>
                 ))
@@ -143,7 +141,6 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                   </td>
                 </tr>)
               )}
-              { }
             </tbody>
           </table>
         </div>
