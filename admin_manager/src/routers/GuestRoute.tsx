@@ -8,12 +8,12 @@ const GuestRoute: React.FC = () => {
 
     useEffect(() => {
         if (!token) {
-            navigate('/');
+            navigate('/404');
         }
     }, []);
 
 
-    if (!token) return <Navigate to="/" />;
+    if (!token) return <Navigate to="/404" />;
 
     return <Outlet />;
 };
