@@ -30,7 +30,7 @@ const RequestWaitlist = () => {
       setListRequests(response.requestsData);
       setTotalElements(response.totalElements);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
     setLoading(false)
   }, [page]);

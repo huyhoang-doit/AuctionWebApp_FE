@@ -1,18 +1,18 @@
-import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react"; // Thêm useState để quản lý trang hiện tại
-import { Breadcrumb, Dropdown, Spinner } from 'react-bootstrap';
+import { Breadcrumb, Spinner } from 'react-bootstrap';
 import { Auction } from "../../../models/Auction";
 import { User } from "../../../models/User";
 import { getAllAuctions } from "../../../api/AuctionAPI";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import useAccount from "../../../hooks/useAccount";
 import AuctionSingle from "./AuctionSingle";
+import { StateAuction } from "./StateAuction";
 
 const AuctionsList = () => {
   //
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);
-  const states = ['WAITING', 'ONGOING', 'FINISHED']
+  const states = ['WAITING', 'ONGOING', 'FINISHED', 'PAUSED']
 
   const [listAuctions, setListAuctions] = useState<Auction[]>([]);
   const [page, setPage] = useState(1);
@@ -38,6 +38,7 @@ const AuctionsList = () => {
       setTotalElements(response.totalAuctions);
     } catch (error) {
       console.error(error);
+      setListAuctions([])
     }
     setLoading(false); // Kết thúc tải
   }, [page, auctionState]);
@@ -83,7 +84,7 @@ const AuctionsList = () => {
                         >
                           {states.map((state, index) => (
                             <option style={{ padding: '5px' }} key={index} value={state}>
-                              {state}
+                              {<StateAuction state={state} />}
                             </option>
                           ))}
                         </select>

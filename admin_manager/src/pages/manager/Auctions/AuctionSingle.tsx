@@ -2,6 +2,7 @@ import React from 'react'
 import { Auction } from '../../../models/Auction'
 import { formatDateString } from '../../../utils/formatDateString'
 import { AuctionModal } from '../Modal/Modal'
+import { getAuctionStatusStyle } from '../../../utils/cssStyle'
 interface AuctionSingleProps {
   auction: Auction
 }
@@ -17,7 +18,7 @@ const AuctionSingle: React.FC<AuctionSingleProps> = ({ auction }) => {
         <td>
           {auction.user?.id}
         </td>
-        <td>
+        <td style={getAuctionStatusStyle(auction.state)}>
           {auction.state}
         </td>
         <td>

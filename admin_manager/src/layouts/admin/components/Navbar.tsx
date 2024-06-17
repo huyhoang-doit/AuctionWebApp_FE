@@ -15,7 +15,7 @@ const Navbar = () => {
     const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
     userRole = decodedData.authorities[0].authority;
     console.log(userRole);
-    
+
   }
 
   return (
@@ -86,7 +86,19 @@ const Navbar = () => {
               <span>Danh sách tài sản đủ điều kiện đấu giá</span>
             </Link>
           </li>
-          </>
+          <li >
+            <Link className="has-arrow" to={"/manager/giao-dich/nguoi-ban"} aria-expanded="false">
+              <img src="/assets/img/menu-icon/7.svg" />
+              <span>Lịch sử giao dịch</span>
+            </Link>
+            <ul>
+              <li><Link to={"/manager/giao-dich/nguoi-ban"}>Giao dịch với người bán</Link></li>
+              <li><Link to={"/manager/giao-dich/nguoi-mua"}>Giao dịch với người mua</Link></li>
+              <li><Link to={"/manager/giao-dich/dang-ky-tham-gia"}>Đăng ký tham gia</Link></li>
+              <li><Link to={"/manager/giao-dich/hoan-tien"}>Hoàn tiền</Link></li>
+            </ul>
+          </li>
+        </>
         }
 
       </ul>
