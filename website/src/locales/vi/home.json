@@ -1,0 +1,24 @@
+{
+    "header-middle_area": {
+        "LienHe": "Liên hệ",
+        "TimKiemSanPham": "Tìm kiếm sản phẩm..."
+        
+
+    },
+
+    "Narbar": {
+        "CacLoaiTrangSucDauGia": " Các loại trang sức đấu giá",
+        "CuocDauGia": "Cuộc đấu giá",
+        "DauGiaSapDienRa": "Đấu giá sắp diễn ra",
+        "DauGiaDangDienRa": "Đấu giá đang diễn ra",
+        "DauGiaKetThuc": "Đấu giá kết thúc",
+        "GioiThieu": "Giới thiệu",
+        "HuongDanDauGia": "Hướng dẫn đấu giá",
+        "VeChungToi": "Về chúng tôi",
+        "LienHe": "Liên hệ",
+        "GuiSanPhamDauGia": "Gửi sản phẩm đấu giá",
+        "DangNhap": "Đăng nhập",
+         "DangKy": "Đăng ký",
+         "ThongTinCaNhan": "Thông tin cá nhân"
+    }
+}
