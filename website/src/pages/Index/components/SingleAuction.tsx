@@ -15,7 +15,7 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
   const imageData = useIconImage(jewelryId);
 
   return (
-    <div className="" style={{ margin: "0 15px"}}>
+    <div className="" style={{ margin: "0 15px" }}>
       <div className="slide-item" style={{
         boxShadow: "0 0 10px rgba(0, 0, 0, .06)", borderRadius: "0 30px",
         border: "unset",
@@ -43,8 +43,11 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
                   {props.auction.name}
                 </Link>
               </h6>
-              <div>Trạng thái: <StateAuctionView state={props.auction.state} /></div>
-
+              <div>Trạng thái: {" "}
+                <span className="fs-5">
+                  <StateAuctionView state={props.auction.state} />
+                </span>
+              </div>
               <Link to={"/tai-san-dau-gia/" + props.auction.id}>
                 <button className="mt-2 btn btn-danger">
                   Chi tiết

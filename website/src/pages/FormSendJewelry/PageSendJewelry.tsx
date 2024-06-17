@@ -342,7 +342,7 @@ export const PageSendJewelry = () => {
                                         <div className="col-12">
                                             <button className="umino-register_btn" type="submit">
                                                 Gửi yêu cầu
-                                            </button>
+                                            </button>                                            
                                             <ToastContainer />
                                         </div>
                                     </div>

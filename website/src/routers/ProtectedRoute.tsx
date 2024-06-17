@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'; // Ensure this import is correct
+import Swal from 'sweetalert2';
 
 interface Authority {
     authority: string;
@@ -9,6 +10,7 @@ interface Authority {
 interface DecodedToken {
     authorities?: Authority[];
     sub: string;
+    exp: number;
 }
 
 interface ProtectedRouteProps {
@@ -26,6 +28,20 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ roles }) => {
         }
 
         const decodedData = jwtDecode<DecodedToken>(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedData.exp < currentTime) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Phiên đăng nhập hết hạn',
+                text: 'Phiên đăng nhập của bạn đã hết hạn. Xin vui lòng đăng nhập lại.',
+            }).then(() => {
+                localStorage.removeItem("access_token");
+                navigate('/dang-nhap');
+            });
+            return;
+        }
+
         const userRoles = decodedData.authorities?.map(auth => auth.authority) || [];
 
         if (roles && !roles.some(role => userRoles.includes(role))) {

@@ -60,7 +60,8 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user }) => {
                         <thead>
                             <tr>
                                 <th>Mã phiên</th>
-                                <th>Tên phiên</th>
+                                <th style={{width: "200px"}}>Tên phiên</th>
+                                <th>Trạng thái</th>
                                 <th>Kết quả</th>
                                 <th>Thao tác</th>
                             </tr>

@@ -5,7 +5,7 @@ import { UserContext } from "../../../hooks/useContext";
 
 export const NavBar = () => {
     const categories = useCategories();
-    // const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token");
     // const user = useAccount(token);
 
     const context = useContext(UserContext);
@@ -13,7 +13,10 @@ export const NavBar = () => {
     let user = null;
 
     if (context?.account) {
-        user = context.account;
+        if (!token)
+            user = null
+        else
+            user = context.account;
     }
 
     return (
@@ -108,7 +111,7 @@ export const NavBar = () => {
                         </div>
                     </div>
                     <div className="col-lg-2 d-none d-lg-block">
-                        {!user &&
+                        {!user && !token &&
                             <div className="login-area">
                                 <Link to={"/dang-nhap"}>
                                     Đăng nhập
@@ -117,8 +120,7 @@ export const NavBar = () => {
                                     Đăng ký
                                 </Link>
                             </div>}
-                        {
-                            user &&
+                        {user && token &&
                             <div className="login-area">
                                 <Link to={"/thong-tin-ca-nhan"}>
                                     THÔNG TIN CÁ NHÂN

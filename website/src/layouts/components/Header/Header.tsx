@@ -1,6 +1,6 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { formatDateTime, formatTime } from "../../../utils/formatDateString";
 import { NavBar } from "./NavBar";
 import { useCategories } from "../../../hooks/useCategories";
@@ -8,13 +8,23 @@ import { useCategories } from "../../../hooks/useCategories";
 export default function Header() {
     const categories = useCategories();
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [txtSearch, setTxtSearch] = useState("");
+    const navigate = useNavigate();
+    const handleChangeTextInput = (e: ChangeEvent<HTMLInputElement>) => {
+        setTxtSearch(e.target.value);
+    }
+
+    const handleSearch = () => {
+        navigate(txtSearch ? `/danh-sach-dau-gia/name/${txtSearch}` : '/danh-sach-dau-gia');
+        setTxtSearch("");
+    }
 
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
 
-        return () => clearInterval(intervalId); // Clean up the interval on component unmount
+        return () => clearInterval(intervalId);
     }, []);
 
     return (
@@ -40,7 +50,7 @@ export default function Header() {
                                     </div>
                                     <div className="contact-info_content">
                                         <span>Liên hệ</span>
-                                        <a href="#">(+84) 123 321 345</a>
+                                        <Link to="#">(+84) 123 321 345</Link>
                                     </div>
                                 </div>
                             </div>
@@ -49,11 +59,13 @@ export default function Header() {
                                     <form action="#" className="hm-searchbox">
                                         <input
                                             type="text"
-                                            placeholder="Tìm kiếm sản phẩm..."
+                                            value={txtSearch}
+                                            placeholder="Tìm kiếm sản phẩm..." onChange={handleChangeTextInput}
                                         />
                                         <button
                                             className="umino-search_btn"
-                                            type="submit"
+                                            type="button"
+                                            onClick={handleSearch}
                                         >
                                             <i className="ion-android-search"></i>
                                         </button>
@@ -201,12 +213,12 @@ export default function Header() {
                                 <div className="mobile-menu_area">
                                     <ul>
                                         <li>
-                                            <a
-                                                href="#"
+                                            <Link
+                                                to="#"
                                                 className="mobile-menu_btn toolbar-btn color--white d-lg-none d-block"
                                             >
                                                 <i className="ion-navicon"></i>
-                                            </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>

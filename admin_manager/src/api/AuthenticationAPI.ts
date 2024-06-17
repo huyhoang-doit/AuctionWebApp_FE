@@ -146,16 +146,11 @@ export async function ensureAccessToken() {
 }
 
 export const refreshToken = async () => {
-    // const token = localStorage.getItem('refresh_token');
-    // if (!token) {
-    //     return;
-    // }
     try {
         const response = await fetch(`${BASE_URL}/auth/refresh-token`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // 'Authorization': `Bearer ${token}`
             },
             credentials: 'include',
         });
@@ -166,15 +161,12 @@ export const refreshToken = async () => {
         const data = await response.json();
 
         localStorage.setItem('access_token', data.access_token);
-        // localStorage.setItem('refresh_token', data.refresh_token);
 
         return data.access_token;
     } catch (error) {
         console.error('Failed to refresh token:', error);
         localStorage.removeItem('access_token');
-        console.log("hello");
 
-        // localStorage.removeItem('refresh_token');
         window.location.href = '/dang-nhap';
         return;
     }
@@ -193,7 +185,6 @@ export const fetchGetWithToken = async (url: string, method: string, token: stri
 
     if (response.status === 401 || response.status === 403) {
         const newToken = await refreshToken();
-
         if (newToken) {
             // Retry request with new token
             response = await fetchGetWithToken(url, method, newToken);

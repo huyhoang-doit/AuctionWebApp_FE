@@ -15,6 +15,7 @@ import { UserContext } from "../../../hooks/useContext";
 interface MyAccountDetailProps {
     user: User | null;
     setUser: (user: User) => void;
+    isAfterPay: boolean;
 }
 
 export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
@@ -241,7 +242,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
 
     return (
         <div
-            className="tab-pane fade active"
+            className={`tab-pane fade ${!props.isAfterPay ? 'active' : ''}`}
             id="account-details"
             role="tabpanel"
             aria-labelledby="account-details-tab"

@@ -29,6 +29,7 @@
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
+    "sweetalert": "^2.1.2",
     "sweetalert2": "^11.11.0",
     "typescript": "^4.9.5",
     "use-debounce": "^10.0.1"
