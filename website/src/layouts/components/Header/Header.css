@@ -82,6 +82,23 @@
     background-color: #f1f1f1;
 }
 
+.language-dropdown:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -40px;
+    border-width: 50px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+    display: none;
+}
+
+.language-dropdown:hover:after {
+    display: block;
+}
+
 .language-dropdown:hover .language-menu {
+    margin: 150px 0 0 0;
     display: block;
 }

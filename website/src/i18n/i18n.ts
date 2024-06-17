@@ -1,8 +1,8 @@
 
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import Home_En from '.././locales/en/home.json'
-import Home_Vi from '.././locales/vi/home.json'
+import Home_En from '.././locales/en/Home.json'
+import Home_Vi from '.././locales/vi/Home.json'
 import Footer_En from '.././locales/en/Footer.json'
 import Footer_Vi from '.././locales/vi/Footer.json'
 import PageSendJewelry_En from '.././locales/en/PageSendJewelry.json'
