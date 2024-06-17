@@ -1,30 +1,89 @@
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { getDashBoardInformation } from '../../api/DashBoardAPI';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 const Index = () => {
+  const [selectedYearRegisterAccount, setSelectedYearRegisterAccount] = useState(new Date().getFullYear());
+  const [selectedYearGetAuction, setSelectedYearGetAuction] = useState(new Date().getFullYear());
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, index) => currentYear - index);
+
   const [totalUser, setTotalUser] = useState(0);
   const [totalAuctions, setTotalAuctions] = useState(0);
+  const [percentAuctionFailed, setPercentAuctionFailed] = useState(0);
+  const [percentAuctionSuccess, setPercentAuctionSuccess] = useState(0);
   const token = localStorage.getItem("access_token");
   let userRole = '';
   interface CustomJwtPayload extends JwtPayload {
     authorities: { authority: string }[];
   }
   if (token) {
-    const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
+    const decodedData = jwtDecode<CustomJwtPayload>(token);
     userRole = decodedData.authorities[0].authority;
   }
 
+  // Dữ liệu cho biểu đồ Line
+  const [lineData1, setLineData1] = useState({
+    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+    datasets: [
+      {
+        label: 'Người dùng',
+        fill: true,
+        tension: 0.4,
+        backgroundColor: 'rgba(166, 109, 212, 0.6)',
+        borderColor: '#a66dd4',
+        data: []
+      }
+    ]
+  });
+
+  
+
+  // Dữ liệu cho biểu đồ Line
+  const [lineData2, setLineData2] = useState({
+    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+    datasets: [
+      {
+        label: 'Phiên',
+        fill: true,
+        tension: 0.4,
+        backgroundColor: 'rgba(99, 199, 255, 0.6)',
+      borderColor: 'rgba(99, 199, 255, 1)', 
+        data: []
+      }
+    ]
+  });
+
   useEffect(() => {
-    getDashBoardInformation()
+    getDashBoardInformation(selectedYearRegisterAccount, selectedYearGetAuction)
       .then((response) => {
         setTotalUser(response.totalUser)
         setTotalAuctions(response.totalAuctions)
+        setPercentAuctionFailed(response.percentAuctionFailed)
+        setPercentAuctionSuccess(response.percentAuctionSuccess)
+        setLineData1((prevData) => ({
+          ...prevData,
+          datasets: [
+            {
+              ...prevData.datasets[0],
+              data: response.totalUsersByMonth
+            }
+          ]
+        }));
+        setLineData2((prevData) => ({
+          ...prevData,
+          datasets: [
+            {
+              ...prevData.datasets[0],
+              data: response.totalAuctionByMonth
+            }
+          ]
+        }));
       }
       )
-  }, [])
+  }, [selectedYearRegisterAccount, selectedYearGetAuction])
 
   // Dữ liệu cho biểu đồ Bar
   const barData = {
@@ -52,21 +111,6 @@ const Index = () => {
     ]
   };
 
-  // Dữ liệu cho biểu đồ Line
-  const lineData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'Người',
-        fill: false,
-        tension: 0.1,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-        data: [65, 59, 63, 71, 83, 94, 96]
-      }
-    ]
-  };
-
   // Dữ liệu cho biểu đồ Bar
   const barData1 = {
     labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
@@ -88,24 +132,30 @@ const Index = () => {
       {
         label: '%',
         backgroundColor: ['#DF67C1', '#6AE0BD'],
-        data: [5, 95]
+        data: [percentAuctionFailed, percentAuctionSuccess]
       }
     ]
   };
 
-  // Dữ liệu cho biểu đồ Line
-  const lineData1 = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'Người',
-        fill: false,
-        tension: 0.1,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-        data: [65, 59, 63, 71, 83, 94, 96]
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1
+        }
       }
-    ]
+    }
+  };
+
+  const handleYearRegisterAccount = (e: ChangeEvent<HTMLSelectElement>) => {
+    const year = parseInt(e.target.value);
+    setSelectedYearRegisterAccount(year);
+  };
+
+  const handleYearGetAuction = (e: ChangeEvent<HTMLSelectElement>) => {
+    const year = parseInt(e.target.value);
+    setSelectedYearGetAuction(year);
   };
 
   return (
@@ -120,7 +170,7 @@ const Index = () => {
                     <div className="col-12">
                       <div className="quick_activity_wrap">
                         <div className="single_quick_activity">
-                          <h4>Doanh thu tuần qua</h4>
+                          <h4>Tổng doanh thu</h4>
                           <h3>$ <span className="counter">5,79,000</span> </h3>
                         </div>
                         <div className="single_quick_activity">
@@ -142,65 +192,71 @@ const Index = () => {
               </div>
             </div>
             {userRole === 'ADMIN' && <>
-            <div className="col-lg-12 col-xl-6">
-              <div className="white_box mb_30 min_430">
-                <div className="box_header  box_header_block ">
-                  <div className="main-title">
-                    <h3 className="mb-0">Doanh thu theo tháng</h3>
-                    <span>60.000.000 vnđ</span>
-                  </div>
-                  <div className="box_select d-flex">
-                    <select className="nice_Select2 mr_5">
-                      <option value="1">Hằng tuần</option>
-                      <option value="2">Hằng tháng</option>
-                    </select>
-                    <select className="nice_Select2 ">
-                      <option value="1">Năm ngoái</option>
-                      <option value="1">Năm nay</option>
-                    </select>
-                  </div>
-                </div>
-                <Bar data={barData1} />
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-6 col-xl-3 ">
-              <div className="white_box mb_30 min_430">
-                <div className="box_header  box_header_block">
-                  <div className="main-title">
-                    <h3 className="mb-0">Tỷ lệ giao dịch</h3>
-                  </div>
-                </div>
-                <Doughnut data={doughnutData1} />
-              </div>
-            </div>
-            <div className="col-lg-12 col-xl-6">
-              <div className="white_box mb_30 min_430">
-                <div className="box_header  box_header_block">
-                  <div className="main-title">
-                    <h3 className="mb-0">Số lượng người dùng</h3>
-                  </div>
-                </div>
-                <Line data={lineData1} />
-              </div>
-            </div>
-            <div className="col-lg-12 col-xl-6">
-              <div className="white_box mb_30 min_430">
-                <div className="box_header  box_header_block align-items- ">
-                  <div className="main-title">
-                    <h3 className="mb-0">Cost of goods / Services</h3>
-                  </div>
-                  <div className="title_info">
-                    <p>1 Jan 2020 to 31 Dec 2020 </p>
-                    <div className="legend_style text-end">
-                      <li> <span style={{ backgroundColor: '#A4A1FB' }}></span> Services</li>
-                      <li className="inactive"> <span style={{ backgroundColor: '#A4A1FB' }}></span> Avarage
-                      </li>
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block ">
+                    <div className="main-title">
+                      <h3 className="mb-0">Doanh thu theo tháng</h3>
+                      <span>60.000.000 VNĐ</span>
+                    </div>
+                    <div className="box_select d-flex">
+                      <select className="nice_Select2 mr_5">
+                        <option value="1">Hằng tuần</option>
+                        <option value="2">Hằng tháng</option>
+                      </select>
+                      <select className="nice_Select2 ">
+                        <option value="1">Năm ngoái</option>
+                        <option value="1">Năm nay</option>
+                      </select>
                     </div>
                   </div>
+                  <Bar data={barData1} />
                 </div>
-                <Line data={lineData} />
               </div>
-            </div></>
+              <div className="col-md-6 col-lg-6 col-xl-3 ">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block">
+                    <div className="main-title">
+                      <h3 className="mb-0">Tỷ lệ phiên thành công</h3>
+                    </div>
+                  </div>
+                  <Doughnut data={doughnutData1} />
+                </div>
+              </div>
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block">
+                    <div className="main-title">
+                      <h3 className="mb-0">Số lượng người dùng đăng kí</h3>
+                    </div>
+                  </div>
+                  <div className="box_select d-flex justify-content-end mb-4">
+                    <select className="nice_Select2" value={selectedYearRegisterAccount} onChange={handleYearRegisterAccount}>
+                      {years.map((year) => (
+                        <option key={year} value={year}>{`Năm ${year}`}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <Line data={lineData1} options={options} />
+                </div>
+              </div>
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block align-items- ">
+                    <div className="main-title">
+                      <h3 className="mb-0">Số lượng phiên đấu giá đã mở</h3>
+                    </div>
+                  </div>
+                  <div className="box_select d-flex justify-content-end mb-4">
+                    <select className="nice_Select2" value={selectedYearGetAuction} onChange={handleYearGetAuction}>
+                      {years.map((year) => (
+                        <option key={year} value={year}>{`Năm ${year}`}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <Line data={lineData2} options={options}/>
+                </div>
+              </div></>
             }
             {userRole === 'MANAGER' && <>
               <div className="col-lg-12 col-xl-6">
@@ -240,7 +296,7 @@ const Index = () => {
                       <h3 className="mb-0">Số lượng người dùng</h3>
                     </div>
                   </div>
-                  <Line data={lineData} />
+                  <Line data={lineData2} />
                 </div>
               </div>
               <div className="col-lg-12 col-xl-6">
@@ -258,7 +314,7 @@ const Index = () => {
                       </div>
                     </div>
                   </div>
-                  <Line data={lineData} />
+                  <Line data={lineData2} />
                 </div>
               </div></>
             }

@@ -3,6 +3,9 @@ import { AuctionRegistration } from '../../../models/AuctionRegistration';
 import { getWinnerByAuctionId } from '../../../api/UserAPI';
 import { ViewBidHistoryModal } from '../Modal/Modal';
 import { Link } from 'react-router-dom';
+import { getAuction } from '../../../api/AuctionAPI';
+import { Auction } from '../../../models/Auction';
+import { StateAuctionView } from '../../AuctionList/Components/StateAuctionView';
 interface MyBidHistorySingleProps {
   auctionRegistration: AuctionRegistration;
 }
@@ -11,6 +14,7 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({ auctionRegistra
   const [status, setStatus] = useState('');
   const [statusColor, setStatusColor] = useState('');
   const [auctionId, setAuctionId] = useState(auctionRegistration.auction?.id);
+  const [auction, setAuction] = useState<Auction | null>(null);
   const [userId, setUserId] = useState(auctionRegistration.user?.id);
   const [auctionHistoryState, setAuctionHistoryState] = useState('ACTIVE');
 
@@ -24,8 +28,8 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({ auctionRegistra
             const winnerData = await getWinnerByAuctionId(auctionRegistration?.auction?.id);
             if (winnerData) {
               if (winnerData.id === auctionRegistration?.user?.id) {
-                setStatus('Thành công');
-                setStatusColor('#06D001');
+                setStatus('Thắng phiên');
+                setStatusColor('#198754');
               } else {
                 setStatus('Thất bại');
                 setStatusColor('red');
@@ -36,28 +40,12 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({ auctionRegistra
           }
           break;
 
-        case 'WAITING':
-          setStatus('Chưa diễn ra');
-          setStatusColor('black');
-          break;
-
-        case 'PAUSED':
-          setStatus('Phiên tạm dừng');
-          setStatusColor('black');
-          break;
-
-        case 'DELETED':
-          setStatus('Phiên đã hủy');
-          setStatusColor('#b41712');
-          break;
-
         default:
-          setStatus('Đang diễn ra');
-          setStatusColor('#059212');
+          setStatus('Chưa xác định');
+          setStatusColor('black');
           break;
       }
     };
-    console.log('state:', auctionRegistration.state);
 
     if (auctionRegistration.state === 'KICKED_OUT') {
       setStatus('Rút lui');
@@ -68,22 +56,38 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({ auctionRegistra
     }
   }, [auctionRegistration]);
 
+  useEffect(() => {
+    if (auctionId)
+      getAuction(auctionId)
+        .then((auction) => {
+          setAuction(auction);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+  }, [auctionId])
+
   return (
     <>
       <tr>
         <td>
           {auctionRegistration.auction?.id}
         </td>
-        <td>
+        <td className="text-start">
           {auctionRegistration.auction?.name}
         </td>
-        <td className='fw-semibold' style={{ color: statusColor }}>
+        <td style={{ color: statusColor }}>
+          <StateAuctionView state={auction?.state ?? ""} />
+        </td>
+        <td className='fw-bold' style={{ color: statusColor }}>
           {status}
         </td>
         <td>
           <ViewBidHistoryModal auctionId={auctionId} userId={userId} auctionHistoryState={auctionHistoryState} />
-          <Link to={`/tai-san-dau-gia/${auctionId}`} className='ms-2 btn btn-warning btn-sm'>
-            Đến phiên đấu
+          <Link to={`/tai-san-dau-gia/${auctionId}`} >
+            <button className='ms-2 btn btn-warning btn-sm'>
+              Đến phiên đấu
+            </button>
           </Link>
         </td>
       </tr>
