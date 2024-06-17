@@ -60,7 +60,7 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user }) => {
                         <thead>
                             <tr>
                                 <th>Mã phiên</th>
-                                <th style={{width: "200px"}}>Tên phiên</th>
+                                <th style={{ width: "200px" }}>Tên phiên</th>
                                 <th>Trạng thái</th>
                                 <th>Kết quả</th>
                                 <th>Thao tác</th>
@@ -69,7 +69,7 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user }) => {
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan={4} className="text-center">
+                                    <td colSpan={5} className="text-center">
                                         <Spinner animation="border" />
                                     </td>
                                 </tr>
@@ -77,7 +77,7 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user }) => {
                                 <MyBidHistorySingle key={index} auctionRegistration={auctionRegistration} />
                             ))) : (
                                 <tr>
-                                    <td colSpan={4} className="text-center">
+                                    <td colSpan={5} className="text-center">
                                         <h5 className='fw-semibold lh-base mt-2'>Chưa có đấu giá nào </h5>
                                     </td>
                                 </tr>)

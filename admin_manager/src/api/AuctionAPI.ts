@@ -293,7 +293,7 @@ export async function changeStateAuction(auctionId: number, state: string): Prom
         }
     });
     if (!response.ok) {
-        const errorDetails = await response.text();  // Get error details as text
+        const errorDetails = await response.text();
         console.error('Failed to update the book:', errorDetails);
         return false
     }

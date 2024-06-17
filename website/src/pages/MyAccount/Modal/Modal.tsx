@@ -331,7 +331,7 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
   const handlePayment = () => {
     if (winner) {
       if (auction && winner)
-        handlePay(auction.lastPrice, auction?.id, winner?.username ? winner.username : "", transaction.id);
+        handlePay(transaction.totalPrice, auction?.id, winner?.username ? winner.username : "", transaction.id);
     }
   }
   return (
@@ -369,7 +369,7 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
                           <label>
                             Tên người dùng:
                           </label>
-                          <span className='fw-bold'> {winner?.firstName} {winner?.lastName}</span>
+                          <span className='fw-bold'> {winner?.fullName}</span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
                           <label>
@@ -411,7 +411,7 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
                           <label>
                             Số tiền cần trả:{" "}
                           </label>
-                          <span className='fw-bold text-uppercase fs-4 text-success'> {formatNumberAcceptNull(auction?.lastPrice)} VND</span>
+                          <span className='fw-bold text-uppercase fs-4 text-success'> {formatNumberAcceptNull(transaction.totalPrice)} VND</span>
                         </div>
                         <div className='mt-3'>
                           <span style={{ fontSize: '12px' }}>(*)Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ.</span>

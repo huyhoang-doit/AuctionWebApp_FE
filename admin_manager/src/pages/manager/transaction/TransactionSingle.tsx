@@ -1,6 +1,8 @@
 import React from 'react'
 import { Transaction } from '../../../models/Transaction';
 import { getTransactionStatusStyle } from '../../../utils/cssStyle';
+import { formatNumber } from '../../../utils/formatNumber';
+import { DeleteTransactionModal, ViewTransactionModal } from '../Modal/Modal';
 interface TransactionSingleProps {
   transaction: Transaction;
 }
@@ -14,14 +16,13 @@ const TransactionSingle: React.FC<TransactionSingleProps> = ({ transaction }) =>
         <td>{transaction.user?.fullName}</td>
         <td>{transaction.user?.email}</td>
         <td>{transaction.user?.phone}</td>
-        <td>{transaction.totalPrice}</td>
+        <td>{formatNumber(transaction.totalPrice)}</td>
         <td>
           <a className="fw-bold" style={getTransactionStatusStyle(transaction.state)}>{transaction.state}</a>
         </td>
         <td>
-          <div className="btn-group">
-            Xem
-          </div>
+          <ViewTransactionModal transaction={transaction} />
+          <DeleteTransactionModal transaction={transaction} />
         </td>
       </tr>
     </>

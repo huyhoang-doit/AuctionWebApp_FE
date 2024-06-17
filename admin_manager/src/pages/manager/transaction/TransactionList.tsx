@@ -144,7 +144,7 @@ const TransactionList = () => {
                           <TransactionSingle key={transaction.id} transaction={transaction} />
                         ))
                         ) : (<td colSpan={7} className="text-center">
-                          <h4 className='fw-semibold lh-base mt-2'>Chưa có giao dịch nào</h4>
+                          <h5 className='fw-semibold lh-base mt-2'>Chưa có giao dịch nào</h5>
                         </td>)
                         )
                         }
