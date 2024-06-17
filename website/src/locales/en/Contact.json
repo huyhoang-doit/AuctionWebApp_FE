@@ -1,0 +1,15 @@
+{
+    "Contact" : {
+        "ThongTinLienHe" : "Contact Info",
+        "DiaChi" : "Address",
+        "ThongTinDiaChi" : "Ho Chi Minh City Student Cultural House, Luu Huu Phuoc, Dong Hoa, Di An, Binh Duong, Vietnam",
+        "SoDienThoai" : "Phone Number",
+        "LienHeChungToi" : "Contact Us",
+        "TenCuaBan" : "Your Name",
+        "EmailCuaBan" : "Your Email",
+        "NoiCongTac" : "Your Company",
+        "TinNhan" : "Message",
+        "GuiYeuCau" : "Send Request"
+
+    }
+}

@@ -19,6 +19,7 @@
     "react-date-picker": "^11.0.0",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.3.1",
+    "react-i18next": "^14.1.2",
     "react-multi-carousel": "^2.8.5",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.23.1",

@@ -1,0 +1,22 @@
+{
+    "header-middle_area": {
+        "LienHe": "Contact",
+        "TimKiemSanPham": "Search product..."
+    },
+
+    "Narbar": {
+        "CacLoaiTrangSucDauGia": "Types of auction jewelry",
+         "CuocDauGia": "Auction",
+         "DauGiaSapDienRa": "Upcoming auction",
+         "DauGiaDangDienRa": "Ongoing auction",
+         "DauGiaKetThuc": "Ended auction",
+         "GioiThieu": "Introduction",
+         "HuongDanDauGia": "Auction guide",
+         "VeChungToi": "About us",
+         "LienHe": "Contact",
+         "GuiSanPhamDauGia": "Send auction products",
+         "DangNhap": "Login",
+         "DangKy": "Register",
+         "ThongTinCaNhan": "Personal information"
+    }
+}
