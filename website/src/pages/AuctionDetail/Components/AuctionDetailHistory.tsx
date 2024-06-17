@@ -40,7 +40,7 @@ export const AuctionDetailHistory: React.FC<AuctionDetailHistoryProps> = ({ stom
             <table className="table table-bordered specification-inner_stuff mt-4">
                 <thead>
                     <tr>
-                        <th className="col-1"><b>Mã trả giá</b></th>
+                        <th className="col-1"><b>Mã số</b></th>
                         <th className="col-3">
                             Người trả giá
                         </th>

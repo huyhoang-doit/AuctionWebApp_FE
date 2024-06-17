@@ -10,7 +10,7 @@ interface AuctionItemProps {
     auction: Auction;
 }
 
-export const AuctionItem: React.FC<AuctionItemProps> = ({auction}) => {
+export const AuctionItem: React.FC<AuctionItemProps> = ({ auction }) => {
     const jewelryId: number | null = auction.jewelry ? auction.jewelry.id : null;
     const timeLeft = useCountDown(auction);
     const imageData = useIconImage(jewelryId);
@@ -142,7 +142,9 @@ export const AuctionItem: React.FC<AuctionItemProps> = ({auction}) => {
                             </h6>
                             <div className="product-short_desc">
                                 <p>
-                                    Trạng thái: <StateAuctionView state={auction.state} />
+                                    Trạng thái: <span className="fs-5">
+                                        <StateAuctionView state={auction.state} />
+                                    </span>
                                 </p>
                             </div>
                             <div className="umino-countdown_area mb-4">

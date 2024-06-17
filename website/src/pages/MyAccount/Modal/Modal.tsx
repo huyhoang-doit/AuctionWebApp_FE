@@ -1454,7 +1454,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({ auctio
         });
     }
     setLoading(false)
-  }, [auctionId, userId]);
+  }, [page, auctionHistoryState, auctionId, userId]);
 
   const [show, setShow] = useState(false);
 
@@ -1483,7 +1483,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({ auctio
             <Modal.Header className='text-center w-100'>
               <Modal.Title className='w-100'>
                 <div className='col-12 text-center'>Lịch sử đặt giá phiên đấu</div>
-                <div className='col-12 mb-3 text-center '><span className='text-danger fw-bold'>{auctionId}</span></div>
+                <div className='col-12 mb-3 text-center '><span className='text-danger fw-bold'>Phiên số {auctionId}</span></div>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -1494,8 +1494,8 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({ auctio
                     <tbody>
                       <tr>
                         <th>Mã số</th>
-                        <th>BID</th>
-                        <th>Giá đã đặt (VND)</th>
+                        <th>Mã trả giá</th>
+                        <th>Giá đã đặt (VNĐ)</th>
                         <th>Thời gian </th>
 
                       </tr>{loading ? (
