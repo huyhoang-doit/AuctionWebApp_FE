@@ -57,7 +57,7 @@ export default function Header() {
                   </Link>
                 </div>
               </div>
-              <div className="col-lg-2 d-none d-lg-block">
+              {/* <div className="col-lg-2 d-none d-lg-block">
                 <div className="contact-info">
                   <div className="contact-info_icon">
                     <i className="ion-android-call"></i>
@@ -67,8 +67,8 @@ export default function Header() {
                     <Link to="#">(+84) 0123456789</Link>
                   </div>
                 </div>
-              </div>
-              <div className="col-lg-2 d-none d-lg-block">
+              </div> */}
+              <div className="col-lg-2 d-none d-lg-block" style={{ fontSize: '20px', padding: '20px' }}>
                 <div className="language-dropdown">
                   <div className="language-selected">
                     <i className="ion-earth"></i>
