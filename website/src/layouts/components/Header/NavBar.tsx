@@ -7,7 +7,6 @@ export const NavBar = () => {
   const categories = useCategories();
   const token = localStorage.getItem("access_token");
   // const user = useAccount(token);
-
   const { t } = useTranslation(["home"]);
   const context = useContext(UserContext);
 
