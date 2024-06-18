@@ -70,16 +70,16 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                         ) : (myJewelryRequestList.length > 0 ? (React.Children.toArray(myJewelryRequestList.map(
                             (request) =>
                                 <tr>
-                                    <td className="text-start">
+                                    <td >
                                         {request.jewelry?.id}
                                     </td>
                                     <td className="text-start">
                                         {request.jewelry?.name}
                                     </td>
-                                    <td className="text-start">
+                                    <td >
                                         {formatNumber(request.desiredPrice)}
                                     </td>
-                                    <td className="text-start">
+                                    <td >
                                         {formatDateStringAcceptNull(request?.requestTime)}
                                     </td>
 
@@ -94,7 +94,6 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                                     )}
                                     <td>
                                         <ViewJewelryRequestModal request={request} />
-                                        {/* <DeleteJewelryRequestModal jewelry={request.jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} /> */}
                                     </td>
                                 </tr>
                         ))) : (

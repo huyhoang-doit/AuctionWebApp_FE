@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { AssignAuctionModal } from '../../Modal/Modal'
 import { Auction } from '../../../../models/Auction'
 import { getAuctionByStaffId } from '../../../../api/AuctionAPI'
 import { formatDateString } from '../../../../utils/formatDateString'
@@ -8,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { PaginationControl } from 'react-bootstrap-pagination-control'
 import "../../../../utils/pagination.css"
 import { Spinner } from 'react-bootstrap'
+import { AssignAuctionModal } from '../../Modal/ModalStaff'
 interface MyAccountDetailProps {
   user: User | null;
   setUser: (user: User) => void;

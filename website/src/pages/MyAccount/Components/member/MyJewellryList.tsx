@@ -56,7 +56,7 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
               <thead className='text-center'>
                 <tr>
                   <th >Mã trang sức</th>
-                  <th >Tên trang sức</th>
+                  <th style={{ width: '25%' }} >Tên trang sức</th>
                   <th >Ảnh</th>
                   <th >Giá mong muốn</th>
                   <th >Định giá</th>

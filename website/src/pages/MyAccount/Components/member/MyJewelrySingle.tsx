@@ -49,7 +49,7 @@ const MyJewelrySingle: React.FC<JewelrySingleProps> = ({ request, jewelry, user,
         <td className='fw-semibold text-success'>
           {formatNumberAcceptNull(request?.valuation)}
         </td>
-        <td style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', width: '180px' }}>
+        <td >
           <ConfirmModal jewelry={jewelry} images={images} user={user} request={request} handleChangeList={handleChangeList} />
           <RefuseJewelryRequestModal jewelry={jewelry} request={request} user={user} handleChangeList={handleChangeList} />
         </td>
