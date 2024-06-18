@@ -57,7 +57,7 @@ const AuctionsList = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner ">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 100px" }}>
+            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 90px" }}>
               <div className="col-12">
                 <div className="breadcrumb-area">
                   <Breadcrumb>
@@ -96,10 +96,10 @@ const AuctionsList = () => {
                       <thead>
                         <tr>
                           <th scope="col">Mã phiên</th>
-                          <th scope="col">Tên phiên</th>
+                          <th scope="col" style={{ width: '20%' }}>Tên phiên</th>
                           <th scope="col">Thời gian bắt đầu</th>
                           <th scope="col">Thời gian kết thúc</th>
-                          <th scope="col">Nhân viên quản lý</th>
+                          <th scope="col">Mã nhân viên</th>
                           <th scope="col">Trạng thái</th>
                           <th scope="col">Thao tác</th>
                         </tr>

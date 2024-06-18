@@ -1,11 +1,11 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { getRequestByUserId } from '../../../../api/RequestApprovalAPI';
 import { RequestApproval } from '../../../../models/RequestApproval';
 import { formatNumber } from '../../../../utils/formatNumber';
 import { formatDateStringAcceptNull } from '../../../../utils/formatDateString';
-import { ViewJewelryRequestModal, ViewStaffRequestModal } from '../../Modal/Modal';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { Spinner } from 'react-bootstrap';
+import { ViewStaffRequestModal } from '../../Modal/ModalStaff';
 interface StaffRequestListProps {
   userId: number | undefined;
   listNumber: number
@@ -99,7 +99,6 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({ userId, listNumber 
                   )}
                   <td>
                     <ViewStaffRequestModal request={request} />
-                    {/* <DeleteJewelryRequestModal jewelry={request.jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} /> */}
                   </td>
                 </tr>
             ))) : (<td colSpan={6} className="text-center">

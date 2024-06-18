@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { User } from '../../../models/User';
-import { getRequestByRoleOfSender } from '../../../api/RequestApprovalAPI';
-import { RequestApproval } from '../../../models/RequestApproval';
 import MyJewelrySingle from './MyJewelrySingle';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { Spinner } from 'react-bootstrap';
+import { User } from '../../../../models/User';
+import { RequestApproval } from '../../../../models/RequestApproval';
+import { getRequestByRoleOfSender } from '../../../../api/RequestApprovalAPI';
 
 interface MyJewelriesProps {
   user: User | null;
@@ -56,7 +56,7 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
               <thead className='text-center'>
                 <tr>
                   <th >Mã trang sức</th>
-                  <th >Tên trang sức</th>
+                  <th style={{ width: '25%' }} >Tên trang sức</th>
                   <th >Ảnh</th>
                   <th >Giá mong muốn</th>
                   <th >Định giá</th>

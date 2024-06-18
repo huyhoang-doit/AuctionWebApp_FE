@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
 import { Jewelry } from '../../../../models/Jewelry'
 import { Image } from '../../../../models/Image'
-import { DeleteJewelryRequestModal, JewelryModal } from '../../Modal/Modal'
 import { User } from '../../../../models/User'
 import { RequestApproval } from '../../../../models/RequestApproval'
 import { formatNumberAcceptNull } from '../../../../utils/formatNumber'
+import { DeleteJewelryRequestModal, JewelryModal } from '../../Modal/ModalStaff'
 
 type JewelryWaitSingleProps = {
   request: RequestApproval;
@@ -51,7 +51,7 @@ export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ request, j
         <td>
           {jewelry?.name}
         </td>
-        <td>{jewelry?.user?.lastName}</td>
+        <td>{jewelry?.user?.fullName}</td>
         <td>
           {formatNumberAcceptNull(request?.desiredPrice)}
         </td>

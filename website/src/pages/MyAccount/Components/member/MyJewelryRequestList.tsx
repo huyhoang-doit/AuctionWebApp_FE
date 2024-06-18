@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { ViewJewelryRequestModal } from "../Modal/Modal"
-import { formatNumber } from "../../../utils/formatNumber";
-import { PaginationControl } from "react-bootstrap-pagination-control";
-import { getRequestByUserId } from "../../../api/RequestApprovalAPI";
-import { RequestApproval } from "../../../models/RequestApproval";
-import { formatDateStringAcceptNull } from "../../../utils/formatDateString";
 import { Spinner } from "react-bootstrap";
+import { RequestApproval } from "../../../../models/RequestApproval";
+import { getRequestByUserId } from "../../../../api/RequestApprovalAPI";
+import { formatNumber } from "../../../../utils/formatNumber";
+import { formatDateStringAcceptNull } from "../../../../utils/formatDateString";
+import { ViewJewelryRequestModal } from "../../Modal/Modal";
+import { PaginationControl } from "react-bootstrap-pagination-control";
 
 interface MyJewelryListProps {
     userId: number | undefined;
@@ -70,16 +70,16 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                         ) : (myJewelryRequestList.length > 0 ? (React.Children.toArray(myJewelryRequestList.map(
                             (request) =>
                                 <tr>
-                                    <td className="text-start">
+                                    <td >
                                         {request.jewelry?.id}
                                     </td>
                                     <td className="text-start">
                                         {request.jewelry?.name}
                                     </td>
-                                    <td className="text-start">
+                                    <td >
                                         {formatNumber(request.desiredPrice)}
                                     </td>
-                                    <td className="text-start">
+                                    <td >
                                         {formatDateStringAcceptNull(request?.requestTime)}
                                     </td>
 
@@ -94,7 +94,6 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({ userId }) =
                                     )}
                                     <td>
                                         <ViewJewelryRequestModal request={request} />
-                                        {/* <DeleteJewelryRequestModal jewelry={request.jewelry} request={request} setNotification={setNotification} handleChangeList={handleChangeList} /> */}
                                     </td>
                                 </tr>
                         ))) : (

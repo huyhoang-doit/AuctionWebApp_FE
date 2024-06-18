@@ -8,7 +8,7 @@ import ManageUser from '../pages/admin/manage-account/ManageMember';
 import RequestWaitlist from '../pages/manager/ManageRequest/components/RequestWaitlist';
 import AuctionsList from '../pages/manager/Auctions/AuctionsList';
 import PassedJewelriesList from '../pages/manager/PassedJewelry/PassedJewelriesList';
-import TransactionList from '../pages/manager/transaction/TransactionList';
+import TransactionList from '../pages/manager/Transaction/TransactionList';
 import CreateAuction from '../pages/manager/Auctions/CreateAuction';
 import ViewProducts from '../pages/manager/View/ViewProducts';
 import ViewUser from '../pages/admin/View/ViewUser'
@@ -21,9 +21,9 @@ const RouterCom = () => {
         <Route element={<ProtectedRoute roles={['ADMIN']} />}>
           <Route element={<GuestRoute />}>
             <Route path="/admin" element={<Index />} />
-            <Route path="/admin/account/manager" element={<ManageManager />} />
-            <Route path="/admin/account/staff" element={<ManageStaff />} />
-            <Route path="/admin/account/user" element={<ManageUser />} />
+            <Route path="/admin/danh-sach-quan-ly" element={<ManageManager />} />
+            <Route path="/admin/danh-sach-nhan-vien" element={<ManageStaff />} />
+            <Route path="/admin/danh-sach-nguoi-dung" element={<ManageUser />} />
             <Route path="/admin/chi-tiet-nguoi-dung/:id" element={<ViewUser />} />
             {/* <Route path="/admin/view/ViewTransactionSeller" element={<ViewTransactionSeller />} />
             <Route path="/admin/view/ViewTransactionBuyer" element={<ViewTransactionBuyer />} />

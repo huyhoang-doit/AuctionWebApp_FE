@@ -7,7 +7,7 @@ import ViewProducts from "../pages/manager/View/ViewProducts";
 import ViewAuctionsList from "../pages/manager/View/ViewAuctionsList";
 import PassedJewelriesList from "../pages/manager/PassedJewelry/PassedJewelriesList";
 import ProtectedRoute from "./ProtectedRoute";
-import TransactionList from "../pages/manager/transaction/TransactionList";
+import TransactionList from "../pages/manager/Transaction/TransactionList";
 
 const RouterComManager = () => {
   return (

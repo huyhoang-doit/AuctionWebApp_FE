@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { User } from "../../../../models/User";
 import { ChangePasswordConfirm } from "../../Modal/Modal";
-import { isConfirmPasswordWrong, isPasswordWrongFormat } from "../../../../utils/checkRegister";
+import { isPasswordWrongFormat } from "../../../../utils/checkRegister";
 
 interface ChangePasswordProps {
     user: User | null;
@@ -20,7 +20,7 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({ user }) => {
     const handleChange = (key: keyof typeof request) => (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         let error = "";
-    
+
         if (key === "newPassword") {
             error = validatePassword(value);
             setNewPasswordError(error);
@@ -28,16 +28,16 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({ user }) => {
             error = validateConfirmPassword(value, request.newPassword);
             setCfNewPasswordError(error);
         }
-    
+
         setRequest((prevValue) => ({ ...prevValue, [key]: value }));
     };
-    
+
     const validatePassword = (value: string): string => {
-        return isPasswordWrongFormat(value) 
+        return isPasswordWrongFormat(value)
             ? "Mật khẩu phải có ít nhất 8 ký tự và 1 ký tự đặc biệt."
             : "";
     };
-    
+
     const validateConfirmPassword = (value: string, newPassword: string): string => {
         return value !== newPassword
             ? "Mật khẩu mới không khớp."

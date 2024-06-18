@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { RequestApproval } from '../../../models/RequestApproval';
-import { Jewelry } from '../../../models/Jewelry';
-import { User } from '../../../models/User';
-import { Image } from '../../../models/Image';
-import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi';
-import { Link } from 'react-router-dom';
-import { formatNumberAcceptNull } from '../../../utils/formatNumber';
-import { ConfirmModal, JewelryModal, RefuseJewelryRequestModal } from '../Modal/Modal';
+import { RequestApproval } from '../../../../models/RequestApproval';
+import { Jewelry } from '../../../../models/Jewelry';
+import { User } from '../../../../models/User';
+import { Image } from '../../../../models/Image';
+import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi';
+import { formatNumberAcceptNull } from '../../../../utils/formatNumber';
+import { ConfirmModal, RefuseJewelryRequestModal } from '../../Modal/Modal';
 type JewelrySingleProps = {
   request: RequestApproval;
   jewelry: Jewelry | undefined;
@@ -50,7 +49,7 @@ const MyJewelrySingle: React.FC<JewelrySingleProps> = ({ request, jewelry, user,
         <td className='fw-semibold text-success'>
           {formatNumberAcceptNull(request?.valuation)}
         </td>
-        <td style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', width: '180px' }}>
+        <td >
           <ConfirmModal jewelry={jewelry} images={images} user={user} request={request} handleChangeList={handleChangeList} />
           <RefuseJewelryRequestModal jewelry={jewelry} request={request} user={user} handleChangeList={handleChangeList} />
         </td>

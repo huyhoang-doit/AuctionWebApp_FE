@@ -43,39 +43,14 @@ const ManageUser = () => {
           <div className="container-fluid plr_30 body_white_bg pt_30">
             <div className="row justify-content-center" style={{ padding: "50px 0px 0px 100px" }}>
               <div className="col-12">
-                {/* Breadcrumb Area */}
-                <div className="breadcrumb-area">
-                  <Breadcrumb>
-                    <Breadcrumb.Item>
-                      <Link to="/admin">Trang chủ</Link>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item >Quản lý tài khoản</Breadcrumb.Item>
-                    <Breadcrumb.Item>
-                      <Link to="/admin/account/user">Người dùng</Link>
-                    </Breadcrumb.Item>
-                  </Breadcrumb>
+                <div className="breadcrumb-area mb-4">
+                  <Link to="/admin">Trang chủ {'  /  '} </Link>
+                  <Link to="/admin/danh-sach-nguoi-dung"> Danh sách người dùng  </Link>
                 </div>
                 <div className="QA_section">
                   <div className="white_box_tittle list_header">
                     <h4>Danh sách người dùng</h4>
                     <div className="box_right d-flex lms_block">
-                      <div className="serach_field_2">
-                        <div className="search_inner">
-                          <form>
-                            <div className="search_field">
-                              <input
-                                type="text"
-                                placeholder="Tìm kiếm..."
-                                value={searchInput}
-                              // onChange={handleSearchInput}
-                              />
-                            </div>
-                            <button type="submit" onClick={(e) => e.preventDefault()}>
-                              <i className="ti-search"></i>
-                            </button>
-                          </form>
-                        </div>
-                      </div>
                       <div className="add_button ms-2">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" className="btn_1">
                           Thêm tài khoản mới
@@ -83,8 +58,8 @@ const ManageUser = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="QA_table">
-                    <table className="table lms_table_active">
+                  <div className="">
+                    <table className="table lms_table_active text-center">
                       <thead>
                         <tr>
                           <th scope="col">ID</th>
@@ -99,9 +74,9 @@ const ManageUser = () => {
                       <tbody>
                         {members.map((user) => (
                           <tr key={user.id}>
-                            <th scope="row">
-                              <a href="#" className="question_content">{user.id}</a>
-                            </th>
+                            <td>
+                              {user.id}
+                            </td>
                             <td>{user.username}</td>
                             <td>{user.fullName}</td>
                             <td>{user.email}</td>
@@ -113,8 +88,8 @@ const ManageUser = () => {
                             </td>
                             <td>
                               <div className="btn-group">
-                                <Link to={`/admin/chi-tiet-nguoi-dung/` + user.id} className="btn btn-sm btn-warning">Xem</Link>
-                                <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
+                                {/* <Link to={`/admin/chi-tiet-nguoi-dung/` + user.id} className="btn btn-sm btn-warning">Xem</Link>
+                                <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button> */}
                               </div>
                             </td>
                           </tr>
