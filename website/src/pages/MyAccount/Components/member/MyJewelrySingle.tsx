@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { RequestApproval } from '../../../models/RequestApproval';
-import { Jewelry } from '../../../models/Jewelry';
-import { User } from '../../../models/User';
-import { Image } from '../../../models/Image';
-import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../api/ImageApi';
-import { Link } from 'react-router-dom';
-import { formatNumberAcceptNull } from '../../../utils/formatNumber';
-import { ConfirmModal, JewelryModal, RefuseJewelryRequestModal } from '../Modal/Modal';
+import { RequestApproval } from '../../../../models/RequestApproval';
+import { Jewelry } from '../../../../models/Jewelry';
+import { User } from '../../../../models/User';
+import { Image } from '../../../../models/Image';
+import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi';
+import { formatNumberAcceptNull } from '../../../../utils/formatNumber';
+import { ConfirmModal, RefuseJewelryRequestModal } from '../../Modal/Modal';
 type JewelrySingleProps = {
   request: RequestApproval;
   jewelry: Jewelry | undefined;

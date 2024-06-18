@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Error } from "../../Error-Loading/Error";
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { Spinner } from "react-bootstrap";
-import { getAuctionRegistrationByUserId } from "../../../api/AuctionRegistrationAPI";
-import { AuctionRegistration } from "../../../models/AuctionRegistration";
-import { User } from "../../../models/User";
 import MyBidHistorySingle from "./MyBidHistorySingle";
+import { User } from "../../../../models/User";
+import { getAuctionRegistrationByUserId } from "../../../../api/AuctionRegistrationAPI";
+import { Error } from "../../../Error-Loading/Error";
+import { AuctionRegistration } from "../../../../models/AuctionRegistration";
 
 interface MyBidHistoryListProps {
     user: User | null;

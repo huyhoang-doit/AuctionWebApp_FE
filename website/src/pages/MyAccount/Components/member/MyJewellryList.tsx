@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { User } from '../../../models/User';
-import { getRequestByRoleOfSender } from '../../../api/RequestApprovalAPI';
-import { RequestApproval } from '../../../models/RequestApproval';
 import MyJewelrySingle from './MyJewelrySingle';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { Spinner } from 'react-bootstrap';
+import { User } from '../../../../models/User';
+import { RequestApproval } from '../../../../models/RequestApproval';
+import { getRequestByRoleOfSender } from '../../../../api/RequestApprovalAPI';
 
 interface MyJewelriesProps {
   user: User | null;

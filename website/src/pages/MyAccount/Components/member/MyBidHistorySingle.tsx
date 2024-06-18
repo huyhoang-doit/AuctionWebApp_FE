@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { AuctionRegistration } from '../../../models/AuctionRegistration';
-import { getWinnerByAuctionId } from '../../../api/UserAPI';
-import { ViewBidHistoryModal } from '../Modal/Modal';
+import { AuctionRegistration } from '../../../../models/AuctionRegistration';
+import { Auction } from '../../../../models/Auction';
+import { getWinnerByAuctionId } from '../../../../api/UserAPI';
+import { getAuction } from '../../../../api/AuctionAPI';
+import { StateAuctionView } from '../../../AuctionList/Components/StateAuctionView';
 import { Link } from 'react-router-dom';
-import { getAuction } from '../../../api/AuctionAPI';
-import { Auction } from '../../../models/Auction';
-import { StateAuctionView } from '../../AuctionList/Components/StateAuctionView';
+import { ViewBidHistoryModal } from '../../Modal/Modal';
 interface MyBidHistorySingleProps {
   auctionRegistration: AuctionRegistration;
 }
