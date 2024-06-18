@@ -1,0 +1,12 @@
+{
+    "MyAccount":{
+        "TaiKhoanCuaToi" : "My Account",
+        "ThongTinTaiKhoan": "Account Information",
+        "DoiMatKhau": "Change Password",
+        "ListTrangSucGuiToi": "List of jewelry sent",
+        "ListCacYeuCauGuiDi": "List of requests sent",
+        "ListTrangSucBanGiao": "List of jewelry handed over",
+        "CacPhienDuocPhanCong": "Auction sessions are assigned"
+
+    }
+}

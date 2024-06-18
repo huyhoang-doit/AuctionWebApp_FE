@@ -24,7 +24,12 @@
         "GuiYeuCau" : "Send require",
         "NotificationNotPhoto": "Please provide a photo of the product!!!",
         "GuiYeuCauChoSanPhamMoiThanhCong" : "Send request for new product successfully",
-        "ErrorSendJewelry" : "An error occurred while sending the request. Please try again later."
+        "ErrorSendJewelry" : "An error occurred while sending the request. Please try again later.",
+        "Dây chuyền" : "Necklace",
+        "Vòng tay": "Bracelet",
+        "Nhẫn": "Ring",
+        "Hoa tai": "Eardrop",
+        "Mặt dây chuyền" : "Pendant"
         
         
 
