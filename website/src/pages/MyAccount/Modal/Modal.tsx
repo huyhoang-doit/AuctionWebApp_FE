@@ -52,8 +52,7 @@ import { PaymentMethod } from "../Components/PaymentMethod";
 import { StateTransaction } from "../Components/StateTransaction";
 import { setMethodTransaction } from "../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
-
-
+import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
 
 // *** MODAL FOR USER
 
@@ -588,111 +587,125 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
     }
   };
   return (
+    <>
+      {show && (
+        <div className="overlay">
+          <Modal
+            show={show}
+            onHide={handleClose}
+            centered
+            backdrop="static"
+            size="lg"
+          >
+            <Modal.Header>
+              <Modal.Title className="w-100">
+                <div className="col-12 text-center">
+                  Xác nhận thanh toán tại quầy
+                </div>
+                <div className="col-12 mb-3 text-center ">
+                  <span className="text-warning fw-bold">{auction?.name}</span>
+                </div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="p-4">
+              <form action="">
+                <div className="checkbox-form">
+                  <div className="row">
+                    <div className="col-md-12 ">
+                      <div className="col-md-12 fw-medium row">
+                        <h4 className=" fw-medium">Tài khoản thanh toán</h4>
+                        <div className="checkout-form-list my-3 col-md-6">
+                          <div className="checkout-form-list mb-2">
+                            <label>Mã người dùng: </label>
+                            <span className="fw-bold"> {winner?.id}</span>
+                          </div>
+                          <div className="checkout-form-list mb-2 ">
+                            <label>Tên người dùng:</label>
+                            <span className="fw-bold"> {winner?.fullName}</span>
+                          </div>
+                          <div className="checkout-form-list mb-2 ">
+                            <label>Số CCCD:</label>
+                            <span className="fw-bold"> {winner?.cccd}</span>
+                          </div>
+                          <div className="checkout-form-list mb-2">
+                            <label>Địa chỉ:</label>
+                            <span className="fw-semibold">
+                              {" "}
+                              {winner?.address}, {winner?.city},{" "}
+                              {winner?.district}{" "}
+                            </span>
+                          </div>
+                          <div className="checkout-form-list mb-2">
+                            <label>Email: </label>
+                            <span className="fw-semibold">
+                              {" "}
+                              {winner?.email}
+                            </span>
+                          </div>
+                          <div className="checkout-form-list my-4 col-md-12">
+                            <label>Số tiền cần trả: </label>
+                            <span className="fw-bold text-uppercase fs-4 text-success">
+                              {" "}
+                              {formatNumberAcceptNull(
+                                transaction.totalPrice
+                              )}{" "}
+                              VND
+                            </span>
+                          </div>
+                          <div className="checkout-form-list mb-2 ">
+                            <span style={{ fontSize: "12px" }}>
+                              (*)Mọi thắc mắc xin liên hệ hotline (+84)
+                              0123456789 để được hỗ trợ.
+                            </span>
+                          </div>
+                        </div>
+                        <div className="checkout-form-list my-4 col-md-6">
+                          <div className="checkout-form-list mb-2 ">
+                            <label>Phương thức thanh toán: </label>
+                            <span className="fw-bold">
+                              {" "}
+                              <PaymentMethod method={method} />
+                            </span>
+                          </div>
+                          <div className="checkout-form-list mb-2 ">
+                            <label>Trạng thái thanh toán: </label>
+                            <span className="fw-bold">
+                              {" "}
+                              <StateTransaction state={transaction.state} />
+                            </span>
+                          </div>
 
-    <>{show && (
-      <div className='overlay'>
-        <Modal
-          show={show}
-          onHide={handleClose}
-          centered
-          backdrop="static"
-          size="lg"
-        >
-          <Modal.Header>
-            <Modal.Title className='w-100'>
-              <div className='col-12 text-center'>Xác nhận thanh toán tại quầy</div>
-              <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{auction?.name}</span></div>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body className='p-4'>
-            <form action="">
-              <div className="checkbox-form">
-                <div className="row">
-                  <div className="col-md-12 ">
-                    <div className="col-md-12 fw-medium row">
-                      <h4 className=' fw-medium'>Tài khoản thanh toán</h4>
-                      <div className="checkout-form-list my-3 col-md-6">
-                        <div className='checkout-form-list mb-2'>
-                          <label>
-                            Mã người dùng:{" "}
-                          </label>
-                          <span className='fw-bold'> {winner?.id}</span>
-
+                          {method === "PAY_AT_COUNTER" && (
+                            <div className="checkout-form-list mb-2 ">
+                              <label>Địa điểm thanh toán: </label>
+                              <span className="fw-bold">
+                                {" "}
+                                Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước,
+                                Đông Hoà, Dĩ An, Bình Dương, Việt Nam
+                              </span>
+                              <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1003405.79257722!2d105.55479573124998!3d10.768824599999986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1718718338321!5m2!1svi!2s"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                style={{
+                                  border: "0",
+                                  width: "100%",
+                                  height: "100%",
+                                  marginTop: "20px",
+                                }}
+                                title={"Nhà Văn hóa Sinh viên TP.HCM"}
+                                allowFullScreen={true}
+                                loading="lazy"
+                              ></iframe>
+                            </div>
+                          )}
                         </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <label>
-                            Tên người dùng:
-                          </label>
-                          <span className='fw-bold'> {winner?.fullName}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <label>
-                            Số CCCD:
-                          </label>
-                          <span className='fw-bold'> {winner?.cccd}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2">
-                          <label>
-                            Địa chỉ:
-                          </label>
-                          <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.district} </span>
-                        </div>
-                        <div className="checkout-form-list mb-2">
-                          <label>Email:  </label>
-                          <span className='fw-semibold'> {winner?.email}</span>
-                        </div>
-                        <div className='checkout-form-list my-4 col-md-12'>
-                          <label>
-                            Số tiền cần trả:{" "}
-                          </label>
-                          <span className='fw-bold text-uppercase fs-4 text-success'> {formatNumberAcceptNull(transaction.totalPrice)} VND</span>
-                        </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <span style={{ fontSize: '12px' }}>(*)Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ.</span>
-                        </div>
-                      </div>
-                      <div className="checkout-form-list my-4 col-md-6">
-
-                        <div className="checkout-form-list mb-2 ">
-                          <label>
-                            Phương thức thanh toán: {" "}
-                          </label>
-                          <span className='fw-bold'> <PaymentMethod method={method} /></span>
-                        </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <label>
-                            Trạng thái thanh toán: {" "}
-                          </label>
-                          <span className='fw-bold'> <StateTransaction state={transaction.state} /></span>
-                        </div>
-
-                        {method === 'PAY_AT_COUNTER' && (<div className="checkout-form-list mb-2 ">
-                          <label>
-                            Địa điểm thanh toán: {" "}
-                          </label>
-                          <span className='fw-bold'>  Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam</span>
-                          <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1003405.79257722!2d105.55479573124998!3d10.768824599999986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1718718338321!5m2!1svi!2s"
-                            referrerPolicy="no-referrer-when-downgrade"
-                            style={{
-                              border: "0",
-                              width: "100%",
-                              height: "100%",
-                              marginTop: '20px'
-                            }}
-                            title={'Nhà Văn hóa Sinh viên TP.HCM'}
-                            allowFullScreen={true}
-                            loading="lazy"
-                          ></iframe>
-                        </div>
-                        )}
-                      </div>
-                      {/* <div className="checkout-form-list mb-2 col-md-12">
+                        {/* <div className="checkout-form-list mb-2 col-md-12">
                         <div>
                           <span style={{ fontSize: '12px' }}>(*)Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ.</span>
 
                         </div>
                       </div> */}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2254,7 +2267,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
                 </div>
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body className='p-4'>
+            <Modal.Body className="p-4">
               <form action="">
                 <div className="checkbox-form">
                   <div className="row">
@@ -2337,26 +2350,39 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
                       <div className="checkout-form-list mb-2">
                         <label>Trạng thái: </label>
 
-                        <span className='fw-bold text-uppercase text-success'> <StateAuctionView state={auction?.state ? auction.state : 'FINISHED'} /></span>
+                        <span className="fw-bold text-uppercase text-success">
+                          {" "}
+                          <StateAuctionView
+                            state={auction?.state ? auction.state : "FINISHED"}
+                          />
+                        </span>
                       </div>
                       <div className="checkout-form-list mb-2">
-                        <label>
-                          Giá cuối:
-                        </label>
-                        <span className='fw-bold text-uppercase text-danger'> {formatNumberAcceptNull(auction?.lastPrice)} VND</span>
+                        <label>Giá cuối:</label>
+                        <span className="fw-bold text-uppercase text-danger">
+                          {" "}
+                          {formatNumberAcceptNull(auction?.lastPrice)} VND
+                        </span>
                       </div>
                       <div className="checkout-form-list mb-2">
-                        <label>
-                          Phương thức thanh toán:
-                        </label>
-                        <span className='fw-bold text-uppercase'> <PaymentMethod method={transaction.paymentMethod ? transaction.paymentMethod : 'BANKING'} /></span>
+                        <label>Phương thức thanh toán:</label>
+                        <span className="fw-bold text-uppercase">
+                          {" "}
+                          <PaymentMethod
+                            method={
+                              transaction.paymentMethod
+                                ? transaction.paymentMethod
+                                : "BANKING"
+                            }
+                          />
+                        </span>
                       </div>
                       <div className="checkout-form-list mb-2">
-                        <label>
-                          Trạng thái:
-                        </label>
-                        <span className='fw-bold text-uppercase text-danger'> <StateTransaction state={transaction.state} /></span>
-
+                        <label>Trạng thái:</label>
+                        <span className="fw-bold text-uppercase text-danger">
+                          {" "}
+                          <StateTransaction state={transaction.state} />
+                        </span>
                       </div>
                     </div>
                     <div className="col-md-12 fw-medium row">
