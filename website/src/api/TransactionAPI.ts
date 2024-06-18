@@ -1,6 +1,7 @@
 import BASE_URL from "../config/config";
 import { Transaction } from "../models/Transaction";
 import { User } from "../models/User";
+import { fetchNoBodyWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
 
 interface ResultInteface {
@@ -112,4 +113,24 @@ export async function getTransactionsByTypeAndState(type: string, state: string,
         transactions: transactions,
         totalElements: response.totalElements
     };
+}
+
+export async function setMethodTransaction(transactionId: number, method: string): Promise<boolean> {
+    const accessToken = localStorage.getItem('access_token');
+    // endpoint
+    const URL = `${BASE_URL}/transaction/set-method/${transactionId}?method=${method}`;
+    // call api
+    try {
+        const response = await fetchNoBodyWithToken(URL, 'PUT', accessToken);
+
+        console.log(response);
+
+        if (!response.ok) {
+            throw new Error(`Không thể truy cập ${URL}`);
+        }
+        return true;
+    } catch (error) {
+        console.error("Error: " + error);
+        return false;
+    }
 }

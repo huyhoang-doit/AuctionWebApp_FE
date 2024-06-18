@@ -9,14 +9,14 @@
          "CuocDauGia": "Auction",
          "DauGiaSapDienRa": "Upcoming auction",
          "DauGiaDangDienRa": "Ongoing auction",
-         "DauGiaKetThuc": "Ended auction",
+         "DauGiaKetThuc": "Finished auction",
          "GioiThieu": "Introduction",
          "HuongDanDauGia": "Auction guide",
          "VeChungToi": "About us",
          "LienHe": "Contact",
-         "GuiSanPhamDauGia": "Send auction products",
+         "GuiSanPhamDauGia": "Send auction jewelry",
          "DangNhap": "Login",
          "DangKy": "Register",
-         "ThongTinCaNhan": "Personal information"
+         "ThongTinCaNhan": "Profile"
     }
 }

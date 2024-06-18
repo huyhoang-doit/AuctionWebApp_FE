@@ -16,9 +16,9 @@ export default function AuctionList() {
                     <div className="breadcrumb-content">
                         <ul>
                             <li>
-                                <Link to={"/"}>Home</Link>
+                                <Link to={"/"}>Trang chủ</Link>
                             </li>
-                            <li className="active">Auctions Filter</li>
+                            <li className="active">Danh sách đấu giá</li>
                         </ul>
                     </div>
                 </div>
@@ -29,7 +29,7 @@ export default function AuctionList() {
             <div className="umino-content_wrapper">
                 <div className="container">
                     <div className="row">
-                        <SideBar setSelectedStates={setSelectedStates} state={state}/>
+                        <SideBar setSelectedStates={setSelectedStates} state={state} />
                         <div className="col-lg-9 order-1 order-lg-2">
                             <ContainerListAuctions
                                 setSelectedStates={setSelectedStates}

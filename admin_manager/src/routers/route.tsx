@@ -1,6 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import RouterComAdmin from './router-admin';
-import RouterComManager from './router-manager';
 import ProtectedRoute from './ProtectedRoute';
 import GuestRoute from './GuestRoute';
 import Index from '../pages/Index/Index';
@@ -13,6 +11,7 @@ import PassedJewelriesList from '../pages/manager/PassedJewelry/PassedJewelriesL
 import TransactionList from '../pages/manager/transaction/TransactionList';
 import CreateAuction from '../pages/manager/Auctions/CreateAuction';
 import ViewProducts from '../pages/manager/View/ViewProducts';
+import ViewUser from '../pages/admin/View/ViewUser'
 
 const RouterCom = () => {
   return (
@@ -25,11 +24,11 @@ const RouterCom = () => {
             <Route path="/admin/account/manager" element={<ManageManager />} />
             <Route path="/admin/account/staff" element={<ManageStaff />} />
             <Route path="/admin/account/user" element={<ManageUser />} />
-            {/* <Route path="/admin/chi-tiet-nguoi-dung/:id" element={<ViewUser />} /> */}
+            <Route path="/admin/chi-tiet-nguoi-dung/:id" element={<ViewUser />} />
             {/* <Route path="/admin/view/ViewTransactionSeller" element={<ViewTransactionSeller />} />
             <Route path="/admin/view/ViewTransactionBuyer" element={<ViewTransactionBuyer />} />
-            <Route path="/admin/view/ViewTransactionUser" element={<ViewTransactionUser />} />
-            <Route path="/admin/view/ViewProfile" element={<ViewProfile />} /> */}
+            <Route path="/admin/view/ViewTransactionUser" element={<ViewTransactionUser />} /> */}
+            {/* <Route path="/admin/view/ViewProfile" element={<ViewProfile />} /> */}
           </Route>
         </Route>
         {/* /MANAGER/ */}
