@@ -4,7 +4,7 @@ import JewelryHandOverSingle from './JewelryHandOverSingle';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { Spinner } from 'react-bootstrap';
 import { Transaction } from '../../../../models/Transaction';
-import { getTransactionsByTypeAndState } from '../../../../api/TransactionAPI';
+import { getHandoverTransaction } from '../../../../api/TransactionAPI';
 
 interface JewelriesHandOverListProps {
   user: User | null;
@@ -17,7 +17,6 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
   const type: string = 'PAYMENT_TO_WINNER';
-  const state: string = 'SUCCEED'
 
 
   useEffect(() => {
@@ -26,7 +25,7 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
 
   useEffect(() => {
     setLoading(true)
-    getTransactionsByTypeAndState(type, state, page)
+    getHandoverTransaction(type, page)
       .then((response) => {
         console.log('giao dịch duocj tim thay');
 
