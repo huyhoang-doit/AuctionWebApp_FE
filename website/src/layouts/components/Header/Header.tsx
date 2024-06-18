@@ -57,30 +57,9 @@ export default function Header() {
                   </Link>
                 </div>
               </div>
-              {/* <div className="col-lg-2 d-none d-lg-block">
-                <div className="contact-info">
-                  <div className="contact-info_icon">
-                    <i className="ion-android-call"></i>
-                  </div>
-                  <div className="contact-info_content">
-                    <span>{t("header-middle_area.LienHe")}</span>
-                    <Link to="#">(+84) 0123456789</Link>
-                  </div>
-                </div>
-              </div> */}
-              <div className="col-lg-2 d-none d-lg-block" style={{ fontSize: '20px', padding: '20px' }}>
-                <div className="language-dropdown">
-                  <div className="language-selected">
-                    <i className="ion-earth"></i>
-                    <span>{selectedLanguage}</span>
-                    <ul className="language-menu">
-                      <li onClick={() => changeLanguage("vi")}>Tiếng Việt</li>
-                      <li onClick={() => changeLanguage("en")}>English</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4 d-none d-lg-block">
+
+
+              <div className="col-lg-5 d-none d-lg-block">
                 <div className="hm-form_area">
                   <form action="#" className="hm-searchbox">
                     <input
@@ -98,6 +77,18 @@ export default function Header() {
                       <i className="ion-android-search"></i>
                     </button>
                   </form>
+                </div>
+              </div>
+              <div className="col-lg-2 d-none d-lg-block" style={{ fontSize: '20px', padding: '20px' }}>
+                <div className="language-dropdown">
+                  <div className="language-selected">
+                    <i className="ion-earth"></i>
+                    <span>{selectedLanguage}</span>
+                    <ul className="language-menu">
+                      <li onClick={() => changeLanguage("vi")}>Tiếng Việt</li>
+                      <li onClick={() => changeLanguage("en")}>English</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
               <div className="col-xl-2 col-lg-2 d-none d-lg-block">

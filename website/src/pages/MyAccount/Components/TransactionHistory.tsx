@@ -46,7 +46,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
           setTransactionsDashboard({
             numberTransactionsRequest: response.numberTransactionsRequest,
             totalPriceJewelryWonByUsername:
-            response.totalPriceJewelryWonByUsername,
+              response.totalPriceJewelryWonByUsername,
             totalJewelryWon: response.totalJewelryWon,
             totalBid: response.totalBid,
           });
@@ -130,7 +130,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                       <StateTransaction state={transaction.state} />
                     </td>
                     <td style={{ width: "125px" }}>
-                      {transaction.state === 'SUCCEED' ? <ViewTransactionModal transaction={transaction} /> : <TransactionModal transaction={transaction} />}
+                      {(transaction.state === 'SUCCEED' || transaction.paymentMethod === 'PAY_AT_COUNTER') ? <ViewTransactionModal transaction={transaction} /> : <TransactionModal transaction={transaction} />}
                     </td>
                   </tr>
                 ))

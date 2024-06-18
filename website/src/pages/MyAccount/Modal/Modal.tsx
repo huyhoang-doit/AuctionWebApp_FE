@@ -26,6 +26,9 @@ import { Transaction } from '../../../models/Transaction';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { TypeTransaction } from '../Components/TypeTransaction';
 import { handlePay } from '../../../api/PaymentAPI';
+import { PaymentMethod } from '../Components/PaymentMethod';
+import { StateTransaction } from '../Components/StateTransaction';
+import { setMethodTransaction } from '../../../api/TransactionAPI';
 
 // *** MODAL FOR USER
 
@@ -65,6 +68,7 @@ interface ViewTransactionModalProps {
 
 export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({ transaction }) => {
   const payer = transaction.user;
+  const method = transaction.paymentMethod;
 
   const [show, setShow] = useState(false);
 
@@ -163,14 +167,6 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({ tran
                           <span className='fw-bold'> {transaction.auction?.id} - {transaction.auction?.name}</span>
 
                         </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <label>
-                            Phương thức thanh toán:
-                          </label>
-                          <span className='fw-bold'> {transaction.paymentMethod}</span>
-                        </div>
-                      </div>
-                      <div className="checkout-form-list my-4 col-md-6">
                         <div className='checkout-form-list mb-2'>
                           <label>
                             Thời gian khởi tạo:{" "}
@@ -184,6 +180,28 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({ tran
                           </label>
                           <span className='fw-bold'> {formatDateStringAcceptNull(transaction.paymentTime)}</span>
                         </div>
+
+                      </div>
+                      <div className="checkout-form-list my-4 col-md-6">
+                        <div className="checkout-form-list mb-2 ">
+                          <label>
+                            Phương thức thanh toán: {" "}
+                          </label>
+                          <span className='fw-bold'> <PaymentMethod method={transaction.paymentMethod ? transaction.paymentMethod : ''} /> { }</span>
+                        </div>
+                        <div className="checkout-form-list mb-2 ">
+                          <label>
+                            Trạng thái thanh toán: {" "}
+                          </label>
+                          <span className='fw-bold'> <StateTransaction state={transaction.state} /></span>
+                        </div>
+                        {method === 'PAY_AT_COUNTER' && (<div className="checkout-form-list mb-2 ">
+                          <label>
+                            Địa điểm thanh toán: {" "}
+                          </label>
+                          <span className='fw-bold'>  Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam</span>
+                        </div>)}
+
                       </div>
                       <div className='checkout-form-list mb-2 col-md-12'>
                         <label>
@@ -223,6 +241,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ transaction 
 
   const [show, setShow] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showPayCounterModal, setPayCounterModal] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -230,7 +249,12 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ transaction 
     setShow(false)
     setShowCreateModal(true);
   };
+  const handleShowPayCounterModal = () => {
+    setShow(false)
+    setPayCounterModal(true);
+  };
   const handleCloseCreateModal = () => setShowCreateModal(false);
+  const handleClosePayCounterModal = () => setPayCounterModal(false);
 
   return (
     <>
@@ -268,7 +292,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ transaction 
                   }}
                   onMouseEnter={() => setHoverIndex(0)}
                   onMouseLeave={() => setHoverIndex(null)}
-                  onClick={handleClose}
+                  onClick={handleShowPayCounterModal}
                 >
                   <div className="col-md-4" style={{ flex: '0 0 33.333333%', maxWidth: '33.333333%' }}>
                     <img src="/assets/images/icon/pay_at_counter.png" alt="" />
@@ -310,6 +334,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ transaction 
         </div>
       )}
       <CreateTransactionWinnerModal transaction={transaction} show={showCreateModal} handleClose={handleCloseCreateModal} auction={transaction.auction} winner={payer} />
+      <ConfirmPayAtCounterTransactionModal transaction={transaction} show={showPayCounterModal} handleClose={handleClosePayCounterModal} auction={transaction.auction} winner={payer} />
     </>
   );
 }
@@ -328,8 +353,9 @@ interface CreateTransactionWinnerModalProps {
 
 
 export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModalProps> = ({ transaction, show, handleClose, auction, winner }) => {
-  const handlePayment = () => {
-    if (winner) {
+  const handlePayment = async () => {
+    const changeMethod = await setMethodTransaction(transaction.id, 'BANKING')
+    if (winner && changeMethod) {
       if (auction && winner)
         handlePay(transaction.totalPrice, auction?.id, winner?.username ? winner.username : "", transaction.id);
     }
@@ -429,6 +455,119 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
             </Button>
             <Button variant="warning" onClick={handlePayment}>
               Thanh toán
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    )}
+
+    </>
+  );
+};
+
+export const ConfirmPayAtCounterTransactionModal: React.FC<CreateTransactionWinnerModalProps> = ({ transaction, show, handleClose, auction, winner }) => {
+  const handlePayment = async () => {
+    const changeMethod = await setMethodTransaction(transaction.id, 'BANKING')
+    if (winner && changeMethod) {
+      if (auction && winner)
+        handlePay(transaction.totalPrice, auction?.id, winner?.username ? winner.username : "", transaction.id);
+    }
+  }
+  return (
+    <>{show && (
+      <div className='overlay'>
+        <Modal
+          show={show}
+          onHide={handleClose}
+          centered
+          backdrop="static"
+          size="lg"
+        >
+          <Modal.Header>
+            <Modal.Title className='w-100'>
+              <div className='col-12 text-center'>Xác nhận thanh toán tại quầy</div>
+              <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{auction?.name}</span></div>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className='p-4'>
+            <form action="">
+              <div className="checkbox-form">
+                <div className="row">
+                  <div className="col-md-12 ">
+                    <div className="col-md-12 fw-medium row">
+                      <h4 className=' fw-medium'>Tài khoản thanh toán</h4>
+                      <div className="checkout-form-list my-3 col-md-6">
+                        <div className='checkout-form-list mb-2'>
+                          <label>
+                            Mã người dùng:{" "}
+                          </label>
+                          <span className='fw-bold'> {winner?.id}</span>
+
+                        </div>
+                        <div className="checkout-form-list mb-2 ">
+                          <label>
+                            Tên người dùng:
+                          </label>
+                          <span className='fw-bold'> {winner?.fullName}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2 ">
+                          <label>
+                            Số CCCD:
+                          </label>
+                          <span className='fw-bold'> {winner?.cccd}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2">
+                          <label>
+                            Địa chỉ:
+                          </label>
+                          <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.district} </span>
+                        </div>
+                        <div className="checkout-form-list mb-2">
+                          <label>Email:  </label>
+                          <span className='fw-semibold'> {winner?.email}</span>
+                        </div>
+                      </div>
+                      <div className="checkout-form-list mb-2 col-md-6 border p-2 row">
+                        <div className="checkout-form-list mb-0 col-md-6">
+                          <img src={winner?.bank?.logo} alt="bank" />
+                        </div>
+                        <div className='checkout-form-list mb-2 col-md-12'>
+                          <label>
+                            Thẻ ngân hàng:{" "}
+                          </label>
+                          <span className='fw-bold text-uppercase'> {winner?.bank?.bankName}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2 col-md-12 ">
+                          <label>
+                            Mã số thẻ:
+                          </label>
+                          <span className='fw-bold text-success'> {winner?.bankAccountName} - {winner?.bankAccountNumber}</span>
+                        </div>
+
+                      </div>
+                      <div className="checkout-form-list mb-2 col-md-12 p-2 row">
+                        <div className='checkout-form-list mb-2 col-md-12'>
+                          <label>
+                            Số tiền cần trả:{" "}
+                          </label>
+                          <span className='fw-bold text-uppercase fs-4 text-success'> {formatNumberAcceptNull(transaction.totalPrice)} VND</span>
+                        </div>
+                        <div className='mt-3'>
+                          <span style={{ fontSize: '12px' }}>(*)Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="dark" onClick={handleClose}>
+              Đóng
+            </Button>
+            <Button variant="warning" onClick={handlePayment}>
+              Xác nhận
             </Button>
           </Modal.Footer>
         </Modal>
