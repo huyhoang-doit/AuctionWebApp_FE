@@ -3,6 +3,7 @@ import { Transaction } from '../../../models/Transaction';
 import { getTransactionStatusStyle } from '../../../utils/cssStyle';
 import { formatNumber } from '../../../utils/formatNumber';
 import { DeleteTransactionModal, ViewTransactionModal } from '../Modal/Modal';
+import { StateTransaction } from './StateTransaction';
 interface TransactionSingleProps {
   transaction: Transaction;
 }
@@ -18,7 +19,7 @@ const TransactionSingle: React.FC<TransactionSingleProps> = ({ transaction }) =>
         <td>{transaction.user?.phone}</td>
         <td>{formatNumber(transaction.totalPrice)}</td>
         <td>
-          <a className="fw-bold" style={getTransactionStatusStyle(transaction.state)}>{transaction.state}</a>
+          <a className="fw-bold" style={getTransactionStatusStyle(transaction.state)}><StateTransaction state={transaction.state} /></a>
         </td>
         <td>
           <ViewTransactionModal transaction={transaction} />
