@@ -355,9 +355,8 @@ interface CreateTransactionWinnerModalProps {
 
 
 export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModalProps> = ({ transaction, show, handleClose, auction, winner }) => {
-  const handlePayment = async () => {
-    const changeMethod = await setMethodTransaction(transaction.id, 'BANKING')
-    if (winner && changeMethod) {
+  const handlePayment = () => {
+    if (winner) {
       if (auction && winner)
         handlePay(transaction.totalPrice, auction?.id, winner?.username ? winner.username : "", transaction.id);
     }

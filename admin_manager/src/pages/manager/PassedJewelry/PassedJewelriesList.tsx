@@ -91,8 +91,6 @@ const PassedJewelriesList = () => {
                       </tbody>
                     </table>
                   </div>
-
-
                   <PaginationControl
                     page={page}
                     between={5}

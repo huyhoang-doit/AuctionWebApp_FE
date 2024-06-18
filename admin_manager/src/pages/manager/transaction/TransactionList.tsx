@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-// import './TransactionWithBuyer.css';
 import { Transaction } from '../../../models/Transaction';
 import { getTransactionsByTypeAndState } from '../../../api/TransactionAPI';
 import TransactionSingle from './TransactionSingle';
@@ -166,6 +165,7 @@ const TransactionList = () => {
             </div>
           </div>
         </div>
+
       </section>
     </>
   );
