@@ -6,6 +6,7 @@ import { formatNumberAcceptNull } from '../../../../utils/formatNumber';
 import { getImagesByJewelryId } from '../../../../api/ImageApi';
 import { JewelryHanOverModal } from '../../Modal/Modal';
 import { Transaction } from '../../../../models/Transaction';
+import { PaymentMethod } from '../PaymentMethod';
 type JewelryHandOverSingleProps = {
   transaction: Transaction;
   user: User | null
@@ -39,11 +40,10 @@ const JewelryHandOverSingle: React.FC<JewelryHandOverSingleProps> = ({ transacti
           {formatNumberAcceptNull(auction?.lastPrice)}
         </td>
         <td className='fw-semibold'>
-          {transaction.paymentMethod === 'COD' ? 'Tại quầy' : 'Chuyển khoản'}
+          <PaymentMethod method={transaction.paymentMethod ? transaction.paymentMethod : 'BANKING'} />
         </td>
         <td>
           <JewelryHanOverModal transaction={transaction} images={images} user={user} jewelry={jewelry} auction={auction} />
-          {/* <DeleteJewelryModal jewelry={jewelry} notification={notification} setNotification={setNotification} /> */}
         </td>
       </tr>
     </>

@@ -115,6 +115,37 @@ export async function getTransactionsByTypeAndState(type: string, state: string,
     };
 }
 
+export async function getHandoverTransaction(type: string, page: number): Promise<ResultInteface> {
+    const transactions: Transaction[] = [];
+    // end-point
+    const URL = `${BASE_URL}/transaction/get-handover?type=${type}&page=${page - 1}`;
+    // call api
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+    if (response) {
+        for (const item of responseData) {
+            transactions.push({
+                id: item.id,
+                createDate: item.createDate,
+                paymentTime: item.paymentTime,
+                totalPrice: item.totalPrice,
+                feesIncurred: item.feesIncurred,
+                state: item.state,
+                type: item.type,
+                auction: item.auction,
+                paymentMethod: item.paymentMethod,
+                user: item.user
+            });
+        }
+    } else {
+        throw new Error("Transaction không tồn tại");
+    }
+    return {
+        transactions: transactions,
+        totalElements: response.totalElements
+    };
+}
+
 export async function setMethodTransaction(transactionId: number, method: string): Promise<boolean> {
     const accessToken = localStorage.getItem('access_token');
     // endpoint
