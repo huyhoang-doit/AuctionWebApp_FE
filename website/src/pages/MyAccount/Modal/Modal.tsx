@@ -274,7 +274,6 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ transaction,
           >
             <Modal.Header >
               <Modal.Title className='w-100'>
-
                 <div className='col-12 text-center fw-semibold text-warning'>Chọn phương thức thanh toán</div>
               </Modal.Title>
             </Modal.Header>
