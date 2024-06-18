@@ -187,7 +187,7 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({ tran
                           <label>
                             Phương thức thanh toán: {" "}
                           </label>
-                          <span className='fw-bold'> <PaymentMethod method={transaction.paymentMethod ? transaction.paymentMethod : ''} /> { }</span>
+                          <span className='fw-bold'> <PaymentMethod method={transaction.paymentMethod ? transaction.paymentMethod : ''} /></span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
                           <label>
@@ -233,9 +233,10 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({ tran
 
 interface TransactionModalProps {
   transaction: Transaction;
+  getTransactionList: () => Promise<void>
 }
 
-export const TransactionModal: React.FC<TransactionModalProps> = ({ transaction }) => {
+export const TransactionModal: React.FC<TransactionModalProps> = ({ transaction, getTransactionList }) => {
   const payer = transaction.user;
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
@@ -334,7 +335,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ transaction 
         </div>
       )}
       <CreateTransactionWinnerModal transaction={transaction} show={showCreateModal} handleClose={handleCloseCreateModal} auction={transaction.auction} winner={payer} />
-      <ConfirmPayAtCounterTransactionModal transaction={transaction} show={showPayCounterModal} handleClose={handleClosePayCounterModal} auction={transaction.auction} winner={payer} />
+      <ConfirmPayAtCounterTransactionModal transaction={transaction} show={showPayCounterModal} handleClose={handleClosePayCounterModal} auction={transaction.auction} winner={payer} getTransactionList={getTransactionList} />
     </>
   );
 }
@@ -465,12 +466,25 @@ export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModal
   );
 };
 
-export const ConfirmPayAtCounterTransactionModal: React.FC<CreateTransactionWinnerModalProps> = ({ transaction, show, handleClose, auction, winner }) => {
-  const handlePayment = async () => {
-    const changeMethod = await setMethodTransaction(transaction.id, 'BANKING')
-    if (winner && changeMethod) {
-      if (auction && winner)
-        handlePay(transaction.totalPrice, auction?.id, winner?.username ? winner.username : "", transaction.id);
+interface ConfirmPayAtCounterTransactionModalProps {
+  transaction: Transaction;
+  show: boolean;
+  handleClose: () => void;
+  auction: Auction | undefined | null;
+  winner: User | undefined
+  getTransactionList: () => Promise<void>
+}
+
+export const ConfirmPayAtCounterTransactionModal: React.FC<ConfirmPayAtCounterTransactionModalProps> = ({ transaction, show, handleClose, auction, winner, getTransactionList }) => {
+  const method = 'PAY_AT_COUNTER'
+
+  const handleConfirmPayCounter = async () => {
+    const changeMethod = await setMethodTransaction(transaction.id, method)
+    if (changeMethod) {
+      toast.success('Thanh toán tại quầy được xác nhận')
+      getTransactionList()
+      handleClose()
+
     }
   }
   return (
@@ -527,22 +541,25 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<CreateTransactionWinn
                           <span className='fw-semibold'> {winner?.email}</span>
                         </div>
                       </div>
-                      <div className="checkout-form-list mb-2 col-md-6 border p-2 row">
-                        <div className="checkout-form-list mb-0 col-md-6">
-                          <img src={winner?.bank?.logo} alt="bank" />
-                        </div>
-                        <div className='checkout-form-list mb-2 col-md-12'>
+                      <div className="checkout-form-list my-4 col-md-6">
+                        <div className="checkout-form-list mb-2 ">
                           <label>
-                            Thẻ ngân hàng:{" "}
+                            Phương thức thanh toán: {" "}
                           </label>
-                          <span className='fw-bold text-uppercase'> {winner?.bank?.bankName}</span>
+                          <span className='fw-bold'> <PaymentMethod method={method} /></span>
                         </div>
-                        <div className="checkout-form-list mb-2 col-md-12 ">
+                        <div className="checkout-form-list mb-2 ">
                           <label>
-                            Mã số thẻ:
+                            Trạng thái thanh toán: {" "}
                           </label>
-                          <span className='fw-bold text-success'> {winner?.bankAccountName} - {winner?.bankAccountNumber}</span>
+                          <span className='fw-bold'> <StateTransaction state={transaction.state} /></span>
                         </div>
+                        {method === 'PAY_AT_COUNTER' && (<div className="checkout-form-list mb-2 ">
+                          <label>
+                            Địa điểm thanh toán: {" "}
+                          </label>
+                          <span className='fw-bold'>  Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam</span>
+                        </div>)}
 
                       </div>
                       <div className="checkout-form-list mb-2 col-md-12 p-2 row">
@@ -566,7 +583,7 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<CreateTransactionWinn
             <Button variant="dark" onClick={handleClose}>
               Đóng
             </Button>
-            <Button variant="warning" onClick={handlePayment}>
+            <Button variant="warning" onClick={handleConfirmPayCounter}>
               Xác nhận
             </Button>
           </Modal.Footer>

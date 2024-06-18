@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { TypeTransaction } from "./TypeTransaction";
 import { formatNumber } from "../../../utils/formatNumber";
 import { StateTransaction } from "./StateTransaction";
@@ -36,31 +36,37 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  const getTransactionList = useCallback(async () => {
+    if (!user) return;
+
+    setLoading(true);
+    const username = user.username || "";
+
+    try {
+      const [dashboardResponse, transactionsResponse] = await Promise.all([
+        getTransactionsDashboardByUsername(username),
+        getTransactionsByUsername(username, page)
+      ]);
+
+      setTransactionsDashboard({
+        numberTransactionsRequest: dashboardResponse.numberTransactionsRequest,
+        totalPriceJewelryWonByUsername: dashboardResponse.totalPriceJewelryWonByUsername,
+        totalJewelryWon: dashboardResponse.totalJewelryWon,
+        totalBid: dashboardResponse.totalBid,
+      });
+
+      setTransactions(transactionsResponse.transactions);
+      setTotalElements(transactionsResponse.totalElements);
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [user, page]);
 
   useEffect(() => {
-    setLoading(true)
-    if (user) {
-      const username = user.username ? user.username : "";
-      getTransactionsDashboardByUsername(username)
-        .then((response) => {
-          setTransactionsDashboard({
-            numberTransactionsRequest: response.numberTransactionsRequest,
-            totalPriceJewelryWonByUsername:
-              response.totalPriceJewelryWonByUsername,
-            totalJewelryWon: response.totalJewelryWon,
-            totalBid: response.totalBid,
-          });
-        })
-        .catch(() => { });
-      getTransactionsByUsername(username, page)
-        .then((response) => {
-          setTransactions(response.transactions);
-          setTotalElements(response.totalElements);
-        })
-        .catch(() => { });
-    }
-    setLoading(false)
-  }, [user, page]);
+    getTransactionList();
+  }, [getTransactionList]);
 
   return (
     <div
@@ -130,7 +136,9 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                       <StateTransaction state={transaction.state} />
                     </td>
                     <td style={{ width: "125px" }}>
-                      {(transaction.state === 'SUCCEED' || transaction.paymentMethod === 'PAY_AT_COUNTER') ? <ViewTransactionModal transaction={transaction} /> : <TransactionModal transaction={transaction} />}
+                      {(transaction.state === 'SUCCEED' || transaction.paymentMethod === 'PAY_AT_COUNTER')
+                        ? <ViewTransactionModal transaction={transaction} />
+                        : <TransactionModal transaction={transaction} getTransactionList={getTransactionList} />}
                     </td>
                   </tr>
                 ))
