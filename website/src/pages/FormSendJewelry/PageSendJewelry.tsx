@@ -292,7 +292,7 @@ export const PageSendJewelry = () => {
                             key={category.id}
                             value={category.name}
                           >
-                            {category.name}
+                            {t(`SendSendJewelry.${category.name}`)}
                           </option>
                         ))}
                       </select>
@@ -352,7 +352,7 @@ export const PageSendJewelry = () => {
                       />
                     </div>
                     <div className="col-md-12">
-                      <label>Mô Tả</label>
+                      <label>{t("SendSendJewelry.MoTa")}</label>
                       <textarea
                         className="w-100 h-100 p-2"
                         placeholder={t("SendSendJewelry.NhapMoTaSanPham")}

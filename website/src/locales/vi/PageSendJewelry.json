@@ -24,9 +24,12 @@
         "GuiYeuCau" : "Gửi yêu cầu",
         "NotificationNotPhoto": "Vui lòng cung cấp ảnh cho sản phẩm",
         "GuiYeuCauChoSanPhamMoiThanhCong" : "Gửi yêu cầu sản phẩm mới thành công",
-        "ErrorSendJewelry" : "Đã xảy ra lỗi khi gửi yêu cầu sản phẩm. Vui lòng thử lại sau."
-        
-
+        "ErrorSendJewelry" : "Đã xảy ra lỗi khi gửi yêu cầu sản phẩm. Vui lòng thử lại sau.",
+        "Dây chuyền" : "Dây chuyền",
+        "Vòng tay": "Vòng tay",
+        "Nhẫn": "Nhẫn",
+        "Hoa tai": "Hoa tai",
+        "Mặt dây chuyền" : "Mặt dây chuyền"
 
     }
 }
