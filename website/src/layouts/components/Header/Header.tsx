@@ -85,8 +85,8 @@ export default function Header() {
                     <i className="ion-earth"></i>
                     <span>{selectedLanguage}</span>
                     <ul className="language-menu">
-                      <li onClick={() => changeLanguage("vi")}>Tiếng Việt</li>
-                      <li onClick={() => changeLanguage("en")}>English</li>
+                      <li style={{fontSize: "16px"}} onClick={() => changeLanguage("vi")}>Tiếng Việt</li>
+                      <li style={{fontSize: "16px"}} onClick={() => changeLanguage("en")}>English</li>
                     </ul>
                   </div>
                 </div>
