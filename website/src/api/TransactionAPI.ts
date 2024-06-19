@@ -83,7 +83,7 @@ export const createTransactionForWinner = async (auctionId: number): Promise<Use
     }
 };
 
-export const createTransactionForWinnerIfNotExist = async (userId: number) => {
+export const createTransactionForWinnerIfNotExist = async (userId: number): Promise<Transaction[]> => {
     // end-point
     const URL = `${BASE_URL}/transaction/create-transaction-for-winner-if-not-exist/${userId}`;
     try {
@@ -94,14 +94,14 @@ export const createTransactionForWinnerIfNotExist = async (userId: number) => {
                 'Content-Type': 'application/json'
             }
         });
-
+        
         if (!response.ok) {
-            return;
+            throw new Error('Failed to create transaction');
         }
-
-        return ;
+        const createdTransactions: Transaction[] = await response.json();
+        return createdTransactions;
     } catch (error) {
-        return;
+        throw error;
     }
 };
 

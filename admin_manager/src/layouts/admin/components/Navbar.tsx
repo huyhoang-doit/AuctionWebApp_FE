@@ -64,7 +64,6 @@ const Navbar = () => {
             </Link>
           </li>
           <li >
-
             <Link className="has-arrow" to={"/manager/yeu-cau-dau-gia"} aria-expanded="false">
               <img src="/assets/img/menu-icon/2.svg" />
               <span>Danh sách các yêu cầu đấu giá</span>
@@ -76,7 +75,7 @@ const Navbar = () => {
               <span>Danh sách các phiên đấu giá</span>
             </Link>
           </li>
-          <li >
+          <li>
             <Link className="has-arrow" to={"/manager/tai-san-dang-cho"} aria-expanded="false">
               <img src="/assets/img/menu-icon/3.svg" />
               <span>Danh sách tài sản đủ điều kiện đấu giá</span>
@@ -93,6 +92,12 @@ const Navbar = () => {
               <li><Link to={"/manager/giao-dich/dang-ky-tham-gia"}>Đăng ký tham gia</Link></li>
               <li><Link to={"/manager/giao-dich/hoan-tien"}>Hoàn tiền</Link></li>
             </ul>
+          </li>
+          <li >
+            <Link className="has-arrow" to={"/manager/nguoi-dung-hang-dau"} aria-expanded="false">
+              <img src="/assets/img/menu-icon/6.svg" />
+              <span>Những người dùng hàng đầu</span>
+            </Link>
           </li>
         </>
         }

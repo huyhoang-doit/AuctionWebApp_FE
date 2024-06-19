@@ -248,7 +248,7 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
           <div className="container-fluid plr_30 body_white_bg pt_30">
             <div
               className="row justify-content-center"
-              style={{ padding: "40px 0px 0px 250px" }}
+              style={{ padding: "40px 0px 0px 350px" }}
             >
               <div className="col-12">
                 <div className="breadcrumb-area mb-4">
@@ -283,13 +283,25 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                   objectPosition: "center",
                                 }} />
                               </div>
-
-                              <div className="col-md-8 profile-header-info">
-                                <h4 className="fw-bold m-t-sm">{context?.account?.fullName}</h4>
+                              <div className="col-md-8 profile-header-info ms-4">
+                                <div className="content" style={{ width: "200px" }}>
+                                  <h3>{user.fullName}</h3>
+                                  <div className="account-verified-text-div">
+                                    {user.state === "ACTIVE" ?
+                                      <p className="account-verified-text-pc fw-bold">
+                                        <img src="https://lacvietauction.vn/auctionart/upload/image/SuccessIcon.png" alt="" style={{ width: "20px" }} />
+                                        Đã xác thực
+                                      </p> :
+                                      <p className="account-inverified-text-pc fw-bold">
+                                        <img src="https://static-00.iconduck.com/assets.00/failure-icon-2048x2048-j8y0urc7.png" alt="" style={{ width: "20px", marginRight: "5px" }} />
+                                        Chưa xác thực
+                                      </p>}
+                                  </div>
+                                </div>
                                 <label htmlFor="customFile" className="custom-file-upload btn btn-xs btn-primary mt-4" style={{ backgroundColor: "black", border: "none", color: "white", width: "140px" }}>
                                   Đổi ảnh đại diện
                                 </label>
-                                <input onChange={handleAvatarChange} id='customFile' type="file" accept="image/*" />
+                                <input onChange={handleAvatarChange} id='customFile' type="file" accept="image/*" style={{ display: "none" }} />
                               </div>
                             </div>
                             <div className="row mb-4">

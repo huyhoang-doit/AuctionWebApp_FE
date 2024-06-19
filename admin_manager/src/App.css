@@ -9,3 +9,39 @@
 .bg-error {
     background-color: #bb2d3b;
 }
+
+.account-verified-text-div {
+    padding: 4px;
+    background: #E8F9EF;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.account-inverified-text-div {
+    padding: 4px;
+    background: #E8F9EF;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.content p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #696969;
+    margin-bottom: 0;
+}
+
+.content h3 {
+    font-size: 30px;
+    font-weight: 600;
+    color: #1f2230;
+    margin-bottom: 15px;
+}
+
+.account-verified-text-pc {
+    color: #0C823B !important;
+}
+
+.account-inverified-text-pc {
+    color: red !important;
+}

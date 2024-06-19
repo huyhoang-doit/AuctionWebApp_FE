@@ -74,8 +74,21 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   }, [getTransactionList]);
 
   useEffect(() => {
-    createTransactionForWinnerIfNotExist(user?.id ? user.id : 0);
-  }, []);
+    const fetchData = async () => {
+      setLoading(true);
+      if (!user) return;
+
+      const createdTransactions = await createTransactionForWinnerIfNotExist(user.id);
+      if (createdTransactions.length === 0) return;
+      setTransactions(prevTransactions => [
+        ...prevTransactions,
+        ...createdTransactions
+      ]);
+
+      setLoading(false);
+    };
+    fetchData();
+  }, [user]);
 
   return (
     <div

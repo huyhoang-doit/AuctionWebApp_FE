@@ -42,12 +42,15 @@ import Stomp from "stompjs";
 import { Transaction } from "../../../models/Transaction";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 
+
+
 import { handlePay } from "../../../api/PaymentAPI";
 import { setMethodTransaction } from "../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
 import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
 import { t } from "i18next";
 import { TypeTransaction } from "../Components/member/TypeTransaction";
+
 import { PaymentMethod } from "../Components/member/PaymentMethod";
 import { StateTransaction } from "../Components/member/StateTransaction";
 
