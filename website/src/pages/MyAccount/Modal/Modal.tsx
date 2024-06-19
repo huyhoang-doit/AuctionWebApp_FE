@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { Modal, Button, Form, Spinner } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Modal, Button, Spinner } from "react-bootstrap";
 import "./Modal.css";
 import { handleLogout } from "../../../utils/logout";
 import {
@@ -17,7 +17,6 @@ import {
 } from "../../../api/AuctionHistoryAPI";
 import { Auction } from "../../../models/Auction";
 import {
-  formatDateString,
   formatDateStringAcceptNull,
 } from "../../../utils/formatDateString";
 import { User } from "../../../models/User";
@@ -33,9 +32,7 @@ import {
 } from "../../../utils/checkRegister";
 import { RequestApproval } from "../../../models/RequestApproval";
 import changeStateRequest, {
-  cancelRequest,
   confirmRequest,
-  sendRequestApprovalFromStaff,
 } from "../../../api/RequestApprovalAPI";
 import { changePassword } from "../../../api/AuthenticationAPI";
 import {
@@ -46,17 +43,17 @@ import Stomp from "stompjs";
 
 import { Transaction } from "../../../models/Transaction";
 import { PaginationControl } from "react-bootstrap-pagination-control";
-import { TypeTransaction } from "../Components/TypeTransaction";
 import { handlePay } from "../../../api/PaymentAPI";
-import { PaymentMethod } from "../Components/PaymentMethod";
-import { StateTransaction } from "../Components/StateTransaction";
 import { setMethodTransaction } from "../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
-import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
-import { t } from "i18next";
+import { TypeTransaction } from "../Components/member/TypeTransaction";
+import { StateTransaction } from "../Components/member/StateTransaction";
+import { PaymentMethod } from "../Components/member/PaymentMethod";
 
-// *** MODAL FOR USER
 
+
+// *** MODAL FOR USER ***
+// Interface
 interface SaveEditProfileModalProps {
   user: User | null;
   isEditing: boolean;
@@ -91,11 +88,50 @@ interface ViewTransactionModalProps {
   transaction: Transaction;
 }
 
+interface TransactionModalProps {
+  transaction: Transaction;
+  getTransactionList: () => Promise<void>;
+}
+
+interface CreateTransactionWinnerModalProps {
+  transaction: Transaction;
+  show: boolean;
+  handleClose: () => void;
+  auction: Auction | undefined | null;
+  winner: User | undefined;
+}
+
+interface ConfirmPayAtCounterTransactionModalProps {
+  transaction: Transaction;
+  show: boolean;
+  handleClose: () => void;
+  auction: Auction | undefined | null;
+  winner: User | undefined;
+  getTransactionList: () => Promise<void>;
+}
+
+interface MyRequestProps {
+  request: RequestApproval;
+}
+
+interface RefuseJewelryModalProps {
+  jewelry: Jewelry | undefined;
+  request: RequestApproval;
+  handleChangeList: () => Promise<void>;
+  user: User | null;
+}
+
+interface JewelryModalProps {
+  jewelry: Jewelry | undefined;
+  images: Image[];
+  user: User | null;
+  request: RequestApproval;
+  handleChangeList: () => Promise<void>;
+}
+// Modal
 export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
   transaction,
 }) => {
-  const { t } = useTranslation(["Modal"]);
-
   const payer = transaction.user;
   const method = transaction.paymentMethod;
 
@@ -103,6 +139,8 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const { t } = useTranslation(["MyAccountStaff"]);
 
   return (
     <>
@@ -279,11 +317,6 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
   );
 };
 
-interface TransactionModalProps {
-  transaction: Transaction;
-  getTransactionList: () => Promise<void>;
-}
-
 export const TransactionModal: React.FC<TransactionModalProps> = ({
   transaction,
   getTransactionList,
@@ -322,7 +355,6 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             backdropClassName="custom-backdrop"
             size="sm"
           >
-
             <Modal.Header>
               <Modal.Title className="w-100">
                 <div className="col-12 text-center fw-semibold text-warning">
@@ -422,20 +454,10 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   );
 };
 
-interface CreateTransactionWinnerModalProps {
-  transaction: Transaction;
-  show: boolean;
-  handleClose: () => void;
-  auction: Auction | undefined | null;
-  winner: User | undefined;
-}
 
-export const CreateTransactionWinnerModal: React.FC<
-  CreateTransactionWinnerModalProps
-> = ({ transaction, show, handleClose, auction, winner }) => {
-  const handlePayment = async () => {
-    const changeMethod = await setMethodTransaction(transaction.id, "BANKING");
-    if (winner && changeMethod) {
+export const CreateTransactionWinnerModal: React.FC<CreateTransactionWinnerModalProps> = ({ transaction, show, handleClose, auction, winner }) => {
+  const handlePayment = () => {
+    if (winner) {
       if (auction && winner)
         handlePay(
           transaction.totalPrice,
@@ -559,14 +581,6 @@ export const CreateTransactionWinnerModal: React.FC<
   );
 };
 
-interface ConfirmPayAtCounterTransactionModalProps {
-  transaction: Transaction;
-  show: boolean;
-  handleClose: () => void;
-  auction: Auction | undefined | null;
-  winner: User | undefined;
-  getTransactionList: () => Promise<void>;
-}
 
 export const ConfirmPayAtCounterTransactionModal: React.FC<
   ConfirmPayAtCounterTransactionModalProps
@@ -578,20 +592,20 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
   winner,
   getTransactionList,
 }) => {
-  const method = "PAY_AT_COUNTER";
+    const method = "PAY_AT_COUNTER";
 
-  const handleConfirmPayCounter = async () => {
-    const changeMethod = await setMethodTransaction(transaction.id, method);
-    if (changeMethod) {
-      toast.success("Thanh toán tại quầy được xác nhận");
-      getTransactionList();
-      handleClose();
-    }
-  };
-  return (
-    <>
-      {show && (
-        <div className="overlay">
+    const handleConfirmPayCounter = async () => {
+      const changeMethod = await setMethodTransaction(transaction.id, method);
+      if (changeMethod) {
+        toast.success("Thanh toán tại quầy được xác nhận");
+        getTransactionList();
+        handleClose();
+      }
+    };
+    return (
+
+      <>{show && (
+        <div className='overlay'>
           <Modal
             show={show}
             onHide={handleClose}
@@ -600,105 +614,92 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
             size="lg"
           >
             <Modal.Header>
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">
-                  Xác nhận thanh toán tại quầy
-                </div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-warning fw-bold">{auction?.name}</span>
-                </div>
+              <Modal.Title className='w-100'>
+                <div className='col-12 text-center'>Xác nhận thanh toán tại quầy</div>
+                <div className='col-12 mb-3 text-center '><span className='text-warning fw-bold'>{auction?.name}</span></div>
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body className="p-4">
+            <Modal.Body className='p-4'>
               <form action="">
                 <div className="checkbox-form">
                   <div className="row">
                     <div className="col-md-12 ">
                       <div className="col-md-12 fw-medium row">
-                        <h4 className=" fw-medium">Tài khoản thanh toán</h4>
+                        <h4 className=' fw-medium'>Tài khoản thanh toán</h4>
                         <div className="checkout-form-list my-3 col-md-6">
-                          <div className="checkout-form-list mb-2">
-                            <label>Mã người dùng: </label>
-                            <span className="fw-bold"> {winner?.id}</span>
+                          <div className='checkout-form-list mb-2'>
+                            <label>
+                              Mã người dùng:{" "}
+                            </label>
+                            <span className='fw-bold'> {winner?.id}</span>
+
                           </div>
                           <div className="checkout-form-list mb-2 ">
-                            <label>Tên người dùng:</label>
-                            <span className="fw-bold"> {winner?.fullName}</span>
+                            <label>
+                              Tên người dùng:
+                            </label>
+                            <span className='fw-bold'> {winner?.fullName}</span>
                           </div>
                           <div className="checkout-form-list mb-2 ">
-                            <label>Số CCCD:</label>
-                            <span className="fw-bold"> {winner?.cccd}</span>
+                            <label>
+                              Số CCCD:
+                            </label>
+                            <span className='fw-bold'> {winner?.cccd}</span>
                           </div>
                           <div className="checkout-form-list mb-2">
-                            <label>Địa chỉ:</label>
-                            <span className="fw-semibold">
-                              {" "}
-                              {winner?.address}, {winner?.city},{" "}
-                              {winner?.district}{" "}
-                            </span>
+                            <label>
+                              Địa chỉ:
+                            </label>
+                            <span className='fw-semibold'> {winner?.address}, {winner?.city}, {winner?.district} </span>
                           </div>
                           <div className="checkout-form-list mb-2">
-                            <label>Email: </label>
-                            <span className="fw-semibold">
-                              {" "}
-                              {winner?.email}
-                            </span>
+                            <label>Email:  </label>
+                            <span className='fw-semibold'> {winner?.email}</span>
                           </div>
-                          <div className="checkout-form-list my-4 col-md-12">
-                            <label>Số tiền cần trả: </label>
-                            <span className="fw-bold text-uppercase fs-4 text-success">
-                              {" "}
-                              {formatNumberAcceptNull(
-                                transaction.totalPrice
-                              )}{" "}
-                              VND
-                            </span>
+                          <div className='checkout-form-list my-4 col-md-12'>
+                            <label>
+                              Số tiền cần trả:{" "}
+                            </label>
+                            <span className='fw-bold text-uppercase fs-4 text-success'> {formatNumberAcceptNull(transaction.totalPrice)} VND</span>
                           </div>
                           <div className="checkout-form-list mb-2 ">
-                            <span style={{ fontSize: "12px" }}>
-                              (*)Mọi thắc mắc xin liên hệ hotline (+84)
-                              0123456789 để được hỗ trợ.
-                            </span>
+                            <span style={{ fontSize: '12px' }}>(*)Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ.</span>
                           </div>
                         </div>
                         <div className="checkout-form-list my-4 col-md-6">
+
                           <div className="checkout-form-list mb-2 ">
-                            <label>Phương thức thanh toán: </label>
-                            <span className="fw-bold">
-                              {" "}
-                              <PaymentMethod method={method} />
-                            </span>
+                            <label>
+                              Phương thức thanh toán: {" "}
+                            </label>
+                            <span className='fw-bold'> <PaymentMethod method={method} /></span>
                           </div>
                           <div className="checkout-form-list mb-2 ">
-                            <label>Trạng thái thanh toán: </label>
-                            <span className="fw-bold">
-                              {" "}
-                              <StateTransaction state={transaction.state} />
-                            </span>
+                            <label>
+                              Trạng thái thanh toán: {" "}
+                            </label>
+                            <span className='fw-bold'> <StateTransaction state={transaction.state} /></span>
                           </div>
 
-                          {method === "PAY_AT_COUNTER" && (
-                            <div className="checkout-form-list mb-2 ">
-                              <label>Địa điểm thanh toán: </label>
-                              <span className="fw-bold">
-                                {" "}
-                                Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước,
-                                Đông Hoà, Dĩ An, Bình Dương, Việt Nam
-                              </span>
-                              <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1003405.79257722!2d105.55479573124998!3d10.768824599999986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1718718338321!5m2!1svi!2s"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                style={{
-                                  border: "0",
-                                  width: "100%",
-                                  height: "100%",
-                                  marginTop: "20px",
-                                }}
-                                title={"Nhà Văn hóa Sinh viên TP.HCM"}
-                                allowFullScreen={true}
-                                loading="lazy"
-                              ></iframe>
-                            </div>
+                          {method === 'PAY_AT_COUNTER' && (<div className="checkout-form-list mb-2 ">
+                            <label>
+                              Địa điểm thanh toán: {" "}
+                            </label>
+                            <span className='fw-bold'>  Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam</span>
+                            <iframe
+                              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1003405.79257722!2d105.55479573124998!3d10.768824599999986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1718718338321!5m2!1svi!2s"
+                              referrerPolicy="no-referrer-when-downgrade"
+                              style={{
+                                border: "0",
+                                width: "100%",
+                                height: "100%",
+                                marginTop: '20px'
+                              }}
+                              title={'Nhà Văn hóa Sinh viên TP.HCM'}
+                              allowFullScreen={true}
+                              loading="lazy"
+                            ></iframe>
+                          </div>
                           )}
                         </div>
                       </div>
@@ -718,13 +719,10 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
           </Modal>
         </div>
       )}
-    </>
-  );
-};
+      </>
+    );
+  };
 
-interface MyRequestProps {
-  request: RequestApproval;
-}
 
 export const ConfirmModal: React.FC<JewelryModalProps> = ({
   jewelry,
@@ -821,13 +819,6 @@ export const ConfirmModal: React.FC<JewelryModalProps> = ({
   );
 };
 
-interface RefuseJewelryModalProps {
-  jewelry: Jewelry | undefined;
-  request: RequestApproval;
-  handleChangeList: () => Promise<void>;
-  user: User | null;
-}
-
 export const RefuseJewelryRequestModal: React.FC<RefuseJewelryModalProps> = ({
   jewelry,
   request,
@@ -865,7 +856,7 @@ export const RefuseJewelryRequestModal: React.FC<RefuseJewelryModalProps> = ({
     <>
       <button
         type="button"
-        className="btn btn-sm btn-danger "
+        className="btn ms-2 btn-sm btn-danger "
         id="save-profile-tab"
         role="tab"
         aria-controls="account-details"
@@ -904,223 +895,6 @@ export const RefuseJewelryRequestModal: React.FC<RefuseJewelryModalProps> = ({
   );
 };
 
-export const ViewStaffRequestModal: React.FC<MyRequestProps> = ({
-  request,
-}) => {
-  const [show, setShow] = useState(false);
-  const [image, setImage] = useState<Image | null>(null);
-  const [images, setImages] = useState<Image[]>([]);
-  useEffect(() => {
-    getIconImageByJewelryId(request.jewelry?.id ? request.jewelry?.id : 1)
-      .then((response) => {
-        setImage(response);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-
-    getImagesByJewelryId(request.jewelry?.id ? request.jewelry?.id : 1)
-      .then((response) => {
-        setImages(response);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  }, [request]);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  return (
-    <>
-      <Button variant="dark" size="sm" onClick={handleShow}>
-        Xem
-      </Button>
-      {show && (
-        <div className="overlay">
-          <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdropClassName="custom-backdrop"
-            size="lg"
-          >
-            <Modal.Header>
-              <Modal.Title className="w-100 p-3">
-                <div className="col-12 text-center">Thông tin yêu cầu</div>
-                <div className="col-12 mb-3 text-center ">
-                  Sản phẩm:{" "}
-                  <span className="text-warning fw-bold">
-                    {request.jewelry?.name}
-                  </span>
-                </div>
-                <h5 className="col-12">
-                  Nhân viên gửi yêu cầu -{" "}
-                  <span className=" fw-bold">{request.sender?.fullName}</span>
-                </h5>
-                <h5 className="col-12">
-                  Mã nhân viên -{" "}
-                  <span className=" fw-bold">{request.sender?.id}</span>
-                </h5>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="p-4">
-              <form action="">
-                <div className="checkbox-form">
-                  <div className="row">
-                    <div className="col-md-12 fw-medium">
-                      <div className="checkout-form-list mb-2">
-                        <label>Mã tài sản: </label>
-                        <span className="fw-bold"> {request.jewelry?.id}</span>
-                      </div>
-                      <div className="checkout-form-list mb-2">
-                        <label>Mã yêu cầu:</label>
-                        <span className="fw-bold"> {request.id}</span>
-                      </div>
-                      <div className="checkout-form-list mb-2 row">
-                        <div className="col-md-6 mb-2">
-                          <label>Danh mục:</label>
-                          <span className="fw-bold">
-                            {" "}
-                            {request.jewelry?.category?.name}
-                          </span>
-                        </div>
-                        <div className="col-md-6">
-                          <label>Thương hiệu:</label>
-                          <span className="fw-bold">
-                            {" "}
-                            {request.jewelry?.brand}
-                          </span>
-                        </div>
-                        <div className="col-md-6">
-                          <label>Chất liệu:</label>
-                          <span className="fw-bold">
-                            {" "}
-                            {request.jewelry?.material}
-                          </span>
-                        </div>
-                        <div className="col-md-6">
-                          <label>Trọng lượng (g):</label>
-                          <span className="fw-bold">
-                            {" "}
-                            {request.jewelry?.weight}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="checkout-form-list checkout-form-list-2 mb-2">
-                        <label>Mô tả trang sức</label>
-                        <br />
-                        <textarea
-                          readOnly
-                          className="w-100 h-auto p-2"
-                          id="checkout-mess"
-                          value={request.jewelry?.description}
-                        ></textarea>
-                      </div>
-                      <div className="w-100 fw-medium">
-                        <div className="checkout-form-list row">
-                          <label>Hình ảnh</label>
-                          {React.Children.toArray(
-                            images.map((img: Image) => (
-                              <div className="col-md-3">
-                                <img src={img.data} alt="Ảnh sản phẩm" />
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="checkout-form-list">
-                        <label className=" fw-bold">Giá đề xuất</label>
-                        <input
-                          className=" fw-bold"
-                          placeholder=""
-                          type="text"
-                          value={formatNumber(request?.desiredPrice)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="checkout-form-list">
-                        <label className="text-danger fw-bold">Định giá</label>
-                        <input
-                          className=" fw-bold"
-                          placeholder=""
-                          type="text"
-                          value={formatNumber(request?.valuation)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="checkout-form-list">
-                        <label className="text-danger fw-bold">
-                          Thời gian yêu cầu
-                        </label>
-                        <input
-                          className=" fw-bold"
-                          placeholder=""
-                          type="text"
-                          value={formatDateStringAcceptNull(
-                            request.requestTime
-                          )}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="checkout-form-list">
-                        <label className="fw-bold">Trạng thái</label>
-                        {request.state === "HIDDEN" ? (
-                          <input
-                            className=" fw-bold text-danger"
-                            placeholder=""
-                            type="text"
-                            value="Đã bị hủy"
-                            readOnly={true}
-                          />
-                        ) : (
-                          <input
-                            className=" fw-bold text-success"
-                            placeholder=""
-                            type="text"
-                            value={`${
-                              request.isConfirm
-                                ? "Đã phê duyệt"
-                                : "Chưa phê duyệt"
-                            }`}
-                            readOnly={true}
-                          />
-                        )}
-                      </div>
-                    </div>
-                    {request.state === "HIDDEN" && (
-                      <>
-                        <div className="col-md-6">
-                          <div className="checkout-form-list">
-                            <label className="fw-bold">*Lý do: </label>
-                            <p className="fw-semibold">{request.note}</p>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleClose}>
-                Đóng
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-    </>
-  );
-};
 
 export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
   request,
@@ -1274,11 +1048,10 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
                             className=" fw-bold text-success"
                             placeholder=""
                             type="text"
-                            value={`${
-                              request.isConfirm
-                                ? "Đã phê duyệt"
-                                : "Chưa phê duyệt"
-                            }`}
+                            value={`${request.isConfirm
+                              ? "Đã phê duyệt"
+                              : "Chưa phê duyệt"
+                              }`}
                             readOnly={true}
                           />
                         )}
@@ -1301,525 +1074,6 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
                 Đóng
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-    </>
-  );
-};
-
-interface JewelryModalProps {
-  jewelry: Jewelry | undefined;
-  images: Image[];
-  user: User | null;
-  request: RequestApproval;
-  handleChangeList: () => Promise<void>;
-}
-
-// *** MODAL FOR STAFF ***
-// Modal for Jewelry List
-export const JewelryModal: React.FC<JewelryModalProps> = ({
-  jewelry,
-  images,
-  user,
-  request,
-  handleChangeList,
-}) => {
-  const [show, setShow] = useState(false);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [valuation, setValuation] = useState<number | undefined>(
-    request.valuation
-  );
-
-  const handleChangePrice = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.replace(/[^0-9]/g, "");
-    const numericValue = parseInt(value);
-    setValuation(numericValue);
-    request.valuation = numericValue;
-  };
-
-  const handleCloseJewelryDetail = () => setShow(false);
-  const handleShowJewelryDetail = () => setShow(true);
-
-  const handleShowCreateModal = () => {
-    setShow(false); // Close the JewelryModal
-    setShowCreateModal(true); // Open the JewelryCreateRequestModal
-  };
-  const handleCloseCreateModal = () => setShowCreateModal(false);
-  return (
-    <>
-      <Button variant="dark" size="sm" onClick={handleShowJewelryDetail}>
-        View
-      </Button>
-      {show && (
-        <div className="overlay">
-          <Modal
-            show={show}
-            onHide={handleCloseJewelryDetail}
-            centered
-            backdrop="static"
-          >
-            <Modal.Header>
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">Thông tin tài sản</div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-warning fw-bold">{jewelry?.name}</span>
-                </div>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form action="">
-                <div className="checkbox-form">
-                  <div className="row">
-                    <div className="col-md-12 ">
-                      <div className="country-select clearfix"></div>
-                    </div>
-                    <div className="col-md-12 fw-medium">
-                      <div className="checkout-form-list mb-2 row">
-                        <div className="col-md-6">
-                          <label>Chủ tài sản:</label>
-                          <span className="fw-bold">
-                            {" "}
-                            {jewelry?.user?.fullName}
-                          </span>
-                        </div>
-                        <div className="col-md-6">
-                          <label>Mã người dùng:</label>
-                          <span className="fw-bold"> {jewelry?.user?.id}</span>
-                        </div>
-                      </div>
-                      <div className="checkout-form-list mb-2">
-                        <label>Mã tài sản: </label>
-                        <span className="fw-bold"> {jewelry?.id}</span>
-                      </div>
-                      <div className="checkout-form-list mb-2">
-                        <label>Tên:</label>
-                        <span className="fw-bold"> {jewelry?.name}</span>
-                      </div>
-                      <div className="checkout-form-list mb-2 row">
-                        <div className="col-md-6">
-                          <label>Danh mục:</label>
-                          <span className="fw-bold">
-                            {" "}
-                            {jewelry?.category?.name}
-                          </span>
-                        </div>
-                        <div className="col-md-6">
-                          <label>Thương hiệu:</label>
-                          <span className="fw-bold"> {jewelry?.brand}</span>
-                        </div>
-                        <div className="col-md-6">
-                          <label>Chất liệu:</label>
-                          <span className="fw-bold"> {jewelry?.material}</span>
-                        </div>
-                        <div className="col-md-6">
-                          <label>Trọng lượng (g):</label>
-                          <span className="fw-bold"> {jewelry?.weight}</span>
-                        </div>
-                      </div>
-                      <div className="checkout-form-list checkout-form-list-2 mb-2">
-                        <label>Mô tả </label>
-                        <br />
-                        <textarea
-                          readOnly
-                          className="w-100 h-auto p-1"
-                          id="checkout-mess"
-                          value={jewelry?.description}
-                        ></textarea>
-                      </div>
-                      <div className="w-100 fw-medium">
-                        <div className="checkout-form-list row">
-                          <label>Hình ảnh</label>
-                          {React.Children.toArray(
-                            images.map((img: Image) => (
-                              <div className="col-md-3">
-                                <img src={img.data} alt="Ảnh sản phẩm" />
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="checkout-form-list">
-                        <label className="text-danger fw-bold">
-                          Giá đề xuất
-                        </label>
-                        <input
-                          className=" fw-bold"
-                          placeholder=""
-                          type="text"
-                          value={formatNumber(request?.desiredPrice)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="checkout-form-list">
-                        <label className="text-success fw-bold">Định giá</label>
-                        <input
-                          className=" fw-bold"
-                          placeholder=""
-                          type="text"
-                          value={formatNumber(valuation)}
-                          onChange={handleChangePrice}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleCloseJewelryDetail}>
-                Đóng
-              </Button>
-              <Button variant="warning" onClick={handleShowCreateModal}>
-                Tạo yêu cầu
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-
-      <JewelryCreateRequestModal
-        show={showCreateModal}
-        handleClose={handleCloseCreateModal}
-        request={request}
-        jewelry={jewelry}
-        images={images}
-        user={user}
-        handleChangeList={handleChangeList}
-      />
-    </>
-  );
-};
-
-interface JewelryCreateRequestModalProps {
-  show: boolean;
-  handleClose: () => void;
-  jewelry: Jewelry | undefined;
-  images: Image[];
-  user: User | null;
-  request: RequestApproval;
-  handleChangeList: () => Promise<void>;
-}
-
-export const JewelryCreateRequestModal: React.FC<
-  JewelryCreateRequestModalProps
-> = ({
-  show,
-  handleClose,
-  jewelry,
-  images,
-  user,
-  request,
-  handleChangeList,
-}) => {
-  const handleSendRequestFromStaff = async () => {
-    const requestBody = {
-      id: 0,
-      senderId: user?.id,
-      requestApprovalId: request.id,
-      valuation: request.valuation,
-      requestTime: new Date().toISOString(),
-    };
-    console.log(requestBody);
-
-    const newRequest = await sendRequestApprovalFromStaff(requestBody);
-    if (newRequest) {
-      console.log("Staff send request thanh cong");
-      handleChangeList();
-    }
-  };
-
-  const handleConfirm = async () => {
-    const confirm = await confirmRequest(request.id, user?.id);
-    if (confirm) {
-      console.log("confirm thành công");
-      handleSendRequestFromStaff();
-    }
-    handleClose();
-    toast.success("Định giá cho tài sản đã được gửi đi");
-  };
-  return (
-    <>
-      {show && (
-        <div className="overlay">
-          <Modal show={show} onHide={handleClose} centered backdrop="static">
-            <Modal.Header>
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">
-                  Tạo yêu cầu phê duyệt tài sản
-                </div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-warning fw-bold">{jewelry?.name}</span>
-                </div>
-                <h5 className="col-12">
-                  Nhân viên gửi yêu cầu -{" "}
-                  <span className=" fw-bold">{user?.firstName}</span>
-                </h5>
-                <h5 className="col-12">
-                  Mã nhân viên - <span className=" fw-bold">{user?.id}</span>
-                </h5>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form action="">
-                <div className="checkbox-form">
-                  <div className="row">
-                    <div className="col-md-12 ">
-                      <div className="country-select clearfix"></div>
-                    </div>
-                    <div className="col-md-6 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Mã tài sản </label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={jewelry?.id}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Danh mục</label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={jewelry?.category?.name}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Chất liệu</label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={jewelry?.material}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Thương hiệu</label>
-                        <input
-                          placeholder="Street address"
-                          type="text"
-                          value={jewelry?.brand}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Cân nặng (g)</label>
-                        <input
-                          placeholder="Street address"
-                          type="text"
-                          value={jewelry?.weight}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="order-notes fw-medium">
-                      <div className="checkout-form-list checkout-form-list-2">
-                        <label>Mô tả </label>
-                        <textarea
-                          readOnly
-                          id="checkout-mess"
-                          value={jewelry?.description}
-                        ></textarea>
-                      </div>
-                    </div>
-                    <div className="order-notes col-md-12 fw-medium">
-                      <div className="checkout-form-list checkout-form-list-2 row">
-                        <label>Hình ảnh sản phẩm </label>
-                        {React.Children.toArray(
-                          images.map((img: Image) => (
-                            <div className="col-md-3">
-                              <img src={img.data} alt="Ảnh sản phẩm" />
-                            </div>
-                          ))
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="checkout-form-list">
-                        <label className="text-danger fw-bold">
-                          Giá đề xuất
-                        </label>
-                        <input
-                          className=" fw-bold"
-                          placeholder=""
-                          type="text"
-                          value={formatNumber(request.desiredPrice)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="checkout-form-list">
-                        <label className="text-success fw-bold">Định giá</label>
-                        <input
-                          className=" fw-bold"
-                          placeholder=""
-                          type="text"
-                          value={formatNumber(request.valuation)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleClose}>
-                Đóng
-              </Button>
-              <Button variant="warning" onClick={handleConfirm}>
-                Gửi yêu cầu
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-    </>
-  );
-};
-
-// Delete Jewelry Modal
-interface DeleteJewelryModalProps {
-  jewelry: Jewelry | undefined;
-  request: RequestApproval;
-  handleChangeList: () => Promise<void>;
-  user: User | null;
-}
-interface cancelRequestProps {
-  requestId: number;
-  note: string;
-}
-
-export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({
-  jewelry,
-  request,
-  user,
-  handleChangeList,
-}) => {
-  const [show, setShow] = useState(false);
-  const [reason, setReason] = useState("");
-  const [notification, setNotification] = useState("");
-  const [cancel, setCancel] = useState<cancelRequestProps>({
-    requestId: request.id,
-    note: reason,
-  });
-
-  const handleClose = () => {
-    setNotification("");
-    setShow(false);
-  };
-  const handleShow = () => setShow(true);
-  const handleDelete = async () => {
-    if (reason === "") {
-      setNotification("Cung cấp lý do hủy yêu cầu tài sản");
-    } else {
-      try {
-        if (user) {
-          const setState = await changeStateRequest(
-            request.id,
-            user?.id,
-            "HIDDEN"
-          );
-          const setNote = await cancelRequest(cancel);
-          if (setState && setNote) {
-            await handleChangeList();
-            handleClose();
-            toast.success("Xóa thành công.");
-          } else {
-            setNotification(
-              "Hệ thống có một chút sự cố, chưa thể xóa được trang sức này"
-            );
-          }
-        }
-      } catch (error) {
-        setNotification(
-          "Hệ thống có một chút sự cố, chưa thể xóa được trang sức này"
-        );
-      }
-    }
-  };
-
-  const handleReasonChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setNotification("");
-    setReason(event.target.value);
-    setCancel({ ...cancel, note: event.target.value });
-  };
-
-  return (
-    <>
-      <button
-        type="button"
-        className="btn btn-sm btn-danger ms-2 "
-        id="save-profile-tab"
-        role="tab"
-        aria-controls="account-details"
-        aria-selected="false"
-        onClick={handleShow}
-      >
-        Hủy
-      </button>
-      {show && (
-        <div className="overlay">
-          <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdropClassName="custom-backdrop"
-          >
-            <Modal.Header className="text-center w-100">
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">Xác nhận hủy yêu cầu</div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-danger fw-bold">{jewelry?.name}</span>
-                </div>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <p className="fw-semibold">
-                Bạn có chắc muốn xóa sản phẩm này khỏi danh sách chờ không?
-              </p>
-              <Form>
-                <Form.Group controlId="formReason">
-                  <Form.Label className="fw-semibold">
-                    Nhập lý do <span className="text-danger">*</span>
-                  </Form.Label>
-                  <p className="text-danger fw-semibold">{notification}</p>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    value={reason}
-                    onChange={handleReasonChange}
-                    required
-                  />
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleClose}>
-                Hủy
-              </Button>
-              <Button variant="danger" onClick={handleDelete}>
-                Xác nhận
               </Button>
             </Modal.Footer>
           </Modal>
@@ -1861,7 +1115,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
           setAuctionHistories(response.auctionHistoriesData);
           setTotalElements(response.totalElements);
         })
-        .catch(() => {});
+        .catch(() => { });
     }
     setLoading(false);
   }, [page, auctionHistoryState, auctionId, userId]);
@@ -1990,7 +1244,6 @@ interface BidConfirmProps {
   connected: boolean;
 }
 
-// Modal for Jewelry HandOver
 export const BidConfirm: React.FC<BidConfirmProps> = ({
   stompClient,
   connected,
@@ -2070,552 +1323,8 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
     </>
   );
 };
-
-type AuctionType = {
-  auction: Auction;
-};
-// Modal for Jewelry HandOver
-export const AssignAuctionModal: React.FC<AuctionType> = ({ auction }) => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  return (
-    <>
-      <Button variant="dark" size="sm" onClick={handleShow}>
-        Xem
-      </Button>
-
-      {show && (
-        <div className="overlay">
-          <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdropClassName="custom-backdrop"
-            size="lg"
-          >
-            <Modal.Header>
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">Thông tin phiên đấu</div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-warning fw-bold">{auction.name}</span>
-                </div>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {" "}
-              <form action="">
-                <div className="checkbox-form">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className="country-select clearfix"></div>
-                    </div>
-                    <div className="col-md-9 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Phiên đấu giá</label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={auction?.name}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-3 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Phí tham gia (VNĐ)</label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={formatNumber(auction?.participationFee)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Thời gian bắt đầu</label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={formatDateString(auction.startDate)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Thời gian kết thúc</label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={formatDateString(auction.endDate)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Giá khởi điểm (VNĐ)</label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={formatNumber(auction.firstPrice)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Tiền đặt trước (VNĐ)</label>
-                        <input
-                          placeholder="Street address"
-                          type="text"
-                          value={formatNumber(auction.deposit)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>Bước giá (VNĐ)</label>
-                        <input
-                          placeholder="Street address"
-                          type="text"
-                          value={formatNumber(auction.priceStep)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="order-notes col-md-12 fw-medium">
-                      <div className="checkout-form-list checkout-form-list-2">
-                        <label>Mô tả </label>
-                        <textarea
-                          readOnly
-                          id="checkout-mess"
-                          value={auction.description}
-                        ></textarea>
-                      </div>
-                    </div>
-                    <div className="col-md-6 fw-medium text-danger">
-                      <div className="checkout-form-list">
-                        <label>Giá cuối (VNĐ)</label>
-                        <input
-                          className="fw-bold"
-                          placeholder="Chưa cập nhật"
-                          type="text"
-                          value={
-                            auction?.lastPrice !== undefined
-                              ? formatNumberAcceptNull(auction.lastPrice)
-                              : ""
-                          }
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6 fw-semibold text-success">
-                      <div className="checkout-form-list">
-                        <label>Trạng thái</label>
-                        <input
-                          className="fw-bold"
-                          placeholder="Street address"
-                          type="text"
-                          value={auction.state}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleClose}>
-                Đóng
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-    </>
-  );
-};
-
-interface JewelryHanOverModalProps {
-  transaction: Transaction;
-  images: Image[];
-  user: User | null;
-  jewelry: Jewelry | undefined;
-  auction: Auction | undefined | null;
-}
-export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
-  transaction,
-  images,
-  user,
-  jewelry,
-  auction,
-}) => {
-  const winner = transaction.user;
-
-  const [show, setShow] = useState(false);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const handleCloseJewelryDetail = () => setShow(false);
-  const handleShowJewelryDetail = () => setShow(true);
-
-  const handleShowCreateModal = () => {
-    setShow(false);
-    setShowCreateModal(true);
-  };
-  const handleCloseCreateModal = () => setShowCreateModal(false);
-  return (
-    <>
-      <Button variant="dark" size="sm" onClick={handleShowJewelryDetail}>
-        Xem
-      </Button>
-      {show && (
-        <div className="overlay">
-          <Modal
-            show={show}
-            onHide={handleCloseJewelryDetail}
-            centered
-            backdrop="static"
-            size="lg"
-          >
-            <Modal.Header>
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">Tài sản bàn giao</div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-warning fw-bold">{jewelry?.name}</span>
-                </div>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="p-4">
-              <form action="">
-                <div className="checkbox-form">
-                  <div className="row">
-                    <div className="col-md-6 fw-medium">
-                      <h4 className=" fw-medium">1. Thông tin tài sản</h4>
-                      <div className="checkout-form-list mb-2">
-                        <label>Mã tài sản: </label>
-                        <span className="fw-bold"> {jewelry?.id}</span>
-                      </div>
-                      <div className="checkout-form-list mb-2">
-                        <label>Tên:</label>
-                        <span className="fw-bold"> {jewelry?.name}</span>
-                      </div>
-                      <div className="checkout-form-list mb-2 row">
-                        <div className="col-md-6 mb-2">
-                          <label>Thương hiệu:</label>
-                          <span className="fw-bold"> {jewelry?.brand}</span>
-                        </div>
-                        <div className="col-md-6">
-                          <label>Chất liệu:</label>
-                          <span className="fw-bold"> {jewelry?.material}</span>
-                        </div>
-                        <div className="col-md-6">
-                          <label>Trọng lượng (g):</label>
-                          <span className="fw-bold"> {jewelry?.weight}</span>
-                        </div>
-                      </div>
-                      <div className="checkout-form-list checkout-form-list-2 mb-2">
-                        <label>Mô tả sản phẩm </label>
-                        <br />
-                        <textarea
-                          readOnly
-                          className="w-100 p-2"
-                          style={{ height: "100px" }}
-                          id="checkout-mess"
-                          value={jewelry?.description}
-                        ></textarea>
-                      </div>
-                      <div className="w-100 fw-medium">
-                        <div className="checkout-form-list row">
-                          <label>Hình ảnh</label>
-                          {React.Children.toArray(
-                            images.map((img: Image) => (
-                              <div className="col-md-3">
-                                <img src={img.data} alt="Ảnh sản phẩm" />
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6 fw-medium">
-                      <h4 className=" fw-medium">2. Phiên đấu</h4>
-                      <div className="checkout-form-list mb-2">
-                        <label>Mã phiên: </label>
-                        <span className="fw-bold"> {auction?.id}</span>
-                      </div>
-                      <div className="checkout-form-list mb-2">
-                        <label>Tên:</label>
-                        <span className="fw-bold"> {auction?.name}</span>
-                      </div>
-                      <div className="checkout-form-list mb-2 ">
-                        <label>Bắt đầu:</label>
-                        <span className="fw-bold">
-                          {" "}
-                          {formatDateString(
-                            auction?.startDate ? auction.startDate : ""
-                          )}
-                        </span>
-                      </div>
-                      <div className="checkout-form-list mb-2">
-                        <label>Kết thúc:</label>
-                        <span className="fw-bold">
-                          {" "}
-                          {formatDateString(
-                            auction?.endDate ? auction.endDate : ""
-                          )}
-                        </span>
-                      </div>
-                      <div className="checkout-form-list mb-2">
-                        <label>Trạng thái: </label>
-
-                        <span className="fw-bold text-uppercase text-success">
-                          {" "}
-                          <StateAuctionView
-                            state={auction?.state ? auction.state : "FINISHED"}
-                          />
-                        </span>
-                      </div>
-                      <div className="checkout-form-list mb-2">
-                        <label>Giá cuối:</label>
-                        <span className="fw-bold text-uppercase text-danger">
-                          {" "}
-                          {formatNumberAcceptNull(auction?.lastPrice)} VND
-                        </span>
-                      </div>
-                      <div className="checkout-form-list mb-2">
-                        <label>Phương thức thanh toán:</label>
-                        <span className="fw-bold text-uppercase">
-                          {" "}
-                          <PaymentMethod
-                            method={
-                              transaction.paymentMethod
-                                ? transaction.paymentMethod
-                                : "BANKING"
-                            }
-                          />
-                        </span>
-                      </div>
-                      <div className="checkout-form-list mb-2">
-                        <label>Trạng thái:</label>
-                        <span className="fw-bold text-uppercase text-danger">
-                          {" "}
-                          <StateTransaction state={transaction.state} />
-                        </span>
-                      </div>
-                    </div>
-                    <div className="col-md-12 fw-medium row">
-                      <h4 className=" fw-medium">
-                        3. Người đấu giá thành công
-                      </h4>
-                      <div className="checkout-form-list mb-2 col-md-6">
-                        <div className="checkout-form-list mb-2">
-                          <label>Mã người dùng: </label>
-                          <span className="fw-bold"> {winner?.id}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <label>Tên người dùng:</label>
-                          <span className="fw-bold"> {winner?.fullName}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <label>Số CCCD:</label>
-                          <span className="fw-bold"> {winner?.cccd}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2">
-                          <label>Địa chỉ:</label>
-                          <span className="fw-semibold">
-                            {" "}
-                            {winner?.address}, {winner?.ward},{" "}
-                            {winner?.district}, {winner?.city}{" "}
-                          </span>
-                        </div>
-                        <div className="checkout-form-list mb-2">
-                          <label>Email: </label>
-                          <span className="fw-semibold"> {winner?.email}</span>
-                        </div>
-                      </div>
-                      <div className="checkout-form-list mb-2 col-md-6 border p-2 row">
-                        <div className="checkout-form-list mb-0 col-md-6">
-                          <img src={winner?.bank?.logo} alt="bank" />
-                        </div>
-                        <div className="checkout-form-list mb-2 col-md-12">
-                          <label>Thẻ ngân hàng: </label>
-                          <span className="fw-bold text-uppercase">
-                            {" "}
-                            {winner?.bank?.bankName}
-                          </span>
-                        </div>
-                        <div className="checkout-form-list mb-2 col-md-12 ">
-                          <label>Mã số thẻ: </label>
-                          <span className="fw-bold text-success">
-                            {winner?.bankAccountName} -{" "}
-                            {winner?.bankAccountNumber}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleCloseJewelryDetail}>
-                Đóng
-              </Button>
-              <Button variant="warning" onClick={handleShowCreateModal}>
-                Tiến hành bàn giao
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-
-      <CreateHandoverReportModal
-        show={showCreateModal}
-        handleClose={handleCloseCreateModal}
-        auction={auction}
-        jewelry={jewelry}
-        user={user}
-      />
-    </>
-  );
-};
-
-interface CreateHandoverReportModalProps {
-  show: boolean;
-  handleClose: () => void;
-  auction: Auction | undefined | null;
-  jewelry: Jewelry | undefined;
-  user: User | null;
-}
-
-export const CreateHandoverReportModal: React.FC<
-  CreateHandoverReportModalProps
-> = ({ show, handleClose, user, auction, jewelry }) => {
-  return (
-    <>
-      {show && (
-        <div className="overlay">
-          <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdrop="static"
-            size="lg"
-          >
-            <Modal.Header>
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">
-                  Thông tin bàn giao sản phẩm
-                </div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-warning fw-bold">{jewelry?.name}</span>
-                </div>
-                <h5 className="col-12">
-                  Nhân viên - <span className=" fw-bold">{user?.fullName}</span>
-                </h5>
-                <h5 className="col-12">
-                  Mã nhân viên - <span className=" fw-bold">{user?.id}</span>
-                </h5>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {/* <form action="">
-              <div className="checkbox-form">
-                <div className="row">
-                  <div className="col-md-12 ">
-                    <div className="col-md-12 fw-medium row">
-                      <h4 className=' fw-medium'>Người thanh toán</h4>
-                      <div className="checkout-form-list mb-2 col-md-6">
-                        <div className='checkout-form-list mb-2'>
-                          <label>
-                            Mã người dùng:{" "}
-                          </label>
-                          <span className='fw-bold'> {jewelry?.id}</span>
-
-                        </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <label>
-                            Tên người dùng:
-                          </label>
-                          <span className='fw-bold'> {jewelry?.id}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <label>
-                            Số CCCD:
-                          </label>
-                          <span className='fw-bold'> {jewelry?.id}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2">
-                          <label>
-                            Địa chỉ:
-                          </label>
-                          <span className='fw-semibold'> {jewelry?.id} </span>
-                        </div>
-                        <div className="checkout-form-list mb-2">
-                          <label>Email:  </label>
-                          <span className='fw-semibold'>{jewelry?.id}</span>
-                        </div>
-                      </div>
-                      <div className="checkout-form-list mb-2 col-md-6 border p-2 row">
-                        <div className="checkout-form-list mb-0 col-md-6">
-                          <img src='' alt="bank" />
-                        </div>
-                        <div className='checkout-form-list mb-2 col-md-12'>
-                          <label>
-                            Thẻ ngân hàng:{" "}
-                          </label>
-                          <span className='fw-bold text-uppercase'> {jewelry?.id}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2 col-md-12 ">
-                          <label>
-                            Mã số thẻ:
-                          </label>
-                          <span className='fw-bold text-success'>{jewelry?.id}</span>
-                        </div>
-
-                      </div>
-                      <div className="checkout-form-list mb-2 col-md-12 p-2 row">
-                        <div className='checkout-form-list mb-2 col-md-12'>
-                          <label>
-                            Số tiền cần trả:{" "}
-                          </label>
-                          <span className='fw-bold text-uppercase fs-4 text-success'>    {formatNumberAcceptNull(auction?.lastPrice)} VND</span>
-                        </div>
-                        <div className='mt-3'>
-                          <span style={{ fontSize: '12px' }}>(*)Nhấn gửi yêu cầu để thông báo đến người dùng về giao dịch này</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form> */}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleClose}>
-                Đóng
-              </Button>
-              <Button variant="warning" onClick={handleClose}>
-                Xác nhận
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-    </>
-  );
-};
-
 // MODAL FOR ALL ACCOUNT
 export const LogoutModal = () => {
-  const { t } = useTranslation(["Modal"]);
   return (
     <>
       <div
@@ -2641,7 +1350,8 @@ export const LogoutModal = () => {
           })
         }
       >
-        {t("Modal.ĐĂNG XUẤT")}
+        {" "}
+        ĐĂNG XUẤT
       </div>
     </>
   );
@@ -2725,8 +1435,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
     setShowModal(false);
     changeState();
   };
-  //i18n
-  const { t } = useTranslation(["Modal"]);
+
   return (
     <>
       <button
@@ -2739,7 +1448,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
         onClick={!isEditing ? changeState : handleShow}
         style={{ backgroundColor: "black", border: "none" }}
       >
-        {isEditing ? t("Modal.Lưu") : t("Modal.Chỉnh sửa")}
+        {isEditing ? "Lưu" : "Chỉnh sửa"}
       </button>
       {showModal && (
         <div className="overlay">
