@@ -331,7 +331,6 @@ export async function getRequestNeedConfirmByMember(memberId: number, page: numb
   const requests: RequestApproval[] = [];
   // request
   const response = await MyRequest(URL);
-  console.log(response);
 
   const responseData = response.content;
   const totalElements = response.totalElements;

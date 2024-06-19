@@ -14,7 +14,6 @@ const Navbar = () => {
   if (token) {
     const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
     userRole = decodedData.authorities[0].authority;
-    console.log(userRole);
 
   }
 

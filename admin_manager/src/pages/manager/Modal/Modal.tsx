@@ -661,7 +661,6 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
     } else {
       setShow(false); // Close the JewelryModal
       setShowContinueModal(true); // Open the JewelryCreateRequestModal
-      console.log(newAuctionRequest);
     }
   };
 
@@ -704,7 +703,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
             onHide={handleCloseCreateAuction}
             centered
             backdrop="static"
-            size="lg"
+            size="xl"
           >
             <Modal.Header>
               <Modal.Title className="w-100">
@@ -896,7 +895,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                     <label style={{ marginBottom: "5px" }} htmlFor="txtStart">
                       Mô tả cho phiên:
                     </label>
-                    <div>
+                    <div style={{ height: '400px' }}>
                       <CKEditor
                         editor={ClassicEditor}
                         data={description}
@@ -913,13 +912,12 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                           editor.editing.view.change((writer) => {
                             const root = editor.editing.view.document.getRoot();
                             if (root) {
-                              writer.setStyle("height", "200px", root);
+                              writer.setStyle("height", "300px", root);
                             }
                           });
                         }}
                         onChange={(event, editor) => {
                           const data = editor.getData();
-                          console.log(data);
                           updateDescription(data);
                         }}
                       />

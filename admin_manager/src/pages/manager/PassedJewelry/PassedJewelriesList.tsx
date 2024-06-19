@@ -3,7 +3,7 @@ import useAccount from '../../../hooks/useAccount';
 import { RequestApproval } from '../../../models/RequestApproval';
 import { User } from '../../../models/User';
 import { getRequestPassed } from '../../../api/RequestApprovalAPI';
-import { Breadcrumb, Spinner } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import PassedJewelrySingle from './PassedJewelrySingle';
 import { Link } from 'react-router-dom';
