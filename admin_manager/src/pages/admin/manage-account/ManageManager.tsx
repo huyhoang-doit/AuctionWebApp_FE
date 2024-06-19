@@ -109,8 +109,8 @@ const ManageManager = () => {
                               </td>
                               <td>
                                 <div className="btn-group">
-                                  {/* <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
-                                  <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button> */}
+                                  <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
+                                  <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
                                 </div>
                               </td>
                             </tr>
