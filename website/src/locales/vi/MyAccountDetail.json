@@ -1,0 +1,39 @@
+{
+    "MyAccountDetail" : {
+        "Thông tin tài khoản": "Thông tin tài khoản",
+        "Đổi ảnh đại diện": "Đổi ảnh đại diện",
+        "Số CCCD": "Số CCCD",
+        "Nhập số căn cước": "Nhập số căn cước",
+        "Năm sinh": "Năm sinh",
+        "Nhập năm sinh": "Nhập năm sinh",
+        "Tên tài khoản": "Tên tài khoản",
+        "Nhập tên tài khoản": "Nhập tên tài khoản",
+        "Nhập Email của bạn": "Nhập Email của bạn",
+        "Họ": "Họ",
+        "Nhập họ của bạn": "Nhập họ của bạn",
+        "Tên": "Tên",
+        "Nhập tên của bạn": "Nhập tên của bạn",
+        "Địa chỉ": "Địa chỉ",
+        "Nhập địa chỉ của bạn": "Nhập địa chỉ của bạn",
+        "Tỉnh": "Tỉnh",
+        "Quận / Huyện": "Quận / Huyện",
+        "Phường / Xã": "Phường / Xã",
+        "Ngân hàng": "Ngân hàng",
+        "Số tài khoản ngân hàng": "Số tài khoản ngân hàng",
+        "Nhập số tài khoản ngân hàng của bạn": "Nhập số tài khoản ngân hàng của bạn",
+        "Tên chủ tài khoản ngân hàng": "Tên chủ tài khoản ngân hàng",
+        "Nhập tên chủ tài khoản ngân hàng": "Nhập tên chủ tài khoản ngân hàng",
+        "Số điện thoại": "Số điện thoại",
+        "Nhập số điện thoại của bạn": "Nhập số điện thoại của bạn",
+        "Cập nhật ảnh đại diện thành công!": "Cập nhật ảnh đại diện thành công!",
+        "Thông tin chưa được cập nhật. Vui lòng thử lại!": "Thông tin chưa được cập nhật. Vui lòng thử lại!",
+        "Cập nhật thông tin thành công!": "Cập nhật thông tin thành công!",
+        "Số điện thoại phải có ít nhất 10 ký tự và bắt đầu từ 0" : "Số điện thoại phải có ít nhất 10 ký tự và bắt đầu từ 0",
+        "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước" : "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước",
+        "Vui lòng nhập tên chủ thẻ ngân hàng" : "Vui lòng nhập tên chủ thẻ ngân hàng",
+        "Năm sinh không hợp lệ!" : "Năm sinh không hợp lệ!"
+
+
+
+    }
+}

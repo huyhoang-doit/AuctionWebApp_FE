@@ -1,0 +1,39 @@
+{
+    "MyAccountDetail" : {
+        "Thông tin tài khoản": "Account information",
+        "Đổi ảnh đại diện": "Change avatar",
+        "Số CCCD": "ID Card Number",
+        "Nhập số căn cước": "Enter ID Card Number",
+        "Năm sinh": "Year of birth",
+        "Nhập năm sinh": "Enter year of birth",
+        "Tên tài khoản": "Account name",
+        "Nhập tên tài khoản": "Enter account name",
+        "Nhập Email của bạn": "Enter your email",
+        "Họ": "First name",
+        "Nhập họ của bạn": "Enter your first name",
+        "Tên": "Last name",
+        "Nhập tên của bạn": "Enter your last name",
+        "Địa chỉ": "Address",
+        "Nhập địa chỉ của bạn": "Enter your address",
+        "Tỉnh": "Province",
+        "Quận / Huyện": "District",
+        "Phường / Xã": "Ward",
+        "Ngân hàng": "Bank",
+        "Số tài khoản ngân hàng": "Bank account number",
+        "Nhập số tài khoản ngân hàng của bạn": "Enter your bank account number",
+        "Tên chủ tài khoản ngân hàng": "Bank account holder name",
+        "Nhập tên chủ tài khoản ngân hàng": "Enter the name of the bank account holder",
+        "Số điện thoại": "Phone number",
+        "Nhập số điện thoại của bạn": "Enter your phone number",
+        "Cập nhật ảnh đại diện thành công!": "Update avatar successfully!",
+        "Thông tin chưa được cập nhật. Vui lòng thử lại!": "Information has not been updated. Please try again!",
+        "Cập nhật thông tin thành công!": "Update information successfully!",
+        "Số điện thoại phải có ít nhất 10 ký tự và bắt đầu từ 0" : "Phone number must have at least 10 characters and start from 0",
+        "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước" : "Please enter the account number to receive the deposit refund",
+        "Vui lòng nhập tên chủ thẻ ngân hàng" : "Please enter the name of the bank account holder",
+        "Năm sinh không hợp lệ!" : "Invalid year of birth!"
+
+
+
+    }
+}
