@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
 import { PaymentMethod } from "../Components/member/PaymentMethod";
 import { StateTransaction } from "../Components/member/StateTransaction";
+import { setJewelryHolding } from "../../../api/JewelryAPI";
 
 
 // *** MODEL FOR STAFF
@@ -67,6 +68,11 @@ interface CreateHandoverReportModalProps {
   auction: Auction | undefined | null;
   jewelry: Jewelry | undefined;
   user: User | null;
+}
+
+interface ConfirmHoldingModalProps {
+  jewelry: Jewelry;
+  handleChangeList: () => Promise<void>
 }
 
 type AuctionType = {
@@ -1282,6 +1288,78 @@ export const CreateHandoverReportModal: React.FC<
                 Đóng
               </Button>
               <Button variant="warning" onClick={handleClose}>
+                Xác nhận
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
+    </>
+  );
+};
+
+export const ConfirmHoldingModal: React.FC<ConfirmHoldingModalProps> = ({
+  jewelry,
+  handleChangeList,
+}) => {
+  const [show, setShow] = useState(false);
+
+  const handleCloseJewelryDetail = () => {
+    handleChangeList();
+    setShow(false);
+  };
+  const handleShowJewelryDetail = () => setShow(true);
+
+  const handleConfirm = async () => {
+    const confirm = await setJewelryHolding(jewelry.id);
+    if (confirm) {
+      console.log("set holding thành công");
+    }
+    handleChangeList()
+    handleCloseJewelryDetail();
+  };
+
+  return (
+    <>
+      <Button variant="warning" size="sm" onClick={handleShowJewelryDetail}>
+        Đã nhận
+      </Button>
+      {show && (
+        <div className="overlay">
+          <Modal
+            show={show}
+            onHide={handleCloseJewelryDetail}
+            centered
+            backdrop="static"
+            size='lg'
+            className="p-4"
+          >
+            <Modal.Header>
+              <Modal.Title className="w-100">
+                <div className="col-12 text-center">Xác nhận đã nhận tài sản</div>
+                <div className="col-12 mb-3 text-center ">
+                  <span className="text-success fw-bold">{jewelry?.name}</span>
+                </div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="p-4">
+              <h6 className="lh-base">
+                Tài sản{" "}
+                <span className="text-success fw-semibold">
+                  {jewelry?.name}
+                </span>{" "}
+                được xác nhận đã có mặt tại cơ sở?
+              </h6>
+              <h6 className="lh-base">
+                Nhân viên kiểm tra kỹ chính xác thông tin tài sản trước khi tiến hành xác nhận
+              </h6>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleCloseJewelryDetail}>
+                Đóng
+              </Button>
+              <Button variant="warning" onClick={handleConfirm}>
                 Xác nhận
               </Button>
             </Modal.Footer>

@@ -10,6 +10,7 @@ import { LogoutModal } from "./Modal/Modal";
 import { ChangePassword } from "./Components/staff/ChangePassword";
 import StaffRequestList from "./Components/staff/StaffRequestList";
 import { useTranslation } from "react-i18next";
+import JewelrySentToWebList from "./Components/staff/JewelrySentToWebList";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
   const { account, setAccount } = useAccount(token);
@@ -88,7 +89,7 @@ export default function MyAccountStaff() {
                       aria-controls="account-orders"
                       aria-selected="false"
                     >
-                      {t("MyAccount.ListTrangSucGuiToi")}
+                      {t("MyAccount.ListCacYeuCauGuiToi")}
                     </a>
                   </li>
                   <li
@@ -107,6 +108,24 @@ export default function MyAccountStaff() {
                       aria-selected="false"
                     >
                       {t("MyAccount.ListCacYeuCauGuiDi")}
+                    </a>
+                  </li>
+                  <li
+                    className="nav-item"
+                    onClick={() => {
+                      setListNumber(4);
+                    }}
+                  >
+                    <a
+                      className="nav-link"
+                      id="account-details-tab"
+                      data-bs-toggle="tab"
+                      href="#jewelry-sent"
+                      role="tab"
+                      aria-controls="account-details"
+                      aria-selected="false"
+                    >
+                      {t("MyAccount.ListCacTrangSucGuiToi")}
                     </a>
                   </li>
                   <li className="nav-item">
@@ -166,6 +185,11 @@ export default function MyAccountStaff() {
                   />
 
                   <StaffRequestList
+                    userId={userState?.id}
+                    listNumber={listNumber}
+                  />
+
+                  <JewelrySentToWebList
                     userId={userState?.id}
                     listNumber={listNumber}
                   />

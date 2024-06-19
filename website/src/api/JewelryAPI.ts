@@ -125,6 +125,58 @@ export async function getJewelriesWaitList(page: number): Promise<ResultPageable
   }
 }
 
+export async function getJewelriesByStateAndHolding(state: string, holding: boolean, page: number): Promise<ResultPageableInteface> {
+  // endpoint
+  const URL: string = `${BASE_URL}/jewelry/is-holding?state=${state}&isHolding=${holding}&page=${page - 1}`;
+
+  const jewelrys: Jewelry[] = [];
+  // request
+  const response = await MyRequest(URL);
+  const responseData = response.content;
+  const totalElements = response.totalElements;
+
+
+  for (const key in responseData) {
+    jewelrys.push({
+      id: responseData[key].id,
+      name: responseData[key].name,
+      price: responseData[key].price,
+      state: responseData[key].state,
+      category: responseData[key].category,
+      description: responseData[key].description,
+      material: responseData[key].material,
+      brand: responseData[key].brand,
+      weight: responseData[key].weight,
+      user: responseData[key].user,
+      isHolding: responseData[key].isHolding
+    })
+  }
+  return {
+    jeweriesData: jewelrys,
+    totalElements: totalElements
+  }
+}
+
+export async function setJewelryHolding(id: number): Promise<boolean> {
+  // endpoint
+  const URL: string = `${BASE_URL}/jewelry/set-holding/${id}`;
+
+  console.log(URL)
+  const response = await fetch(URL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    console.error('Failed to set holding the jewelry:', errorDetails);
+    return false
+  }
+
+  return true;
+}
+
 export async function setJewelryHidden(id: number): Promise<boolean> {
   // endpoint
   const URL: string = `${BASE_URL}/jewelry/${id}`;
