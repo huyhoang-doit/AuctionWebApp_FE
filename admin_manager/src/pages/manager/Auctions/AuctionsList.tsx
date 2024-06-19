@@ -7,6 +7,7 @@ import { PaginationControl } from "react-bootstrap-pagination-control";
 import useAccount from "../../../hooks/useAccount";
 import AuctionSingle from "./AuctionSingle";
 import { StateAuction } from "./StateAuction";
+import { Link } from "react-router-dom";
 
 const AuctionsList = () => {
   //
@@ -57,13 +58,13 @@ const AuctionsList = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner ">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 90px" }}>
+            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 250px" }}>
               <div className="col-12">
                 <div className="breadcrumb-area">
-                  <Breadcrumb>
-                    <Breadcrumb.Item href="/admin">Trang chủ</Breadcrumb.Item>
-                    <Breadcrumb.Item >Danh sách các phiên đấu giá</Breadcrumb.Item>
-                  </Breadcrumb>
+
+                  <Link to="/manager">Trang chủ  / </Link>
+                  <Link to="/manager/cac-phien-dau-gia">Danh sách các phiên đấu giá</Link>
+
                 </div>
                 <div className="QA_section">
                   <div className="white_box_tittle list_header">

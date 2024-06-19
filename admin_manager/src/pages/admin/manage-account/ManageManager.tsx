@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Breadcrumb, Spinner } from 'react-bootstrap';
+import { Modal, Button, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
+
 
 const ManageManager = () => {
   const [showModal, setShowModal] = useState(false);
@@ -51,7 +52,7 @@ const ManageManager = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 90px" }}>
+            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 250px" }}>
               <div className="col-12">
                 <div className="breadcrumb-area mb-4">
                   <Link to="/admin">Trang chủ {'  /  '} </Link>
@@ -109,8 +110,8 @@ const ManageManager = () => {
                               </td>
                               <td>
                                 <div className="btn-group">
-                                  {/* <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
-                                  <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button> */}
+                                  <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
+                                  <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
                                 </div>
                               </td>
                             </tr>

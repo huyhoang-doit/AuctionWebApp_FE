@@ -41,7 +41,7 @@ const ManageUser = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner mb-0">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 100px" }}>
+            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 250px" }}>
               <div className="col-12">
                 <div className="breadcrumb-area mb-4">
                   <Link to="/admin">Trang chủ {'  /  '} </Link>
@@ -88,8 +88,8 @@ const ManageUser = () => {
                             </td>
                             <td>
                               <div className="btn-group">
-                                {/* <Link to={`/admin/chi-tiet-nguoi-dung/` + user.id} className="btn btn-sm btn-warning">Xem</Link>
-                                <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button> */}
+                                <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
+                                <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
                               </div>
                             </td>
                           </tr>

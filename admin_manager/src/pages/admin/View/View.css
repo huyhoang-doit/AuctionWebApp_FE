@@ -12,12 +12,7 @@
     border-radius: 8px;
 }
 
-.profile_section {
-    display: flex;
-    align-items: flex-start;
-    padding: 20px 0;
-    border-bottom: 1px solid #e0e0e0;
-}
+
 
 .profile_picture img {
     width: 150px;
@@ -59,4 +54,107 @@
 
 .me-2 {
     margin-right: .5rem;
+}
+
+.login-form {
+  background-color: #ffffff;
+  padding: 30px;
+  -webkit-box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.login-form .login-title {
+  font-size: 20px;
+  line-height: 23px;
+  text-transform: capitalize;
+  font-weight: 700;
+  margin-bottom: 0;
+  padding-bottom: 20px;
+}
+
+.login-form label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.login-form input {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid #ebebeb;
+  border-radius: 0;
+  line-height: 23px;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #888888;
+  margin-bottom: 15px;
+}
+
+.login-form input[type="checkbox"] {
+  width: auto;
+}
+
+.login-form .check-box {
+  float: left;
+  margin-right: 70px;
+}
+
+.login-form .check-box:last-child {
+  margin-right: 0;
+}
+
+.login-form .check-box input[type="checkbox"] {
+  display: none;
+}
+
+.login-form .check-box input[type="checkbox"] + label {
+  position: relative;
+  padding-left: 30px;
+  line-height: 20px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #888888;
+  margin: 0;
+}
+
+.login-form .check-box input[type="checkbox"] + label:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  display: block;
+  border: 2px solid #ebebeb;
+  content: "";
+}
+
+.login-form .check-box input[type="checkbox"] + label:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  content: "\f00c";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+  opacity: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.login-form .check-box input[type="checkbox"]:checked + label:before {
+  border: 2px solid #888888;
+}
+
+.login-form .check-box input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .forgotton-password_info {
+    padding-top: 15px;
+  }
 }

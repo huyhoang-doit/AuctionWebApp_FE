@@ -77,7 +77,7 @@ const TransactionList = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 90px" }}>
+            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 250px" }}>
               <div className="col-12">
                 <div className="breadcrumb-area mb-4">
                   <Link to="/manager">Trang chủ {'  /  '} </Link>
