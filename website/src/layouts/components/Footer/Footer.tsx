@@ -24,9 +24,7 @@ export default function Footer() {
                     </li>
                     <li>
                       <i className="ion-ios-home-outline"></i>
-                      <span>
-                        Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam
-                      </span>
+                      <span>{t("Footer.DiaChi")}</span>
                     </li>
                     <li>
                       <i className="ion-ios-email-outline"></i>

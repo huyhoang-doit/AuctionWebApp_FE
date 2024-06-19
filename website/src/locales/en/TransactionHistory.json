@@ -1,0 +1,16 @@
+{
+    "TransactionHistory" : {
+        "Lịch sử tham gia đấu giá" : "TransactionHistory",
+        "Số lần đấu giá" : "Number of Auctions",
+        "Số phiên đã đăng kí tham gia" : "Number of Auctions Registered",
+        "Số tài sản trúng đấu giá" : "Number of Assets Won",
+        "Tổng giá trị tài sản đã trúng đấu giá" : "Total Value of Assets Won",
+        "Mã giao dịch" : "Transaction Code",
+        "Tên tài sản" : "Asset Name",
+        "Số tiền (VNĐ)" : "Amount (VND)",
+        "Loại giao dịch" : "Transaction Type",
+        "Trạng thái" : "Status",
+        "Xem chi tiết" : "View Details",
+        "Chưa thực hiện đấu giá nào" : "No Auctions Yet"
+    }
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Breadcrumb } from 'react-bootstrap';
+import { Modal, Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
@@ -8,7 +8,6 @@ import { PaginationControl } from 'react-bootstrap-pagination-control';
 
 const ManageStaff = () => {
   const [showModal, setShowModal] = useState(false);
-  const [searchInput, setSearchInput] = useState('');
   const [staffs, setStaffs] = useState<User[]>([])
   const [page, setPage] = useState(1)
   const [totalElements, setTotalElements] = useState(0)
@@ -41,7 +40,7 @@ const ManageStaff = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner mb-0">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 250px" }}>
+            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 350px" }}>
               <div className="col-12">
                 <div className="breadcrumb-area mb-4">
                   <Link to="/admin">Trang chủ {'  /  '} </Link>
@@ -59,7 +58,7 @@ const ManageStaff = () => {
                     </div>
                   </div>
                   <div >
-                    <table className="table lms_table_active text-center">
+                    <Table striped bordered hover>
                       <thead>
                         <tr>
                           <th scope="col">ID</th>
@@ -95,7 +94,7 @@ const ManageStaff = () => {
                           </tr>
                         ))}
                       </tbody>
-                    </table>
+                    </Table>
                   </div>
                   <Modal show={showModal} onHide={handleCloseModal}>
                     <Modal.Header closeButton>

@@ -3,7 +3,7 @@
         "Xem": "View",
         "Thông tin chi tiết giao dịch": "Transaction detail information",
         "Tài khoản giao dịch": "Transaction account",
-        "Mã người dùng": "User ID:",
+        "Mã người dùng": "User ID",
         "Tên người dùng": "User name:",
         "Số CCCD": "ID card number:",
         "Địa chỉ": "Address:",
@@ -132,7 +132,15 @@
         "Đổi mật khẩu thất bại." : "Password change failed.",
         "Đã xảy ra lỗi khi đổi mật khẩu." : "An error occurred while changing the password.",
         "Bạn có chắc muốn đổi mật khẩu?" : "Are you sure you want to change your password?",
-        "Đổi mật khẩu" : "Change password"
+        "Đổi mật khẩu" : "Change password",
+        "Đã thanh toán" : "Paid",
+        "Chưa thanh toán" : "Unpaid...",
+        "Hủy thanh toán" : "Cancel payment",
+        "Thanh toán tại quầy" : "Payment at the counter",
+        "Hoàn tiền đăng kí tham gia phiên" : "Refund registration fee for session",
+        "Thanh toán cho người gửi sản phẩm đấu giá" : "Payment for the product sender",
+        "Thanh toán cho người thắng phiên" : "Payment for the winner",
+        "Đăng kí tham gia phiên" : "Register for the session"
 
 
              

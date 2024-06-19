@@ -8,10 +8,11 @@ import ManageUser from '../pages/admin/manage-account/ManageMember';
 import RequestWaitlist from '../pages/manager/ManageRequest/components/RequestWaitlist';
 import AuctionsList from '../pages/manager/Auctions/AuctionsList';
 import PassedJewelriesList from '../pages/manager/PassedJewelry/PassedJewelriesList';
-import TransactionList from '../pages/manager/Transaction/TransactionList';
 import CreateAuction from '../pages/manager/Auctions/CreateAuction';
 import ViewProducts from '../pages/manager/View/ViewProducts';
 import ViewAccount from '../pages/admin/View/ViewAccount';
+import TopMember from '../pages/manager/TopMember/TopMember';
+import TransactionList from '../pages/manager/Transaction/TransactionList';
 
 const RouterCom = () => {
   return (
@@ -38,6 +39,7 @@ const RouterCom = () => {
           <Route path="/manager/giao-dich/hoan-tien" element={<TransactionList />} />
           <Route path="/manager/giao-dich/dang-ky-tham-gia" element={<TransactionList />} />
           <Route path="/manager/create-auction" element={<CreateAuction />} />
+          <Route path="/manager/nguoi-dung-hang-dau" element={<TopMember />} />
           <Route path="/manager/view/viewproducts" element={<ViewProducts />} />
           {/* <Route
             path="/manager/view/Viewauctionslist"

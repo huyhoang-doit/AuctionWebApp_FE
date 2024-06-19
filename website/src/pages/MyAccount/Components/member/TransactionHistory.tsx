@@ -3,11 +3,16 @@ import { TypeTransaction } from "./TypeTransaction";
 import { Spinner } from "react-bootstrap";
 import { User } from "../../../../models/User";
 import { Transaction } from "../../../../models/Transaction";
-import { createTransactionForWinnerIfNotExist, getTransactionsByUsername, getTransactionsDashboardByUsername } from "../../../../api/TransactionAPI";
+import {
+  createTransactionForWinnerIfNotExist,
+  getTransactionsByUsername,
+  getTransactionsDashboardByUsername,
+} from "../../../../api/TransactionAPI";
 import { formatNumber } from "../../../../utils/formatNumber";
 import { StateTransaction } from "./StateTransaction";
 import { TransactionModal, ViewTransactionModal } from "../../Modal/Modal";
 import { PaginationControl } from "react-bootstrap-pagination-control";
+import { useTranslation } from "react-i18next";
 
 interface TransactionHistoryProps {
   user: User | null;
@@ -15,7 +20,8 @@ interface TransactionHistoryProps {
 }
 
 export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
-  user, isAfterPay
+  user,
+  isAfterPay,
 }) => {
   const [transactionsDashboard, setTransactionsDashboard] = useState<{
     numberTransactionsRequest: number;
@@ -32,6 +38,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation(["TransactionHistory"]);
 
   const getTransactionList = useCallback(async () => {
     if (!user) return;
@@ -42,12 +49,13 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
     try {
       const [dashboardResponse, transactionsResponse] = await Promise.all([
         getTransactionsDashboardByUsername(username),
-        getTransactionsByUsername(username, page)
+        getTransactionsByUsername(username, page),
       ]);
 
       setTransactionsDashboard({
         numberTransactionsRequest: dashboardResponse.numberTransactionsRequest,
-        totalPriceJewelryWonByUsername: dashboardResponse.totalPriceJewelryWonByUsername,
+        totalPriceJewelryWonByUsername:
+          dashboardResponse.totalPriceJewelryWonByUsername,
         totalJewelryWon: dashboardResponse.totalJewelryWon,
         totalBid: dashboardResponse.totalBid,
       });
@@ -55,7 +63,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
       setTransactions(transactionsResponse.transactions);
       setTotalElements(transactionsResponse.totalElements);
     } catch (error) {
-      console.error('Error fetching transactions:', error);
+      console.error("Error fetching transactions:", error);
     } finally {
       setLoading(false);
     }
@@ -66,8 +74,21 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   }, [getTransactionList]);
 
   useEffect(() => {
-    createTransactionForWinnerIfNotExist(user?.id ? user.id : 0);
-  }, [])
+    const fetchData = async () => {
+      setLoading(true);
+      if (!user) return;
+
+      const createdTransactions = await createTransactionForWinnerIfNotExist(user.id);
+      if (createdTransactions.length === 0) return;
+      setTransactions(prevTransactions => [
+        ...prevTransactions,
+        ...createdTransactions
+      ]);
+
+      setLoading(false);
+    };
+    fetchData();
+  }, [user]);
 
   return (
     <div
@@ -77,23 +98,32 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
       aria-labelledby="account-orders-tab"
     >
       <div className="myaccount-orders">
-        <h4 className="small-title fw-bold mb-4">Lịch sử tham gia đấu giá</h4>
+        <h4 className="small-title fw-bold mb-4">
+          {t("TransactionHistory.Lịch sử tham gia đấu giá")}
+        </h4>
         <div className="rating-flex">
           <div className="rating-div">
             <p className="rating-number">{transactionsDashboard.totalBid}</p>
-            <p className="rating-text">Số lần đấu giá</p>
+            <p className="rating-text">
+              {t("TransactionHistory.Số lần đấu giá")}
+            </p>
           </div>
           <div className="rating-div">
             <p className="rating-number">
               {transactionsDashboard.numberTransactionsRequest}
             </p>
-            <p className="rating-text">Số phiên đã đăng kí tham gia</p>
+            <p className="rating-text">
+              {" "}
+              {t("TransactionHistory.Số phiên đã đăng kí tham gia")}
+            </p>
           </div>
           <div className="rating-div">
             <p className="rating-number">
               {transactionsDashboard.totalJewelryWon}
             </p>
-            <p className="rating-text">Số tài sản trúng đấu giá</p>
+            <p className="rating-text">
+              {t("TransactionHistory.Số tài sản trúng đấu giá")}
+            </p>
           </div>
           <div className="rating-div">
             <p className="rating-number">
@@ -102,19 +132,23 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
               )}{" "}
               ₫
             </p>
-            <p className="rating-text">Tổng giá trị tài sản đã trúng đấu giá</p>
+            <p className="rating-text">
+              {t("TransactionHistory.Tổng giá trị tài sản đã trúng đấu giá")}
+            </p>
           </div>
         </div>
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
             <thead>
               <tr>
-                <th className="text-start">Mã giao dịch</th>
-                <th >Tên tài sản</th>
-                <th >Số tiền (VNĐ)</th>
-                <th >Loại giao dịch</th>
-                <th >Trạng thái</th>
-                <th>Xem chi tiết</th>
+                <th className="text-start">
+                  {t("TransactionHistory.Mã giao dịch")}
+                </th>
+                <th>{t("TransactionHistory.Tên tài sản")}</th>
+                <th>{t("TransactionHistory.Số tiền (VNĐ)")}</th>
+                <th>{t("TransactionHistory.Loại giao dịch")}</th>
+                <th>{t("TransactionHistory.Trạng thái")}</th>
+                <th>{t("TransactionHistory.Xem chi tiết")}</th>
               </tr>
             </thead>
             <tbody>
@@ -124,31 +158,45 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     <Spinner animation="border" />
                   </td>
                 </tr>
-              ) : (transactions.length > 0 ? (React.Children.toArray(
-                transactions.map((transaction) => (
-                  <tr>
-                    <td>{transaction.id}</td>
-                    <td className="text-start">{transaction.auction?.jewelry?.name}</td>
-                    <td className="text-start">{formatNumber(transaction.totalPrice)}</td>
-                    <td className="text-start">
-                      <TypeTransaction type={transaction.type} />
-                    </td>
-                    <td className="text-center" style={{ width: "125px" }}>
-                      <StateTransaction state={transaction.state} />
-                    </td>
-                    <td style={{ width: "125px" }}>
-                      {(transaction.state === 'SUCCEED' || transaction.paymentMethod === 'PAY_AT_COUNTER')
-                        ? <ViewTransactionModal transaction={transaction} />
-                        : <TransactionModal transaction={transaction} getTransactionList={getTransactionList} />}
-                    </td>
-                  </tr>
-                ))
-              )) : (
+              ) : transactions.length > 0 ? (
+                React.Children.toArray(
+                  transactions.map((transaction) => (
+                    <tr>
+                      <td>{transaction.id}</td>
+                      <td className="text-start">
+                        {transaction.auction?.jewelry?.name}
+                      </td>
+                      <td className="text-start">
+                        {formatNumber(transaction.totalPrice)}
+                      </td>
+                      <td className="text-start">
+                        <TypeTransaction type={transaction.type} />
+                      </td>
+                      <td className="text-center" style={{ width: "125px" }}>
+                        <StateTransaction state={transaction.state} />
+                      </td>
+                      <td style={{ width: "125px" }}>
+                        {transaction.state === "SUCCEED" ||
+                        transaction.paymentMethod === "PAY_AT_COUNTER" ? (
+                          <ViewTransactionModal transaction={transaction} />
+                        ) : (
+                          <TransactionModal
+                            transaction={transaction}
+                            getTransactionList={getTransactionList}
+                          />
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )
+              ) : (
                 <tr>
                   <td colSpan={7} className="text-center">
-                    <h5 className='fw-semibold lh-base mt-2'>Chưa thực hiện đấu giá nào</h5>
+                    <h5 className="fw-semibold lh-base mt-2">
+                      {t("TransactionHistory.Chưa thực hiện đấu giá nào")}
+                    </h5>
                   </td>
-                </tr>)
+                </tr>
               )}
             </tbody>
           </table>

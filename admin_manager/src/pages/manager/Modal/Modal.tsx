@@ -24,10 +24,8 @@ import { PaginationControl } from "react-bootstrap-pagination-control";
 import { createNewAuctionFromManager } from "../../../api/AuctionAPI";
 import PARTICIPATION_FEE from "../../../global_variable/variable";
 import { descriptionAuction } from "../../../utils/descriptionAuction";
-import { Transaction } from "../../../models/Transaction";
-import { TypeTransaction } from "../Transaction/TypeTransaction";
-import { PaymentMethod } from "../Transaction/PaymentMethod";
 import { changeStateTransaction } from "../../../api/TransactionAPI";
+import { Transaction } from "../../../models/Transaction";
 
 // *** MODAL FOR MANAGER ***
 // Modal for Jewelry List
