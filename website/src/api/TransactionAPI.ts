@@ -21,7 +21,6 @@ export const getTransactionsDashboardByUsername = async (username: string): Prom
     const URL = `${BASE_URL}/transaction/get-by-user-name/${username}`;
     // call api
     const response = await MyRequest(URL);
-    console.log(response)
     return {
         numberTransactionsRequest: response.numberTransactionsRequest,
         totalPriceJewelryWonByUsername: response.totalPriceJewelryWonByUsername,
@@ -81,6 +80,28 @@ export const createTransactionForWinner = async (auctionId: number): Promise<Use
         return userWinner;
     } catch (error) {
         return null;
+    }
+};
+
+export const createTransactionForWinnerIfNotExist = async (userId: number) => {
+    // end-point
+    const URL = `${BASE_URL}/transaction/create-transaction-for-winner-if-not-exist/${userId}`;
+    try {
+        // call api
+        const response = await fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            return;
+        }
+
+        return ;
+    } catch (error) {
+        return;
     }
 };
 
