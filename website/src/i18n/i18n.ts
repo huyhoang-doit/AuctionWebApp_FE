@@ -26,6 +26,7 @@ export const locales = {
 
 const resources = {
   en: {
+
    home: Home_En,  //home is the namespace
    footer: Footer_En,
    PageSendJewelry: PageSendJewelry_En,
@@ -35,22 +36,26 @@ const resources = {
    MyAccountDetail: MyAccountDetail_En,
    Modal : Modal_En,
    ChangePassword : ChangePassword_En
+
   },
   vi: {
     home: Home_Vi,
     footer: Footer_Vi,
     PageSendJewelry: PageSendJewelry_Vi,
-    Contact : Contact_Vi,
+    Contact: Contact_Vi,
     MyAccountStaff: MyAccountStaff_Vi,
     MyAccount: MyAccount_Vi,
     MyAccountDetail: MyAccountDetail_Vi,
+
     Modal : Modal_Vi,
     ChangePassword : ChangePassword_Vi
+
 
   },
 };
 
 const defaultNS = 'home'; //khong truyen namespace thi se lay defaultNS
+
 
 i18n.use(initReactI18next).init({
   resources,

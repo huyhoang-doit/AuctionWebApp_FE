@@ -209,7 +209,7 @@ export default function AuctionDetail() {
                                                 <div className="col-6">
                                                     <p className="fw-bold right-info-text no-margin" style={{ color: "#b41712" }}>
                                                         <span className="fw-bold novaticPrice registerFee">{formatNumber(auction?.participationFee)}</span>
-                                                        VNĐ
+                                                        <span className="fw-bold unitPrice"> VNĐ</span>
                                                     </p>
                                                 </div>
                                                 <div className="col-6">

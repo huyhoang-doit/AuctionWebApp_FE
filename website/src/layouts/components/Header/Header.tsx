@@ -13,10 +13,16 @@ export default function Header() {
   const currentLanguage = locales[i18n.language as keyof typeof locales]; // i18n get current language
   const { t } = useTranslation(["home"]); // i18n translation
   const [selectedLanguage, setSelectedLanguage] = useState("Tiếng Việt"); // default language is Vietnamese
+  const lng = localStorage.getItem("lng")
   const changeLanguage = (lng: "en" | "vi") => {
     i18n.changeLanguage(lng);
     setSelectedLanguage(lng === "vi" ? "Tiếng Việt" : "English");
+    localStorage.setItem("lng", lng === "vi" ? "vi" : "en");
   };
+  useEffect(() => {
+    if (lng)
+      i18n.changeLanguage(lng);
+  }, [lng]);
   //==========
   const categories = useCategories();
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -83,10 +89,10 @@ export default function Header() {
                 <div className="language-dropdown">
                   <div className="language-selected">
                     <i className="ion-earth"></i>
-                    <span>{selectedLanguage}</span>
+                    <span>{lng === "vi" ? "Tiếng Việt" : "English"}</span>
                     <ul className="language-menu">
-                      <li style={{fontSize: "16px"}} onClick={() => changeLanguage("vi")}>Tiếng Việt</li>
-                      <li style={{fontSize: "16px"}} onClick={() => changeLanguage("en")}>English</li>
+                      <li className={selectedLanguage === "Tiếng Việt" ? "active" : ""} style={{ fontSize: "16px" }} onClick={() => changeLanguage("vi")}>{selectedLanguage === "Tiếng Việt" ? "Tiếng Việt" : "Vietnamese"}</li>
+                      <li className={selectedLanguage === "English" ? "active" : ""} style={{ fontSize: "16px" }} onClick={() => changeLanguage("en")}>{selectedLanguage === "English" ? "English" : "Tiếng Anh"}</li>
                     </ul>
                   </div>
                 </div>
