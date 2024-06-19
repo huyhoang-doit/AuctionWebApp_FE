@@ -123,7 +123,7 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
             <Modal.Header>
               <Modal.Title className="w-100">
                 <div className="col-12 text-center">
-                  Thông tin chi tiết giao dịch
+                  {t("Modal.Thông tin chi tiết giao dịch")}
                 </div>
               </Modal.Title>
             </Modal.Header>
@@ -132,11 +132,11 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                 <div className="checkbox-form">
                   <div className="fw-medium row">
                     <h4 className=" fw-medium text-decoration-underline">
-                      Tài khoản giao dịch
+                      {t("Modal.Tài khoản giao dịch")}
                     </h4>
                     <div className="checkout-form-list my-4 col-md-6">
                       <div className="checkout-form-list mb-2">
-                        <label>Mã người dùng: </label>
+                        <label>{t("Modal.Mã người dùng")}: </label>
                         <span className="fw-bold"> {payer?.id}</span>
                       </div>
                       <div className="checkout-form-list mb-2 ">
@@ -324,7 +324,6 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             backdropClassName="custom-backdrop"
             size="sm"
           >
-
             <Modal.Header>
               <Modal.Title className="w-100">
                 <div className="col-12 text-center fw-semibold text-warning">
@@ -1852,6 +1851,8 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
   };
   const handleShow = () => setShow(true);
 
+  const { t } = useTranslation(["Modal"]);
+
   return (
     <>
       <button
@@ -1863,7 +1864,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
         aria-selected="false"
         onClick={handleShow}
       >
-        Lịch sử đặt giá
+        {t("Modal.Lịch sử đặt giá")}
       </button>
       {show && (
         <div className="overlay">
@@ -1877,11 +1878,11 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
             <Modal.Header className="text-center w-100">
               <Modal.Title className="w-100">
                 <div className="col-12 text-center">
-                  Lịch sử đặt giá phiên đấu
+                  {t("Modal.Lịch sử đặt giá phiên đấu")}
                 </div>
                 <div className="col-12 mb-3 text-center ">
                   <span className="text-danger fw-bold">
-                    Phiên số {auctionId}
+                    {t("Modal.Phiên số")} {auctionId}
                   </span>
                 </div>
               </Modal.Title>
@@ -1892,10 +1893,10 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
                   <table className="table table-bordered table-hover">
                     <tbody>
                       <tr>
-                        <th>Mã số</th>
-                        <th>Mã trả giá</th>
-                        <th>Giá đã đặt (VNĐ)</th>
-                        <th>Thời gian </th>
+                        <th>{t("Modal.Mã số")}</th>
+                        <th>{t("Modal.Mã trả giá")}</th>
+                        <th>{t("Modal.Giá đã đặt (VNĐ)")}</th>
+                        <th>{t("Modal.Thời gian")}</th>
                       </tr>
                       {loading ? (
                         <tr>
@@ -1925,7 +1926,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
                       ) : (
                         <td colSpan={4} className="text-center">
                           <h5 className="fw-semibold lh-base mt-2">
-                            Chưa có đặt giá nào cho phiên này
+                            {t("Modal.Chưa có đặt giá nào cho phiên này")}
                           </h5>
                         </td>
                       )}
@@ -1948,7 +1949,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
-                Đóng
+                {t("Modal.Đóng")}
               </Button>
             </Modal.Footer>
           </Modal>

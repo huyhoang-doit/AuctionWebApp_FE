@@ -36,7 +36,9 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({ user }) => {
 
   const validatePassword = (value: string): string => {
     return isPasswordWrongFormat(value)
-      ? "Mật khẩu phải có ít nhất 8 ký tự và 1 ký tự đặc biệt."
+      ? t(
+          "ChangePassword.Mật khẩu phải có ít nhất 8 ký tự và 1 ký tự đặc biệt."
+        )
       : "";
   };
 
@@ -44,7 +46,9 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({ user }) => {
     value: string,
     newPassword: string
   ): string => {
-    return value !== newPassword ? "Mật khẩu mới không khớp." : "";
+    return value !== newPassword
+      ? t("ChangePassword.Mật khẩu mới không khớp.")
+      : "";
   };
 
   const { t } = useTranslation(["ChangePassword"]);
