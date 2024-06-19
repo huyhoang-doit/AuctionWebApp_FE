@@ -3,7 +3,7 @@ import { TypeTransaction } from "./TypeTransaction";
 import { Spinner } from "react-bootstrap";
 import { User } from "../../../../models/User";
 import { Transaction } from "../../../../models/Transaction";
-import { getTransactionsByUsername, getTransactionsDashboardByUsername } from "../../../../api/TransactionAPI";
+import { createTransactionForWinnerIfNotExist, getTransactionsByUsername, getTransactionsDashboardByUsername } from "../../../../api/TransactionAPI";
 import { formatNumber } from "../../../../utils/formatNumber";
 import { StateTransaction } from "./StateTransaction";
 import { TransactionModal, ViewTransactionModal } from "../../Modal/Modal";
@@ -64,6 +64,10 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   useEffect(() => {
     getTransactionList();
   }, [getTransactionList]);
+
+  useEffect(() => {
+    createTransactionForWinnerIfNotExist(user?.id ? user.id : 0);
+  }, [])
 
   return (
     <div

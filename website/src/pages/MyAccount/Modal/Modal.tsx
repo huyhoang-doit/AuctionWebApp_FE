@@ -324,6 +324,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             backdropClassName="custom-backdrop"
             size="sm"
           >
+
             <Modal.Header>
               <Modal.Title className="w-100">
                 <div className="col-12 text-center fw-semibold text-warning">
