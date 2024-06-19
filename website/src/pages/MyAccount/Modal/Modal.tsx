@@ -109,7 +109,7 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
   return (
     <>
       <Button variant="dark" size="sm" onClick={handleShow}>
-        Xem
+        {t("Modal.Xem")}
       </Button>
       {show && (
         <div className="overlay">
@@ -140,18 +140,18 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                         <span className="fw-bold"> {payer?.id}</span>
                       </div>
                       <div className="checkout-form-list mb-2 ">
-                        <label>Tên người dùng:</label>
+                        <label>{t("Modal.Tên người dùng")}</label>
                         <span className="fw-bold">
                           {" "}
                           {payer?.firstName} {payer?.lastName}
                         </span>
                       </div>
                       <div className="checkout-form-list mb-2 ">
-                        <label>Số CCCD:</label>
+                        <label>{t("Modal.Số CCCD")}</label>
                         <span className="fw-bold"> {payer?.cccd}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
-                        <label>Địa chỉ:</label>
+                        <label>{t("Modal.Địa chỉ")}</label>
                         <span className="fw-semibold">
                           {" "}
                           {payer?.address}, {payer?.city}, {payer?.district}{" "}
@@ -167,14 +167,14 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                         <img src={payer?.bank?.logo} alt="bank" />
                       </div>
                       <div className="checkout-form-list mb-2 col-md-12">
-                        <label>Thẻ ngân hàng: </label>
+                        <label>{t("Modal.Thẻ ngân hàng")}</label>
                         <span className="fw-bold text-uppercase">
                           {" "}
                           {payer?.bank?.bankName}
                         </span>
                       </div>
                       <div className="checkout-form-list mb-2 col-md-12 ">
-                        <label>Mã số thẻ:</label>
+                        <label>{t("Modal.Mã số thẻ")}</label>
                         <span className="fw-bold text-success">
                           {" "}
                           {payer?.bankAccountName} - {payer?.bankAccountNumber}
@@ -183,19 +183,19 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                     </div>
                     <div className="checkout-form-list my-4 col-md-12 p-2 row">
                       <h4 className=" fw-medium text-decoration-underline">
-                        Thông tin giao dịch
+                        {t("Modal.Thông tin giao dịch")}
                       </h4>
 
                       <div className="checkout-form-list my-4 col-md-6">
                         <div className="checkout-form-list mb-2">
-                          <label>Loại giao dịch: </label>
+                          <label> {t("Modal.Loại giao dịch")} </label>
                           <span className="fw-bold">
                             {" "}
                             <TypeTransaction type={transaction.type} />
                           </span>
                         </div>
                         <div className="checkout-form-list mb-2">
-                          <label>Phiên đấu giá: </label>
+                          <label>{t("Modal.Phiên đấu giá")}</label>
                           <span className="fw-bold">
                             {" "}
                             {transaction.auction?.id} -{" "}
@@ -203,14 +203,14 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                           </span>
                         </div>
                         <div className="checkout-form-list mb-2">
-                          <label>Thời gian khởi tạo: </label>
+                          <label>{t("Modal.Thời gian khởi tạo")}</label>
                           <span className="fw-bold">
                             {" "}
                             {formatDateStringAcceptNull(transaction.createDate)}
                           </span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
-                          <label>Thời gian thanh toán:</label>
+                          <label>{t("Modal.Thời gian thanh toán")}</label>
                           <span className="fw-bold">
                             {" "}
                             {formatDateStringAcceptNull(
@@ -221,7 +221,7 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                       </div>
                       <div className="checkout-form-list my-4 col-md-6">
                         <div className="checkout-form-list mb-2 ">
-                          <label>Phương thức thanh toán: </label>
+                          <label>{t("Modal.Phương thức thanh toán")}</label>
                           <span className="fw-bold">
                             {" "}
                             <PaymentMethod
@@ -234,7 +234,7 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                           </span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
-                          <label>Trạng thái thanh toán: </label>
+                          <label>{t("Modal.Trạng thái thanh toán")}</label>
                           <span className="fw-bold">
                             {" "}
                             <StateTransaction state={transaction.state} />
@@ -242,17 +242,16 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                         </div>
                         {method === "PAY_AT_COUNTER" && (
                           <div className="checkout-form-list mb-2 ">
-                            <label>Địa điểm thanh toán: </label>
+                            <label>{t("Modal.Địa điểm thanh toán")}</label>
                             <span className="fw-bold">
                               {" "}
-                              Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông
-                              Hoà, Dĩ An, Bình Dương, Việt Nam
+                              {t("Modal.DiaDiem")}
                             </span>
                           </div>
                         )}
                       </div>
                       <div className="checkout-form-list mb-2 col-md-12">
-                        <label>Tổng số tiền: </label>
+                        <label>{t("Modal.Tổng số tiền")} </label>
                         <span className="fw-bold text-uppercase fs-4 text-success">
                           {" "}
                           {formatNumberAcceptNull(transaction.totalPrice)} VND
@@ -260,8 +259,7 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                       </div>
                       <div className="mt-3">
                         <span style={{ fontSize: "12px" }}>
-                          (*)Mọi thắc mắc xin liên hệ hotline (+84) 0123456789
-                          để được hỗ trợ.
+                          (*){t("Modal.DiaDiem")}
                         </span>
                       </div>
                     </div>
@@ -271,7 +269,7 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
-                Đóng
+                {t("Modal.Đóng")}
               </Button>
             </Modal.Footer>
           </Modal>
