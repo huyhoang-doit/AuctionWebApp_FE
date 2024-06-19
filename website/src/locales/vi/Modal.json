@@ -3,7 +3,7 @@
         "Xem": "Xem",
         "Thông tin chi tiết giao dịch": "Thông tin chi tiết giao dịch",
         "Tài khoản giao dịch": "Tài khoản giao dịch",
-        "Mã người dùng": "Mã người dùng:",
+        "Mã người dùng": "Mã người dùng",
         "Tên người dùng": "Tên người dùng:",
         "Số CCCD": "Số CCCD:",
         "Địa chỉ": "Địa chỉ:",
@@ -17,7 +17,7 @@
         "Phương thức thanh toán": "Phương thức thanh toán:",
         "Trạng thái thanh toán": "Trạng thái thanh toán:",
         "Địa điểm thanh toán": "Địa điểm thanh toán:",
-        "DiaDiem": "Ho Chi Minh City Student Cultural House, Luu Huu Phuoc, DongHoa, Di An, Binh Duong, Vietnam",
+        "DiaDiem": "Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam",
         "Tổng số tiền": "Tổng số tiền:",
         "ThacMacLienHe" : "Nếu có thắc mắc vui lòng liên hệ tới hotline (+84) 0123456789 để được hỗ trợ.",
         "Chọn phương thức thanh toán": "Chọn phương thức thanh toán",
@@ -132,7 +132,16 @@
         "Đổi mật khẩu thất bại." : "Đổi mật khẩu thất bại.",
         "Đã xảy ra lỗi khi đổi mật khẩu." : "Đã xảy ra lỗi khi đổi mật khẩu.",
         "Bạn có chắc muốn đổi mật khẩu?" : "Bạn có chắc muốn đổi mật khẩu?",
-        "Đổi mật khẩu" : "Đổi mật khẩu"
+        "Đổi mật khẩu" : "Đổi mật khẩu",
+        "Đã thanh toán" : "Đã thanh toán",
+        "Chưa thanh toán" : "Chưa thanh toán...",
+        "Hủy thanh toán" : "Hủy thanh toán",
+        "Thanh toán tại quầy" : "Thanh toán tại quầy",
+        "Hoàn tiền đăng kí tham gia phiên" : "Hoàn tiền đăng kí tham gia phiên",
+        "Thanh toán cho người gửi sản phẩm đấu giá" : "Thanh toán cho người gửi sản phẩm đấu giá",
+        "Thanh toán cho người thắng phiên" : " Thanh toán cho người thắng phiên",
+        "Đăng kí tham gia phiên" : "Đăng kí tham gia phiên"
+        
 
 
              

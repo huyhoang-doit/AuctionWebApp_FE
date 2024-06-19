@@ -1,0 +1,16 @@
+{
+    "TransactionHistory" : {
+        "Lịch sử tham gia đấu giá" : "Lịch sử tham gia đấu giá",
+        "Số lần đấu giá" : "Số lần đấu giá",
+        "Số phiên đã đăng kí tham gia" : "Số phiên đã đăng kí tham gia",
+        "Số tài sản trúng đấu giá" : "Số tài sản trúng đấu giá",
+        "Tổng giá trị tài sản đã trúng đấu giá" : "Tổng giá trị tài sản đã trúng đấu giá",
+        "Mã giao dịch" : "Mã giao dịch",
+        "Tên tài sản" : "Tên tài sản",
+        "Số tiền (VNĐ)" : "Số tiền (VNĐ)",
+        "Loại giao dịch" : "Loại giao dịch",
+        "Trạng thái" : "Trạng thái",
+        "Xem chi tiết" : "Xem chi tiết",
+        "Chưa thực hiện đấu giá nào" : "Chưa thực hiện đấu giá nào"
+    }
+}

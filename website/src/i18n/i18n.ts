@@ -19,6 +19,8 @@ import Modal_En from '.././locales/en/Modal.json'
 import Modal_Vi from '.././locales/vi/Modal.json'
 import ChangePassword_En from '.././locales/en/ChangePassword.json'
 import ChangePassword_Vi from '.././locales/vi/ChangePassword.json'
+import TransactionHistory_En from '.././locales/en/TransactionHistory.json'
+import TransactionHistory_Vi from '.././locales/vi/TransactionHistory.json'
 export const locales = {
   en: 'English',
   vi: 'Tiếng Việt',
@@ -35,7 +37,8 @@ const resources = {
    MyAccount: MyAccount_En,
    MyAccountDetail: MyAccountDetail_En,
    Modal : Modal_En,
-   ChangePassword : ChangePassword_En
+   ChangePassword : ChangePassword_En,
+   TransactionHistory: TransactionHistory_En
 
   },
   vi: {
@@ -48,7 +51,8 @@ const resources = {
     MyAccountDetail: MyAccountDetail_Vi,
 
     Modal : Modal_Vi,
-    ChangePassword : ChangePassword_Vi
+    ChangePassword : ChangePassword_Vi,
+    TransactionHistory: TransactionHistory_Vi
 
 
   },
@@ -60,7 +64,7 @@ const defaultNS = 'home'; //khong truyen namespace thi se lay defaultNS
 i18n.use(initReactI18next).init({
   resources,
   lng: "vi", // ngôn ngữ mặc định
-  ns: ['home', 'footer', 'PageSendJewelry', 'Contact','MyAccountStaff',' MyAccount','MyAccountDetail','Modal','ChangePassword'], // thêm namespace vào đây
+  ns: ['home', 'footer', 'PageSendJewelry', 'Contact','MyAccountStaff',' MyAccount','MyAccountDetail','Modal','ChangePassword','TransactionHistory'], // thêm namespace vào đây
 //   fallbackLng: "vi", // nếu không nhận được ngôn ngữ nào thì mặc định là tiếng Việt
 defaultNS, //thay fallbackLng
   interpolation: {
