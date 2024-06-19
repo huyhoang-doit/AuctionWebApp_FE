@@ -4,7 +4,8 @@ import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { Spinner } from 'react-bootstrap';
 import { User } from '../../../../models/User';
 import { RequestApproval } from '../../../../models/RequestApproval';
-import { getRequestByRoleOfSender } from '../../../../api/RequestApprovalAPI';
+import { getRequestNeedConfirmByMember } from '../../../../api/RequestApprovalAPI';
+import useAccount from '../../../../hooks/useAccount';
 
 interface MyJewelriesProps {
   user: User | null;
@@ -12,33 +13,43 @@ interface MyJewelriesProps {
 }
 
 const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
+  const token = localStorage.getItem("access_token");
+  const userExit = useAccount(token);
+
   const [listRequests, setListRequests] = useState<RequestApproval[]>([]);
-  const [user, setUser] = useState<User | null>(props.user);
+  const [user, setUser] = useState<User | null>(userExit?.account || props.user);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  const handleChangeList = useCallback(async () => {
+    if (user) {
+      setLoading(true);
+      try {
+        const response = await getRequestNeedConfirmByMember(user.id, page);
+        setListRequests(response.requestsData);
+        setTotalElements(response.totalElements);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  }, [user, page]);
 
   useEffect(() => {
     setUser(props.user);
   }, [props.user]);
 
-  const handleChangeList = useCallback(async () => {
-    setLoading(true)
-    try {
-      const response = await getRequestByRoleOfSender('MANAGER', page);
-
-      setListRequests(response.requestsData);
-      setTotalElements(response.totalElements);
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false)
-  }, [page]);
-
   useEffect(() => {
     handleChangeList();
-  }, [user, page, handleChangeList]);
+  }, [page, handleChangeList]);
+
+  useEffect(() => {
+    if (user) {
+      handleChangeList();
+    }
+  }, [user]);
   return (
     <>
       <div

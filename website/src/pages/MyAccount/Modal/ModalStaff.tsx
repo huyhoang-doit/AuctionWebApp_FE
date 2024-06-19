@@ -524,7 +524,7 @@ export const JewelryCreateRequestModal: React.FC<
                   </div>
                   <h5 className="col-12">
                     Nhân viên gửi yêu cầu -{" "}
-                    <span className=" fw-bold">{user?.firstName}</span>
+                    <span className=" fw-bold">{user?.fullName}</span>
                   </h5>
                   <h5 className="col-12">
                     Mã nhân viên - <span className=" fw-bold">{user?.id}</span>

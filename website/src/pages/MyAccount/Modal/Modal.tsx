@@ -702,12 +702,6 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
                           </div>
                           )}
                         </div>
-                        {/* <div className="checkout-form-list mb-2 col-md-12">
-                        <div>
-                          <span style={{ fontSize: '12px' }}>(*)Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ.</span>
-
-                        </div>
-                      </div> */}
                       </div>
                     </div>
                   </div>
@@ -751,12 +745,12 @@ export const ConfirmModal: React.FC<JewelryModalProps> = ({
       console.log("confirm thành công");
     }
 
-    handleShowJewelryDetail();
+    handleCloseJewelryDetail();
   };
 
   return (
     <>
-      <Button variant="success" size="sm" onClick={handleConfirm}>
+      <Button variant="success" size="sm" onClick={handleShowJewelryDetail}>
         Đồng ý
       </Button>
       {show && (
@@ -766,27 +760,56 @@ export const ConfirmModal: React.FC<JewelryModalProps> = ({
             onHide={handleCloseJewelryDetail}
             centered
             backdrop="static"
+            size='lg'
+            className="p-4"
           >
             <Modal.Header>
               <Modal.Title className="w-100">
-                <div className="col-12 text-center">Xác nhận thành công</div>
+                <div className="col-12 text-center">Xác nhận tài sản</div>
                 <div className="col-12 mb-3 text-center ">
                   <span className="text-success fw-bold">{jewelry?.name}</span>
                 </div>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body className="p-4">
-              <h5 className="lh-base">
-                Chúng tôi đã nhận được phản hồi từ bạn, sản phẩm{" "}
+              <h6 className="lh-base">
+                Cảm ơn bạn đã phản hồi! Tài sản{" "}
                 <span className="text-success fw-semibold">
                   {jewelry?.name}
                 </span>{" "}
-                sẽ được tiến hành đăng ký cho phiên đấu giá phù hợp
-              </h5>
+                của bạn sẽ sớm được đăng ký cho phiên đấu giá phù hợp.
+              </h6>
+              <h6 className="lh-base">
+                Chúng tôi mong muốn bạn gửi tài sản đến địa điểm của chúng tôi để tiến hành thẩm định và đăng ký đấu giá. Thông tin chi tiết như sau:
+              </h6>
+              <div className="checkout-form-list mb-2">
+                <label className="fw-bold">Địa điểm gửi tài sản:</label>
+                <p className='fw-bold'>Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam</p>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1003405.79257722!2d105.55479573124998!3d10.768824599999986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1718718338321!5m2!1svi!2s"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  style={{
+                    border: "0",
+                    width: "100%",
+                    height: "300px",
+                    marginTop: '20px'
+                  }}
+                  title={'Nhà Văn hóa Sinh viên TP.HCM'}
+                  allowFullScreen={true}
+                  loading="lazy"
+                ></iframe>
+              </div>
+              <div className="checkout-form-list mb-2 ">
+                <span style={{ fontSize: '12px' }}>(*)Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ.</span>
+              </div>
             </Modal.Body>
+
             <Modal.Footer>
               <Button variant="dark" onClick={handleCloseJewelryDetail}>
                 Đóng
+              </Button>
+              <Button variant="success" onClick={handleConfirm}>
+                Đồng ý
               </Button>
             </Modal.Footer>
           </Modal>
