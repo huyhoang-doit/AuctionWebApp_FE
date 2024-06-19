@@ -99,7 +99,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
                 </div>
                 <h5 className="col-12">
                   Nhân viên gửi yêu cầu -{" "}
-                  <span className=" fw-bold">{request.sender?.firstName}</span>
+                  <span className=" fw-bold">{request.sender?.fullName}</span>
                 </h5>
                 <h5 className="col-12">
                   Mã nhân viên -{" "}
