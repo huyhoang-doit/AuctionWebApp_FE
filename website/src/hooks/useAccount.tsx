@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { getUserLogin } from "../api/UserAPI";
 import { User } from "../models/User";
 
-const useAccount = (token : string | null) => {
+const useAccount = (token: string | null) => {
     const [account, setAccount] = useState<User | null>(null);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const useAccount = (token : string | null) => {
             }
         }
     }, [token]);
-    return {account, setAccount};
+    return { account, setAccount };
 }
 
 export default useAccount;
