@@ -53,6 +53,7 @@ import { StateTransaction } from "../Components/StateTransaction";
 import { setMethodTransaction } from "../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
 import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
+import { t } from "i18next";
 
 // *** MODAL FOR USER
 
@@ -93,6 +94,8 @@ interface ViewTransactionModalProps {
 export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
   transaction,
 }) => {
+  const { t } = useTranslation(["Modal"]);
+
   const payer = transaction.user;
   const method = transaction.paymentMethod;
 
@@ -100,8 +103,6 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const { t } = useTranslation(["MyAccountStaff"]);
 
   return (
     <>
@@ -2590,6 +2591,7 @@ export const CreateHandoverReportModal: React.FC<
 
 // MODAL FOR ALL ACCOUNT
 export const LogoutModal = () => {
+  const { t } = useTranslation(["Modal"]);
   return (
     <>
       <div
@@ -2615,8 +2617,7 @@ export const LogoutModal = () => {
           })
         }
       >
-        {" "}
-        ĐĂNG XUẤT
+        {t("Modal.ĐĂNG XUẤT")}
       </div>
     </>
   );
@@ -2700,7 +2701,8 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
     setShowModal(false);
     changeState();
   };
-
+  //i18n
+  const { t } = useTranslation(["Modal"]);
   return (
     <>
       <button
@@ -2713,7 +2715,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
         onClick={!isEditing ? changeState : handleShow}
         style={{ backgroundColor: "black", border: "none" }}
       >
-        {isEditing ? "Lưu" : "Chỉnh sửa"}
+        {isEditing ? t("Modal.Lưu") : t("Modal.Chỉnh sửa")}
       </button>
       {showModal && (
         <div className="overlay">
