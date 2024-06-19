@@ -37,7 +37,8 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "sweetalert2": "^11.12.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
@@ -50,6 +51,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "sass": "^1.77.6",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }

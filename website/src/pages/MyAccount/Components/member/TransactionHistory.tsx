@@ -1,16 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { TypeTransaction } from "./TypeTransaction";
-import { formatNumber } from "../../../utils/formatNumber";
-import { StateTransaction } from "./StateTransaction";
-import { TransactionModal, ViewTransactionModal } from "../Modal/Modal";
-import { Transaction } from "../../../models/Transaction";
-import { PaginationControl } from "react-bootstrap-pagination-control";
-import { User } from "../../../models/User";
-import {
-  getTransactionsByUsername,
-  getTransactionsDashboardByUsername,
-} from "../../../api/TransactionAPI";
 import { Spinner } from "react-bootstrap";
+import { User } from "../../../../models/User";
+import { Transaction } from "../../../../models/Transaction";
+import { getTransactionsByUsername, getTransactionsDashboardByUsername } from "../../../../api/TransactionAPI";
+import { formatNumber } from "../../../../utils/formatNumber";
+import { StateTransaction } from "./StateTransaction";
+import { TransactionModal, ViewTransactionModal } from "../../Modal/Modal";
+import { PaginationControl } from "react-bootstrap-pagination-control";
 
 interface TransactionHistoryProps {
   user: User | null;

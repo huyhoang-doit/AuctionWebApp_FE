@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-// import './TransactionWithBuyer.css';
 import { Transaction } from '../../../models/Transaction';
 import { getTransactionsByTypeAndState } from '../../../api/TransactionAPI';
 import TransactionSingle from './TransactionSingle';
@@ -78,7 +77,7 @@ const TransactionList = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 100px" }}>
+            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 90px" }}>
               <div className="col-12">
                 <div className="breadcrumb-area mb-4">
                   <Link to="/manager">Trang chủ {'  /  '} </Link>
@@ -124,9 +123,9 @@ const TransactionList = () => {
                     <table className="table text-center">
                       <thead>
                         <tr>
-                          <th scope="col">Mã thanh toán</th>
+                          <th scope="col">ID</th>
                           <th scope="col">Tên tài khoản</th>
-                          <th scope="col">Email</th>
+                          <th scope="col" style={{ width: '15%' }}>Email</th>
                           <th scope="col">Số điện thoại</th>
                           <th scope="col">Số tiền</th>
                           <th scope="col">Trạng thái</th>
@@ -166,6 +165,7 @@ const TransactionList = () => {
             </div>
           </div>
         </div>
+
       </section>
     </>
   );

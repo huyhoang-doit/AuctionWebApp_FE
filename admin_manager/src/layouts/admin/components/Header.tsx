@@ -1,7 +1,7 @@
 
 import { Link } from 'react-router-dom';
 import useAccount from '../../../hooks/useAccount';
-import { logout } from '../../../api/AuthenticationAPI';
+import { LogoutModal } from './Modal';
 const Header = () => {
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);
@@ -36,11 +36,11 @@ const Header = () => {
           </div>
 
           <div className="profile_info_iner">
-
-            <div className="profile_info_details">
-              <Link to="/admin/view/viewProfile">My Profile<i className="ti-user"></i></Link>
+            <div>
+              <Link to="/admin/view/viewProfile" className='text-white my-2'>Thông tin tài khoản<i className="ti-user"></i></Link>
               {/* <div className='text-white mb-2' style={{ cursor: "pointer" }}>Settings <i className="ti-settings"></i></div> */}
-              <div className='text-white' style={{ cursor: "pointer", marginLeft: '5px', marginTop: '10px' }} onClick={() => logout()}>Log Out <i className="ti-shift-left"></i></div>
+              <div className='text-white text-center mb-2 '><LogoutModal /></div>
+
             </div>
           </div>
         </div>

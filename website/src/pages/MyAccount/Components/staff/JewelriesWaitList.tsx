@@ -59,7 +59,7 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
               <tbody>
                 <tr>
                   <th>Mã trang sức</th>
-                  <th>Tên trang sức</th>
+                  <th style={{ width: '30%' }}>Tên trang sức</th>
                   <th>Người gửi</th>
                   <th>Giá</th>
                   <th>Ảnh</th>

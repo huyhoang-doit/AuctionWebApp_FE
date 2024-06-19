@@ -1,17 +1,22 @@
 import { Link, useLocation } from "react-router-dom";
 // import useAccount from "../../hooks/useAccount";
 import { MyAccountDetail } from "./Components/MyAccountDetail";
-import { MyBidHistoryList } from "./Components/MyBidHistoryList";
 import { useContext, useEffect, useState } from "react";
 import { User } from "../../models/User";
-import { TransactionHistory } from "./Components/TransactionHistory";
-import { MyJewelryRequestList } from "./Components/MyJewelryRequestList";
 import { LogoutModal } from "./Modal/Modal";
 import { UserContext } from "../../hooks/useContext";
 import { ChangePassword } from "./Components/staff/ChangePassword";
-import MyJewelryList from "./Components/MyJewellryList";
+
+
 import swal from "sweetalert";
 import { useTranslation } from "react-i18next";
+
+
+import { MyBidHistoryList } from "./Components/member/MyBidHistoryList";
+import { TransactionHistory } from "./Components/member/TransactionHistory";
+import MyJewelryList from "./Components/member/MyJewellryList";
+import { MyJewelryRequestList } from "./Components/member/MyJewelryRequestList";
+
 
 export default function MyAccount() {
   const context = useContext(UserContext);

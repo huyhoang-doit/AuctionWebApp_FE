@@ -4,9 +4,9 @@ import { User } from '../../../../models/User';
 import { Auction } from '../../../../models/Auction';
 import { formatNumberAcceptNull } from '../../../../utils/formatNumber';
 import { getImagesByJewelryId } from '../../../../api/ImageApi';
-import { JewelryHanOverModal } from '../../Modal/Modal';
 import { Transaction } from '../../../../models/Transaction';
-import { PaymentMethod } from '../PaymentMethod';
+import { PaymentMethod } from '../member/PaymentMethod';
+import { JewelryHanOverModal } from '../../Modal/ModalStaff';
 type JewelryHandOverSingleProps = {
   transaction: Transaction;
   user: User | null
