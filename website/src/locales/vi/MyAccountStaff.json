@@ -1,13 +1,12 @@
 {
-    "MyAccount" : {
-       
-        "TaiKhoanCuaToi" : "Tài khoản của tôi",
+    "MyAccount": {
+        "TaiKhoanCuaToi": "Tài khoản của tôi",
         "ThongTinTaiKhoan": "Thông tin tài khoản",
         "DoiMatKhau": "Đổi mật khẩu",
-        "ListTrangSucGuiToi": "Danh sách trang sức được gửi tới",
+        "ListCacYeuCauGuiToi": "Danh sách yêu cầu gửi tới",
         "ListCacYeuCauGuiDi": "Danh sách các yêu cầu gửi đi",
+        "ListCacTrangSucGuiToi": "Danh sách các tài sản gửi tới",
         "ListTrangSucBanGiao": "Danh sách trang sức bàn giao",
         "CacPhienDuocPhanCong": "Các phiên đấu giá được phân công"
-
     }
 }

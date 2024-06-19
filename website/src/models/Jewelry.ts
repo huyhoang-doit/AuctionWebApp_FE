@@ -13,6 +13,7 @@ export class Jewelry {
     brand?: string;
     weight?: number;
     user?: User;
+    isHolding?: boolean;
 
     constructor(
         id: number,
@@ -24,7 +25,8 @@ export class Jewelry {
         material?: string,
         weight?: number,
         user?: User,
-        category?: Category
+        category?: Category,
+        isHolding?: boolean
     ) {
         this.id = id;
         this.name = name;
@@ -36,5 +38,6 @@ export class Jewelry {
         this.weight = weight;
         this.user = user;
         this.category = category;
+        this.isHolding = isHolding
     }
 }
