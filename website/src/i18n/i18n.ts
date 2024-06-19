@@ -17,6 +17,8 @@ import MyAccountDetail_En from '.././locales/en/MyAccountDetail.json'
 import MyAccountDetail_Vi from '.././locales/vi/MyAccountDetail.json'
 import Modal_En from '.././locales/en/Modal.json'
 import Modal_Vi from '.././locales/vi/Modal.json'
+import ChangePassword_En from '.././locales/en/ChangePassword.json'
+import ChangePassword_Vi from '.././locales/vi/ChangePassword.json'
 export const locales = {
   en: 'English',
   vi: 'Tiếng Việt',
@@ -24,14 +26,17 @@ export const locales = {
 
 const resources = {
   en: {
-    home: Home_En,  //home is the namespace
-    footer: Footer_En,
-    PageSendJewelry: PageSendJewelry_En,
-    Contact: Contact_En,
-    MyAccountStaff: MyAccountStaff_En,
-    MyAccount: MyAccount_En,
-    MyAccountDetail: MyAccountDetail_En,
-    Modal: Modal_En
+
+   home: Home_En,  //home is the namespace
+   footer: Footer_En,
+   PageSendJewelry: PageSendJewelry_En,
+   Contact : Contact_En,
+   MyAccountStaff: MyAccountStaff_En,
+   MyAccount: MyAccount_En,
+   MyAccountDetail: MyAccountDetail_En,
+   Modal : Modal_En,
+   ChangePassword : ChangePassword_En
+
   },
   vi: {
     home: Home_Vi,
@@ -41,24 +46,26 @@ const resources = {
     MyAccountStaff: MyAccountStaff_Vi,
     MyAccount: MyAccount_Vi,
     MyAccountDetail: MyAccountDetail_Vi,
-    Modal: Modal_Vi
+
+    Modal : Modal_Vi,
+    ChangePassword : ChangePassword_Vi
+
 
   },
 };
 
 const defaultNS = 'home'; //khong truyen namespace thi se lay defaultNS
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: "vi", // ngôn ngữ mặc định
-    ns: ['home', 'footer', 'PageSendJewelry', 'Contact', 'MyAccountStaff', ' MyAccount', 'MyAccountDetail', 'Modal'], // thêm namespace vào đây
-    //   fallbackLng: "vi", // nếu không nhận được ngôn ngữ nào thì mặc định là tiếng Việt
-    defaultNS, //thay fallbackLng
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+
+i18n.use(initReactI18next).init({
+  resources,
+  lng: "vi", // ngôn ngữ mặc định
+  ns: ['home', 'footer', 'PageSendJewelry', 'Contact','MyAccountStaff',' MyAccount','MyAccountDetail','Modal','ChangePassword'], // thêm namespace vào đây
+//   fallbackLng: "vi", // nếu không nhận được ngôn ngữ nào thì mặc định là tiếng Việt
+defaultNS, //thay fallbackLng
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 export default i18n;
