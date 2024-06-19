@@ -79,7 +79,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
     ];
     for (const { isValid, message } of errorMessages) {
       if (!isValid) {
-        toast.error(message);
+        // toast.error(message);
         setShowModal(false);
         return;
       }
@@ -129,7 +129,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
           </Modal>
         </div>
       )}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </>
   );
 };

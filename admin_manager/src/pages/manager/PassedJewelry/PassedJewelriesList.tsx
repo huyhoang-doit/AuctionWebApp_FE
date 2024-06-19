@@ -6,6 +6,7 @@ import { getRequestPassed } from '../../../api/RequestApprovalAPI';
 import { Breadcrumb, Spinner } from 'react-bootstrap';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import PassedJewelrySingle from './PassedJewelrySingle';
+import { Link } from 'react-router-dom';
 
 const PassedJewelriesList = () => {
   const token = localStorage.getItem("access_token");
@@ -45,13 +46,11 @@ const PassedJewelriesList = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner ">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "50px 0px 0px 90px" }}>
+            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 250px" }}>
               <div className="col-12">
                 <div className="breadcrumb-area">
-                  <Breadcrumb>
-                    <Breadcrumb.Item href="/admin">Trang chủ</Breadcrumb.Item>
-                    <Breadcrumb.Item >Các tài sản đủ điều kiện</Breadcrumb.Item>
-                  </Breadcrumb>
+                  <Link to="/manager">Trang chủ  / </Link>
+                  <Link to="/manager/tai-san-dang-cho">Danh sách tài sản đủ yêu cầu đấu giá</Link>
                 </div>
                 <div className="QA_section">
                   <div className="white_box_tittle list_header">

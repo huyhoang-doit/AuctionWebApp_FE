@@ -12,11 +12,11 @@ import { getAddressVietNam } from "../../../api/AddressAPI";
 import { getAllBanks } from "../../../api/BankAPI";
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../../utils/checkRegister";
 import { SaveEditProfileModal } from "../Modal";
-
+import "./View.css"
+import { Link } from "react-router-dom";
 interface MyAccountDetailProps {
   user: User | null;
   setUser: (user: User) => void;
-  isAfterPay: boolean;
 }
 
 const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
@@ -114,7 +114,7 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
             avatar: base64
           };
           const response = await editProfileUser(updatedUser);
-          toast.success("Cập nhật ảnh đại diện thành công!");
+          // toast.success("Cập nhật ảnh đại diện thành công!");
           setUser(response)
           props.setUser(response);
           if (context && context.account) {
@@ -244,194 +244,217 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
   return (
     <>
       <section className="main_content dashboard_part">
-        <div
-          className={`tab-pane fade ${!props.isAfterPay ? 'active' : ''}`}
-          id="account-details"
-          role="tabpanel"
-          aria-labelledby="account-details-tab"
-        >
-          <div className="">
-            <h4 className="small-title mb-4">
-              Thông tin tài khoản
-            </h4>
-          </div>
-          <div className="myaccount-details">
-            <div className="row">
-
-              <div className="col-sm-12 col-md-12  col-xs-12 col-lg-12">
-                <form >
-                  <div className="login-form">
-                    <div className="row profile-header-content">
-                      <div className="col-md-4 profile-header-img" style={{ width: '200px', height: '200px' }}>
-                        <img className="rounded-circle border border-4" src={user?.avatar} alt="" />
-                      </div>
-                      <div className="col-md-8 profile-header-info">
-                        <h4 className="fw-bold m-t-sm">{context?.account?.fullName}</h4>
-                        <label htmlFor="customFile" className="custom-file-upload btn btn-xs btn-primary mt-4" style={{ backgroundColor: "black", border: "none", color: "white", width: "140px" }}>
-                          Đổi ảnh đại diện
-                        </label>
-                        <input onChange={handleAvatarChange} id='customFile' type="file" accept="image/*" />
-                      </div>
-                    </div>
-                    <div className="row mb-4">
-                      <div className="col-md-6">
-                        <label>Số CCCD</label>
-                        <input
-                          className="mb-0 input-required"
-                          type="text"
-                          placeholder="Nhập số căn cước"
-                          readOnly
-                          style={{ backgroundColor: "#F5F5F5" }}
-                          value={user?.cccd}
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <label>Năm sinh</label>
-                        <input
-                          className="mb-0 input-required"
-                          type="text"
-                          placeholder="Nhập năm sinh"
-                          readOnly
-                          value={user?.yob}
-                          onChange={onChangeYob}
-                        />
-                        {errors.yob && <span className="text-danger">{errors.yob}</span>}
-                      </div>
-                      <div className="col-md-6 mt-4">
-                        <label>Tên tài khoản</label>
-                        <input className="mb-0 input-required"
-                          type="text"
-                          placeholder="Nhập username của bạn"
-                          readOnly
-                          style={{ backgroundColor: "#F5F5F5" }}
-                          value={user?.username}
-                        />
-                      </div>
-                      <div className="col-md-6 mt-4">
-                        <label>Email</label>
-                        <input className="mb-0 input-required"
-                          type="email"
-                          placeholder="Nhập Email của bạn"
-                          style={{ backgroundColor: "#F5F5F5" }}
-                          readOnly
-                          value={user?.email}
-                        />
-                      </div>
-                      <div className="col-md-6 mt-4">
-                        <label>Họ</label>
-                        <input className="mb-0 input-required"
-                          type="text"
-                          placeholder="Nhập họ của bạn"
-                          readOnly
-                          value={user?.firstName || ""}
-                          onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-                        />
-                      </div>
-                      <div className="col-md-6 mt-4">
-                        <label>Tên</label>
-                        <input
-                          type="text"
-                          className="mb-0 input-required"
-                          placeholder="Nhập tên của bạn"
-                          readOnly
-                          value={user?.lastName}
-                          onChange={(e) => setUser({ ...user, lastName: e.target.value })}
-                        />
-                      </div>
-                      <div className="col-md-12 mt-4">
-                        <label>Địa chỉ</label>
-                        <input
-                          className="input-required"
-                          type="text"
-                          placeholder="Nhập địa chỉ của bạn"
-                          readOnly
-                          value={user?.address}
-                          onChange={(e) => setUser({ ...user, address: e.target.value })}
-                        />
-                      </div>
-                      <div className="col-md-4">
-                        <label>Tỉnh</label>
-                        <select id="city" disabled={!isEditing} value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
-                          <option disabled value={""}>{user.city}</option>
-                          {cities.map(city => (
-                            <option key={city.Id} value={city.Id}>{city.Name}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="col-md-4">
-                        <label>Quận / Huyện</label>
-                        <select id="district" disabled={!isEditing} value={selectedDistrictId} onChange={handleDistrictChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
-                          <option disabled value={""}>{user.district}</option>
-                          {districts.map(district => (
-                            <option key={district.Id} value={district.Id}>{district.Name}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="col-md-4">
-                        <label>Phường / Xã</label>
-                        <select id="ward" disabled={!isEditing} value={selectedWardId} onChange={handleWardChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
-                          <option disabled value={""}>{user.ward}</option>
-                          {wards.map(ward => (
-                            <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="col-md-12 mt-4">
-                        <label>Ngân hàng</label>
-                        <select onChange={handleBankChange} disabled value={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
-                          {banks.map((bank) => (
-                            <option style={{ padding: '5px' }} key={bank.id} value={bank.id}>
-                              {bank.bankName} ({bank.tradingName})
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="col-md-6 mt-4">
-                        <label>Số tài khoản ngân hàng</label>
-                        <input
-                          className="input-required"
-                          type="text"
-                          placeholder="Nhập số tài khoản ngân hàng của bạn"
-                          readOnly
-                          value={user?.bankAccountNumber}
-                          onChange={onChangeBankAccountNumber}
-                        />
-                        {errors.bankAccountNumber && <span className="text-danger">{errors.bankAccountNumber}</span>}
-                      </div>
-                      <div className="col-md-6 mt-4">
-                        <label>Tên chủ tài khoản ngân hàng</label>
-                        <input
-                          className="input-required"
-                          type="text"
-                          placeholder="Nhập tên chủ tài khoản ngân hàng"
-                          readOnly
-                          value={user?.bankAccountName}
-                          onChange={onChangeBankAccountName}
-                        />
-                        {errors.bankAccountName && <span className="text-danger">{errors.bankAccountName}</span>}
-                      </div>
-                      <div className="col-md-12">
-                        <label>Sô điện thoại</label>
-                        <input
-                          className="input-required"
-                          type="text"
-                          placeholder="Nhập số điện thoại của bạn"
-                          readOnly
-                          value={user?.phone}
-                          onChange={onChangePhoneNumber}
-                        />
-                        {errors.phone && <span className="text-danger">{errors.phone}</span>}
-                      </div>
-                      <div className="col-12">
-                        <SaveEditProfileModal user={user} handleEdit={handleEdit} isEditing={isEditing} setIsEditing={setIsEditing} />
-                      </div>
-                    </div>
+        <div className="main_content_iner">
+          <div className="container-fluid plr_30 body_white_bg pt_30">
+            <div
+              className="row justify-content-center"
+              style={{ padding: "40px 0px 0px 250px" }}
+            >
+              <div className="col-12">
+                <div className="breadcrumb-area mb-4">
+                </div>
+                <div >
+                  <div className="">
+                    <h4 className="small-title mb-4">
+                      Thông tin tài khoản
+                    </h4>
                   </div>
-                </form>
+                  <div className="myaccount-details">
+                    <div className="row">
+
+                      <div className="col-sm-12 col-md-12  col-xs-12 col-lg-12">
+                        <form >
+                          <div className="login-form">
+                            <div className="row profile-header-content mb-3">
+                              <div
+                                className="col-md-4 p-0"
+                                style={{
+                                  width: "170px",
+                                  height: "170px",
+                                  overflow: "hidden",
+                                  borderRadius: "50%",
+                                  position: "relative",
+                                }}
+                              >
+                                <img src={user?.avatar} alt="avatar" style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  objectFit: "cover",
+                                  objectPosition: "center",
+                                }} />
+                              </div>
+
+                              <div className="col-md-8 profile-header-info">
+                                <h4 className="fw-bold m-t-sm">{context?.account?.fullName}</h4>
+                                <label htmlFor="customFile" className="custom-file-upload btn btn-xs btn-primary mt-4" style={{ backgroundColor: "black", border: "none", color: "white", width: "140px" }}>
+                                  Đổi ảnh đại diện
+                                </label>
+                                <input onChange={handleAvatarChange} id='customFile' type="file" accept="image/*" />
+                              </div>
+                            </div>
+                            <div className="row mb-4">
+                              <div className="col-md-6">
+                                <label>Số CCCD</label>
+                                <input
+                                  className="mb-0 input-required"
+                                  type="text"
+                                  placeholder="Nhập số căn cước"
+                                  readOnly
+                                  style={{ backgroundColor: "#F5F5F5" }}
+                                  value={user?.cccd}
+                                />
+                              </div>
+                              <div className="col-md-6">
+                                <label>Năm sinh</label>
+                                <input
+                                  className="mb-0 input-required"
+                                  type="text"
+                                  placeholder="Nhập năm sinh"
+                                  readOnly
+                                  value={user?.yob}
+                                  onChange={onChangeYob}
+                                />
+                                {errors.yob && <span className="text-danger">{errors.yob}</span>}
+                              </div>
+                              <div className="col-md-6 mt-4">
+                                <label>Tên tài khoản</label>
+                                <input className="mb-0 input-required"
+                                  type="text"
+                                  placeholder="Nhập username của bạn"
+                                  readOnly
+                                  style={{ backgroundColor: "#F5F5F5" }}
+                                  value={user?.username}
+                                />
+                              </div>
+                              <div className="col-md-6 mt-4">
+                                <label>Email</label>
+                                <input className="mb-0 input-required"
+                                  type="email"
+                                  placeholder="Nhập Email của bạn"
+                                  style={{ backgroundColor: "#F5F5F5" }}
+                                  readOnly
+                                  value={user?.email}
+                                />
+                              </div>
+                              <div className="col-md-6 mt-4">
+                                <label>Họ</label>
+                                <input className="mb-0 input-required"
+                                  type="text"
+                                  placeholder="Nhập họ của bạn"
+                                  readOnly
+                                  value={user?.firstName || ""}
+                                  onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+                                />
+                              </div>
+                              <div className="col-md-6 mt-4">
+                                <label>Tên</label>
+                                <input
+                                  type="text"
+                                  className="mb-0 input-required"
+                                  placeholder="Nhập tên của bạn"
+                                  readOnly
+                                  value={user?.lastName}
+                                  onChange={(e) => setUser({ ...user, lastName: e.target.value })}
+                                />
+                              </div>
+                              <div className="col-md-12 mt-4">
+                                <label>Địa chỉ</label>
+                                <input
+                                  className="input-required"
+                                  type="text"
+                                  placeholder="Nhập địa chỉ của bạn"
+                                  readOnly
+                                  value={user?.address}
+                                  onChange={(e) => setUser({ ...user, address: e.target.value })}
+                                />
+                              </div>
+                              <div className="col-md-4">
+                                <label>Tỉnh</label>
+                                <select id="city" disabled={!isEditing} value={selectedCityId} onChange={handleCityChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }} >
+                                  <option disabled value={""}>{user.city}</option>
+                                  {cities.map(city => (
+                                    <option key={city.Id} value={city.Id}>{city.Name}</option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="col-md-4">
+                                <label>Quận / Huyện</label>
+                                <select id="district" disabled={!isEditing} value={selectedDistrictId} onChange={handleDistrictChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
+                                  <option disabled value={""}>{user.district}</option>
+                                  {districts.map(district => (
+                                    <option key={district.Id} value={district.Id}>{district.Name}</option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="col-md-4">
+                                <label>Phường / Xã</label>
+                                <select id="ward" disabled={!isEditing} value={selectedWardId} onChange={handleWardChange} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
+                                  <option disabled value={""}>{user.ward}</option>
+                                  {wards.map(ward => (
+                                    <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="col-md-12 mt-4">
+                                <label>Ngân hàng</label>
+                                <select onChange={handleBankChange} disabled value={user.bank?.id} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}>
+                                  {banks.map((bank) => (
+                                    <option style={{ padding: '5px' }} key={bank.id} value={bank.id}>
+                                      {bank.bankName} ({bank.tradingName})
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="col-md-6 mt-4">
+                                <label>Số tài khoản ngân hàng</label>
+                                <input
+                                  className="input-required"
+                                  type="text"
+                                  placeholder="Nhập số tài khoản ngân hàng của bạn"
+                                  readOnly
+                                  value={user?.bankAccountNumber}
+                                  onChange={onChangeBankAccountNumber}
+                                />
+                                {errors.bankAccountNumber && <span className="text-danger">{errors.bankAccountNumber}</span>}
+                              </div>
+                              <div className="col-md-6 mt-4">
+                                <label>Tên chủ tài khoản ngân hàng</label>
+                                <input
+                                  className="input-required"
+                                  type="text"
+                                  placeholder="Nhập tên chủ tài khoản ngân hàng"
+                                  readOnly
+                                  value={user?.bankAccountName}
+                                  onChange={onChangeBankAccountName}
+                                />
+                                {errors.bankAccountName && <span className="text-danger">{errors.bankAccountName}</span>}
+                              </div>
+                              <div className="col-md-12">
+                                <label>Sô điện thoại</label>
+                                <input
+                                  className="input-required"
+                                  type="text"
+                                  placeholder="Nhập số điện thoại của bạn"
+                                  readOnly
+                                  value={user?.phone}
+                                  onChange={onChangePhoneNumber}
+                                />
+                                {errors.phone && <span className="text-danger">{errors.phone}</span>}
+                              </div>
+                              <div className="col-12">
+                                <SaveEditProfileModal user={user} handleEdit={handleEdit} isEditing={isEditing} setIsEditing={setIsEditing} />
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div >
+                </div>
               </div>
             </div>
-          </div >
-        </div >
+          </div>
+        </div>
       </section>
     </>
   );

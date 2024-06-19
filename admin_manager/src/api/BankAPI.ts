@@ -1,4 +1,4 @@
-import BASE_URL from "../config/config";
+import BASE_URL from "../global_variable/config";
 import { Bank } from "../models/Bank";
 import { MyRequest } from "./MyRequest";
 

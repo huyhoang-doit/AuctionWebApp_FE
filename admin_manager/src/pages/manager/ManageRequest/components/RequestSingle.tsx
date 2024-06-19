@@ -45,7 +45,6 @@ const RequestSingle: React.FC<RequestSingleProps> = ({ request, user, handleChan
         <td>{request.id}</td>
         <td>{request.jewelry?.id}</td>
         <td>{request.jewelry?.category?.name}</td>
-        <td>{request.sender?.id}</td>
         <td>{formatNumber(request.valuation)}</td>
         <td>{formatDateStringAcceptNull(request.requestTime)}</td>
         <td>
