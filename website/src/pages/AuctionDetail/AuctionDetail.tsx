@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Auction } from "../../models/Auction";
-import { getAuction } from "../../api/AuctionAPI";
+import { changeStateAuction, getAuction } from "../../api/AuctionAPI";
 import { formatDateString } from "../../utils/formatDateString";
 import { Jewelry } from "../../models/Jewelry";
 import { User } from "../../models/User";
@@ -34,6 +34,7 @@ export default function AuctionDetail() {
     const location = useLocation();
     const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
     const [bidPerPage, setBidPerPage] = useState<number>(3);
+    const navigate = useNavigate();
 
     try {
         auctionId = parseInt(id + "");
@@ -44,6 +45,32 @@ export default function AuctionDetail() {
         auctionId = 0;
         console.log("Error parsing auction id: " + error);
     }
+
+    useEffect(() => {
+        const handleAuctionEnd = async () => {
+            if (
+                typeof timeLeft === 'object' &&
+                timeLeft.days === 0 &&
+                timeLeft.hours === 0 &&
+                timeLeft.minutes === 0 &&
+                timeLeft.seconds === 0
+            ) {
+                if (auction?.state === 'WAITING') {
+                    await changeStateAuction(auctionId, 'ONGOING');
+                    setAuction({ ...auction, state: 'ONGOING' });
+                    navigate(`/tai-san-dau-gia/${auctionId}`);
+                    return;
+                }
+                if (auction?.state === 'ONGOING') {
+                    await changeStateAuction(auctionId, 'FINISHED');
+                    setAuction({ ...auction, state: 'FINISHED' });
+                    navigate(`/tai-san-dau-gia/${auctionId}`);
+                    return;
+                }
+            }
+        };
+        handleAuctionEnd();
+    }, [timeLeft]);
 
     useEffect(() => {
         if (auctionId !== null) {
@@ -64,7 +91,7 @@ export default function AuctionDetail() {
         if (paymentStatus === 'success') {
             toast.success("Đăng kí tham gia phiên thành công!");
         }
-    }, [])
+    }, [location.search])
 
     useEffect(() => {
         getAuctionRegistrationsByAuctionId(auctionId)
@@ -93,7 +120,6 @@ export default function AuctionDetail() {
         }
         return false;
     }
-
 
     return (
         <>
@@ -312,7 +338,7 @@ export default function AuctionDetail() {
 
                                                 <div className="share-area">
                                                     <ul className="social-icons d-flex">
-                                                        <li><a><i className="bx bxl-facebook"></i></a></li>
+                                                        <li><i className="bx bxl-facebook"></i></li>
                                                     </ul>
                                                     <div>
                                                         <div className="share-btn"><i className="bx bxs-share-alt"></i></div>

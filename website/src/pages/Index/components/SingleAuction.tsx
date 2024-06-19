@@ -9,9 +9,9 @@ interface SingleAuctionProps {
   auction: Auction;
 }
 
-const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
-  const timeLeft = useCountDown(props.auction);
-  const jewelryId: number | null = props.auction.jewelry ? props.auction.jewelry.id : null;
+const SingleAuction: React.FC<SingleAuctionProps> = ({ auction }) => {
+  const timeLeft = useCountDown(auction);
+  const jewelryId: number | null = auction.jewelry ? auction.jewelry.id : null;
   const imageData = useIconImage(jewelryId);
 
   return (
@@ -23,7 +23,7 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
       }}>
         <div className="single-product">
           <div className="product-img">
-            <Link to={"/tai-san-dau-gia/" + props.auction.id}>
+            <Link to={"/tai-san-dau-gia/" + auction.id}>
               <img
                 className="primary-img"
                 src={imageData}
@@ -35,20 +35,20 @@ const SingleAuction: React.FC<SingleAuctionProps> = (props) => {
             <div className="product-desc_info">
               <div className="price-box">
                 <span className="new-price me-2" style={{ fontSize: "16 px" }}>
-                  Trị giá: {formatNumber(props.auction.firstPrice)} VNĐ
+                  Trị giá: {formatNumber(auction.firstPrice)} VNĐ
                 </span>
               </div>
               <h6 className="fw-bold product-name">
-                <Link to={"/tai-san-dau-gia/" + props.auction.id}>
-                  {props.auction.name}
+                <Link to={"/tai-san-dau-gia/" + auction.id}>
+                  {auction.name}
                 </Link>
               </h6>
               <div>Trạng thái: {" "}
                 <span className="fs-5">
-                  <StateAuctionView state={props.auction.state} />
+                  <StateAuctionView state={auction.state} />
                 </span>
               </div>
-              <Link to={"/tai-san-dau-gia/" + props.auction.id}>
+              <Link to={"/tai-san-dau-gia/" + auction.id}>
                 <button className="mt-2 btn btn-danger">
                   Chi tiết
                 </button>
