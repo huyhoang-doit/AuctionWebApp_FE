@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Breadcrumb, Spinner } from 'react-bootstrap';
+import { Breadcrumb, Spinner, Table } from 'react-bootstrap';
 import useAccount from '../../../../hooks/useAccount';
 import { User } from '../../../../models/User';
 import { RequestApproval } from '../../../../models/RequestApproval';
@@ -46,7 +46,7 @@ const RequestWaitlist = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner ">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 250px" }}>
+            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 350px" }}>
               <div className="col-12">
                 <div className="breadcrumb-area">
                   <Link to="/manager">Trang chủ  / </Link>
@@ -61,7 +61,7 @@ const RequestWaitlist = () => {
                     </div>
                   </div>
                   <div className=" ">
-                    <table className="table text-center">
+                    <Table striped bordered hover>
                       <thead>
                         <tr className=''>
                           <th scope="col">Mã yêu cầu</th>
@@ -88,7 +88,7 @@ const RequestWaitlist = () => {
                         </td>))
                         }
                       </tbody>
-                    </table>
+                    </Table>
                   </div>
 
 

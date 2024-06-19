@@ -24,39 +24,41 @@ export const locales = {
 
 const resources = {
   en: {
-   home: Home_En,  //home is the namespace
-   footer: Footer_En,
-   PageSendJewelry: PageSendJewelry_En,
-   Contact : Contact_En,
-   MyAccountStaff: MyAccountStaff_En,
-   MyAccount: MyAccount_En,
-   MyAccountDetail: MyAccountDetail_En,
-   Modal : Modal_En
+    home: Home_En,  //home is the namespace
+    footer: Footer_En,
+    PageSendJewelry: PageSendJewelry_En,
+    Contact: Contact_En,
+    MyAccountStaff: MyAccountStaff_En,
+    MyAccount: MyAccount_En,
+    MyAccountDetail: MyAccountDetail_En,
+    Modal: Modal_En
   },
   vi: {
     home: Home_Vi,
     footer: Footer_Vi,
     PageSendJewelry: PageSendJewelry_Vi,
-    Contact : Contact_Vi,
+    Contact: Contact_Vi,
     MyAccountStaff: MyAccountStaff_Vi,
     MyAccount: MyAccount_Vi,
     MyAccountDetail: MyAccountDetail_Vi,
-    Modal : Modal_Vi
+    Modal: Modal_Vi
 
   },
 };
 
 const defaultNS = 'home'; //khong truyen namespace thi se lay defaultNS
 
-i18n.use(initReactI18next).init({
-  resources,
-  lng: "vi", // ngôn ngữ mặc định
-  ns: ['home', 'footer', 'PageSendJewelry', 'Contact','MyAccountStaff',' MyAccount','MyAccountDetail','Modal'], // thêm namespace vào đây
-//   fallbackLng: "vi", // nếu không nhận được ngôn ngữ nào thì mặc định là tiếng Việt
-defaultNS, //thay fallbackLng
-  interpolation: {
-    escapeValue: false,
-  },
-});
+i18n
+  .use(initReactI18next)
+  .init({
+    resources,
+    lng: "vi", // ngôn ngữ mặc định
+    ns: ['home', 'footer', 'PageSendJewelry', 'Contact', 'MyAccountStaff', ' MyAccount', 'MyAccountDetail', 'Modal'], // thêm namespace vào đây
+    //   fallbackLng: "vi", // nếu không nhận được ngôn ngữ nào thì mặc định là tiếng Việt
+    defaultNS, //thay fallbackLng
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
 export default i18n;
