@@ -1,5 +1,5 @@
 
-import { fetchGetWithToken } from "./AuthenticationAPI";
+import { fetchGetWithToken, fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "../../../website/src/api/MyRequest";
 import { User } from "../models/User";
 import BASE_URL from "../global_variable/config";
@@ -107,6 +107,18 @@ export async function getMembers(role: string, page: number): Promise<ResultPage
         totalElements: data.totalElements,
     };
 }
+
+export const editProfileUser = async (user: User): Promise<User> => {
+    const URL = `${BASE_URL}/user`;
+
+    // await ensureAccessToken();
+    const token = localStorage.getItem("access_token");
+    const response = await fetchWithToken(URL, 'PUT', token, user);
+    if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+    }
+    return user;
+};
 
 
 
