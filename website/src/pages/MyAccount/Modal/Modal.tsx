@@ -46,14 +46,16 @@ import Stomp from "stompjs";
 
 import { Transaction } from "../../../models/Transaction";
 import { PaginationControl } from "react-bootstrap-pagination-control";
-import { TypeTransaction } from "../Components/TypeTransaction";
+
 import { handlePay } from "../../../api/PaymentAPI";
-import { PaymentMethod } from "../Components/PaymentMethod";
-import { StateTransaction } from "../Components/StateTransaction";
+
 import { setMethodTransaction } from "../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
 import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
 import { t } from "i18next";
+import { TypeTransaction } from "../Components/member/TypeTransaction";
+import { PaymentMethod } from "../Components/member/PaymentMethod";
+import { StateTransaction } from "../Components/member/StateTransaction";
 
 // *** MODAL FOR USER
 
@@ -2815,6 +2817,7 @@ export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({
   request,
   setRequest,
 }) => {
+  const { t } = useTranslation(["Modal"]);
   const handleChangePassword = async () => {
     if (request.newPassword !== request.confirmPassword) {
       Swal.fire("Lỗi", "Mật khẩu xác nhận không trùng khớp", "error");
@@ -2823,7 +2826,11 @@ export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({
     try {
       const response = await changePassword(request);
       if (response.status === 200) {
-        Swal.fire(response.message, "Mật khẩu đã được đổi", "success");
+        Swal.fire(
+          response.message,
+          t("Modal.Mật khẩu đã được đổi."),
+          "success"
+        );
         setRequest({
           token: "",
           oldPassword: "",
@@ -2831,10 +2838,14 @@ export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({
           confirmPassword: "",
         });
       } else if (response.status === 404) {
-        Swal.fire(response.message, "Đổi mật khẩu thất bại", "error");
+        Swal.fire(response.message, t("Modal.Đổi mật khẩu thất bại."), "error");
       }
     } catch (error) {
-      Swal.fire("Lỗi", "Đã xảy ra lỗi khi đổi mật khẩu", "error");
+      Swal.fire(
+        t("Modal.Lỗi"),
+        t("Modal.Đã xảy ra lỗi khi đổi mật khẩu."),
+        "error"
+      );
     }
   };
   return (
@@ -2849,17 +2860,17 @@ export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({
         onClick={() =>
           Swal.fire({
             icon: "warning",
-            title: "Bạn có chắc muốn đổi mật khẩu",
+            title: t("Modal.Bạn có chắc muốn đổi mật khẩu?"),
             showCancelButton: true,
-            confirmButtonText: "Xác nhận",
-            cancelButtonText: "Hủy",
+            confirmButtonText: t("Modal.Xác nhận"),
+            cancelButtonText: t("Modal.Hủy"),
             showLoaderOnConfirm: true,
             preConfirm: handleChangePassword,
             allowOutsideClick: () => !Swal.isLoading(),
           })
         }
       >
-        Đổi mật khẩu
+        {t("Modal.Đổi mật khẩu")}
       </button>
     </>
   );
