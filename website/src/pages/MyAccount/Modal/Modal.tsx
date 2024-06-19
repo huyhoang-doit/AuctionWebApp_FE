@@ -43,12 +43,15 @@ import Stomp from "stompjs";
 
 import { Transaction } from "../../../models/Transaction";
 import { PaginationControl } from "react-bootstrap-pagination-control";
+
 import { handlePay } from "../../../api/PaymentAPI";
 import { setMethodTransaction } from "../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
+import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
+import { t } from "i18next";
 import { TypeTransaction } from "../Components/member/TypeTransaction";
-import { StateTransaction } from "../Components/member/StateTransaction";
 import { PaymentMethod } from "../Components/member/PaymentMethod";
+import { StateTransaction } from "../Components/member/StateTransaction";
 
 
 
@@ -159,7 +162,7 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
             <Modal.Header>
               <Modal.Title className="w-100">
                 <div className="col-12 text-center">
-                  Thông tin chi tiết giao dịch
+                  {t("Modal.Thông tin chi tiết giao dịch")}
                 </div>
               </Modal.Title>
             </Modal.Header>
@@ -168,11 +171,11 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                 <div className="checkbox-form">
                   <div className="fw-medium row">
                     <h4 className=" fw-medium text-decoration-underline">
-                      Tài khoản giao dịch
+                      {t("Modal.Tài khoản giao dịch")}
                     </h4>
                     <div className="checkout-form-list my-4 col-md-6">
                       <div className="checkout-form-list mb-2">
-                        <label>Mã người dùng: </label>
+                        <label>{t("Modal.Mã người dùng")}: </label>
                         <span className="fw-bold"> {payer?.id}</span>
                       </div>
                       <div className="checkout-form-list mb-2 ">
@@ -1548,6 +1551,7 @@ export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({
   request,
   setRequest,
 }) => {
+  const { t } = useTranslation(["Modal"]);
   const handleChangePassword = async () => {
     if (request.newPassword !== request.confirmPassword) {
       Swal.fire("Lỗi", "Mật khẩu xác nhận không trùng khớp", "error");
@@ -1556,7 +1560,11 @@ export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({
     try {
       const response = await changePassword(request);
       if (response.status === 200) {
-        Swal.fire(response.message, "Mật khẩu đã được đổi", "success");
+        Swal.fire(
+          response.message,
+          t("Modal.Mật khẩu đã được đổi."),
+          "success"
+        );
         setRequest({
           token: "",
           oldPassword: "",
@@ -1564,10 +1572,14 @@ export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({
           confirmPassword: "",
         });
       } else if (response.status === 404) {
-        Swal.fire(response.message, "Đổi mật khẩu thất bại", "error");
+        Swal.fire(response.message, t("Modal.Đổi mật khẩu thất bại."), "error");
       }
     } catch (error) {
-      Swal.fire("Lỗi", "Đã xảy ra lỗi khi đổi mật khẩu", "error");
+      Swal.fire(
+        t("Modal.Lỗi"),
+        t("Modal.Đã xảy ra lỗi khi đổi mật khẩu."),
+        "error"
+      );
     }
   };
   return (
@@ -1582,17 +1594,17 @@ export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({
         onClick={() =>
           Swal.fire({
             icon: "warning",
-            title: "Bạn có chắc muốn đổi mật khẩu",
+            title: t("Modal.Bạn có chắc muốn đổi mật khẩu?"),
             showCancelButton: true,
-            confirmButtonText: "Xác nhận",
-            cancelButtonText: "Hủy",
+            confirmButtonText: t("Modal.Xác nhận"),
+            cancelButtonText: t("Modal.Hủy"),
             showLoaderOnConfirm: true,
             preConfirm: handleChangePassword,
             allowOutsideClick: () => !Swal.isLoading(),
           })
         }
       >
-        Đổi mật khẩu
+        {t("Modal.Đổi mật khẩu")}
       </button>
     </>
   );
