@@ -112,9 +112,6 @@ const ManageStaff = () => {
                   </Modal>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
         <PaginationControl
           page={page}
           between={3}
@@ -125,6 +122,9 @@ const ManageStaff = () => {
           }}
           ellipsis={1}
         />
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );

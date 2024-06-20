@@ -5,8 +5,8 @@ import { Transaction } from '../../../models/Transaction';
 import { getTransactionsByTypeAndState } from '../../../api/TransactionAPI';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import checkTransactionLocation from '../../../utils/checkLocation';
-import TransactionSingle from './TransactionSingle';
 import { StateTransaction } from './StateTransaction';
+import { TransactionSingle } from './TransactionSingle';
 
 interface TransactionTypeProps {
   type: string;
@@ -38,7 +38,7 @@ const TransactionList = () => {
           setTotalElements(response.totalElements);
 
         })
-        .catch((error) => {
+        .catch(() => {
           setListTransactions([])
         });
     } catch (error) {
@@ -77,7 +77,7 @@ const TransactionList = () => {
       <section className="main_content dashboard_part">
         <div className="main_content_iner">
           <div className="container-fluid plr_30 body_white_bg pt_30">
-            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 250px" }}>
+            <div className="row justify-content-center" style={{ padding: "40px 0px 0px 350px" }}>
               <div className="col-12">
                 <div className="breadcrumb-area mb-4">
                   <Link to="/manager">Trang chủ {'  /  '} </Link>
