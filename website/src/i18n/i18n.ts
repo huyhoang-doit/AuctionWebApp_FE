@@ -21,6 +21,11 @@ import ChangePassword_En from '.././locales/en/ChangePassword.json'
 import ChangePassword_Vi from '.././locales/vi/ChangePassword.json'
 import TransactionHistory_En from '.././locales/en/TransactionHistory.json'
 import TransactionHistory_Vi from '.././locales/vi/TransactionHistory.json'
+import MyJewellryList_En from '.././locales/en/MyJewellryList.json'
+import MyJewellryList_Vi from '.././locales/vi/MyJewellryList.json'
+import MyBidHistoryList_Vi from '.././locales/vi/MyBidHistoryList.json'
+import MyBidHistoryList_En from '.././locales/en/MyBidHistoryList.json'
+
 export const locales = {
   en: 'English',
   vi: 'Tiếng Việt',
@@ -38,7 +43,9 @@ const resources = {
    MyAccountDetail: MyAccountDetail_En,
    Modal : Modal_En,
    ChangePassword : ChangePassword_En,
-   TransactionHistory: TransactionHistory_En
+   TransactionHistory: TransactionHistory_En,
+   MyJewellryList: MyJewellryList_En,
+    MyBidHistoryList: MyBidHistoryList_En
 
   },
   vi: {
@@ -49,10 +56,14 @@ const resources = {
     MyAccountStaff: MyAccountStaff_Vi,
     MyAccount: MyAccount_Vi,
     MyAccountDetail: MyAccountDetail_Vi,
+    MyBidHistoryList: MyBidHistoryList_Vi,
 
     Modal : Modal_Vi,
     ChangePassword : ChangePassword_Vi,
-    TransactionHistory: TransactionHistory_Vi
+    TransactionHistory: TransactionHistory_Vi,
+    MyJewellryList: MyJewellryList_Vi
+   
+   
 
 
   },
@@ -64,7 +75,7 @@ const defaultNS = 'home'; //khong truyen namespace thi se lay defaultNS
 i18n.use(initReactI18next).init({
   resources,
   lng: "vi", // ngôn ngữ mặc định
-  ns: ['home', 'footer', 'PageSendJewelry', 'Contact','MyAccountStaff',' MyAccount','MyAccountDetail','Modal','ChangePassword','TransactionHistory'], // thêm namespace vào đây
+  ns: ['home', 'footer', 'PageSendJewelry', 'Contact','MyAccountStaff',' MyAccount','MyAccountDetail','Modal','ChangePassword','TransactionHistory','MyJewellryList','MyBidHistoryList'], // thêm namespace vào đây
 //   fallbackLng: "vi", // nếu không nhận được ngôn ngữ nào thì mặc định là tiếng Việt
 defaultNS, //thay fallbackLng
   interpolation: {

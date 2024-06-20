@@ -1,0 +1,12 @@
+{
+    "MyBidHistoryList" : {
+        "Đấu giá của tôi" : "My auction",
+        "Mã phiên": "Session ID",
+        "Tên phiên": "Session Name",
+        "Trạng thái": "Status",
+        "Kết quả" : "Result",
+        "Thao tác" : "Action",
+        "Chưa có đấu giá nào" : "There are currently no auctions"
+
+    }
+}

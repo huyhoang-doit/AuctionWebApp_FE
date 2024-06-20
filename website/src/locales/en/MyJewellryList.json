@@ -1,0 +1,12 @@
+{
+    "MyJewellryList" : {
+        "Danh sách cần xác nhận" : "List needs confirmation",
+        "Mã trang sức" : "Jewellry code",
+        "Tên trang sức" : "Jewellry name",
+        "Ảnh" : "Image",
+        "Giá mong muốn" : "Desired price",
+        "Định giá" : "Valuation",
+        "Thao tác" : "Action",
+        "Không có sản phẩm nào đợi xác nhận" : "No product waiting for confirmation"
+    }
+}

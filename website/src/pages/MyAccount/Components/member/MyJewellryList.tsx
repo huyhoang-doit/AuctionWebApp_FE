@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import MyJewelrySingle from './MyJewelrySingle';
-import { PaginationControl } from 'react-bootstrap-pagination-control';
-import { Spinner } from 'react-bootstrap';
-import { User } from '../../../../models/User';
-import { RequestApproval } from '../../../../models/RequestApproval';
-import { getRequestNeedConfirmByMember } from '../../../../api/RequestApprovalAPI';
-import useAccount from '../../../../hooks/useAccount';
+import React, { useCallback, useEffect, useState } from "react";
+import MyJewelrySingle from "./MyJewelrySingle";
+import { PaginationControl } from "react-bootstrap-pagination-control";
+import { Spinner } from "react-bootstrap";
+import { User } from "../../../../models/User";
+import { RequestApproval } from "../../../../models/RequestApproval";
+import { getRequestNeedConfirmByMember } from "../../../../api/RequestApprovalAPI";
+import useAccount from "../../../../hooks/useAccount";
+import { useTranslation } from "react-i18next";
 
 interface MyJewelriesProps {
   user: User | null;
@@ -17,7 +18,9 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
   const userExit = useAccount(token);
 
   const [listRequests, setListRequests] = useState<RequestApproval[]>([]);
-  const [user, setUser] = useState<User | null>(userExit?.account || props.user);
+  const [user, setUser] = useState<User | null>(
+    userExit?.account || props.user
+  );
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -50,6 +53,7 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
       handleChangeList();
     }
   }, [user]);
+  const { t } = useTranslation(["MyJewellryList"]);
   return (
     <>
       <div
@@ -60,18 +64,20 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
       >
         <div className="myaccount-orders">
           <h4 className="small-title">
-            Danh sách cần xác nhận
+            {t("MyJewellryList.Danh sách cần xác nhận")}
           </h4>
           <div className="table-responsive">
             <table className="table table-bordered table-hover">
-              <thead className='text-center'>
+              <thead className="text-center">
                 <tr>
-                  <th >Mã trang sức</th>
-                  <th style={{ width: '25%' }} >Tên trang sức</th>
-                  <th >Ảnh</th>
-                  <th >Giá mong muốn</th>
-                  <th >Định giá</th>
-                  <th >Thao tác</th>
+                  <th>{t("MyJewellryList.Mã trang sức")}</th>
+                  <th style={{ width: "25%" }}>
+                    {t("MyJewellryList.Tên trang sức")}
+                  </th>
+                  <th>{t("MyJewellryList.Ảnh")}</th>
+                  <th>{t("MyJewellryList.Giá mong muốn")}</th>
+                  <th>{t("MyJewellryList.Định giá")}</th>
+                  <th>{t("MyJewellryList.Thao tác")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -81,15 +87,25 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
                       <Spinner animation="border" />
                     </td>
                   </tr>
-
-                ) : (listRequests.length > 0 ? (listRequests.map((request) => (
-                  <MyJewelrySingle key={request.id} request={request} jewelry={request.jewelry} user={props.user} handleChangeList={handleChangeList} />
-                ))) : (
+                ) : listRequests.length > 0 ? (
+                  listRequests.map((request) => (
+                    <MyJewelrySingle
+                      key={request.id}
+                      request={request}
+                      jewelry={request.jewelry}
+                      user={props.user}
+                      handleChangeList={handleChangeList}
+                    />
+                  ))
+                ) : (
                   <tr>
                     <td colSpan={6} className="text-center">
-                      <h5 className='fw-semibold lh-base mt-2'>Không có sản phẩm nào đợi xác nhận</h5>
+                      <h5 className="fw-semibold lh-base mt-2">
+                        {t("MyJewellryList.Không có sản phẩm nào đợi xác nhận")}
+                      </h5>
                     </td>
-                  </tr>))}
+                  </tr>
+                )}
               </tbody>
             </table>
             <div className="mt-4">
@@ -106,10 +122,9 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
             </div>
           </div>
         </div>
-      </div >
-
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default MyJewelryList
+export default MyJewelryList;
