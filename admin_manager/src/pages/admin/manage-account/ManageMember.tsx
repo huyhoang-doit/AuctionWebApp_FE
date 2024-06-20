@@ -112,19 +112,19 @@ const ManageUser = () => {
                   </Modal>
                 </div>
               </div>
+              <PaginationControl
+                page={page}
+                between={3}
+                total={totalElements}
+                limit={5}
+                changePage={(page) => {
+                  setPage(page)
+                }}
+                ellipsis={1}
+              />
             </div>
           </div>
         </div>
-        <PaginationControl
-          page={page}
-          between={3}
-          total={totalElements}
-          limit={5}
-          changePage={(page) => {
-            setPage(page)
-          }}
-          ellipsis={1}
-        />
       </section>
     </>
   );

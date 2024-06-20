@@ -8,7 +8,7 @@ interface TransactionSingleProps {
   transaction: Transaction;
 }
 
-const TransactionSingle: React.FC<TransactionSingleProps> = ({ transaction }) => {
+export const TransactionSingle: React.FC<TransactionSingleProps> = ({ transaction }) => {
 
   return (
     <>
@@ -29,5 +29,3 @@ const TransactionSingle: React.FC<TransactionSingleProps> = ({ transaction }) =>
     </>
   )
 }
-
-export default TransactionSingle

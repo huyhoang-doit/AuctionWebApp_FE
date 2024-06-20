@@ -284,7 +284,7 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                 }} />
                               </div>
                               <div className="col-md-8 profile-header-info ms-4">
-                                <div className="content" style={{ width: "200px" }}>
+                                <div className="content" style={{ width: "300px" }}>
                                   <h3>{user.fullName}</h3>
                                   <div className="account-verified-text-div">
                                     {user.state === "ACTIVE" ?
