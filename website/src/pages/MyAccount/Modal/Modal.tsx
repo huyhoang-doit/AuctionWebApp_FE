@@ -42,8 +42,6 @@ import Stomp from "stompjs";
 import { Transaction } from "../../../models/Transaction";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 
-
-
 import { handlePay } from "../../../api/PaymentAPI";
 import { setMethodTransaction } from "../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
@@ -1357,6 +1355,7 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
 };
 // MODAL FOR ALL ACCOUNT
 export const LogoutModal = () => {
+  const { t } = useTranslation(["Modal"]);
   return (
     <>
       <div
@@ -1383,7 +1382,7 @@ export const LogoutModal = () => {
         }
       >
         {" "}
-        ĐĂNG XUẤT
+        {t("Modal.Đăng xuất")}
       </div>
     </>
   );
@@ -1467,7 +1466,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
     setShowModal(false);
     changeState();
   };
-
+  const { t } = useTranslation(["Modal"]);
   return (
     <>
       <button
@@ -1480,7 +1479,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
         onClick={!isEditing ? changeState : handleShow}
         style={{ backgroundColor: "black", border: "none" }}
       >
-        {isEditing ? "Lưu" : "Chỉnh sửa"}
+        {isEditing ? t("Modal.Lưu") : t("Modal.Chỉnh sửa")}
       </button>
       {showModal && (
         <div className="overlay">
