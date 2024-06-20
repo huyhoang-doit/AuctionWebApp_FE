@@ -27,6 +27,7 @@ import { descriptionAuction } from "../../../utils/descriptionAuction";
 import { changeStateTransaction } from "../../../api/TransactionAPI";
 import { Transaction } from "../../../models/Transaction";
 
+
 // *** MODAL FOR MANAGER ***
 // Modal for Jewelry List
 interface JewelryModalProps {
@@ -68,7 +69,6 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
   const handleConfirm = async () => {
     const confirm = await confirmRequest(request.id, user?.id);
     if (confirm) {
-      console.log("confirm thành công");
       handleSendRequestFromManager();
       toast.success(`Đã xác nhận định giá của sản phẩm ${request.jewelry?.id}`);
     }
@@ -216,9 +216,20 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
               <Button variant="dark" onClick={handleCloseJewelryDetail}>
                 Đóng
               </Button>
-              <Button variant="warning" onClick={handleConfirm}>
+              {/* <Button variant="warning" onClick={handleConfirm}>
                 Xác nhận
-              </Button>
+              </Button> */}
+              <button
+                type="button"
+                className="btn ms-2 btn-sm btn-warning "
+                id="save-profile-tab"
+                role="tab"
+                aria-controls="account-details"
+                aria-selected="false"
+                onClick={handleConfirm}
+              >
+                Xác nhận
+              </button>
             </Modal.Footer>
           </Modal>
         </div>

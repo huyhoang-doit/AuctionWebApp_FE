@@ -519,7 +519,7 @@ export const JewelryCreateRequestModal: React.FC<
       <>
         {show && (
           <div className="overlay">
-            <Modal show={show} onHide={handleClose} centered backdrop="static">
+            <Modal show={show} onHide={handleClose} centered backdrop="static" size="lg">
               <Modal.Header>
                 <Modal.Title className="w-100">
                   <div className="col-12 text-center">

@@ -103,8 +103,8 @@ export default function RegisterForAuction() {
                                 <div className="row">
                                     <div className="col-lg-6">
                                         <div className="article-content" style={{ height: "100%" }}>
-                                            <object data="https://lacvietauction.vn//files/upload/property/2. QC_Hà Giang_8 lô_T5.2024-1716291160312.pdf#view=fit&amp;toolbar=0&amp;navpanes=0" style={{ width: "100%", height: "100%" }}>
-                                                <iframe src="https://lacvietauction.vn//files/upload/property/2. QC_Hà Giang_8 lô_T5.2024-1716291160312.pdf#view=fit&amp;toolbar=0&amp;navpanes=0" style={{ width: "100%", height: "100%" }}>
+                                            <object data="https://heyzine.com/flip-book/8bac44c0c6.html" style={{ width: "100%", height: "100%" }}>
+                                                <iframe src="https://heyzine.com/flip-book/8bac44c0c6.html" style={{ width: "100%", height: "100%" }}>
                                                     <p>This browser does not support PDF!</p>
                                                 </iframe>
                                             </object>

@@ -297,14 +297,21 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
               <div className="login-form">
                 <div className="row profile-header-content">
                   <div
-                    className="col-md-4 profile-header-img"
-                    style={{ width: "200px", height: "200px" }}
+                    className="col-md-4 p-0"
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      overflow: "hidden",
+                      borderRadius: "50%",
+                      position: "relative",
+                    }}
                   >
-                    <img
-                      className="rounded-circle border border-4"
-                      src={user?.avatar}
-                      alt=""
-                    />
+                    <img src={user?.avatar} alt="avatar" style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "center",
+                    }} />
                   </div>
                   <div className="col-md-8 profile-header-info">
                     <h4 className="fw-bold m-t-sm">

@@ -1,8 +1,5 @@
 import { Auction } from "../../../models/Auction"
 import { Jewelry } from "../../../models/Jewelry";
-import { formatDateString } from "../../../utils/formatDateString";
-import { formatNumber } from "../../../utils/formatNumber"
-import { numberToVietnameseText } from "../../../utils/numberToVietnameseText";
 
 interface AuctionDetailJewelryProps {
     auction: Auction | null;

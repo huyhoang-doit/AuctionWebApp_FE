@@ -7,6 +7,7 @@ import { getRequestByRoleOfSender } from '../../../../api/RequestApprovalAPI';
 import { PaginationControl } from 'react-bootstrap-pagination-control'
 import RequestSingle from './RequestSingle';
 import { Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 const RequestWaitlist = () => {
   const token = localStorage.getItem("access_token");
@@ -107,6 +108,7 @@ const RequestWaitlist = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </section>
     </>
   );
