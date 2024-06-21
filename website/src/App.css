@@ -332,5 +332,36 @@ input[type="file"] {
     color: yellow;
     background-color: black;
     border: none
+}
 
+#img_IdCardPhoto1CompanySelect, #img_IdCardPhoto2CompanySelect {
+    display: none;
+}
+
+.buttonEditImgCMND1, .buttonEditImgCMND2 {
+    display: none;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    color: #FFFFFF;
+    position: relative;
+    /* left: 50px; */
+    top: -111px;
+    /* margin-top: auto; */
+    margin: auto;
+    background: rgba(18, 18, 18, 0.7);
+    border-radius: 2px;
+    /* padding: 13px 13px 13px 13px; */
+    padding: 4px;
+}
+
+.upload-CMND-text {
+    margin: 0;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+    color: #404040;
 }
