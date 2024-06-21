@@ -62,7 +62,7 @@
         "Giá cuối": "Final price:",
         "Mã phiên": "Auction ID:",
         "Lý do" : "*Reason:",
-        "Tên" : "Name:",
+        "Tên" : "Name",
         "Chủ tài sản" : "Asset owner:",
         "Tạo yêu cầu" : "Create request",
         "Định giá cho tài sản đã được gửi đi" : "Valuation for the asset has been sent",
@@ -141,7 +141,8 @@
         "Thanh toán cho người gửi sản phẩm đấu giá" : "Payment for the product sender",
         "Thanh toán cho người thắng phiên" : "Payment for the winner",
         "Đăng kí tham gia phiên" : "Register for the session",
-        "Đăng xuất" : "Log out"
+        "Đăng xuất" : "Log out",
+        "Thông tin tài sản" : "Asset information"
 
 
              
