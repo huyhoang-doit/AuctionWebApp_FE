@@ -15,16 +15,20 @@ export class User {
     city?: string;
     yob?: string;
     cccd?: string;
+    cccdFirst?: string;
+    cccdLast?: string;
+    cccdFrom?: string;
     avatar?: string;
-    bank? : Bank;
-    bankAccountNumber? : string;
-    bankAccountName? : string;
+    bank?: Bank;
+    bankAccountNumber?: string;
+    bankAccountName?: string;
+    state?: string;
 
     constructor(id: number, username: string, fullName: string,
-        firstName: string, lastName: string, password:
-            string, email: string, phone: string, address: string, 
-            district: string, ward: string, city: string, yob: string, cccd: string,
-            bank: Bank, bankAccountNumber: string, bankAccountName: string) {
+        firstName: string, lastName: string, password: string, state: string,
+        cccdFirst: string, cccdLast: string, cccdFrom: string, email: string, phone: string, address: string,
+        district: string, ward: string, city: string, yob: string, cccd: string,
+        bank: Bank, bankAccountNumber: string, bankAccountName: string) {
         this.id = id;
         this.username = username;
         this.fullName = fullName;
@@ -42,6 +46,10 @@ export class User {
         this.bank = bank;
         this.bankAccountNumber = bankAccountNumber;
         this.bankAccountName = bankAccountName;
+        this.state = state;
+        this.cccdFirst = cccdFirst;
+        this.cccdLast = cccdLast;
+        this.cccdFrom = cccdFrom;
     }
 
 }

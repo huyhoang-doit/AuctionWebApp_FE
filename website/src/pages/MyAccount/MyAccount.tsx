@@ -16,7 +16,6 @@ import { MyBidHistoryList } from "./Components/member/MyBidHistoryList";
 import { TransactionHistory } from "./Components/member/TransactionHistory";
 import MyJewelryList from "./Components/member/MyJewellryList";
 import { MyJewelryRequestList } from "./Components/member/MyJewelryRequestList";
-import { ToastContainer } from "react-toastify";
 
 
 export default function MyAccount() {

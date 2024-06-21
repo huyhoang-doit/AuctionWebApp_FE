@@ -10,10 +10,32 @@ import { City } from "../../models/City";
 import { Ward } from "../../models/Ward";
 import { District } from "../../models/District";
 import { getAddressVietNam } from "../../api/AddressAPI";
+import { getBase64 } from "../../utils/getBase64";
+import Swal from "sweetalert2";
 
 export default function Register() {
+    const initialRegisterRequest = {
+        id: 0,
+        username: "",
+        password: "",
+        email: "",
+        firstName: "",
+        lastName: "",
+        phone: "",
+        address: "",
+        district: "",
+        ward: "",
+        city: "",
+        yob: "",
+        CCCD: "",
+        CCCDFirst: "",
+        CCCDLast: "",
+        CCCDFrom: "",
+        bankId: "0",
+        bankAccountNumber: "",
+        bankAccountName: "",
+    };
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [notification, setNotification] = useState("");
     const [banks, setBanks] = useState<Bank[]>([]);
     const [cities, setCities] = useState<City[]>([]);
     const [selectedCityId, setSelectedCityId] = useState<string>('');
@@ -21,14 +43,24 @@ export default function Register() {
     const [selectedDistrictId, setSelectedDistrictId] = useState<string>('');
     const [wards, setWards] = useState<Ward[]>([]);
     const [selectedWardId, setSelectedWardId] = useState<string>('');
+    const [imageFirst, setImageFirst] = useState<string | null>(null);
+    const [imageLast, setImageLast] = useState<string | null>(null);
     const [errors, setErrors] = useState({
+        firstName: "",
+        lastName: "",
         username: "",
         email: "",
         password: "",
         confirmPassword: "",
         phone: "",
+        city: "",
+        district: "",
+        ward: "",
         yob: "",
         CCCD: "",
+        CCCDFirst: "",
+        CCCDLast: "",
+        CCCDFrom: "",
         register: "",
         bankId: "",
         bankAccountNumber: "",
@@ -49,6 +81,9 @@ export default function Register() {
         city: "",
         yob: "",
         CCCD: "",
+        CCCDFirst: "",
+        CCCDLast: "",
+        CCCDFrom: "",
         bankId: "0",
         bankAccountNumber: "",
         bankAccountName: "",
@@ -86,6 +121,7 @@ export default function Register() {
         if (selectedCity) {
             setDistricts(selectedCity.Districts);
             setRegisterRequest((prevValue) => ({ ...prevValue, city: selectedCity.Name }));
+            setErrors((prevErrors) => ({ ...prevErrors, city: "" }));
         } else {
             setRegisterRequest((prevValue) => ({ ...prevValue, city: '' }));
         }
@@ -101,6 +137,7 @@ export default function Register() {
         if (selectedDistrict) {
             setWards(selectedDistrict.Wards);
             setRegisterRequest((prevValue) => ({ ...prevValue, district: selectedDistrict.Name }));
+            setErrors((prevErrors) => ({ ...prevErrors, district: "" }));
         } else {
             setRegisterRequest((prevValue) => ({ ...prevValue, district: '' }));
         }
@@ -113,6 +150,7 @@ export default function Register() {
         const selectedWard = wards.find(ward => ward.Id === wardId);
         if (selectedWard) {
             setRegisterRequest((prevValue) => ({ ...prevValue, ward: selectedWard.Name }));
+            setErrors((prevErrors) => ({ ...prevErrors, ward: "" }));
         } else {
             setRegisterRequest((prevValue) => ({ ...prevValue, ward: '' }));
         }
@@ -217,8 +255,52 @@ export default function Register() {
         setRegisterRequest((prevValue) => ({ ...prevValue, [key]: e.target.value }));
     };
 
+    const onChangeCCCDFrom = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const CCCDFrom = e.target.value;
+        let CCCDError = "";
+        if (CCCDFrom === "") {
+            CCCDError = "Vui lòng nhập nơi cấp căn cước công dân!";
+        }
+        setErrors((prevErrors) => ({ ...prevErrors, CCCDFrom: CCCDError }));
+        setRegisterRequest((preValue) => ({ ...preValue, CCCDFrom }));
+    }
+
+    const handleCCCDFirstChange = (key: keyof typeof registerRequest) => async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const file = e.target.files[0];
+            try {
+                const base64 = await getBase64(file);
+                if (base64) {
+                    setRegisterRequest((prevValue) => ({ ...prevValue, [key]: base64 }));
+                    setImageFirst(base64 as string);
+                    setErrors((prevErrors) => ({ ...prevErrors, CCCDFirst: "" }));
+                }
+            } catch (error) {
+                console.error("Error converting file to Base64: ", error);
+            }
+        }
+    };
+
+    const handleCCCDLastChange = (key: keyof typeof registerRequest) => async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const file = e.target.files[0];
+            try {
+                const base64 = await getBase64(file);
+                if (base64) {
+                    setRegisterRequest((prevValue) => ({ ...prevValue, [key]: base64 }));
+                    setImageLast(base64 as string);
+                    setErrors((prevErrors) => ({ ...prevErrors, CCCDLast: "" }));
+                }
+            } catch (error) {
+                console.error("Error converting file to Base64: ", error);
+            }
+        }
+    };
+
     const clearErrors = () => {
         setErrors({
+            firstName: "",
+            lastName: "",
             username: "",
             email: "",
             password: "",
@@ -226,6 +308,12 @@ export default function Register() {
             phone: "",
             yob: "",
             CCCD: "",
+            city: "",
+            district: "",
+            ward: "",
+            CCCDFirst: "",
+            CCCDLast: "",
+            CCCDFrom: "",
             register: "",
             bankId: "",
             bankAccountNumber: "",
@@ -244,39 +332,123 @@ export default function Register() {
         const isPhoneNumberValid = !isPhoneNumberWrongFormat(registerRequest.phone);
         const isYearOfBirthValid = !isYearOfBirthWrongFormat(registerRequest.yob);
         const isCitizenIdValid = !isCitizenIdWrongFormat(registerRequest.CCCD);
-        if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid || !isPhoneNumberValid || !isYearOfBirthValid || !isCitizenIdValid) {
+
+        if (registerRequest.firstName === '' || registerRequest.lastName === '') {
+            Swal.fire('Error', "Vui lòng nhập đủ Họ và Tên", 'error');
             return;
         }
-        
+
+        if (registerRequest.username === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, username: "Vui lòng nhập tên tài khoản" }));
+            Swal.fire('Error', "Vui lòng nhập tên tài khoản", 'error');
+            return;
+        }
+
+        if (registerRequest.email === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, email: "Vui lòng nhập email" }));
+            Swal.fire('Error', "Vui lòng nhập email", 'error');
+            return;
+        }
+
+        if (registerRequest.phone === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, phone: "Vui lòng nhập số điện thoại" }));
+            Swal.fire('Error', "Vui lòng nhập số điện thoại", 'error');
+            return;
+        }
+
+        if (registerRequest.city === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, city: "Vui lòng chọn Tỉnh" }));
+            Swal.fire('Error', "Vui lòng chọn tỉnh", 'error');
+            return;
+        }
+
+        if (registerRequest.district === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, district: "Vui lòng chọn Quận / Huyện" }));
+            Swal.fire('Error', "Vui lòng chọn Vui lòng chọn Quận / Huyện", 'error');
+            return;
+        }
+
+        if (registerRequest.ward === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, ward: "Vui lòng chọn Phường / Xã" }));
+            Swal.fire('Error', "Vui lòng chọn Phường / Xã", 'error');
+            return;
+        }
+
+        if (registerRequest.yob === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, yob: "Vui lòng nhập năm sinh" }));
+            Swal.fire('Error', "Vui lòng nhập năm sinh", 'error');
+            return;
+        }
+
+        if (registerRequest.CCCD === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, CCCD: "Vui lòng nhập căn cước công dân" }));
+            Swal.fire('Error', "Vui lòng nhập căn cước công dân", 'error');
+            return;
+        }
+
+        if (registerRequest.CCCDFrom === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, CCCDFrom: "Vui lòng cung cấp nơi cấp căn cước công dân" }));
+            Swal.fire('Error', "Vui lòng cung cấp nơi cấp căn cước công dân", 'error');
+            return;
+        }
+
+        if (registerRequest.CCCDFirst === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, CCCDFirst: "Vui lòng chọn hình ảnh căn cước công dân mặt trước" }));
+            Swal.fire('Error', 'Vui lòng chọn hình ảnh căn cước công dân mặt trước', 'error');
+            return;
+        }
+
+        if (registerRequest.CCCDLast === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, CCCDLast: "Vui lòng chọn hình ảnh căn cước công dân mặt sau" }));
+            Swal.fire('Error', 'Vui lòng chọn hình ảnh căn cước công dân mặt sau', 'error');
+            return;
+        }
+
+        if (registerRequest.password === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, password: "Vui lòng nhập mật khẩu" }));
+            Swal.fire('Error', 'Vui lòng nhập mật khẩu', 'error');
+            return;
+        }
+
+        if (confirmPassword === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: "Vui lòng nhập xác nhận mật khẩu" }));
+            Swal.fire('Error', 'Vui lòng nhập xác nhận mật khẩu', 'error');
+            return;
+        }
 
         if (registerRequest.bankAccountNumber === '') {
             setErrors((prevErrors) => ({ ...prevErrors, bankAccountNumber: "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước" }));
+            Swal.fire('Error', 'Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước', 'error');
             return;
         }
-        clearErrors();
 
         if (registerRequest.bankId === "0") {
             setErrors((prevErrors) => ({ ...prevErrors, bankName: "Vui lòng chọn ngân hàng" }));
+            Swal.fire('Error', 'Vui lòng chọn ngân hàng', 'error');
             return;
         }
-        clearErrors();
 
         if (registerRequest.bankAccountName === '') {
             setErrors((prevErrors) => ({ ...prevErrors, bankAccountName: "Vui lòng nhập tên chủ thẻ ngân hàng" }));
+            Swal.fire('Error', 'Vui lòng nhập tên chủ thẻ ngân hàng', 'error');
             return;
         }
-        clearErrors();
+
+        if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid || !isPhoneNumberValid || !isYearOfBirthValid || !isCitizenIdValid) {
+            return;
+        }
 
         const isSuccess = await register(registerRequest);
-        
+
         if (!isSuccess) {
-            setNotification("Xảy ra lỗi trong quá trình đăng kí tài khoản!")
+            Swal.fire('Error', 'Xảy ra lỗi trong quá trình đăng kí tài khoản!', 'error');
             return;
         }
+        setRegisterRequest(initialRegisterRequest);
         window.scrollTo(0, 0);
         // Clear error message
         clearErrors();
-        setNotification("Đăng kí tài khoản thành công, vui lòng kiểm tra email để kích hoạt tài khoản!")
+        Swal.fire('Success', 'Đăng kí tài khoản thành công, vui lòng kiểm tra email để kích hoạt tài khoản!', 'success');
     }
 
     return (
@@ -300,34 +472,32 @@ export default function Register() {
                             <form onSubmit={handleRegisterUser}>
                                 <div className="login-form">
                                     <h4 className="login-title">Đăng kí tài khoản</h4>
-                                    {notification && <h5 className="fw-bold" style={{ color: "green" }}>{notification}</h5>}
                                     {errors.register && <h5 className="fw-bold text-danger">{errors.register}</h5>}
                                     <div className="row mb-4">
                                         <div className="col-md-6 col-12 mb--20">
                                             <label>Họ</label>
                                             <input
                                                 type="text"
-                                                required
                                                 placeholder="Nhập họ của bạn"
                                                 value={registerRequest.firstName}
                                                 onChange={onChangeRegisterRequest("firstName")}
                                             />
+                                            {errors.firstName && <span className="text-danger">{errors.firstName}</span>}
                                         </div>
                                         <div className="col-md-6 col-12 mb--20">
                                             <label>Tên</label>
                                             <input
                                                 type="text"
-                                                required
                                                 placeholder="Nhập tên của bạn"
                                                 value={registerRequest.lastName}
                                                 onChange={onChangeRegisterRequest("lastName")}
                                             />
+                                            {errors.lastName && <span className="text-danger">{errors.lastName}</span>}
                                         </div>
                                         <div className="col-md-4">
-                                            <label>Username</label>
+                                            <label>Tên tài khoản</label>
                                             <input className="mb-0"
                                                 type="text"
-                                                required
                                                 placeholder="Nhập username của bạn"
                                                 value={registerRequest.username}
                                                 onChange={handleUsernameChange}
@@ -337,7 +507,6 @@ export default function Register() {
                                             <label>Email</label>
                                             <input className="mb-0"
                                                 type="email"
-                                                required
                                                 placeholder="Nhập Email của bạn"
                                                 value={registerRequest.email}
                                                 onChange={handleEmailChange}
@@ -345,11 +514,10 @@ export default function Register() {
                                             {errors.email && <span className="text-danger">{errors.email}</span>}
                                         </div>
                                         <div className="col-md-4">
-                                            <label>Phone</label>
+                                            <label>Số điện thoại</label>
                                             <input
                                                 className="mb-0"
                                                 type="text"
-                                                required
                                                 placeholder="Nhập số điện thoại của bạn"
                                                 value={registerRequest.phone}
                                                 onChange={onChangePhoneNumber}
@@ -360,7 +528,6 @@ export default function Register() {
                                             <label>Địa chỉ</label>
                                             <input
                                                 type="text"
-                                                required
                                                 placeholder="Nhập địa chỉ của bạn"
                                                 value={registerRequest.address}
                                                 onChange={onChangeRegisterRequest("address")}
@@ -373,7 +540,7 @@ export default function Register() {
                                                 {cities.map(city => (
                                                     <option key={city.Id} value={city.Id}>{city.Name}</option>
                                                 ))}
-                                            </select>
+                                            </select>{errors.city && <span className="text-danger">{errors.city}</span>}
                                         </div>
                                         <div className="col-md-4 mb-4">
                                             <label>Quận / Huyện</label>
@@ -382,7 +549,7 @@ export default function Register() {
                                                 {districts.map(district => (
                                                     <option key={district.Id} value={district.Id}>{district.Name}</option>
                                                 ))}
-                                            </select>
+                                            </select>{errors.district && <span className="text-danger">{errors.district}</span>}
                                         </div>
                                         <div className="col-md-4 mb-4">
                                             <label>Phường / Xã</label>
@@ -391,37 +558,79 @@ export default function Register() {
                                                 {wards.map(ward => (
                                                     <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
                                                 ))}
-                                            </select>
+                                            </select>{errors.ward && <span className="text-danger">{errors.ward}</span>}
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-4">
                                             <label>Năm sinh</label>
                                             <input
                                                 className="mb-0"
                                                 type="text"
-                                                required
                                                 placeholder="Nhập năm sinh"
                                                 value={registerRequest.yob}
                                                 onChange={onChangeYob}
                                             />
                                             {errors.yob && <span className="text-danger">{errors.yob}</span>}
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-4">
                                             <label>Số CCCD</label>
                                             <input
                                                 className="mb-0"
                                                 type="text"
-                                                required
                                                 placeholder="Nhập số căn cước"
                                                 value={registerRequest.CCCD}
                                                 onChange={onChangeCCCD}
                                             />
                                             {errors.CCCD && <span className="text-danger">{errors.CCCD}</span>}
                                         </div>
+                                        <div className="col-md-4">
+                                            <label>Nơi cấp CCCD</label>
+                                            <input
+                                                className="mb-0"
+                                                type="text"
+                                                placeholder="Nhập nơi cấp căn cước"
+                                                value={registerRequest.CCCDFrom}
+                                                onChange={onChangeCCCDFrom}
+                                            />
+                                            {errors.CCCDFrom && <span className="text-danger">{errors.CCCDFrom}</span>}
+                                        </div>
+                                        <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4">
+                                            <label htmlFor="counterparty_IdCardPhoto1Company_Upload">
+                                                <input type="file" id="counterparty_IdCardPhoto1Company_Upload" style={{ display: "none" }} onChange={handleCCCDFirstChange('CCCDFirst')} />
+                                                {imageFirst
+                                                    ? (<img id="img_IdCardPhoto1CompanySelect" style={{ width: "100%", cursor: "pointer", height: "192px", display: "block" }} src={imageFirst} alt="" />)
+                                                    : (
+                                                        <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "192px", background: "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
+                                                            <img src="https://lacvietauction.vn/auctionart/upload/image/SelectCMNDFIrst.png" alt="Alternate Text" style={{ width: "113.6px", height: "64px", margin: "auto" }} />
+                                                            <p className="upload-CMND-text" style={{ marginTop: "24px" }}>Tải lên ảnh mặt trước CMND/CCCD</p>
+                                                            <p className="upload-CMND-text2">(JPG, PNG kích thước nhỏ hơn 10MB)</p>
+                                                        </div>
+                                                    )}
+                                                <input id="counterparty_IdCardPhoto1Company" style={{ display: "none" }} />
+                                                <button className="buttonEditImgCMND1" onClick={() => document.getElementById('counterparty_IdCardPhoto1Company_Upload')?.click()}>Tải lên ảnh khác</button>
+                                            </label>
+                                            {errors.CCCDFirst && <span className="text-danger">{errors.CCCDFirst}</span>}
+                                        </div>
+                                        <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4">
+                                            <label htmlFor="counterparty_IdCardPhoto2Company_Upload">
+                                                <input type="file" id="counterparty_IdCardPhoto2Company_Upload" style={{ display: "none" }} onChange={handleCCCDLastChange('CCCDLast')} />
+                                                {imageLast
+                                                    ? (<img id="img_IdCardPhoto2CompanySelect" style={{ width: "100%", cursor: "pointer", height: "192px", display: "block" }} src={imageLast} alt="" />)
+                                                    : (
+                                                        <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "192px", background: "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
+                                                            <img src="	https://lacvietauction.vn/auctionart/upload/image/UploadCMNDLast.png" alt="Alternate Text" style={{ width: "113.6px", height: "64px", margin: "auto" }} />
+                                                            <p className="upload-CMND-text" style={{ marginTop: "24px" }}>Tải lên ảnh mặt sau CMND/CCCD</p>
+                                                            <p className="upload-CMND-text2">(JPG, PNG kích thước nhỏ hơn 10MB)</p>
+                                                        </div>
+                                                    )}
+                                                <input id="counterparty_IdCardPhoto2Company" style={{ display: "none" }} />
+                                                <button className="buttonEditImgCMND2" onClick={() => document.getElementById('counterparty_IdCardPhoto2Company_Upload')?.click()}>Tải lên ảnh khác</button>
+                                            </label>
+                                            {errors.CCCDLast && <span className="text-danger">{errors.CCCDLast}</span>}
+                                        </div>
                                         <div className="col-md-12 mt-3">
                                             <label>Mật khẩu</label>
                                             <input
                                                 type="password"
-                                                required
                                                 placeholder="Nhập mật khẩu của bạn"
                                                 value={registerRequest.password}
                                                 onChange={handlePasswordChange}
@@ -445,8 +654,8 @@ export default function Register() {
                                                 value={registerRequest.bankAccountNumber}
                                                 onChange={onChangeRegisterRequest("bankAccountNumber")}
                                             />
-                                            {errors.bankAccountNumber && <span className="text-danger">{errors.bankAccountNumber}</span>}
                                         </div>
+                                        {errors.bankAccountNumber && <span className="text-danger">{errors.bankAccountNumber}</span>}
                                         <div className="col-md-12">
                                             <label >Tên ngân hàng</label>
                                             <select defaultValue={0} onChange={onChangeSelectRegisterRequest("bankId")} style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
@@ -483,9 +692,9 @@ export default function Register() {
                                 </div>
                             </form>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div >
+                </div >
+            </div >
         </>
     );
 }

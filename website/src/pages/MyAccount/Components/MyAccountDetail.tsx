@@ -15,6 +15,8 @@ import {
 } from "../../../utils/checkRegister";
 import { UserContext } from "../../../hooks/useContext";
 import { useTranslation } from "react-i18next";
+import { getBase64 } from "../../../utils/getBase64";
+import Swal from "sweetalert2";
 
 interface MyAccountDetailProps {
   user: User | null;
@@ -99,16 +101,6 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     }
   }, [user]);
 
-  const getBase64 = (file: File): Promise<string | null> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () =>
-        resolve(reader.result ? (reader.result as string) : null);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && user) {
       const file = e.target.files[0];
@@ -152,7 +144,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
           if (context && context.account) {
             context.setAccount(response);
           }
-          toast.success(t("MyAccountDetail.Cập nhật thông tin thành công!"));
+          Swal.fire('Success', t("MyAccountDetail.Cập nhật thông tin thành công!"), 'success');
           return;
         }
       } catch (error) {
@@ -278,6 +270,34 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     setUser({ ...user, bankAccountName: value });
   };
 
+  const handleCCCDFirstChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      try {
+        const base64 = await getBase64(file);
+        if (base64) {
+          setUser({ ...user, cccdFirst: base64 });
+        }
+      } catch (error) {
+        console.error("Error converting file to Base64: ", error);
+      }
+    }
+  };
+
+  const handleCCCDLastChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      try {
+        const base64 = await getBase64(file);
+        if (base64) {
+          setUser({ ...user, cccdLast: base64 });
+        }
+      } catch (error) {
+        console.error("Error converting file to Base64: ", error);
+      }
+    }
+  };
+
   return (
     <div
       className={`tab-pane fade ${!props.isAfterPay ? "active" : ""}`}
@@ -314,9 +334,20 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                     }} />
                   </div>
                   <div className="col-md-8 profile-header-info">
-                    <h4 className="fw-bold m-t-sm">
-                      {context?.account?.fullName}
-                    </h4>
+                    <div className="content" style={{ width: "300px" }}>
+                      <h3>{user.fullName}</h3>
+                      <div className={user.state === 'VERIFIED' ? 'account-verified-text-div' : 'account-inverified-text-div'}>
+                        {user.state === "VERIFIED" ?
+                          <p className="account-verified-text-pc fw-bold">
+                            <img src="https://lacvietauction.vn/auctionart/upload/image/SuccessIcon.png" alt="" style={{ width: "20px" }} />
+                            Đã xác thực
+                          </p> :
+                          <p className="account-inverified-text-pc fw-bold">
+                            <img src="https://static-00.iconduck.com/assets.00/failure-icon-2048x2048-j8y0urc7.png" alt="" style={{ width: "20px", marginRight: "5px" }} />
+                            Chưa xác thực
+                          </p>}
+                      </div>
+                    </div>
                     <label
                       htmlFor="customFile"
                       className="custom-file-upload btn btn-xs btn-primary mt-4"
@@ -338,31 +369,6 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                   </div>
                 </div>
                 <div className="row mb-4">
-                  <div className="col-md-6">
-                    <label>{t("MyAccountDetail.Số CCCD")}</label>
-                    <input
-                      className="mb-0 input-required"
-                      type="text"
-                      placeholder={t("MyAccountDetail.Nhập số căn cước")}
-                      readOnly
-                      style={{ backgroundColor: "#F5F5F5" }}
-                      value={user?.cccd}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label>{t("MyAccountDetail.Năm sinh")}</label>
-                    <input
-                      className="mb-0 input-required"
-                      type="text"
-                      placeholder={t("MyAccountDetail.Nhập năm sinh")}
-                      readOnly
-                      value={user?.yob}
-                      onChange={onChangeYob}
-                    />
-                    {errors.yob && (
-                      <span className="text-danger">{errors.yob}</span>
-                    )}
-                  </div>
                   <div className="col-md-6 mt-4">
                     <label>{t("MyAccountDetail.Tên tài khoản")}</label>
                     <input
@@ -410,7 +416,21 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                       }
                     />
                   </div>
-                  <div className="col-md-12 mt-4">
+                  <div className="col-md-6 mt-4">
+                    <label>{t("MyAccountDetail.Năm sinh")}</label>
+                    <input
+                      className="mb-0 input-required"
+                      type="text"
+                      placeholder={t("MyAccountDetail.Nhập năm sinh")}
+                      readOnly
+                      value={user?.yob}
+                      onChange={onChangeYob}
+                    />
+                    {errors.yob && (
+                      <span className="text-danger">{errors.yob}</span>
+                    )}
+                  </div>
+                  <div className="col-md-6 mt-4">
                     <label>{t("MyAccountDetail.Địa chỉ")}</label>
                     <input
                       className="input-required"
@@ -492,7 +512,68 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                       ))}
                     </select>
                   </div>
-                  <div className="col-md-12 mt-4">
+                  <div className="col-md-6 mt-4">
+                    <label>{t("MyAccountDetail.Số CCCD")}</label>
+                    <input
+                      className="mb-0 input-required"
+                      type="text"
+                      placeholder={t("MyAccountDetail.Nhập số căn cước")}
+                      value={user?.cccd}
+                      disabled={!isEditing}
+                      onChange={(e) =>
+                        setUser({ ...user, cccd: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="col-md-6 mt-4">
+                    <label>Nơi cấp</label>
+                    <input
+                      className="mb-0 input-required"
+                      type="text"
+                      placeholder="Nhập nơi cấp CCCD của bạn"
+                      readOnly
+                      value={user?.cccdFrom}
+                      onChange={(e) =>
+                        setUser({ ...user, cccdFrom: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4">
+                    <label htmlFor="counterparty_IdCardPhoto1Company_Upload">
+                      <input type="file" disabled={!isEditing} id="counterparty_IdCardPhoto1Company_Upload"
+                        style={{ display: "none" }} onChange={handleCCCDFirstChange} />
+                      {user.cccdFirst
+                        ? (<img id="img_IdCardPhoto1CompanySelect" style={{ width: "100%", borderRadius: "5px", cursor: "pointer", height: "192px", display: "block" }} src={user.cccdFirst} alt="" />)
+                        : (
+                          <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "192px", background: "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
+                            <img src="https://lacvietauction.vn/auctionart/upload/image/SelectCMNDFIrst.png" alt="Alternate Text" style={{ width: "113.6px", height: "64px", margin: "auto" }} />
+                            <p className="upload-CMND-text" style={{ marginTop: "24px" }}>Tải lên ảnh mặt trước CMND/CCCD</p>
+                            <p className="upload-CMND-text2">(JPG, PNG kích thước nhỏ hơn 10MB)</p>
+                          </div>
+                        )}
+                      <input id="counterparty_IdCardPhoto1Company" style={{ display: "none" }} />
+                      <button type="button" className="buttonEditImgCMND1" style={{ display: !isEditing ? "none" : "block" }} onClick={() => document.getElementById('counterparty_IdCardPhoto1Company_Upload')?.click()}>Tải lên ảnh khác</button>
+                    </label>
+                    {/* {errors.CCCDFirst && <span className="text-danger">{errors.CCCDFirst}</span>} */}
+                  </div>
+                  <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4">
+                    <label htmlFor="counterparty_IdCardPhoto2Company_Upload">
+                      <input type="file" disabled={!isEditing} id="counterparty_IdCardPhoto2Company_Upload"
+                        style={{ display: "none" }} onChange={handleCCCDLastChange} />
+                      {user.cccdLast
+                        ? (<img id="img_IdCardPhoto2CompanySelect" style={{ width: "100%", borderRadius: "5px", cursor: "pointer", height: "192px", display: "block" }} src={user.cccdLast} alt="" />)
+                        : (
+                          <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "192px", background: "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
+                            <img src="	https://lacvietauction.vn/auctionart/upload/image/UploadCMNDLast.png" alt="Alternate Text" style={{ width: "113.6px", height: "64px", margin: "auto" }} />
+                            <p className="upload-CMND-text" style={{ marginTop: "24px" }}>Tải lên ảnh mặt sau CMND/CCCD</p>
+                            <p className="upload-CMND-text2">(JPG, PNG kích thước nhỏ hơn 10MB)</p>
+                          </div>
+                        )}
+                      <input id="counterparty_IdCardPhoto2Company" style={{ display: "none" }} />
+                      <button type="button" className="buttonEditImgCMND2 mb-0" style={{ display: !isEditing ? "none" : "block" }} onClick={() => document.getElementById('counterparty_IdCardPhoto2Company_Upload')?.click()}>Tải lên ảnh khác</button>
+                    </label>
+                  </div>
+                  <div className="col-md-12">
                     <label>{t("MyAccountDetail.Ngân hàng")}</label>
                     <select
                       onChange={handleBankChange}

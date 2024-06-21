@@ -160,3 +160,46 @@ export async function getTopSpentUser() {
 
     return users;
 }
+
+export async function getUsersUnVerify(page: number): Promise<ResultPageableInteface> {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        throw new Error("No access token found");
+    }
+
+    const URL = `${BASE_URL}/user/get-by-state?state=VERIFIED&page=${page - 1}`;
+
+    const response = await fetchGetWithToken(URL, 'GET', token)
+    
+    if (!response.ok) {
+        throw new Error(`Cannot access ${URL}`);
+    }
+
+    const data = await response.json();
+
+    console.log(data);
+    const users: User[] = data.content.map((user: User) => ({
+        id: user.id,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        fullName: user.fullName,
+        phone: user.phone,
+        address: user.address,
+        district: user.district,
+        ward: user.ward,
+        city: user.city,
+        yob: user.yob,
+        cccd: user.cccd,
+        state: user.state,
+        avatar: user.avatar,
+        bankAccountNumber: user.bankAccountNumber,
+        bankAccountName: user.bankAccountName
+    }));
+
+    return {
+        usersData: users,
+        totalElements: data.totalElements,
+    };
+}

@@ -11,8 +11,8 @@ import PassedJewelriesList from '../pages/manager/PassedJewelry/PassedJewelriesL
 import CreateAuction from '../pages/manager/Auctions/CreateAuction';
 import ViewProducts from '../pages/manager/View/ViewProducts';
 import ViewAccount from '../pages/admin/View/ViewAccount';
-import TopMember from '../pages/manager/TopMember/TopMember';
 import TransactionList from '../pages/manager/Transaction/TransactionList';
+import VerifyUser from '../pages/admin/manage-account/VerifyUser';
 
 const RouterCom = () => {
   return (
@@ -25,6 +25,7 @@ const RouterCom = () => {
             <Route path="/admin/danh-sach-quan-ly" element={<ManageManager />} />
             <Route path="/admin/danh-sach-nhan-vien" element={<ManageStaff />} />
             <Route path="/admin/danh-sach-nguoi-dung" element={<ManageUser />} />
+            <Route path="/admin/chua-xac-thuc" element={<VerifyUser />} />
             <Route path="/admin/chi-tiet-nguoi-dung/:id" element={<ViewAccount />} />
           </Route>
         </Route>
@@ -39,7 +40,6 @@ const RouterCom = () => {
           <Route path="/manager/giao-dich/hoan-tien" element={<TransactionList />} />
           <Route path="/manager/giao-dich/dang-ky-tham-gia" element={<TransactionList />} />
           <Route path="/manager/create-auction" element={<CreateAuction />} />
-          <Route path="/manager/nguoi-dung-hang-dau" element={<TopMember />} />
           <Route path="/manager/view/viewproducts" element={<ViewProducts />} />
           {/* <Route
             path="/manager/view/Viewauctionslist"
