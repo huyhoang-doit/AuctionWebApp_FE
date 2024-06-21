@@ -9,6 +9,9 @@ import { sendRequestApprovalFromUser } from "../../api/RequestApprovalAPI";
 import { ToastContainer, toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { OpenRegulationsForSellerModal } from "../MyAccount/Modal/Modal";
+import { convertFilesToBase64, uploadFilesToFirebase } from "../../utils/imageFireBase";
+import { Spinner } from "react-bootstrap";
+import { JEWELRY_IMAGES_FOLDER } from "../../config/firebaseconfig";
 interface JewelryRequest {
   id: number;
   name: string;
@@ -21,10 +24,6 @@ interface JewelryRequest {
   userId: number | undefined;
 }
 
-interface ImageRequest {
-  data: string;
-  jewelryId: number;
-}
 interface SendReqeustFromUser {
   senderId: number | undefined;
   jewelryId: number;
@@ -32,6 +31,7 @@ interface SendReqeustFromUser {
 }
 export const PageSendJewelry = () => {
   const categories = useCategories();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { t } = useTranslation(["PageSendJewelry"]);
 
@@ -48,6 +48,7 @@ export const PageSendJewelry = () => {
   const [material, setMaterial] = useState("Bạc");
   const [images, setImages] = useState<File[]>([]);
   const [base64Images, setBase64Images] = useState<string[]>([]);
+  const [saveImages, setSaveImages] = useState<string[]>([]);
   const [notification, setNotification] = useState("");
   const [jewelryRequest, setJewelryRequest] = useState<JewelryRequest>({
     id: 0,
@@ -134,32 +135,14 @@ export const PageSendJewelry = () => {
     setJewelryRequest({ ...jewelryRequest, weight: value });
   };
 
-  const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImagesChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
       const fileArray = Array.from(files);
       setImages(fileArray);
-      convertToBase64(fileArray);
+      const base64Array = await convertFilesToBase64(fileArray);
+      setBase64Images(base64Array);
     }
-  };
-
-  const convertToBase64 = (files: File[]) => {
-    const base64Array: string[] = [];
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        if (reader.result) {
-          base64Array.push(reader.result as string);
-          if (base64Array.length === files.length) {
-            setBase64Images(base64Array);
-          }
-        }
-      };
-      reader.onerror = (error) => {
-        console.error("Error converting file to base64:", error);
-      };
-    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -169,71 +152,76 @@ export const PageSendJewelry = () => {
       setNotification(t("SendSendJewelry.NotificationNotPhoto"));
       return;
     }
-    console.log(jewelryRequest);
+
+    setLoading(true);
+
     try {
-      const sendJewelry = await sendJewelryFromUser(jewelryRequest);
+      // Upload images and get URLs
+      const urls = await uploadFilesToFirebase(images, JEWELRY_IMAGES_FOLDER);
+      setSaveImages(urls);
+      console.log("List of Image URLs: ", urls);
+
+      // Set images URLs to jewelryRequest
+      const jewelryData = { ...jewelryRequest, images: urls };
+
+      // Send jewelry request
+      const sendJewelry = await sendJewelryFromUser(jewelryData);
       if (sendJewelry) {
-        console.log("tạo sp mới thành công");
+        console.log("Created new jewelry successfully");
         const newJewelry: Jewelry = await getLatestJewelry();
         if (newJewelry) {
           const newJewelryId = newJewelry.id;
 
-          const iconImage = await setImageForJewelry(
-            { data: base64Images[0], jewelryId: newJewelryId },
-            true
-          );
-          processImages(base64Images, newJewelryId)
-            .then(() => {
-              console.log("Thêm ảnh thành công");
-            })
-            .catch((error) => {
-              console.error("Error processing images:", error);
-            });
+          // Ensure the images are set before proceeding
+          await setImageForJewelry({ data: urls[0], jewelryId: newJewelryId }, true);
+          await processImages(urls, newJewelryId);
 
-          if (iconImage) {
-            const newSendRequestBody: SendReqeustFromUser = {
-              senderId: account?.id,
-              jewelryId: newJewelry.id,
-              requestTime: new Date().toISOString(),
-            };
-            const sendRequest = await sendRequestApprovalFromUser(
-              newSendRequestBody
-            );
-            if (sendRequest) {
-              console.log("Gửi yêu cầu cho sản phẩm mới thành công");
-              toast.success(
-                t("SendSendJewelry.GuiYeuCauChoSanPhamMoiThanhCong")
-              );
-              setProductName("");
-              setProductType("Dây chuyền");
-              setPrice(0);
-              setPriceDisplay("");
-              setBrand("");
-              setWeight(0);
-              setDescription("");
-              setMaterial("Bạc");
-              setImages([]);
-              setBase64Images([]);
-              setJewelryRequest({
-                id: 0,
-                name: "",
-                price: 0,
-                category: productType,
-                description: "",
-                material: material,
-                brand: "",
-                weight: 0,
-                userId: account?.id,
-              });
-              setNotification("");
-            }
+          const newSendRequestBody: SendReqeustFromUser = {
+            senderId: account?.id,
+            jewelryId: newJewelry.id,
+            requestTime: new Date().toISOString(),
+          };
+
+          const sendRequest = await sendRequestApprovalFromUser(newSendRequestBody);
+          if (sendRequest) {
+            console.log("Successfully sent request for new jewelry");
+            toast.success(t("SendSendJewelry.GuiYeuCauChoSanPhamMoiThanhCong"));
+            resetForm();
           }
         }
       }
     } catch (error) {
       console.error("Error sending jewelry request:", error);
       setNotification(t("SendSendJewelry.ErrorSendJewelry"));
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const resetForm = () => {
+    setProductName("");
+    setProductType("Dây chuyền");
+    setPrice(0);
+    setPriceDisplay("");
+    setBrand("");
+    setWeight(0);
+    setDescription("");
+    setMaterial("Bạc");
+    setImages([]);
+    setBase64Images([]);
+    setSaveImages([]);
+    setJewelryRequest({
+      id: 0,
+      name: "",
+      price: 0,
+      category: productType,
+      description: "",
+      material: material,
+      brand: "",
+      weight: 0,
+      userId: account?.id,
+    });
+    setNotification("");
   };
 
   return (
@@ -373,7 +361,7 @@ export const PageSendJewelry = () => {
                         required
                       />
                     </div>
-                    <div className="col-md-8 row" style={{ marginTop: "60px" }}>
+                    <div className="col-md-12 row" style={{ marginTop: "60px" }}>
                       <div className="col-md-6">
                         <label
                           className="btn btn-dark"
@@ -405,11 +393,17 @@ export const PageSendJewelry = () => {
                         ))}
                       </div>
                     </div>
-                    <div className="col-12">
-                      <button className="umino-register_btn w-25" type="submit" >
+                    <div className="col-4">
+
+                      <button className="umino-register_btn w-100" type="submit" disabled={loading}>
                         {t("SendSendJewelry.GuiYeuCau")}
                       </button>
+
+
                       <ToastContainer />
+                    </div>
+                    <div className="col-8" style={{ marginTop: '15px' }}>
+                      {loading && <Spinner animation="border" />}
                     </div>
                   </div>
                 </div>
@@ -418,8 +412,8 @@ export const PageSendJewelry = () => {
               {notification && <p>{notification}</p>}
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   );
 };
