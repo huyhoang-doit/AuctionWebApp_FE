@@ -1,0 +1,16 @@
+{
+    "MyJewelryRequestList" : {
+        "Danh sách các sản phẩm yêu cầu của tôi" : "Danh sách các sản phẩm yêu cầu của tôi",
+        "Mã sản phẩm" : "Mã sản phẩm",
+        "Tên sản phẩm" : "Tên sản phẩm",
+        "Giá mong muốn (VNĐ)" : "Giá mong muốn (VNĐ)",
+        "Thời gian gửi" : "Thời gian gửi",
+        "Trạng thái" : "Trạng thái",
+        "Thao tác" : "Thao tác",
+        "Đã phê duyệt" : "Đã phê duyệt",
+        "Chưa phê duyệt" : "Chưa phê duyệt",
+        "Chưa có yêu cầu nào được gửi đi" : "Chưa có yêu cầu nào được gửi đi"
+        
+
+    }
+}
