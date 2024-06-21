@@ -1,0 +1,12 @@
+{
+    "Login" : {
+        "Tên đăng nhập/ Email" : "Username/Email",
+        "Mật khẩu" : "Password",
+        "Nhớ mật khẩu" : "Remember password",
+        "Quên mật khẩu?" : "Forget password?",
+        "Đăng nhập" : "Login",
+        "Bạn chưa có tài khoản ?" : "Don't have an account?",
+        "Trang chủ" : "Home",
+        "Nhập mật khẩu" : "Enter password"
+    }
+}

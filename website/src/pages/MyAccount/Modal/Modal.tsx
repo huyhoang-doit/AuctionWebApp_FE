@@ -1374,11 +1374,13 @@ export const LogoutModal = () => {
           Swal.fire({
             icon: "warning",
             html: `
-            <h4>Xác nhận đăng xuất.</h4>
-            <div>Bạn có chắc muốn đăng xuất khỏi tài khoản ngay bây giờ?</span></div>`,
+            <h4>${t("Modal.Xác nhận đăng xuất.")}</h4>
+            <div>${t(
+              "Modal.Bạn có chắc muốn đăng xuất khỏi tài khoản ngay bây giờ?"
+            )}</span></div>`,
             showCancelButton: true,
-            confirmButtonText: "Xác nhận",
-            cancelButtonText: "Hủy",
+            confirmButtonText: t("Modal.Xác nhận"),
+            cancelButtonText: t("Modal.Hủy"),
             showLoaderOnConfirm: true,
             preConfirm: () => {
               handleLogout();
