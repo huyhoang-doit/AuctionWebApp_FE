@@ -62,7 +62,7 @@
         "Giá cuối": "Giá cuối:",
         "Mã phiên": "Mã phiên:",
         
-        "Tên" : "Tên:",
+        "Tên" : "Tên",
         "Chủ tài sản" : "Chủ tài sản:",
         "Tạo yêu cầu" : "Create request",
         "Định giá cho tài sản đã được gửi đi" : "Định giá cho tài sản đã được gửi đi",
@@ -141,7 +141,8 @@
         "Thanh toán cho người gửi sản phẩm đấu giá" : "Thanh toán cho người gửi sản phẩm đấu giá",
         "Thanh toán cho người thắng phiên" : " Thanh toán cho người thắng phiên",
         "Đăng kí tham gia phiên" : "Đăng kí tham gia phiên",
-        "Đăng xuất" : "Đăng xuất"
+        "Đăng xuất" : "Đăng xuất",
+        "Thông tin tài sản" : "Thông tin tài sản"
         
 
 
