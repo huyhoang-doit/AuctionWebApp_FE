@@ -41,6 +41,7 @@ export const getUserLogin = async (username: string): Promise<User> => {
     const URL = `${BASE_URL}/user/by-username/${username}`;
     const response = await MyRequest(URL);
     // console.log(response)
+    
     return response;
 };
 

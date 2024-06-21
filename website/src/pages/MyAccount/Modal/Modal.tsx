@@ -1412,16 +1412,25 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
   const changeState = () => {
     setIsEditing(!isEditing);
 
-    const inputs = document.querySelectorAll('input[type="text"]');
+    const textInputs = document.querySelectorAll('input[type="text"]');
+    const fileInputs = document.querySelectorAll('input[type="file"]');
     const selects = document.querySelectorAll("select");
 
-    inputs.forEach((input) => {
+    textInputs.forEach((input) => {
       if (!isEditing) {
         input.removeAttribute("readOnly");
         input.classList.remove("input-required");
       } else {
         input.setAttribute("readOnly", "");
         input.classList.add("input-required");
+      }
+    });
+
+    fileInputs.forEach((input) => {
+      if (!isEditing) {
+        input.removeAttribute("disabled");
+      } else {
+        input.setAttribute("disabled", "");
       }
     });
 
@@ -1458,6 +1467,14 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
       {
         isValid: user?.bankAccountName,
         message: "Vui lòng nhập tên chủ thẻ ngân hàng.",
+      },
+      {
+        isValid: user?.cccdFirst,
+        message: "Vui lòng chọn hình ảnh căn cước công dân mặt trước.",
+      },
+      {
+        isValid: user?.cccdLast,
+        message: "Vui lòng chọn hình ảnh căn cước công dân mặt sau.",
       },
     ];
     for (const { isValid, message } of errorMessages) {

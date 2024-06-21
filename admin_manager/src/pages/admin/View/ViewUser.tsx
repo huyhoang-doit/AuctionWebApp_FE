@@ -13,7 +13,8 @@ import { getAllBanks } from "../../../api/BankAPI";
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../../utils/checkRegister";
 import { SaveEditProfileModal } from "../Modal";
 import "./View.css"
-import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+
 interface MyAccountDetailProps {
   user: User | null;
   setUser: (user: User) => void;
@@ -262,7 +263,7 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                   <div className="myaccount-details">
                     <div className="row">
 
-                      <div className="col-sm-12 col-md-12  col-xs-12 col-lg-12">
+                      <div className="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                         <form >
                           <div className="login-form">
                             <div className="row profile-header-content mb-3">
@@ -283,11 +284,11 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                   objectPosition: "center",
                                 }} />
                               </div>
-                              <div className="col-md-8 profile-header-info ms-4">
+                              <div className="col-md-6 profile-header-info ms-4">
                                 <div className="content" style={{ width: "300px" }}>
                                   <h3>{user.fullName}</h3>
-                                  <div className="account-verified-text-div">
-                                    {user.state === "ACTIVE" ?
+                                  <div className={user.state === 'VERIFIED' ? 'account-verified-text-div' : 'account-inverified-text-div'}>
+                                    {user.state === "VERIFIED" ?
                                       <p className="account-verified-text-pc fw-bold">
                                         <img src="https://lacvietauction.vn/auctionart/upload/image/SuccessIcon.png" alt="" style={{ width: "20px" }} />
                                         Đã xác thực
@@ -303,6 +304,15 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                 </label>
                                 <input onChange={handleAvatarChange} id='customFile' type="file" accept="image/*" style={{ display: "none" }} />
                               </div>
+                              {
+                                user.state === 'VERIFIED' ? "" :
+                                  <div className="col-md-2 d-flex justify-content-center align-items-center">
+                                    <Button type="button" className="btn" style={{ border: "none", background: "#2ec772" }}>
+                                      <img style={{ width: "20px", margin: "-4px 4px 0 0" }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/768px-Flat_tick_icon.svg.png" alt="" />
+                                      Xác thực cho tài khoản này
+                                    </Button>
+                                  </div>
+                              }
                             </div>
                             <div className="row mb-4">
                               <div className="col-md-6">
@@ -406,6 +416,40 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                     <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
                                   ))}
                                 </select>
+                              </div>
+                              <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4">
+                                <label htmlFor="counterparty_IdCardPhoto1Company_Upload">
+                                  <input type="file" disabled={!isEditing} id="counterparty_IdCardPhoto1Company_Upload"
+                                    style={{ display: "none" }} />
+                                  {user.cccdFirst
+                                    ? (<img id="img_IdCardPhoto1CompanySelect" style={{ width: "100%", borderRadius: "5px", cursor: "pointer", height: "292px", display: "block" }} src={user.cccdFirst} alt="" />)
+                                    : (
+                                      <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "292px", background: "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
+                                        <img src="https://lacvietauction.vn/auctionart/upload/image/SelectCMNDFIrst.png" alt="Alternate Text" style={{ width: "113.6px", height: "64px", margin: "auto" }} />
+                                        <p className="upload-CMND-text" style={{ marginTop: "24px" }}>Tải lên ảnh mặt trước CMND/CCCD</p>
+                                        <p className="upload-CMND-text2">(JPG, PNG kích thước nhỏ hơn 10MB)</p>
+                                      </div>
+                                    )}
+                                  <input id="counterparty_IdCardPhoto1Company" style={{ display: "none" }} />
+                                  <button type="button" className="buttonEditImgCMND1" style={{ display: !isEditing ? "none" : "block" }} onClick={() => document.getElementById('counterparty_IdCardPhoto1Company_Upload')?.click()}>Tải lên ảnh khác</button>
+                                </label>
+                              </div>
+                              <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4">
+                                <label htmlFor="counterparty_IdCardPhoto2Company_Upload">
+                                  <input type="file" disabled={!isEditing} id="counterparty_IdCardPhoto2Company_Upload"
+                                    style={{ display: "none" }} />
+                                  {user.cccdLast
+                                    ? (<img id="img_IdCardPhoto2CompanySelect" style={{ width: "100%", borderRadius: "5px", cursor: "pointer", height: "292px", display: "block" }} src={user.cccdLast} alt="" />)
+                                    : (
+                                      <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "292px", background: "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
+                                        <img src="	https://lacvietauction.vn/auctionart/upload/image/UploadCMNDLast.png" alt="Alternate Text" style={{ width: "113.6px", height: "64px", margin: "auto" }} />
+                                        <p className="upload-CMND-text" style={{ marginTop: "24px" }}>Tải lên ảnh mặt sau CMND/CCCD</p>
+                                        <p className="upload-CMND-text2">(JPG, PNG kích thước nhỏ hơn 10MB)</p>
+                                      </div>
+                                    )}
+                                  <input id="counterparty_IdCardPhoto2Company" style={{ display: "none" }} />
+                                  <button type="button" className="buttonEditImgCMND2 mb-0" style={{ display: !isEditing ? "none" : "block" }} onClick={() => document.getElementById('counterparty_IdCardPhoto2Company_Upload')?.click()}>Tải lên ảnh khác</button>
+                                </label>
                               </div>
                               <div className="col-md-12 mt-4">
                                 <label>Ngân hàng</label>

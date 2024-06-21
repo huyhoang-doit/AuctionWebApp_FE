@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal, Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
+import { getUsersUnVerify } from '../../../api/UserAPI';
 
-const ManageStaff = () => {
+const VerifyUser = () => {
   const [showModal, setShowModal] = useState(false);
-  const [staffs, setStaffs] = useState<User[]>([])
+  const [users, setUsers] = useState<User[]>([])
   const [page, setPage] = useState(1)
   const [totalElements, setTotalElements] = useState(0)
 
   useEffect(() => {
-    getMembers("STAFF", 1)
+    getUsersUnVerify(page)
       .then((response) => {
-        setStaffs(response.usersData)
+        setUsers(response.usersData)
         setTotalElements(response.totalElements)
       }
       )
@@ -44,18 +44,11 @@ const ManageStaff = () => {
               <div className="col-12">
                 <div className="breadcrumb-area mb-4">
                   <Link to="/admin">Trang chủ {'  /  '} </Link>
-                  <Link to="/admin/danh-sach-nhan-vien"> Danh sách nhân viên  </Link>
+                  <Link to="/admin/danh-sach-nhan-vien"> Danh sách tài khoản chờ xác thực </Link>
                 </div>
                 <div className="QA_section">
                   <div className="white_box_tittle list_header">
-                    <h4>Danh sách nhân viên</h4>
-                    <div className="box_right d-flex lms_block">
-                      <div className="add_button ms-2">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" className="btn_1">
-                          Thêm tài khoản mới
-                        </a>
-                      </div>
-                    </div>
+                    <h4>Danh sách tài khoản chờ xác thực</h4>
                   </div>
                   <div >
                     <Table striped bordered hover>
@@ -71,7 +64,7 @@ const ManageStaff = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {staffs.map((user) => (
+                        {users.map((user) => (
                           <tr key={user.id}>
                             <td>
                               {user.id}
@@ -81,7 +74,8 @@ const ManageStaff = () => {
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td>
-                              <a className={`status_btn ${
+                              <a 
+                              className={`status_btn ${
                                 user.state === 'VERIFIED'
                                   ? 'bg-success'
                                   : user.state === 'DISABLE'
@@ -138,4 +132,4 @@ const ManageStaff = () => {
   );
 };
 
-export default ManageStaff;
+export default VerifyUser;

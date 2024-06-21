@@ -111,7 +111,15 @@ const ManageManager = () => {
                               <td>{user.email}</td>
                               <td>{user.phone}</td>
                               <td>
-                                <a className={`status_btn ${user.state === 'ACTIVE' ? '' : user.state === 'DISABLE' ? 'bg-error' : 'bg-warn'}`}>
+                                <a className={`status_btn ${
+                                user.state === 'VERIFIED'
+                                  ? 'bg-success'
+                                  : user.state === 'DISABLE'
+                                  ? 'bg-error'
+                                  : user.state === 'ACTIVE'
+                                  ? 'bg-primary'
+                                  : 'bg-warn'
+                              }`}>
                                   <UserStateView state={user.state || ''} />
                                 </a>
                               </td>
