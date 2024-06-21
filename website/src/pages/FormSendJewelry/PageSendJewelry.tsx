@@ -8,6 +8,7 @@ import { processImages, setImageForJewelry } from "../../api/ImageApi";
 import { sendRequestApprovalFromUser } from "../../api/RequestApprovalAPI";
 import { ToastContainer, toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { OpenRegulationsForSellerModal } from "../MyAccount/Modal/Modal";
 interface JewelryRequest {
   id: number;
   name: string;
@@ -257,13 +258,24 @@ export const PageSendJewelry = () => {
         <div className="container">
           <div className="row">
             <div className="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
               <form onSubmit={handleSubmit}>
                 <div className="login-form">
-                  <h4 className="login-title">
-                    {" "}
-                    {t("SendSendJewelry.GuiThongTinSanPham")}
-                  </h4>
+
+
+
+
+
                   <div className="row mb-4">
+                    <div className="col-md-8 col-12 mb--20">
+                      <h4 className="login-title">
+                        {" "}
+                        {t("SendSendJewelry.GuiThongTinSanPham")}
+                      </h4>
+                    </div>
+                    <div className="col-md-4 mb--20">
+                      <OpenRegulationsForSellerModal />
+                    </div>
                     <div className="col-md-6 col-12 mb--20">
                       <label>{t("SendSendJewelry.TenSanPham")}</label>
                       <input
@@ -394,7 +406,7 @@ export const PageSendJewelry = () => {
                       </div>
                     </div>
                     <div className="col-12">
-                      <button className="umino-register_btn" type="submit">
+                      <button className="umino-register_btn w-25" type="submit" >
                         {t("SendSendJewelry.GuiYeuCau")}
                       </button>
                       <ToastContainer />
@@ -402,6 +414,7 @@ export const PageSendJewelry = () => {
                   </div>
                 </div>
               </form>
+
               {notification && <p>{notification}</p>}
             </div>
           </div>
