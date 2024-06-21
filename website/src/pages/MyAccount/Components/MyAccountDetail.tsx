@@ -334,9 +334,20 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                     }} />
                   </div>
                   <div className="col-md-8 profile-header-info">
-                    <h4 className="fw-bold m-t-sm">
-                      {context?.account?.fullName}
-                    </h4>
+                    <div className="content" style={{ width: "300px" }}>
+                      <h3>{user.fullName}</h3>
+                      <div className={user.state === 'VERIFIED' ? 'account-verified-text-div' : 'account-inverified-text-div'}>
+                        {user.state === "VERIFIED" ?
+                          <p className="account-verified-text-pc fw-bold">
+                            <img src="https://lacvietauction.vn/auctionart/upload/image/SuccessIcon.png" alt="" style={{ width: "20px" }} />
+                            Đã xác thực
+                          </p> :
+                          <p className="account-inverified-text-pc fw-bold">
+                            <img src="https://static-00.iconduck.com/assets.00/failure-icon-2048x2048-j8y0urc7.png" alt="" style={{ width: "20px", marginRight: "5px" }} />
+                            Chưa xác thực
+                          </p>}
+                      </div>
+                    </div>
                     <label
                       htmlFor="customFile"
                       className="custom-file-upload btn btn-xs btn-primary mt-4"
@@ -523,7 +534,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                       readOnly
                       value={user?.cccdFrom}
                       onChange={(e) =>
-                        setUser({...user, cccdFrom: e.target.value })
+                        setUser({ ...user, cccdFrom: e.target.value })
                       }
                     />
                   </div>

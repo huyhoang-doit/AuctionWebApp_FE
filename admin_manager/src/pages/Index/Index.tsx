@@ -4,7 +4,9 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { getDashBoardInformation } from '../../api/DashBoardAPI';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { formatNumber } from '../../utils/formatNumber';
-
+import { Table } from 'react-bootstrap';
+import { getTopSpentUser } from '../../api/UserAPI';
+import { User } from '../../models/User';
 export default function Index() {
   const [selectedYearRegisterAccount, setSelectedYearRegisterAccount] = useState(new Date().getFullYear());
   const [selectedYearGetAuction, setSelectedYearGetAuction] = useState(new Date().getFullYear());
@@ -13,12 +15,26 @@ export default function Index() {
   const years = Array.from({ length: 5 }, (_, index) => currentYear - index);
 
   const [totalUser, setTotalUser] = useState(0);
+  const [totalUsersVerified, setTotalUsersVerified] = useState(0);
   const [totalUsersActive, setTotalUsersActive] = useState(0);
   const [totalUsersInActive, setTotalUsersInActive] = useState(0);
   const [totalRevenueToday, setTotalRevenueToday] = useState(0);
   const [totalJewelryActive, setTotalJewelryActive] = useState(0);
   const [totalAuctions, setTotalAuctions] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
+
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    getTopSpentUser()
+      .then((response) => {
+        setUsers(response);
+
+      })
+      .catch(() => {
+        setUsers([])
+      });
+  }, [])
 
   // Dữ liệu cho biểu đồ Bar
   const [barData1, setBarData1] = useState({
@@ -30,6 +46,34 @@ export default function Index() {
         borderColor: 'rgba(0,0,0,1)',
         borderWidth: 2,
         data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  });
+
+  // Dữ liệu cho biểu đồ Bar
+  const [barData2, setBarData2] = useState({
+    labels: ['Đã phê duyệt', 'Chưa phê duyệt', 'Đang đấu giá'],
+    datasets: [
+      {
+        label: 'Số lượng',
+        backgroundColor: ['#57e7ff', '#9357ff', '#ff56a2'],
+        borderColor: '#FFFFFF',
+        borderWidth: 2,
+        data: [0, 0, 0]
+      }
+    ]
+  });
+
+  // Dữ liệu cho biểu đồ Bar
+  const [barData3, setBarData3] = useState({
+    labels: ['Thành viên', 'Nhân viên', 'Quản Lý', 'Quản trị viên'],
+    datasets: [
+      {
+        label: 'Người dùng',
+        backgroundColor: ['#57e7ff', '#9357ff', '#ff56a2', '#f25602'],
+        borderColor: '#FFFFFF',
+        borderWidth: 2,
+        data: [0, 0, 0, 0]
       }
     ]
   });
@@ -118,8 +162,8 @@ export default function Index() {
     try {
       const response = await getDashBoardInformation(selectedYearRegisterAccount, selectedYearGetAuction, selectedYearGetRevenue);
       const { totalUser, totalUsersActive, totalUsersInActive, totalRevenueToday, totalAuctions, totalJewelryActive, totalJewelryWaitApproving,
-        percentAuctionFailed, percentAuctionSuccess, totalUsersByMonth, totalAuctionByMonth, 
-        participationRate, notParticipationRate, totalRevenue, totalRevenueByMonth } = response;
+        totalAuctionJewelry, percentAuctionFailed, percentAuctionSuccess, totalUsersByMonth, totalAuctionByMonth, totalMembers, totalStaffs, totalManagers, totalAdmins,
+        participationRate, notParticipationRate, totalRevenue, totalRevenueByMonth, totalUsersVerified } = response;
 
       setTotalUser(totalUser);
       setTotalAuctions(totalAuctions);
@@ -127,7 +171,8 @@ export default function Index() {
       setTotalRevenueToday(totalRevenueToday);
       setTotalUsersActive(totalUsersActive);
       setTotalUsersInActive(totalUsersInActive);
-      setTotalJewelryActive(totalJewelryActive)
+      setTotalJewelryActive(totalJewelryActive);
+      setTotalUsersVerified(totalUsersVerified);
 
       setBarData1(prevData => ({
         ...prevData,
@@ -135,6 +180,26 @@ export default function Index() {
           {
             ...prevData.datasets[0],
             data: totalRevenueByMonth
+          }
+        ]
+      }));
+
+      setBarData2(prevData => ({
+        ...prevData,
+        datasets: [
+          {
+            ...prevData.datasets[0],
+            data: [totalJewelryActive, totalJewelryWaitApproving, totalAuctionJewelry]
+          }
+        ]
+      }));
+
+      setBarData3(prevData => ({
+        ...prevData,
+        datasets: [
+          {
+            ...prevData.datasets[0],
+            data: [totalMembers, totalStaffs, totalManagers, totalAdmins]
           }
         ]
       }));
@@ -258,6 +323,10 @@ export default function Index() {
                               <h3><span className="counter">{totalUser} Tài khoản</span> </h3>
                             </div>
                             <div className="single_quick_activity">
+                              <h4>Số tài khoản đã xác minh</h4>
+                              <h3><span className="counter">{totalUsersVerified} Tài khoản</span> </h3>
+                            </div>
+                            <div className="single_quick_activity">
                               <h4>Số tài khoản đã kích hoạt</h4>
                               <h3><span className="counter">{totalUsersActive} Tài khoản</span> </h3>
                             </div>
@@ -291,14 +360,14 @@ export default function Index() {
                   <Bar data={barData1} />
                 </div>
               </div>
-              <div className="col-md-6 col-lg-6 col-xl-3">
+              <div className="col-lg-12 col-xl-6">
                 <div className="white_box mb_30 min_430">
-                  <div className="box_header  box_header_block">
+                  <div className="box_header  box_header_block ">
                     <div className="main-title">
-                      <h3 className="mb-0">Tỷ lệ phiên thành công</h3>
+                      <h3 className="mb-0">Thống kê trang sức theo trạng thái</h3>
                     </div>
                   </div>
-                  <Doughnut data={doughnutData1} />
+                  <Bar data={barData2} />
                 </div>
               </div>
               <div className="col-lg-12 col-xl-6">
@@ -322,6 +391,16 @@ export default function Index() {
                 <div className="white_box mb_30 min_430">
                   <div className="box_header  box_header_block">
                     <div className="main-title">
+                      <h3 className="mb-0">Tỷ lệ phiên thành công</h3>
+                    </div>
+                  </div>
+                  <Doughnut data={doughnutData1} />
+                </div>
+              </div>
+              <div className="col-md-6 col-lg-6 col-xl-3">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block">
+                    <div className="main-title">
                       <h3 className="mb-0">Tỷ lệ người dùng tham gia đấu giá</h3>
                     </div>
                   </div>
@@ -336,6 +415,49 @@ export default function Index() {
                     </div>
                   </div>
                   <Doughnut data={doughnutData3} />
+                </div>
+              </div>
+              <div className="col-12">
+                <div className="QA_section">
+                  <div className="white_box_tittle list_header">
+                    <h4> Những người dùng hàng đầu</h4>
+                    <div className="box_right d-flex lms_block">
+                      <div className="serach_field_2">
+                      </div>
+                      <div className="add_button ms-2 ">
+                      </div>
+                    </div>
+                  </div>
+                  <div className="">
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Ảnh đại diện</th>
+                          <th scope="col">Tên tài khoản</th>
+                          <th scope="col" style={{ width: '15%' }}>Họ và tên</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Số điện thoại</th>
+                          <th scope="col">Tổng tiền đã thanh toán</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {users.map((user) => (
+                          <tr key={user.id}>
+                            <td>
+                              {user.id}
+                            </td>
+                            <td><img src={user.avatar} alt='' style={{ width: "60px" }} /></td>
+                            <td>{user.username}</td>
+                            <td>{user.fullName}</td>
+                            <td>{user.email}</td>
+                            <td>{user.phone}</td>
+                            <td className='fw-bold'>{formatNumber(user.totalSpent)} VNĐ</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </div>
                 </div>
               </div>
             </>
@@ -356,6 +478,16 @@ export default function Index() {
                     </select>
                   </div>
                   <Line data={lineData1} options={options} />
+                </div>
+              </div>
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block ">
+                    <div className="main-title">
+                      <h3 className="mb-0">Thống kê số lượng người dùng theo quyền</h3>
+                    </div>
+                  </div>
+                  <Bar data={barData3} />
                 </div>
               </div>
             </>}

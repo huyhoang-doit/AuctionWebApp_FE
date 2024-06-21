@@ -26,6 +26,8 @@ import PARTICIPATION_FEE from "../../../global_variable/variable";
 import { descriptionAuction } from "../../../utils/descriptionAuction";
 import { changeStateTransaction } from "../../../api/TransactionAPI";
 import { Transaction } from "../../../models/Transaction";
+import { TypeTransaction } from "../Transaction/TypeTransaction";
+import { PaymentMethod } from "../Transaction/PaymentMethod";
 
 
 // *** MODAL FOR MANAGER ***
@@ -978,7 +980,6 @@ interface SelectStaffForAucionModal {
 export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
   show,
   handleClose,
-  user,
   handleComback,
   newAuction,
   handleChangeList
@@ -1265,7 +1266,7 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({ transac
                           <span>
                             Phương thức thanh toán:
                           </span>
-                          <span className='fw-bold'> <PaymentMethod method={transaction.paymentMethod} /></span>
+                          <span className='fw-bold'> <PaymentMethod method={transaction.paymentMethod ?? ""} /></span>
                         </div>
                       </div>
                       <div className="checkout-form-list my-4 col-md-6">
