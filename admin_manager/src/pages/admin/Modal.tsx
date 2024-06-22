@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { User } from "../../models/User";
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
-import { ToastContainer, toast } from "react-toastify";
 import { Button, Modal } from "react-bootstrap";
 
 interface SaveEditProfileModalProps {

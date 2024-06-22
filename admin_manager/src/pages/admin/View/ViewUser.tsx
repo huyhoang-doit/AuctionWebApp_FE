@@ -1,6 +1,6 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { editProfileUser } from "../../../api/UserAPI";
+import { changeStateUser, editProfileUser, getUserById, rejectVerifyUser } from "../../../api/UserAPI";
 import { User } from "../../../models/User";
 import { toast } from "react-toastify";
 import { Bank } from "../../../models/Bank";
@@ -14,6 +14,8 @@ import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../../uti
 import { SaveEditProfileModal } from "../Modal";
 import "./View.css"
 import { Button } from "react-bootstrap";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 
 interface MyAccountDetailProps {
   user: User | null;
@@ -242,6 +244,60 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
     setUser({ ...user, bankAccountName: value });
   }
 
+  const handleAccept = () => {
+    Swal.fire({
+      icon: "question",
+      title: "<span class='text-success fw-bold'>Đồng ý</span> xác thực cho tài khoản này?",
+      showCancelButton: true,
+      confirmButtonText: "Xác nhận",
+      cancelButtonText: "Hủy",
+      preConfirm: async () => {
+        try {
+          await changeStateUser(user.id, "VERIFIED");
+          const refreshedUser = await getUserById(user.id);
+          setUser(refreshedUser);
+          props.setUser(refreshedUser);
+          Swal.fire({
+            icon: "success",
+            title: "Đã xác thực tài khoản thành công!",
+          });
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Xác thực tài khoản thất bại!",
+          });
+        }
+      },
+    })
+  }
+
+  const handleReject = () => {
+    Swal.fire({
+      icon: "question",
+      title: "<span class='text-danger fw-bold'>Từ chối</span> xác thực cho tài khoản này?",
+      showCancelButton: true,
+      confirmButtonText: "Xác nhận",
+      cancelButtonText: "Hủy",
+      preConfirm: async () => {
+        try {
+          await rejectVerifyUser(user.id);
+          const refreshedUser = await getUserById(user.id);
+          setUser(refreshedUser);
+          props.setUser(refreshedUser);
+          Swal.fire({
+            icon: "success",
+            title: "Đã từ chối xác thực tài khoản!",
+          });
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Từ chối xác thực tài khoản thất bại!",
+          });
+        }
+      },
+    })
+  }
+
   return (
     <>
       <section className="main_content dashboard_part">
@@ -262,7 +318,6 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                   </div>
                   <div className="myaccount-details">
                     <div className="row">
-
                       <div className="col-sm-12 col-md-12 col-xs-12 col-lg-12">
                         <form >
                           <div className="login-form">
@@ -305,13 +360,18 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                 <input onChange={handleAvatarChange} id='customFile' type="file" accept="image/*" style={{ display: "none" }} />
                               </div>
                               {
-                                user.state === 'VERIFIED' ? "" :
-                                  <div className="col-md-2 d-flex justify-content-center align-items-center">
-                                    <Button type="button" className="btn" style={{ border: "none", background: "#2ec772" }}>
+                                (user.state !== 'VERIFIED' && user.cccdFirst && user.cccdLast) ?
+                                  <div className="col-md-2 d-flex flex-column justify-content-center align-items-center">
+                                    <Button type="button" className="btn" style={{ border: "none", background: "#2ec772" }} onClick={handleAccept}>
                                       <img style={{ width: "20px", margin: "-4px 4px 0 0" }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/768px-Flat_tick_icon.svg.png" alt="" />
-                                      Xác thực cho tài khoản này
+                                      Đồng ý xác thực
+                                    </Button>
+                                    <Button type="button" className="btn" style={{ border: "none", background: "#da4453", marginTop: "20px" }} onClick={handleReject}>
+                                      <img style={{ width: "20px", margin: "-4px 4px 0 0" }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Flat_cross_icon.svg/768px-Flat_cross_icon.svg.png" alt="" />
+                                      Từ chối xác thực
                                     </Button>
                                   </div>
+                                  : ""
                               }
                             </div>
                             <div className="row mb-4">

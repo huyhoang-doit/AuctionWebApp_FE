@@ -1,5 +1,5 @@
 
-import { fetchGetWithToken, fetchWithToken } from "./AuthenticationAPI";
+import { fetchGetWithToken, fetchNoBodyWithToken, fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "../../../website/src/api/MyRequest";
 import { User } from "../models/User";
 import BASE_URL from "../global_variable/config";
@@ -202,4 +202,26 @@ export async function getUsersUnVerify(page: number): Promise<ResultPageableInte
         usersData: users,
         totalElements: data.totalElements,
     };
+}
+
+export async function changeStateUser(id: number, state: string) {
+    const URL = `${BASE_URL}/user/set-state/${id}`;
+
+    // await ensureAccessToken();
+    const token = localStorage.getItem("access_token");
+    const response = await fetchWithToken(URL, 'PUT', token, state);
+    if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+    }
+}
+
+export async function rejectVerifyUser(id: number) {
+    const URL = `${BASE_URL}/user/reject-verify/${id}`;
+
+    // await ensureAccessToken();
+    const token = localStorage.getItem("access_token");
+    const response = await fetchNoBodyWithToken(URL, 'PUT', token);
+    if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+    }
 }
