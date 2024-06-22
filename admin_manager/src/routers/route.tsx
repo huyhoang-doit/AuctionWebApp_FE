@@ -13,6 +13,8 @@ import ViewProducts from '../pages/manager/View/ViewProducts';
 import ViewAccount from '../pages/admin/View/ViewAccount';
 import TransactionList from '../pages/manager/Transaction/TransactionList';
 import VerifyUser from '../pages/admin/manage-account/VerifyUser';
+import TransactionsOverdue from '../pages/manager/Transaction/TransactionsOverdue';
+import ViewUserOfManager from '../pages/manager/User/ViewUser';
 
 const RouterCom = () => {
   return (
@@ -41,6 +43,8 @@ const RouterCom = () => {
           <Route path="/manager/giao-dich/dang-ky-tham-gia" element={<TransactionList />} />
           <Route path="/manager/create-auction" element={<CreateAuction />} />
           <Route path="/manager/view/viewproducts" element={<ViewProducts />} />
+          <Route path="/manager/hoa-don-qua-han" element={<TransactionsOverdue />} />
+          <Route path="/manager/chi-tiet-nguoi-dung/:id" element={<ViewUserOfManager />} />
           {/* <Route
             path="/manager/view/Viewauctionslist"
             element={<ViewAuctionsList />}

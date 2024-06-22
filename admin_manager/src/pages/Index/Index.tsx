@@ -103,17 +103,6 @@ export default function Index() {
     ]
   });
 
-  const [doughnutData3, setDoughnutData3] = useState({
-    labels: ['Chờ phê duyệt', 'Đã phê duyệt'],
-    datasets: [
-      {
-        label: '%',
-        backgroundColor: ['#6495ED', '#DE3163'],
-        data: [0, 0]
-      }
-    ]
-  });
-
   // Dữ liệu cho biểu đồ Line
   const [lineData1, setLineData1] = useState({
     labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
@@ -220,16 +209,6 @@ export default function Index() {
           {
             ...doughnutData2.datasets[0],
             data: [participationRate, notParticipationRate]
-          }
-        ]
-      });
-
-      setDoughnutData3({
-        ...doughnutData3,
-        datasets: [
-          {
-            ...doughnutData3.datasets[0],
-            data: [totalJewelryActive, totalJewelryWaitApproving]
           }
         ]
       });
@@ -405,16 +384,6 @@ export default function Index() {
                     </div>
                   </div>
                   <Doughnut data={doughnutData2} />
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-6 col-xl-3">
-                <div className="white_box mb_30 min_430">
-                  <div className="box_header  box_header_block">
-                    <div className="main-title">
-                      <h3 className="mb-0">Tổng quan trạng thái trang sức</h3>
-                    </div>
-                  </div>
-                  <Doughnut data={doughnutData3} />
                 </div>
               </div>
               <div className="col-12">
