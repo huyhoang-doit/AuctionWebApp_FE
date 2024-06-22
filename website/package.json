@@ -11,6 +11,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "date-fns": "^3.6.0",
+    "firebase": "^10.12.2",
     "i18next": "^23.11.5",
     "jwt-decode": "^4.0.0",
     "net": "^1.0.2",
@@ -34,7 +35,8 @@
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.11.0",
     "typescript": "^4.9.5",
-    "use-debounce": "^10.0.1"
+    "use-debounce": "^10.0.1",
+    "uuid": "^10.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -62,6 +64,7 @@
   },
   "devDependencies": {
     "@types/sockjs-client": "^1.5.4",
-    "@types/stompjs": "^2.3.9"
+    "@types/stompjs": "^2.3.9",
+    "@types/uuid": "^10.0.0"
   }
 }

@@ -68,8 +68,8 @@ export const setImageForJewelry = async (imageRequest: ImageRequest, icon: boole
 };
 
 
-export async function processImages(base64Images: string[], newJewelryId: number) {
-    for (const image of base64Images.slice(1)) {
+export async function processImages(images: string[], newJewelryId: number) {
+    for (const image of images.slice(1)) {
         await setImageForJewelry({ data: image, jewelryId: newJewelryId }, false);
     }
 }
