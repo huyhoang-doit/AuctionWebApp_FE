@@ -1638,7 +1638,6 @@ export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({
       <button
         type="button"
         className="btn btn-xs btn-dark mt-4"
-        id="save-profile-tab"
         role="tab"
         aria-controls="account-details"
         aria-selected="false"
