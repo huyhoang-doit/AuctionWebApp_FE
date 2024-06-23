@@ -1,6 +1,6 @@
 import { Image } from './../models/Image';
 import { MyRequest } from "./MyRequest";
-import { fetchWithToken } from './AuthenticationAPI';
+import { fetchNoBodyWithToken, fetchWithToken } from './AuthenticationAPI';
 import BASE_URL from '../global_variable/config';
 
 
@@ -71,3 +71,21 @@ export async function processImages(base64Images: string[], newJewelryId: number
         await setImageForJewelry({ data: image, jewelryId: newJewelryId }, false);
     }
 }
+
+export const deleteImagesByJewelryId = async (jewelryId: number): Promise<boolean> => {
+    const accessToken = localStorage.getItem('access_token');
+    // end-point
+    const URL = `${BASE_URL}/image/jewelry/${jewelryId}`;
+    // call api
+    try {
+        const response = await fetchNoBodyWithToken(URL, 'DELETE', accessToken);
+
+        if (!response.ok) {
+            throw new Error(`Không thể truy cập ${URL}`);
+        }
+        return true;
+    } catch (error) {
+        console.error("Error Xóa Image: " + error);
+        return false;
+    }
+};

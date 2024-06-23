@@ -961,6 +961,7 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
             onHide={handleClose}
             centered
             backdropClassName="custom-backdrop"
+            size="lg"
           >
             <Modal.Header>
               <Modal.Title className="w-100">
@@ -994,7 +995,7 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
                         </span>
                       </div>
                       <div className="checkout-form-list mb-2 row">
-                        <div className="col-md-6">
+                        <div className="col-md-6  mb-2 ">
                           <label>{t("Modal.Danh mục")}</label>
                           <span className="fw-bold">
                             {" "}
@@ -1023,12 +1024,12 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
                           </span>
                         </div>
                       </div>
-                      <div className="checkout-form-list checkout-form-list-2 mb-2">
+                      <div className="checkout-form-list checkout-form-list-2 mb-5" style={{ height: '150px' }}>
                         <label>{t("Modal.Mô tả trang sức")} </label>
                         <br />
                         <textarea
                           readOnly
-                          className="w-100 h-auto p-1"
+                          className="w-100 h-100 p-1"
                           id="checkout-mess"
                           value={request.jewelry?.description}
                         ></textarea>

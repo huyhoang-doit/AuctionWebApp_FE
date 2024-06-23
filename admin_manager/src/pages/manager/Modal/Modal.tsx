@@ -31,6 +31,9 @@ import { changeStateTransaction } from "../../../api/TransactionAPI";
 import { Transaction } from "../../../models/Transaction";
 import { TypeTransaction } from "../Transaction/TypeTransaction";
 import { PaymentMethod } from "../Transaction/PaymentMethod";
+import { convertFilesToBase64, uploadFilesToFirebase } from "../../../utils/imageFireBase";
+import { JEWELRY_IMAGES_FOLDER } from "../../../global_variable/firebaseconfig";
+import { deleteImagesByJewelryId, processImages, setImageForJewelry } from "../../../api/ImageApi";
 
 // *** MODAL FOR MANAGER ***
 // Modal for Jewelry List
@@ -74,7 +77,6 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
     const confirm = await confirmRequest(request.id, user?.id);
     if (confirm) {
       handleSendRequestFromManager();
-      toast.success(`Đã xác nhận định giá của sản phẩm ${request.jewelry?.id}`);
     }
     handleCloseJewelryDetail();
   };
@@ -126,50 +128,50 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
                           </span>
                         </div>
                         <div className="col-md-6">
-                          <label>Mã người dùng:</label>
+                          <span>Mã người dùng:</span>
                           <span className="fw-bold"> {jewelry?.user?.id}</span>
                         </div>
                       </div>
                       <div className="checkout-form-list mb-2">
-                        <label>Mã tài sản: </label>
+                        <span>Mã tài sản: </span>
                         <span className="fw-bold"> {jewelry?.id}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
-                        <label>Tên:</label>
+                        <span>Tên:</span>
                         <span className="fw-bold"> {jewelry?.name}</span>
                       </div>
                       <div className="checkout-form-list mb-2 row">
-                        <div className="col-md-6">
-                          <label>Danh mục:</label>
+                        <div className="col-md-6 mb-2">
+                          <span>Danh mục:</span>
                           <span className="fw-bold">
                             {" "}
                             {jewelry?.category?.name}
                           </span>
                         </div>
                         <div className="col-md-6">
-                          <label>Thương hiệu:</label>
+                          <span>Thương hiệu:</span>
                           <span className="fw-bold"> {jewelry?.brand}</span>
                         </div>
                         <div className="col-md-6">
-                          <label>Chất liệu:</label>
+                          <span>Chất liệu:</span>
                           <span className="fw-bold"> {jewelry?.material}</span>
                         </div>
                         <div className="col-md-6">
-                          <label>Trọng lượng (g):</label>
+                          <span>Trọng lượng (g):</span>
                           <span className="fw-bold"> {jewelry?.weight}</span>
                         </div>
                       </div>
-                      <div className="checkout-form-list checkout-form-list-2 mb-2">
-                        <label>Mô tả </label>
+                      <div className="checkout-form-list checkout-form-list-2" style={{ height: '150px' }}>
+                        <span>Mô tả </span>
                         <br />
                         <textarea
                           readOnly
-                          className="w-100 h-auto p-1"
+                          className="w-100 h-100 p-1"
                           id="checkout-mess"
                           value={jewelry?.description}
                         ></textarea>
                       </div>
-                      <div className="w-100 fw-medium">
+                      <div className="w-100 fw-medium mt-5">
                         <div className="checkout-form-list row">
                           <label>Hình ảnh</label>
                           {React.Children.toArray(
@@ -220,20 +222,10 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
               <Button variant="dark" onClick={handleCloseJewelryDetail}>
                 Đóng
               </Button>
-              {/* <Button variant="warning" onClick={handleConfirm}>
+              <Button variant="warning" onClick={handleConfirm}>
                 Xác nhận
-              </Button> */}
-              <button
-                type="button"
-                className="btn ms-2 btn-sm btn-warning "
-                id="save-profile-tab"
-                role="tab"
-                aria-controls="account-details"
-                aria-selected="false"
-                onClick={handleConfirm}
-              >
-                Xác nhận
-              </button>
+              </Button>
+
             </Modal.Footer>
           </Modal>
         </div>
@@ -503,14 +495,11 @@ export const AuctionModal: React.FC<AuctionType> = ({ auction }) => {
                         />
                       </div>
                     </div>
-                    <div className="order-notes col-md-12 fw-medium">
-                      <div className="checkout-form-list checkout-form-list-2">
+                    <div className="order-notes col-md-12 fw-medium mb-5 ">
+                      <div className="checkout-form-list checkout-form-list-2" style={{ height: '200px' }}>
                         <label>Mô tả </label>
-                        <textarea
-                          readOnly
-                          id="checkout-mess"
-                          value={auction.description}
-                        ></textarea>
+
+                        <div className="border p-2" dangerouslySetInnerHTML={{ __html: auction?.description ? auction?.description : '' }} style={{ overflowY: 'auto', height: '100%' }} />
                       </div>
                     </div>
                     <div className="col-md-6 fw-medium text-danger">
@@ -585,11 +574,12 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
   user,
   handleChangeList,
 }) => {
+  const jewelryryId = jewelry?.id ? request.id : 1;
   const [show, setShow] = useState(false);
   const [showContinueModal, setShowContinueModal] = useState(false);
   const handleCloseCreateAuction = () => setShow(false);
   const handleShowCreateAuction = () => setShow(true);
-
+  const [loading, setLoading] = useState<boolean>(false);
   //
   const participationFee: number = PARTICIPATION_FEE;
   const firstPrice: number = request?.valuation ? request.valuation : 0;
@@ -611,6 +601,11 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [imagesAsset, setImagesAsset] = useState<File[]>([]);
+  const [base64Images, setBase64Images] = useState<string[]>([]);
+  const [saveImages, setSaveImages] = useState<string[]>([]);
+
+
   const [newAuctionRequest, setNewAuctionRequest] =
     useState<NewAuctionRequestProps>({
       id: 0,
@@ -624,6 +619,49 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
       jewelryId: jewelryId,
       staffId: 0,
     });
+
+  const handleImagesChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+      setImagesAsset(fileArray);
+      const base64Array = await convertFilesToBase64(fileArray);
+      setBase64Images(base64Array);
+      setLoading(true);
+      if (imagesAsset) {
+        try {
+
+          // Delete old images associated with the jewelry
+          await deleteImagesByJewelryId(jewelryId);
+
+          // Upload new images and get their URLs
+          console.log(imagesAsset);
+
+          const urls = await uploadFilesToFirebase(imagesAsset, JEWELRY_IMAGES_FOLDER);
+          setSaveImages(urls);
+          console.log(urls);
+
+
+          // Ensure the first image is set as the main image for the jewelry
+          if (urls.length > 0) {
+            await setImageForJewelry({ data: urls[0], jewelryId: jewelryId }, true);
+          }
+
+          // Process additional images
+          await processImages(urls, jewelryId);
+
+          console.log("Jewelry images updated successfully.");
+        }
+        catch (error) {
+          console.error("Error sending jewelry request:", error);
+        }
+        finally {
+          setLoading(false);
+        }
+      }
+
+    }
+  }
 
   const updateName = (name: string) => {
     setName(name);
@@ -660,7 +698,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
   const getNextDayMinDate = () => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split(".")[0]; // Format as 'yyyy-MM-ddTHH:mm'
+    return tomorrow.toISOString().split(".")[0];
   };
 
   const updateDescription = (description: string) => {
@@ -785,10 +823,35 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                     </div>
                   </div>
 
+                  <label
+                    className="btn btn-dark mb-2"
+                    style={{ width: "auto" }}
+                    htmlFor="jewelry-img"
+                  >
+                    Cập nhật ảnh tài sản
+                  </label>
+                  <input
+                    style={{ display: 'none' }}
+                    id="jewelry-img"
+                    type="file"
+                    name="jewelryImages"
+                    multiple
+                    onChange={handleImagesChange}
+                  />
                   <div className="w-100 fw-medium border">
                     <div className="checkout-form-list row px-2 pt-4">
                       <label>Hình ảnh</label>
-                      {React.Children.toArray(
+                      {loading ? <Spinner animation="border" /> : (base64Images.length > 0 ? (React.Children.toArray(
+                        base64Images.map((img: string) => (
+                          <div className="col-md-2">
+                            <img
+                              src={img}
+                              alt="Ảnh sản phẩm"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
+                        ))
+                      )) : (React.Children.toArray(
                         images.map((img: Image) => (
                           <div className="col-md-2">
                             <img
@@ -798,7 +861,9 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                             />
                           </div>
                         ))
-                      )}
+                      )))}
+
+                      { }
                     </div>
                   </div>
                 </div>

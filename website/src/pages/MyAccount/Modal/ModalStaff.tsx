@@ -183,12 +183,12 @@ export const ViewStaffRequestModal: React.FC<MyRequestProps> = ({
                           </span>
                         </div>
                       </div>
-                      <div className="checkout-form-list checkout-form-list-2 mb-2">
-                        <label>Mô tả trang sức</label>
+                      <div className="checkout-form-list checkout-form-list-2 mb-5" style={{ height: '150px' }}>
+                        <label>Mô tả</label>
                         <br />
                         <textarea
                           readOnly
-                          className="w-100 h-auto p-2"
+                          className="w-100 h-100 p-2"
                           id="checkout-mess"
                           value={request.jewelry?.description}
                         ></textarea>
@@ -397,12 +397,12 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
                           <span className="fw-bold"> {jewelry?.weight}</span>
                         </div>
                       </div>
-                      <div className="checkout-form-list checkout-form-list-2 mb-2">
+                      <div className="checkout-form-list checkout-form-list-2 mb-5" style={{ height: '150px' }}>
                         <label>Mô tả</label>
                         <br />
                         <textarea
                           readOnly
-                          className="w-100 h-auto p-1"
+                          className="w-100 h-100 p-1"
                           id="checkout-mess"
                           value={jewelry?.description}
                           style={{ height: '500px' }}
