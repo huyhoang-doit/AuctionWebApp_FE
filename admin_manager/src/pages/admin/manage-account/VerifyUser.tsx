@@ -25,10 +25,6 @@ const VerifyUser = () => {
     setShowModal(false);
   };
 
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
   const handleDeleteProduct = () => {
     console.log('Xóa sản phẩm');
     handleCloseModal();
@@ -64,36 +60,43 @@ const VerifyUser = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {users.map((user) => (
-                          <tr key={user.id}>
-                            <td>
-                              {user.id}
-                            </td>
-                            <td>{user.username}</td>
-                            <td>{user.fullName}</td>
-                            <td>{user.email}</td>
-                            <td>{user.phone}</td>
-                            <td>
-                              <a 
-                              className={`status_btn ${
-                                user.state === 'VERIFIED'
-                                  ? 'bg-success'
-                                  : user.state === 'DISABLE'
-                                  ? 'bg-error'
-                                  : user.state === 'ACTIVE'
-                                  ? 'bg-primary'
-                                  : 'bg-warn'
-                              }`}>
-                                <UserStateView state={user.state || ''} />
-                              </a>
-                            </td>
-                            <td>
-                              <div className="btn-group">
-                                <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
-                              </div>
+                        {users.length !== 0 ? (
+                          users.map((user) => (
+                            <tr key={user.id}>
+                              <td>
+                                {user.id}
+                              </td>
+                              <td>{user.username}</td>
+                              <td>{user.fullName}</td>
+                              <td>{user.email}</td>
+                              <td>{user.phone}</td>
+                              <td>
+                                <a
+                                  className={`status_btn ${user.state === 'VERIFIED'
+                                    ? 'bg-success'
+                                    : user.state === 'DISABLE'
+                                      ? 'bg-error'
+                                      : user.state === 'ACTIVE'
+                                        ? 'bg-primary'
+                                        : 'bg-warn'
+                                    }`}>
+                                  <UserStateView state={user.state || ''} />
+                                </a>
+                              </td>
+                              <td>
+                                <div className="btn-group">
+                                  <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr className="text-center">
+                            <td colSpan={7}>
+                              <h5 className='fw-semibold lh-base mt-2'>Hiện không có người dùng chờ xác thực </h5>
                             </td>
                           </tr>
-                        ))}
+                        )}
                       </tbody>
                     </Table>
                   </div>
@@ -113,16 +116,16 @@ const VerifyUser = () => {
                   </Modal>
                 </div>
               </div>
-        <PaginationControl
-          page={page}
-          between={3}
-          total={totalElements}
-          limit={5}
-          changePage={(page) => {
-            setPage(page)
-          }}
-          ellipsis={1}
-        />
+              <PaginationControl
+                page={page}
+                between={3}
+                total={totalElements}
+                limit={5}
+                changePage={(page) => {
+                  setPage(page)
+                }}
+                ellipsis={1}
+              />
             </div>
           </div>
         </div>

@@ -16,7 +16,7 @@ const ManageManager = () => {
 
   useEffect(() => {
     setLoading(true);
-    getMembers("MANAGER", page)
+    getMembers("MANAGER", "", page)
       .then((response) => {
         setManagers(response.usersData);
         setTotalElements(response.totalElements);
@@ -52,23 +52,6 @@ const ManageManager = () => {
                   <div className="white_box_tittle list_header">
                     <h4>Danh sách quản lý</h4>
                     <div className="box_right d-flex lms_block">
-                      <div className="serach_field_2">
-                        <div className="search_inner">
-                          <form >
-                            <div className="search_field">
-                              <input
-                                type="text"
-                                placeholder="Tìm kiếm..."
-                              // value={searchInput}
-                              // onChange={handleSearchInput}
-                              />
-                            </div>
-                            <button type="submit">
-                              <i className="ti-search"></i>
-                            </button>
-                          </form>
-                        </div>
-                      </div>
                       <div className="add_button ms-2">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" className="btn_1">
                           Thêm tài khoản mới
@@ -76,7 +59,7 @@ const ManageManager = () => {
                       </div>
                     </div>
                   </div>
-                  <div >
+                  <div>
                     <Table striped bordered hover>
                       <thead>
                         <tr>

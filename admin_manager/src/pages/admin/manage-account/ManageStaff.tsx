@@ -5,21 +5,37 @@ import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
+import { useDebouncedCallback } from "use-debounce";
 
 const ManageStaff = () => {
   const [showModal, setShowModal] = useState(false);
   const [staffs, setStaffs] = useState<User[]>([])
   const [page, setPage] = useState(1)
-  const [totalElements, setTotalElements] = useState(0)
+  const [totalElements, setTotalElements] = useState(0);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   useEffect(() => {
-    getMembers("STAFF", 1)
+    getMembers("STAFF", debouncedTxtSearch, 1)
       .then((response) => {
         setStaffs(response.usersData)
         setTotalElements(response.totalElements)
       }
       )
-  }, [page])
+  }, [page, debouncedTxtSearch])
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -50,6 +66,23 @@ const ManageStaff = () => {
                   <div className="white_box_tittle list_header">
                     <h4>Danh sách nhân viên</h4>
                     <div className="box_right d-flex lms_block">
+                    <div className="serach_field_2">
+                        <div className="search_inner">
+                          <form >
+                            <div className="search_field">
+                              <input
+                                type="text"
+                                placeholder="Tìm kiếm..."
+                                value={txtSearch}
+                                onChange={handleTxtSearch}
+                              />
+                            </div>
+                            <button type="submit">
+                              <i className="ti-search"></i>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
                       <div className="add_button ms-2">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" className="btn_1">
                           Thêm tài khoản mới

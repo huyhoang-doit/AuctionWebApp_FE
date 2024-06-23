@@ -153,7 +153,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
             </thead>
             <tbody>
               {loading ? (
-                <tr>
+                <tr >
                   <td colSpan={7} className="text-center">
                     <Spinner animation="border" />
                   </td>
