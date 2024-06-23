@@ -31,6 +31,8 @@ import Login_En from '.././locales/en/Login.json'
 import Login_Vi from '.././locales/vi/Login.json'
 import Register_En from '.././locales/en/Register.json'
 import Register_Vi from '.././locales/vi/Register.json'
+import About_En from '.././locales/en/About.json'
+import About_Vi from '.././locales/vi/About.json'
 export const locales = {
   en: 'English',
   vi: 'Tiếng Việt',
@@ -53,7 +55,8 @@ const resources = {
     MyBidHistoryList: MyBidHistoryList_En,
     MyJewelryRequestList : MyJewelryRequestList_En,
     Login: Login_En,
-    Register: Register_En
+    Register: Register_En,
+    About : About_En
 
   },
   vi: {
@@ -72,7 +75,8 @@ const resources = {
     TransactionHistory: TransactionHistory_Vi,
     MyJewellryList: MyJewellryList_Vi,
     MyJewelryRequestList : MyJewelryRequestList_Vi,
-    Register: Register_Vi
+    Register: Register_Vi,
+    About : About_Vi
    
    
 
@@ -86,7 +90,7 @@ const defaultNS = 'home'; //khong truyen namespace thi se lay defaultNS
 i18n.use(initReactI18next).init({
   resources,
   lng: "vi", // ngôn ngữ mặc định
-  ns: ['home', 'footer', 'PageSendJewelry', 'Contact','MyAccountStaff',' MyAccount','MyAccountDetail','Modal','ChangePassword','TransactionHistory','MyJewellryList','MyBidHistoryList','MyJewelryRequestList','Login','Register'], // thêm namespace vào đây
+  ns: ['home', 'footer', 'PageSendJewelry', 'Contact','MyAccountStaff',' MyAccount','MyAccountDetail','Modal','ChangePassword','TransactionHistory','MyJewellryList','MyBidHistoryList','MyJewelryRequestList','Login','Register','About'], // thêm namespace vào đây
 //   fallbackLng: "vi", // nếu không nhận được ngôn ngữ nào thì mặc định là tiếng Việt
 defaultNS, //thay fallbackLng
   interpolation: {

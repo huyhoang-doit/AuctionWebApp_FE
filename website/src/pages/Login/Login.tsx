@@ -16,18 +16,18 @@ export default function Login() {
   useEffect(() => {
     if (token) {
       if (token === "reset-success") {
-        setNotification("Đổi mật khẩu thành công vui lòng đăng nhập!");
+        setNotification(t("Login.Đổi mật khẩu thành công vui lòng đăng nhập!"));
         return;
       }
       handleActiveUser(token)
         .then((result) => {
           if (result) {
             setNotification(
-              "Kích hoạt tài khoản thành công vui lòng đăng nhập!"
+              t("Login.Kích hoạt tài khoản thành công vui lòng đăng nhập!")
             );
           } else {
             setNotification("");
-            setError("Kích hoạt tài khoản không thành công");
+            setError(t("Login.Kích hoạt tài khoản không thành công!"));
           }
         })
         .catch((error) => {

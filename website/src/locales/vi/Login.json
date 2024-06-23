@@ -7,6 +7,11 @@
         "Đăng nhập" : "Đăng nhập",
         "Bạn chưa có tài khoản ?" : "Bạn chưa có tài khoản ?",
         "Trang chủ" : "Trang chủ",
-         "Nhập mật khẩu" : "Nhập mật khẩu"
+         "Nhập mật khẩu" : "Nhập mật khẩu",
+         "Phiên đăng nhập hết hạn" : "Phiên đăng nhập hết hạn",
+         "Phiên đăng nhập của bạn đã hết hạn. Xin vui lòng đăng nhập lại." : "Phiên đăng nhập của bạn đã hết hạn. Xin vui lòng đăng nhập lại.",
+         "Đổi mật khẩu thành công vui lòng đăng nhập!" : "Đổi mật khẩu thành công vui lòng đăng nhập!",
+        "Kích hoạt tài khoản thành công vui lòng đăng nhập!" : "Kích hoạt tài khoản thành công vui lòng đăng nhập!",
+        "Kích hoạt tài khoản không thành công!" : "Kích hoạt tài khoản không thành công!"
     }
 }
