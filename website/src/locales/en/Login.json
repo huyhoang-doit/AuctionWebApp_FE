@@ -7,6 +7,12 @@
         "Đăng nhập" : "Login",
         "Bạn chưa có tài khoản ?" : "Don't have an account?",
         "Trang chủ" : "Home",
-        "Nhập mật khẩu" : "Enter password"
+        "Nhập mật khẩu" : "Enter password",
+        "Phiên đăng nhập hết hạn" : "Session expired",
+        "Phiên đăng nhập của bạn đã hết hạn. Xin vui lòng đăng nhập lại." : "Your session has expired. Please login again.",
+        "Đổi mật khẩu thành công vui lòng đăng nhập!" : "Change password successfully, please login!",
+        "Kích hoạt tài khoản thành công vui lòng đăng nhập!" : "Activate account successfully, please login!",
+        "Kích hoạt tài khoản không thành công!" : "Activate account failed!"
+
     }
 }
