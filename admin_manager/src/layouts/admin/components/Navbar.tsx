@@ -86,6 +86,12 @@ const Navbar = () => {
               <span>Danh sách tài sản đủ điều kiện đấu giá</span>
             </Link>
           </li>
+          <li>
+            <Link className="has-arrow" to={"/manager/hoa-don-qua-han"} aria-expanded="false">
+              <img src="/assets/img/menu-icon/2.svg" />
+              <span>Danh sách hóa đơn quá hạn thanh toán</span>
+            </Link>
+          </li>
           <li >
             <Link className="has-arrow" to={"/manager/giao-dich/nguoi-ban"} aria-expanded="false">
               <img src="/assets/img/menu-icon/7.svg" />

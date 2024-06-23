@@ -133,3 +133,36 @@ export async function changeStateTransaction(transactionId: number, state: strin
         return false;
     }
 }
+
+
+
+export async function getOverdueTransactions(page: number): Promise<ResultInteface> {
+    const transactions: Transaction[] = [];
+    // end-point
+    const URL = `${BASE_URL}/transaction/get-overdue?page=${page - 1}`;
+    // call api
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+    if (response) {
+        for (const item of responseData) {
+            transactions.push({
+                id: item.id,
+                createDate: item.createDate,
+                paymentTime: item.paymentTime,
+                totalPrice: item.totalPrice,
+                feesIncurred: item.feesIncurred,
+                state: item.state,
+                type: item.type,
+                auction: item.auction,
+                paymentMethod: item.paymentMethod,
+                user: item.user
+            });
+        }
+    } else {
+        throw new Error("Transaction không tồn tại");
+    }
+    return {
+        transactions: transactions,
+        totalElements: response.totalElements
+    };
+}
