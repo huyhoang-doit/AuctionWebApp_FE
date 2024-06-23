@@ -574,7 +574,6 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
   user,
   handleChangeList,
 }) => {
-  const jewelryryId = jewelry?.id ? request.id : 1;
   const [show, setShow] = useState(false);
   const [showContinueModal, setShowContinueModal] = useState(false);
   const handleCloseCreateAuction = () => setShow(false);
@@ -601,9 +600,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [imagesAsset, setImagesAsset] = useState<File[]>([]);
   const [base64Images, setBase64Images] = useState<string[]>([]);
-  const [saveImages, setSaveImages] = useState<string[]>([]);
 
 
   const [newAuctionRequest, setNewAuctionRequest] =
@@ -624,40 +621,34 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
     const files = e.target.files;
     if (files) {
       const fileArray = Array.from(files);
-      setImagesAsset(fileArray);
       const base64Array = await convertFilesToBase64(fileArray);
       setBase64Images(base64Array);
       setLoading(true);
-      if (imagesAsset) {
-        try {
+      try {
 
-          // Delete old images associated with the jewelry
-          await deleteImagesByJewelryId(jewelryId);
+        // Delete old images associated with the jewelry
+        await deleteImagesByJewelryId(jewelryId);
 
-          // Upload new images and get their URLs
-          console.log(imagesAsset);
-
-          const urls = await uploadFilesToFirebase(imagesAsset, JEWELRY_IMAGES_FOLDER);
-          setSaveImages(urls);
-          console.log(urls);
+        // Upload new images and get their URLs
+        const urls = await uploadFilesToFirebase(fileArray, JEWELRY_IMAGES_FOLDER);
+        console.log(urls);
 
 
-          // Ensure the first image is set as the main image for the jewelry
-          if (urls.length > 0) {
-            await setImageForJewelry({ data: urls[0], jewelryId: jewelryId }, true);
-          }
-
-          // Process additional images
-          await processImages(urls, jewelryId);
-
-          console.log("Jewelry images updated successfully.");
+        // Ensure the first image is set as the main image for the jewelry
+        if (urls.length > 0) {
+          await setImageForJewelry({ data: urls[0], jewelryId: jewelryId }, true);
         }
-        catch (error) {
-          console.error("Error sending jewelry request:", error);
-        }
-        finally {
-          setLoading(false);
-        }
+
+        // Process additional images
+        await processImages(urls, jewelryId);
+
+        console.log("Jewelry images updated successfully.");
+      }
+      catch (error) {
+        console.error("Error sending jewelry request:", error);
+      }
+      finally {
+        setLoading(false);
       }
 
     }
