@@ -2,12 +2,19 @@ import { useState } from "react";
 import { User } from "../../models/User";
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
 import { Button, Modal } from "react-bootstrap";
+import Swal from "sweetalert2";
+import { changeStateUser } from "../../api/UserAPI";
 
 interface SaveEditProfileModalProps {
   user: User | null;
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
   handleEdit: (isConfirm: boolean) => void;
+}
+
+interface DeleteUserProps {
+  user: User | null;
+  setIsRefresh: (value: boolean) => void;
 }
 
 export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
@@ -129,6 +136,56 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
         </div>
       )}
       {/* <ToastContainer /> */}
+    </>
+  );
+};
+
+
+
+export const DeleteUserModal: React.FC<DeleteUserProps> = ({ user, setIsRefresh }) => {
+  const handleDeleteUser = () => {
+    if (user?.id === undefined) {
+      Swal.fire({
+        icon: "error",
+        title: "User ID is missing",
+      });
+      return;
+    }
+    Swal.fire({
+      icon: "warning",
+      html: `
+        <h4>Xác nhận xóa.</h4>
+        <div>Bạn có chắc muốn xóa người dùng: ${user?.username}?</div>`,
+      showCancelButton: true,
+      confirmButtonText: "Đồng ý",
+      cancelButtonText: "Hủy",
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        return changeStateUser(user.id, "DISABLE")
+          .then((response) => {
+            if (response) {
+              Swal.fire({
+                icon: "success",
+                title: "User deleted successfully.",
+              });
+              setIsRefresh(true);
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Failed to delete user.",
+              text: error.message,
+            });
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    });
+  };
+
+  return (
+    <>
+      <Button variant="danger" size="sm" onClick={handleDeleteUser}>Xóa</Button>
     </>
   );
 };

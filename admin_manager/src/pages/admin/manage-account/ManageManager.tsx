@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Spinner, Table } from 'react-bootstrap';
+import { Spinner, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
+import { DeleteUserModal } from '../Modal';
 
 
 const ManageManager = () => {
-  const [showModal, setShowModal] = useState(false);
   const [managers, setManagers] = useState<User[]>([]);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -20,22 +21,10 @@ const ManageManager = () => {
       .then((response) => {
         setManagers(response.usersData);
         setTotalElements(response.totalElements);
+        setIsRefresh(false)
       })
       .finally(() => setLoading(false));
-  }, [page]);
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleDeleteManager = () => {
-    console.log('Xóa quản lý');
-    handleCloseModal();
-  };
+  }, [page, isRefresh]);
 
   return (
     <>
@@ -94,22 +83,21 @@ const ManageManager = () => {
                               <td>{user.email}</td>
                               <td>{user.phone}</td>
                               <td>
-                                <a className={`status_btn ${
-                                user.state === 'VERIFIED'
-                                  ? 'bg-success'
-                                  : user.state === 'DISABLE'
-                                  ? 'bg-error'
-                                  : user.state === 'ACTIVE'
-                                  ? 'bg-primary'
-                                  : 'bg-warn'
-                              }`}>
+                                <a className={`status_btn ${user.state === 'VERIFIED'
+                                    ? 'bg-success'
+                                    : user.state === 'DISABLE'
+                                      ? 'bg-error'
+                                      : user.state === 'ACTIVE'
+                                        ? 'bg-primary'
+                                        : 'bg-warn'
+                                  }`}>
                                   <UserStateView state={user.state || ''} />
                                 </a>
                               </td>
                               <td>
                                 <div className="btn-group">
                                   <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
-                                  <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
+                                  <DeleteUserModal user={user} setIsRefresh={setIsRefresh} />
                                 </div>
                               </td>
                             </tr>
@@ -126,20 +114,6 @@ const ManageManager = () => {
                       ellipsis={1}
                     />
                   </div>
-                  <Modal show={showModal} onHide={handleCloseModal}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Xác nhận xóa</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Bạn có chắc chắn muốn xóa quản lý này?</Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleCloseModal}>
-                        Hủy
-                      </Button>
-                      <Button variant="danger" onClick={handleDeleteManager}>
-                        Xóa
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
                 </div>
               </div>
             </div>
