@@ -7,6 +7,7 @@ import { formatNumber } from '../../utils/formatNumber';
 import { Table } from 'react-bootstrap';
 import { getTopSpentUser } from '../../api/UserAPI';
 import { User } from '../../models/User';
+import { Link } from 'react-router-dom';
 export default function Index() {
   const [selectedYearRegisterAccount, setSelectedYearRegisterAccount] = useState(new Date().getFullYear());
   const [selectedYearGetAuction, setSelectedYearGetAuction] = useState(new Date().getFullYear());
@@ -408,6 +409,7 @@ export default function Index() {
                           <th scope="col">Email</th>
                           <th scope="col">Số điện thoại</th>
                           <th scope="col">Tổng tiền đã thanh toán</th>
+                          <th scope="col">Thao tác</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -422,6 +424,11 @@ export default function Index() {
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td className='fw-bold'>{formatNumber(user.totalSpent)} VNĐ</td>
+                            <td className='fw-bold'>
+                              <Link to={`/manager/chi-tiet-nguoi-dung/${user.id}`} className='btn btn-dark' onClick={() => scrollTo(0, 0)}>
+                                Xem chi tiết
+                              </Link>
+                            </td>
                           </tr>
                         ))}
                       </tbody>

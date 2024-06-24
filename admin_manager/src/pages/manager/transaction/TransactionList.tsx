@@ -142,9 +142,11 @@ const TransactionList = () => {
                         ) : (listTransactions.length > 0 ? (listTransactions.map((transaction) => (
                           <TransactionSingle key={transaction.id} transaction={transaction} />
                         ))
-                        ) : (<td colSpan={7} className="text-center">
-                          <h5 className='fw-semibold lh-base mt-2'>Chưa có giao dịch nào</h5>
-                        </td>)
+                        ) : (<tr className="text-center">
+                          <td colSpan={7}>
+                            <h5 className='fw-semibold lh-base mt-2'>Chưa có giao dịch nào </h5>
+                          </td>
+                        </tr>)
                         )
                         }
                       </tbody>

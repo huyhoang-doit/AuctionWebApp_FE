@@ -5,21 +5,37 @@ import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
+import { useDebouncedCallback } from "use-debounce";
 
 
 const ManageUser = () => {
   const [showModal, setShowModal] = useState(false);
   const [members, setMembers] = useState<User[]>([]);
   const [page, setPage] = useState(1)
-  const [totalElements, setTotalElements] = useState(0)
+  const [totalElements, setTotalElements] = useState(0);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   useEffect(() => {
-    getMembers("MEMBER", page)
+    getMembers("MEMBER", debouncedTxtSearch, page)
       .then((response) => {
         setMembers(response.usersData)
         setTotalElements(response.totalElements)
       })
-  }, [page])
+  }, [page, debouncedTxtSearch])
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -33,7 +49,6 @@ const ManageUser = () => {
     console.log('Xóa sản phẩm');
     handleCloseModal();
   };
-
 
   return (
     <>
@@ -50,6 +65,23 @@ const ManageUser = () => {
                   <div className="white_box_tittle list_header">
                     <h4>Danh sách người dùng</h4>
                     <div className="box_right d-flex lms_block">
+                      <div className="serach_field_2">
+                        <div className="search_inner">
+                          <form >
+                            <div className="search_field">
+                              <input
+                                type="text"
+                                placeholder="Tìm kiếm..."
+                                value={txtSearch}
+                                onChange={handleTxtSearch}
+                              />
+                            </div>
+                            <button type="submit">
+                              <i className="ti-search"></i>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
                       <div className="add_button ms-2">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" className="btn_1">
                           Thêm tài khoản mới
@@ -81,15 +113,14 @@ const ManageUser = () => {
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td>
-                              <a className={`status_btn ${
-                                user.state === 'VERIFIED'
+                              <a className={`status_btn ${user.state === 'VERIFIED'
                                   ? 'bg-success'
                                   : user.state === 'DISABLE'
-                                  ? 'bg-error'
-                                  : user.state === 'ACTIVE'
-                                  ? 'bg-primary'
-                                  : 'bg-warn'
-                              }`}>
+                                    ? 'bg-error'
+                                    : user.state === 'ACTIVE'
+                                      ? 'bg-primary'
+                                      : 'bg-warn'
+                                }`}>
                                 <UserStateView state={user.state || ''} />
                               </a>
                             </td>

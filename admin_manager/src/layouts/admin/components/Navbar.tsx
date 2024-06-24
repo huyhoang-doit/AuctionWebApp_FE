@@ -59,6 +59,12 @@ const Navbar = () => {
               <span>Danh sách người dùng chưa xác thực</span>
             </Link>
           </li>
+          <li >
+            <Link className="has-arrow" to={"/admin/cai-dat-website"} aria-expanded="false">
+              <img src="/assets/img/menu-icon/6.svg" />
+              <span>Thay đổi thông tin trang chủ</span>
+            </Link>
+          </li>
         </>
         }
         {userRole === 'MANAGER' && <>
