@@ -213,6 +213,7 @@ export async function changeStateUser(id: number, state: string) {
     if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
     }
+    return true;
 }
 
 export async function rejectVerifyUser(id: number) {

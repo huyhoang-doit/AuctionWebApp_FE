@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { useDebouncedCallback } from "use-debounce";
+import { DeleteUserModal } from '../Modal';
 
 const ManageStaff = () => {
-  const [showModal, setShowModal] = useState(false);
   const [staffs, setStaffs] = useState<User[]>([])
   const [page, setPage] = useState(1)
   const [totalElements, setTotalElements] = useState(0);
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
   const [txtSearch, setTxtSearch] = useState('');
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const debouncedTxtSearchChange = useDebouncedCallback(
     (txtSearch: string) => {
@@ -33,22 +34,10 @@ const ManageStaff = () => {
       .then((response) => {
         setStaffs(response.usersData)
         setTotalElements(response.totalElements)
+        setIsRefresh(false)
       }
       )
-  }, [page, debouncedTxtSearch])
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleDeleteProduct = () => {
-    console.log('Xóa sản phẩm');
-    handleCloseModal();
-  };
+  }, [page, debouncedTxtSearch, isRefresh])
 
 
   return (
@@ -129,7 +118,7 @@ const ManageStaff = () => {
                             <td>
                               <div className="btn-group">
                                 <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
-                                <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
+                                <DeleteUserModal user={user} setIsRefresh={setIsRefresh}/>
                               </div>
                             </td>
                           </tr>
@@ -137,20 +126,6 @@ const ManageStaff = () => {
                       </tbody>
                     </Table>
                   </div>
-                  <Modal show={showModal} onHide={handleCloseModal}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Xác nhận xóa</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Bạn có chắc chắn muốn xóa nhân viên này ?</Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleCloseModal}>
-                        Hủy
-                      </Button>
-                      <Button variant="danger" onClick={handleDeleteProduct}>
-                        Xóa
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
                 </div>
               </div>
         <PaginationControl
