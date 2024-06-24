@@ -136,7 +136,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
       try {
         if (!confirm) {
           setUser(originalUser);
-          toast.info(t("Hủy cập nhập thông tin"));
+          toast.info(t("MyAccountDetail.Hủy cập nhập thông tin"));
           return;
         } else {
           const response = await editProfileUser(user);
@@ -144,7 +144,11 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
           if (context && context.account) {
             context.setAccount(response);
           }
-          Swal.fire('Success', t("MyAccountDetail.Cập nhật thông tin thành công!"), 'success');
+          Swal.fire(
+            "Success",
+            t("MyAccountDetail.Cập nhật thông tin thành công!"),
+            "success"
+          );
           return;
         }
       } catch (error) {
@@ -270,7 +274,9 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     setUser({ ...user, bankAccountName: value });
   };
 
-  const handleCCCDFirstChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCCCDFirstChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (e.target.files) {
       const file = e.target.files[0];
       try {
@@ -284,7 +290,9 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     }
   };
 
-  const handleCCCDLastChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCCCDLastChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (e.target.files) {
       const file = e.target.files[0];
       try {
@@ -326,26 +334,47 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                       position: "relative",
                     }}
                   >
-                    <img src={user?.avatar} alt="avatar" style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "center",
-                    }} />
+                    <img
+                      src={user?.avatar}
+                      alt="avatar"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                      }}
+                    />
                   </div>
                   <div className="col-md-8 profile-header-info">
                     <div className="content" style={{ width: "300px" }}>
                       <h3>{user.fullName}</h3>
-                      <div className={user.state === 'VERIFIED' ? 'account-verified-text-div' : 'account-inverified-text-div'}>
-                        {user.state === "VERIFIED" ?
+                      <div
+                        className={
+                          user.state === "VERIFIED"
+                            ? "account-verified-text-div"
+                            : "account-inverified-text-div"
+                        }
+                      >
+                        {user.state === "VERIFIED" ? (
                           <p className="account-verified-text-pc fw-bold">
-                            <img src="https://lacvietauction.vn/auctionart/upload/image/SuccessIcon.png" alt="" style={{ width: "20px" }} />
-                            Đã xác thực
-                          </p> :
+                            <img
+                              src="https://lacvietauction.vn/auctionart/upload/image/SuccessIcon.png"
+                              alt=""
+                              style={{ width: "20px" }}
+                            />
+
+                            {t("MyAccountDetail.Đã xác thực")}
+                          </p>
+                        ) : (
                           <p className="account-inverified-text-pc fw-bold">
-                            <img src="https://static-00.iconduck.com/assets.00/failure-icon-2048x2048-j8y0urc7.png" alt="" style={{ width: "20px", marginRight: "5px" }} />
-                            Chưa xác thực
-                          </p>}
+                            <img
+                              src="https://static-00.iconduck.com/assets.00/failure-icon-2048x2048-j8y0urc7.png"
+                              alt=""
+                              style={{ width: "20px", marginRight: "5px" }}
+                            />
+                            {t("MyAccountDetail.Chưa xác thực")}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <label
@@ -526,11 +555,13 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                     />
                   </div>
                   <div className="col-md-6 mt-4">
-                    <label>Nơi cấp</label>
+                    <label>{t("MyAccountDetail.Nơi Cấp")}</label>
                     <input
                       className="mb-0 input-required"
                       type="text"
-                      placeholder="Nhập nơi cấp CCCD của bạn"
+                      placeholder={t(
+                        "MyAccountDetail.Nhập nơi cấp CCCD của bạn"
+                      )}
                       readOnly
                       value={user?.cccdFrom}
                       onChange={(e) =>
@@ -540,36 +571,184 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                   </div>
                   <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4">
                     <label htmlFor="counterparty_IdCardPhoto1Company_Upload">
-                      <input type={user.state === 'VERIFIED' ? 'text' : "file"} disabled={user.state === 'VERIFIED' || !isEditing} id="counterparty_IdCardPhoto1Company_Upload"
-                        style={{ display: "none" }} onChange={handleCCCDFirstChange} />
-                      {user.cccdFirst
-                        ? (<img id="img_IdCardPhoto1CompanySelect" style={{ width: "100%", borderRadius: "5px", cursor: user.state === 'VERIFIED' ? "not-allowed" : "pointer", height: "192px", display: "block" }} src={user.cccdFirst} alt="" />)
-                        : (
-                          <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "192px", background: !isEditing ? "#f5f5f5" : "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
-                            <img src="https://lacvietauction.vn/auctionart/upload/image/SelectCMNDFIrst.png" alt="Alternate Text" style={{ width: "113.6px", height: "64px", margin: "auto" }} />
-                            <p className="upload-CMND-text" style={{ marginTop: "24px" }}>Tải lên ảnh mặt trước CMND/CCCD</p>
-                            <p className="upload-CMND-text2">(JPG, PNG kích thước nhỏ hơn 10MB)</p>
-                          </div>
-                        )}
-                      <input id="counterparty_IdCardPhoto1Company" style={{ display: "none" }} />
-                      <button type="button" className="buttonEditImgCMND1" style={{ display: (user.state === 'VERIFIED' || !isEditing) ? "none" : "block" }} onClick={() => document.getElementById('counterparty_IdCardPhoto1Company_Upload')?.click()}>Tải lên ảnh khác</button>
+                      <input
+                        type={user.state === "VERIFIED" ? "text" : "file"}
+                        disabled={user.state === "VERIFIED" || !isEditing}
+                        id="counterparty_IdCardPhoto1Company_Upload"
+                        style={{ display: "none" }}
+                        onChange={handleCCCDFirstChange}
+                      />
+                      {user.cccdFirst ? (
+                        <img
+                          id="img_IdCardPhoto1CompanySelect"
+                          style={{
+                            width: "100%",
+                            borderRadius: "5px",
+                            cursor:
+                              user.state === "VERIFIED"
+                                ? "not-allowed"
+                                : "pointer",
+                            height: "192px",
+                            display: "block",
+                          }}
+                          src={user.cccdFirst}
+                          alt=""
+                        />
+                      ) : (
+                        <div
+                          id="img_IdCardPhoto1Company"
+                          style={{
+                            width: "100%",
+                            cursor: "pointer",
+                            height: "192px",
+                            background: !isEditing ? "#f5f5f5" : "#EDF7FC",
+                            border: "1px dashed #C5D7FC",
+                            borderRadius: "4px",
+                            display: "flex",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            paddingTop: "32px",
+                            paddingBottom: "32px",
+                            flexFlow: "column",
+                          }}
+                        >
+                          <img
+                            src="https://lacvietauction.vn/auctionart/upload/image/SelectCMNDFIrst.png"
+                            alt="Alternate Text"
+                            style={{
+                              width: "113.6px",
+                              height: "64px",
+                              margin: "auto",
+                            }}
+                          />
+                          <p
+                            className="upload-CMND-text"
+                            style={{ marginTop: "24px" }}
+                          >
+                            {t(
+                              "MyAccountDetail.Tải lên ảnh mặt trước CMND/CCCD"
+                            )}
+                          </p>
+                          <p className="upload-CMND-text2">
+                            {t(
+                              "MyAccountDetail.JPG, PNG kích thước nhỏ hơn 10MB"
+                            )}
+                          </p>
+                        </div>
+                      )}
+                      <input
+                        id="counterparty_IdCardPhoto1Company"
+                        style={{ display: "none" }}
+                      />
+                      <button
+                        type="button"
+                        className="buttonEditImgCMND1"
+                        style={{
+                          display:
+                            user.state === "VERIFIED" || !isEditing
+                              ? "none"
+                              : "block",
+                        }}
+                        onClick={() =>
+                          document
+                            .getElementById(
+                              "counterparty_IdCardPhoto1Company_Upload"
+                            )
+                            ?.click()
+                        }
+                      >
+                        {t("MyAccountDetail.Tải lên ảnh khác")}
+                      </button>
                     </label>
                   </div>
                   <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4">
                     <label htmlFor="counterparty_IdCardPhoto2Company_Upload">
-                      <input type={user.state === 'VERIFIED' ? 'text' : "file"} disabled={user.state === 'VERIFIED' || !isEditing} id="counterparty_IdCardPhoto2Company_Upload"
-                        style={{ display: "none" }} onChange={handleCCCDLastChange} />
-                      {user.cccdLast
-                        ? (<img id="img_IdCardPhoto2CompanySelect" style={{ width: "100%", borderRadius: "5px", cursor: user.state === 'VERIFIED' ? "not-allowed" : "pointer", height: "192px", display: "block" }} src={user.cccdLast} alt="" />)
-                        : (
-                          <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "192px", background: !isEditing ? "#f5f5f5" : "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
-                            <img src="	https://lacvietauction.vn/auctionart/upload/image/UploadCMNDLast.png" alt="Alternate Text" style={{ width: "113.6px", height: "64px", margin: "auto" }} />
-                            <p className="upload-CMND-text" style={{ marginTop: "24px" }}>Tải lên ảnh mặt sau CMND/CCCD</p>
-                            <p className="upload-CMND-text2">(JPG, PNG kích thước nhỏ hơn 10MB)</p>
-                          </div>
-                        )}
-                      <input id="counterparty_IdCardPhoto2Company" style={{ display: "none" }} />
-                      <button type="button" className="buttonEditImgCMND2 mb-0" style={{ display: (user.state === 'VERIFIED' || !isEditing) ? "none" : "block" }} onClick={() => document.getElementById('counterparty_IdCardPhoto2Company_Upload')?.click()}>Tải lên ảnh khác</button>
+                      <input
+                        type={user.state === "VERIFIED" ? "text" : "file"}
+                        disabled={user.state === "VERIFIED" || !isEditing}
+                        id="counterparty_IdCardPhoto2Company_Upload"
+                        style={{ display: "none" }}
+                        onChange={handleCCCDLastChange}
+                      />
+                      {user.cccdLast ? (
+                        <img
+                          id="img_IdCardPhoto2CompanySelect"
+                          style={{
+                            width: "100%",
+                            borderRadius: "5px",
+                            cursor:
+                              user.state === "VERIFIED"
+                                ? "not-allowed"
+                                : "pointer",
+                            height: "192px",
+                            display: "block",
+                          }}
+                          src={user.cccdLast}
+                          alt=""
+                        />
+                      ) : (
+                        <div
+                          id="img_IdCardPhoto1Company"
+                          style={{
+                            width: "100%",
+                            cursor: "pointer",
+                            height: "192px",
+                            background: !isEditing ? "#f5f5f5" : "#EDF7FC",
+                            border: "1px dashed #C5D7FC",
+                            borderRadius: "4px",
+                            display: "flex",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            paddingTop: "32px",
+                            paddingBottom: "32px",
+                            flexFlow: "column",
+                          }}
+                        >
+                          <img
+                            src="	https://lacvietauction.vn/auctionart/upload/image/UploadCMNDLast.png"
+                            alt="Alternate Text"
+                            style={{
+                              width: "113.6px",
+                              height: "64px",
+                              margin: "auto",
+                            }}
+                          />
+                          <p
+                            className="upload-CMND-text"
+                            style={{ marginTop: "24px" }}
+                          >
+                            {t("MyAccountDetail.Tải lên ảnh mặt sau CMND/CCCD")}
+                          </p>
+                          <p className="upload-CMND-text2">
+                            {t(
+                              "MyAccountDetail.JPG, PNG kích thước nhỏ hơn 10MB"
+                            )}
+                          </p>
+                        </div>
+                      )}
+                      <input
+                        id="counterparty_IdCardPhoto2Company"
+                        style={{ display: "none" }}
+                      />
+                      <button
+                        type="button"
+                        className="buttonEditImgCMND2 mb-0"
+                        style={{
+                          display:
+                            user.state === "VERIFIED" || !isEditing
+                              ? "none"
+                              : "block",
+                        }}
+                        onClick={() =>
+                          document
+                            .getElementById(
+                              "counterparty_IdCardPhoto2Company_Upload"
+                            )
+                            ?.click()
+                        }
+                      >
+                        Tải lên ảnh khác
+                      </button>
                     </label>
                   </div>
                   <div className="col-md-12">

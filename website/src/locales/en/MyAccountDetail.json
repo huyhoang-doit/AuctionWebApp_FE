@@ -31,7 +31,17 @@
         "Số điện thoại phải có ít nhất 10 ký tự và bắt đầu từ 0" : "Phone number must have at least 10 characters and start from 0",
         "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước" : "Please enter the account number to receive the deposit refund",
         "Vui lòng nhập tên chủ thẻ ngân hàng" : "Please enter the name of the bank account holder",
-        "Năm sinh không hợp lệ!" : "Invalid year of birth!"
+        "Năm sinh không hợp lệ!" : "Invalid year of birth!",
+        "Nơi Cấp" : "Place of issue",
+         "Nhập nơi cấp CCCD của bạn" : "Enter the place of issue of your ID card",
+         "Tải lên ảnh mặt trước CMND/CCCD" : "Upload front image of ID card",
+         "JPG, PNG kích thước nhỏ hơn 10MB" : "PG, PNG size less than 10MB",
+         "Tải lên ảnh khác" : "Upload another image",
+         "Tải lên ảnh mặt sau CMND/CCCD" : "Upload back image of ID card",
+         "Chưa xác thực" : "Not verified",
+         "Đã xác thực" : "Verified",
+         "Hủy cập nhập thông tin" : "Cancel updating information"
+         
 
 
 
