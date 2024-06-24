@@ -1,5 +1,7 @@
-
+import { useTranslation } from "react-i18next";
 const ShippingArea = () => {
+  const { t } = useTranslation(["Components"]);
+
   return (
     <div className="umino-shipping_area  ">
       <div className="container">
@@ -11,8 +13,8 @@ const ShippingArea = () => {
                   <i className="fa fa-paper-plane"></i>
                 </div>
                 <div className="shipping-content">
-                  <h5>Vận chuyển</h5>
-                  <p>An toàn đảm bảo</p>
+                  <h5>{t("Components.Vận chuyển")}</h5>
+                  <p>{t("Components.An toàn đảm bảo")}</p>
                 </div>
               </div>
             </div>
@@ -22,8 +24,8 @@ const ShippingArea = () => {
                   <i className="ion-ios-reload"></i>
                 </div>
                 <div className="shipping-content">
-                  <h5>Hoàn tiền đặt trước</h5>
-                  <p>Ngay khi phiên đấu giá khép lại</p>
+                  <h5>{t("Components.Hoàn tiền đặt trước")}</h5>
+                  <p>{t("Components.Ngay khi phiên đấu giá khép lại")}</p>
                 </div>
               </div>
             </div>
@@ -33,7 +35,7 @@ const ShippingArea = () => {
                   <i className="fa fa-credit-card"></i>
                 </div>
                 <div className="shipping-content">
-                  <h5>Giao dịch nhanh gọn</h5>
+                  <h5>{t("Components.Giao dịch nhanh gọn")}</h5>
                   <p>PayPal / VNPay </p>
                 </div>
               </div>
@@ -44,8 +46,8 @@ const ShippingArea = () => {
                   <i className="ion-help-buoy"></i>
                 </div>
                 <div className="shipping-content">
-                  <h5>Hỗ trợ</h5>
-                  <p>Tư vấn, hỗ trợ bạn 24/7</p>
+                  <h5> {t("Components.Hỗ trợ")}</h5>
+                  <p>{t("Components.Tư vấn, hỗ trợ bạn 24/7")}</p>
                 </div>
               </div>
             </div>
@@ -53,7 +55,7 @@ const ShippingArea = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ShippingArea
+export default ShippingArea;

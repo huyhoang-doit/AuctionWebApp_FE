@@ -31,7 +31,16 @@
         "Số điện thoại phải có ít nhất 10 ký tự và bắt đầu từ 0" : "Số điện thoại phải có ít nhất 10 ký tự và bắt đầu từ 0",
         "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước" : "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước",
         "Vui lòng nhập tên chủ thẻ ngân hàng" : "Vui lòng nhập tên chủ thẻ ngân hàng",
-        "Năm sinh không hợp lệ!" : "Năm sinh không hợp lệ!"
+        "Năm sinh không hợp lệ!" : "Năm sinh không hợp lệ!",
+        "Nơi Cấp" : "Nơi Cấp",
+        "Nhập nơi cấp CCCD của bạn" : "Nhập nơi cấp CCCD của bạn",
+        "Tải lên ảnh mặt trước CMND/CCCD" : "Tải lên ảnh mặt trước CMND/CCCD",
+         "JPG, PNG kích thước nhỏ hơn 10MB" : "PG, PNG kích thước nhỏ hơn 10MB",
+         "Tải lên ảnh khác" : "Tải lên ảnh khác",
+         "Tải lên ảnh mặt sau CMND/CCCD" : "Tải lên ảnh mặt sau CMND/CCCD",
+         "Chưa xác thực" : "Chưa xác thực",
+         "Đã xác thực" : "Đã xác thực",
+         "Hủy cập nhập thông tin" : "Hủy cập nhập thông tin"
 
 
 

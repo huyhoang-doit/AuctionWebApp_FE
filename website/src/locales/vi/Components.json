@@ -1,0 +1,94 @@
+{
+    "Components" : {
+        "Top trang sức trị giá cao" : "Top trang sức trị giá cao:",
+        "Trị giá " : "Trị giá: ",
+        "Trạng thái" : "Status:",
+        "Chi tiết" : "Chi tiết: ",
+        "Đấu giá trang sức" : "Đấu giá trang sức",
+        "Vận chuyển" : "Vận chuyển",
+        "An toàn đảm bảo" : "An toàn đảm bảo",
+        "Hoàn tiền đặt trước" : "Hoàn tiền đặt trước",
+        "Ngay khi phiên đấu giá khép lại" : "Ngay khi phiên đấu giá khép lại",
+        "Giao dịch nhanh gọn" : "Giao dịch nhanh gọn",
+        "Hỗ trợ" : "Hỗ trợ",
+        "Tư vấn, hỗ trợ bạn 24/7" : "Tư vấn, hỗ trợ bạn 24/7",
+        "Liên hệ đấu giá trang sức của bạn" : "Liên hệ đấu giá trang sức của bạn",
+        "Thông tin liên hệ" : "Thông tin liên hệ",
+        "Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam" : "Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam",
+        "Số điện thoại" : "Số điện thoại",
+        "Thông tin sản phẩm" : "Thông tin sản phẩm",
+        "Tên Sản Phẩm" : "Tên Sản Phẩm",
+        "Địa chỉ" : "Địa chỉ",
+        "Nhập tên sản phẩm" : "Nhập tên sản phẩm",
+        "Loại sản phẩm" : "Loại sản phẩm",
+        "Nhập loại sản phẩm" : "Nhập loại sản phẩm",
+        "Giá" : "Giá",
+        "Nhập giá mong muốn" : "Nhập giá mong muốn",
+        "Thương hiệu" : "Thương hiệu",
+        "Nhập thương hiệu" : "Nhập thương hiệu",
+        "Mô Tả" : "Mô Tả",
+        "Ảnh sản phẩm" : "Ảnh sản phẩm",
+        "Chọn ảnh sản phẩm" : "Chọn ảnh sản phẩm",
+        "Gửi yêu cầu" : "Gửi yêu cầu",
+        "Sàn đấu giá" : "Sàn đấu giá",
+        "Hoa tai" : "Hoa tai",
+        "Nhẫn" : "Nhẫn",
+        "Mặt dây chuyền" : "Mặt dây chuyền",
+        "Bắt đầu ngay" : "Bắt đầu ngay",
+        "Trang chủ" : "Trang chủ",
+        "Danh sách đấu giá" : "Danh sách đấu giá"
+        
+        
+    },
+
+    "SideBar" : {
+        "Lọc theo ngày" : "Lọc theo ngày",
+        "Trạng thái tài sản" : "Trạng thái tài sản",
+        "Tất cả" : "Tất cả",
+        "Sắp diễn ra" : "Sắp diễn ra",
+        "Đang diễn ra" : "Đang diễn ra",
+        "Đã kết thúc" : "Đã kết thúc",
+        "Danh mục" : "Danh mục",
+        "Tìm kiếm" : "Tìm kiếm",
+        "Tìm kiếm sản phẩm..." : "Tìm kiếm sản phẩm..."
+        
+        
+
+    },
+
+    "Rauria" : {
+       "Bạn phải chỉ định ngày tìm từ" : "Bạn phải chỉ định ngày tìm từ",
+       "Bạn phải chỉ định ngày tìm đến" : "Bạn phải chỉ định ngày tìm đến",
+       "Từ ngày" : "Từ ngày",
+       "Đến ngày" : "Đến ngày",
+       "Lọc" : "Lọc",
+       "Bỏ Lọc" : "Bỏ Lọc",
+       "Không tìm thấy phiên đấu giá phù hợp" : "Không tìm thấy phiên đấu giá phù hợp"
+    },
+
+    "AuctionItem" : {
+        "Giá khởi điểm" : "Giá khởi điểm:",
+        "Tên phiên" : "Tên phiên:",
+        "Tên chủ tài sản" : "Tên chủ tài sản:",
+        "Trạng thái" : "Trạng thái:",
+        "Chi tiết" : "Chi tiết"
+    },
+
+    "StateAuctionView" : {
+        "Đang diễn ra" : "Đang diễn ra",
+        "Sắp diễn ra" : "Sắp diễn ra",
+        "Đã kết thúc" : "Đã kết thúc",
+        "Tạm dừng" : "Tạm dừng",
+        "Đã xóa" : "Đã xóa"
+    },
+
+    
+    "SingleAuction" : {
+        "Trị giá" : "Trị giá:",
+        "Trạng thái" : "Trạng thái:",
+        "Chi tiết" : "Chi tiết"
+
+    }
+
+
+}
