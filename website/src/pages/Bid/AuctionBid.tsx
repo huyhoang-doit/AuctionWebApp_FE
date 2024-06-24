@@ -2,8 +2,8 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Auction } from "../../models/Auction";
 import { User } from "../../models/User";
 import { Jewelry } from "../../models/Jewelry";
-import { getAuction } from "../../api/AuctionAPI";
-import { useParams } from "react-router-dom";
+import { changeStateAuction, getAuction } from "../../api/AuctionAPI";
+import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "../../utils/formatNumber";
 import ImageProduct from "../AuctionDetail/AuctionImageProduct";
 import { AuctionTabDetail } from "../AuctionDetail/Components/AuctionTabDetail";
@@ -21,8 +21,10 @@ import useCountDownBid from "../../hooks/useCountDownBid";
 import Swal from "sweetalert2";
 import { createTransactionForWinner } from "../../api/TransactionAPI";
 import { numberToVietnameseText } from "../../utils/numberToVietnameseText";
+import { getAuctionRegistrationsByAuctionId } from "../../api/AuctionRegistrationAPI";
 
 export const AuctionBid = () => {
+    const navigate = useNavigate();
     const [auction, setAuction] = useState<Auction | null>(null);
     const [jewelry, setJewelry] = useState<Jewelry | null>(null);
     const [staff, setStaff] = useState<User | null>(null);
@@ -35,7 +37,6 @@ export const AuctionBid = () => {
     const [connected, setConnected] = useState(false);
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
     const [isEnding, setIsEnding] = useState(false);
-    const socket = new SockJS(`${BASE_WS}/ws`);
     const context = useContext(UserContext);
 
     let user: User | null = null;
@@ -93,6 +94,8 @@ export const AuctionBid = () => {
                         allowOutsideClick: () => !Swal.isLoading(),
                     });
                 }
+                await changeStateAuction(auctionId, 'FINISHED');
+                setAuction({ ...auction, state: 'FINISHED' });
                 setIsEnding(true);
             }
         };
@@ -100,6 +103,7 @@ export const AuctionBid = () => {
     }, [timeLeft, auctionId, user, auction]);
 
     useEffect(() => {
+        const socket = new SockJS(`${BASE_WS}/ws`);
         const newClient = Stomp.over(socket);
         newClient.connect(
             {},
@@ -115,6 +119,17 @@ export const AuctionBid = () => {
                         setBidValue(receivedData.lastPrice)
                         setDisplayValue(formatNumber(receivedData.lastPrice));
                         toast.warn('Giá cuối đã thay đổi!');
+
+                        getAuctionRegistrationsByAuctionId(receivedData.auctionId)
+                            .then((data) => {
+                                const userFound = data.auctionRegistrationsData.some(registration => registration.user?.id === context?.account?.id);
+                                if (!userFound) {
+                                    navigate('/tai-san-dau-gia/' + receivedData.auctionId);
+                                }
+                            })
+                            .catch((error) => {
+                                console.error('Error fetching user auctions:', error);
+                            });
                     }
                 });
             },

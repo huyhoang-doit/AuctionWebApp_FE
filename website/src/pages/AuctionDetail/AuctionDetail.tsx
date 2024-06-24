@@ -29,7 +29,7 @@ export default function AuctionDetail() {
     const timeLeft = useCountDown(auction);
     const { id } = useParams();
     const token = localStorage.getItem("access_token");
-    const { account, setAccount } = useAccount(token);
+    const { account } = useAccount(token);
     let auctionId = 0;
     const location = useLocation();
     const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
