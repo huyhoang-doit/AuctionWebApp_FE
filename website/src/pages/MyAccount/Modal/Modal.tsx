@@ -1612,6 +1612,58 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({
   );
 };
 
+
+export const BidConfirmKickOut: React.FC<BidConfirmDeleteProps> = ({
+  stompClient,
+  connected,
+  user,
+  auction,
+}) => {
+  
+  return (
+    <>
+      <button
+        type="button"
+        className="text-danger"
+        id="save-profile-tab"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        onClick={() =>
+          Swal.fire({
+            icon: "error",
+            title: "Xác nhận xóa người dùng khỏi phiên?",
+            html: `
+            <div>Bạn có chắc là muốn trục xuất người dùng ${user?.fullName} khỏi phiên đấu giá.</div>`,
+            showCancelButton: true,
+            confirmButtonText: "Xác nhận",
+            cancelButtonText: "Hủy",
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+              if (user && auction) {
+                await confirmDeleteBid(user?.id, auction?.id);
+                if (stompClient && connected) {
+                  stompClient.send(
+                    "/app/update-auction",
+                    {},
+                    JSON.stringify(auction.id)
+                  );
+                } else {
+                  console.error("WebSocket client is not connected.");
+                }
+                toast.success("Xóa thành công.");
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+          })
+        }
+      >
+        <i className="fa-solid fa-x"></i>
+      </button>
+    </>
+  );
+};
+
 export const ChangePasswordConfirm: React.FC<ChangePasswordConfirmProps> = ({
   request,
   setRequest,

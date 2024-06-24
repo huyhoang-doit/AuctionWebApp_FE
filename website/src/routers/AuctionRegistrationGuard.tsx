@@ -1,4 +1,4 @@
-import { useNavigate, useParams, Route, Outlet, Navigate } from 'react-router-dom';
+import { useNavigate, useParams, Navigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { getAuctionRegistrationsByAuctionId } from '../api/AuctionRegistrationAPI';
 import { AuctionRegistration } from '../models/AuctionRegistration';

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Jewelry } from "../../../models/Jewelry"
 import { User } from "../../../models/User"
 import { Auction } from "../../../models/Auction"
@@ -6,6 +6,9 @@ import { AuctionDetailHistory } from "./AuctionDetailHistory"
 import { AuctionDetailJewelry } from "./AuctionDetailJewelry"
 import { AuctionHistory } from "../../../models/AuctionHistory"
 import Stomp from "stompjs";
+import { UserContext } from "../../../hooks/useContext"
+import { AuctionRegistrationUser } from "./AuctionRegistrationUser"
+import { getUserRegistrationByAuction } from "../../../api/UserAPI"
 
 interface AuctionTabDetailProps {
     isBid: boolean,
@@ -19,6 +22,24 @@ interface AuctionTabDetailProps {
 }
 
 export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ stompClient, connected, isBid, auctionHistories, setBidPerPage, auction, jewelry, staff }) => {
+    const [usersRegistration, setUsersRegistration] = useState<User[]>([]); // [1
+    const context = useContext(UserContext);
+
+    let user: User | null = null;
+    if (context?.account) {
+        user = context.account;
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (auction && user?.username === staff?.username) {
+                const users = await getUserRegistrationByAuction(auction?.id);
+                setUsersRegistration(users);
+            }
+        };
+        fetchData();
+    }, [auction, user, staff])
+
     return (
         <div className="sp-tab_area">
             <div className="container">
@@ -36,6 +57,19 @@ export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ stompClient,
                                             >
                                                 <span>
                                                     Lịch sử đặt giá
+                                                </span>
+                                            </a>
+                                        </li>
+                                    }
+                                    {isBid && user?.username === staff?.username &&
+                                        <li>
+                                            <a
+                                                // className="active"
+                                                data-bs-toggle="tab"
+                                                href="#registration"
+                                            >
+                                                <span>
+                                                    Danh sách đăng ký tham gia đấu giá
                                                 </span>
                                             </a>
                                         </li>
@@ -64,7 +98,12 @@ export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({ stompClient,
                             <div className="tab-content umino-tab_content">
 
                                 {isBid &&
-                                    <AuctionDetailHistory stompClient={stompClient} connected={connected} setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} />
+                                    <AuctionDetailHistory staff={staff} stompClient={stompClient} connected={connected} setBidPerPage={setBidPerPage} auctionHistories={auctionHistories} auction={auction} />
+                                }
+                                {
+                                    isBid &&
+                                    user?.username === staff?.username &&
+                                    <AuctionRegistrationUser usersRegistration={usersRegistration} auction={auction} />
                                 }
                                 <AuctionDetailJewelry isBid={isBid} auction={auction} jewelry={jewelry} />
                                 <div
