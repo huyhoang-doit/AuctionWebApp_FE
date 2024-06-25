@@ -747,7 +747,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                             ?.click()
                         }
                       >
-                        Tải lên ảnh khác
+                        {t("MyAccountDetail.Tải lên ảnh khác")}
                       </button>
                     </label>
                   </div>

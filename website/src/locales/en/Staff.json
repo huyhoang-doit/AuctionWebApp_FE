@@ -1,0 +1,13 @@
+{
+    "AssignedAuctionList" : {
+        "Danh sách phiên được phân công" : "List of assigned sessions",
+        "Mã phiên" : "Session ID",
+        "Tên phiên" : "Session name",
+        "Thời gian bắt đầu" : "Start time",
+        "Trạng thái" : "Status",
+        "Xem chi tiết" : "View detail",
+        "Đến" : "To",
+        "Hiện tại chưa có phiên nào được phân công" : "There is no assigned session at the moment"
+
+    }
+}
