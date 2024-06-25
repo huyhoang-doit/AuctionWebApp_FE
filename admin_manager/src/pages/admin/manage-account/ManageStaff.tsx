@@ -1,38 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
+import { useDebouncedCallback } from "use-debounce";
+import { DeleteUserModal } from '../Modal';
 
 const ManageStaff = () => {
-  const [showModal, setShowModal] = useState(false);
   const [staffs, setStaffs] = useState<User[]>([])
   const [page, setPage] = useState(1)
-  const [totalElements, setTotalElements] = useState(0)
+  const [totalElements, setTotalElements] = useState(0);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+  const [isRefresh, setIsRefresh] = useState(false);
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   useEffect(() => {
-    getMembers("STAFF", 1)
+    getMembers("STAFF", debouncedTxtSearch, 1)
       .then((response) => {
         setStaffs(response.usersData)
         setTotalElements(response.totalElements)
+        setIsRefresh(false)
       }
       )
-  }, [page])
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleDeleteProduct = () => {
-    console.log('Xóa sản phẩm');
-    handleCloseModal();
-  };
+  }, [page, debouncedTxtSearch, isRefresh])
 
 
   return (
@@ -50,6 +55,23 @@ const ManageStaff = () => {
                   <div className="white_box_tittle list_header">
                     <h4>Danh sách nhân viên</h4>
                     <div className="box_right d-flex lms_block">
+                    <div className="serach_field_2">
+                        <div className="search_inner">
+                          <form >
+                            <div className="search_field">
+                              <input
+                                type="text"
+                                placeholder="Tìm kiếm..."
+                                value={txtSearch}
+                                onChange={handleTxtSearch}
+                              />
+                            </div>
+                            <button type="submit">
+                              <i className="ti-search"></i>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
                       <div className="add_button ms-2">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" className="btn_1">
                           Thêm tài khoản mới
@@ -96,7 +118,7 @@ const ManageStaff = () => {
                             <td>
                               <div className="btn-group">
                                 <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
-                                <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
+                                <DeleteUserModal user={user} setIsRefresh={setIsRefresh}/>
                               </div>
                             </td>
                           </tr>
@@ -104,20 +126,6 @@ const ManageStaff = () => {
                       </tbody>
                     </Table>
                   </div>
-                  <Modal show={showModal} onHide={handleCloseModal}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Xác nhận xóa</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Bạn có chắc chắn muốn xóa nhân viên này ?</Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleCloseModal}>
-                        Hủy
-                      </Button>
-                      <Button variant="danger" onClick={handleDeleteProduct}>
-                        Xóa
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
                 </div>
               </div>
         <PaginationControl

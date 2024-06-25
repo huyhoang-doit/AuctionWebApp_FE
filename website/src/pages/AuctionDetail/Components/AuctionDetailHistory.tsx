@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Auction } from "../../../models/Auction";
 import { AuctionHistory } from "../../../models/AuctionHistory";
 import { AuctionHistoryItem } from "./AuctionHistoryItem";
 import Stomp from "stompjs";
+import { User } from "../../../models/User";
+import { UserContext } from "../../../hooks/useContext";
 
 interface AuctionDetailHistoryProps {
     auction: Auction | null,
@@ -10,9 +12,16 @@ interface AuctionDetailHistoryProps {
     setBidPerPage: (bid: number) => void;
     stompClient: Stomp.Client | null;
     connected: boolean;
+    staff: User | null;
 }
 
-export const AuctionDetailHistory: React.FC<AuctionDetailHistoryProps> = ({ stompClient, connected, auctionHistories, setBidPerPage }) => {
+export const AuctionDetailHistory: React.FC<AuctionDetailHistoryProps> = ({ stompClient, connected, auctionHistories, setBidPerPage, auction, staff }) => {
+    const context = useContext(UserContext);
+
+    let user: User | null = null;
+    if (context?.account) {
+        user = context.account;
+    }
     return (<div
         id="history"
         className="tab-pane active show"
@@ -50,10 +59,17 @@ export const AuctionDetailHistory: React.FC<AuctionDetailHistoryProps> = ({ stom
                         <th className="col-2"><b>Giá</b></th>
                         <th className="col-2"><b>Thời gian</b></th>
                         <th className="col-1"><b>Mã trả giá</b></th>
-                        <th className="col-1"><b>Rút lại giá</b></th>
+                        {
+                            auction?.state !== 'FINISHED' && user?.username !== staff?.username &&
+                            <th className="col-1"><b>Rút lại giá</b></th>
+                        }
+                        {
+                            auction?.state !== 'FINISHED' &&  user?.username === staff?.username &&
+                            <th className="col-1"><b>Thao tác</b></th>
+                        }
                     </tr>
                 </thead>
-                <AuctionHistoryItem stompClient={stompClient} connected={connected} auctionHistories={auctionHistories} />
+                <AuctionHistoryItem staff={staff} user={user} stompClient={stompClient} connected={connected} auctionHistories={auctionHistories} auction={auction}/>
             </table>
         </div>
     </div >

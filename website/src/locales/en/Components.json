@@ -1,0 +1,96 @@
+{
+    "Components" : {
+        "Top trang sức trị giá cao" : "Top high-value jewelry",
+        "Trị giá " : "Value: ",
+        "Trạng thái" : "Status:",
+        "Chi tiết" : "Details: ",
+        "Đấu giá trang sức" : "Auction jewelry",
+        "Vận chuyển" : "Transportation",
+        "An toàn đảm bảo" : "Safety assurance",
+        "Hoàn tiền đặt trước" : "Refundable deposit",
+        "Ngay khi phiên đấu giá khép lại" : "Immediately when the auction closes",
+        "Giao dịch nhanh gọn" : "Quick transaction",
+        "Hỗ trợ" : "Support",
+        "Tư vấn, hỗ trợ bạn 24/7" : "Consulting, supporting you 24/7",
+        "Liên hệ đấu giá trang sức của bạn" : "Contact your jewelry auction",
+        "Thông tin liên hệ" : "Contact information",
+        "Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam" : "Ho Chi Minh City Student Cultural House, Luu Huu Phuoc, Dong Hoa, Di An, Binh Duong, Vietnam",
+        "Số điện thoại" : "Phone number",
+        "Thông tin sản phẩm" : "Product information",
+        "Tên Sản Phẩm" : "Product Name",
+        "Địa chỉ" : "Address",
+        "Nhập tên sản phẩm" : "Enter product name",
+        "Loại sản phẩm" : "Product type",
+        "Nhập loại sản phẩm" : "Enter product type",
+        "Giá" : "Price",
+        "Nhập giá mong muốn" : "Enter the desired price",
+        "Thương hiệu" : "Brand",
+        "Nhập thương hiệu" : "Enter brand",
+        "Mô Tả" : "Description",
+        "Ảnh sản phẩm" : "Product image",
+        "Chọn ảnh sản phẩm" : "Choose product image",
+        "Gửi yêu cầu" : "Send request",
+        "Sàn đấu giá" : "Auction floor",
+        "Hoa tai" : "Earrings",
+        "Nhẫn" : "Ring",
+        "Mặt dây chuyền" : "Necklace",
+        "Bắt đầu ngay" : "Start now",
+        "Trang chủ" : "Home",
+        "Danh sách đấu giá" : "Auction list",
+        "Dây chuyền" : "Necklace",
+        "Vòng tay" : "Bracelet"
+        
+        
+    },
+
+    "SideBar" : {
+        "Lọc theo ngày" : "Filter by date",
+        "Trạng thái tài sản" : "Asset status",
+         "Tất cả" : "All",
+         "Sắp diễn ra" : "Waiting",
+         "Đang diễn ra" : "Ongoing",
+         "Đã kết thúc" : "Finished",
+         "Danh mục" : "Category",
+         "Tìm kiếm" : "Search",
+         "Tìm kiếm sản phẩm..." : "Search for products..."
+
+        
+      
+    },
+
+    "Rauria" : {
+        "Bạn phải chỉ định ngày tìm từ" : "You must specify the date to search from",
+        "Bạn phải chỉ định ngày tìm đến" : "You must specify the date to search to",
+        "Từ ngày" : "From date",
+        "Đến ngày" : "To date",
+        "Lọc" : "Filter",
+        "Bỏ Lọc" : "Clear Filter",
+        "Không tìm thấy phiên đấu giá phù hợp" : "No suitable auction session found"
+    },
+
+    "AuctionItem" : {
+        "Giá khởi điểm" : "Starting price:",
+        "Tên phiên" : "Session name:",
+        "Tên chủ tài sản" : "Asset owner name:",
+        "Trạng thái" : "Status:",
+        "Chi tiết" : "Detail"
+    },
+
+    "StateAuctionView" : {
+        "Đang diễn ra" : "Ongoing",
+        "Sắp diễn ra" : "Waiting",
+        "Đã kết thúc" : "Finished",
+        "Tạm dừng" : "Pause",
+        "Đã xóa" : "Deleted"
+    },
+
+    "SingleAuction" : {
+        "Trị giá" : "Value:",
+        "Trạng thái" : "Status:",
+        "Chi tiết" : "Detail"
+
+    }
+   
+       
+   
+}

@@ -1,39 +1,43 @@
 import { useEffect, useState } from 'react';
-import { Modal, Button, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
+import { useDebouncedCallback } from "use-debounce";
+import { DeleteUserModal } from '../Modal';
 
 
 const ManageUser = () => {
-  const [showModal, setShowModal] = useState(false);
   const [members, setMembers] = useState<User[]>([]);
   const [page, setPage] = useState(1)
-  const [totalElements, setTotalElements] = useState(0)
+  const [totalElements, setTotalElements] = useState(0);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+  const [isRefresh, setIsRefresh] = useState(false);
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   useEffect(() => {
-    getMembers("MEMBER", page)
+    getMembers("MEMBER", debouncedTxtSearch, page)
       .then((response) => {
         setMembers(response.usersData)
         setTotalElements(response.totalElements)
+        setIsRefresh(false)
       })
-  }, [page])
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleDeleteProduct = () => {
-    console.log('Xóa sản phẩm');
-    handleCloseModal();
-  };
-
+  }, [page, debouncedTxtSearch, isRefresh])
 
   return (
     <>
@@ -50,6 +54,23 @@ const ManageUser = () => {
                   <div className="white_box_tittle list_header">
                     <h4>Danh sách người dùng</h4>
                     <div className="box_right d-flex lms_block">
+                      <div className="serach_field_2">
+                        <div className="search_inner">
+                          <form >
+                            <div className="search_field">
+                              <input
+                                type="text"
+                                placeholder="Tìm kiếm..."
+                                value={txtSearch}
+                                onChange={handleTxtSearch}
+                              />
+                            </div>
+                            <button type="submit">
+                              <i className="ti-search"></i>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
                       <div className="add_button ms-2">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" className="btn_1">
                           Thêm tài khoản mới
@@ -81,22 +102,21 @@ const ManageUser = () => {
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td>
-                              <a className={`status_btn ${
-                                user.state === 'VERIFIED'
-                                  ? 'bg-success'
-                                  : user.state === 'DISABLE'
+                              <a className={`status_btn ${user.state === 'VERIFIED'
+                                ? 'bg-success'
+                                : user.state === 'DISABLE'
                                   ? 'bg-error'
                                   : user.state === 'ACTIVE'
-                                  ? 'bg-primary'
-                                  : 'bg-warn'
-                              }`}>
+                                    ? 'bg-primary'
+                                    : 'bg-warn'
+                                }`}>
                                 <UserStateView state={user.state || ''} />
                               </a>
                             </td>
                             <td>
                               <div className="btn-group">
                                 <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
-                                <Button variant="danger" size="sm" onClick={handleShowModal}>Xóa</Button>
+                                <DeleteUserModal user={user} setIsRefresh={setIsRefresh}/>
                               </div>
                             </td>
                           </tr>
@@ -104,20 +124,6 @@ const ManageUser = () => {
                       </tbody>
                     </Table>
                   </div>
-                  <Modal show={showModal} onHide={handleCloseModal}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Xác nhận xóa</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Bạn có chắc chắn muốn xóa người dùng này ?</Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleCloseModal}>
-                        Hủy
-                      </Button>
-                      <Button variant="danger" onClick={handleDeleteProduct}>
-                        Xóa
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
                 </div>
               </div>
               <PaginationControl

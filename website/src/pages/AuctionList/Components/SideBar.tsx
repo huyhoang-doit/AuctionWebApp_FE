@@ -1,9 +1,10 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
-import { SideBarCategoryItem } from './SideBarCategoryItem'
-import DatePicker from './DatePickerProps '
-import { useNavigate } from 'react-router-dom'
-import { useCategories } from '../../../hooks/useCategories';
-import { useDebouncedCallback } from 'use-debounce';
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { SideBarCategoryItem } from "./SideBarCategoryItem";
+import DatePicker from "./DatePickerProps ";
+import { useNavigate } from "react-router-dom";
+import { useCategories } from "../../../hooks/useCategories";
+import { useDebouncedCallback } from "use-debounce";
+import { useTranslation } from "react-i18next";
 
 interface SideBarProps {
   setSelectedStates: (checkboxValues: string[]) => void;
@@ -12,20 +13,25 @@ interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = (props) => {
   const categories = useCategories();
-  const [checkboxValues, setCheckboxValues] = useState([true, false, false, false]);
+  const [checkboxValues, setCheckboxValues] = useState([
+    true,
+    false,
+    false,
+    false,
+  ]);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (props.state) {
       const newCheckboxValues = [false, false, false, false];
       switch (props.state) {
-        case 'WAITING':
+        case "WAITING":
           newCheckboxValues[1] = true;
           break;
-        case 'ONGOING':
+        case "ONGOING":
           newCheckboxValues[2] = true;
           break;
-        case 'FINISHED':
+        case "FINISHED":
           newCheckboxValues[3] = true;
           break;
         default:
@@ -36,7 +42,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
   }, [props.state]);
 
   const handleCheckboxChange = (index: number) => {
-    navigate(`/danh-sach-dau-gia`)
+    navigate(`/danh-sach-dau-gia`);
     // Nếu checkbox đc click
     if (index === 0) {
       // Nếu chọn tất cả thì những còn lại bỏ
@@ -60,49 +66,73 @@ const SideBar: React.FC<SideBarProps> = (props) => {
   };
 
   const handleFilter = (fromDateFilter: string, toDateFilter: string) => {
-    const url = !fromDateFilter && !toDateFilter ? '/danh-sach-dau-gia' : `/danh-sach-dau-gia/date/${fromDateFilter}/${toDateFilter}`;
+    const url =
+      !fromDateFilter && !toDateFilter
+        ? "/danh-sach-dau-gia"
+        : `/danh-sach-dau-gia/date/${fromDateFilter}/${toDateFilter}`;
     navigate(url);
   };
 
   const debouncedTxtSearchChange = useDebouncedCallback((value: string) => {
-    navigate(value ? `/danh-sach-dau-gia/name/${value}` : '/danh-sach-dau-gia');
+    navigate(value ? `/danh-sach-dau-gia/name/${value}` : "/danh-sach-dau-gia");
   }, 1000);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     debouncedTxtSearchChange(e.target.value);
-  }
+  };
 
   useEffect(() => {
-    if (checkboxValues[1] === true && checkboxValues[2] === true && checkboxValues[3] === true) {
+    if (
+      checkboxValues[1] === true &&
+      checkboxValues[2] === true &&
+      checkboxValues[3] === true
+    ) {
       setCheckboxValues([true, false, false, false]);
     }
-    const selectedStates = checkboxValues.reduce((acc: string[], isChecked: boolean, index: number) => {
-      if (isChecked && index !== 0) {
-        acc.push(index === 1 ? 'WAITING' : index === 2 ? 'ONGOING' : 'FINISHED');
-      }
-      return acc;
-    }, []);
+    const selectedStates = checkboxValues.reduce(
+      (acc: string[], isChecked: boolean, index: number) => {
+        if (isChecked && index !== 0) {
+          acc.push(
+            index === 1 ? "WAITING" : index === 2 ? "ONGOING" : "FINISHED"
+          );
+        }
+        return acc;
+      },
+      []
+    );
     props.setSelectedStates(selectedStates);
   }, [checkboxValues]);
+
+  const { t } = useTranslation(["Components"]);
 
   return (
     <div className="col-lg-3 order-2 order-lg-1">
       <div className="umino-sidebar-catagories_area">
         <div className="umino-sidebar_categorie">
           <div className="umino-categories_title first-child">
-            <h5 className='fw-bold'>Lọc theo ngày</h5>
+            <h5 className="fw-bold">{t("SideBar.Lọc theo ngày")}</h5>
           </div>
           <DatePicker onFilter={handleFilter} />
         </div>
         <div className="umino-sidebar_categories category-module">
           <div className="umino-categories_title">
-            <h5 className='fw-bold'>Trạng thái tài sản</h5>
+            <h5 className="fw-bold">{t("SideBar.Trạng thái tài sản")}</h5>
           </div>
           <div className="sidebar-categories_menu">
             <div className="form-inner">
               {checkboxValues.map((isChecked, index) => (
-                <label key={index} className="containercheckbox" style={{ fontSize: "16px", marginBottom: "15px" }}>
-                  {index === 0 ? "Tất cả" : index === 1 ? "Sắp diễn ra" : index === 2 ? "Đang diễn ra" : "Đã kết thúc"}
+                <label
+                  key={index}
+                  className="containercheckbox"
+                  style={{ fontSize: "16px", marginBottom: "15px" }}
+                >
+                  {index === 0
+                    ? t("SideBar.Tất cả")
+                    : index === 1
+                    ? t("SideBar.Sắp diễn ra")
+                    : index === 2
+                    ? t("SideBar.Đang diễn ra")
+                    : t("SideBar.Đã kết thúc")}
                   <span id="count-all"></span>
                   <input
                     type="checkbox"
@@ -120,7 +150,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
         </div>
         <div className="umino-sidebar_categories">
           <div className="umino-categories_title">
-            <h5 className='fw-bold mt-4'>Danh mục</h5>
+            <h5 className="fw-bold mt-4"> {t("SideBar.Danh mục")}</h5>
           </div>
           <ul className="sidebar-checkbox_list">
             {categories.map((category, index) => (
@@ -130,9 +160,13 @@ const SideBar: React.FC<SideBarProps> = (props) => {
         </div>
         <div className="umino-sidebar_categories">
           <div className="umino-categories_title umino-tags_title mt-4">
-            <h5 className='fw-bold'>Tìm kiếm</h5>
+            <h5 className="fw-bold"> {t("SideBar.Tìm kiếm")}</h5>
           </div>
-          <input type="text" placeholder="Tìm kiếm sản phẩm..." onChange={handleSearch} />
+          <input
+            type="text"
+            placeholder={t("SideBar.Tìm kiếm sản phẩm...")}
+            onChange={handleSearch}
+          />
         </div>
         <div className="umino-sidebar_categories umino-banner_area sidebar-banner_area">
           <div className="banner-item img-hover_effect">
@@ -151,7 +185,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SideBar
+export default SideBar;

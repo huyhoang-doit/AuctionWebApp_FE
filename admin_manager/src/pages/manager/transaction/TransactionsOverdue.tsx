@@ -126,9 +126,13 @@ const TransactionsOverdue = () => {
                                                         </td>
                                                     </tr>
                                                 ))
-                                                ) : (<td colSpan={7} className="text-center">
-                                                    <h5 className='fw-semibold lh-base mt-2'>Hiện không có hóa đơn nào quá hạn thanh toán</h5>
-                                                </td>)
+                                                ) : (
+                                                    <tr className="text-center">
+                                                        <td colSpan={7}>
+                                                            <h5 className='fw-semibold lh-base mt-2'>Không có giao dịch quá hạn nào </h5>
+                                                        </td>
+                                                    </tr>
+                                                )
                                                 )
                                                 }
                                             </tbody>
