@@ -103,10 +103,9 @@ export default function RegisterForAuction() {
                                 <div className="row">
                                     <div className="col-lg-6">
                                         <div className="article-content" style={{ height: "100%" }}>
-                                            <object data="https://drive.google.com/file/d/1bgQ-1IqhUr5RTYUHzO3hdsLthpZask_X/preview" style={{ width: "100%", height: "100%" }}>
-                                                <iframe src="https://drive.google.com/file/d/1bgQ-1IqhUr5RTYUHzO3hdsLthpZask_X/preview" width="640" height="100%" allow="autoplay">
+                                            <object data="https://drive.google.com/file/d/1NfVgsAmbn9iiLqfhodOirL21dB14w55_/preview" style={{ width: "100%", height: "100%" }}>
+                                                <iframe src="https://drive.google.com/file/d/1NfVgsAmbn9iiLqfhodOirL21dB14w55_/preview" width="640" height="100%" allow="autoplay">
                                                     <p>This browser does not support PDF!</p>
-
                                                 </iframe>
                                             </object>
                                         </div>

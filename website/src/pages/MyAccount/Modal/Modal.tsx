@@ -1769,16 +1769,9 @@ export const OpenRegulationsForSellerModal = () => {
               <Modal.Title>Quy chế dành cho người bán tài sản</Modal.Title>
             </Modal.Header>
             <Modal.Body style={{ height: "700px" }}>
-              <object
-                data="https://drive.google.com/file/d/1bgQ-1IqhUr5RTYUHzO3hdsLthpZask_X/preview"
-                style={{ width: "100%", height: "100%" }}
-              >
-                <iframe
-                  src="https://drive.google.com/file/d/1bgQ-1IqhUr5RTYUHzO3hdsLthpZask_X/preview"
-                  width="640"
-                  height="100%"
-                  allow="autoplay"
-                >
+              <object data="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview" style={{ width: "100%", height: "100%" }}>
+                <iframe src="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview" width="640" height="100%" allow="autoplay">
+
                   <p>This browser does not support PDF!</p>
                 </iframe>
               </object>
