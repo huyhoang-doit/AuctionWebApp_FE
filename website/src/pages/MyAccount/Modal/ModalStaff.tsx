@@ -16,6 +16,8 @@ import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView"
 import { PaymentMethod } from "../Components/member/PaymentMethod";
 import { StateTransaction } from "../Components/member/StateTransaction";
 import { setJewelryHolding } from "../../../api/JewelryAPI";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import PDFHandover from "../../../utils/PDFHandover";
 
 
 // *** MODEL FOR STAFF
@@ -1192,7 +1194,7 @@ export const CreateHandoverReportModal: React.FC<
             onHide={handleClose}
             centered
             backdrop="static"
-            size="lg"
+            size="xl"
           >
             <Modal.Header>
               <Modal.Title className="w-100">
@@ -1210,86 +1212,21 @@ export const CreateHandoverReportModal: React.FC<
                 </h5>
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-              {/* <form action="">
-              <div className="checkbox-form">
-                <div className="row">
-                  <div className="col-md-12 ">
-                    <div className="col-md-12 fw-medium row">
-                      <h4 className=' fw-medium'>Người thanh toán</h4>
-                      <div className="checkout-form-list mb-2 col-md-6">
-                        <div className='checkout-form-list mb-2'>
-                          <label>
-                            Mã người dùng:{" "}
-                          </label>
-                          <span className='fw-bold'> {jewelry?.id}</span>
-
-                        </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <label>
-                            Tên người dùng:
-                          </label>
-                          <span className='fw-bold'> {jewelry?.id}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2 ">
-                          <label>
-                            Số CCCD:
-                          </label>
-                          <span className='fw-bold'> {jewelry?.id}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2">
-                          <label>
-                            Địa chỉ:
-                          </label>
-                          <span className='fw-semibold'> {jewelry?.id} </span>
-                        </div>
-                        <div className="checkout-form-list mb-2">
-                          <label>Email:  </label>
-                          <span className='fw-semibold'>{jewelry?.id}</span>
-                        </div>
-                      </div>
-                      <div className="checkout-form-list mb-2 col-md-6 border p-2 row">
-                        <div className="checkout-form-list mb-0 col-md-6">
-                          <img src='' alt="bank" />
-                        </div>
-                        <div className='checkout-form-list mb-2 col-md-12'>
-                          <label>
-                            Thẻ ngân hàng:{" "}
-                          </label>
-                          <span className='fw-bold text-uppercase'> {jewelry?.id}</span>
-                        </div>
-                        <div className="checkout-form-list mb-2 col-md-12 ">
-                          <label>
-                            Mã số thẻ:
-                          </label>
-                          <span className='fw-bold text-success'>{jewelry?.id}</span>
-                        </div>
-
-                      </div>
-                      <div className="checkout-form-list mb-2 col-md-12 p-2 row">
-                        <div className='checkout-form-list mb-2 col-md-12'>
-                          <label>
-                            Số tiền cần trả:{" "}
-                          </label>
-                          <span className='fw-bold text-uppercase fs-4 text-success'>    {formatNumberAcceptNull(auction?.lastPrice)} VND</span>
-                        </div>
-                        <div className='mt-3'>
-                          <span style={{ fontSize: '12px' }}>(*)Nhấn gửi yêu cầu để thông báo đến người dùng về giao dịch này</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form> */}
+            <Modal.Body style={{ height: "650px" }}>
+              <PDFViewer style={{ width: '100%', height: '100%' }}>
+                <PDFHandover />
+              </PDFViewer>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
                 Đóng
               </Button>
+              {/* <PDFDownloadLink document={<PDFHandover />} fileName="testPDF"> */}
               <Button variant="warning" onClick={handleClose}>
                 Xác nhận
               </Button>
+              {/* </PDFDownloadLink> */}
+
             </Modal.Footer>
           </Modal>
         </div>
