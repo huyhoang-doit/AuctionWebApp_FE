@@ -18,6 +18,8 @@ import { StateTransaction } from "../Components/member/StateTransaction";
 import { setJewelryHolding } from "../../../api/JewelryAPI";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import PDFHandover from "../../../utils/PDFHandover";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 
 // *** MODEL FOR STAFF
@@ -1213,9 +1215,37 @@ export const CreateHandoverReportModal: React.FC<
               </Modal.Title>
             </Modal.Header>
             <Modal.Body style={{ height: "650px" }}>
-              <PDFViewer style={{ width: '100%', height: '100%' }}>
+              <div className="w-100 h-100">
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={"không có gì"}
+                  config={{
+                    ckbox: {
+                      tokenUrl:
+                        "https://111289.cke-cs.com/token/dev/bpym057sSTzEaKMwFLqRUCAT2BZ92hvE6xKw?limit=10",
+                      theme: "lark",
+                    },
+                  }}
+                  onReady={(editor) => {
+                    console.log("Đã sử dụng được");
+
+                    editor.editing.view.change((writer) => {
+                      const root = editor.editing.view.document.getRoot();
+                      if (root) {
+                        writer.setStyle("height", "300px", root);
+                      }
+                    });
+                  }}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    // updateDescription(data);
+                  }}
+                />
+              </div>
+
+              {/* <PDFViewer style={{ width: '100%', height: '100%' }}>
                 <PDFHandover />
-              </PDFViewer>
+              </PDFViewer> */}
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
