@@ -54,7 +54,7 @@ export default function RouterCom() {
         <Route path="/reset-thanh-cong/:token" element={<Login />} />
       </Route>
       <Route element={<GuestRoute />}>
-        {/* <Route path="/dang-ky" element={<Register />} /> */}
+        <Route path="/dang-ky" element={<Register />} />
       </Route>
       <Route element={<GuestRoute />}>
         <Route path="/reset-mat-khau/:token" element={<ResetPassword />} />
