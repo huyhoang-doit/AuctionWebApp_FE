@@ -1215,8 +1215,7 @@ export const CreateHandoverReportModal: React.FC<
               </Modal.Title>
             </Modal.Header>
             <Modal.Body style={{ height: "650px" }}>
-              <div className="w-100 h-100">
-                <CKEditor
+              {/* <CKEditor
                   editor={ClassicEditor}
                   data={"không có gì"}
                   config={{
@@ -1240,12 +1239,11 @@ export const CreateHandoverReportModal: React.FC<
                     const data = editor.getData();
                     // updateDescription(data);
                   }}
-                />
-              </div>
+                /> */}
 
-              {/* <PDFViewer style={{ width: '100%', height: '100%' }}>
+              <PDFViewer style={{ width: '100%', height: '100%' }}>
                 <PDFHandover />
-              </PDFViewer> */}
+              </PDFViewer>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
