@@ -6,7 +6,7 @@ import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { useDebouncedCallback } from "use-debounce";
-import { DeleteUserModal } from '../Modal';
+import { CreateNewUserModal, DeleteUserModal } from '../Modal';
 
 const ManageStaff = () => {
   const [staffs, setStaffs] = useState<User[]>([])
@@ -55,7 +55,7 @@ const ManageStaff = () => {
                   <div className="white_box_tittle list_header">
                     <h4>Danh sách nhân viên</h4>
                     <div className="box_right d-flex lms_block">
-                    <div className="serach_field_2">
+                      <div className="serach_field_2">
                         <div className="search_inner">
                           <form >
                             <div className="search_field">
@@ -73,9 +73,7 @@ const ManageStaff = () => {
                         </div>
                       </div>
                       <div className="add_button ms-2">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" className="btn_1">
-                          Thêm tài khoản mới
-                        </a>
+                        <CreateNewUserModal role={"STAFF"}/>
                       </div>
                     </div>
                   </div>
@@ -103,22 +101,21 @@ const ManageStaff = () => {
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td>
-                              <a className={`status_btn ${
-                                user.state === 'VERIFIED'
+                              <a className={`status_btn ${user.state === 'VERIFIED'
                                   ? 'bg-success'
                                   : user.state === 'DISABLE'
-                                  ? 'bg-error'
-                                  : user.state === 'ACTIVE'
-                                  ? 'bg-primary'
-                                  : 'bg-warn'
-                              }`}>
+                                    ? 'bg-error'
+                                    : user.state === 'ACTIVE'
+                                      ? 'bg-primary'
+                                      : 'bg-warn'
+                                }`}>
                                 <UserStateView state={user.state || ''} />
                               </a>
                             </td>
                             <td>
                               <div className="btn-group">
                                 <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
-                                <DeleteUserModal user={user} setIsRefresh={setIsRefresh}/>
+                                <DeleteUserModal user={user} setIsRefresh={setIsRefresh} />
                               </div>
                             </td>
                           </tr>
@@ -128,16 +125,16 @@ const ManageStaff = () => {
                   </div>
                 </div>
               </div>
-        <PaginationControl
-          page={page}
-          between={3}
-          total={totalElements}
-          limit={5}
-          changePage={(page) => {
-            setPage(page)
-          }}
-          ellipsis={1}
-        />
+              <PaginationControl
+                page={page}
+                between={3}
+                total={totalElements}
+                limit={5}
+                changePage={(page) => {
+                  setPage(page)
+                }}
+                ellipsis={1}
+              />
             </div>
           </div>
         </div>

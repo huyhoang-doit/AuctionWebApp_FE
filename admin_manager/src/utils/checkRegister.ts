@@ -32,20 +32,18 @@ export const isConfirmPasswordWrong = (password: string , confirmPassword: strin
     }
 };
 
-export const isYearOfBirthWrongFormat = (year: string) => {
-    // Regular expression to check if the year is a four-digit number starting from 1900 to the current year
+export const isYearOfBirthWrongFormat = (year: number) => {
     const currentYear = new Date().getFullYear();
-    const yearRegex = /^(19[0-9]{2}|20[0-9]{2})$/;
-    const isValidFormat = yearRegex.test(year);
+    const yearRegex = /^(19\d{2}|20\d{2})$/;
 
-    if (isValidFormat) {
-        const yearNumber = parseInt(year, 10);
-        if (yearNumber >= 1900 && yearNumber <= currentYear) {
+    if (yearRegex.test(year.toString())) {
+        if (year >= 1900 && year <= currentYear) {
             return false; // Valid year of birth
         }
     }
     return true; // Invalid year of birth
 };
+
 
 export const isCitizenIdWrongFormat = (citizenId: string) => {
     // Regular expression to check if the citizen ID is either 9 or 12 digits long

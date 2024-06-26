@@ -5,7 +5,7 @@ import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
-import { DeleteUserModal } from '../Modal';
+import { CreateNewUserModal, DeleteUserModal } from '../Modal';
 
 
 const ManageManager = () => {
@@ -42,9 +42,7 @@ const ManageManager = () => {
                     <h4>Danh sách quản lý</h4>
                     <div className="box_right d-flex lms_block">
                       <div className="add_button ms-2">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" className="btn_1">
-                          Thêm tài khoản mới
-                        </a>
+                        <CreateNewUserModal role={"MANAGER"}/>
                       </div>
                     </div>
                   </div>
@@ -84,12 +82,12 @@ const ManageManager = () => {
                               <td>{user.phone}</td>
                               <td>
                                 <a className={`status_btn ${user.state === 'VERIFIED'
-                                    ? 'bg-success'
-                                    : user.state === 'DISABLE'
-                                      ? 'bg-error'
-                                      : user.state === 'ACTIVE'
-                                        ? 'bg-primary'
-                                        : 'bg-warn'
+                                  ? 'bg-success'
+                                  : user.state === 'DISABLE'
+                                    ? 'bg-error'
+                                    : user.state === 'ACTIVE'
+                                      ? 'bg-primary'
+                                      : 'bg-warn'
                                   }`}>
                                   <UserStateView state={user.state || ''} />
                                 </a>
