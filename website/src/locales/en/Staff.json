@@ -9,5 +9,53 @@
         "Đến" : "To",
         "Hiện tại chưa có phiên nào được phân công" : "There is no assigned session at the moment"
 
-    }
+    },
+
+    "JewelriesWaitList" : {
+        "Danh sách sản phẩm gửi đến" : "List of products sent",
+        "Mã trang sức" : "Jewelry ID",
+        "Tên trang sức" : "Jewelry name",
+        "Người gửi" : "Sender",
+        "Giá" : "Price",
+        "Ảnh" : "Image",
+        "Xem chi tiết" : "View detail",
+        "Chưa có yêu cầu nào được gửi đến"  : "There is no request sent"
+    },
+
+    "StaffRequestList" : {
+        "Danh sách các yêu cầu gửi lên quản lý" : "List of requests sent to management",
+        "Mã yêu cầu" : "Request ID",
+        "Mã trang sức" :"Jewelry ID",
+        "Định giá (VNĐ)" : "Valuation (VND)",
+        "Thời gian gửi" : "Sent time",
+        "Trạng thái" : "Status",
+        "Thao tác" : "Action",
+        "Đã phê duyệt" : "Approved",
+        "Chưa phê duyệt" : "Not approved",
+        "Chưa có yêu cầu nào được gửi đi" : "There is no request sent",
+        "Đã bị hủy" : "Cancelled"
+    } ,
+
+    "JewelrySentToWebList" : {
+        "Danh sách tài sản gửi đến" : "List of assets sent",
+        "Mã tài sản" : "Asset ID",
+        "Phân loại" : "Classification",
+        "Chủ tài sản" : "Asset owner",
+        "Trạng thái" : "Status",
+        "Thao tác" : "Operation",
+        "Chưa nhận" : "Not received",
+        "Đã nhận" : "Received",
+        "Không có tài sản nào" : "No assets",
+        "Tên tài sản" : "Asset name"
+     },
+     "JewelriesHandOverList" : {
+        "Danh sách trang sức bàn giao" : "List of handed-over jewelries",
+        "Mã trang sức" :"Jewelry ID",
+        "Tên trang sức" : "Jewelry name",
+        "Phiên đấu" : "Auction session",
+        "Giá cuối" : "Final price",
+        "Phương thức thanh toán" : "Payment method",
+        "Thao tác" : "Operation",
+        "Không có giao dịch nào" : "No transactions"
+   } 
 }
