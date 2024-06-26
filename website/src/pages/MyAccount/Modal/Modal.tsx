@@ -1534,10 +1534,10 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
-                {t("Modal.Lưu")}
+                {t("Modal.Hủy")}
               </Button>
               <Button variant="warning" onClick={handleSave}>
-                {t("Modal.Chỉnh sửa")}
+                {t("Modal.Lưu")}
               </Button>
             </Modal.Footer>
           </Modal>
@@ -1612,14 +1612,12 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({
   );
 };
 
-
 export const BidConfirmKickOut: React.FC<BidConfirmDeleteProps> = ({
   stompClient,
   connected,
   user,
   auction,
 }) => {
-  
   return (
     <>
       <button
@@ -1769,9 +1767,16 @@ export const OpenRegulationsForSellerModal = () => {
               <Modal.Title>Quy chế dành cho người bán tài sản</Modal.Title>
             </Modal.Header>
             <Modal.Body style={{ height: "700px" }}>
-              <object data="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview" style={{ width: "100%", height: "100%" }}>
-                <iframe src="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview" width="640" height="100%" allow="autoplay">
-
+              <object
+                data="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview"
+                style={{ width: "100%", height: "100%" }}
+              >
+                <iframe
+                  src="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview"
+                  width="640"
+                  height="100%"
+                  allow="autoplay"
+                >
                   <p>This browser does not support PDF!</p>
                 </iframe>
               </object>

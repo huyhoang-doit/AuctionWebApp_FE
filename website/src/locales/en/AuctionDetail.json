@@ -1,0 +1,33 @@
+{
+    "AuctionDetail" : {
+        "Đăng kí tham gia phiên thành công" : "Registered for the session successfully!",
+        "Home" : "Home",
+        "Trang sức đấu giá" : "Jewelry auction",
+        "Thời gian đếm ngược bắt đầu trả giá" : "Countdown time to start bidding:",
+        "Thời gian đếm ngược kết thúc trả giá" : "Countdown time to end bidding:",
+        "Ngày" : "Date",
+        "Giờ" : "Hour",
+        "Phút" : "Minute",
+        "Giây" : "Second",
+        "Mã trang sức" : "Jewelry ID:",
+        "Giá khởi điểm" : "Starting price:",
+        "Phí đăng ký tham gia đấu giá" : "Auction registration fee:",
+        "Bước giá" : "Bid increment:",
+        "Số bước giá tối đa/ lần trả" : "Maximum number of bids / time:",
+        "Bước giá không giới hạn" : "Unlimited bidding",
+        "Tiền đặt trước" : "Deposit:",
+        "Phương thức đấu giá" : "Auction method:",
+        "Trả giá lên và liên tục" : "Bid up and continuously",
+        "Tên chủ tài sản" : "Owner name:",
+        "Nơi xem tài sản" : "Place to view assets:",
+        "Nhà văn hóa sinh viên" : "Student Cultural House",
+        "Thời gian bắt đầu trả giá" : "Bidding start time:",
+        "Thời gian kết thúc trả giá" : "Bidding end time:",
+        "Giá cuối cùng sau khi kết thúc" : "Final price after the end:",
+        "Giá trúng tối thiểu" : "Minimum winning price:",
+        "Đăng ký tham gia đấu giá" : "Register for auction",
+        "Bạn đã đăng kí tham gia phiên này" : "You have registered for this session.",
+        "Đấu giá ngay" : "Bid now...",
+        "Không có người thắng phiên" : "No winner"
+        }
+}
