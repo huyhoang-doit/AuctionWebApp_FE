@@ -1054,7 +1054,7 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
 
   useEffect(() => {
     setLoading(true);
-    getMembers("STAFF", page).then((response) => {
+    getMembers("STAFF", "", page).then((response) => {
       setStaffs(response.usersData);
       setTotalElements(response.totalElements);
     });
