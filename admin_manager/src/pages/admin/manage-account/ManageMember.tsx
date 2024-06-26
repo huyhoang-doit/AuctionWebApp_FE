@@ -6,7 +6,7 @@ import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { useDebouncedCallback } from "use-debounce";
-import { DeleteUserModal } from '../Modal';
+import { CreateNewUserModal, DeleteUserModal } from '../Modal';
 
 
 const ManageUser = () => {
@@ -72,9 +72,7 @@ const ManageUser = () => {
                         </div>
                       </div>
                       <div className="add_button ms-2">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" className="btn_1">
-                          Thêm tài khoản mới
-                        </a>
+                        <CreateNewUserModal />
                       </div>
                     </div>
                   </div>

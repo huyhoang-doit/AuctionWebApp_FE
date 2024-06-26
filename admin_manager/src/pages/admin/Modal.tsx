@@ -1,9 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { User } from "../../models/User";
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { changeStateUser } from "../../api/UserAPI";
+import { Image } from "../../models/Image";
 
 interface SaveEditProfileModalProps {
   user: User | null;
@@ -186,6 +187,103 @@ export const DeleteUserModal: React.FC<DeleteUserProps> = ({ user, setIsRefresh 
   return (
     <>
       <Button variant="danger" size="sm" onClick={handleDeleteUser}>Xóa</Button>
+    </>
+  );
+};
+
+
+export const CreateNewUserModal: React.FC = () => {
+  const [show, setShow] = useState(false);
+  const handleCloseCreateAccount = () => setShow(false);
+  const handleShowCreateAccount = () => setShow(true);
+
+  return (
+    <>
+      <Button variant="warning" size="sm" className="btn_1" style={{ backgroundColor: "#3b76ef", border: "none", color: "white" }} onClick={handleShowCreateAccount}>
+        Thêm tài khoản mới
+      </Button>
+      {show && (
+        <div className="overlay">
+          <Modal
+            show={show}
+            // onHide={handleCloseCreateAuction}
+            centered
+            backdrop="static"
+            size="xl"
+          >
+            <Modal.Header>
+              <Modal.Title className="w-100">
+                <div className="col-12 text-center">Tạo tài khoản người dùng </div>
+                <div className="col-12 mb-3 text-center ">
+                  <span className="text-warning fw-bold">
+                  </span>
+                </div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="p-4 fs-6">
+              <form action="">
+                <div className="checkbox-form fw-medium row mb-3">
+                  {/* <label
+                    className="btn btn-dark mb-2"
+                    style={{ width: "auto" }}
+                    htmlFor="jewelry-img"
+                  >
+                    Ảnh đại diện
+                  </label> */}
+                  <div className="col-md-6 checkout-form-list mb-2">
+                    <label>Họ</label>
+                    <input
+                      className="mb-0"
+                      type="text"
+                      placeholder="Nhập họ"
+                    />
+                  </div>
+                  <div className="col-md-6 checkout-form-list mb-2">
+                    <span>Tên:</span>
+                    <input
+                      className="mb-0"
+                      type="text"
+                      placeholder="Nhập tên"
+                    />
+                  </div>
+                  <div className="col-md-4 checkout-form-list mb-2">
+                    <span>Tên tài khoản</span>
+                    <input
+                      className="mb-0"
+                      type="text"
+                      placeholder="Nhập tên tài khoản"
+                    />
+                  </div>
+                  <div className="col-md-4 checkout-form-list mb-2">
+                    <span>Email</span>
+                    <input
+                      className="mb-0"
+                      type="text"
+                      placeholder="Nhập tên tài khoản"
+                    />
+                  </div>
+                  <div className="col-md-4 checkout-form-list mb-2">
+                    <span>Số điện thoại</span>
+                    <input
+                      className="mb-0"
+                      type="text"
+                      placeholder="Nhập số điện thoại"
+                    />
+                  </div>
+                </div>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleCloseCreateAccount}>
+                Đóng
+              </Button>
+              <Button variant="warning">
+                Tiếp tục
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
     </>
   );
 };
