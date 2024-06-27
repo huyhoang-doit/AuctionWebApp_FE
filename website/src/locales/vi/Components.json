@@ -90,6 +90,26 @@
         "Trạng thái" : "Trạng thái:",
         "Chi tiết" : "Chi tiết"
 
+    },
+
+    "AuctionTabDetail" : {
+        "Lịch sử đặt giá" : "Lịch sử đặt giá",
+        "Danh sách đăng ký tham gia đấu giá" : "Danh sách đăng ký tham gia đấu giá",
+        "Mô tả tài sản" : "Mô tả tài sản",
+        "Thông tin đấu giá" : "Thông tin đấu giá",
+        "Tổ chức đấu giá tài sản" : "Tổ chức đấu giá tài sản:",
+        "Công ty đấu giá DGS" : "Công ty đấu giá DGS",
+        "Đấu giá viên" : "Đấu giá viên:",
+        "Địa chỉ" : "Địa chỉ:",
+        "Nhà văn hóa sinh viên, Dĩ An, Bình Dương" : "Nhà văn hóa sinh viên, Đông Hòa, Dĩ An, Bình Dương"
+    },
+    "AuctionRegistrationUser" : {
+        "Hiển thị" : "Hiển thị",
+        "lượt trả giá" : "lượt trả giá",
+        "Tìm kiếm..." : "Tìm kiếm...",
+        "Tên người dùng" : "Tên người dùng",
+        "Họ tên" : "Họ tên"
+
     }
 
 

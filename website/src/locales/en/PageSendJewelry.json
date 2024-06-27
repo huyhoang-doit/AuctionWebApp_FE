@@ -16,7 +16,7 @@
         "Bac" : "Silver",
         "Vang" : "Gold",
         "KimCuong" : "Diamond",
-        "CanNang" : "Weight",
+        "CanNang" : "Weight (g)",
         "NhapCanNang" : "Enter weight",
         "MoTa" : "Product Description",
         "NhapMoTaSanPham" : "Some description of your product",

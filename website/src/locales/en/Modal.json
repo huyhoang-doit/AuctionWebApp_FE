@@ -82,8 +82,8 @@
         "Lịch sử đặt giá": "Bidding history",
         "Lịch sử đặt giá phiên đấu": "Auction bidding history",
         "Phiên số": "Session number",
-        "Mã số": "Code",
-        "Mã trả giá": "Bid code",
+        "Mã số": "ID",
+        "Mã trả giá": "Bid ID",
         "Giá đã đặt (VNĐ)" : "Price (VND)",
         "Thời gian" : "Time",
         "Chưa có đặt giá nào cho phiên này" : "No bids for this session yet",
@@ -147,7 +147,9 @@
         "Dây chuyền" : "Necklace",
         "Vòng tay" : "Bracelet",
         "Hoa tai" : "Earrings",
-        "Mặt dây chuyền" : "Pendant"
+        "Mặt dây chuyền" : "Pendant",
+        "Quy chế dành cho người bán tài sản" : "Regulations for asset sellers"
+        
         
 
 

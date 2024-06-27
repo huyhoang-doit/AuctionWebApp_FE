@@ -1,0 +1,10 @@
+{
+    "Member" : {
+        "Đến phiên đấu" : "Go to auction",
+        "Thắng phiên" : "Win auction",
+        "Thất bại" : "Fail auction",
+        "Chưa xác định" : "Undefined auction",
+        "Rút lui" : "Withdraw from auction"
+
+    }
+}
