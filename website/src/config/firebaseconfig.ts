@@ -16,3 +16,4 @@ export const storage = getStorage(app);
 
 // Folder name
 export const JEWELRY_IMAGES_FOLDER = 'images-jewelry'
+export const CCCD_IMAGES_FOLDER = 'images-cccd'
