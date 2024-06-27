@@ -187,6 +187,12 @@ export default function Register() {
     1000
   );
 
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const username = e.target.value;
+    setRegisterRequest((preValue) => ({ ...preValue, username }));
+    debouncedUsernameChange(username);
+  };
+
   const debouncedEmailChange = useDebouncedCallback(async (email: string) => {
     let emailError = "";
     const exists = await checkEmailExist(email);
@@ -195,12 +201,6 @@ export default function Register() {
     }
     setErrors((prevErrors) => ({ ...prevErrors, email: emailError }));
   }, 1000);
-
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const username = e.target.value;
-    setRegisterRequest((preValue) => ({ ...preValue, username }));
-    debouncedUsernameChange(username);
-  };
 
   const handleEmailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;

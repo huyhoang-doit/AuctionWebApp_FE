@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../../models/User";
-import { isPasswordWrongFormat, isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
+import { isCitizenIdWrongFormat, isPasswordWrongFormat, isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
 import { Button, Form, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { changeStateUser } from "../../api/UserAPI";
+import { changeStateUser, checkEmailExist, checkUsernameExist } from "../../api/UserAPI";
 import { District } from "../../models/District";
 import { City } from "../../models/City";
 import { Ward } from "../../models/Ward";
@@ -13,6 +13,8 @@ import { getBase64 } from "../../utils/getBase64";
 import { Bank } from "../../models/Bank";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { useDebouncedCallback } from "use-debounce";
 
 interface SaveEditProfileModalProps {
   user: User | null;
@@ -95,8 +97,9 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
   };
 
   const handleSave = () => {
+    const userYob = user?.yob ? parseInt(user.yob, 10) : undefined;
     const isPhoneNumberValid = !isPhoneNumberWrongFormat(user?.phone ?? "");
-    const isYearOfBirthValid = !isYearOfBirthWrongFormat(user?.yob ?? "");
+    const isYearOfBirthValid = userYob !== undefined && !isYearOfBirthWrongFormat(userYob);
 
     const errorMessages = [
       {
@@ -120,7 +123,7 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
     ];
     for (const { isValid, message } of errorMessages) {
       if (!isValid) {
-        // toast.error(message);
+        toast.error(message);
         setShowModal(false);
         return;
       }
@@ -236,6 +239,8 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
   const [selectedWardId, setSelectedWardId] = useState<string>("");
   const [imageFirst, setImageFirst] = useState<string | null>(null);
   const [imageLast, setImageLast] = useState<string | null>(null);
+  const [isUsernameValid, setIsUsernameValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   const formik = useFormik<RegisterRequest>({
     initialValues: {
@@ -262,7 +267,8 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
     validationSchema: Yup.object({
       username: Yup.string()
         .required("Vui lòng nhập tên người dùng")
-        .min(2, "Must be 2 characters or more"),
+        .min(2, "Must be 2 characters or more")
+        .test("is-wrong-format", "Tên này đã có người dùng", () => isUsernameValid),
       password: Yup.string()
         .required("Vui lòng nhập mật khẩu")
         .test("is-wrong-format", "Mật khẩu phải có ít nhất 8 ký tự và 1 ký tự đặc biệt", (value) => !isPasswordWrongFormat(value)),
@@ -271,7 +277,8 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
         .oneOf([Yup.ref("password")], "Mất khẩu không khớp"),
       email: Yup.string()
         .required("Vui lòng nhập email")
-        .email("Invalid email address"),
+        .email("Invalid email address")
+        .test("is-wrong-format", "Email này đã có người dùng", () => isEmailValid),
       firstName: Yup.string().required("Vui lòng nhập họ"),
       lastName: Yup.string().required("Vui lòng nhập tên"),
       phone: Yup.string()
@@ -283,7 +290,8 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
       city: Yup.string().required("Vui lòng chọn Tỉnh"),
       yob: Yup.number().required("Vui lòng nhập năm sinh")
         .test("is-wrong-format", "Năm sinh không hợp lệ", (value) => !isYearOfBirthWrongFormat(value)),
-      CCCD: Yup.string().required("Vui lòng nhập số căn cước công dân"),
+      CCCD: Yup.string().required("Vui lòng nhập số căn cước")
+        .test("is-wrong-format", "Số căn cước công dân không hợp lệ", (value) => !isCitizenIdWrongFormat(value)),
       CCCDFirst: Yup.string().required("Vui lòng chọn ảnh căn cước mặt trước"),
       CCCDLast: Yup.string().required("Vui lòng chọn ảnh căn cước mặt sau"),
       CCCDFrom: Yup.string().required("Vui lòng nhập nơi cấp căn cước"),
@@ -319,6 +327,46 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
 
   const handleSubmitForm = () => {
     formik.submitForm();
+  };
+
+  const debouncedUsernameChange = useDebouncedCallback(
+    async (username: string) => {
+      const exists = await checkUsernameExist(username);
+      if (exists) {
+        formik.setFieldError("username", "Tên này đã có người dùng");
+        setIsUsernameValid(false);
+      } else {
+        formik.setFieldError("username", "");
+        setIsUsernameValid(true);
+      }
+    },
+    1000
+  );
+
+  const debouncedEmailChange = useDebouncedCallback(
+    async (email: string) => {
+      const exists = await checkEmailExist(email);
+      if (exists) {
+        formik.setFieldError("email", "Email này đã có người dùng");
+        setIsEmailValid(false);
+      } else {
+        formik.setFieldError("email", "");
+        setIsEmailValid(true);
+      }
+    },
+    1000
+  );
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+    formik.setFieldValue("email", email);
+    debouncedEmailChange(email);
+  };
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const username = e.target.value;
+    formik.setFieldValue("username", username);
+    debouncedUsernameChange(username);
   };
 
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -414,7 +462,7 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
           >
             <Modal.Header>
               <Modal.Title className="w-100">
-                <div className="col-12 text-center fw-bold" style={{color: "#ffc107"}}>TẠO TÀI KHOẢN CHO {role === "STAFF" ? "NHÂN VIÊN" : "QUẢN LÝ"} </div>
+                <div className="col-12 text-center fw-bold" style={{ color: "#ffc107" }}>TẠO TÀI KHOẢN CHO {role === "STAFF" ? "NHÂN VIÊN" : "QUẢN LÝ"} </div>
                 <div className="col-12 mb-3 text-center ">
                   <span className="text-warning fw-bold">
                   </span>
@@ -460,7 +508,7 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                       placeholder="Nhập tên tài khoản"
                       name="username"
                       value={formik.values.username}
-                      onChange={formik.handleChange}
+                      onChange={handleUsernameChange}
                     />
                     {formik.errors.username && (
                       <span className="text-danger">{formik.errors.username}</span>
@@ -474,7 +522,7 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                       placeholder="Nhập tên tài khoản"
                       name="email"
                       value={formik.values.email}
-                      onChange={formik.handleChange}
+                      onChange={handleEmailChange}
                     />
                     {formik.errors.email && (
                       <span className="text-danger">{formik.errors.email}</span>
