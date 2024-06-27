@@ -30,13 +30,12 @@ const ManageStaff = () => {
   };
 
   useEffect(() => {
-    getMembers("STAFF", debouncedTxtSearch, 1)
+    getMembers("STAFF", debouncedTxtSearch, page)
       .then((response) => {
         setStaffs(response.usersData)
         setTotalElements(response.totalElements)
         setIsRefresh(false)
-      }
-      )
+      })
   }, [page, debouncedTxtSearch, isRefresh])
 
 
@@ -73,7 +72,7 @@ const ManageStaff = () => {
                         </div>
                       </div>
                       <div className="add_button ms-2">
-                        <CreateNewUserModal role={"STAFF"}/>
+                        <CreateNewUserModal role={"STAFF"} setIsRefresh={setIsRefresh} />
                       </div>
                     </div>
                   </div>
@@ -102,12 +101,12 @@ const ManageStaff = () => {
                             <td>{user.phone}</td>
                             <td>
                               <a className={`status_btn ${user.state === 'VERIFIED'
-                                  ? 'bg-success'
-                                  : user.state === 'DISABLE'
-                                    ? 'bg-error'
-                                    : user.state === 'ACTIVE'
-                                      ? 'bg-primary'
-                                      : 'bg-warn'
+                                ? 'bg-success'
+                                : user.state === 'DISABLE'
+                                  ? 'bg-error'
+                                  : user.state === 'ACTIVE'
+                                    ? 'bg-primary'
+                                    : 'bg-warn'
                                 }`}>
                                 <UserStateView state={user.state || ''} />
                               </a>
