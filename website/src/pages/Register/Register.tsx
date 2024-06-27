@@ -36,10 +36,10 @@ export default function Register() {
     ward: "",
     city: "",
     yob: "",
-    CCCD: "",
-    CCCDFirst: "",
-    CCCDLast: "",
-    CCCDFrom: "",
+    cccd: "",
+    cccdFirst: "",
+    cccdLast: "",
+    cccdFrom: "",
     bankId: "0",
     bankAccountNumber: "",
     bankAccountName: "",
@@ -67,10 +67,10 @@ export default function Register() {
     district: "",
     ward: "",
     yob: "",
-    CCCD: "",
-    CCCDFirst: "",
-    CCCDLast: "",
-    CCCDFrom: "",
+    cccd: "",
+    cccdFirst: "",
+    cccdLast: "",
+    cccdFrom: "",
     register: "",
     bankId: "",
     bankAccountNumber: "",
@@ -90,10 +90,10 @@ export default function Register() {
     ward: "",
     city: "",
     yob: "",
-    CCCD: "",
-    CCCDFirst: "",
-    CCCDLast: "",
-    CCCDFrom: "",
+    cccd: "",
+    cccdFirst: "",
+    cccdLast: "",
+    cccdFrom: "",
     bankId: "0",
     bankAccountNumber: "",
     bankAccountName: "",
@@ -189,6 +189,12 @@ export default function Register() {
     1000
   );
 
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const username = e.target.value;
+    setRegisterRequest((preValue) => ({ ...preValue, username }));
+    debouncedUsernameChange(username);
+  };
+
   const debouncedEmailChange = useDebouncedCallback(async (email: string) => {
     let emailError = "";
     const exists = await checkEmailExist(email);
@@ -197,12 +203,6 @@ export default function Register() {
     }
     setErrors((prevErrors) => ({ ...prevErrors, email: emailError }));
   }, 1000);
-
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const username = e.target.value;
-    setRegisterRequest((preValue) => ({ ...preValue, username }));
-    debouncedUsernameChange(username);
-  };
 
   const handleEmailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
@@ -235,14 +235,14 @@ export default function Register() {
   };
 
   const onChangeCCCD = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const CCCD = e.target.value;
-    let CCCDError = "";
-    const isWrong = isCitizenIdWrongFormat(CCCD);
+    const cccd = e.target.value;
+    let cccdError = "";
+    const isWrong = isCitizenIdWrongFormat(cccd);
     if (isWrong) {
-      CCCDError = t("Register.Số căn cước công dân không hợp lệ!");
+      cccdError = t("Register.Số căn cước công dân không hợp lệ!");
     }
-    setErrors((prevErrors) => ({ ...prevErrors, CCCD: CCCDError }));
-    setRegisterRequest((preValue) => ({ ...preValue, CCCD }));
+    setErrors((prevErrors) => ({ ...prevErrors, cccd: cccdError }));
+    setRegisterRequest((preValue) => ({ ...preValue, cccd }));
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -267,12 +267,12 @@ export default function Register() {
     );
     if (isWrong) {
       confirmPasswordError = t("Register.Mất khẩu không khớp!");
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        confirmPassword: confirmPasswordError,
-      }));
-      setConfirmPassword(confirmPassword);
     }
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      confirmPassword: confirmPasswordError,
+    }));
+    setConfirmPassword(confirmPassword);
   }
 
   const onChangeRegisterRequest = (key: keyof typeof registerRequest) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -290,13 +290,13 @@ export default function Register() {
   };
 
   const onChangeCCCDFrom = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const CCCDFrom = e.target.value;
-    let CCCDError = "";
-    if (CCCDFrom === "") {
-      CCCDError = t("Register.Vui lòng nhập nơi cấp căn cước công dân!");
+    const cccdFrom = e.target.value;
+    let cccdError = "";
+    if (cccdFrom === "") {
+      cccdError = t("Register.Vui lòng nhập nơi cấp căn cước công dân!");
     }
-    setErrors((prevErrors) => ({ ...prevErrors, CCCDFrom: CCCDError }));
-    setRegisterRequest((preValue) => ({ ...preValue, CCCDFrom }));
+    setErrors((prevErrors) => ({ ...prevErrors, cccdFrom: cccdError }));
+    setRegisterRequest((preValue) => ({ ...preValue, cccdFrom }));
   };
 
   const handleCCCDFirstChange = (key: keyof typeof registerRequest) => async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -311,7 +311,7 @@ export default function Register() {
             [key]: imageFirst,
           }));
           setImageFirst(base64 as string);
-          setErrors((prevErrors) => ({ ...prevErrors, CCCDFirst: "" }));
+          setErrors((prevErrors) => ({ ...prevErrors, cccdFirst: "" }));
         }
       } catch (error) {
         console.error("Error converting file to Base64: ", error);
@@ -349,13 +349,13 @@ export default function Register() {
       confirmPassword: "",
       phone: "",
       yob: "",
-      CCCD: "",
+      cccd: "",
       city: "",
       district: "",
       ward: "",
-      CCCDFirst: "",
-      CCCDLast: "",
-      CCCDFrom: "",
+      cccdFirst: "",
+      cccdLast: "",
+      cccdFrom: "",
       register: "",
       bankId: "",
       bankAccountNumber: "",
@@ -380,7 +380,7 @@ export default function Register() {
       registerRequest.phone
     );
     const isYearOfBirthValid = !isYearOfBirthWrongFormat(registerRequest.yob);
-    const isCitizenIdValid = !isCitizenIdWrongFormat(registerRequest.CCCD);
+    const isCitizenIdValid = !isCitizenIdWrongFormat(registerRequest.cccd);
 
     if (registerRequest.firstName === "" || registerRequest.lastName === "") {
       Swal.fire("Error", t("Register.Vui lòng nhập đủ Họ và Tên"), "error");
@@ -450,7 +450,7 @@ export default function Register() {
       return;
     }
 
-    if (registerRequest.CCCD === "") {
+    if (registerRequest.cccd === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
         CCCD: t("Register.Vui lòng nhập căn cước công dân"),
@@ -463,7 +463,7 @@ export default function Register() {
       return;
     }
 
-    if (registerRequest.CCCDFrom === "") {
+    if (registerRequest.cccdFrom === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
         CCCDFrom: t("Register.Vui lòng cung cấp nơi cấp căn cước công dân"),
@@ -476,7 +476,7 @@ export default function Register() {
       return;
     }
 
-    if (registerRequest.CCCDFirst === "") {
+    if (registerRequest.cccdFirst === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
         CCCDFirst: t(
@@ -491,7 +491,7 @@ export default function Register() {
       return;
     }
 
-    if (registerRequest.CCCDLast === "") {
+    if (registerRequest.cccdLast === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
         CCCDLast: t(
@@ -576,7 +576,8 @@ export default function Register() {
     ) {
       return;
     }
-
+    console.log(registerRequest);
+    
     const isSuccess = await register(registerRequest);
 
     if (!isSuccess) {
@@ -798,11 +799,11 @@ export default function Register() {
                         placeholder={t(
                           "Register.Nhập số căn cước công dân của bạn"
                         )}
-                        value={registerRequest.CCCD}
+                        value={registerRequest.cccd}
                         onChange={onChangeCCCD}
                       />
-                      {errors.CCCD && (
-                        <span className="text-danger">{errors.CCCD}</span>
+                      {errors.cccd && (
+                        <span className="text-danger">{errors.cccd}</span>
                       )}
                     </div>
                     <div className="col-md-4">
@@ -813,11 +814,11 @@ export default function Register() {
                         placeholder={t(
                           "Register.Nhập nơi cấp căn cước công dân"
                         )}
-                        value={registerRequest.CCCDFrom}
+                        value={registerRequest.cccdFrom}
                         onChange={onChangeCCCDFrom}
                       />
-                      {errors.CCCDFrom && (
-                        <span className="text-danger">{errors.CCCDFrom}</span>
+                      {errors.cccdFrom && (
+                        <span className="text-danger">{errors.cccdFrom}</span>
                       )}
                     </div>
                     <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4">
@@ -826,7 +827,7 @@ export default function Register() {
                           type="file"
                           id="counterparty_IdCardPhoto1Company_Upload"
                           style={{ display: "none" }}
-                          onChange={handleCCCDFirstChange("CCCDFirst")}
+                          onChange={handleCCCDFirstChange("cccdFirst")}
                         />
                         {imageFirst ? (
                           <img
@@ -895,9 +896,9 @@ export default function Register() {
                           {t("Register.Tải lên ảnh khác")}
                         </button>
                       </label>
-                      {errors.CCCDFirst && (
+                      {errors.cccdFirst && (
                         <span className="text-danger">
-                          {errors.CCCDFirst}
+                          {errors.cccdFirst}
                         </span>
                       )}
                     </div>
@@ -907,7 +908,7 @@ export default function Register() {
                           type="file"
                           id="counterparty_IdCardPhoto2Company_Upload"
                           style={{ display: "none" }}
-                          onChange={handleCCCDLastChange("CCCDLast")}
+                          onChange={handleCCCDLastChange("cccdLast")}
                         />
                         {imageLast ? (
                           <img
@@ -976,8 +977,8 @@ export default function Register() {
                           {t("Register.Tải lên ảnh khác")}
                         </button>
                       </label>
-                      {errors.CCCDLast && (
-                        <span className="text-danger">{errors.CCCDLast}</span>
+                      {errors.cccdLast && (
+                        <span className="text-danger">{errors.cccdLast}</span>
                       )}
                     </div>
                     <div className="col-md-12 mt-3">
