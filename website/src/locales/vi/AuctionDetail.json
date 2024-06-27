@@ -1,0 +1,33 @@
+{
+    "AuctionDetail" : {
+        "Đăng kí tham gia phiên thành công" : "Đăng kí tham gia phiên thành công!",
+        "Home" : "Trang chủ",
+        "Trang sức đấu giá" : "Trang sức đấu giá",
+        "Thời gian đếm ngược bắt đầu trả giá" : "Thời gian đếm ngược bắt đầu trả giá:",
+        "Thời gian đếm ngược kết thúc trả giá" : "Thời gian đếm ngược kết thúc trả giá:",
+        "Ngày" : "Ngày",
+        "Giờ" : "Giờ",
+        "Phút" : "Phút",
+        "Giây" : "Giây",
+        "Mã trang sức" : "Mã trang sức:",
+        "Giá khởi điểm" : "Giá khởi điểm:",
+        "Phí đăng ký tham gia đấu giá" : "Phí đăng ký tham gia đấu giá:",
+        "Bước giá" : "Bước giá:",
+        "Số bước giá tối đa/ lần trả" : "Số bước giá tối đa/ lần trả:",
+        "Bước giá không giới hạn" : "Bước giá không giới hạn",
+        "Tiền đặt trước" : "Tiền đặt trước:",
+        "Phương thức đấu giá" : "Phương thức đấu giá:",
+        "Trả giá lên và liên tục" : "Trả giá lên và liên tục",
+        "Tên chủ tài sản" : "Tên chủ tài sản:",
+        "Nơi xem tài sản" : "Nơi xem tài sản:",
+        "Nhà văn hóa sinh viên" : "Nhà văn hóa sinh viên",
+        "Thời gian bắt đầu trả giá" : "Thời gian bắt đầu trả giá:",
+        "Thời gian kết thúc trả giá" : "Thời gian kết thúc trả giá:",
+        "Giá cuối cùng sau khi kết thúc" : "Giá cuối cùng sau khi kết thúc:",
+        "Giá trúng tối thiểu" : "Giá trúng tối thiểu:",
+        "Đăng ký tham gia đấu giá" : "Đăng ký tham gia đấu giá",
+        "Bạn đã đăng kí tham gia phiên này" : "Bạn đã đăng kí tham gia phiên này.",
+        "Đấu giá ngay" : "Đấu giá ngay...",
+        "Không có người thắng phiên" : "Không có người thắng phiên"
+        }
+}

@@ -8,7 +8,7 @@
         "Trang chủ" : "Trang chủ",
         "Đăng kí tài khoản" : "Đăng kí tài khoản",
         "Họ" : "Họ",
-        "Tên" : "v",
+        "Tên" : "Tên",
         "Nhập username của bạn" : "Nhập username của bạn",
         "Nhập email của bạn" : "Nhập email của bạn",
         "Nhập số điện thoại của bạn" : "Nhập số điện thoại của bạn",
@@ -68,7 +68,8 @@
          "Tên tài khoản" : "Tên tài khoản",
          "Số điện thoại" : "Số điện thoại",
          "Nhập nơi cấp căn cước công dân" : "Nhập nơi cấp căn cước công dân",
-         "Nơi cấp CCCD" : "Nơi cấp CCCD"
+         "Nơi cấp CCCD" : "Nơi cấp CCCD",
+         "Địa chỉ" : "Địa chỉ"
          
         
 
