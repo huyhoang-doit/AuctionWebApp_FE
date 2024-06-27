@@ -246,6 +246,7 @@ export default function RegisterForAuction() {
                                             <ul className="nav product-menu">
                                                 <li>
                                                     <a
+                                                        className="active"
                                                         data-bs-toggle="tab"
                                                         href="#description"
                                                     >
@@ -254,7 +255,6 @@ export default function RegisterForAuction() {
                                                 </li>
                                                 <li>
                                                     <a
-                                                        className="active"
                                                         data-bs-toggle="tab"
                                                         href="#specification"
                                                     >

@@ -25,7 +25,7 @@ interface RegisterRequest {
     ward: string;
     city: string;
     yob: string;
-    CCCD: string;
+    cccd: string;
 }
 
 export const login = async (loginRequest: LoginRequest, setError: (message: string) => void) => {
