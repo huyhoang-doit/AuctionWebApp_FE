@@ -1186,7 +1186,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
         aria-selected="false"
         onClick={handleShow}
       >
-        Lịch sử đặt giá
+        {t("Modal.Lịch sử đặt giá")}
       </button>
       {show && (
         <div className="overlay">
@@ -1200,11 +1200,11 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
             <Modal.Header className="text-center w-100">
               <Modal.Title className="w-100">
                 <div className="col-12 text-center">
-                  Lịch sử đặt giá phiên đấu
+                  {t("Modal.Lịch sử đặt giá phiên đấu")}
                 </div>
                 <div className="col-12 mb-3 text-center ">
                   <span className="text-danger fw-bold">
-                    Phiên số {auctionId}
+                    {t("Modal.Phiên số")} {auctionId}
                   </span>
                 </div>
               </Modal.Title>
@@ -1215,10 +1215,10 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
                   <table className="table table-bordered table-hover">
                     <tbody>
                       <tr>
-                        <th>Mã số</th>
-                        <th>Mã trả giá</th>
-                        <th>Giá đã đặt (VNĐ)</th>
-                        <th>Thời gian </th>
+                        <th>{t("Modal.Mã số")}</th>
+                        <th>{t("Modal.Mã trả giá")}</th>
+                        <th>{t("Modal.Giá đã đặt (VNĐ)")}</th>
+                        <th>{t("Modal.Thời gian")} </th>
                       </tr>
                       {loading ? (
                         <tr>
@@ -1248,7 +1248,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
                       ) : (
                         <td colSpan={4} className="text-center">
                           <h5 className="fw-semibold lh-base mt-2">
-                            Chưa có đặt giá nào cho phiên này
+                            {t("Modal.Chưa có đặt giá nào cho phiên này")}
                           </h5>
                         </td>
                       )}
@@ -1733,6 +1733,7 @@ export const OpenRegulationsForSellerModal = () => {
     setShow(false);
   };
   const handleShow = () => setShow(true);
+  const { t } = useTranslation(["Modal"]);
 
   return (
     <>
@@ -1752,7 +1753,7 @@ export const OpenRegulationsForSellerModal = () => {
         `}
       </style>
       <p className="hover-link text-end" onClick={handleShow}>
-        Quy chế dành cho người bán tài sản
+        {t("Modal.Quy chế dành cho người bán tài sản")}
       </p>
       {show && (
         <div className="overlay">
@@ -1764,7 +1765,9 @@ export const OpenRegulationsForSellerModal = () => {
             size="xl"
           >
             <Modal.Header>
-              <Modal.Title>Quy chế dành cho người bán tài sản</Modal.Title>
+              <Modal.Title>
+                {t("Modal.Quy chế dành cho người bán tài sản")}
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body style={{ height: "700px" }}>
               <object
@@ -1783,7 +1786,7 @@ export const OpenRegulationsForSellerModal = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
-                Đóng
+                {t("Modal.Đóng")}
               </Button>
             </Modal.Footer>
           </Modal>

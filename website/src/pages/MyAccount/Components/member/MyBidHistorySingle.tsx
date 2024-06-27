@@ -1,38 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import { AuctionRegistration } from '../../../../models/AuctionRegistration';
-import { Auction } from '../../../../models/Auction';
-import { getWinnerByAuctionId } from '../../../../api/UserAPI';
-import { getAuction } from '../../../../api/AuctionAPI';
-import { StateAuctionView } from '../../../AuctionList/Components/StateAuctionView';
-import { Link } from 'react-router-dom';
-import { ViewBidHistoryModal } from '../../Modal/Modal';
+import React, { useEffect, useState } from "react";
+import { AuctionRegistration } from "../../../../models/AuctionRegistration";
+import { Auction } from "../../../../models/Auction";
+import { getWinnerByAuctionId } from "../../../../api/UserAPI";
+import { getAuction } from "../../../../api/AuctionAPI";
+import { StateAuctionView } from "../../../AuctionList/Components/StateAuctionView";
+import { Link } from "react-router-dom";
+import { ViewBidHistoryModal } from "../../Modal/Modal";
+import { useTranslation } from "react-i18next";
 interface MyBidHistorySingleProps {
   auctionRegistration: AuctionRegistration;
 }
 
-const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({ auctionRegistration }) => {
-  const [status, setStatus] = useState('');
-  const [statusColor, setStatusColor] = useState('');
+const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
+  auctionRegistration,
+}) => {
+  const [status, setStatus] = useState("");
+  const [statusColor, setStatusColor] = useState("");
   const [auctionId, setAuctionId] = useState(auctionRegistration.auction?.id);
   const [auction, setAuction] = useState<Auction | null>(null);
   const [userId, setUserId] = useState(auctionRegistration.user?.id);
-  const [auctionHistoryState, setAuctionHistoryState] = useState('ACTIVE');
+  const [auctionHistoryState, setAuctionHistoryState] = useState("ACTIVE");
 
   useEffect(() => {
     const fetchWinner = async () => {
       const auctionState = auctionRegistration?.auction?.state;
 
       switch (auctionState) {
-        case 'FINISHED':
+        case "FINISHED":
           try {
-            const winnerData = await getWinnerByAuctionId(auctionRegistration?.auction?.id);
+            const winnerData = await getWinnerByAuctionId(
+              auctionRegistration?.auction?.id
+            );
             if (winnerData) {
               if (winnerData.id === auctionRegistration?.user?.id) {
-                setStatus('Thắng phiên');
-                setStatusColor('#198754');
+                setStatus(t("Member.Thắng phiên"));
+                setStatusColor("#198754");
               } else {
-                setStatus('Thất bại');
-                setStatusColor('red');
+                setStatus(t("Member.Thất bại"));
+                setStatusColor("red");
               }
             }
           } catch (error) {
@@ -41,18 +46,18 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({ auctionRegistra
           break;
 
         default:
-          setStatus('Chưa xác định');
-          setStatusColor('black');
+          setStatus(t("Member.Chưa xác định"));
+          setStatusColor("black");
           break;
       }
     };
 
-    if (auctionRegistration.state === 'KICKED_OUT') {
-      setStatus('Rút lui');
-      setStatusColor('#b41712');
-      setAuctionHistoryState('HIDDEN')
+    if (auctionRegistration.state === "KICKED_OUT") {
+      setStatus("Rút lui");
+      setStatusColor("#b41712");
+      setAuctionHistoryState("HIDDEN");
     } else {
-      fetchWinner()
+      fetchWinner();
     }
   }, [auctionRegistration]);
 
@@ -65,35 +70,36 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({ auctionRegistra
         .catch((error) => {
           console.error(error.message);
         });
-  }, [auctionId])
+  }, [auctionId]);
+
+  const { t } = useTranslation(["Member"]);
 
   return (
     <>
       <tr>
-        <td>
-          {auctionRegistration.auction?.id}
-        </td>
-        <td className="text-start">
-          {auctionRegistration.auction?.name}
-        </td>
+        <td>{auctionRegistration.auction?.id}</td>
+        <td className="text-start">{auctionRegistration.auction?.name}</td>
         <td style={{ color: statusColor }}>
           <StateAuctionView state={auction?.state ?? ""} />
         </td>
-        <td className='fw-bold' style={{ color: statusColor }}>
+        <td className="fw-bold" style={{ color: statusColor }}>
           {status}
         </td>
         <td>
-          <ViewBidHistoryModal auctionId={auctionId} userId={userId} auctionHistoryState={auctionHistoryState} />
-          <Link to={`/tai-san-dau-gia/${auctionId}`} >
-            <button className='ms-2 btn btn-warning btn-sm'>
-              Đến phiên đấu
+          <ViewBidHistoryModal
+            auctionId={auctionId}
+            userId={userId}
+            auctionHistoryState={auctionHistoryState}
+          />
+          <Link to={`/tai-san-dau-gia/${auctionId}`}>
+            <button className="ms-2 btn btn-warning btn-sm">
+              {t("Member.Đến phiên đấu")}
             </button>
           </Link>
         </td>
       </tr>
     </>
   );
-}
+};
 
 export default MyBidHistorySingle;
-

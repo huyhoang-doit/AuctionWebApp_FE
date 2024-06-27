@@ -85,11 +85,34 @@
     },
 
     "SingleAuction" : {
-        "Trị giá" : "Value:",
+        "Trị giá" : "Price:",
         "Trạng thái" : "Status:",
         "Chi tiết" : "Detail"
 
-    }
+    },
+
+    
+    "AuctionTabDetail" : {
+        "Lịch sử đặt giá" : "Bid history",
+        "Danh sách đăng ký tham gia đấu giá" : "List of registered participants",
+        "Mô tả tài sản" : "Asset description",
+        "Thông tin đấu giá" : "Auction information",
+        "Tổ chức đấu giá tài sản" : "Asset auction organization:",
+        "Công ty đấu giá DGS" : "DGS Auction Company",
+        "Đấu giá viên" : "Auctioneer:",
+        "Địa chỉ" : "Address:",
+        "Nhà văn hóa sinh viên, Dĩ An, Bình Dương" : "Student Cultural House, Dong Hoa, Di An, Binh Duong"
+
+ },
+
+ "AuctionRegistrationUser" : {
+    "Hiển thị" : "Display",
+    "lượt trả giá" : "bids",
+    "Tìm kiếm..." : "Search...",
+    "Tên người dùng" : "Username",
+    "Họ tên" : "Full name"
+    
+}
    
        
    
