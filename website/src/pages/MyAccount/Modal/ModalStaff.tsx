@@ -64,6 +64,7 @@ interface JewelryHanOverModalProps {
   user: User | null;
   jewelry: Jewelry | undefined;
   auction: Auction | undefined | null;
+  handleChangeList: () => Promise<void>
 }
 
 interface CreateHandoverReportModalProps {
@@ -72,6 +73,7 @@ interface CreateHandoverReportModalProps {
   auction: Auction | undefined | null;
   jewelry: Jewelry | undefined;
   user: User | null;
+  handleChangeList: () => Promise<void>
 }
 
 interface ConfirmHoldingModalProps {
@@ -967,6 +969,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
   user,
   jewelry,
   auction,
+  handleChangeList
 }) => {
   const winner = transaction.user;
 
@@ -1179,6 +1182,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
         auction={auction}
         jewelry={jewelry}
         user={user}
+        handleChangeList={handleChangeList}
       />
     </>
   );
@@ -1186,7 +1190,16 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
 
 export const CreateHandoverReportModal: React.FC<
   CreateHandoverReportModalProps
-> = ({ show, handleClose, user, auction, jewelry }) => {
+> = ({ show, handleClose, user, auction, jewelry, handleChangeList }) => {
+  const jewelryId = jewelry?.id ? jewelry.id : 1
+  const handleConfirm = async () => {
+    const confirm = await setJewelryHolding(jewelryId, false);
+    if (confirm) {
+      console.log("set holding thành công");
+    }
+    handleChangeList()
+    handleClose();
+  };
   return (
     <>
       {show && (
@@ -1250,7 +1263,7 @@ export const CreateHandoverReportModal: React.FC<
                 Đóng
               </Button>
               {/* <PDFDownloadLink document={<PDFHandover />} fileName="testPDF"> */}
-              <Button variant="warning" onClick={handleClose}>
+              <Button variant="warning" onClick={handleConfirm}>
                 Xác nhận
               </Button>
               {/* </PDFDownloadLink> */}
@@ -1276,7 +1289,7 @@ export const ConfirmHoldingModal: React.FC<ConfirmHoldingModalProps> = ({
   const handleShowJewelryDetail = () => setShow(true);
 
   const handleConfirm = async () => {
-    const confirm = await setJewelryHolding(jewelry.id);
+    const confirm = await setJewelryHolding(jewelry.id, true);
     if (confirm) {
       console.log("set holding thành công");
     }

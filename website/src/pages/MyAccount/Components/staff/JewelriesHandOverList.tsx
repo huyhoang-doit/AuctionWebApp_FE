@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { User } from "../../../../models/User";
 import JewelryHandOverSingle from "./JewelryHandOverSingle";
 import { PaginationControl } from "react-bootstrap-pagination-control";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 interface JewelriesHandOverListProps {
   user: User | null;
   setUser: (user: User) => void;
+  listNumber: number;
 }
 const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
   const [listTransactions, setListTransactions] = useState<Transaction[]>([]);
@@ -23,7 +24,7 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
     setUser(props.user);
   }, [props.user]);
 
-  useEffect(() => {
+  const handleChangeList = useCallback(async () => {
     setLoading(true);
     getHandoverTransaction(type, page)
       .then((response) => {
@@ -36,7 +37,11 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
         console.error(error.message);
       });
     setLoading(false);
-  }, [props.user, page]);
+  }, [props.user, page, props.listNumber]);
+
+  useEffect(() => {
+    handleChangeList();
+  }, [user, page, handleChangeList, props.listNumber]);
 
   const { t } = useTranslation(["Staff"]);
 
@@ -75,6 +80,7 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
                       key={transaction.id}
                       transaction={transaction}
                       user={props.user}
+                      handleChangeList={handleChangeList}
                     />
                   ))
                 ) : (
