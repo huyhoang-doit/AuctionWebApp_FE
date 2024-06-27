@@ -576,8 +576,7 @@ export default function Register() {
     ) {
       return;
     }
-    console.log(registerRequest);
-    
+
     const isSuccess = await register(registerRequest);
 
     if (!isSuccess) {

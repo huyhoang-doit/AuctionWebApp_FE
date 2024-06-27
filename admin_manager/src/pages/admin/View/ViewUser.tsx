@@ -2,7 +2,6 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { changeStateUser, editProfileUser, getUserById, rejectVerifyUser } from "../../../api/UserAPI";
 import { User } from "../../../models/User";
-import { toast } from "react-toastify";
 import { Bank } from "../../../models/Bank";
 import { City } from "../../../models/City";
 import { District } from "../../../models/District";
@@ -140,7 +139,11 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
       try {
         if (!confirm) {
           setUser(originalUser)
-          toast.info("Thông tin chưa được cập nhật.");
+          Swal.fire({
+            icon: 'info',
+            title: 'Thông báo',
+            text: 'Thông tin chưa được cập nhật.',
+          });
           return;
         } else {
           const response = await editProfileUser(user);
@@ -148,11 +151,20 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
           if (context && context.account) {
             context.setAccount(response);
           }
-          toast.success("Cập nhật thông tin thành công!");
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công',
+            text: 'Cập nhật thông tin thành công!',
+          });
           return
         }
       } catch (error) {
         console.error("Error updating user profile: ", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Có lỗi xảy ra khi cập nhật thông tin.',
+        });
       }
     } else {
       setIsEditing(true);
@@ -205,7 +217,7 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
   const onChangeYob = (e: React.ChangeEvent<HTMLInputElement>) => {
     const yob = e.target.value;
     let yobError = "";
-    const isWrong = isYearOfBirthWrongFormat(yob);
+    const isWrong = isYearOfBirthWrongFormat(parseInt(yob));
     if (isWrong) {
       yobError = "Năm sinh không hợp lệ!";
     }
@@ -375,37 +387,14 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                               }
                             </div>
                             <div className="row mb-4">
-                              <div className="col-md-6">
-                                <label>Số CCCD</label>
-                                <input
-                                  className="mb-0 input-required"
-                                  type="text"
-                                  placeholder="Nhập số căn cước"
-                                  readOnly
-                                  style={{ backgroundColor: "#F5F5F5" }}
-                                  value={user?.cccd}
-                                />
-                              </div>
-                              <div className="col-md-6">
-                                <label>Năm sinh</label>
-                                <input
-                                  className="mb-0 input-required"
-                                  type="text"
-                                  placeholder="Nhập năm sinh"
-                                  readOnly
-                                  value={user?.yob}
-                                  onChange={onChangeYob}
-                                />
-                                {errors.yob && <span className="text-danger">{errors.yob}</span>}
-                              </div>
                               <div className="col-md-6 mt-4">
                                 <label>Tên tài khoản</label>
                                 <input className="mb-0 input-required"
                                   type="text"
                                   placeholder="Nhập username của bạn"
-                                  readOnly
                                   style={{ backgroundColor: "#F5F5F5" }}
                                   value={user?.username}
+                                  readOnly
                                 />
                               </div>
                               <div className="col-md-6 mt-4">
@@ -414,8 +403,8 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                   type="email"
                                   placeholder="Nhập Email của bạn"
                                   style={{ backgroundColor: "#F5F5F5" }}
-                                  readOnly
                                   value={user?.email}
+                                  readOnly
                                 />
                               </div>
                               <div className="col-md-6 mt-4">
@@ -439,7 +428,19 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                   onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                                 />
                               </div>
-                              <div className="col-md-12 mt-4">
+                              <div className="col-md-6 mt-4">
+                                <label>Năm sinh</label>
+                                <input
+                                  className="mb-0 input-required"
+                                  type="text"
+                                  placeholder="Nhập năm sinh"
+                                  readOnly
+                                  value={user?.yob}
+                                  onChange={onChangeYob}
+                                />
+                                {errors.yob && <span className="text-danger">{errors.yob}</span>}
+                              </div>
+                              <div className="col-md-6 mt-4">
                                 <label>Địa chỉ</label>
                                 <input
                                   className="input-required"
@@ -476,6 +477,32 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                     <option key={ward.Id} value={ward.Id}>{ward.Name}</option>
                                   ))}
                                 </select>
+                              </div>
+                              <div className="col-md-6 mt-4">
+                                <label>Số CCCD</label>
+                                <input
+                                  className="mb-0 input-required"
+                                  type="text"
+                                  placeholder="Nhập số căn cước"
+                                  readOnly
+                                  value={user?.cccd}
+                                  onChange={(e) =>
+                                    setUser({ ...user, cccd: e.target.value })
+                                  }
+                                />
+                              </div>
+                              <div className="col-md-6 mt-4">
+                                <label>Nơi Cấp</label>
+                                <input
+                                  className="mb-0 input-required"
+                                  type="text"
+                                  placeholder="Nhập nơi cấp CCCD"
+                                  readOnly
+                                  value={user?.cccdFrom}
+                                  onChange={(e) =>
+                                    setUser({ ...user, cccdFrom: e.target.value })
+                                  }
+                                />
                               </div>
                               <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4">
                                 <label htmlFor="counterparty_IdCardPhoto1Company_Upload">

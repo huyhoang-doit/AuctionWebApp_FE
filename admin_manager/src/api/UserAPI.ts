@@ -9,6 +9,23 @@ interface ResultPageableInteface {
     totalElements: number
 }
 
+interface RegisterRequest {
+    id: number,
+    role: string,
+    username: string;
+    password: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    address: string;
+    district: string;
+    ward: string;
+    city: string;
+    yob: string;
+    cccd: string;
+}
+
 export const checkEmailExist = async (email: string) => {
     const URL = `${BASE_URL}/user/by-email/${email}`;
     try {
@@ -55,6 +72,9 @@ export const getUserById = async (id: number): Promise<User> => {
             'Authorization': `Bearer ${token}`
         },
     });
+    if (!response.ok) {
+        throw new Error('Failed to fetch user');
+    }
     const data = await response.json();
     return data;
 };
@@ -72,7 +92,7 @@ export async function getMembers(role: string, txtSearch: string, page: number):
         throw new Error("No access token found");
     }
 
-    const URL = `${BASE_URL}/user/staff?page=${page - 1}&role=${role}&fullName=${txtSearch}`;
+    const URL = `${BASE_URL}/user/staff?page=${page - 1}&role=${role}&fullName=${txtSearch}&sortOrder=desc`;
 
     const response = await fetchGetWithToken(URL, 'GET', token)
 
@@ -170,14 +190,13 @@ export async function getUsersUnVerify(page: number): Promise<ResultPageableInte
     const URL = `${BASE_URL}/user/get-by-state?state=VERIFIED&page=${page - 1}`;
 
     const response = await fetchGetWithToken(URL, 'GET', token)
-    
+
     if (!response.ok) {
         throw new Error(`Cannot access ${URL}`);
     }
 
     const data = await response.json();
 
-    console.log(data);
     const users: User[] = data.content.map((user: User) => ({
         id: user.id,
         username: user.username,
@@ -226,3 +245,22 @@ export async function rejectVerifyUser(id: number) {
         throw new Error(`Error: ${response.statusText}`);
     }
 }
+
+
+export const registerAccountStaff = async (registerRequest: RegisterRequest): Promise<boolean> => {
+    // end-point
+    const URL = `${BASE_URL}/user/staff/register`;
+    // call api
+    try {
+        const token = localStorage.getItem("access_token");
+        const response = await fetchWithToken(URL, 'POST', token, registerRequest);
+
+        if (!response.ok) {
+            throw new Error(`Không thể truy cập ${URL}`);
+        }
+        return true;
+    } catch (error) {
+        console.error("Error: " + error);
+        return false;
+    }
+};

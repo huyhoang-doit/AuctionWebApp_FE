@@ -3,7 +3,7 @@ import { User } from "../../models/User";
 import { isCitizenIdWrongFormat, isPasswordWrongFormat, isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
 import { Button, Form, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { changeStateUser, checkEmailExist, checkUsernameExist } from "../../api/UserAPI";
+import { changeStateUser, checkEmailExist, checkUsernameExist, registerAccountStaff } from "../../api/UserAPI";
 import { District } from "../../models/District";
 import { City } from "../../models/City";
 import { Ward } from "../../models/Ward";
@@ -29,8 +29,10 @@ interface DeleteUserProps {
 }
 
 interface RegisterRequest {
+  id: number;
   username: string;
   password: string;
+  role: string;
   confirmPassword: string;
   email: string;
   firstName: string;
@@ -41,10 +43,10 @@ interface RegisterRequest {
   ward: string;
   city: string;
   yob: string;
-  CCCD: string;
-  CCCDFirst: string;
-  CCCDLast: string;
-  CCCDFrom: string;
+  cccd: string;
+  cccdFirst: string;
+  cccdLast: string;
+  cccdFrom: string;
   bankId: number;
   bankAccountNumber: string;
   bankAccountName: string;
@@ -52,6 +54,7 @@ interface RegisterRequest {
 
 interface CreateNewUserModalProps {
   role: string;
+  setIsRefresh: (value: boolean) => void;
 }
 
 export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
@@ -226,26 +229,27 @@ export const DeleteUserModal: React.FC<DeleteUserProps> = ({ user, setIsRefresh 
   );
 };
 
-export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) => {
+export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role, setIsRefresh }) => {
   const [show, setShow] = useState(false);
   const [banks, setBanks] = useState<Bank[]>([]);
-  const handleCloseCreateAccount = () => setShow(false);
-  const handleShowCreateAccount = () => setShow(true);
   const [cities, setCities] = useState<City[]>([]);
   const [selectedCityId, setSelectedCityId] = useState<string>("");
   const [districts, setDistricts] = useState<District[]>([]);
   const [selectedDistrictId, setSelectedDistrictId] = useState<string>("");
   const [wards, setWards] = useState<Ward[]>([]);
   const [selectedWardId, setSelectedWardId] = useState<string>("");
-  const [imageFirst, setImageFirst] = useState<string | null>(null);
-  const [imageLast, setImageLast] = useState<string | null>(null);
   const [isUsernameValid, setIsUsernameValid] = useState(true);
   const [isEmailValid, setIsEmailValid] = useState(true);
 
+  const handleCloseCreateAccount = () => setShow(false);
+  const handleShowCreateAccount = () => setShow(true);
+
   const formik = useFormik<RegisterRequest>({
     initialValues: {
+      id: 0,
       username: "",
       password: "",
+      role: role,
       confirmPassword: "",
       email: "",
       firstName: "",
@@ -256,10 +260,10 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
       ward: "",
       city: "",
       yob: "",
-      CCCD: "",
-      CCCDFirst: "",
-      CCCDLast: "",
-      CCCDFrom: "",
+      cccd: "",
+      cccdFirst: "",
+      cccdLast: "",
+      cccdFrom: "",
       bankId: 0,
       bankAccountNumber: "",
       bankAccountName: "",
@@ -290,20 +294,30 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
       city: Yup.string().required("Vui lòng chọn Tỉnh"),
       yob: Yup.number().required("Vui lòng nhập năm sinh")
         .test("is-wrong-format", "Năm sinh không hợp lệ", (value) => !isYearOfBirthWrongFormat(value)),
-      CCCD: Yup.string().required("Vui lòng nhập số căn cước")
+      cccd: Yup.string().required("Vui lòng nhập số căn cước")
         .test("is-wrong-format", "Số căn cước công dân không hợp lệ", (value) => !isCitizenIdWrongFormat(value)),
-      CCCDFirst: Yup.string().required("Vui lòng chọn ảnh căn cước mặt trước"),
-      CCCDLast: Yup.string().required("Vui lòng chọn ảnh căn cước mặt sau"),
-      CCCDFrom: Yup.string().required("Vui lòng nhập nơi cấp căn cước"),
+      cccdFirst: Yup.string().required("Vui lòng chọn ảnh căn cước mặt trước"),
+      cccdLast: Yup.string().required("Vui lòng chọn ảnh căn cước mặt sau"),
+      cccdFrom: Yup.string().required("Vui lòng nhập nơi cấp căn cước"),
       bankId: Yup.number().min(1, "Vui lòng chọn ngân hàng"),
       bankAccountNumber: Yup.string().required("Vui lòng nhập số tài khoản"),
       bankAccountName: Yup.string().required("Vui lòng nhập tên chủ tài khoản"),
     }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values));
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
+      setSubmitting(true);
+      const isSuccess = await registerAccountStaff(values);
+
+      if (!isSuccess) {
+        Swal.fire("Error", "Xảy ra lỗi trong quá trình tạo tài khoản!", "error");
+      } else {
+        Swal.fire("Success", "Tạo tài khoản thành công!", "success");
+        setIsRefresh(true);
+        resetForm();
+      }
+      handleCloseCreateAccount();
+      setSubmitting(false);
     },
   });
-
 
   useEffect(() => {
     getAddressVietNam()
@@ -416,14 +430,13 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
     }
   };
 
-  const handleCCCDFirstChange = (key: keyof RegisterRequest) => async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlecccdFirstChange = (key: keyof RegisterRequest) => async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
       try {
         const base64 = await getBase64(file);
         if (base64) {
           formik.setFieldValue(key, base64);
-          setImageFirst(base64 as string);
         }
       } catch (error) {
         console.error("Error converting file to Base64: ", error);
@@ -431,14 +444,13 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
     }
   };
 
-  const handleCCCDLastChange = (key: keyof RegisterRequest) => async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlecccdLastChange = (key: keyof RegisterRequest) => async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
       try {
         const base64 = await getBase64(file);
         if (base64) {
           formik.setFieldValue(key, base64);
-          setImageLast(base64 as string);
         }
       } catch (error) {
         console.error("Error converting file to Base64: ", error);
@@ -455,7 +467,6 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
         <div className="overlay">
           <Modal
             show={show}
-            // onHide={handleCloseCreateAuction}
             centered
             backdrop="static"
             size="xl"
@@ -652,12 +663,12 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                       className="mb-0"
                       type="text"
                       placeholder="Nhập số căn cước công dân của bạn"
-                      name="CCCD"
-                      value={formik.values.CCCD}
+                      name="cccd"
+                      value={formik.values.cccd}
                       onChange={formik.handleChange}
                     />
-                    {formik.errors.CCCD && (
-                      <span className="text-danger">{formik.errors.CCCD}</span>
+                    {formik.errors.cccd && (
+                      <span className="text-danger">{formik.errors.cccd}</span>
                     )}
                   </div>
                   <div className="col-md-4 checkout-form-list mb-2">
@@ -666,12 +677,12 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                       className="mb-0"
                       type="text"
                       placeholder="Nhập nơi cấp căn cước công dân"
-                      name="CCCDFrom"
-                      value={formik.values.CCCDFrom}
+                      name="cccdFrom"
+                      value={formik.values.cccdFrom}
                       onChange={formik.handleChange}
                     />
-                    {formik.errors.CCCDFrom && (
-                      <span className="text-danger">{formik.errors.CCCDFrom}</span>
+                    {formik.errors.cccdFrom && (
+                      <span className="text-danger">{formik.errors.cccdFrom}</span>
                     )}
                   </div>
                   <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-4 checkout-form-list mb-2">
@@ -680,9 +691,9 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                         type="file"
                         id="counterparty_IdCardPhoto1Company_Upload"
                         style={{ display: "none" }}
-                        onChange={handleCCCDFirstChange("CCCDFirst")}
+                        onChange={handlecccdFirstChange("cccdFirst")}
                       />
-                      {imageFirst ? (
+                      {formik.values.cccdFirst ? (
                         <img
                           id="img_IdCardPhoto1CompanySelect"
                           style={{
@@ -691,7 +702,7 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                             height: "192px",
                             display: "block",
                           }}
-                          src={imageFirst}
+                          src={formik.values.cccdFirst}
                           alt=""
                         />
                       ) : (
@@ -749,9 +760,9 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                         Tải lên ảnh khác
                       </button>
                     </label>
-                    {formik.errors.CCCDFirst && (
+                    {formik.errors.cccdFirst && (
                       <span className="text-danger">
-                        {formik.errors.CCCDFirst}
+                        {formik.errors.cccdFirst}
                       </span>
                     )}
                   </div>
@@ -761,9 +772,9 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                         type="file"
                         id="counterparty_IdCardPhoto2Company_Upload"
                         style={{ display: "none" }}
-                        onChange={handleCCCDLastChange("CCCDLast")}
+                        onChange={handlecccdLastChange("cccdLast")}
                       />
-                      {imageLast ? (
+                      {formik.values.cccdLast ? (
                         <img
                           id="img_IdCardPhoto2CompanySelect"
                           style={{
@@ -772,7 +783,7 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                             height: "192px",
                             display: "block",
                           }}
-                          src={imageLast}
+                          src={formik.values.cccdLast}
                           alt=""
                         />
                       ) : (
@@ -830,8 +841,8 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                         Tải lên ảnh khác
                       </button>
                     </label>
-                    {formik.errors.CCCDLast && (
-                      <span className="text-danger">{formik.errors.CCCDLast}</span>
+                    {formik.errors.cccdLast && (
+                      <span className="text-danger">{formik.errors.cccdLast}</span>
                     )}
                   </div>
                   <div className="col-md-12 mt-3 checkout-form-list mb-2">
@@ -878,14 +889,16 @@ export const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({ role }) 
                   <div className="col-md-12  checkout-form-list mb-2 mt-3">
                     <label>Tên ngân hàng</label>
                     <select
-                      defaultValue={0}
+                      name="bankId"
+                      value={formik.values.bankId}
+                      onChange={formik.handleChange}
                       style={{
                         width: "100%",
                         height: "40px",
                         padding: "0 0 0 10px",
                       }}
                     >
-                      <option selected defaultValue={0}>
+                      <option selected value={0}>
                         Chọn
                       </option>
                       {banks.map((bank) => (
