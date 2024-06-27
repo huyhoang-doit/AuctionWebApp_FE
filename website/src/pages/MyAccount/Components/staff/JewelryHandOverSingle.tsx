@@ -9,9 +9,10 @@ import { PaymentMethod } from '../member/PaymentMethod';
 import { JewelryHanOverModal } from '../../Modal/ModalStaff';
 type JewelryHandOverSingleProps = {
   transaction: Transaction;
-  user: User | null
+  user: User | null,
+  handleChangeList: () => Promise<void>
 }
-const JewelryHandOverSingle: React.FC<JewelryHandOverSingleProps> = ({ transaction, user }) => {
+const JewelryHandOverSingle: React.FC<JewelryHandOverSingleProps> = ({ transaction, user, handleChangeList }) => {
   const [images, setImages] = useState<Image[]>([]);
   const [auction, setAuction] = useState<Auction | null | undefined>(transaction.auction);
   const jewelry = transaction.auction?.jewelry
@@ -43,7 +44,7 @@ const JewelryHandOverSingle: React.FC<JewelryHandOverSingleProps> = ({ transacti
           <PaymentMethod method={transaction.paymentMethod ? transaction.paymentMethod : 'BANKING'} />
         </td>
         <td>
-          <JewelryHanOverModal transaction={transaction} images={images} user={user} jewelry={jewelry} auction={auction} />
+          <JewelryHanOverModal transaction={transaction} images={images} user={user} jewelry={jewelry} auction={auction} handleChangeList={handleChangeList} />
         </td>
       </tr>
     </>
