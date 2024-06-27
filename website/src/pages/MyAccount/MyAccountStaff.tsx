@@ -182,6 +182,7 @@ export default function MyAccountStaff() {
                   <JewelriesHandOverList
                     user={userState}
                     setUser={setUserState}
+                    listNumber={listNumber}
                   />
 
                   <StaffRequestList

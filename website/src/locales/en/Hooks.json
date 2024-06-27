@@ -1,0 +1,7 @@
+{
+    "Hooks": {
+      "auctionEnded": "The auction has ended",
+      "auctionRunning": "The auction is running"
+    }
+  }
+  

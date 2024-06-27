@@ -1,0 +1,7 @@
+{
+    "Hooks": {
+      "auctionEnded": "Phiên đấu giá đã kết thúc",
+      "auctionRunning": "Phiên đấu giá đang diễn ra"
+    }
+  }
+  

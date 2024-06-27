@@ -9,7 +9,10 @@ import { sendRequestApprovalFromUser } from "../../api/RequestApprovalAPI";
 import { ToastContainer, toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { OpenRegulationsForSellerModal } from "../MyAccount/Modal/Modal";
-import { convertFilesToBase64, uploadFilesToFirebase } from "../../utils/imageFireBase";
+import {
+  convertFilesToBase64,
+  uploadFilesToFirebase,
+} from "../../utils/imageFireBase";
 import { Spinner } from "react-bootstrap";
 import { JEWELRY_IMAGES_FOLDER } from "../../config/firebaseconfig";
 interface JewelryRequest {
@@ -173,7 +176,10 @@ export const PageSendJewelry = () => {
           const newJewelryId = newJewelry.id;
 
           // Ensure the images are set before proceeding
-          await setImageForJewelry({ data: urls[0], jewelryId: newJewelryId }, true);
+          await setImageForJewelry(
+            { data: urls[0], jewelryId: newJewelryId },
+            true
+          );
           await processImages(urls, newJewelryId);
 
           const newSendRequestBody: SendReqeustFromUser = {
@@ -182,7 +188,9 @@ export const PageSendJewelry = () => {
             requestTime: new Date().toISOString(),
           };
 
-          const sendRequest = await sendRequestApprovalFromUser(newSendRequestBody);
+          const sendRequest = await sendRequestApprovalFromUser(
+            newSendRequestBody
+          );
           if (sendRequest) {
             console.log("Successfully sent request for new jewelry");
             toast.success(t("SendSendJewelry.GuiYeuCauChoSanPhamMoiThanhCong"));
@@ -246,14 +254,8 @@ export const PageSendJewelry = () => {
         <div className="container">
           <div className="row">
             <div className="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-
               <form onSubmit={handleSubmit}>
                 <div className="login-form">
-
-
-
-
-
                   <div className="row mb-4">
                     <div className="col-md-8 col-12 mb--20">
                       <h4 className="login-title">
@@ -341,7 +343,7 @@ export const PageSendJewelry = () => {
                       </select>
                     </div>
                     <div className="col-md-6">
-                      <label>{t("SendSendJewelry.CanNang")} (g)</label>
+                      <label>{t("SendSendJewelry.CanNang")} </label>
                       <input
                         type="number"
                         step="0.01"
@@ -361,7 +363,10 @@ export const PageSendJewelry = () => {
                         required
                       />
                     </div>
-                    <div className="col-md-12 row" style={{ marginTop: "60px" }}>
+                    <div
+                      className="col-md-12 row"
+                      style={{ marginTop: "60px" }}
+                    >
                       <div className="col-md-6">
                         <label
                           className="btn btn-dark"
@@ -394,15 +399,17 @@ export const PageSendJewelry = () => {
                       </div>
                     </div>
                     <div className="col-4">
-
-                      <button className="umino-register_btn w-100" type="submit" disabled={loading}>
+                      <button
+                        className="umino-register_btn w-100"
+                        type="submit"
+                        disabled={loading}
+                      >
                         {t("SendSendJewelry.GuiYeuCau")}
                       </button>
 
-
                       <ToastContainer />
                     </div>
-                    <div className="col-8" style={{ marginTop: '15px' }}>
+                    <div className="col-8" style={{ marginTop: "15px" }}>
                       {loading && <Spinner animation="border" />}
                     </div>
                   </div>
@@ -412,8 +419,8 @@ export const PageSendJewelry = () => {
               {notification && <p>{notification}</p>}
             </div>
           </div>
-        </div >
-      </div >
+        </div>
+      </div>
     </>
   );
 };

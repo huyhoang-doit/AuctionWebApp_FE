@@ -2,6 +2,13 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../config/firebaseconfig";
 import { v4 as uuidv4 } from 'uuid';
 
+export const uploadFileToFirebase = async (file: File, folder: string): Promise<string> => {
+  const storageRef = ref(storage, `${folder}/${uuidv4()}`);
+  const snapshot = await uploadBytes(storageRef, file);
+  const downloadURL = await getDownloadURL(snapshot.ref);
+
+  return downloadURL;
+};
 
 export const uploadFilesToFirebase = async (files: File[], folder: string): Promise<string[]> => {
   const uploadPromises = files.map(file => {

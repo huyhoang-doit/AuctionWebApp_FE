@@ -37,6 +37,12 @@ import Components_En from '.././locales/en/Components.json'
 import Components_Vi from '.././locales/vi/Components.json'
 import Staff_En from '.././locales/en/Staff.json'
 import Staff_Vi from '.././locales/vi/Staff.json'
+import Hooks_En from '.././locales/en/Hooks.json'
+import Hooks_Vi from '.././locales/vi/Hooks.json'
+import AuctionDetail_En from '.././locales/en/AuctionDetail.json'
+import AuctionDetail_Vi from '.././locales/vi/AuctionDetail.json'
+import Member_En from '.././locales/en/Member.json'
+import Member_Vi from '.././locales/vi/Member.json'
 export const locales = {
   en: 'English',
   vi: 'Tiếng Việt',
@@ -62,7 +68,10 @@ const resources = {
     Register: Register_En,
     About : About_En,
     Components : Components_En,
-    Staff : Staff_En
+    Staff : Staff_En,
+    Hooks : Hooks_En,
+    AuctionDetail : AuctionDetail_En,
+    Member : Member_En
 
   },
   vi: {
@@ -83,7 +92,10 @@ const resources = {
     Register: Register_Vi,
     About : About_Vi,
     Components : Components_Vi,
-    Staff : Staff_Vi
+    Staff : Staff_Vi,
+    Hooks : Hooks_Vi,
+    AuctionDetail : AuctionDetail_Vi,
+    Member : Member_Vi
    
    
 
@@ -97,7 +109,7 @@ const defaultNS = 'home'; //khong truyen namespace thi se lay defaultNS
 i18n.use(initReactI18next).init({
   resources,
   lng: "vi", // ngôn ngữ mặc định
-  ns: ['home', 'footer', 'PageSendJewelry', 'Contact','MyAccountStaff',' MyAccount','MyAccountDetail','Modal','ChangePassword','TransactionHistory','MyJewellryList','MyBidHistoryList','MyJewelryRequestList','Login','Register','About','Components','Staff'], // thêm namespace vào đây
+  ns: ['home', 'footer', 'PageSendJewelry', 'Contact','MyAccountStaff',' MyAccount','MyAccountDetail','Modal','ChangePassword','TransactionHistory','MyJewellryList','MyBidHistoryList','MyJewelryRequestList','Login','Register','About','Components','Staff','Hooks','AuctionDetail','Member'], // thêm namespace vào đây
 //   fallbackLng: "vi", // nếu không nhận được ngôn ngữ nào thì mặc định là tiếng Việt
 defaultNS, //thay fallbackLng
   interpolation: {

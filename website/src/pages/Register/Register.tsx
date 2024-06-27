@@ -19,6 +19,8 @@ import { getAddressVietNam } from "../../api/AddressAPI";
 import { getBase64 } from "../../utils/getBase64";
 import Swal from "sweetalert2";
 import { useTranslation } from "react-i18next";
+import { uploadFileToFirebase } from "../../utils/imageFireBase";
+import { CCCD_IMAGES_FOLDER } from "../../config/firebaseconfig";
 
 export default function Register() {
   const initialRegisterRequest = {
@@ -302,10 +304,11 @@ export default function Register() {
       const file = e.target.files[0];
       try {
         const base64 = await getBase64(file);
-        if (base64) {
+        const imageFirst = await uploadFileToFirebase(file, CCCD_IMAGES_FOLDER)
+        if (imageFirst) {
           setRegisterRequest((prevValue) => ({
             ...prevValue,
-            [key]: base64,
+            [key]: imageFirst,
           }));
           setImageFirst(base64 as string);
           setErrors((prevErrors) => ({ ...prevErrors, CCCDFirst: "" }));
@@ -321,10 +324,11 @@ export default function Register() {
       const file = e.target.files[0];
       try {
         const base64 = await getBase64(file);
-        if (base64) {
+        const imageLast = await uploadFileToFirebase(file, CCCD_IMAGES_FOLDER)
+        if (imageLast) {
           setRegisterRequest((prevValue) => ({
             ...prevValue,
-            [key]: base64,
+            [key]: imageLast,
           }));
           setImageLast(base64 as string);
           setErrors((prevErrors) => ({ ...prevErrors, CCCDLast: "" }));

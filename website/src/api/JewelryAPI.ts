@@ -157,9 +157,9 @@ export async function getJewelriesByStateAndHolding(state: string, holding: bool
   }
 }
 
-export async function setJewelryHolding(id: number): Promise<boolean> {
+export async function setJewelryHolding(id: number, state: boolean): Promise<boolean> {
   // endpoint
-  const URL: string = `${BASE_URL}/jewelry/set-holding/${id}`;
+  const URL: string = `${BASE_URL}/jewelry/set-holding/${id}?state=${state}`;
 
   console.log(URL)
   const response = await fetch(URL, {

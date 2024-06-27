@@ -1,0 +1,14 @@
+{
+    "AuctionTabDetail" : {
+           "Lịch sử đặt giá" : "Bid history",
+           "Danh sách đăng ký tham gia đấu giá" : "List of registered participants",
+           "Mô tả tài sản" : "Asset description",
+           "Thông tin đấu giá" : "Auction information",
+           "Tổ chức đấu giá tài sản" : "Asset auction organization:",
+           "Công ty đấu giá DGS" : "DGS Auction Company",
+           "Đấu giá viên" : "Auctioneer:",
+           "Địa chỉ:" : "Address:",
+           "Nhà văn hóa sinh viên, Dĩ An, TP. Thủ Đức" : "Student Cultural House, Di An, Thu Duc City"
+
+    }
+}
