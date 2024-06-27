@@ -6,7 +6,7 @@ import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { useDebouncedCallback } from "use-debounce";
-import { CreateNewUserModal, DeleteUserModal } from '../Modal';
+import { DeleteUserModal } from '../Modal';
 
 
 const ManageUser = () => {
@@ -70,9 +70,6 @@ const ManageUser = () => {
                             </button>
                           </form>
                         </div>
-                      </div>
-                      <div className="add_button ms-2">
-                        <CreateNewUserModal />
                       </div>
                     </div>
                   </div>

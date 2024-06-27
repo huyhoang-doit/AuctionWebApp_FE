@@ -23,10 +23,11 @@ export class User {
     totalSpent?: number;
     cccdFirst?: string;
     cccdLast?: string;
+    cccdFrom?: string;
 
     constructor(id: number, username: string, fullName: string, state: string,
         firstName: string, lastName: string, password: string,
-        cccdFirst: string, cccdLast: string, email: string, phone: string, address: string,
+        cccdFirst: string, cccdLast: string, cccdFrom: string, email: string, phone: string, address: string,
         district: string, ward: string, city: string, yob: string, cccd: string,
         bank: Bank, bankAccountNumber: string, bankAccountName: string, totalSpent: number) {
         this.id = id;
@@ -50,6 +51,7 @@ export class User {
         this.totalSpent = totalSpent;
         this.cccdFirst = cccdFirst;
         this.cccdLast = cccdLast;
+        this.cccdFrom = cccdFrom;
     }
 
 }
