@@ -10,12 +10,14 @@ import { DeleteUserModal } from '../Modal';
 
 
 const ManageUser = () => {
+  const states = ['ACTIVE', 'INACTIVE', 'VERIFIED']
   const [members, setMembers] = useState<User[]>([]);
   const [page, setPage] = useState(1)
   const [totalElements, setTotalElements] = useState(0);
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
   const [txtSearch, setTxtSearch] = useState('');
   const [isRefresh, setIsRefresh] = useState(false);
+  const [accountState, setAccountState] = useState('ACTIVE');
 
   const debouncedTxtSearchChange = useDebouncedCallback(
     (txtSearch: string) => {
@@ -31,13 +33,18 @@ const ManageUser = () => {
   };
 
   useEffect(() => {
-    getMembers("MEMBER", debouncedTxtSearch, page)
+    getMembers("MEMBER", debouncedTxtSearch, accountState, page)
       .then((response) => {
         setMembers(response.usersData)
         setTotalElements(response.totalElements)
         setIsRefresh(false)
       })
-  }, [page, debouncedTxtSearch, isRefresh])
+  }, [page, debouncedTxtSearch, accountState, isRefresh])
+
+  const handleTransactionStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setAccountState(e.target.value);
+    setPage(1);
+  };
 
   return (
     <>
@@ -71,6 +78,20 @@ const ManageUser = () => {
                           </form>
                         </div>
                       </div>
+                      <div className="add_button ms-2">
+                        <select className='rounded'
+                          value={accountState}
+                          onChange={handleTransactionStateChange}
+                          style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
+                          required
+                        >
+                          {states.map((state, index) => (
+                            <option style={{ padding: '5px' }} key={index} value={state}>
+                              {<UserStateView state={state} />}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   </div>
                   <div className="">
@@ -87,35 +108,42 @@ const ManageUser = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {members.map((user) => (
-                          <tr key={user.id}>
-                            <td>
-                              {user.id}
-                            </td>
-                            <td>{user.username}</td>
-                            <td>{user.fullName}</td>
-                            <td>{user.email}</td>
-                            <td>{user.phone}</td>
-                            <td>
-                              <a className={`status_btn ${user.state === 'VERIFIED'
-                                ? 'bg-success'
-                                : user.state === 'DISABLE'
-                                  ? 'bg-error'
-                                  : user.state === 'ACTIVE'
-                                    ? 'bg-primary'
-                                    : 'bg-warn'
-                                }`}>
-                                <UserStateView state={user.state || ''} />
-                              </a>
-                            </td>
-                            <td>
-                              <div className="btn-group">
-                                <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
-                                <DeleteUserModal user={user} setIsRefresh={setIsRefresh}/>
-                              </div>
+                        {members.length !== 0 ? (
+                          members.map((user) => (
+                            <tr key={user.id}>
+                              <td>
+                                {user.id}
+                              </td>
+                              <td>{user.username}</td>
+                              <td>{user.fullName}</td>
+                              <td>{user.email}</td>
+                              <td>{user.phone}</td>
+                              <td>
+                                <a className={`status_btn ${user.state === 'VERIFIED'
+                                  ? 'bg-success'
+                                  : user.state === 'DISABLE'
+                                    ? 'bg-error'
+                                    : user.state === 'ACTIVE'
+                                      ? 'bg-primary'
+                                      : 'bg-warn'
+                                  }`}>
+                                  <UserStateView state={user.state || ''} />
+                                </a>
+                              </td>
+                              <td>
+                                <div className="btn-group">
+                                  <Link to={`/admin/chi-tiet-nguoi-dung/${user.id}`} className="btn btn-sm btn-dark">Xem</Link>
+                                  <DeleteUserModal user={user} setIsRefresh={setIsRefresh} />
+                                </div>
+                              </td>
+                            </tr>
+                          ))) : (
+                          <tr className="text-center">
+                            <td colSpan={7}>
+                              <h5 className='fw-semibold lh-base mt-2'>Hiện không có người dùng.</h5>
                             </td>
                           </tr>
-                        ))}
+                        )}
                       </tbody>
                     </Table>
                   </div>

@@ -17,7 +17,7 @@ const ManageManager = () => {
 
   useEffect(() => {
     setLoading(true);
-    getMembers("MANAGER", "", page)
+    getMembers("MANAGER", "", "VERIFIED", page)
       .then((response) => {
         setManagers(response.usersData);
         setTotalElements(response.totalElements);
@@ -42,7 +42,7 @@ const ManageManager = () => {
                     <h4>Danh sách quản lý</h4>
                     <div className="box_right d-flex lms_block">
                       <div className="add_button ms-2">
-                        <CreateNewUserModal role={"MANAGER"}/>
+                        <CreateNewUserModal role={"MANAGER"} setIsRefresh={setIsRefresh}/>
                       </div>
                     </div>
                   </div>

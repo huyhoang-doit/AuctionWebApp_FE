@@ -14,7 +14,6 @@ import ViewAccount from "../pages/admin/View/ViewAccount";
 import VerifyUser from "../pages/admin/manage-account/VerifyUser";
 import TransactionsOverdue from "../pages/manager/Transaction/TransactionsOverdue";
 import ViewUserOfManager from "../pages/manager/User/ViewUser";
-import SettingWebsite from "../pages/admin/settings/SettingWebsite";
 import TransactionList from "../pages/manager/Transaction/TransactionList";
 
 const RouterCom = () => {
@@ -42,7 +41,6 @@ const RouterCom = () => {
               path="/admin/chi-tiet-nguoi-dung/:id"
               element={<ViewAccount />}
             />
-            <Route path="/admin/cai-dat-website" element={<SettingWebsite />} />
           </Route>
         </Route>
         {/* /MANAGER/ */}
