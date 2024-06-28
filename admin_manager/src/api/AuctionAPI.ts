@@ -10,6 +10,15 @@ interface ResultPageableInteface {
     totalAuctions: number
 }
 
+interface AuctionAndNumberRegisterResponse {
+    id: number;
+    name: string;
+    startDate: string;
+    endDate: string;
+    state: string;
+    numberOfParticipants: number;
+}
+
 interface ResultInteface {
     auctionsData: Auction[];
 }
@@ -71,7 +80,7 @@ export async function getAllAuctions(state: string, page: number): Promise<Resul
     const totalPages = response.totalPages;
     const totalAuctions = response.totalElements;
     const numberAuctionsPerPage = response.numberOfElements;
-
+    
     if (responseData) {
         for (const key in responseData) {
             const response = responseData[key]
@@ -481,3 +490,38 @@ export const createNewAuctionFromManager = async (request: NewAuctionRequestProp
         return false;
     }
 };
+
+export async function getAllAuctionsAndNumberRegister(state: string, page: number) {
+    const auctions: AuctionAndNumberRegisterResponse[] = [];
+    // endpoint
+    const URL = `${BASE_URL}/auction/get-auction-registration?state=${state}&page=${page - 1}`;
+    // request
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+    
+    const totalPages = response.totalPages;
+    const totalAuctions = response.totalElements;
+    const numberAuctionsPerPage = response.numberOfElements;
+    
+    if (responseData) {
+        for (const key in responseData) {
+            const response = responseData[key]
+            auctions.push({
+                id: response.id,
+                name: response.name,
+                startDate: response.startDate,
+                endDate: response.endDate,
+                state: response.state,
+                numberOfParticipants: response.numberOfParticipants,
+            })
+        }
+    } else {
+        throw new Error("Phiên không tồn tại");
+    }
+    return {
+        auctionsData: auctions,
+        numberAuctionsPerPage: numberAuctionsPerPage,
+        totalPages: totalPages,
+        totalAuctions: totalAuctions,
+    };
+}

@@ -3,7 +3,7 @@ import { Image } from "../../../models/Image";
 import { Jewelry } from "../../../models/Jewelry";
 import { RequestApproval } from "../../../models/RequestApproval";
 import { User } from "../../../models/User";
-import { Button, Form, Modal, Spinner } from "react-bootstrap";
+import { Button, Form, Modal, Spinner, Table } from "react-bootstrap";
 import {
   formatNumber,
   formatNumberAcceptNull,
@@ -34,6 +34,9 @@ import { PaymentMethod } from "../Transaction/PaymentMethod";
 import { convertFilesToBase64, uploadFilesToFirebase } from "../../../utils/imageFireBase";
 import { JEWELRY_IMAGES_FOLDER } from "../../../global_variable/firebaseconfig";
 import { deleteImagesByJewelryId, processImages, setImageForJewelry } from "../../../api/ImageApi";
+import { getAuctionRegistrationsByAuctionId } from "../../../api/AuctionRegistrationAPI";
+import { AuctionRegistration } from "../../../models/AuctionRegistration";
+import { Link } from "react-router-dom";
 
 // *** MODAL FOR MANAGER ***
 // Modal for Jewelry List
@@ -1054,7 +1057,7 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
 
   useEffect(() => {
     setLoading(true);
-    getMembers("STAFF", "", page).then((response) => {
+    getMembers("STAFF", "", "VERIFIED", page).then((response) => {
       setStaffs(response.usersData);
       setTotalElements(response.totalElements);
     });
@@ -1444,6 +1447,137 @@ export const DeleteTransactionModal: React.FC<DeleteTransactionModalProps> = ({
               </Button>
               <Button variant="danger" onClick={handleDelete}>
                 Xác nhận
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
+    </>
+  );
+};
+
+interface ViewAuctionRegistratopnModalProps {
+  auctionId: number;
+  name: string;
+}
+
+export const ViewAuctionRegistrationModal: React.FC<ViewAuctionRegistratopnModalProps> = ({ name, auctionId }) => {
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [auctionRegistrations, setAuctionRegistrations] = useState<AuctionRegistration[]>(
+    []
+  );
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    setLoading(true);
+    getAuctionRegistrationsByAuctionId(auctionId)
+      .then((response) => {
+        setAuctionRegistrations(response.auctionRegistrationsData);
+      })
+      .catch(() => { });
+    setLoading(false);
+  }, [auctionRegistrations, auctionId])
+
+  return (
+    <>
+      <Button variant="dark" size="sm" onClick={handleShow}>
+        Xem
+      </Button>
+
+      {show && (
+        <div className="overlay">
+          <Modal
+            show={show}
+            onHide={handleClose}
+            centered
+            backdropClassName="custom-backdrop"
+            size="xl"
+          >
+            <Modal.Header className="text-center w-100">
+              <Modal.Title className="w-100">
+                <div className="col-12 text-center fw-bold">
+                  Danh sách đăng ký tham gia phiên đấu giá
+                </div>
+                <div className="col-12 mb-3 text-center ">
+                  <span className="text-danger fw-bold">
+                    {name} (Phiên số {auctionId})
+                  </span>
+                </div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="myaccount-orders">
+                <div className="table-responsive mt-2">
+                  <Table striped bordered hover>
+                    <tbody>
+                      <tr>
+                        <th>Mã số</th>
+                        <th>Tên người dùng đã đăng ký</th>
+                        <th>Thời gian đăng ký</th>
+                        <th>Phí đăng ký (VNĐ)</th>
+                        <th>Tiền đặt cọc (VNĐ)</th>
+                        <th>Tổng tiền (VNĐ)</th>
+                        <th>Trạng thái thanh toán</th>
+                      </tr>
+                      {loading ? (
+                        <tr>
+                          <td colSpan={4} className="text-center">
+                            <Spinner animation="border" />
+                          </td>
+                        </tr>
+                      ) : auctionRegistrations.length > 0 ? (
+                        React.Children.toArray(
+                          auctionRegistrations.map((auctionRegistration) => (
+                            <tr>
+                              <td className="fw-semibold">
+                                {auctionRegistration.id}
+                              </td>
+                              <td>
+                                {auctionRegistration.user?.username}
+                                <Link target="_blank" to={`/manager/chi-tiet-nguoi-dung/${auctionRegistration.user?.id}`}><i className="ms-2 fa-solid fa-eye text-dark"></i></Link>
+                              </td>
+                              <td>{formatDateString(auctionRegistration.registrationDate ?? "")}</td>
+                              <td>{formatNumber(auctionRegistration.auction?.participationFee)}</td>
+                              <td>{formatNumber(auctionRegistration.auction?.deposit)}</td>
+                              <td className="fw-bold text-danger">
+                                {formatNumber(auctionRegistration.registrationFee)}
+                              </td>
+                              <td className="fw-bold text-success">
+                                {auctionRegistration.state === "VALID" ? "Đã thanh toán" : "Chưa thanh toán"}
+                              </td>
+                            </tr>
+                          ))
+                        )
+                      ) : (
+                        <tr className="text-center">
+                          <td colSpan={7}>
+                            <h5 className='fw-semibold lh-base mt-2'>
+                              Chưa có bất kì ai đăng ký tham gia phiên đấu giá này</h5>
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </Table>
+                </div>
+              </div>
+              <div className="mt-4">
+                {/* <PaginationControl
+                  page={page}
+                  between={3}
+                  total={totalElements}
+                  limit={5}
+                  changePage={(page) => {
+                    setPage(page);
+                  }}
+                  ellipsis={1}
+                /> */}
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleClose}>
+                Đóng
               </Button>
             </Modal.Footer>
           </Modal>

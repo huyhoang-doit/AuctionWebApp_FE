@@ -15,6 +15,7 @@ import VerifyUser from "../pages/admin/manage-account/VerifyUser";
 import TransactionsOverdue from "../pages/manager/Transaction/TransactionsOverdue";
 import ViewUserOfManager from "../pages/manager/User/ViewUser";
 import TransactionList from "../pages/manager/Transaction/TransactionList";
+import AuctionRegistrationList from "../pages/manager/AuctionRegistration/AuctionRegistrationList";
 
 const RouterCom = () => {
   return (
@@ -51,6 +52,10 @@ const RouterCom = () => {
             element={<RequestWaitlist />}
           />
           <Route path="/manager/cac-phien-dau-gia" element={<AuctionsList />} />
+          <Route
+            path="/manager/dang-ky-dau-gia"
+            element={<AuctionRegistrationList />}
+          />
           <Route
             path="/manager/tai-san-dang-cho"
             element={<PassedJewelriesList />}

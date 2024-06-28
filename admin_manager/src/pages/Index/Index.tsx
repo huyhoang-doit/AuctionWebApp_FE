@@ -268,7 +268,7 @@ export default function Index() {
   return (
     <section className="main_content dashboard_part" >
       <div className="main_content_iner " >
-        <div className="container-fluid body_white_bg " style={{ marginTop: '100px' }}>
+        <div className="container-fluid body_white_bg" style={{ marginTop: '50px' }}>
           <div className="row justify-content-center" style={{ padding: "40px 0px 0px 350px" }}>
             <div className="col-lg-12">
               <div className="single_element">

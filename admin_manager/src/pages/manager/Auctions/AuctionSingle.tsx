@@ -17,7 +17,7 @@ const AuctionSingle: React.FC<AuctionSingleProps> = ({ auction }) => {
         <td>{formatDateString(auction.startDate)}</td>
         <td>{formatDateString(auction.endDate)}</td>
         <td>
-          {auction.user?.id}
+          {auction.user?.fullName}
         </td>
         <td style={getAuctionStatusStyle(auction.state)}>
           <StateAuction state={auction.state} />
