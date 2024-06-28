@@ -1,0 +1,31 @@
+{
+    "RegisterForAuction" : {
+        "Home" : "Home",
+        "Đăng kí đấu giá" : "Registration for Auction",
+        "THÔNG TIN TÀI SẢN ĐẤU GIÁ" : "AUCTION PROPERTY INFORMATION",
+        "Mã trang sức" : "Jewelry ID:",
+        "Cuộc đấu giá" : "Auction:",
+        "Tên trang sức" : "Jewelry name:",
+        "Phí tham gia đấu giá tài sản" : "Fees for participating in property auctions",
+        "Tiền đặt trước" : "Deposit before participating in the auction:",
+        "Giá khởi điểm" : "Starting price:",
+        "Bước giá" : "Price step:",
+        "Phương thức đấu giá" : "Auction method:",
+        "Trả giá lên và liên tục" : "Bid up and continuously",
+        "Tên chủ tài sản" : "Property owner name:",
+        "Thời gian bắt đầu đấu giá" : "Auction start time:",
+        "Thời gian kết thúc đấu giá" : "Auction end time:",
+        "Tôi đã đọc và đồng ý với quy chế đấu giá trên" : "I have read and agree to the above auction regulations",
+        "Tôi tự nguyện không nhận tiền lãi phát sinh từ khoản tiền đặt trước" : "I voluntarily do not receive interest arising from the deposit",
+        "Tôi đã hiểu rõ về tài sản đấu giá và không có ý kiến gì về việc xem tài sản đấu giá" : "I have a good understanding of the auction property and have no concerns about viewing the auction property",
+        "Đăng ký tham gia" : "Registration",
+        "Chưa chuyển tiền đặt trước." : "No deposit has been transferred yet.",
+        "Mô tả tài sản" : "Description of assets",
+        "Thông tin đấu giá" : "Auction information",
+        "Tổ chức đấu giá tài sản" : "Property auction organization:",
+        "Công ty đấu giá DGS" : "DGS Auction Company",
+        "Đấu giá viên" : "Auctioneer:"
+
+
+    }
+}
