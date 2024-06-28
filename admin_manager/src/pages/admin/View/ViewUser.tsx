@@ -511,7 +511,7 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                   {user.cccdFirst
                                     ? (<img id="img_IdCardPhoto1CompanySelect" style={{ width: "100%", borderRadius: "5px", cursor: "pointer", height: "292px", display: "block" }} src={user.cccdFirst} alt="" />)
                                     : (
-                                      <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "292px", background: "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
+                                      <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "292px", background: !isEditing ? "#f5f5f5" : "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
                                         <img src="https://lacvietauction.vn/auctionart/upload/image/SelectCMNDFIrst.png" alt="Alternate Text" style={{ width: "113.6px", height: "64px", margin: "auto" }} />
                                         <p className="upload-CMND-text" style={{ marginTop: "24px" }}>Tải lên ảnh mặt trước CMND/CCCD</p>
                                         <p className="upload-CMND-text2">(JPG, PNG kích thước nhỏ hơn 10MB)</p>
@@ -528,7 +528,7 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                   {user.cccdLast
                                     ? (<img id="img_IdCardPhoto2CompanySelect" style={{ width: "100%", borderRadius: "5px", cursor: "pointer", height: "292px", display: "block" }} src={user.cccdLast} alt="" />)
                                     : (
-                                      <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "292px", background: "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
+                                      <div id="img_IdCardPhoto1Company" style={{ width: "100%", cursor: "pointer", height: "292px", background: !isEditing ? "#f5f5f5" : "#EDF7FC", border: "1px dashed #C5D7FC", borderRadius: "4px", display: "flex", justifyContent: "center", textAlign: "center", paddingTop: "32px", paddingBottom: "32px", flexFlow: "column" }}>
                                         <img src="	https://lacvietauction.vn/auctionart/upload/image/UploadCMNDLast.png" alt="Alternate Text" style={{ width: "113.6px", height: "64px", margin: "auto" }} />
                                         <p className="upload-CMND-text" style={{ marginTop: "24px" }}>Tải lên ảnh mặt sau CMND/CCCD</p>
                                         <p className="upload-CMND-text2">(JPG, PNG kích thước nhỏ hơn 10MB)</p>

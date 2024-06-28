@@ -34,7 +34,6 @@ const Header = () => {
               objectPosition: "center",
             }} />
           </div>
-
           <div className="profile_info_iner">
             <div>
               <Link to="/admin/view/viewProfile" className='text-white my-2'>Thông tin tài khoản<i className="ti-user"></i></Link>
