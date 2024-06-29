@@ -17,6 +17,7 @@ import TransactionList from "../pages/manager/Transaction/TransactionList";
 import AuctionRegistrationList from "../pages/manager/AuctionRegistration/AuctionRegistrationList";
 import TransactionsOverdue from "../pages/manager/Transaction/TransactionsOverdue";
 import Login from "./Login";
+import NotFound from "../pages/404/NotFound ";
 
 const RouterCom = () => {
   return (
@@ -93,7 +94,8 @@ const RouterCom = () => {
       </Route>
 
 
-      <Route path="*" element={<Login />} />
+      <Route path="/dang-nhap" element={<Login />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
