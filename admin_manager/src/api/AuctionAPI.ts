@@ -1,7 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import BASE_URL from "../global_variable/config";
 import { Auction } from "../models/Auction";
+import { Jewelry } from "../models/Jewelry";
+import { User } from "../models/User";
 import { fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
+
+interface NewAuctionRequestProps {
+    id: number;
+    name: string;
+    startDate: string;
+    endDate: string;
+    description: string;
+    firstPrice: number;
+    deposit: number;
+    priceStep: number;
+    jewelryId: number;
+    staffId: number;
+}
 
 interface ResultPageableInteface {
     auctionsData: Auction[];
@@ -28,138 +44,126 @@ interface Pageable {
     size: number;
 }
 
+function mapUser(userData: any): User {
+    return {
+        id: userData.id,
+        username: userData.username,
+        fullName: userData.fullName,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        password: userData.password,
+        state: userData.state,
+        cccdFirst: userData.cccdFirst,
+        cccdLast: userData.cccdLast,
+        cccdFrom: userData.cccdFrom,
+        email: userData.email,
+        phone: userData.phone,
+        address: userData.address,
+        district: userData.district,
+        ward: userData.ward,
+        city: userData.city,
+        yob: userData.yob,
+        cccd: userData.cccd,
+        bank: userData.bank,
+        bankAccountNumber: userData.bankAccountNumber,
+        bankAccountName: userData.bankAccountName,
+    };
+}
+
+function mapJewelry(jewelryData: any): Jewelry {
+    return {
+        id: jewelryData.id,
+        name: jewelryData.name,
+        description: jewelryData.description,
+        user: mapUser(jewelryData.user),
+        brand: jewelryData.brand,
+        category: jewelryData.category,
+        material: jewelryData.material,
+        weight: jewelryData.weight
+    };
+}
+
+function mapAuction(auctionData: any): Auction {
+    return {
+        id: auctionData.id,
+        name: auctionData.name,
+        description: auctionData.description,
+        firstPrice: auctionData.firstPrice,
+        lastPrice: auctionData.lastPrice,
+        participationFee: auctionData.participationFee,
+        deposit: auctionData.deposit,
+        priceStep: auctionData.priceStep,
+        startDate: auctionData.startDate,
+        endDate: auctionData.endDate,
+        countdownDuration: auctionData.countdownDuration,
+        state: auctionData.state,
+        jewelry: mapJewelry(auctionData.jewelry),
+        user: mapUser(auctionData.user),
+    };
+}
+
 export async function getAuctions(state: string, cateId: number, pageable: Pageable): Promise<ResultPageableInteface> {
-    const auctions: Auction[] = [];
     // endpoint
     const URL = `${BASE_URL}/auction/sorted-and-paged?state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
     // request
-    const response = await MyRequest(URL);
-    const responseData = response.content;
-    const totalPages = response.totalPages;
-    const totalAuctions = response.totalElements;
-    const numberAuctionsPerPage = response.numberOfElements;
+    try {
+        const response = await MyRequest(URL);
+        const auctionsData: Auction[] = response.content.map((auction: any) => mapAuction(auction));
+        const totalPages = response.totalPages;
+        const totalAuctions = response.totalElements;
+        const numberAuctionsPerPage = response.numberOfElements;
 
-    if (responseData) {
-        for (const key in responseData) {
-            auctions.push({
-                id: responseData[key].id,
-                name: responseData[key].name,
-                description: responseData[key].description,
-                firstPrice: responseData[key].firstPrice,
-                lastPrice: responseData[key].lastPrice,
-                participationFee: responseData[key].participationFee,
-                deposit: responseData[key].deposit,
-                priceStep: responseData[key].priceStep,
-                startDate: responseData[key].startDate,
-                endDate: responseData[key].endDate,
-                countdownDuration: responseData[key].countdownDuration,
-                state: responseData[key].state,
-                jewelry: {
-                    id: responseData[key].jewelry.id,
-                    name: responseData[key].jewelry.name,
-                },
-            })
-        }
-    } else {
+        return {
+            auctionsData,
+            numberAuctionsPerPage,
+            totalPages,
+            totalAuctions,
+        };
+    } catch (error) {
+        console.error("Error fetching auctions:", error);
         throw new Error("Phiên không tồn tại");
     }
-    return {
-        auctionsData: auctions,
-        numberAuctionsPerPage: numberAuctionsPerPage,
-        totalPages: totalPages,
-        totalAuctions: totalAuctions,
-    };
 }
 export async function getAllAuctions(state: string, page: number): Promise<ResultPageableInteface> {
-    const auctions: Auction[] = [];
     // endpoint
     const URL = `${BASE_URL}/auction/sorted-and-paged?state=${state}&page=${page - 1}`;
-    // request
-    const response = await MyRequest(URL);
-    const responseData = response.content;
-    const totalPages = response.totalPages;
-    const totalAuctions = response.totalElements;
-    const numberAuctionsPerPage = response.numberOfElements;
-    
-    if (responseData) {
-        for (const key in responseData) {
-            const response = responseData[key]
-            auctions.push({
-                id: response.id,
-                name: response.name,
-                description: response.description,
-                firstPrice: response.firstPrice,
-                lastPrice: response.lastPrice,
-                participationFee: response.participationFee,
-                deposit: response.deposit,
-                priceStep: response.priceStep,
-                startDate: response.startDate,
-                endDate: response.endDate,
-                countdownDuration: response.countdownDuration,
-                state: response.state,
-                jewelry: {
-                    id: response.jewelry.id,
-                    name: response.jewelry.name,
-                    description: response.jewelry.description,
-                    user: {
-                        id: response.jewelry.user.id,
-                        username: response.jewelry.user.username,
-                        fullName: response.jewelry.user.fullName,
-                    },
-                    material: response.jewelry.material,
-                    weight: response.jewelry.weight
-                },
-                user: {
-                    id: response.user.id,
-                    username: response.user.username,
-                    fullName: response.user.fullName,
-                }
-            })
-        }
-    } else {
+    // request    
+    try {
+        const response = await MyRequest(URL);
+        const auctionsData: Auction[] = response.content.map((auction: any) => mapAuction(auction));
+        const totalPages = response.totalPages;
+        const totalAuctions = response.totalElements;
+        const numberAuctionsPerPage = response.numberOfElements;
+        return {
+            auctionsData,
+            numberAuctionsPerPage,
+            totalPages,
+            totalAuctions,
+        };
+    } catch (error) {
+        console.error("Error fetching auctions:", error);
         throw new Error("Phiên không tồn tại");
     }
-    return {
-        auctionsData: auctions,
-        numberAuctionsPerPage: numberAuctionsPerPage,
-        totalPages: totalPages,
-        totalAuctions: totalAuctions,
-    };
 }
 
 export async function gettop3PriceAndState(): Promise<ResultInteface> {
-    const auctions: Auction[] = [];
+    let auctions: Auction[] = [];
     // endpoint
     const URL = `${BASE_URL}/auction/get-top-3-price?state=ONGOING&state=WAITING`;
 
-    // request
-    const response = await MyRequest(URL);
-
-    if (response) {
-        for (const key in response) {
-            auctions.push({
-                id: response[key].id,
-                name: response[key].name,
-                description: response[key].description,
-                firstPrice: response[key].firstPrice,
-                lastPrice: response[key].lastPrice,
-                participationFee: response[key].participationFee,
-                deposit: response[key].deposit,
-                priceStep: response[key].priceStep,
-                startDate: response[key].startDate,
-                endDate: response[key].endDate,
-                countdownDuration: response[key].countdownDuration,
-                state: response[key].state,
-                jewelry: {
-                    id: response[key].jewelry.id,
-                    name: response[key].jewelry.name
-                },
-            })
+    try {
+        const response = await MyRequest(URL);
+        if (response) {
+            auctions = response.map((auctionData: any) => mapAuction(auctionData));
+        } else {
+            throw new Error("Phiên không tồn tại");
         }
-    } else {
+
+        return { auctionsData: auctions };
+    } catch (error) {
+        console.error("Error fetching top 3 auctions:", error);
         throw new Error("Phiên không tồn tại");
     }
-    return { auctionsData: auctions };
 }
 
 export async function getAuction(auctionId: number): Promise<Auction | null> {
@@ -171,37 +175,7 @@ export async function getAuction(auctionId: number): Promise<Auction | null> {
         const response = await MyRequest(URL);
 
         if (response) {
-            return {
-                id: response.id,
-                name: response.name,
-                description: response.description,
-                firstPrice: response.firstPrice,
-                lastPrice: response.lastPrice,
-                participationFee: response.participationFee,
-                deposit: response.deposit,
-                priceStep: response.priceStep,
-                startDate: response.startDate,
-                endDate: response.endDate,
-                countdownDuration: response.countdownDuration,
-                state: response.state,
-                jewelry: {
-                    id: response.jewelry.id,
-                    name: response.jewelry.name,
-                    description: response.jewelry.description,
-                    user: {
-                        id: response.jewelry.user.id,
-                        username: response.jewelry.user.username,
-                        fullName: response.jewelry.user.fullName,
-                    },
-                    material: response.jewelry.material,
-                    weight: response.jewelry.weight
-                },
-                user: {
-                    id: response.user.id,
-                    username: response.user.username,
-                    fullName: response.user.fullName,
-                }
-            }
+            return mapAuction(response);
         } else {
             throw new Error("Phiên không tồn tại");
         }
@@ -212,51 +186,30 @@ export async function getAuction(auctionId: number): Promise<Auction | null> {
 }
 
 export async function getAuctionByStates(selectedStates: string[], pageable: Pageable): Promise<ResultPageableInteface> {
-    const auctions: Auction[] = [];
     const selectedStatesQuery = selectedStates.join(',');
     // endpoint
     const URL = `${BASE_URL}/auction/get-by-states?states=${selectedStatesQuery}&page=${pageable.page - 1}&size=${pageable.size}`;
     // request
-
-    const response = await MyRequest(URL);
-    const responseData = response.content;
-    const totalPages = response.totalPages;
-    const totalAuctions = response.totalElements;
-    const numberAuctionsPerPage = response.numberOfElements;
-    if (response) {
-        for (const key in responseData) {
-            auctions.push({
-                id: responseData[key].id,
-                name: responseData[key].name,
-                description: responseData[key].description,
-                firstPrice: responseData[key].firstPrice,
-                lastPrice: responseData[key].lastPrice,
-                participationFee: responseData[key].participationFee,
-                deposit: responseData[key].deposit,
-                priceStep: responseData[key].priceStep,
-                startDate: responseData[key].startDate,
-                endDate: responseData[key].endDate,
-                countdownDuration: responseData[key].countdownDuration,
-                state: responseData[key].state,
-                jewelry: {
-                    id: responseData[key].jewelry.id,
-                    name: responseData[key].jewelry.name
-                },
-            })
-        }
-    } else {
+    try {
+        const response = await MyRequest(URL);
+        const auctionsData: Auction[] = response.content.map((auction: any) => mapAuction(auction));
+        const totalPages = response.totalPages;
+        const totalAuctions = response.totalElements;
+        const numberAuctionsPerPage = response.numberOfElements;
+        return {
+            auctionsData,
+            numberAuctionsPerPage,
+            totalPages,
+            totalAuctions,
+        };
+    } catch (error) {
+        console.error("Error fetching auctions:", error);
         throw new Error("Phiên không tồn tại");
     }
-    return {
-        auctionsData: auctions,
-        numberAuctionsPerPage: numberAuctionsPerPage,
-        totalPages: totalPages,
-        totalAuctions: totalAuctions,
-    };
 }
 
 export async function getAuctionByFilterDay(startDate: string, endDate: string): Promise<ResultInteface> {
-    const auctions: Auction[] = [];
+    let auctions: Auction[] = [];
     // endpoint
     const URL = `${BASE_URL}/auction/get-by-day/${startDate}/${endDate}`;
 
@@ -264,26 +217,7 @@ export async function getAuctionByFilterDay(startDate: string, endDate: string):
     const response = await MyRequest(URL);
 
     if (response) {
-        for (const key in response) {
-            auctions.push({
-                id: response[key].id,
-                name: response[key].name,
-                description: response[key].description,
-                firstPrice: response[key].firstPrice,
-                lastPrice: response[key].lastPrice,
-                participationFee: response[key].participationFee,
-                deposit: response[key].deposit,
-                priceStep: response[key].priceStep,
-                startDate: response[key].startDate,
-                endDate: response[key].endDate,
-                countdownDuration: response[key].countdownDuration,
-                state: response[key].state,
-                jewelry: {
-                    id: response[key].jewelry.id,
-                    name: response[key].jewelry.name
-                },
-            })
-        }
+        auctions = response.map((auctionData: any) => mapAuction(auctionData));
     } else {
         throw new Error("Phiên không tồn tại");
     }
@@ -311,33 +245,14 @@ export async function changeStateAuction(auctionId: number, state: string): Prom
 }
 
 export async function getAuctionsByName(txtSearch: string): Promise<ResultInteface> {
-    const auctions: Auction[] = [];
+    let auctions: Auction[] = [];
     // endpoint
     const URL = `${BASE_URL}/auction/get-by-name/${txtSearch}`;
     // request
     const response = await MyRequest(URL);
 
     if (response) {
-        for (const key in response) {
-            auctions.push({
-                id: response[key].id,
-                name: response[key].name,
-                description: response[key].description,
-                firstPrice: response[key].firstPrice,
-                lastPrice: response[key].lastPrice,
-                participationFee: response[key].participationFee,
-                deposit: response[key].deposit,
-                priceStep: response[key].priceStep,
-                startDate: response[key].startDate,
-                endDate: response[key].endDate,
-                countdownDuration: response[key].countdownDuration,
-                state: response[key].state,
-                jewelry: {
-                    id: response[key].jewelry.id,
-                    name: response[key].jewelry.name
-                },
-            })
-        }
+        auctions = response.map((auctionData: any) => mapAuction(auctionData));
     } else {
         throw new Error("Phiên không tồn tại");
     }
@@ -345,33 +260,14 @@ export async function getAuctionsByName(txtSearch: string): Promise<ResultIntefa
 }
 
 export async function getAuctionsByStateNotPageale(state: string): Promise<ResultInteface> {
-    const auctions: Auction[] = [];
+    let auctions: Auction[] = [];
     // endpoint
     const URL = `${BASE_URL}/auction/get-by-state?state=${state}`;
     // request
     const response = await MyRequest(URL);
 
     if (response) {
-        for (const key in response) {
-            auctions.push({
-                id: response[key].id,
-                name: response[key].name,
-                description: response[key].description,
-                firstPrice: response[key].firstPrice,
-                lastPrice: response[key].lastPrice,
-                participationFee: response[key].participationFee,
-                deposit: response[key].deposit,
-                priceStep: response[key].priceStep,
-                startDate: response[key].startDate,
-                endDate: response[key].endDate,
-                countdownDuration: response[key].countdownDuration,
-                state: response[key].state,
-                jewelry: {
-                    id: response[key].jewelry.id,
-                    name: response[key].jewelry.name
-                },
-            })
-        }
+        auctions = response.map((auctionData: any) => mapAuction(auctionData));
     } else {
         throw new Error("Phiên không tồn tại");
     }
@@ -379,50 +275,28 @@ export async function getAuctionsByStateNotPageale(state: string): Promise<Resul
 }
 
 export async function getAuctionByStaffId(staffId: number, page: number): Promise<ResultPageableInteface> {
-    const auctions: Auction[] = [];
     // endpoint
     const URL = `${BASE_URL}/auction/get-by-staff/${staffId}?page=${page - 1}`;
-
-    // request
-    const response = await MyRequest(URL);
-    const responseData = response.content;
-    const totalPages = response.totalPages;
-    const totalAuctions = response.totalElements;
-    const numberAuctionsPerPage = response.totalElements;
-    if (response) {
-        for (const key in responseData) {
-            auctions.push({
-                id: responseData[key].id,
-                name: responseData[key].name,
-                description: responseData[key].description,
-                firstPrice: responseData[key].firstPrice,
-                lastPrice: responseData[key].lastPrice,
-                participationFee: responseData[key].participationFee,
-                deposit: responseData[key].deposit,
-                priceStep: responseData[key].priceStep,
-                startDate: responseData[key].startDate,
-                endDate: responseData[key].endDate,
-                countdownDuration: responseData[key].countdownDuration,
-                state: responseData[key].state,
-                jewelry: {
-                    id: responseData[key].jewelry.id,
-                    name: responseData[key].jewelry.name
-                },
-            })
-        }
-    } else {
+    try {
+        // request
+        const response = await MyRequest(URL);
+        const auctionsData: Auction[] = response.content.map((auction: any) => mapAuction(auction));
+        const totalPages = response.totalPages;
+        const totalAuctions = response.totalElements;
+        const numberAuctionsPerPage = response.totalElements;
+        return {
+            auctionsData: auctionsData,
+            numberAuctionsPerPage: numberAuctionsPerPage,
+            totalPages: totalPages,
+            totalAuctions: totalAuctions,
+        };
+    } catch (error) {
+        console.error("Error fetching auctions:", error);
         throw new Error("Phiên không tồn tại");
     }
-    return {
-        auctionsData: auctions,
-        numberAuctionsPerPage: numberAuctionsPerPage,
-        totalPages: totalPages,
-        totalAuctions: totalAuctions,
-    };
 }
-
 export async function getAuctionByJewelryId(id: number): Promise<ResultInteface> {
-    const auctions: Auction[] = [];
+    let auctions: Auction[] = [];
     // endpoint
     const URL = `${BASE_URL}/auction/get-by-jewelry/${id}`;
 
@@ -430,43 +304,11 @@ export async function getAuctionByJewelryId(id: number): Promise<ResultInteface>
     const response = await MyRequest(URL);
 
     if (response) {
-        for (const key in response) {
-            auctions.push({
-                id: response[key].id,
-                name: response[key].name,
-                description: response[key].description,
-                firstPrice: response[key].firstPrice,
-                lastPrice: response[key].lastPrice,
-                participationFee: response[key].participationFee,
-                deposit: response[key].deposit,
-                priceStep: response[key].priceStep,
-                startDate: response[key].startDate,
-                endDate: response[key].endDate,
-                countdownDuration: response[key].countdownDuration,
-                state: response[key].state,
-                jewelry: {
-                    id: response[key].jewelry.id,
-                    name: response[key].jewelry.name
-                },
-            })
-        }
+        auctions = response.map((auctionData: any) => mapAuction(auctionData));
     } else {
         throw new Error("Phiên không tồn tại");
     }
     return { auctionsData: auctions };
-}
-
-interface NewAuctionRequestProps {
-    id: number;
-    name: string;
-    startDate: string;
-    endDate: string;
-    description: string;
-    firstPrice: number;
-    deposit: number;
-    priceStep: number;
-    jewelryId: number;
-    staffId: number;
 }
 
 export const createNewAuctionFromManager = async (request: NewAuctionRequestProps): Promise<boolean> => {
@@ -498,11 +340,11 @@ export async function getAllAuctionsAndNumberRegister(state: string, page: numbe
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;
-    
+
     const totalPages = response.totalPages;
     const totalAuctions = response.totalElements;
     const numberAuctionsPerPage = response.numberOfElements;
-    
+
     if (responseData) {
         for (const key in responseData) {
             const response = responseData[key]
