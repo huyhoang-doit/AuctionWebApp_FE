@@ -1,0 +1,31 @@
+{
+    "RegisterForAuction" : {
+        "Home" : "Trang chủ",
+        "Đăng kí đấu giá" : "Đăng kí đấu giá",
+        "THÔNG TIN TÀI SẢN ĐẤU GIÁ" : "THÔNG TIN TÀI SẢN ĐẤU GIÁ",
+        "Mã trang sức" : "Mã trang sức:",
+        "Cuộc đấu giá" : "Cuộc đấu giá:",
+        "Tên trang sức" : "Tên trang sức:",
+        "Phí tham gia đấu giá tài sản" : "Phí tham gia đấu giá tài sản",
+        "Tiền đặt trước" : "Tiền đặt trước:",
+        "Giá khởi điểm" : "Giá khởi điểm:",
+        "Bước giá" : "Bước giá:",
+        "Phương thức đấu giá" : "Phương thức đấu giá:",
+        "Trả giá lên và liên tục" : "Trả giá lên và liên tục",
+        "Tên chủ tài sản" : "Tên chủ tài sản:",
+        "Thời gian bắt đầu đấu giá" : "Thời gian bắt đầu đấu giá:",
+        "Thời gian kết thúc đấu giá" : "Thời gian kết thúc đấu giá:",
+        "Tôi đã đọc và đồng ý với quy chế đấu giá trên" : "Tôi đã đọc và đồng ý với quy chế đấu giá trên",
+        "Tôi tự nguyện không nhận tiền lãi phát sinh từ khoản tiền đặt trước" : "Tôi tự nguyện không nhận tiền lãi phát sinh từ khoản tiền đặt trước",
+        "Tôi đã hiểu rõ về tài sản đấu giá và không có ý kiến gì về việc xem tài sản đấu giá" : "Tôi đã hiểu rõ về tài sản đấu giá và không có ý kiến gì về việc xem tài sản đấu giá",
+        "Đăng ký tham gia" : "Đăng ký tham gia",
+        "Chưa chuyển tiền đặt trước." : "Chưa chuyển tiền đặt trước.",
+        "Mô tả tài sản" : "Mô tả tài sản",
+        "Thông tin đấu giá" : "Thông tin đấu giá",
+        "Tổ chức đấu giá tài sản" : "Tổ chức đấu giá tài sản:",
+        "Công ty đấu giá DGS" : "Công ty đấu giá DGS",
+        "Đấu giá viên" : "Đấu giá viên:"
+
+
+    }
+}
