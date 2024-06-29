@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { changeStateUser, editProfileUser, getUserById, rejectVerifyUser } from "../../../api/UserAPI";
 import { User } from "../../../models/User";
@@ -6,7 +6,6 @@ import { Bank } from "../../../models/Bank";
 import { City } from "../../../models/City";
 import { District } from "../../../models/District";
 import { Ward } from "../../../models/Ward";
-import { UserContext } from "../../../hooks/useContext";
 import { getAddressVietNam } from "../../../api/AddressAPI";
 import { getAllBanks } from "../../../api/BankAPI";
 import { isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../../utils/checkRegister";
@@ -26,7 +25,6 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
   const [originalUser, setOriginalUser] = useState<User | null>(props.user);
   const [isEditing, setIsEditing] = useState(false);
   const [banks, setBanks] = useState<Bank[]>([]);
-  const context = useContext(UserContext);
   const [cities, setCities] = useState<City[]>([]);
   const [selectedCityId, setSelectedCityId] = useState<string>('');
   const [districts, setDistricts] = useState<District[]>([]);
@@ -115,13 +113,7 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
             ...user,
             avatar: base64
           };
-          const response = await editProfileUser(updatedUser);
-          // toast.success("Cập nhật ảnh đại diện thành công!");
-          setUser(response)
-          props.setUser(response);
-          if (context && context.account) {
-            context.setAccount(response);
-          }
+          await editProfileUser(updatedUser);
         }
         // }
       } catch (error) {
@@ -146,11 +138,7 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
           });
           return;
         } else {
-          const response = await editProfileUser(user);
-          props.setUser(response);
-          if (context && context.account) {
-            context.setAccount(response);
-          }
+          await editProfileUser(user);
           Swal.fire({
             icon: 'success',
             title: 'Thành công',

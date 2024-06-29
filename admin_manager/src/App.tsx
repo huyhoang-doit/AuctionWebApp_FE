@@ -13,12 +13,12 @@ import RouterCom from "./routers/route";
 
 function App() {
   const token = localStorage.getItem("access_token");
-  const user = useAccount(token);
+  const account = useAccount(token);
 
   return (
     <>
-      <UserContext.Provider value={{ user }}>
-        {user ? (
+      <UserContext.Provider value={{ account }}>
+        {account ? (
           <>
             <Navbar />
             <Header />

@@ -20,54 +20,53 @@ interface ResultPageableInteface {
   totalElements: number
 }
 
-export async function getJewelriesPagination(username: string, page: number): Promise<ResultPageableInteface> {
-  const jeweriesData: Jewelry[] = [];
-
-
-  const URL = `${BASE_URL}/jewelry/sorted-and-paged?username=${username}&page=${page - 1}`;
-  // request
-  const response = await MyRequest(URL);
-  const responseData = response.content;
-
-  for (const key in responseData) {
-    jeweriesData.push({
-      id: responseData[key].id,
-      name: responseData[key].name,
-      price: responseData[key].price,
-      state: responseData[key].state,
-      category: responseData[key].category,
-      description: responseData[key].description,
-      material: responseData[key].material,
-      brand: responseData[key].brand,
-      weight: responseData[key].weight,
-      user: responseData[key].user
-    })
-  }
+function mapJewelry(jewelryData: any): Jewelry {
   return {
-    jeweriesData: jeweriesData,
-    totalElements: response.totalElements,
+    id: jewelryData.id,
+    name: jewelryData.name,
+    price: jewelryData.price,
+    state: jewelryData.state,
+    category: jewelryData.category,
+    description: jewelryData.description,
+    material: jewelryData.material,
+    brand: jewelryData.brand,
+    weight: jewelryData.weight,
+    user: jewelryData.user,
+    isHolding: jewelryData.isHolding
   };
 }
 
+export async function getJewelriesPagination(username: string, page: number): Promise<ResultPageableInteface> {
+  const jeweriesData: Jewelry[] = [];
+
+  const URL = `${BASE_URL}/jewelry/sorted-and-paged?username=${username}&page=${page - 1}`;
+  // request
+  try {
+    const response = await MyRequest(URL);
+    const responseData = response.content;
+
+    if (responseData) {
+      responseData.forEach((jewelryData: any) => {
+        jeweriesData.push(mapJewelry(jewelryData));
+      });
+    }
+    return {
+      jeweriesData: jeweriesData,
+      totalElements: response.totalElements,
+    };
+  } catch (error) {
+    console.error("Error fetching jewelries:", error);
+    throw new Error("Failed to fetch jewelries");
+  }
+}
+
 async function getJewelries(URL: string): Promise<Jewelry[]> {
-  const result: Jewelry[] = [];
+  let result: Jewelry[] = [];
 
   // request
   const response = await MyRequest(URL);
-
   for (const key in response) {
-    result.push({
-      id: response[key].id,
-      name: response[key].name,
-      price: response[key].price,
-      state: response[key].state,
-      category: response[key].category,
-      description: response[key].description,
-      material: response[key].material,
-      brand: response[key].brand,
-      weight: response[key].weight,
-      user: response[key].user
-    })
+    result.push(mapJewelry(response[key]));
   }
 
   return result;
@@ -96,64 +95,36 @@ export const sendJewelryFromUser = async (jewelryRequest: JewelryRequest): Promi
 export async function getJewelriesWaitList(page: number): Promise<ResultPageableInteface> {
   // endpoint
   const URL: string = `${BASE_URL}/jewelry/in-wait-list?page=${page - 1}`;
-
-  const jewelrys: Jewelry[] = [];
-  // request
-  const response = await MyRequest(URL);
-  const responseData = response.content;
-  const totalElements = response.totalElements;
-  console.log(responseData)
-
-
-  for (const key in responseData) {
-    jewelrys.push({
-      id: responseData[key].id,
-      name: responseData[key].name,
-      price: responseData[key].price,
-      state: responseData[key].state,
-      category: responseData[key].category,
-      description: responseData[key].description,
-      material: responseData[key].material,
-      brand: responseData[key].brand,
-      weight: responseData[key].weight,
-      user: responseData[key].user
-    })
-  }
-  return {
-    jeweriesData: jewelrys,
-    totalElements: totalElements
+  // request   
+  try {
+    const response = await MyRequest(URL);
+    const jeweriesData: Jewelry[] = response.content.map((jewelry: any) => mapJewelry(jewelry));
+    const totalElements = response.totalElements;
+    return {
+      jeweriesData: jeweriesData,
+      totalElements: totalElements
+    }
+  } catch (error) {
+    console.error("Error fetching auctions:", error);
+    throw new Error("Trang sức không tồn tại");
   }
 }
 
 export async function getJewelriesByStateAndHolding(state: string, holding: boolean, page: number): Promise<ResultPageableInteface> {
   // endpoint
   const URL: string = `${BASE_URL}/jewelry/is-holding?state=${state}&isHolding=${holding}&page=${page - 1}`;
-
-  const jewelrys: Jewelry[] = [];
   // request
-  const response = await MyRequest(URL);
-  const responseData = response.content;
-  const totalElements = response.totalElements;
-
-
-  for (const key in responseData) {
-    jewelrys.push({
-      id: responseData[key].id,
-      name: responseData[key].name,
-      price: responseData[key].price,
-      state: responseData[key].state,
-      category: responseData[key].category,
-      description: responseData[key].description,
-      material: responseData[key].material,
-      brand: responseData[key].brand,
-      weight: responseData[key].weight,
-      user: responseData[key].user,
-      isHolding: responseData[key].isHolding
-    })
-  }
-  return {
-    jeweriesData: jewelrys,
-    totalElements: totalElements
+  try {
+    const response = await MyRequest(URL);
+    const jeweriesData: Jewelry[] = response.content.map((jewelry: any) => mapJewelry(jewelry));
+    const totalElements = response.totalElements;
+    return {
+      jeweriesData: jeweriesData,
+      totalElements: totalElements
+    }
+  } catch (error) {
+    console.error("Error fetching auctions:", error);
+    throw new Error("Trang sức không tồn tại");
   }
 }
 
@@ -200,29 +171,18 @@ export async function setJewelryHidden(id: number): Promise<boolean> {
 export async function getJewelriesHandOverList(page: number): Promise<ResultPageableInteface> {
   // endpoint
   const URL: string = `${BASE_URL}/jewelry/in-handover-list?page=${page - 1}`;
-  const jewelrys: Jewelry[] = [];
   // request
-  const response = await MyRequest(URL);
-  const responseData = response.content;
-  const totalElements = response.totalElements;
-
-  for (const key in responseData) {
-    jewelrys.push({
-      id: responseData[key].id,
-      name: responseData[key].name,
-      price: responseData[key].price,
-      state: responseData[key].state,
-      category: responseData[key].category,
-      description: responseData[key].description,
-      material: responseData[key].material,
-      brand: responseData[key].brand,
-      weight: responseData[key].weight,
-      user: responseData[key].user
-    })
-  }
-  return {
-    jeweriesData: jewelrys,
-    totalElements: totalElements
+  try {
+    const response = await MyRequest(URL);
+    const jeweriesData: Jewelry[] = response.content.map((jewelry: any) => mapJewelry(jewelry));
+    const totalElements = response.totalElements;
+    return {
+      jeweriesData: jeweriesData,
+      totalElements: totalElements
+    }
+  } catch (error) {
+    console.error("Error fetching auctions:", error);
+    throw new Error("Trang sức không tồn tại");
   }
 }
 

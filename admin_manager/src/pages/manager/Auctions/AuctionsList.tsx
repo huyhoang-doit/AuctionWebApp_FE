@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react"; // Thêm useState để quản lý trang hiện tại
 import {  Spinner, Table } from 'react-bootstrap';
 import { Auction } from "../../../models/Auction";
-import { User } from "../../../models/User";
 import { getAllAuctions } from "../../../api/AuctionAPI";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import useAccount from "../../../hooks/useAccount";
@@ -19,12 +18,7 @@ const AuctionsList = () => {
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [auctionState, setAuctionState] = useState('WAITING');
-  const [userState, setUserState] = useState<User | null>(user);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setUserState(user);
-  }, [user]);
 
   const handleChangeList = useCallback(async () => {
     setLoading(true); // Bắt đầu tải

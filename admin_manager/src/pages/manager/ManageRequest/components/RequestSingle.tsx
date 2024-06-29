@@ -5,7 +5,7 @@ import { formatDateStringAcceptNull } from '../../../../utils/formatDateString'
 import { DeleteJewelryRequestModal, JewelryModal } from '../../Modal/Modal'
 import { User } from '../../../../models/User'
 import { Image } from '../../../../models/Image'
-import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi'
+import { getImagesByJewelryId } from '../../../../api/ImageApi'
 
 
 interface RequestSingleProps {
@@ -14,23 +14,9 @@ interface RequestSingleProps {
   handleChangeList: () => Promise<void>
 }
 const RequestSingle: React.FC<RequestSingleProps> = ({ request, user, handleChangeList }) => {
-  const [image, setImage] = useState<Image | null>(null)
   const [images, setImages] = useState<Image[]>([])
-  const [userState, setUserState] = useState<User | null>(user);
 
   useEffect(() => {
-    setUserState(user);
-  }, [user]);
-
-  useEffect(() => {
-    getIconImageByJewelryId(request.jewelry?.id ? request.jewelry.id : 1)
-      .then((response) => {
-        setImage(response);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-
     getImagesByJewelryId(request.jewelry?.id ? request.jewelry.id : 1)
       .then((response) => {
         setImages(response);
