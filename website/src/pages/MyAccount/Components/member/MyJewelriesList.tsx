@@ -1,23 +1,23 @@
 import React, { useCallback, useEffect, useState } from "react";
-import MyJewelrySingle from "./MyJewelrySingle";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { Spinner } from "react-bootstrap";
 import { User } from "../../../../models/User";
-import { RequestApproval } from "../../../../models/RequestApproval";
-import { getRequestNeedConfirmByMember } from "../../../../api/RequestApprovalAPI";
 import useAccount from "../../../../hooks/useAccount";
 import { useTranslation } from "react-i18next";
+import MyJewelrySingle from "./MyJewelrySingle";
+import { getJewelriesActiveByUserId } from "../../../../api/JewelryAPI";
+import { Jewelry } from "../../../../models/Jewelry";
 
-interface MyJewelriesProps {
+interface MyJewelriesListProps {
   user: User | null;
   setUser: (user: User) => void;
 }
 
-const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
+const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
   const token = localStorage.getItem("access_token");
   const userExit = useAccount(token);
 
-  const [listRequests, setListRequests] = useState<RequestApproval[]>([]);
+  const [listJewelries, setListJewelries] = useState<Jewelry[]>([]);
   const [user, setUser] = useState<User | null>(
     userExit?.account || props.user
   );
@@ -29,8 +29,8 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
     if (user) {
       setLoading(true);
       try {
-        const response = await getRequestNeedConfirmByMember(user.id, page);
-        setListRequests(response.requestsData);
+        const response = await getJewelriesActiveByUserId(user.id, page);
+        setListJewelries(response.jeweriesData);
         setTotalElements(response.totalElements);
       } catch (error) {
         console.error(error);
@@ -58,13 +58,13 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
     <>
       <div
         className="tab-pane fade"
-        id="my-jewelry"
+        id="my-jewelries"
         role="tabpanel"
         aria-labelledby="account-orders-tab"
       >
         <div className="myaccount-orders">
           <h4 className="small-title">
-            {t("MyJewellryList.Danh sách cần xác nhận")}
+            Danh sách tài sản của tôi
           </h4>
           <div className="table-responsive">
             <table className="table table-bordered table-hover">
@@ -75,8 +75,7 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
                     {t("MyJewellryList.Tên trang sức")}
                   </th>
                   <th>{t("MyJewellryList.Ảnh")}</th>
-                  <th>{t("MyJewellryList.Giá mong muốn")}</th>
-                  <th>{t("MyJewellryList.Định giá")}</th>
+                  <th>Trạng thái</th>
                   <th>{t("MyJewellryList.Thao tác")}</th>
                 </tr>
               </thead>
@@ -87,14 +86,12 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
                       <Spinner animation="border" />
                     </td>
                   </tr>
-                ) : listRequests.length > 0 ? (
-                  listRequests.map((request) => (
+                ) : listJewelries.length > 0 ? (
+                  listJewelries.map((jewelry) => (
                     <MyJewelrySingle
-                      key={request.id}
-                      request={request}
-                      jewelry={request.jewelry}
+                      key={jewelry.id}
+                      jewelry={jewelry}
                       user={props.user}
-                      handleChangeList={handleChangeList}
                     />
                   ))
                 ) : (
@@ -127,4 +124,4 @@ const MyJewelryList: React.FC<MyJewelriesProps> = (props) => {
   );
 };
 
-export default MyJewelryList;
+export default MyJewelriesList;
