@@ -1,10 +1,15 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+import MyCustomFont from '../utils/fonts/Anton-Regular.ttf';
 
+Font.register({
+  family: 'AntonFamily',
+  src: MyCustomFont
+})
 // Define styles for the PDF
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Times-Roman',
+    fontFamily: 'AntonFamily',
     fontSize: 12,
     paddingTop: 30,
     paddingLeft: 60,
@@ -12,20 +17,24 @@ const styles = StyleSheet.create({
     lineHeight: 1.5,
   },
   section: {
+    fontFamily: 'AntonFamily',
     marginBottom: 10,
     textAlign: 'justify',
   },
   table: {
+    fontFamily: 'AntonFamily',
     width: '100%',
     textAlign: 'center',
     border: '1px solid #000',
     borderCollapse: 'collapse',
   },
   th: {
+    fontFamily: 'AntonFamily',
     border: '1px solid #000',
     padding: 8,
   },
   td: {
+    fontFamily: 'AntonFamily',
     border: '1px solid #000',
     padding: 8,
   },
