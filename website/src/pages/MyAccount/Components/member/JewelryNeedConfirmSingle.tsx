@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react'
+import { RequestApproval } from '../../../../models/RequestApproval';
 import { Jewelry } from '../../../../models/Jewelry';
 import { User } from '../../../../models/User';
 import { Image } from '../../../../models/Image';
 import { getIconImageByJewelryId, getImagesByJewelryId } from '../../../../api/ImageApi';
-import { StateJewelry } from './StateJewelry';
-import { getCurrentAuctionByJewelryId } from '../../../../api/AuctionAPI';
-import { Auction } from '../../../../models/Auction';
-import { MyJewelryModal } from '../../Modal/Modal';
-type MyJewelrySingleProps = {
+import { formatNumberAcceptNull } from '../../../../utils/formatNumber';
+import { ConfirmModal, RefuseJewelryRequestModal } from '../../Modal/Modal';
+type JewelryNeedConfirmSingleProps = {
+  request: RequestApproval;
   jewelry: Jewelry | undefined;
   user: User | null,
+  handleChangeList: () => Promise<void>
 }
-const MyJewelrySingle: React.FC<MyJewelrySingleProps> = ({ jewelry, user }) => {
+const MyJewelryNeedConfirmSingle: React.FC<JewelryNeedConfirmSingleProps> = ({ request, jewelry, user, handleChangeList }) => {
   const [image, setImage] = useState<Image | null>(null)
   const [images, setImages] = useState<Image[]>([])
-  const [auction, setAuction] = useState<Auction | null>(null)
-  const jewelryId = jewelry?.id ? jewelry.id : 1
   useEffect(() => {
-    getIconImageByJewelryId(jewelryId)
+    getIconImageByJewelryId(jewelry?.id ? jewelry.id : 1)
       .then((response) => {
         setImage(response);
       })
@@ -25,21 +24,13 @@ const MyJewelrySingle: React.FC<MyJewelrySingleProps> = ({ jewelry, user }) => {
         console.error(error.message);
       });
 
-    getImagesByJewelryId(jewelryId)
+    getImagesByJewelryId(jewelry?.id ? jewelry.id : 1)
       .then((response) => {
         setImages(response);
       })
       .catch((error) => {
         console.error(error.message);
       });
-    getCurrentAuctionByJewelryId(jewelryId)
-      .then((response) => {
-        setAuction(response);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-
   }, [])
 
   return (
@@ -52,16 +43,19 @@ const MyJewelrySingle: React.FC<MyJewelrySingleProps> = ({ jewelry, user }) => {
           {jewelry?.name}
         </td>
         <td><img style={{ width: '60px', height: '60px' }} src={image?.data} alt='jewelry' /></td>
-
+        <td className='fw-semibold'>
+          {formatNumberAcceptNull(request?.desiredPrice)}
+        </td>
         <td className='fw-semibold text-success'>
-          <StateJewelry state={jewelry?.state ? jewelry?.state : 'HIDDEN'} />
+          {formatNumberAcceptNull(request?.valuation)}
         </td>
         <td >
-          <MyJewelryModal images={images} user={user} jewelry={jewelry} auction={auction} />
+          <ConfirmModal jewelry={jewelry} images={images} user={user} request={request} handleChangeList={handleChangeList} />
+          <RefuseJewelryRequestModal jewelry={jewelry} request={request} user={user} handleChangeList={handleChangeList} />
         </td>
       </tr>
     </>
   )
 }
 
-export default MyJewelrySingle
+export default MyJewelryNeedConfirmSingle

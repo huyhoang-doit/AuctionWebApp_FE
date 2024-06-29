@@ -251,18 +251,18 @@ export async function getAuctionByStaffId(staffId: number, page: number): Promis
     }
 }
 
-export async function getAuctionByJewelryId(id: number): Promise<ResultInteface> {
-    let auctions: Auction[] = [];
+
+export async function getCurrentAuctionByJewelryId(id: number): Promise<Auction> {
     // endpoint
-    const URL = `${BASE_URL}/auction/get-by-jewelry/${id}`;
+    const URL = `${BASE_URL}/auction/get-current-by-jewelry/${id}`;
 
     // request
     const response = await MyRequest(URL);
 
     if (response) {
-        auctions = response.map((auctionData: any) => mapAuction(auctionData));
+
+        return response
     } else {
         throw new Error("Phiên không tồn tại");
     }
-    return { auctionsData: auctions };
 }
