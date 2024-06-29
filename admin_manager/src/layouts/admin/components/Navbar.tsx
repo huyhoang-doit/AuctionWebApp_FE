@@ -80,6 +80,12 @@ const Navbar = () => {
               <span>Danh sách các phiên đấu giá</span>
             </Link>
           </li>
+          <li >
+            <Link className="has-arrow" to={"/manager/dang-ky-dau-gia"} aria-expanded="false">
+              <i className="fa-solid fa-user"></i>
+              <span>Danh sách đăng ký tham gia đấu giá</span>
+            </Link>
+          </li>
           <li>
             <Link className="has-arrow" to={"/manager/tai-san-dang-cho"} aria-expanded="false">
               <img src="/assets/img/menu-icon/3.svg" />

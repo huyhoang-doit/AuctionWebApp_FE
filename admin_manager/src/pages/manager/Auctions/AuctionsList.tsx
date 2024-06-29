@@ -22,7 +22,6 @@ const AuctionsList = () => {
   const [userState, setUserState] = useState<User | null>(user);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     setUserState(user);
   }, [user]);
@@ -100,7 +99,7 @@ const AuctionsList = () => {
                           <th scope="col" style={{ width: '20%' }}>Tên phiên</th>
                           <th scope="col">Thời gian bắt đầu</th>
                           <th scope="col">Thời gian kết thúc</th>
-                          <th scope="col">Mã nhân viên</th>
+                          <th scope="col">Nhân viên phụ trách</th>
                           <th scope="col">Trạng thái</th>
                           <th scope="col">Thao tác</th>
                         </tr>
@@ -112,7 +111,6 @@ const AuctionsList = () => {
                               <Spinner animation="border" />
                             </td>
                           </tr>
-
                         ) : (listAuctions.length > 0 ?
                           (listAuctions.map((auction) => (
                             <AuctionSingle key={auction.id} auction={auction} />
