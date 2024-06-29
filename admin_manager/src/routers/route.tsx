@@ -12,10 +12,10 @@ import CreateAuction from "../pages/manager/Auctions/CreateAuction";
 import ViewProducts from "../pages/manager/View/ViewProducts";
 import ViewAccount from "../pages/admin/View/ViewAccount";
 import VerifyUser from "../pages/admin/manage-account/VerifyUser";
-import TransactionsOverdue from "../pages/manager/Transaction/TransactionsOverdue";
 import ViewUserOfManager from "../pages/manager/User/ViewUser";
 import TransactionList from "../pages/manager/Transaction/TransactionList";
 import AuctionRegistrationList from "../pages/manager/AuctionRegistration/AuctionRegistrationList";
+import TransactionsOverdue from "../pages/manager/Transaction/TransactionsOverdue";
 
 const RouterCom = () => {
   return (
