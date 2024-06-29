@@ -123,7 +123,7 @@ export const logout = async () => {
             // localStorage.removeItem('refresh_token');
 
             // Redirect to login page
-            window.location.href = '/dang-nhap';
+            window.location.href = '/';
         } else {
             throw new Error('Logout failed');
         }
@@ -167,7 +167,7 @@ export const refreshToken = async () => {
         console.error('Failed to refresh token:', error);
         localStorage.removeItem('access_token');
 
-        window.location.href = '/dang-nhap';
+        window.location.href = '/';
         return;
     }
 };
