@@ -8,12 +8,12 @@ const GuestRoute: React.FC = () => {
 
     useEffect(() => {
         if (!token) {
-            navigate('/dang-nhap');
+            navigate('/');
         }
     }, []);
 
 
-    if (!token) return <Navigate to="/dang-nhap" />;
+    if (!token) return <Navigate to="/" />;
 
     return <Outlet />;
 };

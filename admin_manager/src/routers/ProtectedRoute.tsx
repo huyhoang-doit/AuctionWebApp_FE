@@ -21,7 +21,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ roles }) => {
 
     useEffect(() => {
         if (!token) {
-            navigate('/dang-nhap');
+            navigate('/');
             return;
         }
 
@@ -29,7 +29,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ roles }) => {
         const userRoles = decodedData.authorities?.map(auth => auth.authority) || [];
 
         if (roles && !roles.some(role => userRoles.includes(role))) {
-            navigate('/404');
+            navigate('/');
         }
 
         if (userRoles.includes('STAFF')) {
@@ -40,7 +40,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ roles }) => {
     }, [token, navigate, roles]);
 
 
-    if (!token) return <Navigate to="/dang-nhap" />;
+    if (!token) return <Navigate to="/" />;
 
     return <Outlet />;
 };

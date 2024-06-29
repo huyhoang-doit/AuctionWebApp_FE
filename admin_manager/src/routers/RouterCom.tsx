@@ -94,7 +94,7 @@ const RouterCom = () => {
       </Route>
 
 
-      <Route path="/dang-nhap" element={<Login />} />
+      <Route path="/" element={<Login />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
