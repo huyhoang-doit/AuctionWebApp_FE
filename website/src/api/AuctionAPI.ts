@@ -229,7 +229,7 @@ export async function changeStateAuction(auctionId: number, state: string): Prom
     // endpoint
     const URL = `${BASE_URL}/auction/set-state/${auctionId}?state=${state}`;
     // request
-    
+
     const response = await fetch(URL, {
         method: 'PUT',
         headers: {
@@ -356,37 +356,16 @@ export async function getAuctionByStaffId(staffId: number, page: number): Promis
     };
 }
 
-export async function getAuctionByJewelryId(id: number): Promise<ResultInteface> {
-    const auctions: Auction[] = [];
+export async function getCurrentAuctionByJewelryId(id: number): Promise<Auction> {
     // endpoint
-    const URL = `${BASE_URL}/auction/get-by-jewelry/${id}`;
+    const URL = `${BASE_URL}/auction/get-current-by-jewelry/${id}`;
 
     // request
     const response = await MyRequest(URL);
 
     if (response) {
-        for (const key in response) {
-            auctions.push({
-                id: response[key].id,
-                name: response[key].name,
-                description: response[key].description,
-                firstPrice: response[key].firstPrice,
-                lastPrice: response[key].lastPrice,
-                participationFee: response[key].participationFee,
-                deposit: response[key].deposit,
-                priceStep: response[key].priceStep,
-                startDate: response[key].startDate,
-                endDate: response[key].endDate,
-                countdownDuration: response[key].countdownDuration,
-                state: response[key].state,
-                jewelry: {
-                    id: response[key].jewelry.id,
-                    name: response[key].jewelry.name
-                },
-            })
-        }
+        return response
     } else {
         throw new Error("Phiên không tồn tại");
     }
-    return { auctionsData: auctions };
 }

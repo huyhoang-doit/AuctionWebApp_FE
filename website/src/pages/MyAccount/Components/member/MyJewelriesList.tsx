@@ -92,7 +92,6 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
                       key={jewelry.id}
                       jewelry={jewelry}
                       user={props.user}
-                      handleChangeList={handleChangeList}
                     />
                   ))
                 ) : (
