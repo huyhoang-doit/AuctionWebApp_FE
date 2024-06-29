@@ -73,6 +73,7 @@ interface CreateHandoverReportModalProps {
   auction: Auction | undefined | null;
   jewelry: Jewelry | undefined;
   user: User | null;
+  winner: User | undefined;
   handleChangeList: () => Promise<void>
 }
 
@@ -1182,6 +1183,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
         auction={auction}
         jewelry={jewelry}
         user={user}
+        winner={winner}
         handleChangeList={handleChangeList}
       />
     </>
@@ -1190,7 +1192,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
 
 export const CreateHandoverReportModal: React.FC<
   CreateHandoverReportModalProps
-> = ({ show, handleClose, user, auction, jewelry, handleChangeList }) => {
+> = ({ show, handleClose, user, winner, auction, jewelry, handleChangeList }) => {
   const jewelryId = jewelry?.id ? jewelry.id : 1
   const handleConfirm = async () => {
     const confirm = await setJewelryHolding(jewelryId, false);
@@ -1228,46 +1230,17 @@ export const CreateHandoverReportModal: React.FC<
               </Modal.Title>
             </Modal.Header>
             <Modal.Body style={{ height: "650px" }}>
-              {/* <CKEditor
-                  editor={ClassicEditor}
-                  data={"không có gì"}
-                  config={{
-                    ckbox: {
-                      tokenUrl:
-                        "https://111289.cke-cs.com/token/dev/bpym057sSTzEaKMwFLqRUCAT2BZ92hvE6xKw?limit=10",
-                      theme: "lark",
-                    },
-                  }}
-                  onReady={(editor) => {
-                    console.log("Đã sử dụng được");
-
-                    editor.editing.view.change((writer) => {
-                      const root = editor.editing.view.document.getRoot();
-                      if (root) {
-                        writer.setStyle("height", "300px", root);
-                      }
-                    });
-                  }}
-                  onChange={(event, editor) => {
-                    const data = editor.getData();
-                    // updateDescription(data);
-                  }}
-                /> */}
-
               <PDFViewer style={{ width: '100%', height: '100%' }}>
-                <PDFHandover />
+                <PDFHandover winner={winner} auction={auction} jewelry={jewelry} />
               </PDFViewer>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>
                 Đóng
               </Button>
-              {/* <PDFDownloadLink document={<PDFHandover />} fileName="testPDF"> */}
               <Button variant="warning" onClick={handleConfirm}>
                 Xác nhận
               </Button>
-              {/* </PDFDownloadLink> */}
-
             </Modal.Footer>
           </Modal>
         </div>
