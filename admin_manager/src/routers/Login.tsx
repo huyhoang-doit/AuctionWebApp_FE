@@ -9,9 +9,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { login } from '../api/AuthenticationAPI';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 interface CustomJwtPayload extends JwtPayload {
     authorities: { authority: string }[];
+}
+
+interface LoginProps {
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface CopyrightProps extends TypographyProps {
@@ -31,13 +36,14 @@ function Copyright(props: CopyrightProps) {
 
 const defaultTheme = createTheme();
 
-export default function Login() {
+export const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
     const [error, setError] = React.useState("");
     const [loginRequest, setLoginRequest] = React.useState({
         username: "",
         email: "",
         password: "",
     });
+    const navigate = useNavigate();
 
     let userRole: string = '';
 
@@ -50,7 +56,8 @@ export default function Login() {
             if (token) {
                 const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
                 userRole = decodedData.authorities[0].authority;
-                window.location.href = `${userRole === 'ADMIN' ? "/admin" : "/manager"}`;
+                navigate(userRole === 'ADMIN' ? '/admin' : '/manager');
+                setIsLoggedIn(true);
             }
         }
     };
