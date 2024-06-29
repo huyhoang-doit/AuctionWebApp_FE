@@ -55,6 +55,15 @@ export default function Login() {
         }
     };
 
+    React.useEffect(() => {
+        const token = localStorage.getItem("access_token");
+        if (token) {
+            const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
+            userRole = decodedData.authorities[0].authority;
+            window.location.href = `${userRole === 'ADMIN' ? "/admin" : "/manager"}`;
+        }
+    }, [])
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
