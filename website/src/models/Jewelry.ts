@@ -6,7 +6,7 @@ export class Jewelry {
     id: number;
     name: string;
     price?: number;
-    state?: boolean;
+    state?: string;
     category?: Category;
     description?: string;
     material?: string;
@@ -19,7 +19,7 @@ export class Jewelry {
         id: number,
         name: string,
         price?: number,
-        state?: boolean,
+        state?: string,
         brand?: string,
         description?: string,
         material?: string,

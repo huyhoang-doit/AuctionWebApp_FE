@@ -14,8 +14,9 @@ import { useTranslation } from "react-i18next";
 
 import { MyBidHistoryList } from "./Components/member/MyBidHistoryList";
 import { TransactionHistory } from "./Components/member/TransactionHistory";
-import MyJewelryList from "./Components/member/MyJewellryList";
 import { MyJewelryRequestList } from "./Components/member/MyJewelryRequestList";
+import MyJewelryNeedConfirmList from "./Components/member/JewellryNeedConfirmList";
+import MyJewelriesList from "./Components/member/MyJewelriesList";
 
 
 export default function MyAccount() {
@@ -125,10 +126,23 @@ export default function MyAccount() {
                   </li>
                   <li className="nav-item">
                     <a
+                      className={`nav-link ${isAfterPay ? "active" : ""}`}
+                      id="account-address-tab"
+                      data-bs-toggle="tab"
+                      href="#my-jewelries"
+                      role="tab"
+                      aria-controls="account-address"
+                      aria-selected="false"
+                    >
+                      Tài sản của tôi
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
                       className="nav-link"
                       id="account-details-tab"
                       data-bs-toggle="tab"
-                      href="#my-jewelry"
+                      href="#confirm-jewelry"
                       role="tab"
                       aria-controls="account-details"
                       aria-selected="false"
@@ -172,7 +186,8 @@ export default function MyAccount() {
                     isAfterPay={isAfterPay}
                     user={userState}
                   />
-                  <MyJewelryList user={userState} setUser={setUserState} />
+                  <MyJewelryNeedConfirmList user={userState} setUser={setUserState} />
+                  <MyJewelriesList user={userState} setUser={setUserState} />
                   <MyJewelryRequestList userId={userState?.id} />
                 </div>
               </div>
