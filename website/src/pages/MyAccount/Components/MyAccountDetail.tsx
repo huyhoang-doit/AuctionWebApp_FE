@@ -314,7 +314,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
       aria-labelledby="account-details-tab"
     >
       <div className="">
-        <h4 className="small-title mb-4">
+        <h4 className="small-title fw-bold mb-4">
           {t("MyAccountDetail.Thông tin tài khoản")}
         </h4>
       </div>

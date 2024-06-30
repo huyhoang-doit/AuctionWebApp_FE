@@ -231,7 +231,7 @@ export async function getAuctionsByStateNotPageale(state: string): Promise<Resul
 
 export async function getAuctionByStaffId(staffId: number, page: number): Promise<ResultPageableInteface> {
     // endpoint
-    const URL = `${BASE_URL}/auction/get-by-staff/${staffId}?page=${page - 1}`;
+    const URL = `${BASE_URL}/auction/get-by-staff/${staffId}?auctionName=${auctionName}&page=${page - 1}`;
     try {
         // request
         const response = await MyRequest(URL);
@@ -247,6 +247,7 @@ export async function getAuctionByStaffId(staffId: number, page: number): Promis
         };
     } catch (error) {
         console.error("Error fetching auctions:", error);
+
         throw new Error("Phiên không tồn tại");
     }
 }
