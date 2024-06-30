@@ -9,9 +9,11 @@ import "../../../../utils/pagination.css";
 import { Spinner } from "react-bootstrap";
 import { AssignAuctionModal } from "../../Modal/ModalStaff";
 import { useTranslation } from "react-i18next";
+import { useDebouncedCallback } from "use-debounce";
 interface MyAccountDetailProps {
   user: User | null;
   setUser: (user: User) => void;
+  listNumber: number;
 }
 const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
   const [auctions, setAuction] = useState<Auction[]>([]);
@@ -19,6 +21,21 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   useEffect(() => {
     setUser(props.user);
@@ -27,7 +44,7 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
   useEffect(() => {
     setLoading(true);
     if (props.user && props.user.id) {
-      getAuctionByStaffId(props.user.id, page)
+      getAuctionByStaffId(props.user.id, debouncedTxtSearch, page)
         .then((response) => {
           setAuction(response.auctionsData);
           setTotalElements(response.totalAuctions);
@@ -37,8 +54,12 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
         });
     }
     setLoading(false);
-  }, [props.user, page]);
+  }, [props.user, page, debouncedTxtSearch, props.listNumber]);
 
+  useEffect(() => {
+    setTxtSearch('')
+    debouncedTxtSearchChange('');
+  }, [props.listNumber]);
   const { t } = useTranslation(["Staff"]);
 
   return (
@@ -49,9 +70,22 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
       aria-labelledby="account-address-tab"
     >
       <div className="myaccount-orders">
-        <h4 className="small-title">
-          {t("AssignedAuctionList.Danh sách phiên được phân công")}
-        </h4>
+        <div className="row mb-2">
+          <div className="col-md-7">
+            <h4 className="small-title fw-bold mt-2">
+              {t("AssignedAuctionList.Danh sách phiên được phân công")}
+            </h4>
+          </div>
+          <div className="umino-sidebar_categories col-md-5 mb-2" >
+            <input
+              style={{ height: '40px' }}
+              type="text"
+              placeholder='Tên phiên...'
+              value={txtSearch}
+              onChange={handleTxtSearch}
+            />
+          </div>
+        </div>
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
             <thead>
@@ -78,13 +112,12 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
                     <td>{formatDateString(auction.startDate)}</td>
                     <td>
                       <span
-                        className={`fw-bold ${
-                          auction.state === "WAITING"
-                            ? "text-warning"
-                            : auction.state === "ONGOING"
+                        className={`fw-bold ${auction.state === "WAITING"
+                          ? "text-warning"
+                          : auction.state === "ONGOING"
                             ? "text-success"
                             : ""
-                        }`}
+                          }`}
                       >
                         {auction.state}
                       </span>

@@ -101,8 +101,6 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
               />
             </div>
           </div>
-
-
           <div className="table-responsive">
             <table className="table table-bordered table-hover">
               <thead className="text-center">
