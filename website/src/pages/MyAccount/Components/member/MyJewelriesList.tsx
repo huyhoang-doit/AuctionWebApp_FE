@@ -12,7 +12,7 @@ import { useDebouncedCallback } from "use-debounce";
 interface MyJewelriesListProps {
   user: User | null;
   setUser: (user: User) => void;
-  listNumber: number
+  listNumber: number;
 }
 
 const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
@@ -26,15 +26,12 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
-  const [txtSearch, setTxtSearch] = useState('');
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
+  const [txtSearch, setTxtSearch] = useState("");
 
-  const debouncedTxtSearchChange = useDebouncedCallback(
-    (txtSearch: string) => {
-      setDebouncedTxtSearch(txtSearch);
-    },
-    1000
-  );
+  const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
+    setDebouncedTxtSearch(txtSearch);
+  }, 1000);
 
   const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -46,7 +43,11 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
     if (user) {
       setLoading(true);
       try {
-        const response = await getJewelriesActiveByUserId(user.id, debouncedTxtSearch, page);
+        const response = await getJewelriesActiveByUserId(
+          user.id,
+          debouncedTxtSearch,
+          page
+        );
         setListJewelries(response.jeweriesData);
         setTotalElements(response.totalElements);
       } catch (error) {
@@ -66,8 +67,8 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
   }, [page, handleChangeList, debouncedTxtSearch]);
 
   useEffect(() => {
-    setTxtSearch('')
-    debouncedTxtSearchChange('');
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
   }, [props.listNumber]);
 
   useEffect(() => {
@@ -88,14 +89,14 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
           <div className="row mb-2">
             <div className="col-md-7">
               <h4 className="small-title fw-bold mt-2">
-                Danh sách tài sản của tôi
+                {t("MyJewellryList.Danh sách tài sản của tôi")}
               </h4>
             </div>
-            <div className="umino-sidebar_categories col-md-5 mb-2" >
+            <div className="umino-sidebar_categories col-md-5 mb-2">
               <input
-                style={{ height: '40px' }}
+                style={{ height: "40px" }}
                 type="text"
-                placeholder='Tên trang sức...'
+                placeholder={t("MyJewellryList.Tên trang sức...")}
                 value={txtSearch}
                 onChange={handleTxtSearch}
               />
@@ -110,7 +111,7 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
                     {t("MyJewellryList.Tên trang sức")}
                   </th>
                   <th>{t("MyJewellryList.Ảnh")}</th>
-                  <th>Trạng thái</th>
+                  <th>{t("MyJewellryList.Trạng thái")}</th>
                   <th>{t("MyJewellryList.Thao tác")}</th>
                 </tr>
               </thead>
