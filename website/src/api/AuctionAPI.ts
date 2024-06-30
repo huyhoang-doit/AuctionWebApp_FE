@@ -231,38 +231,25 @@ export async function getAuctionsByStateNotPageale(state: string): Promise<Resul
 
 
 export async function getAuctionByStaffId(staffId: number, auctionName: string, page: number): Promise<ResultPageableInteface> {
-    const auctions: Auction[] = [];
     // endpoint
     const URL = `${BASE_URL}/auction/get-by-staff/${staffId}?auctionName=${auctionName}&page=${page - 1}`;
 
     // request
-    const response = await MyRequest(URL);
-    const responseData = response.content;
-    const totalPages = response.totalPages;
-    const totalAuctions = response.totalElements;
-    const numberAuctionsPerPage = response.totalElements;
-    if (response) {
-        for (const key in responseData) {
-            auctions.push({
-                id: responseData[key].id,
-                name: responseData[key].name,
-                description: responseData[key].description,
-                firstPrice: responseData[key].firstPrice,
-                lastPrice: responseData[key].lastPrice,
-                participationFee: responseData[key].participationFee,
-                deposit: responseData[key].deposit,
-                priceStep: responseData[key].priceStep,
-                startDate: responseData[key].startDate,
-                endDate: responseData[key].endDate,
-                countdownDuration: responseData[key].countdownDuration,
-                state: responseData[key].state,
-                jewelry: {
-                    id: responseData[key].jewelry.id,
-                    name: responseData[key].jewelry.name
-                },
-            })
-        }
-    } else {
+    try {
+        // request
+        const response = await MyRequest(URL);
+        const auctionsData: Auction[] = response.content.map((auction: any) => mapAuction(auction));
+        const totalPages = response.totalPages;
+        const totalAuctions = response.totalElements;
+        const numberAuctionsPerPage = response.totalElements;
+        return {
+            auctionsData: auctionsData,
+            numberAuctionsPerPage: numberAuctionsPerPage,
+            totalPages: totalPages,
+            totalAuctions: totalAuctions,
+        };
+    } catch (error) {
+        console.error("Error fetching auctions:", error);
         throw new Error("Phiên không tồn tại");
     }
 }
