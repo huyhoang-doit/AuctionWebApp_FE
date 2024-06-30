@@ -110,6 +110,10 @@
         "Tên người dùng" : "Tên người dùng",
         "Họ tên" : "Họ tên"
 
+    },
+    "StateJewelry" : {
+        "Chưa có phiên đấu" : "Chưa có phiên đấu",
+        "Đã có phiên đấu" : "Đã có phiên đấu"
     }
 
 
