@@ -26,6 +26,7 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
   const [txtSearch, setTxtSearch] = useState('');
 
+
   const debouncedTxtSearchChange = useDebouncedCallback(
     (txtSearch: string) => {
       setDebouncedTxtSearch(txtSearch);
