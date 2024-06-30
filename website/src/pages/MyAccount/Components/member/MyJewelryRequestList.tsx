@@ -7,13 +7,15 @@ import { formatDateStringAcceptNull } from "../../../../utils/formatDateString";
 import { ViewJewelryRequestModal } from "../../Modal/Modal";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { useTranslation } from "react-i18next";
+import { useDebouncedCallback } from "use-debounce";
 
 interface MyJewelryListProps {
   userId: number | undefined;
+  listNumber: number
 }
 
 export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
-  userId,
+  userId, listNumber
 }) => {
   const [myJewelryRequestList, setMyJewelryRequestList] = useState<
     RequestApproval[]
@@ -21,13 +23,29 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   const handleChangeList = useCallback(async () => {
     setLoading(true);
 
     if (userId) {
       try {
-        const response = await getRequestByUserId(userId, page);
+        const response = await getRequestByUserId(userId, debouncedTxtSearch, page);
         setMyJewelryRequestList(response.requestsData);
         setTotalElements(response.totalElements);
       } catch (error) {
@@ -35,11 +53,16 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
       }
     }
     setLoading(false);
-  }, [userId, page]);
+  }, [userId, page, debouncedTxtSearch]);
 
   useEffect(() => {
     handleChangeList();
-  }, [userId, page, handleChangeList]);
+  }, [userId, page, handleChangeList, debouncedTxtSearch]);
+
+  useEffect(() => {
+    setTxtSearch('')
+    debouncedTxtSearchChange('');
+  }, [listNumber]);
 
   const { t } = useTranslation(["MyJewelryRequestList"]);
 
@@ -51,9 +74,22 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
       aria-labelledby="account-address-tab"
     >
       <div className="myaccount-orders">
-        <h4 className="small-title">
-          {t("MyJewelryRequestList.Danh sách các sản phẩm yêu cầu của tôi")}
-        </h4>
+        <div className="row mb-2">
+          <div className="col-md-7">
+            <h4 className="small-title fw-bold mt-2">
+              {t("MyJewelryRequestList.Danh sách các sản phẩm yêu cầu của tôi")}
+            </h4>
+          </div>
+          <div className="umino-sidebar_categories col-md-5 mb-2" >
+            <input
+              style={{ height: '40px' }}
+              type="text"
+              placeholder='Tên trang sức...'
+              onChange={handleTxtSearch}
+              value={txtSearch}
+            />
+          </div>
+        </div>
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
             <thead className="text-center">
@@ -90,9 +126,8 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
                         </td>
                       ) : (
                         <td
-                          className={`fw-semibold text-start ${
-                            request.isConfirm ? "text-success" : "text-dark"
-                          }`}
+                          className={`fw-semibold text-start ${request.isConfirm ? "text-success" : "text-dark"
+                            }`}
                         >
                           {request.isConfirm
                             ? t("MyJewelryRequestList.Đã phê duyệt")

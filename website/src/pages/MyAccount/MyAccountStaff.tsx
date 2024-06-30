@@ -128,7 +128,9 @@ export default function MyAccountStaff() {
                       {t("MyAccount.ListCacTrangSucGuiToi")}
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => {
+                    setListNumber(5);
+                  }}>
                     <a
                       className="nav-link"
                       id="account-address-tab"
@@ -141,7 +143,9 @@ export default function MyAccountStaff() {
                       {t("MyAccount.ListTrangSucBanGiao")}
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => {
+                    setListNumber(6);
+                  }}>
                     <a
                       className="nav-link"
                       id="account-details-tab"
@@ -198,6 +202,7 @@ export default function MyAccountStaff() {
                   <AssignedAuctionList
                     user={userState}
                     setUser={setUserState}
+                    listNumber={listNumber}
                   />
                 </div>
               </div>
