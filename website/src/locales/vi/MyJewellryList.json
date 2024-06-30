@@ -1,12 +1,12 @@
 {
-    "MyJewellryList" : {
-        "Danh sách cần xác nhận" : "Danh sách cần xác nhận",
-        "Mã trang sức" : "Mã trang sức",
-        "Tên trang sức" : "Tên trang sức",
-        "Ảnh" : "Ảnh",
-        "Giá mong muốn" : "Giá mong muốn",
-        "Định giá" : "Định giá",
-        "Thao tác" : "Thao tác",
-        "Không có sản phẩm nào đợi xác nhận" : "Không có sản phẩm nào đợi xác nhận"
+    "MyJewellryList": {
+        "Danh sách cần xác nhận": "Danh sách cần xác nhận",
+        "Mã trang sức": "Mã trang sức",
+        "Tên trang sức": "Tên trang sức",
+        "Ảnh": "Ảnh",
+        "Giá mong muốn": "Giá mong muốn",
+        "Định giá": "Định giá",
+        "Thao tác": "Thao tác",
+        "Không có sản phẩm nào đợi xác nhận": "Không có sản phẩm nào "
     }
 }

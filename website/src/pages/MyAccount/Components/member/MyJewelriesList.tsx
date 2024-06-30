@@ -7,10 +7,12 @@ import { useTranslation } from "react-i18next";
 import MyJewelrySingle from "./MyJewelrySingle";
 import { getJewelriesActiveByUserId } from "../../../../api/JewelryAPI";
 import { Jewelry } from "../../../../models/Jewelry";
+import { useDebouncedCallback } from "use-debounce";
 
 interface MyJewelriesListProps {
   user: User | null;
   setUser: (user: User) => void;
+  listNumber: number
 }
 
 const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
@@ -24,12 +26,27 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   const handleChangeList = useCallback(async () => {
     if (user) {
       setLoading(true);
       try {
-        const response = await getJewelriesActiveByUserId(user.id, page);
+        const response = await getJewelriesActiveByUserId(user.id, debouncedTxtSearch, page);
         setListJewelries(response.jeweriesData);
         setTotalElements(response.totalElements);
       } catch (error) {
@@ -38,7 +55,7 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
         setLoading(false);
       }
     }
-  }, [user, page]);
+  }, [user, debouncedTxtSearch, page]);
 
   useEffect(() => {
     setUser(props.user);
@@ -46,7 +63,12 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
 
   useEffect(() => {
     handleChangeList();
-  }, [page, handleChangeList]);
+  }, [page, handleChangeList, debouncedTxtSearch]);
+
+  useEffect(() => {
+    setTxtSearch('')
+    debouncedTxtSearchChange('');
+  }, [props.listNumber]);
 
   useEffect(() => {
     if (user) {
@@ -63,9 +85,24 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
         aria-labelledby="account-orders-tab"
       >
         <div className="myaccount-orders">
-          <h4 className="small-title">
-            Danh sách tài sản của tôi
-          </h4>
+          <div className="row mb-2">
+            <div className="col-md-7">
+              <h4 className="small-title fw-bold mt-2">
+                Danh sách tài sản của tôi
+              </h4>
+            </div>
+            <div className="umino-sidebar_categories col-md-5 mb-2" >
+              <input
+                style={{ height: '40px' }}
+                type="text"
+                placeholder='Tên trang sức...'
+                value={txtSearch}
+                onChange={handleTxtSearch}
+              />
+            </div>
+          </div>
+
+
           <div className="table-responsive">
             <table className="table table-bordered table-hover">
               <thead className="text-center">

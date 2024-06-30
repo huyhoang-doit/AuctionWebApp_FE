@@ -63,7 +63,7 @@ const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) =>
         aria-labelledby="account-orders-tab"
       >
         <div className="myaccount-orders">
-          <h4 className="small-title">
+          <h4 className="small-title fw-bold">
             {t("MyJewellryList.Danh sách cần xác nhận")}
           </h4>
           <div className="table-responsive">

@@ -10,10 +10,11 @@ import { useTranslation } from "react-i18next";
 
 interface MyJewelryListProps {
   userId: number | undefined;
+  listNumber: number
 }
 
 export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
-  userId,
+  userId, listNumber
 }) => {
   const [myJewelryRequestList, setMyJewelryRequestList] = useState<
     RequestApproval[]
@@ -41,6 +42,7 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
     handleChangeList();
   }, [userId, page, handleChangeList]);
 
+
   const { t } = useTranslation(["MyJewelryRequestList"]);
 
   return (
@@ -51,9 +53,21 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
       aria-labelledby="account-address-tab"
     >
       <div className="myaccount-orders">
-        <h4 className="small-title">
-          {t("MyJewelryRequestList.Danh sách các sản phẩm yêu cầu của tôi")}
-        </h4>
+        <div className="row mb-2">
+          <div className="col-md-7">
+            <h4 className="small-title fw-bold mt-2">
+              {t("MyJewelryRequestList.Danh sách các sản phẩm yêu cầu của tôi")}
+            </h4>
+          </div>
+          <div className="umino-sidebar_categories col-md-5 mb-2" >
+            <input
+              style={{ height: '40px' }}
+              type="text"
+              placeholder='Tên trang sức...'
+            // onChange={handleSearch}
+            />
+          </div>
+        </div>
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
             <thead className="text-center">
@@ -90,9 +104,8 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
                         </td>
                       ) : (
                         <td
-                          className={`fw-semibold text-start ${
-                            request.isConfirm ? "text-success" : "text-dark"
-                          }`}
+                          className={`fw-semibold text-start ${request.isConfirm ? "text-success" : "text-dark"
+                            }`}
                         >
                           {request.isConfirm
                             ? t("MyJewelryRequestList.Đã phê duyệt")
