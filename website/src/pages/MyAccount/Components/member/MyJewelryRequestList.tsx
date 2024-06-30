@@ -7,6 +7,7 @@ import { formatDateStringAcceptNull } from "../../../../utils/formatDateString";
 import { ViewJewelryRequestModal } from "../../Modal/Modal";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { useTranslation } from "react-i18next";
+import { useDebouncedCallback } from "use-debounce";
 
 interface MyJewelryListProps {
   userId: number | undefined;
@@ -22,13 +23,28 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   const handleChangeList = useCallback(async () => {
     setLoading(true);
 
     if (userId) {
       try {
-        const response = await getRequestByUserId(userId, page);
+        const response = await getRequestByUserId(userId, debouncedTxtSearch, page);
         setMyJewelryRequestList(response.requestsData);
         setTotalElements(response.totalElements);
       } catch (error) {
@@ -36,12 +52,16 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
       }
     }
     setLoading(false);
-  }, [userId, page]);
+  }, [userId, page, debouncedTxtSearch]);
 
   useEffect(() => {
     handleChangeList();
-  }, [userId, page, handleChangeList]);
+  }, [userId, page, handleChangeList, debouncedTxtSearch]);
 
+  useEffect(() => {
+    setTxtSearch('')
+    debouncedTxtSearchChange('');
+  }, [listNumber]);
 
   const { t } = useTranslation(["MyJewelryRequestList"]);
 
@@ -64,7 +84,8 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
               style={{ height: '40px' }}
               type="text"
               placeholder='Tên trang sức...'
-            // onChange={handleSearch}
+              onChange={handleTxtSearch}
+              value={txtSearch}
             />
           </div>
         </div>

@@ -21,29 +21,18 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
+  const handleChangeList = useCallback(async () => {
     setLoading(true);
     if (userId) {
-      getRequestByUserId(userId, page)
-        .then((response) => {
-          setMyJewelryRequestList(response.requestsData);
-          setTotalElements(response.totalElements);
-        })
-        .catch(() => {});
-    }
-    setLoading(false);
-  }, [userId, listNumber]);
-  const handleChangeList = useCallback(async () => {
-    if (userId) {
       try {
-        const response = await getRequestByUserId(userId, page);
+        const response = await getRequestByUserId(userId, "", page);
         setMyJewelryRequestList(response.requestsData);
         setTotalElements(response.totalElements);
       } catch (error) {
         console.error(error);
       }
     }
+    setLoading(false);
   }, [userId, page]);
 
   useEffect(() => {
@@ -97,9 +86,8 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
                         </td>
                       ) : (
                         <td
-                          className={`fw-semibold ${
-                            request.isConfirm ? "text-success" : "text-dark"
-                          }`}
+                          className={`fw-semibold ${request.isConfirm ? "text-success" : "text-dark"
+                            }`}
                         >
                           {request.isConfirm
                             ? t("StaffRequestList.Đã phê duyệt")
