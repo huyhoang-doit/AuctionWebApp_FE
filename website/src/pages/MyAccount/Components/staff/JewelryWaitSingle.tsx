@@ -48,7 +48,7 @@ export const JewelryWaitSingle: React.FC<JewelryWaitSingleProps> = ({ request, j
             {jewelry?.id}
           </Link>
         </td>
-        <td>
+        <td className='text-start'>
           {jewelry?.name}
         </td>
         <td>{jewelry?.user?.fullName}</td>

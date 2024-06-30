@@ -6,6 +6,7 @@ import { Spinner } from "react-bootstrap";
 import { Transaction } from "../../../../models/Transaction";
 import { getHandoverTransaction } from "../../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
+import { useDebouncedCallback } from "use-debounce";
 
 interface JewelriesHandOverListProps {
   user: User | null;
@@ -18,7 +19,23 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
   const type: string = "PAYMENT_TO_WINNER";
+  const { t } = useTranslation(["Staff"]);
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   useEffect(() => {
     setUser(props.user);
@@ -26,7 +43,7 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
 
   const handleChangeList = useCallback(async () => {
     setLoading(true);
-    getHandoverTransaction(type, page)
+    getHandoverTransaction(type, debouncedTxtSearch, page)
       .then((response) => {
         console.log("giao dịch duocj tim thay");
 
@@ -37,13 +54,17 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
         console.error(error.message);
       });
     setLoading(false);
-  }, [props.user, page, props.listNumber]);
+  }, [props.user, page, props.listNumber, debouncedTxtSearch]);
 
   useEffect(() => {
     handleChangeList();
-  }, [user, page, handleChangeList, props.listNumber]);
+  }, [user, page, props.listNumber, debouncedTxtSearch]);
 
-  const { t } = useTranslation(["Staff"]);
+  useEffect(() => {
+    setTxtSearch('')
+    debouncedTxtSearchChange('');
+  }, [props.listNumber]);
+
 
   return (
     <>
@@ -54,8 +75,24 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
         aria-labelledby="account-address-tab"
       >
         <div className="myaccount-orders">
+          <div className="row mb-2">
+            <div className="col-md-7">
+              <h4 className="small-title fw-bold mt-2">
+                {t("JewelriesHandOverList.Danh sách trang sức bàn giao")}
+              </h4>
+            </div>
+            <div className="umino-sidebar_categories col-md-5 mb-2" >
+              <input
+                style={{ height: '40px' }}
+                type="text"
+                placeholder='Tên trang sức...'
+                value={txtSearch}
+                onChange={handleTxtSearch}
+              />
+            </div>
+          </div>
           <h4 className="small-title">
-            {t("JewelriesHandOverList.Danh sách trang sức bàn giao")}
+
           </h4>
           <div className="table-responsive">
             <table className="table table-bordered table-hover">
