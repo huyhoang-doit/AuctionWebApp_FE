@@ -313,10 +313,10 @@ export async function getAuctionsByStateNotPageale(state: string): Promise<Resul
     return { auctionsData: auctions };
 }
 
-export async function getAuctionByStaffId(staffId: number, page: number): Promise<ResultPageableInteface> {
+export async function getAuctionByStaffId(staffId: number, auctionName: string, page: number): Promise<ResultPageableInteface> {
     const auctions: Auction[] = [];
     // endpoint
-    const URL = `${BASE_URL}/auction/get-by-staff/${staffId}?page=${page - 1}`;
+    const URL = `${BASE_URL}/auction/get-by-staff/${staffId}?auctionName=${auctionName}&page=${page - 1}`;
 
     // request
     const response = await MyRequest(URL);

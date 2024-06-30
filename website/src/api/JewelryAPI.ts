@@ -125,9 +125,9 @@ export async function getJewelriesWaitList(page: number): Promise<ResultPageable
   }
 }
 
-export async function getJewelriesByStateAndHolding(state: string, holding: boolean, page: number): Promise<ResultPageableInteface> {
+export async function getJewelriesByStateAndHolding(state: string, jewelryName: string, holding: boolean, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `${BASE_URL}/jewelry/is-holding?state=${state}&isHolding=${holding}&page=${page - 1}`;
+  const URL: string = `${BASE_URL}/jewelry/is-holding?state=${state}&jewelryName=${jewelryName}&isHolding=${holding}&page=${page - 1}`;
 
   const jewelrys: Jewelry[] = [];
   // request
@@ -178,9 +178,9 @@ export async function setJewelryHolding(id: number, state: boolean): Promise<boo
 }
 
 
-export async function getJewelriesActiveByUserId(userId: number, page: number): Promise<ResultPageableInteface> {
+export async function getJewelriesActiveByUserId(userId: number, jewelryName: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `${BASE_URL}/jewelry/user-jewelry/${userId}?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/jewelry/user-jewelry/${userId}?jewelryName=${jewelryName}&page=${page - 1}`;
   const jewelrys: Jewelry[] = [];
   // request
   const response = await MyRequest(URL);

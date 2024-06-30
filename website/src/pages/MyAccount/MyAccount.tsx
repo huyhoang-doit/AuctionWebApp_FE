@@ -24,6 +24,8 @@ export default function MyAccount() {
   const [userState, setUserState] = useState<User | null>(null);
   const location = useLocation();
   const [isAfterPay, setIsAfterPay] = useState(false);
+  const [listNumber, setListNumber] = useState<number>(0);
+
 
   const { t } = useTranslation(["MyAccount"]);
 
@@ -72,7 +74,9 @@ export default function MyAccount() {
                   id="account-page-tab"
                   role="tablist"
                 >
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => {
+                    setListNumber(1);
+                  }}>
                     <a
                       className={`nav-link ${!isAfterPay ? "active" : ""}`}
                       id="account-dashboard-tab"
@@ -85,7 +89,9 @@ export default function MyAccount() {
                       {t("MyAccount.Thông tin cá nhân")}
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => {
+                    setListNumber(2);
+                  }}>
                     <a
                       className="nav-link"
                       id="change-password-tab"
@@ -98,7 +104,9 @@ export default function MyAccount() {
                       {t("MyAccount.Đổi mật khẩu")}
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => {
+                    setListNumber(3);
+                  }}>
                     <a
                       className="nav-link"
                       id="account-orders-tab"
@@ -111,7 +119,9 @@ export default function MyAccount() {
                       {t("MyAccount.Đấu giá của tôi")}
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => {
+                    setListNumber(4);
+                  }}>
                     <a
                       className={`nav-link ${isAfterPay ? "active" : ""}`}
                       id="account-address-tab"
@@ -124,7 +134,9 @@ export default function MyAccount() {
                       {t("MyAccount.Lịch sử đấu giá")}
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => {
+                    setListNumber(4);
+                  }}>
                     <a
                       className={`nav-link ${isAfterPay ? "active" : ""}`}
                       id="account-address-tab"
@@ -137,7 +149,9 @@ export default function MyAccount() {
                       Tài sản của tôi
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => {
+                    setListNumber(6);
+                  }}>
                     <a
                       className="nav-link"
                       id="account-details-tab"
@@ -150,7 +164,9 @@ export default function MyAccount() {
                       {t("MyAccount.Tài sản cần xác nhận")}
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item" onClick={() => {
+                    setListNumber(7);
+                  }}>
                     <a
                       className="nav-link"
                       id="account-details-tab"
@@ -187,8 +203,8 @@ export default function MyAccount() {
                     user={userState}
                   />
                   <MyJewelryNeedConfirmList user={userState} setUser={setUserState} />
-                  <MyJewelriesList user={userState} setUser={setUserState} />
-                  <MyJewelryRequestList userId={userState?.id} />
+                  <MyJewelriesList user={userState} setUser={setUserState} listNumber={listNumber} />
+                  <MyJewelryRequestList userId={userState?.id} listNumber={listNumber} />
                 </div>
               </div>
             </div>

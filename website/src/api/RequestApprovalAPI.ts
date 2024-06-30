@@ -85,7 +85,7 @@ export async function getRequestById(requestId: number): Promise<RequestApproval
     }
 
     const mappedResponse: RequestApproval = mapRequestApproval(response);
-    
+
     return mappedResponse;
   } catch (error) {
     console.error("Error", error);
@@ -155,9 +155,9 @@ export async function cancelRequest(request: cancelRequestProps): Promise<boolea
   }
 }
 
-export async function getRequestByRoleOfSender(role: string, page: number): Promise<ResultPageableInteface> {
+export async function getRequestByRoleOfSender(role: string, jewelryName: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `${BASE_URL}/request-approval/sender/${role}?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/sender/${role}?page=${page - 1}&jewelryName=${jewelryName}`;
   try {
     const response = await MyRequest(URL);
 
@@ -251,9 +251,9 @@ export const sendRequestApprovalFromStaff = async (request: SendRequestFromStaff
     return false;
   }
 };
-export async function getRequestByUserId(userId: number, page: number): Promise<ResultPageableInteface> {
+export async function getRequestByUserId(userId: number, jewelryName: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `${BASE_URL}/request-approval/user/${userId}?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/user/${userId}?jewelryName=${jewelryName}&page=${page - 1}`;
   try {
     // request
     const response = await MyRequest(URL);

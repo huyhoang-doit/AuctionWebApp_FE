@@ -94,7 +94,7 @@ export const createTransactionForWinnerIfNotExist = async (userId: number): Prom
                 'Content-Type': 'application/json'
             }
         });
-        
+
         if (!response.ok) {
             throw new Error('Failed to create transaction');
         }
@@ -136,10 +136,10 @@ export async function getTransactionsByTypeAndState(type: string, state: string,
     };
 }
 
-export async function getHandoverTransaction(type: string, page: number): Promise<ResultInteface> {
+export async function getHandoverTransaction(type: string, jewelryName: string, page: number): Promise<ResultInteface> {
     const transactions: Transaction[] = [];
     // end-point
-    const URL = `${BASE_URL}/transaction/get-handover?type=${type}&page=${page - 1}`;
+    const URL = `${BASE_URL}/transaction/get-handover?type=${type}&jewelryName=${jewelryName}&page=${page - 1}`;
     // call api
     const response = await MyRequest(URL);
     const responseData = response.content;

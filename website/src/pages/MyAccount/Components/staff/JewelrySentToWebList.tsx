@@ -5,6 +5,7 @@ import { Jewelry } from "../../../../models/Jewelry";
 import { getJewelriesByStateAndHolding } from "../../../../api/JewelryAPI";
 import { ConfirmHoldingModal } from "../../Modal/ModalStaff";
 import { useTranslation } from "react-i18next";
+import { useDebouncedCallback } from "use-debounce";
 interface JewelrySentToWebProps {
   userId: number | undefined;
   listNumber: number;
@@ -18,6 +19,22 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+  const { t } = useTranslation(["Staff"]);
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   const handleChangeList = useCallback(async () => {
     setLoading(true);
@@ -25,6 +42,7 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
       if (userId) {
         const response = await getJewelriesByStateAndHolding(
           jewelryState,
+          debouncedTxtSearch,
           false,
           page
         );
@@ -36,13 +54,17 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [userId, page]);
+  }, [userId, page, debouncedTxtSearch]);
+
+  useEffect(() => {
+    setTxtSearch('')
+    debouncedTxtSearchChange('');
+  }, [listNumber]);
 
   useEffect(() => {
     handleChangeList();
-  }, [userId, page, handleChangeList]);
+  }, [userId, page, listNumber, debouncedTxtSearch]);
 
-  const { t } = useTranslation(["Staff"]);
 
   return (
     <div
@@ -52,9 +74,23 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
       aria-labelledby="account-address-tab"
     >
       <div className="myaccount-orders">
-        <h4 className="small-title">
-          {t("JewelrySentToWebList.Danh sách tài sản gửi đến")}
-        </h4>
+        <div className="row mb-2">
+          <div className="col-md-7">
+            <h4 className="small-title fw-bold mt-2">
+              {t("JewelrySentToWebList.Danh sách tài sản gửi đến")}
+            </h4>
+          </div>
+          <div className="umino-sidebar_categories col-md-5 mb-2" >
+            <input
+              style={{ height: '40px' }}
+              type="text"
+              placeholder='Tên tài sản...'
+              value={txtSearch}
+              onChange={handleTxtSearch}
+            />
+          </div>
+        </div>
+
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
             <tbody>

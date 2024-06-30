@@ -37,8 +37,8 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({ user }) => {
   const validatePassword = (value: string): string => {
     return isPasswordWrongFormat(value)
       ? t(
-          "ChangePassword.Mật khẩu phải có ít nhất 8 ký tự và 1 ký tự đặc biệt."
-        )
+        "ChangePassword.Mật khẩu phải có ít nhất 8 ký tự và 1 ký tự đặc biệt."
+      )
       : "";
   };
 
@@ -61,7 +61,7 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({ user }) => {
       aria-labelledby="account-details-tab"
     >
       <div className="">
-        <h4 className="small-title mb-4">{t("ChangePassword.Đổi mật khẩu")}</h4>
+        <h4 className="small-title mb-4 fw-bold">{t("ChangePassword.Đổi mật khẩu")}</h4>
       </div>
       <div className="myaccount-details">
         <div className="row">

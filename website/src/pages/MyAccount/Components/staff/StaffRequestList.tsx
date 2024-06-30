@@ -7,6 +7,7 @@ import { PaginationControl } from "react-bootstrap-pagination-control";
 import { Spinner } from "react-bootstrap";
 import { ViewStaffRequestModal } from "../../Modal/ModalStaff";
 import { useTranslation } from "react-i18next";
+import { useDebouncedCallback } from "use-debounce";
 interface StaffRequestListProps {
   userId: number | undefined;
   listNumber: number;
@@ -18,39 +19,49 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
   const [myJewelryRequestList, setMyJewelryRequestList] = useState<
     RequestApproval[]
   >([]);
+  const { t } = useTranslation(["Staff"]);
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
 
-  useEffect(() => {
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
+
+  const handleChangeList = useCallback(async () => {
     setLoading(true);
     if (userId) {
-      getRequestByUserId(userId, page)
-        .then((response) => {
-          setMyJewelryRequestList(response.requestsData);
-          setTotalElements(response.totalElements);
-        })
-        .catch(() => {});
-    }
-    setLoading(false);
-  }, [userId, listNumber]);
-  const handleChangeList = useCallback(async () => {
-    if (userId) {
       try {
-        const response = await getRequestByUserId(userId, page);
+        const response = await getRequestByUserId(userId, debouncedTxtSearch, page);
         setMyJewelryRequestList(response.requestsData);
         setTotalElements(response.totalElements);
       } catch (error) {
         console.error(error);
       }
     }
-  }, [userId, page]);
+    setLoading(false);
+  }, [userId, page, debouncedTxtSearch]);
 
   useEffect(() => {
     handleChangeList();
-  }, [userId, page, handleChangeList, listNumber]);
+  }, [userId, page, handleChangeList, listNumber, debouncedTxtSearch]);
 
-  const { t } = useTranslation(["Staff"]);
+  useEffect(() => {
+    setTxtSearch('')
+    debouncedTxtSearchChange('');
+  }, [listNumber]);
+
 
   return (
     <div
@@ -60,9 +71,22 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
       aria-labelledby="account-address-tab"
     >
       <div className="myaccount-orders">
-        <h4 className="small-title">
-          {t("StaffRequestList.Danh sách các yêu cầu gửi lên quản lý")}
-        </h4>
+        <div className="row mb-2">
+          <div className="col-md-7">
+            <h4 className="small-title fw-bold mt-2">
+              {t("StaffRequestList.Danh sách các yêu cầu gửi lên quản lý")}
+            </h4>
+          </div>
+          <div className="umino-sidebar_categories col-md-5 mb-2" >
+            <input
+              style={{ height: '40px' }}
+              type="text"
+              placeholder='Tên trang sức...'
+              value={txtSearch}
+              onChange={handleTxtSearch}
+            />
+          </div>
+        </div>
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
             <tbody>
@@ -85,7 +109,7 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
                   myJewelryRequestList.map((request) => (
                     <tr>
                       <td>{request.jewelry?.id}</td>
-                      <td>{request.jewelry?.name}</td>
+                      <td className="text-start">{request.jewelry?.name}</td>
                       <td>{formatNumber(request.valuation)}</td>
                       <td>
                         {formatDateStringAcceptNull(request?.requestTime)}
@@ -97,9 +121,8 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
                         </td>
                       ) : (
                         <td
-                          className={`fw-semibold ${
-                            request.isConfirm ? "text-success" : "text-dark"
-                          }`}
+                          className={`fw-semibold ${request.isConfirm ? "text-success" : "text-dark"
+                            }`}
                         >
                           {request.isConfirm
                             ? t("StaffRequestList.Đã phê duyệt")
