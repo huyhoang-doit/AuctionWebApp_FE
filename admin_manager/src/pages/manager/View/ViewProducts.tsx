@@ -7,7 +7,6 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const ViewProducts = () => {
   const [price, setPrice] = useState('10,000,000 VND');
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [status, setStatus] = useState('Chưa xác nhận');
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import useAccount from '../../../hooks/useAccount';
 import { RequestApproval } from '../../../models/RequestApproval';
 import { User } from '../../../models/User';

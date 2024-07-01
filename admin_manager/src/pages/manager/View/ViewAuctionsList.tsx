@@ -5,11 +5,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './ViewProducts.css'; // Tạo và nhập tệp CSS riêng cho kiểu tùy chỉnh
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { writer } from 'repl';
 
 const ViewProducts = () => {
     const [price, setPrice] = useState('10,000,000 VND');
-    const [selectedDate, setSelectedDate] = useState(new Date());
     const [status, setStatus] = useState('Chưa xác nhận');
     const [startingPrice, setStartingPrice] = useState(0);
     const [description, setDescription] = useState("");
@@ -50,6 +48,7 @@ const ViewProducts = () => {
     const handleEndDateChange = (date: Date) => {
         setEndDate(date);
     };
+
     return (
         <>
             <section className="main_content dashboard_part">
@@ -138,7 +137,7 @@ const ViewProducts = () => {
                                                             <label>Thời gian bắt đầu</label>
                                                             <br />
                                                             <DatePicker
-                                                                selected={selectedDate}
+                                                                selected={startDate}
                                                                 onChange={handleStartDateChange}
                                                                 showTimeSelect
                                                                 timeFormat="HH:mm"
@@ -150,7 +149,7 @@ const ViewProducts = () => {
                                                             <label>Thời gian kết thúc</label>
                                                             <br />
                                                             <DatePicker
-                                                                selected={selectedDate}
+                                                                selected={endDate}
                                                                 onChange={handleEndDateChange}
                                                                 showTimeSelect
                                                                 timeFormat="HH:mm"
