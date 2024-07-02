@@ -31,7 +31,7 @@ const PassedJewelrySingle: React.FC<RequestSingleProps> = ({ request, user, hand
     <>
       <tr key={request.id}>
         <td>{request.id}</td>
-        <td>{request.jewelry?.id}</td>
+        <td>{request.jewelry?.name}</td>
         <td>{request.jewelry?.category?.name}</td>
         <td>{request.responder?.id}</td>
         <td>{formatNumber(request.valuation)}</td>

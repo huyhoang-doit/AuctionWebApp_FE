@@ -8,6 +8,7 @@ import { StateAuction } from "../Auctions/StateAuction";
 import { getAuctionStatusStyle } from "../../../utils/cssStyle";
 import { formatDateString } from "../../../utils/formatDateString";
 import { ViewAuctionRegistrationModal } from "../Modal/Modal";
+import { useDebouncedCallback } from "use-debounce";
 
 interface AuctionAndNumberRegisterResponse {
     id: number;
@@ -29,11 +30,26 @@ const AuctionRegistrationList = () => {
     const [totalElements, setTotalElements] = useState(0);
     const [auctionState, setAuctionState] = useState('WAITING');
     const [loading, setLoading] = useState(true);
+    const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+    const [txtSearch, setTxtSearch] = useState('');
+
+    const debouncedTxtSearchChange = useDebouncedCallback(
+        (txtSearch: string) => {
+            setDebouncedTxtSearch(txtSearch);
+        },
+        1000
+    );
+
+    const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setTxtSearch(value);
+        debouncedTxtSearchChange(value);
+    };
 
     const handleChangeList = useCallback(async () => {
-        setLoading(true); // Bắt đầu tải
+        setLoading(true);
         try {
-            const response = await getAllAuctionsAndNumberRegister(auctionState, page);
+            const response = await getAllAuctionsAndNumberRegister(auctionState, debouncedTxtSearch, page);
             if (!response) {
                 setLoading(false);
                 return;
@@ -45,16 +61,18 @@ const AuctionRegistrationList = () => {
             console.error(error);
             setListAuctions([])
         }
-        setLoading(false); // Kết thúc tải
-    }, [page, auctionState]);
+        setLoading(false);
+    }, [page, auctionState, debouncedTxtSearch]);
 
     useEffect(() => {
         handleChangeList();
-    }, [user, page, auctionState, handleChangeList]);
+    }, [user, page, auctionState, debouncedTxtSearch]);
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setAuctionState(e.target.value);
         setPage(1);
+        setTxtSearch('');
+        debouncedTxtSearchChange('')
     };
 
     return (
@@ -74,11 +92,22 @@ const AuctionRegistrationList = () => {
                                         <div className="box_right d-flex lms_block">
                                             <div className="serach_field_2">
                                                 <div className="search_inner">
-
+                                                    <form >
+                                                        <div className="search_field">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Tên phiên..."
+                                                                value={txtSearch}
+                                                                onChange={handleTxtSearch}
+                                                            />
+                                                        </div>
+                                                        <button type="submit">
+                                                            <i className="ti-search"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                             <div className="add_button ms-2">
-                                                <label>Trạng thái</label>
                                                 <select
                                                     value={auctionState}
                                                     onChange={handleCategoryChange}
