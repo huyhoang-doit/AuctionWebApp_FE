@@ -124,9 +124,9 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
         throw new Error("Phiên không tồn tại");
     }
 }
-export async function getAllAuctions(state: string, page: number): Promise<ResultPageableInteface> {
+export async function getAllAuctions(state: string, auctionName: string, page: number): Promise<ResultPageableInteface> {
     // endpoint
-    const URL = `${BASE_URL}/auction/sorted-and-paged?state=${state}&page=${page - 1}`;
+    const URL = `${BASE_URL}/auction/sorted-and-paged?state=${state}&page=${page - 1}&auctionName=${auctionName}`;
     // request    
     try {
         const response = await MyRequest(URL);
@@ -333,10 +333,10 @@ export const createNewAuctionFromManager = async (request: NewAuctionRequestProp
     }
 };
 
-export async function getAllAuctionsAndNumberRegister(state: string, page: number) {
+export async function getAllAuctionsAndNumberRegister(state: string, auctionName: string, page: number) {
     const auctions: AuctionAndNumberRegisterResponse[] = [];
     // endpoint
-    const URL = `${BASE_URL}/auction/get-auction-registration?state=${state}&page=${page - 1}`;
+    const URL = `${BASE_URL}/auction/get-auction-registration?state=${state}&page=${page - 1}&auctionName=${auctionName}`;
     // request
     const response = await MyRequest(URL);
     const responseData = response.content;

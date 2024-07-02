@@ -162,9 +162,9 @@ export async function confirmRequest(requestId: number, responderId: number | un
   return true;
 }
 
-export async function getRequestByRoleOfSender(role: string, page: number): Promise<ResultPageableInteface> {
+export async function getRequestByRoleOfSender(role: string, jewelryName: string, category: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `${BASE_URL}/request-approval/sender/${role}?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/sender/${role}?page=${page - 1}&category=${category}&jewelryName=${jewelryName}`;
   try {
     const response = await MyRequest(URL);
 
@@ -186,9 +186,9 @@ export async function getRequestByRoleOfSender(role: string, page: number): Prom
 }
 
 
-export async function getRequestPassed(page: number): Promise<ResultPageableInteface> {
+export async function getRequestPassed(jewelryName: string, category: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `${BASE_URL}/request-approval/request-passed?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/request-passed?page=${page - 1}&category=${category}&jewelryName=${jewelryName}`;
   try {
     // request
     const response = await MyRequest(URL);

@@ -8,6 +8,8 @@ import { PaginationControl } from 'react-bootstrap-pagination-control'
 import RequestSingle from './RequestSingle';
 import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { useDebouncedCallback } from 'use-debounce';
+import { useCategories } from '../../../../hooks/useCategories';
 
 const RequestWaitlist = () => {
   const token = localStorage.getItem("access_token");
@@ -19,6 +21,23 @@ const RequestWaitlist = () => {
   const [totalElements, setTotalElements] = useState(0);
   const [userState, setUserState] = useState<User | null>(user);
   const [loading, setLoading] = useState(true);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+  const [category, setCategory] = useState('');
+  const categories = useCategories();
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
 
   useEffect(() => {
@@ -28,19 +47,25 @@ const RequestWaitlist = () => {
   const handleChangeList = useCallback(async () => {
     setLoading(true)
     try {
-      const response = await getRequestByRoleOfSender('STAFF', page);
+      const response = await getRequestByRoleOfSender('STAFF', debouncedTxtSearch, category, page);
       setListRequests(response.requestsData);
       setTotalElements(response.totalElements);
     } catch (error) {
       // console.error(error);
     }
     setLoading(false)
-  }, [page]);
+  }, [page, debouncedTxtSearch, category]);
 
   useEffect(() => {
     handleChangeList();
-  }, [user, page, handleChangeList]);
+  }, [user, page, debouncedTxtSearch, category]);
 
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value);
+    setPage(1);
+    setTxtSearch('');
+    debouncedTxtSearchChange('')
+  };
 
   return (
     <>
@@ -58,6 +83,35 @@ const RequestWaitlist = () => {
                     <h4>Các yêu cầu đấu giá</h4>
                     <div className="box_right d-flex lms_block">
                       <div className="serach_field_2">
+                        <div className="search_inner">
+                          <form >
+                            <div className="search_field">
+                              <input
+                                type="text"
+                                placeholder="Tên tài sản..."
+                                value={txtSearch}
+                                onChange={handleTxtSearch}
+                              />
+                            </div>
+                            <button type="submit">
+                              <i className="ti-search"></i>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                      <div className="add_button ms-2">
+                        <select className='rounded'
+                          value={category}
+                          onChange={handleCategoryChange}
+                          style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
+                          required
+                        >
+                          {categories.map((category, index) => (
+                            <option style={{ padding: '5px' }} key={index} value={category.name}>
+                              {category.name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -66,7 +120,7 @@ const RequestWaitlist = () => {
                       <thead>
                         <tr className=''>
                           <th scope="col">Mã yêu cầu</th>
-                          <th scope="col">Mã tài sản</th>
+                          <th scope="col">Tên tài sản</th>
                           <th scope="col">Phân loại</th>
                           <th scope="col">Định giá (VND)</th>
                           <th scope="col">Thời gian yêu cầu</th>

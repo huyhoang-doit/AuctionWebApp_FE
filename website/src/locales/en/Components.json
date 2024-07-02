@@ -112,6 +112,10 @@
     "Tên người dùng" : "Username",
     "Họ tên" : "Full name"
     
+},
+"StateJewelry" : {
+    "Chưa có phiên đấu" : "No auction session",
+    "Đã có phiên đấu" : "Auction session available"
 }
    
        

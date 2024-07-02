@@ -7,6 +7,7 @@ import { PaginationControl } from 'react-bootstrap-pagination-control';
 import checkTransactionLocation from '../../../utils/checkLocation';
 import { StateTransaction } from './StateTransaction';
 import { TransactionSingle } from './TransactionSingle';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface TransactionTypeProps {
   type: string;
@@ -18,9 +19,6 @@ const TransactionList = () => {
   const location = useLocation();
   const locationPathName = location.pathname
   const typeObject: TransactionTypeProps = checkTransactionLocation(locationPathName)
-
-  // const [searchInput, setSearchInput] = useState('');
-  // const [filteredUsers, setFilteredUsers] = useState(users);
   const states = ['SUCCEED', 'PENDING', 'FAILED']
   //
   const [listTransactions, setListTransactions] = useState<Transaction[]>([])
@@ -28,11 +26,26 @@ const TransactionList = () => {
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
   const [transactionState, setTransactionState] = useState('SUCCEED');
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   useEffect(() => {
     setLoading(true)
     try {
-      getTransactionsByTypeAndState(typeObject.type, transactionState, page)
+      getTransactionsByTypeAndState(typeObject.type, debouncedTxtSearch, transactionState, page)
         .then((response) => {
           setListTransactions(response.transactions);
           setTotalElements(response.totalElements);
@@ -45,32 +58,21 @@ const TransactionList = () => {
       // console.error(error);
     }
     setLoading(false)
-  }, [page, transactionState, typeObject.type])
+  }, [page, transactionState, typeObject.type, debouncedTxtSearch])
+
+  useEffect(() => {
+    setTransactionState('SUCCEED')
+    setPage(1);
+    setTxtSearch('');
+    debouncedTxtSearchChange('');
+  }, [typeObject.type]);
 
   const handleTransactionStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTransactionState(e.target.value);
     setPage(1);
+    setTxtSearch('');
+    debouncedTxtSearchChange('')
   };
-
-
-  // const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = event.target.value;
-  //   setSearchInput(value);
-  //   setLoading(true);
-  //   if (value === '') {
-  //     setFilteredUsers(users);
-  //   } else {
-  //     const filtered = users.filter(user =>
-  //       user.id.toString().includes(value) ||
-  //       user.username.toLowerCase().includes(value.toLowerCase()) ||
-  //       user.fullname.toLowerCase().includes(value.toLowerCase()) ||
-  //       user.email.toLowerCase().includes(value.toLowerCase()) ||
-  //       user.phone.includes(value)
-  //     );
-  //     setFilteredUsers(filtered);
-  //   }
-  //   setLoading(false);
-  // };
 
   return (
     <>
@@ -89,21 +91,23 @@ const TransactionList = () => {
                     <h4>{typeObject.breadcumb}</h4>
                     <div className="box_right d-flex lms_block">
                       <div className="serach_field_2">
-                        {/* <div className="search_inner">
-                          <form>
-                            <div className="">
+                        <div className="search_inner">
+                          <form >
+                            <div className="search_field">
                               <input
                                 type="text"
-                                placeholder="Tìm kiếm..."
-                                value={searchInput}
-                              // onChange={handleSearchInput}
+                                placeholder="Tên tài khoản..."
+                                value={txtSearch}
+                                onChange={handleTxtSearch}
                               />
                             </div>
+                            <button type="submit">
+                              <i className="ti-search"></i>
+                            </button>
                           </form>
-                        </div> */}
+                        </div>
                       </div>
                       <div className="add_button ms-2 ">
-
                         <select className='rounded'
                           value={transactionState}
                           onChange={handleTransactionStateChange}
