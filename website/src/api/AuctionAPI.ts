@@ -251,10 +251,7 @@ export async function getAuctionByStaffId(staffId: number, auctionName: string, 
         };
     } catch (error) {
         console.error("Error fetching auctions:", error);
-<<<<<<< HEAD
 
-=======
->>>>>>> 6fe8658c5f65978be32c44619092acf17024ccdf
         throw new Error("Phiên không tồn tại");
     }
 }
