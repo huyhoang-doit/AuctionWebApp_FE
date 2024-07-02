@@ -491,7 +491,9 @@ export const CreateTransactionWinnerModal: React.FC<
           >
             <Modal.Header>
               <Modal.Title className="w-100">
-                <div className="col-12 text-center">Hóa đơn điện tử</div>
+                <div className="col-12 text-center">
+                  {t("Modal.Hóa đơn điện tử")}
+                </div>
                 <div className="col-12 mb-3 text-center ">
                   <span className="text-warning fw-bold">{auction?.name}</span>
                 </div>
@@ -503,22 +505,24 @@ export const CreateTransactionWinnerModal: React.FC<
                   <div className="row">
                     <div className="col-md-12 ">
                       <div className="col-md-12 fw-medium row">
-                        <h4 className=" fw-medium">Tài khoản thanh toán</h4>
+                        <h4 className=" fw-medium">
+                          {t("Modal.Tài khoản thanh toán")}
+                        </h4>
                         <div className="checkout-form-list my-3 col-md-6">
                           <div className="checkout-form-list mb-2">
-                            <label>Mã người dùng: </label>
+                            <label>{t("Modal.Mã người dùng")} </label>
                             <span className="fw-bold"> {winner?.id}</span>
                           </div>
                           <div className="checkout-form-list mb-2 ">
-                            <label>Tên người dùng:</label>
+                            <label>{t("Modal.Tên người dùng")}</label>
                             <span className="fw-bold"> {winner?.fullName}</span>
                           </div>
                           <div className="checkout-form-list mb-2 ">
-                            <label>Số CCCD:</label>
+                            <label>{t("Modal.Số CCCD")}</label>
                             <span className="fw-bold"> {winner?.cccd}</span>
                           </div>
                           <div className="checkout-form-list mb-2">
-                            <label>Địa chỉ:</label>
+                            <label>{t("Modal.Địa chỉ")}</label>
                             <span className="fw-semibold">
                               {" "}
                               {winner?.address}, {winner?.city},{" "}
@@ -538,14 +542,14 @@ export const CreateTransactionWinnerModal: React.FC<
                             <img src={winner?.bank?.logo} alt="bank" />
                           </div>
                           <div className="checkout-form-list mb-2 col-md-12">
-                            <label>Thẻ ngân hàng: </label>
+                            <label>{t("Modal.Thẻ ngân hàng")} </label>
                             <span className="fw-bold text-uppercase">
                               {" "}
                               {winner?.bank?.bankName}
                             </span>
                           </div>
                           <div className="checkout-form-list mb-2 col-md-12 ">
-                            <label>Mã số thẻ:</label>
+                            <label>{t("Modal.Mã số thẻ")}</label>
                             <span className="fw-bold text-success">
                               {" "}
                               {winner?.bankAccountName} -{" "}
@@ -555,7 +559,7 @@ export const CreateTransactionWinnerModal: React.FC<
                         </div>
                         <div className="checkout-form-list mb-2 col-md-12 p-2 row">
                           <div className="checkout-form-list mb-2 col-md-12">
-                            <label>Số tiền cần trả: </label>
+                            <label>{t("Modal.Số tiền cần trả")} </label>
                             <span className="fw-bold text-uppercase fs-4 text-success">
                               {" "}
                               {formatNumberAcceptNull(
@@ -566,8 +570,9 @@ export const CreateTransactionWinnerModal: React.FC<
                           </div>
                           <div className="mt-3">
                             <span style={{ fontSize: "12px" }}>
-                              (*)Mọi thắc mắc xin liên hệ hotline (+84)
-                              0123456789 để được hỗ trợ.
+                              {t(
+                                "Modal.Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ."
+                              )}
                             </span>
                           </div>
                         </div>
@@ -582,7 +587,7 @@ export const CreateTransactionWinnerModal: React.FC<
                 {t("Modal.Đóng")}
               </Button>
               <Button variant="warning" onClick={handlePayment}>
-                Thanh toán
+                {t("Modal.Thanh toán")}
               </Button>
             </Modal.Footer>
           </Modal>
@@ -607,7 +612,7 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
   const handleConfirmPayCounter = async () => {
     const changeMethod = await setMethodTransaction(transaction.id, method);
     if (changeMethod) {
-      toast.success("Thanh toán tại quầy được xác nhận");
+      toast.success(t("Modal.Thanh toán tại quầy được xác nhận"));
       getTransactionList();
       handleClose();
     }
@@ -628,7 +633,7 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
             <Modal.Header>
               <Modal.Title className="w-100">
                 <div className="col-12 text-center">
-                  Xác nhận thanh toán tại quầy
+                  {t("Modal.Xác nhận thanh toán tại quầy")}
                 </div>
                 <div className="col-12 mb-3 text-center ">
                   <span className="text-warning fw-bold">{auction?.name}</span>
@@ -641,22 +646,24 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
                   <div className="row">
                     <div className="col-md-12 ">
                       <div className="col-md-12 fw-medium row">
-                        <h4 className=" fw-medium">Tài khoản thanh toán</h4>
+                        <h4 className=" fw-medium">
+                          {t("Modal.Tài khoản thanh toán")}
+                        </h4>
                         <div className="checkout-form-list my-3 col-md-6">
                           <div className="checkout-form-list mb-2">
-                            <label>Mã người dùng: </label>
+                            <label>{t("Modal.Mã người dùng")} </label>
                             <span className="fw-bold"> {winner?.id}</span>
                           </div>
                           <div className="checkout-form-list mb-2 ">
-                            <label>Tên người dùng:</label>
+                            <label>{t("Modal.Tên người dùng")}</label>
                             <span className="fw-bold"> {winner?.fullName}</span>
                           </div>
                           <div className="checkout-form-list mb-2 ">
-                            <label>Số CCCD:</label>
+                            <label>{t("Modal.Số CCCD")}</label>
                             <span className="fw-bold"> {winner?.cccd}</span>
                           </div>
                           <div className="checkout-form-list mb-2">
-                            <label>Địa chỉ:</label>
+                            <label>{t("Modal.Địa chỉ")}</label>
                             <span className="fw-semibold">
                               {" "}
                               {winner?.address}, {winner?.city},{" "}
@@ -671,7 +678,7 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
                             </span>
                           </div>
                           <div className="checkout-form-list my-4 col-md-12">
-                            <label>Số tiền cần trả: </label>
+                            <label>{t("Modal.Số tiền cần trả")} </label>
                             <span className="fw-bold text-uppercase fs-4 text-success">
                               {" "}
                               {formatNumberAcceptNull(
@@ -682,21 +689,22 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
                           </div>
                           <div className="checkout-form-list mb-2 ">
                             <span style={{ fontSize: "12px" }}>
-                              (*)Mọi thắc mắc xin liên hệ hotline (+84)
-                              0123456789 để được hỗ trợ.
+                              {t(
+                                "Modal.Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ."
+                              )}
                             </span>
                           </div>
                         </div>
                         <div className="checkout-form-list my-4 col-md-6">
                           <div className="checkout-form-list mb-2 ">
-                            <label>Phương thức thanh toán: </label>
+                            <label>{t("Modal.Phương thức thanh toán")} </label>
                             <span className="fw-bold">
                               {" "}
                               <PaymentMethod method={method} />
                             </span>
                           </div>
                           <div className="checkout-form-list mb-2 ">
-                            <label>Trạng thái thanh toán: </label>
+                            <label>{t("Modal.Trạng thái thanh toán")} </label>
                             <span className="fw-bold">
                               {" "}
                               <StateTransaction state={transaction.state} />
@@ -705,11 +713,12 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
 
                           {method === "PAY_AT_COUNTER" && (
                             <div className="checkout-form-list mb-2 ">
-                              <label>Địa điểm thanh toán: </label>
+                              <label>{t("Modal.Địa điểm thanh toán")}</label>
                               <span className="fw-bold">
                                 {" "}
-                                Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước,
-                                Đông Hoà, Dĩ An, Bình Dương, Việt Nam
+                                {t(
+                                  "Modal.Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam"
+                                )}
                               </span>
                               <iframe
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1003405.79257722!2d105.55479573124998!3d10.768824599999986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1718718338321!5m2!1svi!2s"
@@ -720,7 +729,7 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
                                   height: "100%",
                                   marginTop: "20px",
                                 }}
-                                title={"Nhà Văn hóa Sinh viên TP.HCM"}
+                                title={t("Modal.Nhà Văn hóa Sinh viên TP.HCM")}
                                 allowFullScreen={true}
                                 loading="lazy"
                               ></iframe>
@@ -738,7 +747,7 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
                 {t("Modal.Đóng")}
               </Button>
               <Button variant="warning" onClick={handleConfirmPayCounter}>
-                Xác nhận
+                {t("Modal.Xác nhận")}
               </Button>
             </Modal.Footer>
           </Modal>
