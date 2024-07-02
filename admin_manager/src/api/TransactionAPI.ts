@@ -83,10 +83,10 @@ export const createTransactionForWinner = async (auctionId: number): Promise<Use
     }
 };
 
-export async function getTransactionsByTypeAndState(type: string, state: string, page: number): Promise<ResultInteface> {
+export async function getTransactionsByTypeAndState(type: string, userName: string, state: string, page: number): Promise<ResultInteface> {
     const transactions: Transaction[] = [];
     // end-point
-    const URL = `${BASE_URL}/transaction/get-by-type-state?type=${type}&state=${state}&page=${page - 1}`;
+    const URL = `${BASE_URL}/transaction/get-by-type-state?type=${type}&state=${state}&userName=${userName}&page=${page - 1}`;
     // call api
     const response = await MyRequest(URL);
     const responseData = response.content;

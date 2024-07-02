@@ -7,6 +7,8 @@ import { Spinner, Table } from 'react-bootstrap';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import PassedJewelrySingle from './PassedJewelrySingle';
 import { Link } from 'react-router-dom';
+import { useDebouncedCallback } from 'use-debounce';
+import { useCategories } from '../../../hooks/useCategories';
 
 const PassedJewelriesList = () => {
   const token = localStorage.getItem("access_token");
@@ -17,6 +19,23 @@ const PassedJewelriesList = () => {
   const [totalElements, setTotalElements] = useState(0);
   const [userState, setUserState] = useState<User | null>(user);
   const [loading, setLoading] = useState(true);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState('');
+  const [category, setCategory] = useState('');
+  const categories = useCategories();
+
+  const debouncedTxtSearchChange = useDebouncedCallback(
+    (txtSearch: string) => {
+      setDebouncedTxtSearch(txtSearch);
+    },
+    1000
+  );
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
 
   useEffect(() => {
@@ -27,19 +46,25 @@ const PassedJewelriesList = () => {
     setLoading(true)
     try {
       //
-      const response = await getRequestPassed(page);
+      const response = await getRequestPassed(debouncedTxtSearch, category, page);
       setListRequests(response.requestsData);
       setTotalElements(response.totalElements);
     } catch (error) {
       console.error(error);
     }
     setLoading(false)
-  }, [page]);
+  }, [page, debouncedTxtSearch, category]);
 
   useEffect(() => {
     handleChangeList();
-  }, [user, page, handleChangeList]);
+  }, [user, page, debouncedTxtSearch, category]);
 
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value);
+    setPage(1);
+    setTxtSearch('');
+    debouncedTxtSearchChange('')
+  };
 
   return (
     <>
@@ -57,6 +82,35 @@ const PassedJewelriesList = () => {
                     <h4>Danh sách tài sản đủ điều kiện đấu giá</h4>
                     <div className="box_right d-flex lms_block">
                       <div className="serach_field_2">
+                        <div className="search_inner">
+                          <form >
+                            <div className="search_field">
+                              <input
+                                type="text"
+                                placeholder="Tên sản phẩm..."
+                                value={txtSearch}
+                                onChange={handleTxtSearch}
+                              />
+                            </div>
+                            <button type="submit">
+                              <i className="ti-search"></i>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                      <div className="add_button ms-2">
+                        <select className='rounded'
+                          value={category}
+                          onChange={handleCategoryChange}
+                          style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
+                          required
+                        >
+                          {categories.map((category, index) => (
+                            <option style={{ padding: '5px' }} key={index} value={category.name}>
+                              {category.name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -65,7 +119,7 @@ const PassedJewelriesList = () => {
                       <thead>
                         <tr className=''>
                           <th scope="col">Mã yêu cầu</th>
-                          <th scope="col">Mã sản phẩm</th>
+                          <th scope="col">Tên sản phẩm</th>
                           <th scope="col">Phân loại</th>
                           <th scope="col">Chủ tài sản</th>
                           <th scope="col">Định giá (VND)</th>
