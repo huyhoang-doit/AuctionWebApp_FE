@@ -337,6 +337,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   const [showPayCounterModal, setPayCounterModal] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const { t } = useTranslation(["Modal"]);
 
   const handleShowCreateModal = () => {
     setShow(false);
@@ -352,7 +353,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   return (
     <>
       <Button variant="warning" size="sm" onClick={handleShow}>
-        Thanh toán
+        {t("Modal.Thanh toán")}
       </Button>
       {show && (
         <div className="overlay">
@@ -366,7 +367,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             <Modal.Header>
               <Modal.Title className="w-100">
                 <div className="col-12 text-center fw-semibold text-warning">
-                  Chọn phương thức thanh toán
+                  {t("Modal.Chọn phương thức thanh toán")}
                 </div>
               </Modal.Title>
             </Modal.Header>
@@ -399,7 +400,9 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                     className="col-md-8"
                     style={{ flex: "0 0 66.666667%", maxWidth: "66.666667%" }}
                   >
-                    <h5 className="fw-semibold mb-0 text-center">Tại quầy</h5>
+                    <h5 className="fw-semibold mb-0 text-center">
+                      {t("Modal.Tại quầy")}
+                    </h5>
                   </div>
                 </div>
                 <div
@@ -429,7 +432,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                     style={{ flex: "0 0 66.666667%", maxWidth: "66.666667%" }}
                   >
                     <h5 className="fw-semibold mb-0 text-center">
-                      Chuyển khoản
+                      {t("Modal.Chuyển khoản")}
                     </h5>
                   </div>
                 </div>
