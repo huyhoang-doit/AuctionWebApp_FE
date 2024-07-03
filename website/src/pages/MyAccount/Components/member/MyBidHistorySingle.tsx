@@ -7,6 +7,7 @@ import { StateAuctionView } from "../../../AuctionList/Components/StateAuctionVi
 import { Link } from "react-router-dom";
 import { ViewBidHistoryModal } from "../../Modal/Modal";
 import { useTranslation } from "react-i18next";
+
 interface MyBidHistorySingleProps {
   auctionRegistration: AuctionRegistration;
 }
@@ -20,46 +21,49 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
   const [auction, setAuction] = useState<Auction | null>(null);
   const [userId, setUserId] = useState(auctionRegistration.user?.id);
   const [auctionHistoryState, setAuctionHistoryState] = useState("ACTIVE");
+  const { t, i18n } = useTranslation(["Member"]);
+
+  const updateStatus = async () => {
+    const auctionState = auctionRegistration?.auction?.state;
+
+    switch (auctionState) {
+      case "FINISHED":
+        try {
+          const winnerData = await getWinnerByAuctionId(
+            auctionRegistration?.auction?.id
+          );
+          if (winnerData) {
+            if (winnerData.id === auctionRegistration?.user?.id) {
+              setStatus(t("Member.Thắngphiên"));
+              setStatusColor("#198754");
+            } else {
+              setStatus(t("Member.Thấtbại"));
+              setStatusColor("red");
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching winner:", error);
+        }
+        break;
+
+      default:
+        setStatus(t("Member.Chưaxácđịnh"));
+        setStatusColor("black");
+        break;
+    }
+  };
 
   useEffect(() => {
-    const fetchWinner = async () => {
-      const auctionState = auctionRegistration?.auction?.state;
-
-      switch (auctionState) {
-        case "FINISHED":
-          try {
-            const winnerData = await getWinnerByAuctionId(
-              auctionRegistration?.auction?.id
-            );
-            if (winnerData) {
-              if (winnerData.id === auctionRegistration?.user?.id) {
-                setStatus(t("Member.Thắng phiên"));
-                setStatusColor("#198754");
-              } else {
-                setStatus(t("Member.Thất bại"));
-                setStatusColor("red");
-              }
-            }
-          } catch (error) {
-            console.error("Error fetching winner:", error);
-          }
-          break;
-
-        default:
-          setStatus(t("Member.Chưa xác định"));
-          setStatusColor("black");
-          break;
-      }
-    };
-
     if (auctionRegistration.state === "KICKED_OUT") {
-      setStatus("Rút lui");
+      setStatus(t("Member.Rútlui"));
       setStatusColor("#b41712");
       setAuctionHistoryState("HIDDEN");
     } else {
-      fetchWinner();
+      updateStatus();
     }
-  }, [auctionRegistration]);
+  }, [auctionRegistration, i18n.language]); // Thêm i18n.language vào dependency array
+  //Thêm i18n.language vào dependency array của useEffect: Điều này đảm bảo rằng bất cứ khi nào ngôn ngữ thay đổi, useEffect sẽ được kích hoạt lại để cập nhật trạng thái dịch của bạn.
+  //Tạo hàm updateStatus: Để tránh lặp lại mã trong useEffect, bạn có thể tách logic cập nhật trạng thái vào một hàm riêng và gọi nó từ useEffect.
 
   useEffect(() => {
     if (auctionId)
@@ -71,8 +75,6 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
           console.error(error.message);
         });
   }, [auctionId]);
-
-  const { t } = useTranslation(["Member"]);
 
   return (
     <>
@@ -93,7 +95,7 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
           />
           <Link to={`/tai-san-dau-gia/${auctionId}`}>
             <button className="ms-2 btn btn-warning btn-sm">
-              {t("Member.Đến phiên đấu")}
+              {t("Member.Đếnphiênđấu")}
             </button>
           </Link>
         </td>
