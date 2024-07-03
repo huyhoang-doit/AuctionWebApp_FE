@@ -1490,6 +1490,8 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
   setDisplayValue,
   setAuction,
 }) => {
+  const { t } = useTranslation(["Modal"]);
+
   return (
     <>
       <button
@@ -1506,13 +1508,17 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
           Swal.fire({
             icon: "question",
             html: `
-            <div>Trả giá trang sức với: ${formatNumber(bidValue)} VNĐ.</div>
-            <div>Giá của bạn: <span class="fw-bold text-danger">${numberToVietnameseText(
+            <div>${t("Modal.Trả giá trang sức với")} ${formatNumber(
+              bidValue
+            )} VNĐ.</div>
+            <div>${t(
+              "Modal.Giá của bạn"
+            )} <span class="fw-bold text-danger">${numberToVietnameseText(
               bidValue
             )}.</span></div>`,
             showCancelButton: true,
-            cancelButtonText: "Hủy",
-            confirmButtonText: "Xác nhận",
+            cancelButtonText: t("Modal.Hủy"),
+            confirmButtonText: t("Modal.Xác nhận"),
             showLoaderOnConfirm: true,
             preConfirm: () => {
               if (username !== undefined && auction && bidValue) {
@@ -1538,10 +1544,12 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
                       }
                       setDisplayValue(formatNumber(bidValue || 0));
                       setAuction({ ...auction, lastPrice: bidValue });
-                      toast.success("Trả giá thành công!");
+                      toast.success(t("Modal.Trả giá thành công!"));
                     } else {
                       toast.error(
-                        "Trả giá không thành thành công, vui lòng thực hiện lại!"
+                        t(
+                          "Modal.Trả giá không thành thành công, vui lòng thực hiện lại!"
+                        )
                       );
                     }
                   })
@@ -1554,7 +1562,8 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
           })
         }
       >
-        <i className="fa fa-gavel" style={{ marginRight: "7px" }}></i>Trả giá
+        <i className="fa fa-gavel" style={{ marginRight: "7px" }}></i>
+        {t("Modal.Trả giá")}
       </button>
     </>
   );
@@ -1654,29 +1663,34 @@ export const SaveEditProfileModal: React.FC<SaveEditProfileModalProps> = ({
     const errorMessages = [
       {
         isValid: isYearOfBirthValid,
-        message: "Vui lòng chọn đúng định dạng ngày sinh.",
+        message: t("Modal.Vui lòng chọn đúng định dạng ngày sinh."),
       },
       {
         isValid: isPhoneNumberValid,
-        message: "Vui lòng chọn đúng số điện thoại.",
+        message: t("Modal.Vui lòng chọn đúng số điện thoại."),
       },
-      { isValid: user?.district, message: "Vui lòng chọn quận/huyện." },
-      { isValid: user?.ward, message: "Vui lòng chọn phường/xã." },
+      {
+        isValid: user?.district,
+        message: t("Modal.Vui lòng chọn quận/huyện."),
+      },
+      { isValid: user?.ward, message: t("Modal.Vui lòng chọn phường/xã.") },
       {
         isValid: user?.bankAccountNumber,
-        message: "Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước.",
+        message: t(
+          "Modal.Vui lòng nhập số tài khoản nhận hoàn tiền đặt trước."
+        ),
       },
       {
         isValid: user?.bankAccountName,
-        message: "Vui lòng nhập tên chủ thẻ ngân hàng.",
+        message: t("Modal.Vui lòng nhập tên chủ thẻ ngân hàng."),
       },
       {
         isValid: user?.cccdFirst,
-        message: "Vui lòng chọn hình ảnh căn cước công dân mặt trước.",
+        message: t("Modal.Vui lòng chọn hình ảnh căn cước công dân mặt trước."),
       },
       {
         isValid: user?.cccdLast,
-        message: "Vui lòng chọn hình ảnh căn cước công dân mặt sau.",
+        message: t("Modal.Vui lòng chọn hình ảnh căn cước công dân mặt sau."),
       },
     ];
     for (const { isValid, message } of errorMessages) {
