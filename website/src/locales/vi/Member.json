@@ -1,10 +1,12 @@
+
+
 {
     "Member" : {
-        "Đến phiên đấu" : "Đến phiên đấu",
-        "Thắng phiên" : "Thắng phiên",
-        "Thất bại" : "Thất bại",
-        "Chưa xác định" : "Chưa xác định",
-        "Rút lui" : "Rút lui"
+        "Đếnphiênđấu" : "Đến phiên đấu",
+        "Thắngphiên" : "Thắng phiên",
+        "Thấtbại" : "Thất bại",
+        "Chưaxácđịnh" : "Chưa xác định",
+        "Rútlui" : "Rút lui"
 
     }
 }
