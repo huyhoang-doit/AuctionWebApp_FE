@@ -230,6 +230,7 @@ export async function getAuctionsByStateNotPageale(state: string): Promise<Resul
 }
 
 
+
 export async function getAuctionByStaffId(staffId: number, auctionName: string, page: number): Promise<ResultPageableInteface> {
     // endpoint
     const URL = `${BASE_URL}/auction/get-by-staff/${staffId}?auctionName=${auctionName}&page=${page - 1}`;
@@ -250,6 +251,7 @@ export async function getAuctionByStaffId(staffId: number, auctionName: string, 
         };
     } catch (error) {
         console.error("Error fetching auctions:", error);
+
         throw new Error("Phiên không tồn tại");
     }
 }

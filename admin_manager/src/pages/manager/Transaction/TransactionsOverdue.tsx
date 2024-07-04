@@ -7,6 +7,7 @@ import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { formatNumber } from '../../../utils/formatNumber';
 import { DeleteTransactionModal, ViewTransactionModal } from '../Modal/Modal';
 import { formatDateString } from '../../../utils/formatDateString';
+import { TypeTransaction } from './TypeTransaction';
 
 
 const TransactionsOverdue = () => {
@@ -71,18 +72,21 @@ const TransactionsOverdue = () => {
                                         <h4>Hóa đơn quá hạn thanh toán</h4>
                                         <div className="box_right d-flex lms_block">
                                             <div className="serach_field_2">
-                                                {/* <div className="search_inner">
-                          <form>
-                            <div className="">
-                              <input
-                                type="text"
-                                placeholder="Tìm kiếm..."
-                                value={searchInput}
-                              // onChange={handleSearchInput}
-                              />
-                            </div>
-                          </form>
-                        </div> */}
+                                                <div className="search_inner">
+                                                    <form >
+                                                        <div className="search_field">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Tên tài khoản..."
+                                                            // value={txtSearch}
+                                                            // onChange={handleTxtSearch}
+                                                            />
+                                                        </div>
+                                                        <button type="submit">
+                                                            <i className="ti-search"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -93,8 +97,8 @@ const TransactionsOverdue = () => {
                                                     <th scope="col">ID</th>
                                                     <th scope="col">Tên tài khoản</th>
                                                     <th scope="col" style={{ width: '15%' }}>Ngày tạo hóa đơn</th>
-                                                    <th scope="col">Số điện thoại</th>
                                                     <th scope="col">Số tiền (VNĐ)</th>
+                                                    <th scope="col">Loại giao dịch</th>
                                                     <th scope="col">Trạng thái</th>
                                                     <th scope="col">Thao tác</th>
                                                 </tr>
@@ -110,13 +114,13 @@ const TransactionsOverdue = () => {
                                                     <tr key={transaction.id}>
                                                         <td>{transaction.id}</td>
                                                         <td>{transaction.user?.username}
-                                                            <Link to={`/manager/chi-tiet-nguoi-dung/${transaction.user?.id}`}>
+                                                            <Link target="_blank" to={`/manager/chi-tiet-nguoi-dung/${transaction.user?.id}`}>
                                                                 <i className="ms-2 fa-solid fa-eye text-dark"></i>
                                                             </Link>
                                                         </td>
                                                         <td>{formatDateString(transaction.createDate)}</td>
-                                                        <td>{transaction.user?.phone}</td>
                                                         <td>{formatNumber(transaction.totalPrice)}</td>
+                                                        <td><TypeTransaction type={transaction.type}/></td>
                                                         <td>
                                                             <a className="fw-bold text-danger" >Chưa thanh toán</a>
                                                         </td>

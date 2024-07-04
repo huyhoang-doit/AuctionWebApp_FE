@@ -138,15 +138,14 @@ const RequestWaitlist = () => {
                         ) : (listRequests.length > 0 ? (listRequests.map((request) => (
                           <RequestSingle key={request.id} request={request} user={userState} handleChangeList={handleChangeList} />
 
-                        ))) : (<td colSpan={7} className="text-center">
-                          <h5 className='fw-semibold lh-base mt-2'>Không có yêu cầu nào được gửi đến</h5>
-                        </td>))
+                        ))) : (
+                          <tr><td colSpan={7} className="text-center">
+                            <h5 className='fw-semibold lh-base mt-2'>Không có yêu cầu nào được gửi đến</h5>
+                          </td></tr>))
                         }
                       </tbody>
                     </Table>
                   </div>
-
-
                   <PaginationControl
                     page={page}
                     between={5}
