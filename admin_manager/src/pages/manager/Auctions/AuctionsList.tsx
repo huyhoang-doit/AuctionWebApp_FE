@@ -8,6 +8,7 @@ import AuctionSingle from "./AuctionSingle";
 import { StateAuction } from "./StateAuction";
 import { Link } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
+import { LiStateAuction } from "./LiStateAuction";
 
 const AuctionsList = () => {
   //
@@ -107,7 +108,7 @@ const AuctionsList = () => {
                         >
                           {states.map((state, index) => (
                             <option style={{ padding: '5px' }} key={index} value={state}>
-                              {<StateAuction state={state} />}
+                              {<LiStateAuction state={state} />}
                             </option>
                           ))}
                         </select>
@@ -137,9 +138,12 @@ const AuctionsList = () => {
                         ) : (listAuctions.length > 0 ?
                           (listAuctions.map((auction) => (
                             <AuctionSingle key={auction.id} auction={auction} />
-                          ))) : (<td colSpan={7} className="text-center">
-                            <h5 className='fw-semibold lh-base mt-2'>Không có phiên đấu giá nào </h5>
-                          </td>))
+                          ))) : (
+                            <tr>
+                              <td colSpan={7} className="text-center">
+                                <h5 className='fw-semibold lh-base mt-2'>Không có phiên đấu giá nào </h5>
+                              </td>
+                            </tr>))
                         }
                       </tbody>
                     </Table>
