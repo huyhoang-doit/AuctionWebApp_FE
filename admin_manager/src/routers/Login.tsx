@@ -45,8 +45,6 @@ export const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
     });
     const navigate = useNavigate();
 
-    let userRole: string = '';
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoginRequest({ ...loginRequest, email: loginRequest.username });
@@ -54,8 +52,8 @@ export const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
         if (success) {
             const token = localStorage.getItem("access_token");
             if (token) {
-                const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
-                userRole = decodedData.authorities[0].authority;
+                const decodedData = jwtDecode<CustomJwtPayload>(token);
+                const userRole = decodedData.authorities[0].authority;
                 navigate(userRole === 'ADMIN' ? '/admin' : '/manager');
                 setIsLoggedIn(true);
             }
@@ -65,11 +63,11 @@ export const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
     React.useEffect(() => {
         const token = localStorage.getItem("access_token");
         if (token) {
-            const decodedData = jwtDecode<CustomJwtPayload>(token); // Cast to CustomJwtPayload
-            userRole = decodedData.authorities[0].authority;
-            window.location.href = `${userRole === 'ADMIN' ? "/admin" : "/manager"}`;
+            const decodedData = jwtDecode<CustomJwtPayload>(token);
+            const userRole = decodedData.authorities[0].authority;
+            navigate(userRole === 'ADMIN' ? '/admin' : '/manager');
         }
-    }, [])
+    }, [navigate]);
 
     return (
         <ThemeProvider theme={defaultTheme}>
