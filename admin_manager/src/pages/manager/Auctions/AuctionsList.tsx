@@ -5,7 +5,6 @@ import { getAllAuctions } from "../../../api/AuctionAPI";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import useAccount from "../../../hooks/useAccount";
 import AuctionSingle from "./AuctionSingle";
-import { StateAuction } from "./StateAuction";
 import { Link } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 import { LiStateAuction } from "./LiStateAuction";
