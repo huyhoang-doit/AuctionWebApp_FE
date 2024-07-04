@@ -136,10 +136,10 @@ export async function changeStateTransaction(transactionId: number, state: strin
 
 
 
-export async function getOverdueTransactions(page: number): Promise<ResultInteface> {
+export async function getOverdueTransactions(userName: string, page: number): Promise<ResultInteface> {
     const transactions: Transaction[] = [];
     // end-point
-    const URL = `${BASE_URL}/transaction/get-overdue?page=${page - 1}`;
+    const URL = `${BASE_URL}/transaction/get-overdue?page=${page - 1}&userName=${userName}`;
     // call api
     const response = await MyRequest(URL);
     const responseData = response.content;
