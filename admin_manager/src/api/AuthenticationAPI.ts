@@ -36,7 +36,6 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
             credentials: 'include',
         });
 
-        console.log(response)
         if (response.status === 200) {
             const data = await response.json();
             const jwt = data.access_token;
