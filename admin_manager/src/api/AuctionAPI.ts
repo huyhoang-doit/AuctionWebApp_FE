@@ -3,7 +3,7 @@ import BASE_URL from "../global_variable/config";
 import { Auction } from "../models/Auction";
 import { Jewelry } from "../models/Jewelry";
 import { User } from "../models/User";
-import { fetchWithToken } from "./AuthenticationAPI";
+import { fetchNoBodyWithToken, fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
 
 interface NewAuctionRequestProps {
@@ -366,4 +366,21 @@ export async function getAllAuctionsAndNumberRegister(state: string, auctionName
         totalPages: totalPages,
         totalAuctions: totalAuctions,
     };
+}
+
+export async function deleteAuctionResult(transactionId: number): Promise<boolean> {
+    const accessToken = localStorage.getItem('access_token');
+    // endpoint
+    const URL = `${BASE_URL}/auction/delete-result/${transactionId}`;
+    // request
+    const response = await fetchNoBodyWithToken(URL, 'GET', accessToken);
+    console.log(response);
+
+    if (!response.ok) {
+        const errorDetails = await response.text();
+        console.error('Failed to update the book:', errorDetails);
+        return false
+    }
+
+    return true;
 }

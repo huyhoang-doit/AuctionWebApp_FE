@@ -24,7 +24,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { getMembers, getUserById } from "../../../api/UserAPI";
 import { PaginationControl } from "react-bootstrap-pagination-control";
-import { createNewAuctionFromManager } from "../../../api/AuctionAPI";
+import { createNewAuctionFromManager, deleteAuctionResult } from "../../../api/AuctionAPI";
 import PARTICIPATION_FEE from "../../../global_variable/variable";
 import { descriptionAuction } from "../../../utils/descriptionAuction";
 import { changeStateTransaction } from "../../../api/TransactionAPI";
@@ -37,6 +37,7 @@ import { deleteImagesByJewelryId, processImages, setImageForJewelry } from "../.
 import { getAuctionRegistrationsByAuctionId } from "../../../api/AuctionRegistrationAPI";
 import { AuctionRegistration } from "../../../models/AuctionRegistration";
 import { Link } from "react-router-dom";
+import { StateTransaction } from "../Transaction/StateTransaction";
 
 // *** MODAL FOR MANAGER ***
 // Modal for Jewelry List
@@ -628,21 +629,12 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
       setBase64Images(base64Array);
       setLoading(true);
       try {
-
-        // Delete old images associated with the jewelry
         await deleteImagesByJewelryId(jewelryId);
-
-        // Upload new images and get their URLs
         const urls = await uploadFilesToFirebase(fileArray, JEWELRY_IMAGES_FOLDER);
         console.log(urls);
-
-
-        // Ensure the first image is set as the main image for the jewelry
         if (urls.length > 0) {
           await setImageForJewelry({ data: urls[0], jewelryId: jewelryId }, true);
         }
-
-        // Process additional images
         await processImages(urls, jewelryId);
 
         console.log("Jewelry images updated successfully.");
@@ -688,7 +680,6 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
     }
   };
 
-  // Calculate the minimum date for the start date input (next day)
   const getNextDayMinDate = () => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -704,8 +695,8 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
     if (name === "" || startDate === "" || endDate === "") {
       setError("Cần cung cấp đủ thông tin");
     } else {
-      setShow(false); // Close the JewelryModal
-      setShowContinueModal(true); // Open the JewelryCreateRequestModal
+      setShow(false);
+      setShowContinueModal(true);
     }
   };
 
@@ -1353,9 +1344,10 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
                           <span>Thời gian thanh toán:</span>
                           <span className="fw-bold">
                             {" "}
-                            {formatDateStringAcceptNull(
+                            {transaction.paymentTime ? formatDateStringAcceptNull(
                               transaction.paymentTime
-                            )}
+                            ) : <StateTransaction state={transaction.state} />}
+
                           </span>
                         </div>
                       </div>
@@ -1440,6 +1432,83 @@ export const DeleteTransactionModal: React.FC<DeleteTransactionModalProps> = ({
               <h5 className="fw-semibold">
                 Bạn có chắc muốn xóa giao dịch này khỏi danh sách không?
               </h5>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleClose}>
+                Hủy
+              </Button>
+              <Button variant="danger" onClick={handleDelete}>
+                Xác nhận
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
+    </>
+  );
+};
+
+interface DeleteAuctionResultModalProps {
+  transaction: Transaction;
+}
+
+export const DeleteAuctionResultModal: React.FC<DeleteAuctionResultModalProps> = ({
+  transaction,
+}) => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
+  const handleDelete = async () => {
+    deleteAuctionResult(transaction.id);
+    handleClose();
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        className="btn btn-sm btn-danger ms-2 "
+        id="save-profile-tab"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        onClick={handleShow}
+      >
+        Hủy kết quả
+      </button>
+      {show && (
+        <div className="overlay">
+          <Modal
+            show={show}
+            onHide={handleClose}
+            centered
+            backdropClassName="custom-backdrop"
+            size="lg"
+          >
+            <Modal.Header className="text-center w-100">
+              <Modal.Title className="w-100">
+                <div className="col-12 text-center">Hủy kết quả phiên đấu giá</div>
+                <div className="col-12 mb-3 text-center ">
+                  <span className="text-danger fw-bold">{transaction.auction?.name}{' '} </span>
+                  <span className="text-danger fw-bold">(Mã phiên {transaction.id} )</span>
+                </div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p className="fw-bold" style={{ fontSize: '1.2rem', marginBottom: '1rem', color: '#333' }}>
+                Xác nhận hủy kết quả phiên đấu giá:
+              </p>
+              <ul className="fw-semibold" style={{ listStyleType: 'circle', paddingLeft: '20px', color: '#555' }}>
+                <li style={{ marginBottom: '0.5rem' }}>Giao dịch này sẽ bị hủy bỏ</li>
+                <li style={{ marginBottom: '0.5rem' }}>Tài sản sẽ được tạo phiên đấu giá mới</li>
+                <li style={{ marginBottom: '0.5rem' }}>Tài khoản người dùng tham gia không hợp lệ sẽ bị khóa theo quy định</li>
+              </ul>
+              <p className="fw-bold" style={{ fontSize: '1.2rem', marginTop: '1.5rem', color: '#333' }}>
+                Bạn có chắc muốn hủy kết quả phiên đấu giá này không?
+              </p>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" onClick={handleClose}>

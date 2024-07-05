@@ -161,6 +161,8 @@ export async function getOverdueTransactions(userName: string, page: number): Pr
     } else {
         throw new Error("Transaction không tồn tại");
     }
+    console.log(response);
+
     return {
         transactions: transactions,
         totalElements: response.totalElements

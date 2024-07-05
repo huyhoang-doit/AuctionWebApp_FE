@@ -5,7 +5,7 @@ import { Transaction } from '../../../models/Transaction';
 import { getOverdueTransactions } from '../../../api/TransactionAPI';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { formatNumber } from '../../../utils/formatNumber';
-import { DeleteTransactionModal, ViewTransactionModal } from '../Modal/Modal';
+import { DeleteAuctionResultModal, DeleteTransactionModal, ViewTransactionModal } from '../Modal/Modal';
 import { formatDateString } from '../../../utils/formatDateString';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -106,7 +106,7 @@ const TransactionsOverdue = () => {
                                                 ) : (listTransactions.length > 0 ? (listTransactions.map((transaction) => (
                                                     <tr key={transaction.id}>
                                                         <td>{transaction.id}</td>
-                                                        <td>{transaction.user?.username}
+                                                        <td>{transaction.user?.fullName}
                                                             <Link to={`/manager/chi-tiet-nguoi-dung/${transaction.user?.id}`}>
                                                                 <i className="ms-2 fa-solid fa-eye text-dark"></i>
                                                             </Link>
@@ -119,7 +119,7 @@ const TransactionsOverdue = () => {
                                                         </td>
                                                         <td>
                                                             <ViewTransactionModal transaction={transaction} />
-                                                            <DeleteTransactionModal transaction={transaction} />
+                                                            <DeleteAuctionResultModal transaction={transaction} />
                                                         </td>
                                                     </tr>
                                                 ))
