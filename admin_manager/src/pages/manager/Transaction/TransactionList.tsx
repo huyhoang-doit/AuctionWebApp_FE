@@ -5,9 +5,9 @@ import { Transaction } from '../../../models/Transaction';
 import { getTransactionsByTypeAndState } from '../../../api/TransactionAPI';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import checkTransactionLocation from '../../../utils/checkLocation';
-import { StateTransaction } from './StateTransaction';
 import { TransactionSingle } from './TransactionSingle';
 import { useDebouncedCallback } from 'use-debounce';
+import { LiStateTransaction } from './LiStateTransaction';
 
 interface TransactionTypeProps {
   type: string;
@@ -120,7 +120,7 @@ const TransactionList = () => {
                         >
                           {states.map((state, index) => (
                             <option style={{ padding: '5px' }} key={index} value={state}>
-                              {<StateTransaction state={state} />}
+                              {<LiStateTransaction state={state} />}
                             </option>
                           ))}
                         </select>

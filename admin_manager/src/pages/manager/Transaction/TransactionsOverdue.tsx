@@ -8,6 +8,8 @@ import { formatNumber } from '../../../utils/formatNumber';
 import { DeleteAuctionResultModal, DeleteTransactionModal, ViewTransactionModal } from '../Modal/Modal';
 import { formatDateString } from '../../../utils/formatDateString';
 import { useDebouncedCallback } from 'use-debounce';
+import { TypeTransaction } from './TypeTransaction';
+
 
 
 const TransactionsOverdue = () => {
@@ -94,8 +96,8 @@ const TransactionsOverdue = () => {
                                                     <th scope="col">ID</th>
                                                     <th scope="col">Tên tài khoản</th>
                                                     <th scope="col" style={{ width: '15%' }}>Ngày tạo hóa đơn</th>
-                                                    <th scope="col">Số điện thoại</th>
                                                     <th scope="col">Số tiền (VNĐ)</th>
+                                                    <th scope="col">Loại giao dịch</th>
                                                     <th scope="col">Trạng thái</th>
                                                     <th scope="col">Thao tác</th>
                                                 </tr>
@@ -109,15 +111,14 @@ const TransactionsOverdue = () => {
                                                     </tr>
                                                 ) : (listTransactions.length > 0 ? (listTransactions.map((transaction) => (
                                                     <tr key={transaction.id}>
-                                                        <td>{transaction.id}</td>
                                                         <td>{transaction.user?.fullName}
                                                             <Link to={`/manager/chi-tiet-nguoi-dung/${transaction.user?.id}`}>
                                                                 <i className="ms-2 fa-solid fa-eye text-dark"></i>
                                                             </Link>
                                                         </td>
                                                         <td>{formatDateString(transaction.createDate)}</td>
-                                                        <td>{transaction.user?.phone}</td>
                                                         <td>{formatNumber(transaction.totalPrice)}</td>
+                                                        <td><TypeTransaction type={transaction.type}/></td>
                                                         <td>
                                                             <a className="fw-bold text-danger" >Chưa thanh toán</a>
                                                         </td>

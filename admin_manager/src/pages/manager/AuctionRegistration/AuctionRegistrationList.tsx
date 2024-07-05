@@ -9,6 +9,7 @@ import { getAuctionStatusStyle } from "../../../utils/cssStyle";
 import { formatDateString } from "../../../utils/formatDateString";
 import { ViewAuctionRegistrationModal } from "../Modal/Modal";
 import { useDebouncedCallback } from "use-debounce";
+import { LiStateAuction } from "../Auctions/LiStateAuction";
 
 interface AuctionAndNumberRegisterResponse {
     id: number;
@@ -24,11 +25,10 @@ const AuctionRegistrationList = () => {
     const token = localStorage.getItem("access_token");
     const user = useAccount(token);
     const states = ['WAITING', 'ONGOING', 'FINISHED', 'PAUSED']
-
     const [listAuctions, setListAuctions] = useState<AuctionAndNumberRegisterResponse[]>([]);
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
-    const [auctionState, setAuctionState] = useState('WAITING');
+    const [auctionState, setAuctionState] = useState('ALL');
     const [loading, setLoading] = useState(true);
     const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
     const [txtSearch, setTxtSearch] = useState('');
@@ -114,9 +114,10 @@ const AuctionRegistrationList = () => {
                                                     style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
                                                     required
                                                 >
+                                                    <option value="ALL">Tất cả</option>
                                                     {states.map((state, index) => (
                                                         <option style={{ padding: '5px' }} key={index} value={state}>
-                                                            {<StateAuction state={state} />}
+                                                            {<LiStateAuction state={state} />}
                                                         </option>
                                                     ))}
                                                 </select>

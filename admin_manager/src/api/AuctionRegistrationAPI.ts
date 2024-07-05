@@ -19,7 +19,7 @@ export async function getAuctionRegistrationsByAuctionId(auctionId: number): Pro
     const URL = `${BASE_URL}/auction-registration/auction/${auctionId}`;
     // request
     const response = await MyRequest(URL);
-
+    
     if (response) {
         for (const key in response) {
             auctionRegistrations.push({
