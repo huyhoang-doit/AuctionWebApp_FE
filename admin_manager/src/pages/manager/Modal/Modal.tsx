@@ -1383,10 +1383,11 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
 // Delete Transaction Modal
 interface DeleteTransactionModalProps {
   transaction: Transaction;
+  handleChangeList: () => Promise<void>
 }
 
 export const DeleteTransactionModal: React.FC<DeleteTransactionModalProps> = ({
-  transaction,
+  transaction, handleChangeList
 }) => {
   const [show, setShow] = useState(false);
 
@@ -1395,8 +1396,13 @@ export const DeleteTransactionModal: React.FC<DeleteTransactionModalProps> = ({
   };
   const handleShow = () => setShow(true);
   const handleDelete = async () => {
-    changeStateTransaction(transaction.id, "HIDDEN");
-    handleClose();
+    try {
+      await changeStateTransaction(transaction.id, "HIDDEN");
+      await handleChangeList();
+      handleClose();
+    } catch (error) {
+      console.error("Failed to change transacion state or update the list:", error);
+    }
   };
 
   return (
@@ -1450,10 +1456,11 @@ export const DeleteTransactionModal: React.FC<DeleteTransactionModalProps> = ({
 
 interface DeleteAuctionResultModalProps {
   transaction: Transaction;
+  handleChangeList: () => Promise<void>
 }
 
 export const DeleteAuctionResultModal: React.FC<DeleteAuctionResultModalProps> = ({
-  transaction,
+  transaction, handleChangeList
 }) => {
   const [show, setShow] = useState(false);
 
@@ -1462,8 +1469,13 @@ export const DeleteAuctionResultModal: React.FC<DeleteAuctionResultModalProps> =
   };
   const handleShow = () => setShow(true);
   const handleDelete = async () => {
-    deleteAuctionResult(transaction.id);
-    handleClose();
+    try {
+      await deleteAuctionResult(transaction.id);
+      await handleChangeList();
+      handleClose();
+    } catch (error) {
+      console.error("Failed to delete auction result or update the list:", error);
+    }
   };
 
   return (

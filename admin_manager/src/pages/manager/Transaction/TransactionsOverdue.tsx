@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Spinner, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Transaction } from '../../../models/Transaction';
@@ -32,7 +32,7 @@ const TransactionsOverdue = () => {
     };
 
 
-    useEffect(() => {
+    const handleChangeList = useCallback(async () => {
         setLoading(true)
         try {
             getOverdueTransactions(debouncedTxtSearch, page)
@@ -48,6 +48,10 @@ const TransactionsOverdue = () => {
         }
         setLoading(false)
     }, [page, debouncedTxtSearch])
+
+    useEffect(() => {
+        handleChangeList();
+    }, [page, debouncedTxtSearch]);
 
     return (
         <>
@@ -119,7 +123,7 @@ const TransactionsOverdue = () => {
                                                         </td>
                                                         <td>
                                                             <ViewTransactionModal transaction={transaction} />
-                                                            <DeleteAuctionResultModal transaction={transaction} />
+                                                            <DeleteAuctionResultModal transaction={transaction} handleChangeList={handleChangeList} />
                                                         </td>
                                                     </tr>
                                                 ))
