@@ -11,10 +11,9 @@ import { AuctionDetailJewelry } from "../AuctionDetail/Components/AuctionDetailJ
 import { handlePay } from "../../api/PaymentAPI";
 import { UserContext } from "../../hooks/useContext";
 import { useTranslation } from "react-i18next";
+import Swal from "sweetalert2";
 
 export default function RegisterForAuction() {
-  // const token = localStorage.getItem("access_token");
-  // const user = useAccount(token)
   const [auction, setAuction] = useState<Auction | null>(null);
   const [jewelry, setJewelry] = useState<Jewelry | null>(null);
   const [jewelryUser, setJewelryUser] = useState<User | null>(null);
@@ -73,6 +72,16 @@ export default function RegisterForAuction() {
 
   const handlePayment = () => {
     if (user) {
+      if (user.state !== 'VERIFIED') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Tài khoản chưa được xác thực',
+          html: '<span>Vui lòng xác thực tài khoản trước khi đăng ký.</span></br>' +
+                '<span>Xác thực tài khoản tại: </span></br>' +
+                '<span class="fw-bold">Thông tin cá nhân -> gửi CCCD mặt trước, sau.</span>',
+        });
+        return;
+      }
       handlePay(amount, auctionId, user?.username ? user.username : "", 0);
     }
   };
@@ -113,6 +122,7 @@ export default function RegisterForAuction() {
                       >
                         <iframe
                           src="https://drive.google.com/file/d/1NfVgsAmbn9iiLqfhodOirL21dB14w55_/preview"
+                          title="file"
                           width="640"
                           height="100%"
                           allow="autoplay"

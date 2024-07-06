@@ -4,9 +4,18 @@ import { getAuctionRegistrationsByAuctionId } from '../api/AuctionRegistrationAP
 import { AuctionRegistration } from '../models/AuctionRegistration';
 import { UserContext } from '../hooks/useContext';
 import { User } from '../models/User';
+import { jwtDecode } from "jwt-decode";
 
 interface AuctionRegistrationGuardProps {
     element: JSX.Element;
+}
+
+interface Authority {
+    authority: string;
+}
+
+interface DecodedToken {
+    authorities?: Authority[];
 }
 
 export function AuctionRegistrationGuard({ element }: AuctionRegistrationGuardProps) {
@@ -16,6 +25,7 @@ export function AuctionRegistrationGuard({ element }: AuctionRegistrationGuardPr
     const context = useContext(UserContext);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    const [isStaffMember, setIsStaffMember] = useState(false);
     let user: User | null = null;
     if (context?.account) {
         user = context.account;
@@ -25,6 +35,11 @@ export function AuctionRegistrationGuard({ element }: AuctionRegistrationGuardPr
             navigate('/dang-nhap');
             return;
         }
+
+        const decodedData = jwtDecode<DecodedToken>(token);
+        const userRoles =
+            decodedData.authorities?.map((auth) => auth.authority) || [];
+        setIsStaffMember(userRoles.includes('STAFF'));
 
         getAuctionRegistrationsByAuctionId(Number(id))
             .then((data) => {
@@ -44,7 +59,8 @@ export function AuctionRegistrationGuard({ element }: AuctionRegistrationGuardPr
 
     const userHasRegistration = userAuctions.some((auctionRegistration) => auctionRegistration.user?.id === user?.id);
 
-    if (!userHasRegistration) {
+
+    if (!userHasRegistration && !isStaffMember) {
         return <Navigate to={"/tai-san-dau-gia/" + id} />;
     }
 

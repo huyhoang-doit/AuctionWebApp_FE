@@ -111,6 +111,9 @@ const TransactionsOverdue = () => {
                                                     </tr>
                                                 ) : (listTransactions.length > 0 ? (listTransactions.map((transaction) => (
                                                     <tr key={transaction.id}>
+                                                        <td>
+                                                            {transaction.user?.id}
+                                                        </td>
                                                         <td>{transaction.user?.fullName}
                                                             <Link to={`/manager/chi-tiet-nguoi-dung/${transaction.user?.id}`}>
                                                                 <i className="ms-2 fa-solid fa-eye text-dark"></i>

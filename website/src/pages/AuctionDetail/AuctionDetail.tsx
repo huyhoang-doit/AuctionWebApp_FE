@@ -18,7 +18,16 @@ import { getAuctionHistoriesByAuctionId } from "../../api/AuctionHistoryAPI";
 import { AuctionHistory } from "../../models/AuctionHistory";
 import useCountDown from "../../hooks/useCountDown";
 import { InfoBlock } from "./Components/InfoBlock";
+import { jwtDecode } from "jwt-decode";
 import { useTranslation } from "react-i18next";
+
+interface Authority {
+  authority: string;
+}
+
+interface DecodedToken {
+  authorities?: Authority[];
+}
 
 export default function AuctionDetail() {
   const [auction, setAuction] = useState<Auction | null>(null);
@@ -125,6 +134,16 @@ export default function AuctionDetail() {
       return auctionRegistations.some(
         (registration) => registration.user?.id === account?.id
       );
+    }
+    return false;
+  };
+
+  const checkIsStaff = () => {
+    if (token) {
+      const decodedData = jwtDecode<DecodedToken>(token);
+      const userRoles =
+        decodedData.authorities?.map((auth) => auth.authority) || [];
+      return userRoles.includes('STAFF');
     }
     return false;
   };
@@ -386,11 +405,11 @@ export default function AuctionDetail() {
                           <>
                             {(auction?.state === "ONGOING" ||
                               auction?.state === "WAITING") && (
-                              <InfoBlock
-                                label={t("AuctionDetail.Giá trúng tối thiểu")}
-                                value={formatNumber(auction?.firstPrice)}
-                              />
-                            )}
+                                <InfoBlock
+                                  label={t("AuctionDetail.Giá trúng tối thiểu")}
+                                  value={formatNumber(auction?.firstPrice)}
+                                />
+                              )}
                           </>
                         )}
                         <div
@@ -405,7 +424,7 @@ export default function AuctionDetail() {
                           }}
                         >
                           {auction?.state === "WAITING" &&
-                            !checkAlreadyRegistered() && (
+                            !checkAlreadyRegistered() && !checkIsStaff() && (
                               <Link
                                 to={"/dang-ki-dau-gia/" + auctionId}
                                 className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
@@ -426,7 +445,7 @@ export default function AuctionDetail() {
                               </Link>
                             )}
                           {auction?.state === "WAITING" &&
-                            checkAlreadyRegistered() && (
+                            checkAlreadyRegistered() && !checkIsStaff() && (
                               <button
                                 className="bidding-request-confirm-btn"
                                 style={{
@@ -451,7 +470,7 @@ export default function AuctionDetail() {
                               </button>
                             )}
                           {auction?.state === "ONGOING" &&
-                            checkAlreadyRegistered() && (
+                            checkAlreadyRegistered() && !checkIsStaff() && (
                               <Link
                                 to={"/dau-gia-san-pham/" + auctionId}
                                 className="fw-bold text-center eg-btn btn--primary content-center text-white btn--sm"
@@ -472,6 +491,27 @@ export default function AuctionDetail() {
                                 {t("AuctionDetail.Đấu giá ngay")}
                               </Link>
                             )}
+                          {(checkIsStaff() &&
+                            <Link
+                              to={"/dau-gia-san-pham/" + auctionId}
+                              className="fw-bold text-center eg-btn btn--primary content-center text-white btn--sm"
+                              style={{
+                                backgroundColor: "#28A745",
+                                textTransform: "unset",
+                                border: "unset",
+                                borderRadius: "10px",
+                                padding: "10px",
+                                fontSize: "16px",
+                                width: "50%",
+                              }}
+                            >
+                              <i
+                                className="fa fa-gavel"
+                                style={{ marginRight: "5px" }}
+                              ></i>
+                              Đến khu vực đấu giá
+                            </Link>
+                          )}
                         </div>
                       </div>
                       <div className="auction-card3">
