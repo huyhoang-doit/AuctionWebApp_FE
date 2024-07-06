@@ -57,7 +57,7 @@
         "Kết thúc" : "End:",
         "Giá cuối" : "Final price:",
         "Phương thức thanh toán" : "Payment method",
-        "3. Người đấu giá thành công" : "3. Successful bidders",
+        "3. Người đấu giá thành công" : "3. Successful bidder",
         "Tên người dùng" : "Username",
         "Số CCCD" : "ID card number:",
         "Địa chỉ" : "Address:",
@@ -70,9 +70,19 @@
         "Xác nhận đã nhận tài sản" : "Confirm receipt of assets",
         "Tài sản" : "Asset",
         "được xác nhận đã có mặt tại cơ sở?" : "has been confirmed to be present at the base?",
-        "Nhân viên kiểm tra kỹ chính xác thông tin tài sản trước khi tiến hành xác nhận" : "Staffs carefully check the asset information before proceeding with the confirmation",
-        "2. Phiên đấu giá" : "2. Auction name",
-        "Mã phiên đấu giá" : "Auction session ID:"
+        "Nhân viên kiểm tra kỹ chính xác thông tin tài sản trước khi tiến hành xác nhận" : "Staff carefully check the asset information before proceeding with the confirmation",
+        "2. Phiên đấu giá" : "2. Auction information",
+        "Mã phiên đấu giá" : "Auction session ID:",
+        "Hoa tai" : "Earrings",
+        "Nhẫn" : "Ring",
+        "Mặt dây chuyền" : "Necklace",
+        "Bắt đầu ngay" : "Start now",
+        "Dây chuyền" : "Necklace",
+        "Vòng tay" : "Bracelet",
+        "Bạc" : "Silver",
+        "Vàng" : "Gold",
+        "Kim cương" : "Diamond",
+        "Bạch kim" : "Platinum"
       
 
 

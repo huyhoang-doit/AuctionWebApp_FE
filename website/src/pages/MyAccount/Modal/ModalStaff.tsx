@@ -182,7 +182,7 @@ export const ViewStaffRequestModal: React.FC<MyRequestProps> = ({
                           <label>{t("ModalStaff.Danh mục")}</label>
                           <span className="fw-bold">
                             {" "}
-                            {request.jewelry?.category?.name}
+                            {t(`ModalStaff.${request.jewelry?.category?.name}`)}
                           </span>
                         </div>
                         <div className="col-md-6">
@@ -196,7 +196,7 @@ export const ViewStaffRequestModal: React.FC<MyRequestProps> = ({
                           <label>{t("ModalStaff.Chất liệu")}</label>
                           <span className="fw-bold">
                             {" "}
-                            {request.jewelry?.material}
+                            {t(`ModalStaff.${request.jewelry?.material}`)}
                           </span>
                         </div>
                         <div className="col-md-6">
