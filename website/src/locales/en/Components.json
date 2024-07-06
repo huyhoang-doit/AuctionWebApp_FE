@@ -70,7 +70,7 @@
 
     "AuctionItem" : {
         "Giá khởi điểm" : "Starting price:",
-        "Tên phiên" : "Session name:",
+        "Tên phiên" : "Auction name:",
         "Tên chủ tài sản" : "Asset owner name:",
         "Trạng thái" : "Status:",
         "Chi tiết" : "Detail"

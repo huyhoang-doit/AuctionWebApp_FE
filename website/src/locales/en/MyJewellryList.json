@@ -1,15 +1,15 @@
 {
     "MyJewellryList" : {
         "Danh sách cần xác nhận" : "List needs confirmation",
-        "Mã trang sức" : "Jewellry ID",
-        "Tên trang sức" : "Jewellry name",
+        "Mã trang sức" : "Jewelry ID",
+        "Tên trang sức" : "Jewelry name",
         "Ảnh" : "Image",
         "Giá mong muốn" : "Desired price",
         "Định giá" : "Valuation",
         "Thao tác" : "Action",
         "Không có sản phẩm nào đợi xác nhận" : "No product waiting for confirmation",
         "Danh sách tài sản của tôi" : "My asset list",
-        "Tên trang sức..." : "Jewellry name...",
+        "Tên trang sức..." : "Jewelry name...",
         "Trạng thái" : "Status"
     }
 }

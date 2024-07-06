@@ -28,15 +28,12 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   const [notification, setNotification] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation(["Staff"]);
-  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
-  const [txtSearch, setTxtSearch] = useState('');
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
+  const [txtSearch, setTxtSearch] = useState("");
 
-  const debouncedTxtSearchChange = useDebouncedCallback(
-    (txtSearch: string) => {
-      setDebouncedTxtSearch(txtSearch);
-    },
-    1000
-  );
+  const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
+    setDebouncedTxtSearch(txtSearch);
+  }, 1000);
 
   const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -51,7 +48,11 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   const handleChangeList = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await getRequestByRoleOfSender("MEMBER", debouncedTxtSearch, page);
+      const response = await getRequestByRoleOfSender(
+        "MEMBER",
+        debouncedTxtSearch,
+        page
+      );
       if (response.requestsData.length > 0) {
       }
       setListRequests(response.requestsData);
@@ -63,8 +64,8 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   }, [page, props.listNumber, debouncedTxtSearch]);
 
   useEffect(() => {
-    setTxtSearch('')
-    debouncedTxtSearchChange('');
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
   }, [props.listNumber]);
 
   useEffect(() => {
@@ -85,11 +86,11 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
                 {t("JewelriesWaitList.Danh sách sản phẩm gửi đến")}
               </h4>
             </div>
-            <div className="umino-sidebar_categories col-md-5 mb-2" >
+            <div className="umino-sidebar_categories col-md-5 mb-2">
               <input
-                style={{ height: '40px' }}
+                style={{ height: "40px" }}
                 type="text"
-                placeholder='Tên trang sức...'
+                placeholder={t("JewelriesWaitList.Tên trang sức...")}
                 value={txtSearch}
                 onChange={handleTxtSearch}
               />

@@ -19,16 +19,13 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
-  const [txtSearch, setTxtSearch] = useState('');
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
+  const [txtSearch, setTxtSearch] = useState("");
   const { t } = useTranslation(["Staff"]);
 
-  const debouncedTxtSearchChange = useDebouncedCallback(
-    (txtSearch: string) => {
-      setDebouncedTxtSearch(txtSearch);
-    },
-    1000
-  );
+  const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
+    setDebouncedTxtSearch(txtSearch);
+  }, 1000);
 
   const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -57,14 +54,13 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
   }, [userId, page, debouncedTxtSearch]);
 
   useEffect(() => {
-    setTxtSearch('')
-    debouncedTxtSearchChange('');
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
   }, [listNumber]);
 
   useEffect(() => {
     handleChangeList();
   }, [userId, page, listNumber, debouncedTxtSearch]);
-
 
   return (
     <div
@@ -80,11 +76,11 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
               {t("JewelrySentToWebList.Danh sách tài sản gửi đến")}
             </h4>
           </div>
-          <div className="umino-sidebar_categories col-md-5 mb-2" >
+          <div className="umino-sidebar_categories col-md-5 mb-2">
             <input
-              style={{ height: '40px' }}
+              style={{ height: "40px" }}
               type="text"
-              placeholder='Tên tài sản...'
+              placeholder={t("JewelrySentToWebList.Tên tài sản...")}
               value={txtSearch}
               onChange={handleTxtSearch}
             />
