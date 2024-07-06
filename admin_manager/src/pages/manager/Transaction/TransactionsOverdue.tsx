@@ -5,7 +5,7 @@ import { Transaction } from '../../../models/Transaction';
 import { getOverdueTransactions } from '../../../api/TransactionAPI';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { formatNumber } from '../../../utils/formatNumber';
-import { DeleteAuctionResultModal, DeleteTransactionModal, ViewTransactionModal } from '../Modal/Modal';
+import { DeleteAuctionResultModal, ViewTransactionModal } from '../Modal/Modal';
 import { formatDateString } from '../../../utils/formatDateString';
 import { useDebouncedCallback } from 'use-debounce';
 import { TypeTransaction } from './TypeTransaction';
