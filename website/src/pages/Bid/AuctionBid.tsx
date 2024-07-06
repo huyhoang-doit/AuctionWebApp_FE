@@ -67,6 +67,8 @@ export const AuctionBid = () => {
                 auction?.state === "ONGOING"
             ) {
                 const userWin = await createTransactionForWinner(auctionId);
+                console.log(userWin);
+                
                 if (userWin) {
                     const isUserWinner = userWin.username === user?.username;
                     Swal.fire({
