@@ -1,27 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Spinner, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Transaction } from '../../../models/Transaction';
 import { getOverdueTransactions } from '../../../api/TransactionAPI';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import { formatNumber } from '../../../utils/formatNumber';
-import { DeleteTransactionModal, ViewTransactionModal } from '../Modal/Modal';
+import { DeleteAuctionResultModal, DeleteTransactionModal, ViewTransactionModal } from '../Modal/Modal';
 import { formatDateString } from '../../../utils/formatDateString';
+import { useDebouncedCallback } from 'use-debounce';
+import { TypeTransaction } from './TypeTransaction';
+
 
 
 const TransactionsOverdue = () => {
-    // const [searchInput, setSearchInput] = useState('');
-    // const [filteredUsers, setFilteredUsers] = useState(users);
-    //
     const [listTransactions, setListTransactions] = useState<Transaction[]>([])
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
+    const [txtSearch, setTxtSearch] = useState('');
 
-    useEffect(() => {
+    const debouncedTxtSearchChange = useDebouncedCallback(
+        (txtSearch: string) => {
+            setDebouncedTxtSearch(txtSearch);
+        },
+        1000
+    );
+
+    const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setTxtSearch(value);
+        debouncedTxtSearchChange(value);
+    };
+
+
+    const handleChangeList = useCallback(async () => {
         setLoading(true)
         try {
-            getOverdueTransactions(page)
+            getOverdueTransactions(debouncedTxtSearch, page)
                 .then((response) => {
                     setListTransactions(response.transactions);
                     setTotalElements(response.totalElements);
@@ -33,27 +49,11 @@ const TransactionsOverdue = () => {
             // console.error(error);
         }
         setLoading(false)
-    }, [page])
+    }, [page, debouncedTxtSearch])
 
-
-    // const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //   const value = event.target.value;
-    //   setSearchInput(value);
-    //   setLoading(true);
-    //   if (value === '') {
-    //     setFilteredUsers(users);
-    //   } else {
-    //     const filtered = users.filter(user =>
-    //       user.id.toString().includes(value) ||
-    //       user.username.toLowerCase().includes(value.toLowerCase()) ||
-    //       user.fullname.toLowerCase().includes(value.toLowerCase()) ||
-    //       user.email.toLowerCase().includes(value.toLowerCase()) ||
-    //       user.phone.includes(value)
-    //     );
-    //     setFilteredUsers(filtered);
-    //   }
-    //   setLoading(false);
-    // };
+    useEffect(() => {
+        handleChangeList();
+    }, [page, debouncedTxtSearch]);
 
     return (
         <>
@@ -64,25 +64,28 @@ const TransactionsOverdue = () => {
                             <div className="col-12">
                                 <div className="breadcrumb-area mb-4">
                                     <Link to="/manager">Trang chủ {'  /  '} </Link>
-                                    <Link to="/manager/giao-dich/nguoi-mua"> Quá hạn thanh toán</Link>
+                                    <Link to="/manager/hoa-don-qua-han"> Quá hạn thanh toán</Link>
                                 </div>
                                 <div className="QA_section">
                                     <div className="white_box_tittle list_header">
                                         <h4>Hóa đơn quá hạn thanh toán</h4>
                                         <div className="box_right d-flex lms_block">
                                             <div className="serach_field_2">
-                                                {/* <div className="search_inner">
-                          <form>
-                            <div className="">
-                              <input
-                                type="text"
-                                placeholder="Tìm kiếm..."
-                                value={searchInput}
-                              // onChange={handleSearchInput}
-                              />
-                            </div>
-                          </form>
-                        </div> */}
+                                                <div className="search_inner">
+                                                    <form >
+                                                        <div className="search_field">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Tên tài khoản..."
+                                                                value={txtSearch}
+                                                                onChange={handleTxtSearch}
+                                                            />
+                                                        </div>
+                                                        <button type="submit">
+                                                            <i className="ti-search"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -93,8 +96,8 @@ const TransactionsOverdue = () => {
                                                     <th scope="col">ID</th>
                                                     <th scope="col">Tên tài khoản</th>
                                                     <th scope="col" style={{ width: '15%' }}>Ngày tạo hóa đơn</th>
-                                                    <th scope="col">Số điện thoại</th>
                                                     <th scope="col">Số tiền (VNĐ)</th>
+                                                    <th scope="col">Loại giao dịch</th>
                                                     <th scope="col">Trạng thái</th>
                                                     <th scope="col">Thao tác</th>
                                                 </tr>
@@ -108,21 +111,23 @@ const TransactionsOverdue = () => {
                                                     </tr>
                                                 ) : (listTransactions.length > 0 ? (listTransactions.map((transaction) => (
                                                     <tr key={transaction.id}>
-                                                        <td>{transaction.id}</td>
-                                                        <td>{transaction.user?.username}
+                                                        <td>
+                                                            {transaction.user?.id}
+                                                        </td>
+                                                        <td>{transaction.user?.fullName}
                                                             <Link to={`/manager/chi-tiet-nguoi-dung/${transaction.user?.id}`}>
                                                                 <i className="ms-2 fa-solid fa-eye text-dark"></i>
                                                             </Link>
                                                         </td>
                                                         <td>{formatDateString(transaction.createDate)}</td>
-                                                        <td>{transaction.user?.phone}</td>
                                                         <td>{formatNumber(transaction.totalPrice)}</td>
+                                                        <td><TypeTransaction type={transaction.type}/></td>
                                                         <td>
                                                             <a className="fw-bold text-danger" >Chưa thanh toán</a>
                                                         </td>
                                                         <td>
                                                             <ViewTransactionModal transaction={transaction} />
-                                                            <DeleteTransactionModal transaction={transaction} />
+                                                            <DeleteAuctionResultModal transaction={transaction} handleChangeList={handleChangeList} />
                                                         </td>
                                                     </tr>
                                                 ))

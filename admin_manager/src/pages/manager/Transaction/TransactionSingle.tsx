@@ -6,9 +6,10 @@ import { DeleteTransactionModal, ViewTransactionModal } from '../Modal/Modal';
 import { StateTransaction } from './StateTransaction';
 interface TransactionSingleProps {
   transaction: Transaction;
+  handleChangeList: () => Promise<void>
 }
 
-export const TransactionSingle: React.FC<TransactionSingleProps> = ({ transaction }) => {
+export const TransactionSingle: React.FC<TransactionSingleProps> = ({ transaction, handleChangeList }) => {
 
   return (
     <>
@@ -23,7 +24,7 @@ export const TransactionSingle: React.FC<TransactionSingleProps> = ({ transactio
         </td>
         <td>
           <ViewTransactionModal transaction={transaction} />
-          <DeleteTransactionModal transaction={transaction} />
+          <DeleteTransactionModal transaction={transaction} handleChangeList={handleChangeList} />
         </td>
       </tr>
     </>

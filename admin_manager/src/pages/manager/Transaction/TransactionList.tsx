@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Spinner, Table } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import { Transaction } from '../../../models/Transaction';
 import { getTransactionsByTypeAndState } from '../../../api/TransactionAPI';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import checkTransactionLocation from '../../../utils/checkLocation';
-import { StateTransaction } from './StateTransaction';
 import { TransactionSingle } from './TransactionSingle';
 import { useDebouncedCallback } from 'use-debounce';
+import { LiStateTransaction } from './LiStateTransaction';
 
 interface TransactionTypeProps {
   type: string;
@@ -42,7 +42,7 @@ const TransactionList = () => {
     debouncedTxtSearchChange(value);
   };
 
-  useEffect(() => {
+  const handleChangeList = useCallback(async () => {
     setLoading(true)
     try {
       getTransactionsByTypeAndState(typeObject.type, debouncedTxtSearch, transactionState, page)
@@ -66,6 +66,10 @@ const TransactionList = () => {
     setTxtSearch('');
     debouncedTxtSearchChange('');
   }, [typeObject.type]);
+
+  useEffect(() => {
+    handleChangeList();
+  }, [page, transactionState, typeObject.type, debouncedTxtSearch]);
 
   const handleTransactionStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTransactionState(e.target.value);
@@ -116,7 +120,7 @@ const TransactionList = () => {
                         >
                           {states.map((state, index) => (
                             <option style={{ padding: '5px' }} key={index} value={state}>
-                              {<StateTransaction state={state} />}
+                              {<LiStateTransaction state={state} />}
                             </option>
                           ))}
                         </select>
@@ -144,7 +148,7 @@ const TransactionList = () => {
                             </td>
                           </tr>
                         ) : (listTransactions.length > 0 ? (listTransactions.map((transaction) => (
-                          <TransactionSingle key={transaction.id} transaction={transaction} />
+                          <TransactionSingle key={transaction.id} transaction={transaction} handleChangeList={handleChangeList} />
                         ))
                         ) : (<tr className="text-center">
                           <td colSpan={7}>
