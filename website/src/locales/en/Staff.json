@@ -1,67 +1,62 @@
 {
-    "AssignedAuctionList" : {
-        "Danh sách phiên được phân công" : "List of assigned sessions",
-        "Mã phiên" : "Session ID",
-        "Tên phiên" : "Auction name",
-        "Thời gian bắt đầu" : "Start time",
-        "Trạng thái" : "Status",
-        "Xem chi tiết" : "View detail",
-        "Đến" : "To",
-        "Hiện tại chưa có phiên nào được phân công" : "There is no assigned session at the moment",
-        "Tên phiên..." : "Auction name..."
-
+    "AssignedAuctionList": {
+        "Danh sách phiên được phân công": "List of assigned sessions",
+        "Mã phiên": "Session ID",
+        "Tên phiên": "Auction name",
+        "Thời gian bắt đầu": "Start time",
+        "Trạng thái": "Status",
+        "Xem chi tiết": "View detail",
+        "Xem": "View",
+        "Hiện tại chưa có phiên nào được phân công": "There is no assigned session at the moment",
+        "Tên phiên...": "Auction name..."
     },
-
-    "JewelriesWaitList" : {
-        "Danh sách sản phẩm gửi đến" : "List of products sent",
-        "Mã trang sức" : "Jewelry ID",
-        "Tên trang sức" : "Jewelry name",
-        "Người gửi" : "Sender",
-        "Giá" : "Price",
-        "Ảnh" : "Image",
-        "Xem chi tiết" : "View detail",
-        "Chưa có yêu cầu nào được gửi đến"  : "There is no request sent",
-        "Tên trang sức..." : "Jewelry name..."
-    },
-
-    "StaffRequestList" : {
-        "Danh sách các yêu cầu gửi lên quản lý" : "List of requests sent to management",
-        "Mã yêu cầu" : "Request ID",
-        "Mã trang sức" :"Jewelry ID",
-        "Định giá (VNĐ)" : "Valuation (VND)",
-        "Thời gian gửi" : "Sent time",
-        "Trạng thái" : "Status",
-        "Thao tác" : "Action",
-        "Đã phê duyệt" : "Approved",
-        "Chưa phê duyệt" : "Not approved",
-        "Chưa có yêu cầu nào được gửi đi" : "There is no request sent",
-        "Đã bị hủy" : "Cancelled",
-         "Tên trang sức..." : "Jewelry name..."
-
-    } ,
-
-    "JewelrySentToWebList" : {
-        "Danh sách tài sản gửi đến" : "List of assets sent",
-        "Mã tài sản" : "Asset ID",
-        "Phân loại" : "Classification",
-        "Chủ tài sản" : "Asset owner",
-        "Trạng thái" : "Status",
-        "Thao tác" : "Operation",
-        "Chưa nhận" : "Not received",
-        "Đã nhận" : "Received",
-        "Không có tài sản nào" : "No assets",
-        "Tên tài sản" : "Asset name",
-        "Tên tài sản..." : "Asset name..."
-     },
-     "JewelriesHandOverList" : {
-        "Danh sách trang sức bàn giao" : "List of handed-over jewelries",
-        "Mã trang sức" :"Jewelry ID",
-        "Tên trang sức" : "Jewelry name",
-        "Phiên đấu" : "Auction name",
-        "Giá cuối" : "Final price",
-        "Phương thức thanh toán" : "Payment method",
-        "Thao tác" : "Operation",
-        "Không có giao dịch nào" : "No transactions",
+    "JewelriesWaitList": {
+        "Danh sách sản phẩm gửi đến": "List of products sent",
+        "Mã trang sức": "Jewelry ID",
+        "Tên trang sức": "Jewelry name",
+        "Người gửi": "Sender",
+        "Giá": "Price",
+        "Ảnh": "Image",
+        "Xem chi tiết": "View detail",
+        "Chưa có yêu cầu nào được gửi đến": "There is no request sent",
         "Tên trang sức...": "Jewelry name..."
-   } 
+    },
+    "StaffRequestList": {
+        "Danh sách các yêu cầu gửi lên quản lý": "List of requests sent to management",
+        "Mã yêu cầu": "Request ID",
+        "Mã trang sức": "Jewelry ID",
+        "Định giá (VNĐ)": "Valuation (VND)",
+        "Thời gian gửi": "Sent time",
+        "Trạng thái": "Status",
+        "Thao tác": "Action",
+        "Đã phê duyệt": "Approved",
+        "Chưa phê duyệt": "Not approved",
+        "Chưa có yêu cầu nào được gửi đi": "There is no request sent",
+        "Đã bị hủy": "Cancelled",
+        "Tên trang sức...": "Jewelry name..."
+    },
+    "JewelrySentToWebList": {
+        "Danh sách tài sản gửi đến": "List of assets sent",
+        "Mã tài sản": "Asset ID",
+        "Phân loại": "Classification",
+        "Chủ tài sản": "Asset owner",
+        "Trạng thái": "Status",
+        "Thao tác": "Operation",
+        "Chưa nhận": "Not received",
+        "Đã nhận": "Received",
+        "Không có tài sản nào": "No assets",
+        "Tên tài sản": "Asset name",
+        "Tên tài sản...": "Asset name..."
+    },
+    "JewelriesHandOverList": {
+        "Danh sách trang sức bàn giao": "List of handed-over jewelries",
+        "Mã trang sức": "Jewelry ID",
+        "Tên trang sức": "Jewelry name",
+        "Phiên đấu": "Auction name",
+        "Giá cuối": "Final price",
+        "Phương thức thanh toán": "Payment method",
+        "Thao tác": "Operation",
+        "Không có giao dịch nào": "No transactions",
+        "Tên trang sức...": "Jewelry name..."
+    }
 }

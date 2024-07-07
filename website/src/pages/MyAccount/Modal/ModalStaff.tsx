@@ -298,11 +298,10 @@ export const ViewStaffRequestModal: React.FC<MyRequestProps> = ({
                             className=" fw-bold text-success"
                             placeholder=""
                             type="text"
-                            value={`${
-                              request.isConfirm
-                                ? t("ModalStaff.Đã phê duyệt")
-                                : t("ModalStaff.Chưa phê duyệt")
-                            }`}
+                            value={`${request.isConfirm
+                              ? t("ModalStaff.Đã phê duyệt")
+                              : t("ModalStaff.Chưa phê duyệt")
+                              }`}
                             readOnly={true}
                           />
                         )}
@@ -538,197 +537,197 @@ export const JewelryCreateRequestModal: React.FC<
   request,
   handleChangeList,
 }) => {
-  const handleSendRequestFromStaff = async () => {
-    const requestBody = {
-      id: 0,
-      senderId: user?.id,
-      requestApprovalId: request.id,
-      valuation: request.valuation,
-      requestTime: new Date().toISOString(),
+    const handleSendRequestFromStaff = async () => {
+      const requestBody = {
+        id: 0,
+        senderId: user?.id,
+        requestApprovalId: request.id,
+        valuation: request.valuation,
+        requestTime: new Date().toISOString(),
+      };
+      console.log(requestBody);
+
+      const newRequest = await sendRequestApprovalFromStaff(requestBody);
+      if (newRequest) {
+        console.log("Staff send request thanh cong");
+        handleChangeList();
+      }
     };
-    console.log(requestBody);
 
-    const newRequest = await sendRequestApprovalFromStaff(requestBody);
-    if (newRequest) {
-      console.log("Staff send request thanh cong");
-      handleChangeList();
-    }
-  };
+    const { t } = useTranslation(["ModalStaff"]);
 
-  const { t } = useTranslation(["ModalStaff"]);
+    const handleConfirm = async () => {
+      const confirm = await confirmRequest(request.id, user?.id);
+      if (confirm) {
+        console.log("confirm thành công");
+        handleSendRequestFromStaff();
+      }
+      handleClose();
+      toast.success(t("ModalStaff.Định giá cho tài sản đã được gửi đi"));
+    };
+    return (
+      <>
+        {show && (
+          <div className="overlay">
+            <Modal
+              show={show}
+              onHide={handleClose}
+              centered
+              backdrop="static"
+              size="lg"
+            >
+              <Modal.Header>
+                <Modal.Title className="w-100">
+                  <div className="col-12 text-center">
+                    {t("ModalStaff.Tạo yêu cầu phê duyệt tài sản")}
+                  </div>
+                  <div className="col-12 mb-3 text-center ">
+                    <span className="text-warning fw-bold">{jewelry?.name}</span>
+                  </div>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Nhân viên gửi yêu cầu")} -{" "}
+                    <span className=" fw-bold">{user?.fullName}</span>
+                  </h5>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Mã nhân viên")} -{" "}
+                    <span className=" fw-bold">{user?.id}</span>
+                  </h5>
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <form action="">
+                  <div className="checkbox-form">
+                    <div className="row">
+                      <div className="col-md-12 ">
+                        <div className="country-select clearfix"></div>
+                      </div>
+                      <div className="col-md-6 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>{t("ModalStaff.Mã tài sản")} </label>
+                          <input
+                            placeholder=""
+                            type="text"
+                            value={jewelry?.id}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>{t("ModalStaff.Danh mục")}</label>
+                          <input
+                            placeholder=""
+                            type="text"
+                            value={jewelry?.category?.name}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-4 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>{t("ModalStaff.Chất liệu")}</label>
+                          <input
+                            placeholder=""
+                            type="text"
+                            value={jewelry?.material}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
 
-  const handleConfirm = async () => {
-    const confirm = await confirmRequest(request.id, user?.id);
-    if (confirm) {
-      console.log("confirm thành công");
-      handleSendRequestFromStaff();
-    }
-    handleClose();
-    toast.success(t("ModalStaff.Định giá cho tài sản đã được gửi đi"));
-  };
-  return (
-    <>
-      {show && (
-        <div className="overlay">
-          <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdrop="static"
-            size="lg"
-          >
-            <Modal.Header>
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">
-                  {t("ModalStaff.Tạo yêu cầu phê duyệt tài sản")}
-                </div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-warning fw-bold">{jewelry?.name}</span>
-                </div>
-                <h5 className="col-12">
-                  {t("ModalStaff.Nhân viên gửi yêu cầu")} -{" "}
-                  <span className=" fw-bold">{user?.fullName}</span>
-                </h5>
-                <h5 className="col-12">
-                  {t("ModalStaff.Mã nhân viên")} -{" "}
-                  <span className=" fw-bold">{user?.id}</span>
-                </h5>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form action="">
-                <div className="checkbox-form">
-                  <div className="row">
-                    <div className="col-md-12 ">
-                      <div className="country-select clearfix"></div>
-                    </div>
-                    <div className="col-md-6 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>{t("ModalStaff.Mã tài sản")} </label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={jewelry?.id}
-                          readOnly={true}
-                        />
+                      <div className="col-md-4 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>{t("ModalStaff.Thương hiệu")}</label>
+                          <input
+                            placeholder="Street address"
+                            type="text"
+                            value={jewelry?.brand}
+                            readOnly={true}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-6 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>{t("ModalStaff.Danh mục")}</label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={jewelry?.category?.name}
-                          readOnly={true}
-                        />
+                      <div className="col-md-4 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>{t("ModalStaff.Cân nặng (g)")}</label>
+                          <input
+                            placeholder="Street address"
+                            type="text"
+                            value={jewelry?.weight}
+                            readOnly={true}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>{t("ModalStaff.Chất liệu")}</label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={jewelry?.material}
-                          readOnly={true}
-                        />
+                      <div className="order-notes fw-medium">
+                        <div className="checkout-form-list checkout-form-list-2">
+                          <label>{t("ModalStaff.Mô tả")} </label>
+                          <textarea
+                            readOnly
+                            id="checkout-mess"
+                            value={jewelry?.description}
+                          ></textarea>
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>{t("ModalStaff.Thương hiệu")}</label>
-                        <input
-                          placeholder="Street address"
-                          type="text"
-                          value={jewelry?.brand}
-                          readOnly={true}
-                        />
+                      <div className="order-notes col-md-12 fw-medium">
+                        <div className="checkout-form-list checkout-form-list-2 row">
+                          <label>{t("ModalStaff.Hình ảnh sản phẩm")} </label>
+                          {React.Children.toArray(
+                            images.map((img: Image) => (
+                              <div className="col-md-3">
+                                <img
+                                  src={img.data}
+                                  alt={t("ModalStaff.Ảnh sản phẩm")}
+                                />
+                              </div>
+                            ))
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-4 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>{t("ModalStaff.Cân nặng (g)")}</label>
-                        <input
-                          placeholder="Street address"
-                          type="text"
-                          value={jewelry?.weight}
-                          readOnly={true}
-                        />
+                      <div className="col-md-6">
+                        <div className="checkout-form-list">
+                          <label className="text-danger fw-bold">
+                            {t("ModalStaff.Giá đề xuất")}
+                          </label>
+                          <input
+                            className=" fw-bold"
+                            placeholder=""
+                            type="text"
+                            value={formatNumber(request.desiredPrice)}
+                            readOnly={true}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="order-notes fw-medium">
-                      <div className="checkout-form-list checkout-form-list-2">
-                        <label>{t("ModalStaff.Mô tả")} </label>
-                        <textarea
-                          readOnly
-                          id="checkout-mess"
-                          value={jewelry?.description}
-                        ></textarea>
-                      </div>
-                    </div>
-                    <div className="order-notes col-md-12 fw-medium">
-                      <div className="checkout-form-list checkout-form-list-2 row">
-                        <label>{t("ModalStaff.Hình ảnh sản phẩm")} </label>
-                        {React.Children.toArray(
-                          images.map((img: Image) => (
-                            <div className="col-md-3">
-                              <img
-                                src={img.data}
-                                alt={t("ModalStaff.Ảnh sản phẩm")}
-                              />
-                            </div>
-                          ))
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="checkout-form-list">
-                        <label className="text-danger fw-bold">
-                          {t("ModalStaff.Giá đề xuất")}
-                        </label>
-                        <input
-                          className=" fw-bold"
-                          placeholder=""
-                          type="text"
-                          value={formatNumber(request.desiredPrice)}
-                          readOnly={true}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="checkout-form-list">
-                        <label className="text-success fw-bold">
-                          {t("ModalStaff.Định giá")}
-                        </label>
-                        <input
-                          className=" fw-bold"
-                          placeholder=""
-                          type="text"
-                          value={formatNumber(request.valuation)}
-                          readOnly={true}
-                        />
+                      <div className="col-md-6">
+                        <div className="checkout-form-list">
+                          <label className="text-success fw-bold">
+                            {t("ModalStaff.Định giá")}
+                          </label>
+                          <input
+                            className=" fw-bold"
+                            placeholder=""
+                            type="text"
+                            value={formatNumber(request.valuation)}
+                            readOnly={true}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleClose}>
-                {t("ModalStaff.Đóng")}
-              </Button>
-              <Button variant="warning" onClick={handleConfirm}>
-                {t("ModalStaff.Gửi yêu cầu")}
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-    </>
-  );
-};
+                </form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="dark" onClick={handleClose}>
+                  {t("ModalStaff.Đóng")}
+                </Button>
+                <Button variant="warning" onClick={handleConfirm}>
+                  {t("ModalStaff.Gửi yêu cầu")}
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </div>
+        )}
+      </>
+    );
+  };
 
 export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({
   jewelry,
@@ -874,7 +873,7 @@ export const AssignAuctionModal: React.FC<AuctionType> = ({ auction }) => {
   return (
     <>
       <Button variant="dark" size="sm" onClick={handleShow}>
-        {t("ModalStaff.Xem")}
+        {t("ModalStaff.Chi tiết")}
       </Button>
 
       {show && (
@@ -1295,68 +1294,68 @@ export const CreateHandoverReportModal: React.FC<
   jewelry,
   handleChangeList,
 }) => {
-  const jewelryId = jewelry?.id ? jewelry.id : 1;
-  const handleConfirm = async () => {
-    const confirm = await setJewelryHolding(jewelryId, false);
-    if (confirm) {
-      console.log("set holding thành công");
-    }
-    handleChangeList();
-    handleClose();
+    const jewelryId = jewelry?.id ? jewelry.id : 1;
+    const handleConfirm = async () => {
+      const confirm = await setJewelryHolding(jewelryId, false);
+      if (confirm) {
+        console.log("set holding thành công");
+      }
+      handleChangeList();
+      handleClose();
+    };
+    const { t } = useTranslation(["ModalStaff"]);
+    return (
+      <>
+        {show && (
+          <div className="overlay">
+            <Modal
+              show={show}
+              onHide={handleClose}
+              centered
+              backdrop="static"
+              size="xl"
+            >
+              <Modal.Header>
+                <Modal.Title className="w-100">
+                  <div className="col-12 text-center">
+                    {t("ModalStaff.Thông tin bàn giao sản phẩm")}
+                  </div>
+                  <div className="col-12 mb-3 text-center ">
+                    <span className="text-warning fw-bold">{jewelry?.name}</span>
+                  </div>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Tên nhân viên")} -{" "}
+                    <span className=" fw-bold">{user?.fullName}</span>
+                  </h5>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Mã nhân viên")} -{" "}
+                    <span className=" fw-bold">{user?.id}</span>
+                  </h5>
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body style={{ height: "650px" }}>
+                <PDFViewer style={{ width: "100%", height: "100%" }}>
+                  <PDFHandover
+                    winner={winner}
+                    auction={auction}
+                    jewelry={jewelry}
+                  />
+                </PDFViewer>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="dark" onClick={handleClose}>
+                  {t("ModalStaff.Đóng")}
+                </Button>
+                <Button variant="warning" onClick={handleConfirm}>
+                  {t("ModalStaff.Xác nhận")}
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </div>
+        )}
+      </>
+    );
   };
-  const { t } = useTranslation(["ModalStaff"]);
-  return (
-    <>
-      {show && (
-        <div className="overlay">
-          <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdrop="static"
-            size="xl"
-          >
-            <Modal.Header>
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">
-                  {t("ModalStaff.Thông tin bàn giao sản phẩm")}
-                </div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-warning fw-bold">{jewelry?.name}</span>
-                </div>
-                <h5 className="col-12">
-                  {t("ModalStaff.Tên nhân viên")} -{" "}
-                  <span className=" fw-bold">{user?.fullName}</span>
-                </h5>
-                <h5 className="col-12">
-                  {t("ModalStaff.Mã nhân viên")} -{" "}
-                  <span className=" fw-bold">{user?.id}</span>
-                </h5>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body style={{ height: "650px" }}>
-              <PDFViewer style={{ width: "100%", height: "100%" }}>
-                <PDFHandover
-                  winner={winner}
-                  auction={auction}
-                  jewelry={jewelry}
-                />
-              </PDFViewer>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleClose}>
-                {t("ModalStaff.Đóng")}
-              </Button>
-              <Button variant="warning" onClick={handleConfirm}>
-                {t("ModalStaff.Xác nhận")}
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-    </>
-  );
-};
 
 export const ConfirmHoldingModal: React.FC<ConfirmHoldingModalProps> = ({
   jewelry,

@@ -6,7 +6,7 @@
         "Thời gian bắt đầu": "Thời gian bắt đầu",
         "Trạng thái": "Trạng thái",
         "Xem chi tiết": "Xem chi tiết",
-        "Đến": "Đến",
+        "Xem": "Xem",
         "Hiện tại chưa có phiên nào được phân công": "Hiện tại chưa có phiên nào được phân công",
         "Tên phiên...": "Tên phiên..."
     },
@@ -33,7 +33,7 @@
         "Chưa phê duyệt": "Chưa phê duyệt",
         "Chưa có yêu cầu nào được gửi đi": "Chưa có yêu cầu nào được gửi đi",
         "Đã bị hủy": "Đã bị hủy",
-         "Tên trang sức..." : "Tên trang sức..."
+        "Tên trang sức...": "Tên trang sức..."
     },
     "JewelrySentToWebList": {
         "Danh sách tài sản gửi đến": "Danh sách tài sản gửi đến",

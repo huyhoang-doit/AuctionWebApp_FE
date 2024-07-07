@@ -109,13 +109,12 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
                     <td>{formatDateString(auction.startDate)}</td>
                     <td>
                       <span
-                        className={`fw-bold ${
-                          auction.state === "WAITING"
-                            ? "text-warning"
-                            : auction.state === "ONGOING"
+                        className={`fw-bold ${auction.state === "WAITING"
+                          ? "text-warning"
+                          : auction.state === "ONGOING"
                             ? "text-success"
                             : ""
-                        }`}
+                          }`}
                       >
                         {auction.state}
                       </span>
@@ -124,9 +123,11 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
                       <AssignAuctionModal auction={auction} />
                       <Link
                         to={`/tai-san-dau-gia/${auction.id}`}
-                        className="ms-2 btn btn-warning btn-sm"
                       >
-                        {t("AssignedAuctionList.Đến")}
+                        <button className="ms-2 btn btn-warning btn-sm">
+                          {t("AssignedAuctionList.Xem")}
+                        </button>
+
                       </Link>
                     </td>
                   </tr>
