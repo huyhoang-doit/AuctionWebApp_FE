@@ -11,6 +11,7 @@ import MyJewelryNeedConfirmSingle from "./JewelryNeedConfirmSingle";
 interface MyJewelryNeedConfirmProps {
   user: User | null;
   setUser: (user: User) => void;
+  listNumber: number;
 }
 
 const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) => {
@@ -46,7 +47,7 @@ const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) =>
 
   useEffect(() => {
     handleChangeList();
-  }, [page, handleChangeList]);
+  }, [page, props.listNumber]);
 
   useEffect(() => {
     if (user) {
