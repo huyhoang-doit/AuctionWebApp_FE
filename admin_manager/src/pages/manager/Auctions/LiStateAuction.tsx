@@ -13,6 +13,7 @@ export const LiStateAuction: React.FC<StateAuctionViewProps> = ({ state }) => {
     FINISHED: "Đã kết thúc",
     PAUSED: "Tạm dừng",
     DELETED: "Đã xóa",
+    ALL: "Tất cả",
   }[state];
 
   return currentView || defaultView;

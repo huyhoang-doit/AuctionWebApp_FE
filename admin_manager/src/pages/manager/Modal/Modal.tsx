@@ -68,11 +68,9 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
       requestApprovalId: request.id,
       requestTime: new Date().toISOString(),
     };
-    console.log(requestBody);
 
     const newRequest = await sendRequestApprovalFromManager(requestBody);
     if (newRequest) {
-      console.log("Staff send request thanh cong");
       handleChangeList();
     }
   };
@@ -631,13 +629,10 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
       try {
         await deleteImagesByJewelryId(jewelryId);
         const urls = await uploadFilesToFirebase(fileArray, JEWELRY_IMAGES_FOLDER);
-        console.log(urls);
         if (urls.length > 0) {
           await setImageForJewelry({ data: urls[0], jewelryId: jewelryId }, true);
         }
         await processImages(urls, jewelryId);
-
-        console.log("Jewelry images updated successfully.");
       }
       catch (error) {
         console.error("Error sending jewelry request:", error);
@@ -973,7 +968,6 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                           },
                         }}
                         onReady={(editor) => {
-                          console.log("Đã sử dụng được");
 
                           editor.editing.view.change((writer) => {
                             const root = editor.editing.view.document.getRoot();
@@ -1065,7 +1059,6 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
   const completeCreateAuction = async () => {
     const response = await createNewAuctionFromManager(newAuction);
     if (response) {
-      console.log("Dang ky phien dau gia moi thanh cong");
       handleChangeList();
     }
     handleClose();

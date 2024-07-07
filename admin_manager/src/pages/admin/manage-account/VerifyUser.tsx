@@ -26,7 +26,6 @@ const VerifyUser = () => {
   };
 
   const handleDeleteProduct = () => {
-    console.log('Xóa sản phẩm');
     handleCloseModal();
   };
 

@@ -85,16 +85,12 @@ const ViewProducts = () => {
                                 editor={ClassicEditor}
                                 data="<p>Mô tả trang sức</p>"
                                 onReady={editor => {
-                                  console.log('Editor is ready to use!', editor);
                                 }}
                                 onChange={(event) => {
-                                  console.log(event);
                                 }}
                                 onBlur={(event, editor) => {
-                                  console.log('Blur.', editor);
                                 }}
                                 onFocus={(event, editor) => {
-                                  console.log('Focus.', editor);
                                 }}
                               />
                             </div>
