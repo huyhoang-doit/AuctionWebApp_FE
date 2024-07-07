@@ -222,6 +222,7 @@ export default function MyAccount() {
                   <MyJewelryNeedConfirmList
                     user={userState}
                     setUser={setUserState}
+                    listNumber={listNumber}
                   />
                   <MyJewelriesList
                     user={userState}

@@ -64,7 +64,7 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
 
   useEffect(() => {
     handleChangeList();
-  }, [page, handleChangeList, debouncedTxtSearch]);
+  }, [page, debouncedTxtSearch, props.listNumber]);
 
   useEffect(() => {
     setTxtSearch("");
@@ -111,7 +111,7 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
                     {t("MyJewellryList.Tên trang sức")}
                   </th>
                   <th>{t("MyJewellryList.Ảnh")}</th>
-                  <th>{t("MyJewellryList.Trạng thái")}</th>
+                  <th>{t("MyJewellryList.Trạng thái hiện tại")}</th>
                   <th>{t("MyJewellryList.Thao tác")}</th>
                 </tr>
               </thead>
