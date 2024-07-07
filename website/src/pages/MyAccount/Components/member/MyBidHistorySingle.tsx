@@ -28,24 +28,28 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
 
     switch (auctionState) {
       case "FINISHED":
-        try {
-          const winnerData = await getWinnerByAuctionId(
-            auctionRegistration?.auction?.id
-          );
-          if (winnerData) {
-            if (winnerData.id === auctionRegistration?.user?.id) {
-              setStatus(t("Member.Thắngphiên"));
-              setStatusColor("#198754");
-            } else {
-              setStatus(t("Member.Thấtbại"));
-              setStatusColor("red");
+        if (auctionRegistration.auction?.lastPrice === null) {
+          setStatus(t("Member.Thấtbại"));
+          setStatusColor("red");
+        } else {
+          try {
+            const winnerData = await getWinnerByAuctionId(
+              auctionRegistration?.auction?.id
+            );
+            if (winnerData) {
+              if (winnerData.id === auctionRegistration?.user?.id) {
+                setStatus(t("Member.Thắngphiên"));
+                setStatusColor("#198754");
+              } else {
+                setStatus(t("Member.Thấtbại"));
+                setStatusColor("red");
+              }
             }
+          } catch (error) {
+            console.error("Error fetching winner:", error);
           }
-        } catch (error) {
-          console.error("Error fetching winner:", error);
         }
         break;
-
       default:
         setStatus(t("Member.Chưaxácđịnh"));
         setStatusColor("black");
@@ -61,10 +65,7 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
     } else {
       updateStatus();
     }
-  }, [auctionRegistration, i18n.language]); // Thêm i18n.language vào dependency array
-  //Thêm i18n.language vào dependency array của useEffect: Điều này đảm bảo rằng bất cứ khi nào ngôn ngữ thay đổi, useEffect sẽ được kích hoạt lại để cập nhật trạng thái dịch của bạn.
-  //Tạo hàm updateStatus: Để tránh lặp lại mã trong useEffect, bạn có thể tách logic cập nhật trạng thái vào một hàm riêng và gọi nó từ useEffect.
-
+  }, [auctionRegistration, i18n.language]);
   useEffect(() => {
     if (auctionId)
       getAuction(auctionId)
@@ -82,7 +83,11 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
         <td>{auctionRegistration.auction?.id}</td>
         <td className="text-start">{auctionRegistration.auction?.name}</td>
         <td style={{ color: statusColor }}>
-          <StateAuctionView state={auction?.state ?? ""} />
+          {(auctionRegistration.auction?.state === 'FINISHED' && auctionRegistration.auction.lastPrice === null)
+            ? (<span className="text-danger fw-bold">
+              {t("StateAuctionView.Đấu giá thất bại")}
+            </span>)
+            : (<StateAuctionView state={auction?.state ?? ""} />)}
         </td>
         <td className="fw-bold" style={{ color: statusColor }}>
           {status}
