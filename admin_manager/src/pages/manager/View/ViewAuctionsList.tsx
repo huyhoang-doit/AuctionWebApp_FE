@@ -190,7 +190,6 @@ const ViewProducts = () => {
                                                                 }}
                                                                 onChange={(event, editor) => {
                                                                     const data = editor.getData();
-                                                                    console.log(data)
                                                                     setDescription(data);
                                                                 }}
                                                             />

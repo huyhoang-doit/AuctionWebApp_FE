@@ -124,6 +124,7 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
         throw new Error("Phiên không tồn tại");
     }
 }
+
 export async function getAllAuctions(state: string, auctionName: string, page: number): Promise<ResultPageableInteface> {
     // endpoint
     const URL = `${BASE_URL}/auction/sorted-and-paged?state=${state}&page=${page - 1}&auctionName=${auctionName}`;
@@ -228,7 +229,6 @@ export async function changeStateAuction(auctionId: number, state: string): Prom
     // endpoint
     const URL = `${BASE_URL}/auction/set-state/${auctionId}?state=${state}`;
     // request
-    console.log(URL)
     const response = await fetch(URL, {
         method: 'PUT',
         headers: {
@@ -321,7 +321,6 @@ export const createNewAuctionFromManager = async (request: NewAuctionRequestProp
     try {
         const response = await fetchWithToken(URL, 'POST', accessToken, { ...request, participationFee });
 
-        console.log(response);
 
         if (!response.ok) {
             throw new Error(`Không thể truy cập ${URL}`);
@@ -374,7 +373,6 @@ export async function deleteAuctionResult(transactionId: number): Promise<boolea
     const URL = `${BASE_URL}/auction/delete-result/${transactionId}`;
     // request
     const response = await fetchNoBodyWithToken(URL, 'GET', accessToken);
-    console.log(response);
 
     if (!response.ok) {
         const errorDetails = await response.text();
@@ -383,4 +381,26 @@ export async function deleteAuctionResult(transactionId: number): Promise<boolea
     }
 
     return true;
+}
+
+export async function getAllFailedAuctions(auctionName: string, page: number): Promise<ResultPageableInteface> {
+    // endpoint
+    const URL = `${BASE_URL}/auction/get-failed-auctions?page=${page - 1}&auctionName=${auctionName}`;
+    // request    
+    try {
+        const response = await MyRequest(URL);
+        const auctionsData: Auction[] = response.content.map((auction: any) => mapAuction(auction));
+        const totalPages = response.totalPages;
+        const totalAuctions = response.totalElements;
+        const numberAuctionsPerPage = response.numberOfElements;
+        return {
+            auctionsData,
+            numberAuctionsPerPage,
+            totalPages,
+            totalAuctions,
+        };
+    } catch (error) {
+        console.error("Error fetching auctions:", error);
+        throw new Error("Phiên không tồn tại");
+    }
 }
