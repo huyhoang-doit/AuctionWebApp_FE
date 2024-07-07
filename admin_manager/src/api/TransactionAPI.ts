@@ -122,8 +122,6 @@ export async function changeStateTransaction(transactionId: number, state: strin
     try {
         const response = await fetchNoBodyWithToken(URL, 'PUT', accessToken);
 
-        console.log(response);
-
         if (!response.ok) {
             throw new Error(`Không thể truy cập ${URL}`);
         }

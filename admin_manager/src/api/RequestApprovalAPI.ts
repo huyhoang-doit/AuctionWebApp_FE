@@ -144,14 +144,12 @@ export async function confirmRequest(requestId: number, responderId: number | un
   const URL = `${BASE_URL}/request-approval/confirm/${requestId}?responderId=${responderId}`;
 
   // request
-  console.log(URL)
   const response = await fetch(URL, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     }
   });
-  console.log(response);
 
   if (!response.ok) {
     const errorDetails = await response.text();  // Get error details as text
@@ -222,8 +220,6 @@ export const sendRequestApprovalFromUser = async (request: SendRequestFromUser):
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, request);
 
-    console.log(response);
-
     if (!response.ok) {
       throw new Error(`Không thể truy cập ${URL}`);
     }
@@ -247,8 +243,6 @@ export const sendRequestApprovalFromManager = async (request: SendRequestFromMan
   // call api
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, request);
-
-    console.log(response);
 
     if (!response.ok) {
       throw new Error(`Không thể truy cập ${URL}`);

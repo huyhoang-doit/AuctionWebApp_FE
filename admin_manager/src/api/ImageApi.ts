@@ -54,8 +54,6 @@ export const setImageForJewelry = async (imageRequest: ImageRequest, icon: boole
     try {
         const response = await fetchWithToken(URL, 'POST', accessToken, body);
 
-        console.log(response);
-
         if (!response.ok) {
             throw new Error(`Không thể truy cập ${URL}`);
         }

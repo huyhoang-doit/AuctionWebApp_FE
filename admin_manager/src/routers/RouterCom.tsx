@@ -17,6 +17,7 @@ import TransactionList from "../pages/manager/Transaction/TransactionList";
 import AuctionRegistrationList from "../pages/manager/AuctionRegistration/AuctionRegistrationList";
 import TransactionsOverdue from "../pages/manager/Transaction/TransactionsOverdue";
 import NotFound from "../pages/404/NotFound ";
+import AuctionFailedList from "../pages/manager/Auctions/AuctionFailedList";
 
 const RouterCom = () => {
   return (
@@ -86,10 +87,10 @@ const RouterCom = () => {
           path="/manager/chi-tiet-nguoi-dung/:id"
           element={<ViewUserOfManager />}
         />
-        {/* <Route
-            path="/manager/view/Viewauctionslist"
-            element={<ViewAuctionsList />}
-          /> */}
+        <Route
+          path="/manager/phien-that-bai"
+          element={<AuctionFailedList />}
+        />
       </Route>
 
 
