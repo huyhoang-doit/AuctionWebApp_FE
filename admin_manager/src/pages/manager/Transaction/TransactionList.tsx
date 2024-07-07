@@ -19,13 +19,13 @@ const TransactionList = () => {
   const location = useLocation();
   const locationPathName = location.pathname
   const typeObject: TransactionTypeProps = checkTransactionLocation(locationPathName)
-  const states = ['SUCCEED', 'PENDING', 'FAILED']
+  const states = ['ALL', 'SUCCEED', 'PENDING', 'FAILED']
   //
   const [listTransactions, setListTransactions] = useState<Transaction[]>([])
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [transactionState, setTransactionState] = useState('SUCCEED');
+  const [transactionState, setTransactionState] = useState('ALL');
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
   const [txtSearch, setTxtSearch] = useState('');
 
@@ -61,7 +61,7 @@ const TransactionList = () => {
   }, [page, transactionState, typeObject.type, debouncedTxtSearch])
 
   useEffect(() => {
-    setTransactionState('SUCCEED')
+    setTransactionState('ALL')
     setPage(1);
     setTxtSearch('');
     debouncedTxtSearchChange('');

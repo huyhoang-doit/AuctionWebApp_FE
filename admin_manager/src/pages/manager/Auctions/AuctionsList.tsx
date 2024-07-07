@@ -13,12 +13,12 @@ const AuctionsList = () => {
   //
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);
-  const states = ['WAITING', 'ONGOING', 'FINISHED', 'PAUSED']
+  const states = ['ALL', 'WAITING', 'ONGOING', 'FINISHED', 'PAUSED']
 
   const [listAuctions, setListAuctions] = useState<Auction[]>([]);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
-  const [auctionState, setAuctionState] = useState('WAITING');
+  const [auctionState, setAuctionState] = useState('ALL');
   const [loading, setLoading] = useState(true);
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
   const [txtSearch, setTxtSearch] = useState('');
