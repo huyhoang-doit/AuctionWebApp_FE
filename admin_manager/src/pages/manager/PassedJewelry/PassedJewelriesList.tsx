@@ -19,9 +19,9 @@ const PassedJewelriesList = () => {
   const [totalElements, setTotalElements] = useState(0);
   const [userState, setUserState] = useState<User | null>(user);
   const [loading, setLoading] = useState(true);
-  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('Tất cả');
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
   const [txtSearch, setTxtSearch] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('Tất cả');
   const categories = useCategories();
   const categoryNames: (string | undefined)[] = categories.map(category => category.name);
   categoryNames.unshift('Tất cả')

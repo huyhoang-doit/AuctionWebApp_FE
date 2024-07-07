@@ -85,7 +85,7 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
         <td style={{ color: statusColor }}>
           {(auctionRegistration.auction?.state === 'FINISHED' && auctionRegistration.auction.lastPrice === null)
             ? (<span className="text-danger fw-bold">
-              {t("StateAuctionView.Đấu giá thất bại")}
+              {t("Member.Phiên thất bại")}
             </span>)
             : (<StateAuctionView state={auction?.state ?? ""} />)}
         </td>
