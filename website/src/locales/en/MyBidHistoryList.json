@@ -1,12 +1,17 @@
 {
-    "MyBidHistoryList" : {
-        "Đấu giá của tôi" : "My auctions",
+    "MyBidHistoryList": {
+        "Đấu giá của tôi": "My auctions",
         "Mã phiên": "Auction ID",
         "Tên phiên": "Auction Name",
         "Trạng thái": "Status",
-        "Kết quả" : "Result",
-        "Thao tác" : "Action",
-        "Chưa có đấu giá nào" : "There are currently no auctions"
-
+        "Kết quả": "Result",
+        "Thao tác": "Action",
+        "Chưa có đấu giá nào": "There are currently no auctions",
+        "Lịch sử tham gia": "Participation history",
+        "Số lần đấu giá": "Number of Auctions",
+        "Số phiên đã đăng kí tham gia": "Number of Auctions Registered",
+        "Số tài sản trúng đấu giá": "Number of Assets Won",
+        "Tổng giá trị tài sản đã trúng đấu giá": "Total Value of Assets Won",
+        "Tên phiên...": "Asset name..."
     }
 }

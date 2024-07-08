@@ -257,11 +257,12 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                         </div>
                         <div className="checkout-form-list mb-2 ">
                           <label>{t("Modal.Thời gian thanh toán")}</label>
+
                           <span className="fw-bold">
                             {" "}
-                            {formatDateStringAcceptNull(
+                            {transaction.paymentTime === null ? (<StateTransaction state={transaction.state} />) : (formatDateStringAcceptNull(
                               transaction.paymentTime
-                            )}
+                            ))}
                           </span>
                         </div>
                       </div>
@@ -270,13 +271,14 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                           <label>{t("Modal.Phương thức thanh toán")}</label>
                           <span className="fw-bold">
                             {" "}
-                            <PaymentMethod
+                            {transaction.type === 'PAYMENT_TO_WINNER' ? (<PaymentMethod
                               method={
                                 transaction.paymentMethod
                                   ? transaction.paymentMethod
                                   : ""
                               }
-                            />
+                            />) : (<span className="fw-bold">{t("Modal.Chuyển khoản")}</span>)}
+
                           </span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
@@ -1171,8 +1173,6 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
   jewelry,
   auction,
 }) => {
-  console.log(auction);
-
   const [show, setShow] = useState(false);
   const handleCloseJewelryDetail = () => setShow(false);
   const handleShowJewelryDetail = () => setShow(true);
