@@ -139,7 +139,7 @@ export default function MyAccount() {
                       aria-controls="account-address"
                       aria-selected="false"
                     >
-                      {t("MyAccount.Lịch sử đấu giá")}
+                      {t("MyAccount.Lịch sử giao dịch")}
                     </a>
                   </li>
                   <li
@@ -214,10 +214,14 @@ export default function MyAccount() {
                     setUser={setUserState}
                   />
                   <ChangePassword user={userState} />
-                  <MyBidHistoryList user={userState} />
+                  <MyBidHistoryList
+                    user={userState}
+                    listNumber={listNumber}
+                  />
                   <TransactionHistory
                     isAfterPay={isAfterPay}
                     user={userState}
+                    listNumber={listNumber}
                   />
                   <MyJewelryNeedConfirmList
                     user={userState}

@@ -1,16 +1,15 @@
 {
-    "MyAccount" : {
+    "MyAccount": {
         "Tài khoản của tôi": "Tài khoản của tôi",
         "Đăng xuất": "Đăng xuất",
         "Thông tin cá nhân": "Thông tin cá nhân",
         "Đổi mật khẩu": "Đổi mật khẩu",
         "Đấu giá của tôi": "Đấu giá của tôi",
-        "Lịch sử đấu giá": "Lịch sử đấu giá",
+        "Lịch sử giao dịch": "Lịch sử giao dịch",
         "Tài sản cần xác nhận": "Tài sản cần xác nhận",
         "Các yêu cầu đã gửi": "Các yêu cầu đã gửi",
         "Bạn đã thanh toán thành công!": "Bạn đã thanh toán thành công!",
         "Bạn thanh toán không thành công!": "Bạn thanh toán không thành công!",
-         "Tài sản của tôi": "Tài sản của tôi"
-
+        "Tài sản của tôi": "Tài sản của tôi"
     }
 }

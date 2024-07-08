@@ -38,12 +38,12 @@ export async function getAuctionRegistrationsByAuctionId(auctionId: number): Pro
     return { auctionRegistrationsData: auctionRegistrations };
 }
 
-export async function getAuctionRegistrationByUserId(userId: number, page: number): Promise<ResultPagingInteface> {
+export async function getAuctionRegistrationByUserId(userId: number, auctionName: string, page: number): Promise<ResultPagingInteface> {
     const auctionRegistrations: AuctionRegistration[] = [];
-    const URL = `${BASE_URL}/auction-registration/get-by-user?userId=${userId}&page=${page - 1}`;
-
+    const URL = `${BASE_URL}/auction-registration/get-by-user?userId=${userId}&auctionName=${auctionName}&page=${page - 1}`;
     try {
         const response = await MyRequest(URL);
+        console.log(response);
 
         if (!response || !response.content) {
             throw new Error("Không tìm thấy");

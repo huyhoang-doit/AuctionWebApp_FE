@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { Spinner } from "react-bootstrap";
 import MyBidHistorySingle from "./MyBidHistorySingle";
@@ -7,26 +7,54 @@ import { getAuctionRegistrationByUserId } from "../../../../api/AuctionRegistrat
 import { Error } from "../../../Error-Loading/Error";
 import { AuctionRegistration } from "../../../../models/AuctionRegistration";
 import { useTranslation } from "react-i18next";
+import { getTransactionsDashboardByUsername } from "../../../../api/TransactionAPI";
+import { formatNumber } from "../../../../utils/formatNumber";
+import { useDebouncedCallback } from "use-debounce";
 
 interface MyBidHistoryListProps {
   user: User | null;
+  listNumber: number
 }
 
-export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user }) => {
+export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user, listNumber }) => {
   const [userAuctionRegistration, setUserAuctionRegistration] = useState<
     AuctionRegistration[]
   >([]);
+  const [transactionsDashboard, setTransactionsDashboard] = useState<{
+    numberTransactionsRequest: number;
+    totalPriceJewelryWonByUsername: number;
+    totalJewelryWon: number;
+    totalBid: number;
+  }>({
+    numberTransactionsRequest: 0,
+    totalPriceJewelryWonByUsername: 0,
+    totalJewelryWon: 0,
+    totalBid: 0,
+  });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
+  const [txtSearch, setTxtSearch] = useState("");
 
-  useEffect(() => {
+  const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
+    setDebouncedTxtSearch(txtSearch);
+  }, 1000);
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
+
+  const getAuctionByUser = useCallback(async () => {
     setLoading(true);
     if (user) {
       setLoading(true);
-      getAuctionRegistrationByUserId(user.id, page)
+      getAuctionRegistrationByUserId(user.id, debouncedTxtSearch, page)
         .then((response) => {
+          console.log(response);
           setUserAuctionRegistration(response.auctionRegistrationsData);
           setTotalElements(response.totalElements);
           setLoading(false);
@@ -37,11 +65,47 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user }) => {
         });
     }
     setLoading(false);
+  }, [user, debouncedTxtSearch, page]);
+
+  const getTransactionList = useCallback(async () => {
+    if (!user) return;
+
+    setLoading(true);
+    const username = user.username || "";
+    try {
+      const [dashboardResponse] = await Promise.all([
+        getTransactionsDashboardByUsername(username),
+      ]);
+      setTransactionsDashboard({
+        numberTransactionsRequest: dashboardResponse.numberTransactionsRequest,
+        totalPriceJewelryWonByUsername:
+          dashboardResponse.totalPriceJewelryWonByUsername,
+        totalJewelryWon: dashboardResponse.totalJewelryWon,
+        totalBid: dashboardResponse.totalBid,
+      });
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+    } finally {
+      setLoading(false);
+    }
   }, [user, page]);
+
+  useEffect(() => {
+    getAuctionByUser()
+  }, [user, debouncedTxtSearch, page]);
+
+  useEffect(() => {
+    getTransactionList()
+  }, []);
 
   if (error) {
     <Error error={error} />;
   }
+
+  useEffect(() => {
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
+  }, [listNumber]);
 
   const { t } = useTranslation(["MyBidHistoryList"]);
 
@@ -55,6 +119,60 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user }) => {
       <h4 className="small-title mb-4 fw-bold">
         {t("MyBidHistoryList.Đấu giá của tôi")}
       </h4>
+      <div className="rating-flex">
+        <div className="rating-div">
+          <p className="rating-number">{transactionsDashboard.totalBid}</p>
+          <p className="rating-text">
+            {t("MyBidHistoryList.Số lần đấu giá")}
+          </p>
+        </div>
+        <div className="rating-div">
+          <p className="rating-number">
+            {transactionsDashboard.numberTransactionsRequest}
+          </p>
+          <p className="rating-text">
+            {" "}
+            {t("MyBidHistoryList.Số phiên đã đăng kí tham gia")}
+          </p>
+        </div>
+        <div className="rating-div">
+          <p className="rating-number">
+            {transactionsDashboard.totalJewelryWon}
+          </p>
+          <p className="rating-text">
+            {t("MyBidHistoryList.Số tài sản trúng đấu giá")}
+          </p>
+        </div>
+        <div className="rating-div">
+          <p className="rating-number">
+            {formatNumber(
+              transactionsDashboard.totalPriceJewelryWonByUsername
+            )}{" "}
+            ₫
+          </p>
+          <p className="rating-text">
+            {t("MyBidHistoryList.Tổng giá trị tài sản đã trúng đấu giá")}
+          </p>
+        </div>
+      </div>
+
+
+      <div className="row mb-2">
+        <div className="col-md-7">
+          <h4 className="small-title mt-2 fw-bold">
+            {t("MyBidHistoryList.Lịch sử tham gia")}
+          </h4>
+        </div>
+        <div className="umino-sidebar_categories col-md-5 mb-2">
+          <input
+            style={{ height: "40px" }}
+            type="text"
+            placeholder={t("MyBidHistoryList.Tên phiên...")}
+            value={txtSearch}
+            onChange={handleTxtSearch}
+          />
+        </div>
+      </div>
       <div className="myaccount-orders">
         <div className="table-responsive">
           <table className="table table-bordered table-hover">

@@ -1171,8 +1171,6 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
   jewelry,
   auction,
 }) => {
-  console.log(auction);
-
   const [show, setShow] = useState(false);
   const handleCloseJewelryDetail = () => setShow(false);
   const handleShowJewelryDetail = () => setShow(true);
