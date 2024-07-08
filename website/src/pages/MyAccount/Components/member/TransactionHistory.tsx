@@ -148,7 +148,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                       </td>
                       <td style={{ width: "125px" }}>
                         {transaction.state === "SUCCEED" ||
-                          transaction.type !== 'PAYMENT_TO_WINNER' ? (
+                          transaction.type !== 'PAYMENT_TO_WINNER' || transaction.paymentMethod !== null ? (
                           <ViewTransactionModal transaction={transaction} />
                         ) : (
                           <TransactionModal

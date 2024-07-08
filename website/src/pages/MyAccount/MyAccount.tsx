@@ -149,7 +149,7 @@ export default function MyAccount() {
                     }}
                   >
                     <a
-                      className={`nav-link ${isAfterPay ? "active" : ""}`}
+                      className={`nav-link`}
                       id="account-address-tab"
                       data-bs-toggle="tab"
                       href="#my-jewelries"
