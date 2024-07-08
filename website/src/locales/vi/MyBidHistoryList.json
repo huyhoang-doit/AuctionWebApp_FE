@@ -1,12 +1,17 @@
 {
-    "MyBidHistoryList" : {
-        "Đấu giá của tôi" : "Đấu giá của tôi",
+    "MyBidHistoryList": {
+        "Đấu giá của tôi": "Đấu giá của tôi",
         "Mã phiên": "Mã phiên",
         "Tên phiên": "Tên phiên",
         "Trạng thái": "Trạng thái",
-        "Kết quả" : "Kết quả",
-        "Thao tác" : "Thao tác",
-        "Chưa có đấu giá nào" : "Chưa có đấu giá nào"
-
+        "Kết quả": "Kết quả",
+        "Thao tác": "Thao tác",
+        "Chưa có đấu giá nào": "Chưa có đấu giá nào",
+        "Lịch sử tham gia": "Lịch sử tham gia",
+        "Số lần đấu giá": "Số lần đấu giá",
+        "Số phiên đã đăng kí tham gia": "Số phiên đã đăng kí tham gia",
+        "Số tài sản trúng đấu giá": "Số tài sản trúng đấu giá",
+        "Tổng giá trị tài sản đã trúng đấu giá": "Tổng giá trị tài sản đã trúng đấu giá",
+        "Tên phiên...": "Tên phiên..."
     }
 }

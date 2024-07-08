@@ -6,60 +6,51 @@ import { Transaction } from "../../../../models/Transaction";
 import {
   createTransactionForWinnerIfNotExist,
   getTransactionsByUsername,
-  getTransactionsDashboardByUsername,
 } from "../../../../api/TransactionAPI";
 import { formatNumber } from "../../../../utils/formatNumber";
 import { StateTransaction } from "./StateTransaction";
 import { TransactionModal, ViewTransactionModal } from "../../Modal/Modal";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { useTranslation } from "react-i18next";
+import { useDebouncedCallback } from "use-debounce";
 
 interface TransactionHistoryProps {
   user: User | null;
   isAfterPay: boolean;
+  listNumber: number
 }
 
 export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   user,
   isAfterPay,
+  listNumber
 }) => {
-  const [transactionsDashboard, setTransactionsDashboard] = useState<{
-    numberTransactionsRequest: number;
-    totalPriceJewelryWonByUsername: number;
-    totalJewelryWon: number;
-    totalBid: number;
-  }>({
-    numberTransactionsRequest: 0,
-    totalPriceJewelryWonByUsername: 0,
-    totalJewelryWon: 0,
-    totalBid: 0,
-  });
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation(["TransactionHistory"]);
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
+  const [txtSearch, setTxtSearch] = useState("");
+
+  const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
+    setDebouncedTxtSearch(txtSearch);
+  }, 1000);
+
+  const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTxtSearch(value);
+    debouncedTxtSearchChange(value);
+  };
 
   const getTransactionList = useCallback(async () => {
     if (!user) return;
-
     setLoading(true);
     const username = user.username || "";
-
     try {
-      const [dashboardResponse, transactionsResponse] = await Promise.all([
-        getTransactionsDashboardByUsername(username),
-        getTransactionsByUsername(username, page),
+      const [transactionsResponse] = await Promise.all([
+        getTransactionsByUsername(username, debouncedTxtSearch, page),
       ]);
-
-      setTransactionsDashboard({
-        numberTransactionsRequest: dashboardResponse.numberTransactionsRequest,
-        totalPriceJewelryWonByUsername:
-          dashboardResponse.totalPriceJewelryWonByUsername,
-        totalJewelryWon: dashboardResponse.totalJewelryWon,
-        totalBid: dashboardResponse.totalBid,
-      });
-
       setTransactions(transactionsResponse.transactions);
       setTotalElements(transactionsResponse.totalElements);
     } catch (error) {
@@ -67,24 +58,27 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [user, page]);
+  }, [user, page, debouncedTxtSearch]);
 
   useEffect(() => {
     getTransactionList();
-  }, [getTransactionList]);
+  }, [getTransactionList, debouncedTxtSearch, page]);
+
+  useEffect(() => {
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
+  }, [listNumber]);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       if (!user) return;
-
       const createdTransactions = await createTransactionForWinnerIfNotExist(user.id);
       if (createdTransactions.length === 0) return;
       setTransactions(prevTransactions => [
         ...prevTransactions,
         ...createdTransactions
       ]);
-
       setLoading(false);
     };
     fetchData();
@@ -98,43 +92,20 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
       aria-labelledby="account-orders-tab"
     >
       <div className="myaccount-orders">
-        <h4 className="small-title fw-bold mb-4">
-          {t("TransactionHistory.Lịch sử tham gia đấu giá")}
-        </h4>
-        <div className="rating-flex">
-          <div className="rating-div">
-            <p className="rating-number">{transactionsDashboard.totalBid}</p>
-            <p className="rating-text">
-              {t("TransactionHistory.Số lần đấu giá")}
-            </p>
+        <div className="row mb-2">
+          <div className="col-md-7">
+            <h4 className="small-title fw-bold mt-2">
+              {t("TransactionHistory.Lịch sử giao dịch")}
+            </h4>
           </div>
-          <div className="rating-div">
-            <p className="rating-number">
-              {transactionsDashboard.numberTransactionsRequest}
-            </p>
-            <p className="rating-text">
-              {" "}
-              {t("TransactionHistory.Số phiên đã đăng kí tham gia")}
-            </p>
-          </div>
-          <div className="rating-div">
-            <p className="rating-number">
-              {transactionsDashboard.totalJewelryWon}
-            </p>
-            <p className="rating-text">
-              {t("TransactionHistory.Số tài sản trúng đấu giá")}
-            </p>
-          </div>
-          <div className="rating-div">
-            <p className="rating-number">
-              {formatNumber(
-                transactionsDashboard.totalPriceJewelryWonByUsername
-              )}{" "}
-              ₫
-            </p>
-            <p className="rating-text">
-              {t("TransactionHistory.Tổng giá trị tài sản đã trúng đấu giá")}
-            </p>
+          <div className="umino-sidebar_categories col-md-5 mb-2">
+            <input
+              style={{ height: "40px" }}
+              type="text"
+              placeholder={t("TransactionHistory.Tên tài sản...")}
+              value={txtSearch}
+              onChange={handleTxtSearch}
+            />
           </div>
         </div>
         <div className="table-responsive">
@@ -177,7 +148,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                       </td>
                       <td style={{ width: "125px" }}>
                         {transaction.state === "SUCCEED" ||
-                          transaction.paymentMethod !== 'PAYMENT_TO_WINNER' ? (
+                          transaction.type !== 'PAYMENT_TO_WINNER' || transaction.paymentMethod !== null ? (
                           <ViewTransactionModal transaction={transaction} />
                         ) : (
                           <TransactionModal
@@ -193,7 +164,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                 <tr>
                   <td colSpan={7} className="text-center">
                     <h5 className="fw-semibold lh-base mt-2">
-                      {t("TransactionHistory.Chưa thực hiện đấu giá nào")}
+                      {t("TransactionHistory.Chưa có giao dịch nào")}
                     </h5>
                   </td>
                 </tr>
