@@ -1,4 +1,4 @@
-import { Bar, Doughnut, Line } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { getDashBoardInformation } from '../../api/DashBoardAPI';
@@ -8,12 +8,38 @@ import { Table } from 'react-bootstrap';
 import { getTopSpentUser } from '../../api/UserAPI';
 import { User } from '../../models/User';
 import { Link } from 'react-router-dom';
+
+
+interface CustomJwtPayload extends JwtPayload {
+  authorities: { authority: string }[];
+}
+
 export default function Index() {
+  const months = [
+    { value: 1, label: 'Tháng 1' },
+    { value: 2, label: 'Tháng 2' },
+    { value: 3, label: 'Tháng 3' },
+    { value: 4, label: 'Tháng 4' },
+    { value: 5, label: 'Tháng 5' },
+    { value: 6, label: 'Tháng 6' },
+    { value: 7, label: 'Tháng 7' },
+    { value: 8, label: 'Tháng 8' },
+    { value: 9, label: 'Tháng 9' },
+    { value: 10, label: 'Tháng 10' },
+    { value: 11, label: 'Tháng 11' },
+    { value: 12, label: 'Tháng 12' }
+  ];
+  const token = localStorage.getItem("access_token");
+  let userRole = '';
   const [selectedYearRegisterAccount, setSelectedYearRegisterAccount] = useState(new Date().getFullYear());
   const [selectedYearGetAuction, setSelectedYearGetAuction] = useState(new Date().getFullYear());
   const [selectedYearGetRevenue, setSelectedYearGetRevenue] = useState(new Date().getFullYear());
+  const [selectedYearGetAuctionFailedAndSuccess, setSelectedYearGetAuctionFailedAndSuccess] = useState(new Date().getFullYear());
+  const [selectedMonthGetAuctionFailedAndSuccess, setSelectedMonthGetAuctionFailedAndSuccess] = useState(new Date().getMonth() + 1);
+  const [selectedYearGetUserJoinAuction, setSelectedYearGetUserJoinAuction] = useState(new Date().getFullYear());
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 5 }, (_, index) => currentYear - index);
+  const yearsLabel = Array.from({ length: 10 }, (_, index) => currentYear - index).reverse();
 
   const [totalUser, setTotalUser] = useState(0);
   const [totalUsersVerified, setTotalUsersVerified] = useState(0);
@@ -21,8 +47,6 @@ export default function Index() {
   const [totalUsersInActive, setTotalUsersInActive] = useState(0);
   const [totalRevenueToday, setTotalRevenueToday] = useState(0);
   const [totalJewelryActive, setTotalJewelryActive] = useState(0);
-  const [totalAuctions, setTotalAuctions] = useState(0);
-  const [totalRevenue, setTotalRevenue] = useState(0);
 
   const [users, setUsers] = useState<User[]>([]);
 
@@ -37,7 +61,11 @@ export default function Index() {
       });
   }, [])
 
-  // Dữ liệu cho biểu đồ Bar
+  if (token) {
+    const decodedData = jwtDecode<CustomJwtPayload>(token);
+    userRole = decodedData.authorities[0].authority;
+  }
+
   const [barData1, setBarData1] = useState({
     labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
     datasets: [
@@ -46,12 +74,11 @@ export default function Index() {
         backgroundColor: 'rgba(75,192,192,1)',
         borderColor: 'rgba(0,0,0,1)',
         borderWidth: 2,
-        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        data: Array(12).fill(0)
       }
     ]
   });
 
-  // Dữ liệu cho biểu đồ Bar
   const [barData2, setBarData2] = useState({
     labels: ['Đã phê duyệt', 'Chưa phê duyệt', 'Đang đấu giá'],
     datasets: [
@@ -60,12 +87,11 @@ export default function Index() {
         backgroundColor: ['#57e7ff', '#9357ff', '#ff56a2'],
         borderColor: '#FFFFFF',
         borderWidth: 2,
-        data: [0, 0, 0]
+        data: Array(3).fill(0)
       }
     ]
   });
 
-  // Dữ liệu cho biểu đồ Bar
   const [barData3, setBarData3] = useState({
     labels: ['Thành viên', 'Nhân viên', 'Quản Lý', 'Quản trị viên'],
     datasets: [
@@ -74,37 +100,37 @@ export default function Index() {
         backgroundColor: ['#57e7ff', '#9357ff', '#ff56a2', '#f25602'],
         borderColor: '#FFFFFF',
         borderWidth: 2,
-        data: [0, 0, 0, 0]
+        data: Array(4).fill(0)
       }
     ]
   });
 
+  const [barData4, setBarData4] = useState({
+    labels: yearsLabel,
+    datasets: [
+      {
+        label: 'VNĐ',
+        backgroundColor: '#63c7ff',
+        borderColor: 'rgba(0,0,0,1)',
+        borderWidth: 2,
+        data: Array(10).fill(0)
+      }
+    ]
+  });
 
-  // Dữ liệu cho biểu đồ Doughnut
-  const [doughnutData1, setDoughnutData1] = useState({
+  const [barData5, setBarData5] = useState({
     labels: ['Phiên thất bại', 'Phiên thành công'],
     datasets: [
       {
-        label: '%',
+        label: 'Phiên',
         backgroundColor: ['#DF67C1', '#6AE0BD'],
-        data: [0, 0]
+        borderColor: 'rgba(0,0,0,1)',
+        borderWidth: 2,
+        data: Array(2).fill(0)
       }
     ]
   });
 
-  // Dữ liệu cho biểu đồ Doughnut
-  const [doughnutData2, setDoughnutData2] = useState({
-    labels: ['Người dùng tham gia', 'Người dùng không tham gia'],
-    datasets: [
-      {
-        label: '%',
-        backgroundColor: ['#6495ED', '#DE3163'],
-        data: [0, 0]
-      }
-    ]
-  });
-
-  // Dữ liệu cho biểu đồ Line
   const [lineData1, setLineData1] = useState({
     labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
     datasets: [
@@ -119,7 +145,6 @@ export default function Index() {
     ]
   });
 
-  // Dữ liệu cho biểu đồ Line
   const [lineData2, setLineData2] = useState({
     labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
     datasets: [
@@ -134,30 +159,37 @@ export default function Index() {
     ]
   });
 
-  const token = localStorage.getItem("access_token");
-  let userRole = '';
-  interface CustomJwtPayload extends JwtPayload {
-    authorities: { authority: string }[];
-  }
-  if (token) {
-    const decodedData = jwtDecode<CustomJwtPayload>(token);
-    userRole = decodedData.authorities[0].authority;
-  }
+  const [lineData3, setLineData3] = useState({
+    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+    datasets: [
+      {
+        label: 'Người dùng',
+        fill: true,
+        tension: 0.4,
+        backgroundColor: 'rgba(223,103,193,0.6)',
+        borderColor: 'rgba(223,103,193,1)',
+        data: []
+      }
+    ]
+  });
 
   useEffect(() => {
     fetchDashboardData();
-  }, [selectedYearRegisterAccount, selectedYearGetAuction, selectedYearGetRevenue]);
+  }, [selectedYearRegisterAccount, selectedYearGetAuction, selectedYearGetRevenue,
+    selectedYearGetAuctionFailedAndSuccess, selectedMonthGetAuctionFailedAndSuccess,
+    selectedYearGetUserJoinAuction]);
 
   const fetchDashboardData = async () => {
     try {
-      const response = await getDashBoardInformation(selectedYearRegisterAccount, selectedYearGetAuction, selectedYearGetRevenue);
-      const { totalUser, totalUsersActive, totalUsersInActive, totalRevenueToday, totalAuctions, totalJewelryActive, totalJewelryWaitApproving,
-        totalAuctionJewelry, percentAuctionFailed, percentAuctionSuccess, totalUsersByMonth, totalAuctionByMonth, totalMembers, totalStaffs, totalManagers, totalAdmins,
-        participationRate, notParticipationRate, totalRevenue, totalRevenueByMonth, totalUsersVerified } = response;
+      const response = await getDashBoardInformation(selectedYearRegisterAccount, selectedYearGetAuction, selectedYearGetRevenue,
+        selectedYearGetAuctionFailedAndSuccess, selectedMonthGetAuctionFailedAndSuccess,
+        selectedYearGetUserJoinAuction);
+
+      const { totalUser, totalUsersActive, totalUsersInActive, totalRevenueToday, totalJewelryActive, totalJewelryWaitApproving,
+        totalAuctionJewelry, auctionFailed, auctionSuccess, totalUsersByMonth, totalAuctionByMonth, totalMembers, totalStaffs, totalManagers, totalAdmins,
+        totalParticipationByMonth, totalRevenueNear10Year, totalRevenueByMonth, totalUsersVerified } = response;
 
       setTotalUser(totalUser);
-      setTotalAuctions(totalAuctions);
-      setTotalRevenue(totalRevenue);
       setTotalRevenueToday(totalRevenueToday);
       setTotalUsersActive(totalUsersActive);
       setTotalUsersInActive(totalUsersInActive);
@@ -194,25 +226,25 @@ export default function Index() {
         ]
       }));
 
-      setDoughnutData1({
-        ...doughnutData1,
+      setBarData4(prevData => ({
+        ...prevData,
         datasets: [
           {
-            ...doughnutData1.datasets[0],
-            data: [percentAuctionFailed, percentAuctionSuccess]
+            ...prevData.datasets[0],
+            data: totalRevenueNear10Year
           }
         ]
-      });
+      }));
 
-      setDoughnutData2({
-        ...doughnutData2,
+      setBarData5(prevData => ({
+        ...prevData,
         datasets: [
           {
-            ...doughnutData2.datasets[0],
-            data: [participationRate, notParticipationRate]
+            ...prevData.datasets[0],
+            data: [auctionFailed, auctionSuccess]
           }
         ]
-      });
+      }));
 
       setLineData1(prevData => ({
         ...prevData,
@@ -230,6 +262,16 @@ export default function Index() {
           {
             ...prevData.datasets[0],
             data: totalAuctionByMonth
+          }
+        ]
+      }));
+
+      setLineData3(prevData => ({
+        ...prevData,
+        datasets: [
+          {
+            ...prevData.datasets[0],
+            data: totalParticipationByMonth
           }
         ]
       }));
@@ -265,6 +307,21 @@ export default function Index() {
     setSelectedYearGetRevenue(year);
   };
 
+  const handleYearDoughnut1 = (e: ChangeEvent<HTMLSelectElement>) => {
+    const year = parseInt(e.target.value);
+    setSelectedYearGetAuctionFailedAndSuccess(year);
+  };
+
+  const handleMonthChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const month = parseInt(e.target.value);
+    setSelectedMonthGetAuctionFailedAndSuccess(month);
+  };
+
+  const handleYearUserJoinChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const year = parseInt(e.target.value);
+    setSelectedYearGetUserJoinAuction(year);
+  };
+
   return (
     <section className="main_content dashboard_part" >
       <div className="main_content_iner " >
@@ -279,16 +336,8 @@ export default function Index() {
                         {userRole === 'MANAGER' &&
                           <>
                             <div className="single_quick_activity">
-                              <h4>Tổng doanh thu</h4>
-                              <h3><span className="counter">{formatNumber(totalRevenue)} VNĐ</span></h3>
-                            </div>
-                            <div className="single_quick_activity">
                               <h4>Doanh thu hôm nay</h4>
                               <h3><span className="counter">{formatNumber(totalRevenueToday)} VNĐ</span> </h3>
-                            </div>
-                            <div className="single_quick_activity">
-                              <h4>Tổng số phiên đấu giá</h4>
-                              <h3><span className="counter">{totalAuctions} Phiên</span> </h3>
                             </div>
                             <div className="single_quick_activity">
                               <h4>Số lượng trang sức đã qua phê duyệt</h4>
@@ -327,6 +376,16 @@ export default function Index() {
                 <div className="white_box mb_30 min_430">
                   <div className="box_header  box_header_block ">
                     <div className="main-title">
+                      <h3 className="mb-0">Lịch sử doanh thu 10 năm gần nhất</h3>
+                    </div>
+                  </div>
+                  <Bar data={barData4} />
+                </div>
+              </div>
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block ">
+                    <div className="main-title">
                       <h3 className="mb-0">Doanh thu theo tháng</h3>
                     </div>
                     <div className="box_select d-flex">
@@ -342,6 +401,28 @@ export default function Index() {
               </div>
               <div className="col-lg-12 col-xl-6">
                 <div className="white_box mb_30 min_430">
+                  <div className="box_header  box_header_block">
+                    <div className="main-title">
+                      <h3 className="mb-0">Tỷ lệ phiên thành công</h3>
+                    </div>
+                    <div className="box_select d-flex">
+                      <select className="nice_Select2" value={selectedMonthGetAuctionFailedAndSuccess} onChange={handleMonthChange}>
+                        {months.map((month) => (
+                          <option key={month.value} value={month.value}>{month.label}</option>
+                        ))}
+                      </select>
+                      <select className="nice_Select2" value={selectedYearGetAuctionFailedAndSuccess} onChange={handleYearDoughnut1}>
+                        {years.map((year) => (
+                          <option key={year} value={year}>{`Năm ${year}`}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <Bar data={barData5} options={options} />
+                </div>
+              </div>
+              <div className="col-lg-12 col-xl-6">
+                <div className="white_box mb_30 min_430">
                   <div className="box_header  box_header_block ">
                     <div className="main-title">
                       <h3 className="mb-0">Thống kê trang sức theo trạng thái</h3>
@@ -352,39 +433,36 @@ export default function Index() {
               </div>
               <div className="col-lg-12 col-xl-6">
                 <div className="white_box mb_30 min_430">
-                  <div className="box_header  box_header_block align-items- ">
+                  <div className="box_header  box_header_block align-items-center ">
                     <div className="main-title">
                       <h3 className="mb-0">Số lượng phiên đấu giá đã mở</h3>
                     </div>
-                  </div>
-                  <div className="box_select d-flex justify-content-end mb-4">
-                    <select className="nice_Select2" value={selectedYearGetAuction} onChange={handleYearGetAuction}>
-                      {years.map((year) => (
-                        <option key={year} value={year}>{`Năm ${year}`}</option>
-                      ))}
-                    </select>
+                    <div className="box_select d-flex justify-content-end">
+                      <select className="nice_Select2" value={selectedYearGetAuction} onChange={handleYearGetAuction}>
+                        {years.map((year) => (
+                          <option key={year} value={year}>{`Năm ${year}`}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                   <Line data={lineData2} options={options} />
                 </div>
               </div>
-              <div className="col-md-6 col-lg-6 col-xl-3">
+              <div className="col-lg-12 col-xl-6">
                 <div className="white_box mb_30 min_430">
-                  <div className="box_header  box_header_block">
+                  <div className="box_header  box_header_block align-items-center">
                     <div className="main-title">
-                      <h3 className="mb-0">Tỷ lệ phiên thành công</h3>
+                      <h3 className="mb-0">Người dùng tham gia đấu giá</h3>
+                    </div>
+                    <div className="box_select d-flex justify-content-end">
+                      <select className="nice_Select2" value={selectedYearGetUserJoinAuction} onChange={handleYearUserJoinChange}>
+                        {years.map((year) => (
+                          <option key={year} value={year}>{`Năm ${year}`}</option>
+                        ))}
+                      </select>
                     </div>
                   </div>
-                  <Doughnut data={doughnutData1} />
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-6 col-xl-3">
-                <div className="white_box mb_30 min_430">
-                  <div className="box_header  box_header_block">
-                    <div className="main-title">
-                      <h3 className="mb-0">Tỷ lệ người dùng tham gia đấu giá</h3>
-                    </div>
-                  </div>
-                  <Doughnut data={doughnutData2} />
+                  <Line data={lineData3} options={options} />
                 </div>
               </div>
               <div className="col-12">

@@ -3534,7 +3534,6 @@ body::-webkit-scrollbar {
 }
 
 .single_element .single_quick_activity::before {
-    position: absolute;
     left: 0;
     top: 0;
     width: 100%;
