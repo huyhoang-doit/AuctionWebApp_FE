@@ -1547,13 +1547,17 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
                       }
                       setDisplayValue(formatNumber(bidValue || 0));
                       setAuction({ ...auction, lastPrice: bidValue });
-                      toast.success(t("Modal.Trả giá thành công!"));
+                      Swal.fire({
+                        icon: "success",
+                        title: t("Modal.Trả giá thành công!"),
+                      });
                     } else {
-                      toast.error(
-                        t(
+                      Swal.fire({
+                        icon: "error",
+                        title: t(
                           "Modal.Trả giá không thành thành công, vui lòng thực hiện lại!"
                         )
-                      );
+                      });
                     }
                   })
                   .catch((error) => {

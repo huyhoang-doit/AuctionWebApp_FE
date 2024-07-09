@@ -66,6 +66,7 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
       updateStatus();
     }
   }, [auctionRegistration, i18n.language]);
+  
   useEffect(() => {
     if (auctionId)
       getAuction(auctionId)
@@ -98,7 +99,7 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
             userId={userId}
             auctionHistoryState={auctionHistoryState}
           />
-          <Link to={`/tai-san-dau-gia/${auctionId}`}>
+          <Link to={`/dau-gia-san-pham/${auctionId}`}>
             <button className="ms-2 btn btn-warning btn-sm">
               {t("Member.Đếnphiênđấu")}
             </button>
