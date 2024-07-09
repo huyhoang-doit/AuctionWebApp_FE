@@ -155,9 +155,9 @@ export async function cancelRequest(request: cancelRequestProps): Promise<boolea
   }
 }
 
-export async function getRequestByRoleOfSender(role: string, jewelryName: string, page: number): Promise<ResultPageableInteface> {
+export async function getRequestByRoleOfSender(role: string, jewelryName: string, category: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `${BASE_URL}/request-approval/sender/${role}?page=${page - 1}&jewelryName=${jewelryName}`;
+  const URL: string = `${BASE_URL}/request-approval/sender/${role}?page=${page - 1}&category=${category}&jewelryName=${jewelryName}`;
   try {
     const response = await MyRequest(URL);
 
