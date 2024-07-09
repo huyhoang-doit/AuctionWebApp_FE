@@ -36,7 +36,7 @@ const Header = () => {
           </div>
           <div className="profile_info_iner">
             <div>
-              <Link to="/admin/view/viewProfile" className='text-white my-2'>Thông tin tài khoản<i className="ti-user"></i></Link>
+              <Link to={`/admin/chi-tiet-nguoi-dung/${user?.id}`} className='text-white my-2'>Thông tin tài khoản<i className="ti-user"></i></Link>
               {/* <div className='text-white mb-2' style={{ cursor: "pointer" }}>Settings <i className="ti-settings"></i></div> */}
               <div className='text-white text-center mb-2 '><LogoutModal /></div>
 
