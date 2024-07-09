@@ -29,7 +29,7 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   const { t } = useTranslation(["Staff"]);
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
   const [txtSearch, setTxtSearch] = useState("");
-  const [category, setCategory] = useState('Tất cả');
+  const [category, setCategory] = useState('Tất cả nè');
   const categories = useCategories();
   const categoryNames: (string | undefined)[] = categories.map(category => category.name);
   categoryNames.unshift('Tất cả')
