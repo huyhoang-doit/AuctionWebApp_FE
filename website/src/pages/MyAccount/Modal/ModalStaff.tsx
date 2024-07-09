@@ -648,7 +648,7 @@ export const JewelryCreateRequestModal: React.FC<
                       </div>
                       <div className="col-md-4 fw-medium">
                         <div className="checkout-form-list">
-                          <label>{t("ModalStaff.Cân nặng (g)")}</label>
+                          <label>{t("ModalStaff.Trọng lượng (g)")}</label>
                           <input
                             placeholder="Street address"
                             type="text"
