@@ -94,8 +94,14 @@ const Navbar = () => {
           </li>
           <li>
             <Link className="has-arrow" to={"/manager/hoa-don-qua-han"} aria-expanded="false">
-              <img src="/assets/img/menu-icon/2.svg" />
+              <i className="fa-solid fa-circle-exclamation"></i>
               <span>Danh sách hóa đơn quá hạn thanh toán</span>
+            </Link>
+          </li>
+          <li >
+            <Link className="has-arrow" to={"/manager/phien-that-bai"} aria-expanded="false">
+              <i className="fa-solid fa-circle-exclamation"></i>
+              <span>Danh sách các phiên đấu giá thất bại</span>
             </Link>
           </li>
           <li >

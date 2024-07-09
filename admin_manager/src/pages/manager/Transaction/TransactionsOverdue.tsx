@@ -11,7 +11,6 @@ import { useDebouncedCallback } from 'use-debounce';
 import { TypeTransaction } from './TypeTransaction';
 
 
-
 const TransactionsOverdue = () => {
     const [listTransactions, setListTransactions] = useState<Transaction[]>([])
     const [page, setPage] = useState(1);
@@ -114,8 +113,8 @@ const TransactionsOverdue = () => {
                                                         <td>
                                                             {transaction.user?.id}
                                                         </td>
-                                                        <td>{transaction.user?.fullName}
-                                                            <Link to={`/manager/chi-tiet-nguoi-dung/${transaction.user?.id}`}>
+                                                        <td>{transaction.user?.username}
+                                                            <Link target='_blank' to={`/manager/chi-tiet-nguoi-dung/${transaction.user?.id}`}>
                                                                 <i className="ms-2 fa-solid fa-eye text-dark"></i>
                                                             </Link>
                                                         </td>

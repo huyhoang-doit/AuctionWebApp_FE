@@ -23,15 +23,12 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
-  const [txtSearch, setTxtSearch] = useState('');
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
+  const [txtSearch, setTxtSearch] = useState("");
 
-  const debouncedTxtSearchChange = useDebouncedCallback(
-    (txtSearch: string) => {
-      setDebouncedTxtSearch(txtSearch);
-    },
-    1000
-  );
+  const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
+    setDebouncedTxtSearch(txtSearch);
+  }, 1000);
 
   const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -43,7 +40,11 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
     setLoading(true);
     if (userId) {
       try {
-        const response = await getRequestByUserId(userId, debouncedTxtSearch, page);
+        const response = await getRequestByUserId(
+          userId,
+          debouncedTxtSearch,
+          page
+        );
         setMyJewelryRequestList(response.requestsData);
         setTotalElements(response.totalElements);
       } catch (error) {
@@ -58,10 +59,9 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
   }, [userId, page, handleChangeList, listNumber, debouncedTxtSearch]);
 
   useEffect(() => {
-    setTxtSearch('')
-    debouncedTxtSearchChange('');
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
   }, [listNumber]);
-
 
   return (
     <div
@@ -77,11 +77,11 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
               {t("StaffRequestList.Danh sách các yêu cầu gửi lên quản lý")}
             </h4>
           </div>
-          <div className="umino-sidebar_categories col-md-5 mb-2" >
+          <div className="umino-sidebar_categories col-md-5 mb-2">
             <input
-              style={{ height: '40px' }}
+              style={{ height: "40px" }}
               type="text"
-              placeholder='Tên trang sức...'
+              placeholder={t("StaffRequestList.Tên trang sức...")}
               value={txtSearch}
               onChange={handleTxtSearch}
             />
@@ -121,8 +121,9 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
                         </td>
                       ) : (
                         <td
-                          className={`fw-semibold ${request.isConfirm ? "text-success" : "text-dark"
-                            }`}
+                          className={`fw-semibold ${
+                            request.isConfirm ? "text-success" : "text-dark"
+                          }`}
                         >
                           {request.isConfirm
                             ? t("StaffRequestList.Đã phê duyệt")

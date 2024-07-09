@@ -11,6 +11,7 @@ export const LiStateTransaction: React.FC<LiStateTransactionViewProps> = ({ stat
         SUCCEED: "Đã thanh toán",
         PENDING: "Chưa thanh toán",
         FAILED: "Hủy thanh toán",
+        ALL: "Tất cả"
     }[state];
 
     return currentView || defaultView;

@@ -3,6 +3,7 @@ import { getAuctionsByStateNotPageale } from '../../../api/AuctionAPI';
 import SingleAuction from './SingleAuction';
 import { Auction } from '../../../models/Auction';
 import Carousel from 'react-multi-carousel';
+import "react-multi-carousel/lib/styles.css";
 
 const AuctionOngoing = () => {
   const [auctions, setAuctions] = useState<Auction[]>([]);
@@ -36,12 +37,12 @@ const AuctionOngoing = () => {
   }
 
   return (
-    <div className="umino-product_area umino-product_area-2" style={{ marginTop: "100px" }}>
+    <div className="umino-product_area umino-product_area-2">
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
             <div className="umino-section_title">
-              {auctions.length > 0 && <h3>Trang sức đang được đấu giá</h3>}
+              {auctions.length > 0 && <h3>Tài sản đang được đấu giá</h3>}
             </div>
           </div>
           <div className="col-lg-12">
@@ -61,8 +62,8 @@ const AuctionOngoing = () => {
                   containerClass="carousel-container"
                   removeArrowOnDeviceType={["tablet", "mobile"]}
                 >
-                  {React.Children.toArray(auctions.map(
-                    (auction) => <SingleAuction auction={auction} />
+                  {React.Children.toArray(auctions.map((auction) =>
+                    <SingleAuction auction={auction} />
                   ))}
                 </Carousel>
               </div>

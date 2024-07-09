@@ -4,7 +4,7 @@
         "Thắngphiên" : "Win auction",
         "Thấtbại" : "Fail auction",
         "Chưaxácđịnh" : "Undefined auction",
-        "Rútlui" : "Withdraw from auction"
-
+        "Rútlui" : "Withdraw from auction",
+        "Phiên thất bại": "Auction failed"
     }
 }

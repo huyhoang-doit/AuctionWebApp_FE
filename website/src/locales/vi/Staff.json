@@ -6,8 +6,9 @@
         "Thời gian bắt đầu": "Thời gian bắt đầu",
         "Trạng thái": "Trạng thái",
         "Xem chi tiết": "Xem chi tiết",
-        "Đến": "Đến",
-        "Hiện tại chưa có phiên nào được phân công": "Hiện tại chưa có phiên nào được phân công"
+        "Xem": "Xem",
+        "Hiện tại chưa có phiên nào được phân công": "Hiện tại chưa có phiên nào được phân công",
+        "Tên phiên...": "Tên phiên..."
     },
     "JewelriesWaitList": {
         "Danh sách sản phẩm gửi đến": "Danh sách sản phẩm gửi đến",
@@ -17,7 +18,8 @@
         "Giá": "Giá",
         "Ảnh": "Ảnh",
         "Xem chi tiết": "Xem chi tiết",
-        "Chưa có yêu cầu nào được gửi đến": "Chưa có yêu cầu nào được gửi đến"
+        "Chưa có yêu cầu nào được gửi đến": "Chưa có yêu cầu nào được gửi đến",
+        "Tên trang sức...": "Tên trang sức..."
     },
     "StaffRequestList": {
         "Danh sách các yêu cầu gửi lên quản lý": "Danh sách các yêu cầu gửi lên quản lý",
@@ -30,7 +32,8 @@
         "Đã phê duyệt": "Đã phê duyệt",
         "Chưa phê duyệt": "Chưa phê duyệt",
         "Chưa có yêu cầu nào được gửi đi": "Chưa có yêu cầu nào được gửi đi",
-        "Đã bị hủy": "Đã bị hủy"
+        "Đã bị hủy": "Đã bị hủy",
+        "Tên trang sức...": "Tên trang sức..."
     },
     "JewelrySentToWebList": {
         "Danh sách tài sản gửi đến": "Danh sách tài sản gửi đến",
@@ -42,7 +45,8 @@
         "Chưa nhận": "Chưa nhận",
         "Đã nhận": "Đã nhận",
         "Không có tài sản nào": "Không có tài sản nào",
-        "Tên tài sản": "Tên tài sản"
+        "Tên tài sản": "Tên tài sản",
+        "Tên tài sản...": "Tên tài sản..."
     },
     "JewelriesHandOverList": {
         "Danh sách trang sức bàn giao": "Danh sách trang sức bàn giao",
@@ -52,6 +56,7 @@
         "Giá cuối": "Giá cuối",
         "Phương thức thanh toán": "Phương thức thanh toán",
         "Thao tác": "Thao tác",
-        "Không có giao dịch nào": "Không có giao dịch nào"
+        "Không có giao dịch nào": "Không có giao dịch nào",
+        "Tên trang sức...": "Jewelry name..."
     }
 }

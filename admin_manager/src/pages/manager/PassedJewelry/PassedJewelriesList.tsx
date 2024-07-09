@@ -21,8 +21,11 @@ const PassedJewelriesList = () => {
   const [loading, setLoading] = useState(true);
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
   const [txtSearch, setTxtSearch] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('Tất cả');
   const categories = useCategories();
+  const categoryNames: (string | undefined)[] = categories.map(category => category.name);
+  categoryNames.unshift('Tất cả')
+
 
   const debouncedTxtSearchChange = useDebouncedCallback(
     (txtSearch: string) => {
@@ -105,9 +108,9 @@ const PassedJewelriesList = () => {
                           style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
                           required
                         >
-                          {categories.map((category, index) => (
-                            <option style={{ padding: '5px' }} key={index} value={category.name}>
-                              {category.name}
+                          {categoryNames.map((category, index) => (
+                            <option style={{ padding: '5px' }} key={index} value={category}>
+                              {category}
                             </option>
                           ))}
                         </select>

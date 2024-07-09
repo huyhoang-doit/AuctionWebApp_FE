@@ -19,17 +19,14 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
-  const [txtSearch, setTxtSearch] = useState('');
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
+  const [txtSearch, setTxtSearch] = useState("");
   const type: string = "PAYMENT_TO_WINNER";
   const { t } = useTranslation(["Staff"]);
 
-  const debouncedTxtSearchChange = useDebouncedCallback(
-    (txtSearch: string) => {
-      setDebouncedTxtSearch(txtSearch);
-    },
-    1000
-  );
+  const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
+    setDebouncedTxtSearch(txtSearch);
+  }, 1000);
 
   const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -61,10 +58,9 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
   }, [user, page, props.listNumber, debouncedTxtSearch]);
 
   useEffect(() => {
-    setTxtSearch('')
-    debouncedTxtSearchChange('');
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
   }, [props.listNumber]);
-
 
   return (
     <>
@@ -81,19 +77,17 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
                 {t("JewelriesHandOverList.Danh sách trang sức bàn giao")}
               </h4>
             </div>
-            <div className="umino-sidebar_categories col-md-5 mb-2" >
+            <div className="umino-sidebar_categories col-md-5 mb-2">
               <input
-                style={{ height: '40px' }}
+                style={{ height: "40px" }}
                 type="text"
-                placeholder='Tên trang sức...'
+                placeholder={t("JewelriesHandOverList.Tên trang sức...")}
                 value={txtSearch}
                 onChange={handleTxtSearch}
               />
             </div>
           </div>
-          <h4 className="small-title">
-
-          </h4>
+          <h4 className="small-title"></h4>
           <div className="table-responsive">
             <table className="table table-bordered table-hover">
               <tbody>

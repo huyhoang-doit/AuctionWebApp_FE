@@ -21,15 +21,12 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
-  const [txtSearch, setTxtSearch] = useState('');
+  const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
+  const [txtSearch, setTxtSearch] = useState("");
 
-  const debouncedTxtSearchChange = useDebouncedCallback(
-    (txtSearch: string) => {
-      setDebouncedTxtSearch(txtSearch);
-    },
-    1000
-  );
+  const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
+    setDebouncedTxtSearch(txtSearch);
+  }, 1000);
 
   const handleTxtSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -57,8 +54,8 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
   }, [props.user, page, debouncedTxtSearch, props.listNumber]);
 
   useEffect(() => {
-    setTxtSearch('')
-    debouncedTxtSearchChange('');
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
   }, [props.listNumber]);
   const { t } = useTranslation(["Staff"]);
 
@@ -76,11 +73,11 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
               {t("AssignedAuctionList.Danh sách phiên được phân công")}
             </h4>
           </div>
-          <div className="umino-sidebar_categories col-md-5 mb-2" >
+          <div className="umino-sidebar_categories col-md-5 mb-2">
             <input
-              style={{ height: '40px' }}
+              style={{ height: "40px" }}
               type="text"
-              placeholder='Tên phiên...'
+              placeholder={t("AssignedAuctionList.Tên phiên...")}
               value={txtSearch}
               onChange={handleTxtSearch}
             />
@@ -126,9 +123,11 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
                       <AssignAuctionModal auction={auction} />
                       <Link
                         to={`/tai-san-dau-gia/${auction.id}`}
-                        className="ms-2 btn btn-warning btn-sm"
                       >
-                        {t("AssignedAuctionList.Đến")}
+                        <button className="ms-2 btn btn-warning btn-sm">
+                          {t("AssignedAuctionList.Xem")}
+                        </button>
+
                       </Link>
                     </td>
                   </tr>
