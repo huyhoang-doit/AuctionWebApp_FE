@@ -21,6 +21,7 @@ export const getTransactionsDashboardByUsername = async (username: string): Prom
     const URL = `${BASE_URL}/transaction/get-by-user-name/${username}`;
     // call api
     const response = await MyRequest(URL);
+    console.log(response);
     return {
         numberTransactionsRequest: response.numberTransactionsRequest,
         totalPriceJewelryWonByUsername: response.totalPriceJewelryWonByUsername,
@@ -29,10 +30,10 @@ export const getTransactionsDashboardByUsername = async (username: string): Prom
     };
 };
 
-export const getTransactionsByUsername = async (username: string, page: number): Promise<ResultInteface> => {
+export const getTransactionsByUsername = async (username: string, assetName: string, page: number): Promise<ResultInteface> => {
     const transactions: Transaction[] = [];
     // end-point
-    const URL = `${BASE_URL}/transaction/get-by-username?username=${username}&page=${page - 1}`;
+    const URL = `${BASE_URL}/transaction/get-by-username?username=${username}&assetName=${assetName}&page=${page - 1}`;
     // call api
     const response = await MyRequest(URL);
     const responseData = response.content;

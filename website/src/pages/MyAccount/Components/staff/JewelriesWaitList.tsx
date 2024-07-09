@@ -1,6 +1,4 @@
 import React, {
-  Dispatch,
-  SetStateAction,
   useCallback,
   useEffect,
   useState,
@@ -13,6 +11,7 @@ import { RequestApproval } from "../../../../models/RequestApproval";
 import { Spinner, ToastContainer } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
+import { useCategories } from "../../../../hooks/useCategories";
 
 interface JewelriesWaitListProps {
   user: User | null;
@@ -30,6 +29,10 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   const { t } = useTranslation(["Staff"]);
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
   const [txtSearch, setTxtSearch] = useState("");
+  const [category, setCategory] = useState('Tất cả');
+  const categories = useCategories();
+  const categoryNames: (string | undefined)[] = categories.map(category => category.name);
+  categoryNames.unshift('Tất cả')
 
   const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
     setDebouncedTxtSearch(txtSearch);
@@ -51,6 +54,7 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
       const response = await getRequestByRoleOfSender(
         "MEMBER",
         debouncedTxtSearch,
+        category,
         page
       );
       if (response.requestsData.length > 0) {
@@ -61,16 +65,24 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
       console.error(error);
     }
     setLoading(false);
-  }, [page, props.listNumber, debouncedTxtSearch]);
+  }, [page, props.listNumber, debouncedTxtSearch, category]);
 
   useEffect(() => {
     setTxtSearch("");
     debouncedTxtSearchChange("");
+    setCategory("Tất cả")
   }, [props.listNumber]);
 
   useEffect(() => {
     handleChangeList();
-  }, [user, page, props.listNumber, debouncedTxtSearch]);
+  }, [user, page, props.listNumber, debouncedTxtSearch, category]);
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value);
+    setPage(1);
+    setTxtSearch('');
+    debouncedTxtSearchChange('')
+  };
   return (
     <>
       <div
@@ -81,12 +93,12 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
       >
         <div className="myaccount-orders">
           <div className="row mb-2">
-            <div className="col-md-7">
+            <div className="col-md-6">
               <h4 className="small-title fw-bold mt-2">
                 {t("JewelriesWaitList.Danh sách sản phẩm gửi đến")}
               </h4>
             </div>
-            <div className="umino-sidebar_categories col-md-5 mb-2">
+            <div className="umino-sidebar_categories col-md-4 mb-2 px-0 flex">
               <input
                 style={{ height: "40px" }}
                 type="text"
@@ -94,6 +106,21 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
                 value={txtSearch}
                 onChange={handleTxtSearch}
               />
+
+            </div>
+            <div className="umino-sidebar_categories col-md-2 mb-2 flex">
+              <select className='rounded'
+                value={category}
+                onChange={handleCategoryChange}
+                style={{ width: '100%', height: '40px', padding: '0 0 0 10px', borderColor: '#fdb828', borderWidth: '2px' }}
+                required
+              >
+                {categoryNames.map((category, index) => (
+                  <option style={{ padding: '5px' }} key={index} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 

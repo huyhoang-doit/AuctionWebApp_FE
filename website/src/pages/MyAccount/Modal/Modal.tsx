@@ -257,11 +257,12 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                         </div>
                         <div className="checkout-form-list mb-2 ">
                           <label>{t("Modal.Thời gian thanh toán")}</label>
+
                           <span className="fw-bold">
                             {" "}
-                            {formatDateStringAcceptNull(
+                            {transaction.paymentTime === null ? (<StateTransaction state={transaction.state} />) : (formatDateStringAcceptNull(
                               transaction.paymentTime
-                            )}
+                            ))}
                           </span>
                         </div>
                       </div>
@@ -270,13 +271,14 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                           <label>{t("Modal.Phương thức thanh toán")}</label>
                           <span className="fw-bold">
                             {" "}
-                            <PaymentMethod
+                            {transaction.type === 'PAYMENT_TO_WINNER' ? (<PaymentMethod
                               method={
                                 transaction.paymentMethod
                                   ? transaction.paymentMethod
                                   : ""
                               }
-                            />
+                            />) : (<span className="fw-bold">{t("Modal.Chuyển khoản")}</span>)}
+
                           </span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
@@ -1171,8 +1173,6 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
   jewelry,
   auction,
 }) => {
-  console.log(auction);
-
   const [show, setShow] = useState(false);
   const handleCloseJewelryDetail = () => setShow(false);
   const handleShowJewelryDetail = () => setShow(true);
@@ -1547,13 +1547,17 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
                       }
                       setDisplayValue(formatNumber(bidValue || 0));
                       setAuction({ ...auction, lastPrice: bidValue });
-                      toast.success(t("Modal.Trả giá thành công!"));
+                      Swal.fire({
+                        icon: "success",
+                        title: t("Modal.Trả giá thành công!"),
+                      });
                     } else {
-                      toast.error(
-                        t(
+                      Swal.fire({
+                        icon: "error",
+                        title: t(
                           "Modal.Trả giá không thành thành công, vui lòng thực hiện lại!"
                         )
-                      );
+                      });
                     }
                   })
                   .catch((error) => {

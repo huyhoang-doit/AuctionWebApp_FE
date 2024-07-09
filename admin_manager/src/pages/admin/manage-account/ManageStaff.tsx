@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
+import { Spinner, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getMembers } from '../../../api/UserAPI';
 import { User } from '../../../models/User';
@@ -16,6 +16,7 @@ const ManageStaff = () => {
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
   const [txtSearch, setTxtSearch] = useState('');
   const [isRefresh, setIsRefresh] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [accountState, setAccountState] = useState('ACTIVE');
 
   const debouncedTxtSearchChange = useDebouncedCallback(
@@ -32,12 +33,14 @@ const ManageStaff = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     getMembers("STAFF", debouncedTxtSearch, accountState, page)
       .then((response) => {
         setStaffs(response.usersData)
         setTotalElements(response.totalElements)
         setIsRefresh(false)
       })
+      .finally(() => setLoading(false));
   }, [page, debouncedTxtSearch, accountState, isRefresh])
 
   const handleTransactionStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -111,7 +114,13 @@ const ManageStaff = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {
+                        {loading ? (
+                          <tr>
+                            <td colSpan={7} className="text-center">
+                              <Spinner animation="border" />
+                            </td>
+                          </tr>
+                        ) : (
                           staffs.length !== 0 ? (
                             staffs.map((user) => (
                               <tr key={user.id}>
@@ -147,7 +156,7 @@ const ManageStaff = () => {
                                 <h5 className='fw-semibold lh-base mt-2'>Hiện không có người dùng.</h5>
                               </td>
                             </tr>
-                          )}
+                          ))}
                       </tbody>
                     </Table>
                   </div>
