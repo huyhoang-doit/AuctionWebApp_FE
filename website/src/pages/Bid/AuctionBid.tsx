@@ -67,7 +67,7 @@ export const AuctionBid = () => {
                 auction?.state === "ONGOING"
             ) {
                 const userWin = await createTransactionForWinner(auctionId);
-                
+
                 if (userWin) {
                     const isUserWinner = userWin.username === user?.username;
                     Swal.fire({
@@ -160,7 +160,7 @@ export const AuctionBid = () => {
                     console.error(error.message);
                 });
         }
-    }, [auctionId, bidPerPage, bidValue])
+    }, [auctionId, bidPerPage, auction])
 
     useEffect(() => {
         getAuction(auctionId)
@@ -243,8 +243,18 @@ export const AuctionBid = () => {
         }
     };
 
+    const isMyBidFirst = () => {
+        return auctionHistories.some((auctionHistory, index) => user?.id === auctionHistory.user.id && index === 0);
+    };
+
     const renderBidButton = () => {
-        if (auction?.lastPrice === null && bidValue < (auction.firstPrice + auction.priceStep)) {
+        const isMeFirstIndex = isMyBidFirst();
+
+        const isBidDisabled = auction?.lastPrice === null
+            ? bidValue < (auction.firstPrice + auction.priceStep)
+            : bidValue < ((auction?.lastPrice || 0) + (auction?.priceStep || 0));
+
+        if (isBidDisabled || isMeFirstIndex) {
             return (
                 <button
                     className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
@@ -261,7 +271,7 @@ export const AuctionBid = () => {
                     <i className="fa fa-gavel" style={{ marginRight: "7px" }}></i>Trả giá
                 </button>
             );
-        } else if (bidValue >= ((auction?.lastPrice || 0) + (auction?.priceStep || 0))) {
+        } else if (!isMeFirstIndex && bidValue >= ((auction?.lastPrice || 0) + (auction?.priceStep || 0))) {
             return <BidConfirm
                 stompClient={stompClient} connected={connected}
                 setAuctionHistories={setAuctionHistories} setDisplayValue={setDisplayValue} setAuction={setAuction} username={user?.username} auction={auction} bidValue={bidValue} />;
@@ -286,8 +296,10 @@ export const AuctionBid = () => {
     };
 
     const renderHigherBidButton = () => {
-        if ((auction?.lastPrice === null && bidValue < ((auction.firstPrice ?? 0) + (auction.priceStep ?? 0))) ||
-            (auction?.lastPrice !== null && bidValue < ((auction?.lastPrice ?? 0) + (auction?.priceStep ?? 0)))) {
+        const isMeFirstIndex = isMyBidFirst();
+
+        if ((!isMeFirstIndex && auction?.lastPrice === null && bidValue < ((auction.firstPrice ?? 0) + (auction.priceStep ?? 0))) ||
+            (!isMeFirstIndex && auction?.lastPrice !== null && bidValue < ((auction?.lastPrice ?? 0) + (auction?.priceStep ?? 0)))) {
             return (
                 <button
                     onClick={() => {
@@ -380,6 +392,7 @@ export const AuctionBid = () => {
                                                                 type="button"
                                                                 className="btn btn-"
                                                                 onClick={handleDecrement}
+                                                                disabled={isMyBidFirst()}
                                                             >
                                                                 -
                                                             </button>
@@ -389,12 +402,14 @@ export const AuctionBid = () => {
                                                                 style={{ borderRadius: '0px' }}
                                                                 value={displayValue}
                                                                 onChange={handleInputChange}
+                                                                disabled={isMyBidFirst()}
                                                             />
                                                             <button
                                                                 type="button"
                                                                 style={{ borderRadius: '0px', border: "1px solid rgba(0,0,0,.09)" }}
                                                                 className="btn btn-outline-secondary"
                                                                 onClick={handleIncrement}
+                                                                disabled={isMyBidFirst()}
                                                             >
                                                                 +
                                                             </button>
@@ -407,7 +422,9 @@ export const AuctionBid = () => {
                                                         </div>
                                                     </>
                                                 }
-                                                {errorBidValue && <span className="fw-bold text-danger mt-2">{errorBidValue}</span>}
+                                                {!isMyBidFirst() && errorBidValue && <span className="fw-bold text-danger mt-2">{errorBidValue}</span>}
+                                                {isMyBidFirst() && auction?.state !== 'FINISHED' && <span className="fw-bold text-success mt-2">Hiện bạn là người trả giá cao nhất. <br />
+                                                    Vui lòng chờ người khác đặt giá cao hơn để tiếp tục trả giá.</span>}
                                             </div>
                                         </div>
                                     </div>

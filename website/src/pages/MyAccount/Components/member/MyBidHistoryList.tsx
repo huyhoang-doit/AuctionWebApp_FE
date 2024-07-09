@@ -48,55 +48,52 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user, listNu
     debouncedTxtSearchChange(value);
   };
 
-  const getAuctionByUser = useCallback(async () => {
-    setLoading(true);
-    if (user) {
+  useEffect(() => {
+    const getTransactionList = async () => {
+      if (!user) return;
+
       setLoading(true);
-      getAuctionRegistrationByUserId(user.id, debouncedTxtSearch, page)
-        .then((response) => {
-          console.log(response);
-          setUserAuctionRegistration(response.auctionRegistrationsData);
-          setTotalElements(response.totalElements);
-          setLoading(false);
-        })
-        .catch((error) => {
-          setError(error.message);
-          setLoading(false);
+      const username = user.username || "";
+      try {
+        const [dashboardResponse] = await Promise.all([
+          getTransactionsDashboardByUsername(username),
+        ]);
+        setTransactionsDashboard({
+          numberTransactionsRequest: dashboardResponse.numberTransactionsRequest,
+          totalPriceJewelryWonByUsername: dashboardResponse.totalPriceJewelryWonByUsername,
+          totalJewelryWon: dashboardResponse.totalJewelryWon,
+          totalBid: dashboardResponse.totalBid,
         });
-    }
-    setLoading(false);
-  }, [user, debouncedTxtSearch, page]);
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getTransactionList();
+  }, [user]);
 
-  const getTransactionList = useCallback(async () => {
-    if (!user) return;
-
-    setLoading(true);
-    const username = user.username || "";
-    try {
-      const [dashboardResponse] = await Promise.all([
-        getTransactionsDashboardByUsername(username),
-      ]);
-      setTransactionsDashboard({
-        numberTransactionsRequest: dashboardResponse.numberTransactionsRequest,
-        totalPriceJewelryWonByUsername:
-          dashboardResponse.totalPriceJewelryWonByUsername,
-        totalJewelryWon: dashboardResponse.totalJewelryWon,
-        totalBid: dashboardResponse.totalBid,
-      });
-    } catch (error) {
-      console.error("Error fetching transactions:", error);
-    } finally {
+  useEffect(() => {
+    const getAuctionByUser = async () => {
+      setLoading(true);
+      if (user) {
+        setLoading(true);
+        getAuctionRegistrationByUserId(user.id, debouncedTxtSearch, page)
+          .then((response) => {
+            console.log(response);
+            setUserAuctionRegistration(response.auctionRegistrationsData);
+            setTotalElements(response.totalElements);
+            setLoading(false);
+          })
+          .catch((error) => {
+            setError(error.message);
+            setLoading(false);
+          });
+      }
       setLoading(false);
-    }
-  }, [user, page]);
-
-  useEffect(() => {
-    getAuctionByUser()
+    };
+    getAuctionByUser();
   }, [user, debouncedTxtSearch, page]);
-
-  useEffect(() => {
-    getTransactionList()
-  }, []);
 
   if (error) {
     <Error error={error} />;

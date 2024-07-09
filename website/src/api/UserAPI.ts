@@ -4,12 +4,6 @@ import { User } from "../models/User";
 import { fetchNoBodyWithToken, fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
 
-
-interface ResultPageableInteface {
-    usersData: User[];
-    totalElements: number
-}
-
 export const checkEmailExist = async (email: string) => {
     const URL = `${BASE_URL}/user/by-email/${email}`;
     try {

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getUserById } from '../../../api/UserAPI';
 import ViewUser from './ViewUser';
 import { User } from '../../../models/User';
+import { Spinner } from 'react-bootstrap';
 
 const ViewAccount = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -32,17 +33,15 @@ const ViewAccount = () => {
     }
   }, [userId]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>{error}</div>;
   }
 
   return (
     <>
-      {user ? <ViewUser user={user} setUser={setUser} /> : <div>User not found.</div>}
+      {loading ? <Spinner animation="border" style={{ marginTop: "1000px" }} /> :
+        (user ? <ViewUser user={user} setUser={setUser} /> : <div>User not found.</div>)
+      }
     </>
   );
 };

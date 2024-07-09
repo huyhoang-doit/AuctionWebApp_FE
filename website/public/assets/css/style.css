@@ -11445,3 +11445,8 @@ button, .global-overlay, .quantity .cart-plus-minus > .qtybutton,
     margin-top: 12px;
   }
 }
+
+.btn:disabled {
+  cursor: not-allowed;
+  background-color: var(--bs-secondary-bg);
+}
