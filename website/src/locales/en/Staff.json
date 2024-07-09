@@ -11,20 +11,28 @@
         "Tên phiên...": "Auction name..."
     },
     "JewelriesWaitList": {
-        "Danh sách sản phẩm gửi đến": "List of products sent",
-        "Mã trang sức": "Jewelry ID",
-        "Tên trang sức": "Jewelry name",
+        "Danh sách tài sản gửi đến": "List of products sent",
+        "Mã tài sản": "Asset ID",
+        "Tên tài sản": "Asset name",
         "Người gửi": "Sender",
         "Giá": "Price",
         "Ảnh": "Image",
         "Xem chi tiết": "View detail",
         "Chưa có yêu cầu nào được gửi đến": "There is no request sent",
-        "Tên trang sức...": "Jewelry name..."
+        "Tên tài sản...": "Asset name...",
+        "Tất cả": "Option",
+        "Dây chuyền": "Necklace",
+        "Nhẫn": "Ring",
+        "Vòng cổ": "Necklace",
+        "Hoa tai": "Earring",
+        "Vòng tay": "Bracelet",
+        "Mặt dây chuyền": "Necklace pendant"
+
     },
     "StaffRequestList": {
         "Danh sách các yêu cầu gửi lên quản lý": "List of requests sent to management",
         "Mã yêu cầu": "Request ID",
-        "Mã trang sức": "Jewelry ID",
+        "Mã tài sản": "Asset ID",
         "Định giá (VNĐ)": "Valuation (VND)",
         "Thời gian gửi": "Sent time",
         "Trạng thái": "Status",
@@ -33,7 +41,7 @@
         "Chưa phê duyệt": "Not approved",
         "Chưa có yêu cầu nào được gửi đi": "There is no request sent",
         "Đã bị hủy": "Cancelled",
-        "Tên trang sức...": "Jewelry name..."
+        "Tên tài sản...": "Asset name..."
     },
     "JewelrySentToWebList": {
         "Danh sách tài sản gửi đến": "List of assets sent",
@@ -49,14 +57,14 @@
         "Tên tài sản...": "Asset name..."
     },
     "JewelriesHandOverList": {
-        "Danh sách trang sức bàn giao": "List of handed-over jewelries",
-        "Mã trang sức": "Jewelry ID",
-        "Tên trang sức": "Jewelry name",
+        "Danh sách tài sản bàn giao": "List of handed-over jewelries",
+        "Mã tài sản": "Asset ID",
+        "Tên tài sản": "Asset name",
         "Phiên đấu": "Auction name",
         "Giá cuối": "Final price",
         "Phương thức thanh toán": "Payment method",
         "Thao tác": "Operation",
         "Không có giao dịch nào": "No transactions",
-        "Tên trang sức...": "Jewelry name..."
+        "Tên tài sản...": "Asset name..."
     }
 }

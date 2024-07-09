@@ -1,8 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { JewelryWaitSingle } from "./JewelryWaitSingle";
 import { User } from "../../../../models/User";
 import { PaginationControl } from "react-bootstrap-pagination-control";
@@ -29,10 +25,12 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   const { t } = useTranslation(["Staff"]);
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
   const [txtSearch, setTxtSearch] = useState("");
-  const [category, setCategory] = useState('Tất cả');
+  const [category, setCategory] = useState("Tất cả");
   const categories = useCategories();
-  const categoryNames: (string | undefined)[] = categories.map(category => category.name);
-  categoryNames.unshift('Tất cả')
+  const categoryNames: (string | undefined)[] = categories.map(
+    (category) => category.name
+  );
+  categoryNames.unshift("Tất cả");
 
   const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
     setDebouncedTxtSearch(txtSearch);
@@ -70,7 +68,7 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   useEffect(() => {
     setTxtSearch("");
     debouncedTxtSearchChange("");
-    setCategory("Tất cả")
+    setCategory("Tất cả");
   }, [props.listNumber]);
 
   useEffect(() => {
@@ -80,8 +78,8 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(e.target.value);
     setPage(1);
-    setTxtSearch('');
-    debouncedTxtSearchChange('')
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
   };
   return (
     <>
@@ -95,29 +93,39 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
           <div className="row mb-2">
             <div className="col-md-6">
               <h4 className="small-title fw-bold mt-2">
-                {t("JewelriesWaitList.Danh sách sản phẩm gửi đến")}
+                {t("JewelriesWaitList.Danh sách tài sản gửi đến")}
               </h4>
             </div>
             <div className="umino-sidebar_categories col-md-4 mb-2 px-0 flex">
               <input
                 style={{ height: "40px" }}
                 type="text"
-                placeholder={t("JewelriesWaitList.Tên trang sức...")}
+                placeholder={t("JewelriesWaitList.Tên tài sản...")}
                 value={txtSearch}
                 onChange={handleTxtSearch}
               />
-
             </div>
             <div className="umino-sidebar_categories col-md-2 mb-2 flex">
-              <select className='rounded'
+              <select
+                className="rounded"
                 value={category}
                 onChange={handleCategoryChange}
-                style={{ width: '100%', height: '40px', padding: '0 0 0 10px', borderColor: '#fdb828', borderWidth: '2px' }}
+                style={{
+                  width: "100%",
+                  height: "40px",
+                  padding: "0 0 0 10px",
+                  borderColor: "#fdb828",
+                  borderWidth: "2px",
+                }}
                 required
               >
                 {categoryNames.map((category, index) => (
-                  <option style={{ padding: '5px' }} key={index} value={category}>
-                    {category}
+                  <option
+                    style={{ padding: "5px" }}
+                    key={index}
+                    value={category}
+                  >
+                    {t(`JewelriesWaitList.${category}`)}
                   </option>
                 ))}
               </select>
@@ -128,9 +136,9 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
             <table className="table table-bordered table-hover">
               <tbody>
                 <tr>
-                  <th>{t("JewelriesWaitList.Mã trang sức")}</th>
+                  <th>{t("JewelriesWaitList.Mã tài sản")}</th>
                   <th style={{ width: "30%" }}>
-                    {t("JewelriesWaitList.Tên trang sức")}
+                    {t("JewelriesWaitList.Tên tài sản")}
                   </th>
                   <th>{t("JewelriesWaitList.Người gửi")}</th>
                   <th>{t("JewelriesWaitList.Giá")}</th>
