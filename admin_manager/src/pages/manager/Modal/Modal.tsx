@@ -1552,7 +1552,7 @@ export const ViewAuctionRegistrationModal: React.FC<ViewAuctionRegistratopnModal
       })
       .catch(() => { });
     setLoading(false);
-  }, [auctionRegistrations, auctionId])
+  }, [auctionId])
 
   return (
     <>
