@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Modal, Button, Table } from 'react-bootstrap';
+import { Modal, Button, Table, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { User } from '../../../models/User';
 import { UserStateView } from './UserStateView';
@@ -8,17 +8,19 @@ import { getUsersUnVerify } from '../../../api/UserAPI';
 
 const VerifyUser = () => {
   const [showModal, setShowModal] = useState(false);
-  const [users, setUsers] = useState<User[]>([])
-  const [page, setPage] = useState(1)
-  const [totalElements, setTotalElements] = useState(0)
+  const [users, setUsers] = useState<User[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     getUsersUnVerify(page)
       .then((response) => {
         setUsers(response.usersData)
         setTotalElements(response.totalElements)
-      }
-      )
+      })
+      .finally(() => setLoading(false));
   }, [page])
 
   const handleCloseModal = () => {
@@ -59,7 +61,13 @@ const VerifyUser = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {users.length !== 0 ? (
+                        {loading ? (
+                          <tr>
+                            <td colSpan={7} className="text-center">
+                              <Spinner animation="border" />
+                            </td>
+                          </tr>
+                        ) : (users.length !== 0 ? (
                           users.map((user) => (
                             <tr key={user.id}>
                               <td>
@@ -95,7 +103,7 @@ const VerifyUser = () => {
                               <h5 className='fw-semibold lh-base mt-2'>Hiện không có người dùng chờ xác thực </h5>
                             </td>
                           </tr>
-                        )}
+                        ))}
                       </tbody>
                     </Table>
                   </div>
