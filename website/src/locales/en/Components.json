@@ -101,5 +101,19 @@
     "StateJewelry": {
         "Chưa có phiên đấu": "No auction session",
         "Đã có phiên đấu": "Auction session available"
+    },
+
+    "AuctionDetailHistory" : {
+        "Hiển thị" : "Showing",
+        "lượt trả giá" : "bids",
+        "Người trả giá" : "Bidder",
+        "Trạng thái" : "Status",
+        "Giá" : "Price",
+        "Thời gian" : "Time",
+        "Mã trả giá" : "Bid ID",
+        "Rút lại giá" : "Withdraw bid",
+        "Thao tác" : "Action",
+        "Mã số" : "Auction ID"
+        
     }
 }

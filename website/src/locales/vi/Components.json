@@ -101,5 +101,19 @@
     "StateJewelry": {
         "Chưa có phiên đấu": "Chưa có phiên đấu",
         "Đã có phiên đấu": "Đã có phiên đấu"
+    },
+
+    "AuctionDetailHistory" : {
+        "Hiển thị" : "Hiển thị",
+        "lượt trả giá" : "lượt trả giá",
+        "Người trả giá" : "Người trả giá",
+        "Trạng thái" : "Trạng thái",
+        "Giá" : "Giá",
+        "Thời gian" : "Thời gian",
+        "Mã trả giá" : "Mã trả giá",
+        "Rút lại giá" : "Rút lại giá",
+        "Thao tác" : "Thao tác",
+         "Mã số" : "Mã số"
+        
     }
 }
