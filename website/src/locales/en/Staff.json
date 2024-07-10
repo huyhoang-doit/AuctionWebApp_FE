@@ -11,7 +11,7 @@
         "Tên phiên...": "Auction name..."
     },
     "JewelriesWaitList": {
-        "Danh sách tài sản gửi đến": "List of products sent",
+        "Danh sách tài sản gửi đến": "List of assets sent",
         "Mã tài sản": "Asset ID",
         "Tên tài sản": "Asset name",
         "Người gửi": "Sender",
@@ -44,7 +44,7 @@
         "Tên tài sản...": "Asset name..."
     },
     "JewelrySentToWebList": {
-        "Danh sách tài sản gửi đến": "List of assets sent",
+        "Danh sách tài sản gửi đến": "List of asset sent",
         "Mã tài sản": "Asset ID",
         "Phân loại": "Classification",
         "Chủ tài sản": "Asset owner",
@@ -52,12 +52,12 @@
         "Thao tác": "Operation",
         "Chưa nhận": "Not received",
         "Đã nhận": "Received",
-        "Không có tài sản nào": "No assets",
+        "Không có tài sản nào": "No asset",
         "Tên tài sản": "Asset name",
         "Tên tài sản...": "Asset name..."
     },
     "JewelriesHandOverList": {
-        "Danh sách tài sản bàn giao": "List of handed-over jewelries",
+        "Danh sách tài sản bàn giao": "List of handed-over assets",
         "Mã tài sản": "Asset ID",
         "Tên tài sản": "Asset name",
         "Phiên đấu": "Auction name",
