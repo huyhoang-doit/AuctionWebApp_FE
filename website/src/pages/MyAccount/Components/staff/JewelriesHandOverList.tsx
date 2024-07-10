@@ -74,14 +74,14 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
           <div className="row mb-2">
             <div className="col-md-7">
               <h4 className="small-title fw-bold mt-2">
-                {t("JewelriesHandOverList.Danh sách trang sức bàn giao")}
+                {t("JewelriesHandOverList.Danh sách tài sản bàn giao")}
               </h4>
             </div>
             <div className="umino-sidebar_categories col-md-5 mb-2">
               <input
                 style={{ height: "40px" }}
                 type="text"
-                placeholder={t("JewelriesHandOverList.Tên trang sức...")}
+                placeholder={t("JewelriesHandOverList.Tên tài sản...")}
                 value={txtSearch}
                 onChange={handleTxtSearch}
               />
@@ -92,8 +92,8 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
             <table className="table table-bordered table-hover">
               <tbody>
                 <tr>
-                  <th>{t("JewelriesHandOverList.Mã trang sức")}</th>
-                  <th>{t("JewelriesHandOverList.Tên trang sức")}</th>
+                  <th>{t("JewelriesHandOverList.Mã tài sản")}</th>
+                  <th>{t("JewelriesHandOverList.Tên tài sản")}</th>
                   <th>{t("JewelriesHandOverList.Phiên đấu")}</th>
                   <th>{t("JewelriesHandOverList.Giá cuối")}</th>
                   <th>{t("JewelriesHandOverList.Phương thức thanh toán")}</th>
