@@ -1,8 +1,8 @@
 {
     "MyJewelryRequestList": {
-        "Danh sách các sản phẩm yêu cầu của tôi": "Các sản phẩm yêu cầu của tôi",
-        "Mã sản phẩm": "Mã trang sức",
-        "Tên sản phẩm": "Tên trang sức",
+        "Danh sách các tài sản yêu cầu của tôi": "Các tài sản yêu cầu của tôi",
+        "Mã tài sản": "Mã tài sản",
+        "Tên tài sản": "Tên tài sản",
         "Giá mong muốn (VNĐ)": "Giá mong muốn (VNĐ)",
         "Thời gian gửi": "Thời gian gửi",
         "Trạng thái": "Trạng thái",
@@ -10,6 +10,7 @@
         "Đã phê duyệt": "Đã phê duyệt",
         "Chưa phê duyệt": "Chưa phê duyệt",
         "Chưa có yêu cầu nào được gửi đi": "Chưa có yêu cầu nào được gửi đi",
-        "Tên trang sức..." : "Tên trang sức..."
+        "Tên tài sản..." : "Tên tài sản...",
+        "Đã bị hủy": "Đã bị hủy"
     }
 }

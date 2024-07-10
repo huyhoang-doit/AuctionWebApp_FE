@@ -78,14 +78,14 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
         <div className="row mb-2">
           <div className="col-md-7">
             <h4 className="small-title fw-bold mt-2">
-              {t("MyJewelryRequestList.Danh sách các sản phẩm yêu cầu của tôi")}
+              {t("MyJewelryRequestList.Danh sách các tài sản yêu cầu của tôi")}
             </h4>
           </div>
           <div className="umino-sidebar_categories col-md-5 mb-2">
             <input
               style={{ height: "40px" }}
               type="text"
-              placeholder={t("MyJewelryRequestList.Tên trang sức...")}
+              placeholder={t("MyJewelryRequestList.Tên tài sản...")}
               onChange={handleTxtSearch}
               value={txtSearch}
             />
@@ -95,8 +95,8 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
           <table className="table table-bordered table-hover">
             <thead className="text-center">
               <tr>
-                <th>{t("MyJewelryRequestList.Mã sản phẩm")}</th>
-                <th>{t("MyJewelryRequestList.Tên sản phẩm")}</th>
+                <th>{t("MyJewelryRequestList.Mã tài sản")}</th>
+                <th>{t("MyJewelryRequestList.Tên tài sản")}</th>
                 <th>{t("MyJewelryRequestList.Giá mong muốn (VNĐ)")}</th>
                 <th>{t("MyJewelryRequestList.Thời gian gửi")}</th>
                 <th>{t("MyJewelryRequestList.Trạng thái")}</th>
@@ -123,7 +123,7 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
 
                       {request.state === "HIDDEN" ? (
                         <td className="fw-semibold text-start text-danger">
-                          Đã bị hủy
+                          {t("MyJewelryRequestList.Đã bị hủy")}
                         </td>
                       ) : (
                         <td

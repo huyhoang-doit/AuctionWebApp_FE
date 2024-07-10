@@ -2,14 +2,14 @@
     "AuctionDetail" : {
         "Đăng kí tham gia phiên thành công" : "Đăng kí tham gia phiên thành công!",
         "Home" : "Trang chủ",
-        "Trang sức đấu giá" : "Trang sức đấu giá",
+        "Tài sản đấu giá" : "Tài sản đấu giá",
         "Thời gian đếm ngược bắt đầu trả giá" : "Thời gian đếm ngược bắt đầu trả giá:",
         "Thời gian đếm ngược kết thúc trả giá" : "Thời gian đếm ngược kết thúc trả giá:",
         "Ngày" : "Ngày",
         "Giờ" : "Giờ",
         "Phút" : "Phút",
         "Giây" : "Giây",
-        "Mã trang sức" : "Mã trang sức:",
+        "Mã tài sản" : "Mã tài sản:",
         "Giá khởi điểm" : "Giá khởi điểm:",
         "Phí đăng ký tham gia đấu giá" : "Phí đăng ký tham gia đấu giá:",
         "Bước giá" : "Bước giá:",
@@ -28,6 +28,7 @@
         "Đăng ký tham gia đấu giá" : "Đăng ký tham gia đấu giá",
         "Bạn đã đăng kí tham gia phiên này" : "Bạn đã đăng kí tham gia phiên này.",
         "Đấu giá ngay" : "Đấu giá ngay...",
-        "Không có người thắng phiên" : "Không có người thắng phiên"
+        "Không có người thắng phiên" : "Không có người thắng phiên",
+        "Đến khu vực đấu giá" : "Đến khu vực đấu giá"
         }
 }

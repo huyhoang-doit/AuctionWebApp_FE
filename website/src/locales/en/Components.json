@@ -101,5 +101,29 @@
     "StateJewelry": {
         "Chưa có phiên đấu": "No auction session",
         "Đã có phiên đấu": "Auction session available"
+    },
+
+    "AuctionDetailHistory" : {
+        "Hiển thị" : "Showing",
+        "lượt trả giá" : "bids",
+        "Người trả giá" : "Bidder",
+        "Trạng thái" : "Status",
+        "Giá" : "Price",
+        "Thời gian" : "Time",
+        "Mã trả giá" : "Bid ID",
+        "Rút lại giá" : "Withdraw bid",
+        "Thao tác" : "Action",
+        "Mã số" : "Auction ID"
+        
+    },
+    "Banner02" : {
+        "Hãy đến với chúng tôi" : "Come to us",
+        "Trang sức ở đây là" : "The jewelry here is",
+        "Chính hiệu" : "Authentic",
+        "Các phiên đấu" : "The auction sessions",
+        "Kiểm định" : "Appraisal",
+        "Đội ngũ" : "Team",
+        "Chuyên gia uy tín" : "Reputable experts",
+        "Tài sản đang chờ đấu giá" : "Assets waiting for auction"
     }
 }
