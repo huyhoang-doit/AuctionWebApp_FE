@@ -68,94 +68,84 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
   const { t } = useTranslation(["MyJewelryRequestList"]);
 
   return (
-    <div
-      className="tab-pane fade"
-      id="jewelry-request"
-      role="tabpanel"
-      aria-labelledby="account-address-tab"
-    >
-      <div className="myaccount-orders">
-        <div className="row mb-2">
-          <div className="col-md-7">
-            <h4 className="small-title fw-bold mt-2">
-              {t("MyJewelryRequestList.Danh sách các sản phẩm yêu cầu của tôi")}
-            </h4>
-          </div>
-          <div className="umino-sidebar_categories col-md-5 mb-2">
-            <input
-              style={{ height: "40px" }}
-              type="text"
-              placeholder={t("MyJewelryRequestList.Tên trang sức...")}
-              onChange={handleTxtSearch}
-              value={txtSearch}
-            />
-          </div>
+    <>
+      <div className="row mb-2">
+        <div className="col-md-7">
         </div>
-        <div className="table-responsive">
-          <table className="table table-bordered table-hover">
-            <thead className="text-center">
-              <tr>
-                <th>{t("MyJewelryRequestList.Mã sản phẩm")}</th>
-                <th>{t("MyJewelryRequestList.Tên sản phẩm")}</th>
-                <th>{t("MyJewelryRequestList.Giá mong muốn (VNĐ)")}</th>
-                <th>{t("MyJewelryRequestList.Thời gian gửi")}</th>
-                <th>{t("MyJewelryRequestList.Trạng thái")}</th>
-                <th>{t("MyJewelryRequestList.Thao tác")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan={6} className="text-center">
-                    <Spinner animation="border" />
-                  </td>
-                </tr>
-              ) : myJewelryRequestList.length > 0 ? (
-                React.Children.toArray(
-                  myJewelryRequestList.map((request) => (
-                    <tr>
-                      <td>{request.jewelry?.id}</td>
-                      <td className="text-start">{request.jewelry?.name}</td>
-                      <td>{formatNumber(request.desiredPrice)}</td>
-                      <td>
-                        {formatDateStringAcceptNull(request?.requestTime)}
-                      </td>
+        <div className="umino-sidebar_categories col-md-5 mb-2">
+          <input
+            style={{ height: "40px" }}
+            type="text"
+            placeholder={t("MyJewelryRequestList.Tên trang sức...")}
+            onChange={handleTxtSearch}
+            value={txtSearch}
+          />
+        </div>
+      </div>
 
-                      {request.state === "HIDDEN" ? (
-                        <td className="fw-semibold text-start text-danger">
-                          Đã bị hủy
-                        </td>
-                      ) : (
-                        <td
-                          className={`fw-semibold text-start ${
-                            request.isConfirm ? "text-success" : "text-dark"
-                          }`}
-                        >
-                          {request.isConfirm
-                            ? t("MyJewelryRequestList.Đã phê duyệt")
-                            : t("MyJewelryRequestList.Chưa phê duyệt")}
-                        </td>
-                      )}
-                      <td>
-                        <ViewJewelryRequestModal request={request} />
+      <div className="table-responsive">
+        <table className="table table-bordered table-hover">
+          <thead className="text-center">
+            <tr>
+              <th>{t("MyJewelryRequestList.Mã sản phẩm")}</th>
+              <th>{t("MyJewelryRequestList.Tên sản phẩm")}</th>
+              <th>{t("MyJewelryRequestList.Giá mong muốn (VNĐ)")}</th>
+              <th>{t("MyJewelryRequestList.Thời gian gửi")}</th>
+              <th>{t("MyJewelryRequestList.Trạng thái")}</th>
+              <th>{t("MyJewelryRequestList.Thao tác")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={6} className="text-center">
+                  <Spinner animation="border" />
+                </td>
+              </tr>
+            ) : myJewelryRequestList.length > 0 ? (
+              React.Children.toArray(
+                myJewelryRequestList.map((request) => (
+                  <tr>
+                    <td>{request.jewelry?.id}</td>
+                    <td className="text-start">{request.jewelry?.name}</td>
+                    <td>{formatNumber(request.desiredPrice)}</td>
+                    <td>
+                      {formatDateStringAcceptNull(request?.requestTime)}
+                    </td>
+
+                    {request.state === "HIDDEN" ? (
+                      <td className="fw-semibold text-start text-danger">
+                        Đã bị hủy
                       </td>
-                    </tr>
-                  ))
-                )
-              ) : (
-                <tr>
-                  <td colSpan={6} className="text-center">
-                    <h5 className="fw-semibold lh-base mt-2">
-                      {t(
-                        "MyJewelryRequestList.Chưa có yêu cầu nào được gửi đi"
-                      )}
-                    </h5>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                    ) : (
+                      <td
+                        className={`fw-semibold text-start ${request.isConfirm ? "text-success" : "text-dark"
+                          }`}
+                      >
+                        {request.isConfirm
+                          ? t("MyJewelryRequestList.Đã phê duyệt")
+                          : t("MyJewelryRequestList.Chưa phê duyệt")}
+                      </td>
+                    )}
+                    <td>
+                      <ViewJewelryRequestModal request={request} />
+                    </td>
+                  </tr>
+                ))
+              )
+            ) : (
+              <tr>
+                <td colSpan={6} className="text-center">
+                  <h5 className="fw-semibold lh-base mt-2">
+                    {t(
+                      "MyJewelryRequestList.Chưa có yêu cầu nào được gửi đi"
+                    )}
+                  </h5>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
       <div className="mt-4">
         <PaginationControl
@@ -169,6 +159,6 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
           ellipsis={1}
         />
       </div>
-    </div>
+    </>
   );
 };
