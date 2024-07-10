@@ -54,6 +54,7 @@ import { TypeTransaction } from "../Components/member/TypeTransaction";
 
 import { PaymentMethod } from "../Components/member/PaymentMethod";
 import { StateTransaction } from "../Components/member/StateTransaction";
+import { updateAuctionEndTime } from "../../../api/AuctionAPI";
 
 // *** MODAL FOR USER ***
 // Interface
@@ -1476,6 +1477,7 @@ interface BidConfirmProps {
   bidValue: number;
   setDisplayValue: (value: string) => void;
   setAuction: (auction: Auction) => void;
+  timeLeft: { days: number; hours: number; minutes: number; seconds: number } | string
   username: string | undefined;
   auction: Auction | null;
   setAuctionHistories: (auctionHistories: AuctionHistory[]) => void;
@@ -1487,6 +1489,7 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
   stompClient,
   connected,
   setAuctionHistories,
+  timeLeft,
   bidValue,
   username,
   auction,
@@ -1537,10 +1540,27 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
                       );
 
                       if (stompClient && connected) {
+                        let bonusTime = 0;
+                        if (typeof timeLeft === 'object' &&
+                          timeLeft.days === 0 &&
+                          timeLeft.hours === 0 &&
+                          timeLeft.minutes === 0 &&
+                          timeLeft.seconds < 5 &&
+                          auction?.state === "ONGOING"
+                        ) {
+                          bonusTime = 5000;
+                          setAuction({ ...auction, endDate: auction.endDate + 5000 });
+                          toast.warn('Bạn đã giành thêm thời gian để trả giá vào 5 giây cuối!', {autoClose: 3000});
+                        }
+                        const message = {
+                          username: username,
+                          auctionId: auction.id,
+                          bonusTime: bonusTime
+                        };
                         stompClient.send(
                           "/app/update-auction",
                           {},
-                          JSON.stringify(auction.id)
+                          JSON.stringify(message)
                         );
                       } else {
                         console.error("WebSocket client is not connected.");
