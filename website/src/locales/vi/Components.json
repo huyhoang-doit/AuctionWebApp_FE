@@ -101,5 +101,30 @@
     "StateJewelry": {
         "Chưa có phiên đấu": "Chưa có phiên đấu",
         "Đã có phiên đấu": "Đã có phiên đấu"
+    },
+
+    "AuctionDetailHistory" : {
+        "Hiển thị" : "Hiển thị",
+        "lượt trả giá" : "lượt trả giá",
+        "Người trả giá" : "Người trả giá",
+        "Trạng thái" : "Trạng thái",
+        "Giá" : "Giá",
+        "Thời gian" : "Thời gian",
+        "Mã trả giá" : "Mã trả giá",
+        "Rút lại giá" : "Rút lại giá",
+        "Thao tác" : "Thao tác",
+         "Mã số" : "Mã số"
+        
+    },
+    "Banner02" : {
+        "Hãy đến với chúng tôi" : "Hãy đến với chúng tôi",
+        "Trang sức ở đây là" : "Trang sức ở đây là",
+        "Chính hiệu" : "Chính hiệu",
+        "Các phiên đấu" : "Các phiên đấu",
+        "Kiểm định" : "Kiểm định",
+        "Đội ngũ" : "Đội ngũ",
+        "Chuyên gia uy tín" : "Chuyên gia uy tín",
+        "Tài sản đang chờ đấu giá" : "Tài sản đang chờ đấu giá"
+        
     }
 }

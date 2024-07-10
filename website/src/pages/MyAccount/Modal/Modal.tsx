@@ -261,9 +261,13 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
 
                           <span className="fw-bold">
                             {" "}
-                            {transaction.paymentTime === null ? (<StateTransaction state={transaction.state} />) : (formatDateStringAcceptNull(
-                              transaction.paymentTime
-                            ))}
+                            {transaction.paymentTime === null ? (
+                              <StateTransaction state={transaction.state} />
+                            ) : (
+                              formatDateStringAcceptNull(
+                                transaction.paymentTime
+                              )
+                            )}
                           </span>
                         </div>
                       </div>
@@ -272,14 +276,19 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                           <label>{t("Modal.Phương thức thanh toán")}</label>
                           <span className="fw-bold">
                             {" "}
-                            {transaction.type === 'PAYMENT_TO_WINNER' ? (<PaymentMethod
-                              method={
-                                transaction.paymentMethod
-                                  ? transaction.paymentMethod
-                                  : ""
-                              }
-                            />) : (<span className="fw-bold">{t("Modal.Chuyển khoản")}</span>)}
-
+                            {transaction.type === "PAYMENT_TO_WINNER" ? (
+                              <PaymentMethod
+                                method={
+                                  transaction.paymentMethod
+                                    ? transaction.paymentMethod
+                                    : ""
+                                }
+                              />
+                            ) : (
+                              <span className="fw-bold">
+                                {t("Modal.Chuyển khoản")}
+                              </span>
+                            )}
                           </span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
@@ -613,155 +622,155 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
   winner,
   getTransactionList,
 }) => {
-    const method = "PAY_AT_COUNTER";
+  const method = "PAY_AT_COUNTER";
 
-    const handleConfirmPayCounter = async () => {
-      const changeMethod = await setMethodTransaction(transaction.id, method);
-      if (changeMethod) {
-        toast.success(t("Modal.Thanh toán tại quầy được xác nhận"));
-        getTransactionList();
-        handleClose();
-      }
-    };
-    const { t } = useTranslation(["Modal"]);
+  const handleConfirmPayCounter = async () => {
+    const changeMethod = await setMethodTransaction(transaction.id, method);
+    if (changeMethod) {
+      toast.success(t("Modal.Thanh toán tại quầy được xác nhận"));
+      getTransactionList();
+      handleClose();
+    }
+  };
+  const { t } = useTranslation(["Modal"]);
 
-    return (
-      <>
-        {show && (
-          <div className="overlay">
-            <Modal
-              show={show}
-              onHide={handleClose}
-              centered
-              backdrop="static"
-              size="lg"
-            >
-              <Modal.Header>
-                <Modal.Title className="w-100">
-                  <div className="col-12 text-center">
-                    {t("Modal.Xác nhận thanh toán tại quầy")}
-                  </div>
-                  <div className="col-12 mb-3 text-center ">
-                    <span className="text-warning fw-bold">{auction?.name}</span>
-                  </div>
-                </Modal.Title>
-              </Modal.Header>
-              <Modal.Body className="p-4">
-                <form action="">
-                  <div className="checkbox-form">
-                    <div className="row">
-                      <div className="col-md-12 ">
-                        <div className="col-md-12 fw-medium row">
-                          <h4 className=" fw-medium">
-                            {t("Modal.Tài khoản thanh toán")}
-                          </h4>
-                          <div className="checkout-form-list my-3 col-md-6">
-                            <div className="checkout-form-list mb-2">
-                              <label>{t("Modal.Mã người dùng")} </label>
-                              <span className="fw-bold"> {winner?.id}</span>
-                            </div>
+  return (
+    <>
+      {show && (
+        <div className="overlay">
+          <Modal
+            show={show}
+            onHide={handleClose}
+            centered
+            backdrop="static"
+            size="lg"
+          >
+            <Modal.Header>
+              <Modal.Title className="w-100">
+                <div className="col-12 text-center">
+                  {t("Modal.Xác nhận thanh toán tại quầy")}
+                </div>
+                <div className="col-12 mb-3 text-center ">
+                  <span className="text-warning fw-bold">{auction?.name}</span>
+                </div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="p-4">
+              <form action="">
+                <div className="checkbox-form">
+                  <div className="row">
+                    <div className="col-md-12 ">
+                      <div className="col-md-12 fw-medium row">
+                        <h4 className=" fw-medium">
+                          {t("Modal.Tài khoản thanh toán")}
+                        </h4>
+                        <div className="checkout-form-list my-3 col-md-6">
+                          <div className="checkout-form-list mb-2">
+                            <label>{t("Modal.Mã người dùng")} </label>
+                            <span className="fw-bold"> {winner?.id}</span>
+                          </div>
+                          <div className="checkout-form-list mb-2 ">
+                            <label>{t("Modal.Tên người dùng")}</label>
+                            <span className="fw-bold"> {winner?.fullName}</span>
+                          </div>
+                          <div className="checkout-form-list mb-2 ">
+                            <label>{t("Modal.Số CCCD")}</label>
+                            <span className="fw-bold"> {winner?.cccd}</span>
+                          </div>
+                          <div className="checkout-form-list mb-2">
+                            <label>{t("Modal.Địa chỉ")}</label>
+                            <span className="fw-semibold">
+                              {" "}
+                              {winner?.address}, {winner?.city},{" "}
+                              {winner?.district}{" "}
+                            </span>
+                          </div>
+                          <div className="checkout-form-list mb-2">
+                            <label>Email: </label>
+                            <span className="fw-semibold">
+                              {" "}
+                              {winner?.email}
+                            </span>
+                          </div>
+                          <div className="checkout-form-list my-4 col-md-12">
+                            <label>{t("Modal.Số tiền cần trả")} </label>
+                            <span className="fw-bold text-uppercase fs-4 text-success">
+                              {" "}
+                              {formatNumberAcceptNull(
+                                transaction.totalPrice
+                              )}{" "}
+                              VND
+                            </span>
+                          </div>
+                          <div className="checkout-form-list mb-2 ">
+                            <span style={{ fontSize: "12px" }}>
+                              {t(
+                                "Modal.Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ."
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="checkout-form-list my-4 col-md-6">
+                          <div className="checkout-form-list mb-2 ">
+                            <label>{t("Modal.Phương thức thanh toán")} </label>
+                            <span className="fw-bold">
+                              {" "}
+                              <PaymentMethod method={method} />
+                            </span>
+                          </div>
+                          <div className="checkout-form-list mb-2 ">
+                            <label>{t("Modal.Trạng thái thanh toán")} </label>
+                            <span className="fw-bold">
+                              {" "}
+                              <StateTransaction state={transaction.state} />
+                            </span>
+                          </div>
+
+                          {method === "PAY_AT_COUNTER" && (
                             <div className="checkout-form-list mb-2 ">
-                              <label>{t("Modal.Tên người dùng")}</label>
-                              <span className="fw-bold"> {winner?.fullName}</span>
-                            </div>
-                            <div className="checkout-form-list mb-2 ">
-                              <label>{t("Modal.Số CCCD")}</label>
-                              <span className="fw-bold"> {winner?.cccd}</span>
-                            </div>
-                            <div className="checkout-form-list mb-2">
-                              <label>{t("Modal.Địa chỉ")}</label>
-                              <span className="fw-semibold">
+                              <label>{t("Modal.Địa điểm thanh toán")}</label>
+                              <span className="fw-bold">
                                 {" "}
-                                {winner?.address}, {winner?.city},{" "}
-                                {winner?.district}{" "}
-                              </span>
-                            </div>
-                            <div className="checkout-form-list mb-2">
-                              <label>Email: </label>
-                              <span className="fw-semibold">
-                                {" "}
-                                {winner?.email}
-                              </span>
-                            </div>
-                            <div className="checkout-form-list my-4 col-md-12">
-                              <label>{t("Modal.Số tiền cần trả")} </label>
-                              <span className="fw-bold text-uppercase fs-4 text-success">
-                                {" "}
-                                {formatNumberAcceptNull(
-                                  transaction.totalPrice
-                                )}{" "}
-                                VND
-                              </span>
-                            </div>
-                            <div className="checkout-form-list mb-2 ">
-                              <span style={{ fontSize: "12px" }}>
                                 {t(
-                                  "Modal.Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ."
+                                  "Modal.Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam"
                                 )}
                               </span>
+                              <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1003405.79257722!2d105.55479573124998!3d10.768824599999986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1718718338321!5m2!1svi!2s"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                style={{
+                                  border: "0",
+                                  width: "100%",
+                                  height: "100%",
+                                  marginTop: "20px",
+                                }}
+                                title={t("Modal.Nhà Văn hóa Sinh viên TP.HCM")}
+                                allowFullScreen={true}
+                                loading="lazy"
+                              ></iframe>
                             </div>
-                          </div>
-                          <div className="checkout-form-list my-4 col-md-6">
-                            <div className="checkout-form-list mb-2 ">
-                              <label>{t("Modal.Phương thức thanh toán")} </label>
-                              <span className="fw-bold">
-                                {" "}
-                                <PaymentMethod method={method} />
-                              </span>
-                            </div>
-                            <div className="checkout-form-list mb-2 ">
-                              <label>{t("Modal.Trạng thái thanh toán")} </label>
-                              <span className="fw-bold">
-                                {" "}
-                                <StateTransaction state={transaction.state} />
-                              </span>
-                            </div>
-
-                            {method === "PAY_AT_COUNTER" && (
-                              <div className="checkout-form-list mb-2 ">
-                                <label>{t("Modal.Địa điểm thanh toán")}</label>
-                                <span className="fw-bold">
-                                  {" "}
-                                  {t(
-                                    "Modal.Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam"
-                                  )}
-                                </span>
-                                <iframe
-                                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1003405.79257722!2d105.55479573124998!3d10.768824599999986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1718718338321!5m2!1svi!2s"
-                                  referrerPolicy="no-referrer-when-downgrade"
-                                  style={{
-                                    border: "0",
-                                    width: "100%",
-                                    height: "100%",
-                                    marginTop: "20px",
-                                  }}
-                                  title={t("Modal.Nhà Văn hóa Sinh viên TP.HCM")}
-                                  allowFullScreen={true}
-                                  loading="lazy"
-                                ></iframe>
-                              </div>
-                            )}
-                          </div>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
-                </form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="dark" onClick={handleClose}>
-                  {t("Modal.Đóng")}
-                </Button>
-                <Button variant="warning" onClick={handleConfirmPayCounter}>
-                  {t("Modal.Xác nhận")}
-                </Button>
-              </Modal.Footer>
-            </Modal>
-          </div>
-        )}
-      </>
-    );
-  };
+                </div>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleClose}>
+                {t("Modal.Đóng")}
+              </Button>
+              <Button variant="warning" onClick={handleConfirmPayCounter}>
+                {t("Modal.Xác nhận")}
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
+    </>
+  );
+};
 
 export const ConfirmModal: React.FC<JewelryModalProps> = ({
   jewelry,
@@ -1132,10 +1141,11 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
                             className=" fw-bold text-success"
                             placeholder=""
                             type="text"
-                            value={`${request.isConfirm
-                              ? t("Modal.Đã phê duyệt")
-                              : t("Modal.Chưa phê duyệt")
-                              }`}
+                            value={`${
+                              request.isConfirm
+                                ? t("Modal.Đã phê duyệt")
+                                : t("Modal.Chưa phê duyệt")
+                            }`}
                             readOnly={true}
                           />
                         )}
@@ -1253,7 +1263,11 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
                     </div>
                     {auction && (
                       <div className="col-md-12 fw-medium">
-                        {jewelry?.state !== 'AUCTION' ? (<h4 className=" fw-medium"> Phiên đấu trước đó</h4>) : (<h4 className=" fw-medium"> Phiên đấu</h4>)}
+                        {jewelry?.state !== "AUCTION" ? (
+                          <h4 className=" fw-medium"> Phiên đấu trước đó</h4>
+                        ) : (
+                          <h4 className=" fw-medium"> Phiên đấu</h4>
+                        )}
                         <div className="checkout-form-list mb-2">
                           <label>Mã phiên: </label>
                           <span className="fw-bold"> {auction?.id}</span>
@@ -1285,24 +1299,30 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
 
                           <span className="fw-bold text-uppercase text-success">
                             {" "}
-                            {auction.lastPrice === null ? (<span className="text-danger fw-bold">
-                              Đấu giá thất bại
-                            </span>) : (<StateAuctionView
-                              state={
-                                auction?.state ? auction.state : "FINISHED"
-                              }
-                            />)}
-
+                            {auction.lastPrice === null ? (
+                              <span className="text-danger fw-bold">
+                                Đấu giá thất bại
+                              </span>
+                            ) : (
+                              <StateAuctionView
+                                state={
+                                  auction?.state ? auction.state : "FINISHED"
+                                }
+                              />
+                            )}
                           </span>
                         </div>
-                        {auction.lastPrice === null ? '' : (<div className="checkout-form-list mb-2">
-                          <label>Giá cuối:</label>
-                          <span className="fw-bold text-uppercase text-danger">
-                            {" "}
-                            {formatNumberAcceptNull(auction?.lastPrice)} VND
-                          </span>
-                        </div>)}
-
+                        {auction.lastPrice === null ? (
+                          ""
+                        ) : (
+                          <div className="checkout-form-list mb-2">
+                            <label>Giá cuối:</label>
+                            <span className="fw-bold text-uppercase text-danger">
+                              {" "}
+                              {formatNumberAcceptNull(auction?.lastPrice)} VND
+                            </span>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -1353,7 +1373,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
           setAuctionHistories(response.auctionHistoriesData);
           setTotalElements(response.totalElements);
         })
-        .catch(() => { });
+        .catch(() => {});
     }
     setLoading(false);
   }, [page, auctionHistoryState, auctionId, userId]);
@@ -1576,7 +1596,7 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
                         icon: "error",
                         title: t(
                           "Modal.Trả giá không thành thành công, vui lòng thực hiện lại!"
-                        )
+                        ),
                       });
                     }
                   })

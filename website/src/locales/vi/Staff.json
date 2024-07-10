@@ -11,20 +11,28 @@
         "Tên phiên...": "Tên phiên..."
     },
     "JewelriesWaitList": {
-        "Danh sách sản phẩm gửi đến": "Danh sách sản phẩm gửi đến",
-        "Mã trang sức": "Mã trang sức",
-        "Tên trang sức": "Tên trang sức",
+        "Danh sách tài sản gửi đến": "Danh sách tài sản gửi đến",
+        "Mã tài sản": "Mã tài sản",
+        "Tên tài sản": "Tên tài sản",
         "Người gửi": "Người gửi",
         "Giá": "Giá",
         "Ảnh": "Ảnh",
         "Xem chi tiết": "Xem chi tiết",
         "Chưa có yêu cầu nào được gửi đến": "Chưa có yêu cầu nào được gửi đến",
-        "Tên trang sức...": "Tên trang sức..."
+        "Tên tài sản...": "Tên tài sản...",
+        "Tất cả": "Tất cả",
+        "Dây chuyền": "Dây chuyền",
+        "Nhẫn": "Nhẫn",
+        "Vòng cổ": "Vòng cổ",
+        "Hoa tai": "Hoa tai",
+        "Vòng tay": "Vòng tay",
+        "Mặt dây chuyền": "Mặt dây chuyền"
+
     },
     "StaffRequestList": {
         "Danh sách các yêu cầu gửi lên quản lý": "Danh sách các yêu cầu gửi lên quản lý",
         "Mã yêu cầu": "Mã yêu cầu",
-        "Mã trang sức": "Mã trang sức",
+        "Mã tài sản": "Mã tài sản",
         "Định giá (VNĐ)": "Định giá (VNĐ)",
         "Thời gian gửi": "Thời gian gửi",
         "Trạng thái": "Trạng thái",
@@ -33,7 +41,7 @@
         "Chưa phê duyệt": "Chưa phê duyệt",
         "Chưa có yêu cầu nào được gửi đi": "Chưa có yêu cầu nào được gửi đi",
         "Đã bị hủy": "Đã bị hủy",
-        "Tên trang sức...": "Tên trang sức..."
+        "Tên tài sản...": "Tên tài sản..."
     },
     "JewelrySentToWebList": {
         "Danh sách tài sản gửi đến": "Danh sách tài sản gửi đến",
@@ -49,14 +57,14 @@
         "Tên tài sản...": "Tên tài sản..."
     },
     "JewelriesHandOverList": {
-        "Danh sách trang sức bàn giao": "Danh sách trang sức bàn giao",
-        "Mã trang sức": "Mã trang sức",
-        "Tên trang sức": "Tên trang sức",
+        "Danh sách tài sản bàn giao": "Danh sách tài sản bàn giao",
+        "Mã tài sản": "Mã tài sản",
+        "Tên tài sản": "Tên tài sản",
         "Phiên đấu": "Phiên đấu",
         "Giá cuối": "Giá cuối",
         "Phương thức thanh toán": "Phương thức thanh toán",
         "Thao tác": "Thao tác",
         "Không có giao dịch nào": "Không có giao dịch nào",
-        "Tên trang sức...": "Jewelry name..."
+        "Tên tài sản...": "Tên tài sản..."
     }
 }
