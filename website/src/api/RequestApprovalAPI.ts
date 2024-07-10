@@ -178,9 +178,9 @@ export async function getRequestByRoleOfSender(role: string, jewelryName: string
   }
 }
 
-export async function getRequestNeedConfirmByMember(memberId: number, page: number): Promise<ResultPageableInteface> {
+export async function getRequestNeedConfirmByMember(memberId: number, jewelryName: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
-  const URL: string = `${BASE_URL}/request-approval/confirm-by-member/${memberId}?page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/confirm-by-member/${memberId}?page=${page - 1}&jewelryName=${jewelryName}`;
 
   try {
     const response = await MyRequest(URL);

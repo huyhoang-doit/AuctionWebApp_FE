@@ -2,24 +2,24 @@ import React, { useCallback, useEffect, useState } from "react";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { Spinner } from "react-bootstrap";
 import { User } from "../../../../models/User";
-import { RequestApproval } from "../../../../models/RequestApproval";
-import { getRequestNeedConfirmByMember } from "../../../../api/RequestApprovalAPI";
 import useAccount from "../../../../hooks/useAccount";
 import { useTranslation } from "react-i18next";
-import MyJewelryNeedConfirmSingle from "./JewelryNeedConfirmSingle";
+import MyJewelrySingle from "./MyJewelrySingle";
+import { getJewelriesActiveByUserId } from "../../../../api/JewelryAPI";
+import { Jewelry } from "../../../../models/Jewelry";
 import { useDebouncedCallback } from "use-debounce";
 
-interface MyJewelryNeedConfirmProps {
+interface MyJewelriesPassedListProps {
   user: User | null;
-  setUser: (user: User) => void;
   listNumber: number;
+  setListNumber: React.Dispatch<React.SetStateAction<number>>
 }
 
-const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) => {
+const MyJewelriesPassedList: React.FC<MyJewelriesPassedListProps> = (props) => {
   const token = localStorage.getItem("access_token");
   const userExit = useAccount(token);
 
-  const [listRequests, setListRequests] = useState<RequestApproval[]>([]);
+  const [listJewelries, setListJewelries] = useState<Jewelry[]>([]);
   const [user, setUser] = useState<User | null>(
     userExit?.account || props.user
   );
@@ -43,8 +43,12 @@ const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) =>
     if (user) {
       setLoading(true);
       try {
-        const response = await getRequestNeedConfirmByMember(user.id, debouncedTxtSearch, page);
-        setListRequests(response.requestsData);
+        const response = await getJewelriesActiveByUserId(
+          user.id,
+          debouncedTxtSearch,
+          page
+        );
+        setListJewelries(response.jeweriesData);
         setTotalElements(response.totalElements);
       } catch (error) {
         console.error(error);
@@ -52,7 +56,7 @@ const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) =>
         setLoading(false);
       }
     }
-  }, [user, page, debouncedTxtSearch]);
+  }, [user, debouncedTxtSearch, page]);
 
   useEffect(() => {
     setUser(props.user);
@@ -60,33 +64,34 @@ const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) =>
 
   useEffect(() => {
     handleChangeList();
-  }, [user, page, props.listNumber, debouncedTxtSearch]);
-
-  useEffect(() => {
-    if (user) {
-      handleChangeList();
-    }
-  }, [user, page, props.listNumber, debouncedTxtSearch]);
+  }, [page, debouncedTxtSearch, props.listNumber]);
 
   useEffect(() => {
     setTxtSearch("");
     debouncedTxtSearchChange("");
   }, [props.listNumber]);
+
+  useEffect(() => {
+    if (user) {
+      handleChangeList();
+    }
+  }, [user]);
   const { t } = useTranslation(["MyJewellryList"]);
   return (
-    <><div className="row mb-2">
-      <div className="col-md-7">
+    <>
+      <div className="row mb-2">
+        <div className="col-md-7">
+        </div>
+        <div className="umino-sidebar_categories col-md-5 mb-2">
+          <input
+            style={{ height: "40px" }}
+            type="text"
+            placeholder={t("MyJewellryList.Tên trang sức...")}
+            value={txtSearch}
+            onChange={handleTxtSearch}
+          />
+        </div>
       </div>
-      <div className="umino-sidebar_categories col-md-5 mb-2">
-        <input
-          style={{ height: "40px" }}
-          type="text"
-          placeholder={t("MyJewellryList.Tên trang sức...")}
-          onChange={handleTxtSearch}
-          value={txtSearch}
-        />
-      </div>
-    </div>
       <div className="table-responsive">
         <table className="table table-bordered table-hover">
           <thead className="text-center">
@@ -96,8 +101,7 @@ const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) =>
                 {t("MyJewellryList.Tên trang sức")}
               </th>
               <th>{t("MyJewellryList.Ảnh")}</th>
-              <th>{t("MyJewellryList.Giá mong muốn")}</th>
-              <th>{t("MyJewellryList.Định giá")}</th>
+              <th>{t("MyJewellryList.Trạng thái hiện tại")}</th>
               <th>{t("MyJewellryList.Thao tác")}</th>
             </tr>
           </thead>
@@ -108,14 +112,12 @@ const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) =>
                   <Spinner animation="border" />
                 </td>
               </tr>
-            ) : listRequests.length > 0 ? (
-              listRequests.map((request) => (
-                <MyJewelryNeedConfirmSingle
-                  key={request.id}
-                  request={request}
-                  jewelry={request.jewelry}
+            ) : listJewelries.length > 0 ? (
+              listJewelries.map((jewelry) => (
+                <MyJewelrySingle
+                  key={jewelry.id}
+                  jewelry={jewelry}
                   user={props.user}
-                  handleChangeList={handleChangeList}
                 />
               ))
             ) : (
@@ -146,4 +148,4 @@ const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) =>
   );
 };
 
-export default MyJewelryNeedConfirmList;
+export default MyJewelriesPassedList;
