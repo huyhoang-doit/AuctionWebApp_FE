@@ -33,7 +33,7 @@ export const AuctionBid = () => {
     const [errorBidValue, setErrorBidValue] = useState("");
     const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
     const [bidPerPage, setBidPerPage] = useState<number>(3);
-    const timeLeft = useCountDownBid(auction);
+    let timeLeft = useCountDownBid(auction);
     const [connected, setConnected] = useState(false);
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
     const [isEnding, setIsEnding] = useState(false);
@@ -113,13 +113,23 @@ export const AuctionBid = () => {
                 newClient.subscribe("/user/auction", (message) => {
                     const receivedData = JSON.parse(message.body);
                     if (receivedData.auctionId === auctionId) {
+                        console.log(receivedData.endDate);
+
                         setAuction(prevAuction => ({
                             ...prevAuction!,
                             lastPrice: receivedData.lastPrice,
+                            endDate: receivedData.endDate
                         }));
                         setBidValue(receivedData.lastPrice)
                         setDisplayValue(formatNumber(receivedData.lastPrice));
-                        toast.warn('Giá cuối đã thay đổi!');
+                        
+                        const isMeBid = receivedData.username === user?.username;
+
+                        if (!isMeBid)
+                            toast.warn('Giá cuối đã thay đổi!', {autoClose: 3000});
+
+                        if (!isMeBid && receivedData.bonusTime > 0)
+                            toast.warn('Thời gian kết thúc đấu giá kéo dài thêm 5 giây!', {autoClose: 3000})
 
                         getAuctionRegistrationsByAuctionId(receivedData.auctionId)
                             .then((data) => {
@@ -273,7 +283,7 @@ export const AuctionBid = () => {
             );
         } else if (!isMeFirstIndex && bidValue >= ((auction?.lastPrice || 0) + (auction?.priceStep || 0))) {
             return <BidConfirm
-                stompClient={stompClient} connected={connected}
+                stompClient={stompClient} connected={connected} timeLeft={timeLeft}
                 setAuctionHistories={setAuctionHistories} setDisplayValue={setDisplayValue} setAuction={setAuction} username={user?.username} auction={auction} bidValue={bidValue} />;
         } else {
             return (

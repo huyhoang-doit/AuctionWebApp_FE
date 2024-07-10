@@ -1,8 +1,8 @@
 {
     "MyJewelryRequestList" : {
-        "Danh sách các sản phẩm yêu cầu của tôi" : "List of my required products",
-        "Mã sản phẩm" : "Product ID",
-        "Tên sản phẩm" : "Product name",
+        "Danh sách các tài sản yêu cầu của tôi" : "List of my required assets",
+        "Mã tài sản" : "Asset ID",
+        "Tên tài sản" : "Asset name",
         "Giá mong muốn (VNĐ)" : "Desired price (VND)",
         "Thời gian gửi" : "Sending time",
         "Trạng thái" : "Status",
@@ -10,7 +10,8 @@
         "Đã phê duyệt" : "Approved",
         "Chưa phê duyệt" : "Not approved",
         "Chưa có yêu cầu nào được gửi đi" : "No request has been sent",
-        "Tên trang sức..." : "Product name..."
+        "Tên tài sản..." : "Asset name...",
+        "Đã bị hủy" : "Cancelled"
         
 
 

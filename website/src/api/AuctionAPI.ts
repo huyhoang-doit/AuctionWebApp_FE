@@ -121,6 +121,28 @@ export async function gettop3PriceAndState(): Promise<ResultInteface> {
     }
 }
 
+export async function updateAuctionEndTime(auctionId: number, time: number) {
+    // endpoint
+    const URL = `${BASE_URL}/auction/update-end-date/${auctionId}?time=${time}`;
+    // request
+    try {
+        // Make PUT request to update auction end time
+        const response = await fetch(URL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const updatedAuction = await response.json();
+
+        return updatedAuction;
+    } catch (error) {
+        console.error('Error updating auction end time:', error);
+        throw new Error('Phiên không tồn tại');
+    }
+}
+
 export async function getAuction(auctionId: number): Promise<Auction | null> {
     // endpoint
     const URL = `${BASE_URL}/auction/id/${auctionId}`;

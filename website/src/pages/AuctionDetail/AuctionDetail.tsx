@@ -143,7 +143,7 @@ export default function AuctionDetail() {
       const decodedData = jwtDecode<DecodedToken>(token);
       const userRoles =
         decodedData.authorities?.map((auth) => auth.authority) || [];
-      return userRoles.includes('STAFF');
+      return userRoles.includes("STAFF");
     }
     return false;
   };
@@ -161,7 +161,7 @@ export default function AuctionDetail() {
                     <a href="index.html">{t("AuctionDetail.Home")}</a>
                   </li>
                   <li className="active">
-                    {t("AuctionDetail.Trang sức đấu giá")}
+                    {t("AuctionDetail.Tài sản đấu giá")}
                   </li>
                 </ul>
               </div>
@@ -235,7 +235,7 @@ export default function AuctionDetail() {
                       <div className="row">
                         <div className="col-6">
                           <p className="left-title-text no-margin">
-                            {t("AuctionDetail.Mã trang sức")}
+                            {t("AuctionDetail.Mã tài sản")}
                           </p>
                         </div>
                         <div className="col-6">
@@ -405,11 +405,11 @@ export default function AuctionDetail() {
                           <>
                             {(auction?.state === "ONGOING" ||
                               auction?.state === "WAITING") && (
-                                <InfoBlock
-                                  label={t("AuctionDetail.Giá trúng tối thiểu")}
-                                  value={formatNumber(auction?.firstPrice)}
-                                />
-                              )}
+                              <InfoBlock
+                                label={t("AuctionDetail.Giá trúng tối thiểu")}
+                                value={formatNumber(auction?.firstPrice)}
+                              />
+                            )}
                           </>
                         )}
                         <div
@@ -424,7 +424,8 @@ export default function AuctionDetail() {
                           }}
                         >
                           {auction?.state === "WAITING" &&
-                            !checkAlreadyRegistered() && !checkIsStaff() && (
+                            !checkAlreadyRegistered() &&
+                            !checkIsStaff() && (
                               <Link
                                 to={"/dang-ki-dau-gia/" + auctionId}
                                 className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
@@ -445,7 +446,8 @@ export default function AuctionDetail() {
                               </Link>
                             )}
                           {auction?.state === "WAITING" &&
-                            checkAlreadyRegistered() && !checkIsStaff() && (
+                            checkAlreadyRegistered() &&
+                            !checkIsStaff() && (
                               <button
                                 className="bidding-request-confirm-btn"
                                 style={{
@@ -470,7 +472,8 @@ export default function AuctionDetail() {
                               </button>
                             )}
                           {auction?.state === "ONGOING" &&
-                            checkAlreadyRegistered() && !checkIsStaff() && (
+                            checkAlreadyRegistered() &&
+                            !checkIsStaff() && (
                               <Link
                                 to={"/dau-gia-san-pham/" + auctionId}
                                 className="fw-bold text-center eg-btn btn--primary content-center text-white btn--sm"
@@ -491,7 +494,7 @@ export default function AuctionDetail() {
                                 {t("AuctionDetail.Đấu giá ngay")}
                               </Link>
                             )}
-                          {(checkIsStaff() &&
+                          {checkIsStaff() && (
                             <Link
                               to={"/dau-gia-san-pham/" + auctionId}
                               className="fw-bold text-center eg-btn btn--primary content-center text-white btn--sm"
@@ -509,7 +512,7 @@ export default function AuctionDetail() {
                                 className="fa fa-gavel"
                                 style={{ marginRight: "5px" }}
                               ></i>
-                              Đến khu vực đấu giá
+                              {t("AuctionDetail.Đến khu vực đấu giá")}
                             </Link>
                           )}
                         </div>
