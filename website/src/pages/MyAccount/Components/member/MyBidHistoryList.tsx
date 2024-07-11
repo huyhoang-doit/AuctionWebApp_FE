@@ -80,7 +80,6 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user, listNu
         setLoading(true);
         getAuctionRegistrationByUserId(user.id, debouncedTxtSearch, page)
           .then((response) => {
-            console.log(response);
             setUserAuctionRegistration(response.auctionRegistrationsData);
             setTotalElements(response.totalElements);
             setLoading(false);

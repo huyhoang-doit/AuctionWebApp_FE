@@ -37,13 +37,10 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
   useEffect(() => {
     setUser(props.user);
   }, [props.user]);
-
   const handleChangeList = useCallback(async () => {
     setLoading(true);
     getHandoverTransaction(type, debouncedTxtSearch, page)
       .then((response) => {
-        console.log("giao dịch duocj tim thay");
-
         setListTransactions(response.transactions);
         setTotalElements(response.totalElements);
       })
