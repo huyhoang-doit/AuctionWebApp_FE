@@ -65,7 +65,7 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
                 >
                   <div className="card-body">
                     <MyJewelryRequestList
-                      userId={11}
+                      userId={user?.id}
                       listNumber={props.listNumber}
                     />
                   </div>

@@ -1,4 +1,3 @@
-import { Jewelry } from './../models/Jewelry';
 import { Image } from './../models/Image';
 import { MyRequest } from "./MyRequest";
 import { fetchWithToken } from './AuthenticationAPI';
@@ -54,9 +53,6 @@ export const setImageForJewelry = async (imageRequest: ImageRequest, icon: boole
     // call api
     try {
         const response = await fetchWithToken(URL, 'POST', accessToken, body);
-
-        console.log(response);
-
         if (!response.ok) {
             throw new Error(`Không thể truy cập ${URL}`);
         }

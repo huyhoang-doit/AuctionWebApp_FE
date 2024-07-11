@@ -80,7 +80,7 @@ export const changePassword = async (changePasswordRequest: ChangePasswordReques
 
     try {
         const response = await fetchWithToken(URL, 'POST', accessToken, changePasswordRequest);
-        
+
         if (response.status === 404) {
             return { message: "Mật khẩu cũ không đúng.", status: 404 };
         }
@@ -110,7 +110,7 @@ export const forgotPassword = async (email: string, setError: (message: string) 
         if (response.ok) {
             return true;
         }
-        
+
         if (response.status === 403) {
             throw new Error('Bạn không có quyền truy cập. Vui lòng liên hệ quản trị viên để được hỗ trợ.');
         }
@@ -125,7 +125,7 @@ export const forgotPassword = async (email: string, setError: (message: string) 
 
 export const resetPassword = async (password: string, token: string) => {
     const URL = `${BASE_URL}/auth/reset-password`;
-    
+
     try {
         const response = await fetch(URL, {
             method: 'POST',
@@ -264,8 +264,6 @@ export const refreshToken = async () => {
     } catch (error) {
         console.error('Failed to refresh token:', error);
         localStorage.removeItem('access_token');
-        console.log("hello");
-
         // localStorage.removeItem('refresh_token');
         window.location.href = '/dang-nhap';
         return;

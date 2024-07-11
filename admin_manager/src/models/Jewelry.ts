@@ -5,7 +5,7 @@ import { User } from "./User";
 export class Jewelry {
     id: number;
     name: string;
-    price?: number;
+    buy_now_price?: number;
     state?: boolean;
     category?: Category;
     description?: string;
@@ -17,7 +17,7 @@ export class Jewelry {
     constructor(
         id: number,
         name: string,
-        price?: number,
+        buy_now_price?: number,
         state?: boolean,
         brand?: string,
         description?: string,
@@ -28,7 +28,7 @@ export class Jewelry {
     ) {
         this.id = id;
         this.name = name;
-        this.price = price;
+        this.buy_now_price = buy_now_price;
         this.brand = brand;
         this.state = state;
         this.description = description;

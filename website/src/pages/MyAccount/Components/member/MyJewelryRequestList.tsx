@@ -113,14 +113,13 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
                       {formatDateStringAcceptNull(request?.requestTime)}
                     </td>
 
-                      {request.state === "HIDDEN" ? (
-                        <td className="fw-semibold text-start text-danger">
-                          {t("MyJewelryRequestList.Đã bị hủy")}
-                        </td>
-                      ) : (
-                        <td
-                          className={`fw-semibold text-start ${
-                            request.isConfirm ? "text-success" : "text-dark"
+                    {request.state === "HIDDEN" ? (
+                      <td className="fw-semibold text-start text-danger">
+                        {t("MyJewelryRequestList.Đã bị hủy")}
+                      </td>
+                    ) : (
+                      <td
+                        className={`fw-semibold text-start ${request.isConfirm ? "text-success" : "text-dark"
                           }`}
                       >
                         {request.isConfirm

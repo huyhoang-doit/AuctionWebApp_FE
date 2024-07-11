@@ -43,8 +43,6 @@ export async function getAuctionRegistrationByUserId(userId: number, auctionName
     const URL = `${BASE_URL}/auction-registration/get-by-user?userId=${userId}&auctionName=${auctionName}&page=${page - 1}`;
     try {
         const response = await MyRequest(URL);
-        console.log(response);
-
         if (!response || !response.content) {
             throw new Error("Không tìm thấy");
         }

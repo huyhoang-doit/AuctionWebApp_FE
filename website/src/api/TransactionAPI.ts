@@ -21,7 +21,6 @@ export const getTransactionsDashboardByUsername = async (username: string): Prom
     const URL = `${BASE_URL}/transaction/get-by-user-name/${username}`;
     // call api
     const response = await MyRequest(URL);
-    console.log(response);
     return {
         numberTransactionsRequest: response.numberTransactionsRequest,
         totalPriceJewelryWonByUsername: response.totalPriceJewelryWonByUsername,
@@ -175,9 +174,6 @@ export async function setMethodTransaction(transactionId: number, method: string
     // call api
     try {
         const response = await fetchNoBodyWithToken(URL, 'PUT', accessToken);
-
-        console.log(response);
-
         if (!response.ok) {
             throw new Error(`Không thể truy cập ${URL}`);
         }
