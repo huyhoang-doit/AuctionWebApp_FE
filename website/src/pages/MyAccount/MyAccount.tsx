@@ -1,5 +1,4 @@
 import { Link, useLocation } from "react-router-dom";
-// import useAccount from "../../hooks/useAccount";
 import { MyAccountDetail } from "./Components/MyAccountDetail";
 import { useContext, useEffect, useState } from "react";
 import { User } from "../../models/User";
@@ -12,9 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import { MyBidHistoryList } from "./Components/member/MyBidHistoryList";
 import { TransactionHistory } from "./Components/member/TransactionHistory";
-import { MyJewelryRequestList } from "./Components/member/MyJewelryRequestList";
-import MyJewelryNeedConfirmList from "./Components/member/JewellryNeedConfirmList";
-import MyJewelriesList from "./Components/member/MyJewelriesList";
+import MyJewelriesList from "./Components/member/MyJewelryList";
 
 export default function MyAccount() {
   const context = useContext(UserContext);
@@ -160,42 +157,6 @@ export default function MyAccount() {
                       {t("MyAccount.Tài sản của tôi")}
                     </a>
                   </li>
-                  <li
-                    className="nav-item"
-                    onClick={() => {
-                      setListNumber(6);
-                    }}
-                  >
-                    <a
-                      className="nav-link"
-                      id="account-details-tab"
-                      data-bs-toggle="tab"
-                      href="#confirm-jewelry"
-                      role="tab"
-                      aria-controls="account-details"
-                      aria-selected="false"
-                    >
-                      {t("MyAccount.Tài sản cần xác nhận")}
-                    </a>
-                  </li>
-                  <li
-                    className="nav-item"
-                    onClick={() => {
-                      setListNumber(7);
-                    }}
-                  >
-                    <a
-                      className="nav-link"
-                      id="account-details-tab"
-                      data-bs-toggle="tab"
-                      href="#jewelry-request"
-                      role="tab"
-                      aria-controls="account-details"
-                      aria-selected="false"
-                    >
-                      {t("MyAccount.Các yêu cầu đã gửi")}
-                    </a>
-                  </li>
                   <li className="nav-item">
                     <Link to={""}>
                       <LogoutModal />
@@ -223,19 +184,11 @@ export default function MyAccount() {
                     user={userState}
                     listNumber={listNumber}
                   />
-                  <MyJewelryNeedConfirmList
-                    user={userState}
-                    setUser={setUserState}
-                    listNumber={listNumber}
-                  />
                   <MyJewelriesList
                     user={userState}
                     setUser={setUserState}
                     listNumber={listNumber}
-                  />
-                  <MyJewelryRequestList
-                    userId={userState?.id}
-                    listNumber={listNumber}
+                    setListNumber={setListNumber}
                   />
                 </div>
               </div>
