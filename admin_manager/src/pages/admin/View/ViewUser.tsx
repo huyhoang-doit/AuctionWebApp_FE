@@ -48,6 +48,7 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
   });
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setLoading(true)
     getAddressVietNam()
       .then(data => {
@@ -92,36 +93,6 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
       setSelectedWardId(userWard.Id);
     }
   }, [user]);
-
-
-  const getBase64 = (file: File): Promise<string | null> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result ? (reader.result as string) : null);
-      reader.onerror = (error) => reject(error);
-    });
-  }
-
-  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && user) {
-      const file = e.target.files[0];
-      try {
-        // if (file) {
-        const base64 = await getBase64(file);
-        if (base64) {
-          const updatedUser: User = {
-            ...user,
-            avatar: base64
-          };
-          await editProfileUser(updatedUser);
-        }
-        // }
-      } catch (error) {
-        console.error("Error converting file to Base64: ", error);
-      }
-    }
-  }
 
   if (!user) {
     return <div>Loading user details...</div>;
@@ -357,10 +328,6 @@ const ViewUser: React.FC<MyAccountDetailProps> = (props) => {
                                         </p>}
                                     </div>
                                   </div>
-                                  <label htmlFor="customFile" className="custom-file-upload btn btn-xs btn-primary mt-4" style={{ backgroundColor: "black", border: "none", color: "white", width: "140px" }}>
-                                    Đổi ảnh đại diện
-                                  </label>
-                                  <input onChange={handleAvatarChange} id='customFile' type="file" accept="image/*" style={{ display: "none" }} />
                                 </div>
                                 {
                                   (user.state !== 'VERIFIED' && user.cccdFirst && user.cccdLast) ?

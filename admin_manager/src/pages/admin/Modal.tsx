@@ -193,8 +193,8 @@ export const DeleteUserModal: React.FC<DeleteUserProps> = ({ user, setIsRefresh 
     Swal.fire({
       icon: "warning",
       html: `
-        <h4>Xác nhận xóa.</h4>
-        <div>Bạn có chắc muốn xóa người dùng: ${user?.username}?</div>`,
+        <h4>Xác nhận xóa.</h4>
+        <div>Xóa người dùng: ${user?.username} khỏi hệ thống?</div>`,
       showCancelButton: true,
       confirmButtonText: "Đồng ý",
       cancelButtonText: "Hủy",
@@ -224,7 +224,7 @@ export const DeleteUserModal: React.FC<DeleteUserProps> = ({ user, setIsRefresh 
 
   return (
     <>
-      <Button variant="danger" size="sm" onClick={handleDeleteUser}>Xóa</Button>
+      <Button variant="danger" size="sm" onClick={handleDeleteUser}>Xóa</Button>
     </>
   );
 };

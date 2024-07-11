@@ -9,7 +9,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { CreateNewUserModal, DeleteUserModal } from '../Modal';
 
 const ManageStaff = () => {
-  const states = ['ACTIVE', 'INACTIVE', 'VERIFIED']
+  const states = ['VERIFIED', 'ACTIVE', 'INACTIVE']
   const [staffs, setStaffs] = useState<User[]>([])
   const [page, setPage] = useState(1)
   const [totalElements, setTotalElements] = useState(0);
@@ -17,7 +17,7 @@ const ManageStaff = () => {
   const [txtSearch, setTxtSearch] = useState('');
   const [isRefresh, setIsRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [accountState, setAccountState] = useState('ACTIVE');
+  const [accountState, setAccountState] = useState('VERIFIED');
 
   const debouncedTxtSearchChange = useDebouncedCallback(
     (txtSearch: string) => {

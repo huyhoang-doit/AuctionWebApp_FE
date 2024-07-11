@@ -8,8 +8,23 @@ interface BidInfoProps {
 
 export const BidInfo: React.FC<BidInfoProps> = ({ auction }) => {
   const { t } = useTranslation(["Bid"]);
+  
   return (
     <>
+      <div className="col-6">
+        <p className="left-title-text no-margin">
+          Giá mua ngay:
+        </p>
+      </div>
+      <div className="col-6">
+        <p
+          className="right-info-text no-margin fw-bold"
+          style={{ color: "#b41712" }}
+        >
+          {formatNumber(auction?.jewelry?.buyNowPrice)}{" "}
+          VNĐ
+        </p>
+      </div>
       <div className="col-6">
         <p className="left-title-text no-margin">
           {t("BidInfo.Giá cao nhất hiện tại")}
