@@ -253,6 +253,7 @@ export const sendRequestApprovalFromStaff = async (request: SendRequestFromStaff
 };
 export async function getRequestByUserId(userId: number, jewelryName: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
+
   const URL: string = `${BASE_URL}/request-approval/user/${userId}?jewelryName=${jewelryName}&page=${page - 1}`;
   try {
     // request

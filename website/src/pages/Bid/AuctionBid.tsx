@@ -122,14 +122,14 @@ export const AuctionBid = () => {
                         }));
                         setBidValue(receivedData.lastPrice)
                         setDisplayValue(formatNumber(receivedData.lastPrice));
-                        
+
                         const isMeBid = receivedData.username === user?.username;
 
                         if (!isMeBid)
-                            toast.warn('Giá cuối đã thay đổi!', {autoClose: 3000});
+                            toast.warn('Giá cuối đã thay đổi!', { autoClose: 3000 });
 
                         if (!isMeBid && receivedData.bonusTime > 0)
-                            toast.warn('Thời gian kết thúc đấu giá kéo dài thêm 5 giây!', {autoClose: 3000})
+                            toast.warn('Thời gian kết thúc đấu giá kéo dài thêm 5 giây!', { autoClose: 3000 })
 
                         getAuctionRegistrationsByAuctionId(receivedData.auctionId)
                             .then((data) => {
@@ -154,7 +154,6 @@ export const AuctionBid = () => {
             if (connected) {
                 newClient.disconnect(() => {
                     setConnected(false);
-                    // console.log("Disconnected");
                 });
             }
         };
