@@ -1561,10 +1561,10 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
                       if (stompClient && connected) {
                         let bonusTime = 0;
                         if (typeof timeLeft === 'object' &&
-                          timeLeft.days === 0 &&
-                          timeLeft.hours === 0 &&
-                          timeLeft.minutes === 0 &&
-                          timeLeft.seconds < 5 &&
+                          // timeLeft.days === 0 &&
+                          // timeLeft.hours === 0 &&
+                          // timeLeft.minutes === 0 &&
+                          // timeLeft.seconds < 5 &&
                           auction?.state === "ONGOING"
                         ) {
                           bonusTime = 5000;
