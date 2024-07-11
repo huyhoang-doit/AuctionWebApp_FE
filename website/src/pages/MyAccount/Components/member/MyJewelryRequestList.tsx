@@ -76,7 +76,7 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
           <input
             style={{ height: "40px" }}
             type="text"
-            placeholder={t("MyJewelryRequestList.Tên trang sức...")}
+            placeholder={t("MyJewelryRequestList.Tên tài sản...")}
             onChange={handleTxtSearch}
             value={txtSearch}
           />
@@ -87,8 +87,8 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
         <table className="table table-bordered table-hover">
           <thead className="text-center">
             <tr>
-              <th>{t("MyJewelryRequestList.Mã sản phẩm")}</th>
-              <th>{t("MyJewelryRequestList.Tên sản phẩm")}</th>
+              <th>{t("MyJewelryRequestList.Mã tài sản")}</th>
+              <th>{t("MyJewelryRequestList.Tên tài sản")}</th>
               <th>{t("MyJewelryRequestList.Giá mong muốn (VNĐ)")}</th>
               <th>{t("MyJewelryRequestList.Thời gian gửi")}</th>
               <th>{t("MyJewelryRequestList.Trạng thái")}</th>
@@ -113,14 +113,13 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
                       {formatDateStringAcceptNull(request?.requestTime)}
                     </td>
 
-                      {request.state === "HIDDEN" ? (
-                        <td className="fw-semibold text-start text-danger">
-                          {t("MyJewelryRequestList.Đã bị hủy")}
-                        </td>
-                      ) : (
-                        <td
-                          className={`fw-semibold text-start ${
-                            request.isConfirm ? "text-success" : "text-dark"
+                    {request.state === "HIDDEN" ? (
+                      <td className="fw-semibold text-start text-danger">
+                        {t("MyJewelryRequestList.Đã bị hủy")}
+                      </td>
+                    ) : (
+                      <td
+                        className={`fw-semibold text-start ${request.isConfirm ? "text-success" : "text-dark"
                           }`}
                       >
                         {request.isConfirm
