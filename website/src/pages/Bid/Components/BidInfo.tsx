@@ -52,7 +52,7 @@ export const BidInfo: React.FC<BidInfoProps> = ({ auction }) => {
       </div>
       <div className="col-6">
         <p className="left-title-text no-margin">
-          {t("BidInfo.Giá cao nhất của bạn")}{" "}
+          {t("BidInfo.Phí tham gia")}{" "}
         </p>
       </div>
       <div className="col-6">
@@ -62,7 +62,7 @@ export const BidInfo: React.FC<BidInfoProps> = ({ auction }) => {
         >
           <span className="fw-bold novaticPrice registerFee">
             {formatNumber(auction?.participationFee)}
-          </span>
+          </span>{" "}
           VNĐ
         </p>
       </div>
@@ -80,30 +80,6 @@ export const BidInfo: React.FC<BidInfoProps> = ({ auction }) => {
             {formatNumber(auction?.deposit)}
           </span>{" "}
           VNĐ
-        </p>
-      </div>
-      <div className="col-6">
-        <p className="left-title-text no-margin">
-          {t("BidInfo.Giá khởi điểm")}
-        </p>
-      </div>
-      <div className="col-6">
-        <p className="right-info-text no-margin" style={{ color: "#b41712" }}>
-          <span className="fw-bold novaticPrice openningPrice">
-            {formatNumber(auction?.firstPrice)}
-          </span>
-          <span className="fw-bold unitPrice"> VNĐ</span>
-        </p>
-      </div>
-      <div className="col-6">
-        <p className="left-title-text no-margin">{t("BidInfo.Bước giá")}</p>
-      </div>
-      <div className="col-6">
-        <p className="right-info-text no-margin" style={{ color: "#b41712" }}>
-          <span className="fw-bold novaticPrice step-price stepPrice">
-            {formatNumber(auction?.priceStep)}
-          </span>
-          <span className="fw-bold unitPrice"> VNĐ</span>
         </p>
       </div>
     </>
