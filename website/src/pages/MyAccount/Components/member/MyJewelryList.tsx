@@ -59,7 +59,7 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
                 </div>
                 <div
                   id="collapseOne"
-                  className="collapse show"
+                  className="collapse"
                   aria-labelledby="headingOne"
                   data-bs-parent="#accordion"
                 >

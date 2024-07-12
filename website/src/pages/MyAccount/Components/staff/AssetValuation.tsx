@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { User } from "../../../../models/User";
-import { useCategories } from "../../../../hooks/useCategories";
 import { Link } from "react-router-dom";
 import JewelriesWaitList from "./JewelriesWaitList";
 import StaffRequestList from "./StaffRequestList";
@@ -14,7 +13,6 @@ interface AssetValuationtProps {
 
 const AssetValuation: React.FC<AssetValuationtProps> = (props) => {
   const [user, setUser] = useState<User | null>(props.user);
-
 
   useEffect(() => {
     setUser(props.user);

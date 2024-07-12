@@ -88,7 +88,7 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
       <div className="row mb-2">
         <div className="col-md-5">
         </div>
-        <div className="umino-sidebar_categories col-md-4 mb-2">
+        <div className="umino-sidebar_categories col-md-4 px-0 mb-2">
           <input
             style={{ height: "40px" }}
             type="text"
@@ -117,7 +117,7 @@ export const MyJewelryRequestList: React.FC<MyJewelryListProps> = ({
                 key={index}
                 value={category}
               >
-                {t(`JewelriesWaitList.${category}`)}
+                {t(`MyJewelryRequestList.${category}`)}
               </option>
             ))}
           </select>

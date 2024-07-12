@@ -3,15 +3,12 @@ import { MyAccountDetail } from "./Components/MyAccountDetail";
 import useAccount from "../../hooks/useAccount";
 import { useEffect, useState } from "react";
 import { User } from "../../models/User";
-import JewelriesWaitList from "./Components/staff/JewelriesWaitList";
 import AssignedAuctionList from "./Components/staff/AssignedAuctionList";
-import JewelriesHandOverList from "./Components/staff/JewelriesHandOverList";
 import { LogoutModal } from "./Modal/Modal";
 import { ChangePassword } from "./Components/staff/ChangePassword";
-import StaffRequestList from "./Components/staff/StaffRequestList";
 import { useTranslation } from "react-i18next";
-import JewelrySentToWebList from "./Components/staff/JewelrySentToWebList";
 import AssetValuation from "./Components/staff/AssetValuation";
+import ReceiveAndHandover from "./Components/staff/ReceiveAndHandover";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
   const { account, setAccount } = useAccount(token);
@@ -49,7 +46,10 @@ export default function MyAccountStaff() {
                   id="account-page-tab"
                   role="tablist"
                 >
-                  <li className="nav-item">
+                  <li className="nav-item"
+                    onClick={() => {
+                      setListNumber(1);
+                    }}>
                     <a
                       className="nav-link active"
                       id="account-dashboard-tab"
@@ -62,7 +62,10 @@ export default function MyAccountStaff() {
                       {t("MyAccount.ThongTinTaiKhoan")}
                     </a>
                   </li>
-                  <li className="nav-item">
+                  <li className="nav-item"
+                    onClick={() => {
+                      setListNumber(2);
+                    }}>
                     <a
                       className="nav-link"
                       id="change-password-tab"
@@ -103,7 +106,7 @@ export default function MyAccountStaff() {
                       className="nav-link"
                       id="account-details-tab"
                       data-bs-toggle="tab"
-                      href="#staff-request"
+                      href="#receive-handover"
                       role="tab"
                       aria-controls="account-details"
                       aria-selected="false"
@@ -112,7 +115,7 @@ export default function MyAccountStaff() {
                     </a>
                   </li>
                   <li className="nav-item" onClick={() => {
-                    setListNumber(6);
+                    setListNumber(5);
                   }}>
                     <a
                       className="nav-link"
@@ -143,25 +146,18 @@ export default function MyAccountStaff() {
                     user={userState}
                     setUser={setUserState}
                   />
-
                   <ChangePassword user={userState} />
-
                   <AssetValuation
                     user={userState}
                     setUser={setUserState}
                     listNumber={listNumber}
                     setListNumber={setListNumber}
                   />
-                  {/* <JewelriesHandOverList
+                  <ReceiveAndHandover
                     user={userState}
-                    setUser={setUserState}
                     listNumber={listNumber}
-                  /> */}
-                  {/* <JewelrySentToWebList
-                    userId={userState?.id}
-                    listNumber={listNumber}
-                  /> */}
-
+                    setListNumber={setListNumber}
+                  />
                   <AssignedAuctionList
                     user={userState}
                     setUser={setUserState}

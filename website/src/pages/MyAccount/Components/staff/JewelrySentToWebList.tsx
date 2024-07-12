@@ -6,6 +6,7 @@ import { getJewelriesByStateAndHolding } from "../../../../api/JewelryAPI";
 import { ConfirmHoldingModal } from "../../Modal/ModalStaff";
 import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
+import { useCategories } from "../../../../hooks/useCategories";
 interface JewelrySentToWebProps {
   userId: number | undefined;
   listNumber: number;
@@ -22,6 +23,12 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
   const [txtSearch, setTxtSearch] = useState("");
   const { t } = useTranslation(["Staff"]);
+  const [category, setCategory] = useState("Tất cả");
+  const categories = useCategories();
+  const categoryNames: (string | undefined)[] = categories.map(
+    (category) => category.name
+  );
+  categoryNames.unshift("Tất cả");
 
   const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
     setDebouncedTxtSearch(txtSearch);
@@ -41,6 +48,7 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
           jewelryState,
           debouncedTxtSearch,
           false,
+          category,
           page
         );
         setJewelryList(response.jeweriesData);
@@ -51,32 +59,32 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [userId, page, debouncedTxtSearch]);
+  }, [userId, page, debouncedTxtSearch, category]);
 
   useEffect(() => {
     setTxtSearch("");
     debouncedTxtSearchChange("");
+    setCategory("Tất cả");
   }, [listNumber]);
 
   useEffect(() => {
     handleChangeList();
-  }, [userId, page, listNumber, debouncedTxtSearch]);
+  }, [userId, page, listNumber, debouncedTxtSearch, category]);
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value);
+    setPage(1);
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
+  };
 
   return (
-    <div
-      className="tab-pane fade"
-      id="jewelry-sent"
-      role="tabpanel"
-      aria-labelledby="account-address-tab"
-    >
+    <>
       <div className="myaccount-orders">
         <div className="row mb-2">
-          <div className="col-md-7">
-            <h4 className="small-title fw-bold mt-2">
-              {t("JewelrySentToWebList.Danh sách tài sản gửi đến")}
-            </h4>
+          <div className="col-md-5">
           </div>
-          <div className="umino-sidebar_categories col-md-5 mb-2">
+          <div className="umino-sidebar_categories col-md-4 mb-2 px-0 flex">
             <input
               style={{ height: "40px" }}
               type="text"
@@ -84,6 +92,31 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
               value={txtSearch}
               onChange={handleTxtSearch}
             />
+          </div>
+          <div className="umino-sidebar_categories col-md-3 mb-2 flex">
+            <select
+              className="rounded"
+              value={category}
+              onChange={handleCategoryChange}
+              style={{
+                width: "100%",
+                height: "40px",
+                padding: "0 0 0 10px",
+                borderColor: "#fdb828",
+                borderWidth: "2px",
+              }}
+              required
+            >
+              {categoryNames.map((category, index) => (
+                <option
+                  style={{ padding: "5px" }}
+                  key={index}
+                  value={category}
+                >
+                  {t(`JewelriesWaitList.${category}`)}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -156,7 +189,7 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
           ellipsis={1}
         />
       </div>
-    </div>
+    </>
   );
 };
 
