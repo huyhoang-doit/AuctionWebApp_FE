@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom'
 import { JwtPayload, jwtDecode } from 'jwt-decode';
+import TransactionHistoryMenu from './Navbar/TransactionHistoryMenu';
+import AuctionManageMenu from './Navbar/AuctionManageMenu';
+import AssetManageMenu from './Navbar/AssetManageMenu';
 
 
 interface CustomJwtPayload extends JwtPayload {
@@ -26,7 +29,7 @@ const Navbar = () => {
           <i className="ti-close"></i>
         </div>
       </div>
-      <ul id="sidebar_menu">
+      <ul id="sidebar_menu" >
         {userRole === 'ADMIN' && <>
           <li className="mm-active">
             <Link to={"/admin"} aria-expanded="false">
@@ -68,28 +71,13 @@ const Navbar = () => {
               <span>Thống kê </span>
             </Link>
           </li>
-          <li >
-            <Link className="has-arrow" to={"/manager/yeu-cau-dau-gia"} aria-expanded="false">
-              <img src="/assets/img/menu-icon/2.svg" />
-              <span>Danh sách các yêu cầu đấu giá</span>
-            </Link>
-          </li>
-          <li >
-            <Link className="has-arrow" to={"/manager/cac-phien-dau-gia"} aria-expanded="false">
-              <img src="/assets/img/menu-icon/7.svg" />
-              <span>Danh sách các phiên đấu giá</span>
-            </Link>
-          </li>
+          <AuctionManageMenu />
+          <AssetManageMenu />
+          <TransactionHistoryMenu />
           <li >
             <Link className="has-arrow" to={"/manager/dang-ky-dau-gia"} aria-expanded="false">
-              <i className="fa-solid fa-user"></i>
+              <i className="fa-solid fa-user-group"></i>
               <span>Danh sách đăng ký tham gia đấu giá</span>
-            </Link>
-          </li>
-          <li>
-            <Link className="has-arrow" to={"/manager/tai-san-dang-cho"} aria-expanded="false">
-              <img src="/assets/img/menu-icon/3.svg" />
-              <span>Danh sách tài sản đủ điều kiện đấu giá</span>
             </Link>
           </li>
           <li>
@@ -97,24 +85,6 @@ const Navbar = () => {
               <i className="fa-solid fa-circle-exclamation"></i>
               <span>Danh sách hóa đơn quá hạn thanh toán</span>
             </Link>
-          </li>
-          <li >
-            <Link className="has-arrow" to={"/manager/phien-that-bai"} aria-expanded="false">
-              <i className="fa-solid fa-circle-exclamation"></i>
-              <span>Danh sách các phiên đấu giá thất bại</span>
-            </Link>
-          </li>
-          <li >
-            <Link className="has-arrow" to={"/manager/giao-dich/nguoi-ban"} aria-expanded="false">
-              <img src="/assets/img/menu-icon/7.svg" />
-              <span>Lịch sử giao dịch</span>
-            </Link>
-            <ul>
-              <li><Link to={"/manager/giao-dich/nguoi-ban"}>Giao dịch với người bán</Link></li>
-              <li><Link to={"/manager/giao-dich/nguoi-mua"}>Giao dịch với người mua</Link></li>
-              <li><Link to={"/manager/giao-dich/dang-ky-tham-gia"}>Đăng ký tham gia</Link></li>
-              <li><Link to={"/manager/giao-dich/hoan-tien"}>Hoàn tiền</Link></li>
-            </ul>
           </li>
         </>
         }
