@@ -1,19 +1,23 @@
 {
-    "MyJewelryRequestList" : {
-        "Danh sách các tài sản yêu cầu của tôi" : "List of my required assets",
-        "Mã tài sản" : "Asset ID",
-        "Tên tài sản" : "Asset name",
-        "Giá mong muốn (VNĐ)" : "Desired price (VND)",
-        "Thời gian gửi" : "Sending time",
-        "Trạng thái" : "Status",
-        "Thao tác" : "Action",
-        "Đã phê duyệt" : "Approved",
-        "Chưa phê duyệt" : "Not approved",
-        "Chưa có yêu cầu nào được gửi đi" : "No request has been sent",
-        "Tên tài sản..." : "Asset name...",
-        "Đã bị hủy" : "Cancelled"
-        
-
-
+    "MyJewelryRequestList": {
+        "Danh sách các tài sản yêu cầu của tôi": "List of my required assets",
+        "Mã tài sản": "Asset ID",
+        "Tên tài sản": "Asset name",
+        "Giá mong muốn (VNĐ)": "Desired price (VND)",
+        "Thời gian gửi": "Sending time",
+        "Trạng thái": "Status",
+        "Thao tác": "Action",
+        "Đã phê duyệt": "Approved",
+        "Chưa phê duyệt": "Not approved",
+        "Chưa có yêu cầu nào được gửi đi": "No request has been sent",
+        "Tên tài sản...": "Asset name...",
+        "Đã bị hủy": "Cancelled",
+        "Tất cả": "Option",
+        "Dây chuyền": "Necklace",
+        "Nhẫn": "Ring",
+        "Vòng cổ": "Necklace",
+        "Hoa tai": "Earring",
+        "Vòng tay": "Bracelet",
+        "Mặt dây chuyền": "Necklace pendant"
     }
 }

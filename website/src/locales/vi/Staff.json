@@ -15,7 +15,7 @@
         "Mã tài sản": "Mã tài sản",
         "Tên tài sản": "Tên tài sản",
         "Người gửi": "Người gửi",
-        "Giá": "Giá",
+        "Giá mong muốn": "Giá mong muốn",
         "Ảnh": "Ảnh",
         "Xem chi tiết": "Xem chi tiết",
         "Chưa có yêu cầu nào được gửi đến": "Chưa có yêu cầu nào được gửi đến",
@@ -27,7 +27,6 @@
         "Hoa tai": "Hoa tai",
         "Vòng tay": "Vòng tay",
         "Mặt dây chuyền": "Mặt dây chuyền"
-
     },
     "StaffRequestList": {
         "Danh sách các yêu cầu gửi lên quản lý": "Danh sách các yêu cầu gửi lên quản lý",

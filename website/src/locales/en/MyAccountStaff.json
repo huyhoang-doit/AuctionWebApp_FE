@@ -3,10 +3,13 @@
         "TaiKhoanCuaToi": "My Account",
         "ThongTinTaiKhoan": "Account Information",
         "DoiMatKhau": "Change Password",
-        "ListCacYeuCauGuiToi": "List of request from member",
-        "ListCacYeuCauGuiDi": "List of requests sent",
-        "ListCacTrangSucGuiToi": "List of jewelry sent",
-        "ListTrangSucBanGiao": "List of jewelry handed over",
+        "DinhGiaTaiSan": "Asset valuation",
+        "TiepNhanVaBanGiao": "Receive / Hand over assets",
+        "ListCacYeuCauDinhGia": "List of assets needing valuation",
+        "ListCacDinhGia": "List of assets that have been valued",
+        "ListTaiSanTiepNhan": "List of jewelry sent",
+        "ListTaiSanBanGiao": "List of jewelry handed over",
+        "ListTaiSanHoanTra": "List of assets returned to violators",
         "CacPhienDuocPhanCong": "Auction sessions are assigned"
     }
 }
