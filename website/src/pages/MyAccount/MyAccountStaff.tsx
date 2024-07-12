@@ -11,6 +11,7 @@ import { ChangePassword } from "./Components/staff/ChangePassword";
 import StaffRequestList from "./Components/staff/StaffRequestList";
 import { useTranslation } from "react-i18next";
 import JewelrySentToWebList from "./Components/staff/JewelrySentToWebList";
+import AssetValuation from "./Components/staff/AssetValuation";
 export default function MyAccountStaff() {
   const token = localStorage.getItem("access_token");
   const { account, setAccount } = useAccount(token);
@@ -84,12 +85,12 @@ export default function MyAccountStaff() {
                       className="nav-link"
                       id="account-orders-tab"
                       data-bs-toggle="tab"
-                      href="#account-orders"
+                      href="#asset-valuation"
                       role="tab"
                       aria-controls="account-orders"
                       aria-selected="false"
                     >
-                      {t("MyAccount.ListCacYeuCauGuiToi")}
+                      {t("MyAccount.DinhGiaTaiSan")}
                     </a>
                   </li>
                   <li
@@ -107,40 +108,7 @@ export default function MyAccountStaff() {
                       aria-controls="account-details"
                       aria-selected="false"
                     >
-                      {t("MyAccount.ListCacYeuCauGuiDi")}
-                    </a>
-                  </li>
-                  <li
-                    className="nav-item"
-                    onClick={() => {
-                      setListNumber(4);
-                    }}
-                  >
-                    <a
-                      className="nav-link"
-                      id="account-details-tab"
-                      data-bs-toggle="tab"
-                      href="#jewelry-sent"
-                      role="tab"
-                      aria-controls="account-details"
-                      aria-selected="false"
-                    >
-                      {t("MyAccount.ListCacTrangSucGuiToi")}
-                    </a>
-                  </li>
-                  <li className="nav-item" onClick={() => {
-                    setListNumber(5);
-                  }}>
-                    <a
-                      className="nav-link"
-                      id="account-address-tab"
-                      data-bs-toggle="tab"
-                      href="#account-address"
-                      role="tab"
-                      aria-controls="account-address"
-                      aria-selected="false"
-                    >
-                      {t("MyAccount.ListTrangSucBanGiao")}
+                      {t("MyAccount.TiepNhanVaBanGiao")}
                     </a>
                   </li>
                   <li className="nav-item" onClick={() => {
@@ -178,26 +146,21 @@ export default function MyAccountStaff() {
 
                   <ChangePassword user={userState} />
 
-                  <JewelriesWaitList
+                  <AssetValuation
                     user={userState}
                     setUser={setUserState}
                     listNumber={listNumber}
+                    setListNumber={setListNumber}
                   />
-                  <JewelriesHandOverList
+                  {/* <JewelriesHandOverList
                     user={userState}
                     setUser={setUserState}
                     listNumber={listNumber}
-                  />
-
-                  <StaffRequestList
+                  /> */}
+                  {/* <JewelrySentToWebList
                     userId={userState?.id}
                     listNumber={listNumber}
-                  />
-
-                  <JewelrySentToWebList
-                    userId={userState?.id}
-                    listNumber={listNumber}
-                  />
+                  /> */}
 
                   <AssignedAuctionList
                     user={userState}

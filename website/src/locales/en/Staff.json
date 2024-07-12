@@ -15,7 +15,7 @@
         "Mã tài sản": "Asset ID",
         "Tên tài sản": "Asset name",
         "Người gửi": "Sender",
-        "Giá": "Price",
+        "Giá mong muốn": "Desired price",
         "Ảnh": "Image",
         "Xem chi tiết": "View detail",
         "Chưa có yêu cầu nào được gửi đến": "There is no request sent",
@@ -27,7 +27,6 @@
         "Hoa tai": "Earring",
         "Vòng tay": "Bracelet",
         "Mặt dây chuyền": "Necklace pendant"
-
     },
     "StaffRequestList": {
         "Danh sách các yêu cầu gửi lên quản lý": "List of requests sent to management",

@@ -189,10 +189,10 @@ export const sendRequestApprovalFromStaff = async (request: SendRequestFromStaff
     return false;
   }
 };
-export async function getRequestByUserId(userId: number, jewelryName: string, page: number): Promise<ResultPageableInteface> {
+export async function getRequestByUserId(userId: number, jewelryName: string, category: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
 
-  const URL: string = `${BASE_URL}/request-approval/user/${userId}?jewelryName=${jewelryName}&page=${page - 1}`;
+  const URL: string = `${BASE_URL}/request-approval/user/${userId}?jewelryName=${jewelryName}&category=${category}&page=${page - 1}`;
   try {
     // request
     const response = await MyRequest(URL);
