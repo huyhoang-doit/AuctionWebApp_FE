@@ -1,4 +1,5 @@
 import BASE_URL from "../config/config";
+import { mapJewelry } from "../mappings/mapJewelry";
 import { Jewelry } from "../models/Jewelry";
 import { fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
@@ -18,22 +19,6 @@ interface JewelryRequest {
 interface ResultPageableInteface {
   jeweriesData: Jewelry[];
   totalElements: number
-}
-
-function mapJewelry(jewelryData: any): Jewelry {
-  return {
-    id: jewelryData.id,
-    name: jewelryData.name,
-    buy_now_price: jewelryData.buy_now_price,
-    state: jewelryData.state,
-    category: jewelryData.category,
-    description: jewelryData.description,
-    material: jewelryData.material,
-    brand: jewelryData.brand,
-    weight: jewelryData.weight,
-    user: jewelryData.user,
-    isHolding: jewelryData.isHolding
-  };
 }
 
 export async function getJewelriesPagination(username: string, page: number): Promise<ResultPageableInteface> {
@@ -58,18 +43,6 @@ export async function getJewelriesPagination(username: string, page: number): Pr
     console.error("Error fetching jewelries:", error);
     throw new Error("Failed to fetch jewelries");
   }
-}
-
-async function getJewelries(URL: string): Promise<Jewelry[]> {
-  let result: Jewelry[] = [];
-
-  // request
-  const response = await MyRequest(URL);
-  for (const key in response) {
-    result.push(mapJewelry(response[key]));
-  }
-
-  return result;
 }
 
 export const sendJewelryFromUser = async (jewelryRequest: JewelryRequest): Promise<boolean> => {
@@ -112,7 +85,6 @@ export async function getJewelriesByStateAndHolding(state: string, jewelryName: 
 
   const URL: string = `${BASE_URL}/jewelry/is-holding?state=${state}&jewelryName=${jewelryName}&isHolding=${holding}&page=${page - 1}`;
 
-  const jewelrys: Jewelry[] = [];
   // request
   try {
     const response = await MyRequest(URL);
@@ -150,29 +122,20 @@ export async function setJewelryHolding(id: number, state: boolean): Promise<boo
 export async function getJewelriesActiveByUserId(userId: number, jewelryName: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
   const URL: string = `${BASE_URL}/jewelry/user-jewelry/${userId}?jewelryName=${jewelryName}&page=${page - 1}`;
-  const jewelrys: Jewelry[] = [];
   // request
-  const response = await MyRequest(URL);
-  const responseData = response.content;
-  const totalElements = response.totalElements;
 
-  for (const key in responseData) {
-    jewelrys.push({
-      id: responseData[key].id,
-      name: responseData[key].name,
-      buy_now_price: responseData[key].buy_now_price,
-      state: responseData[key].state,
-      category: responseData[key].category,
-      description: responseData[key].description,
-      material: responseData[key].material,
-      brand: responseData[key].brand,
-      weight: responseData[key].weight,
-      user: responseData[key].user
-    })
-  }
-  return {
-    jeweriesData: jewelrys,
-    totalElements: totalElements
+  try {
+    const response = await MyRequest(URL);
+    const jeweriesData: Jewelry[] = response.content.map((jewelry: any) => mapJewelry(jewelry));
+    const totalElements = response.totalElements;
+
+    return {
+      jeweriesData: jeweriesData,
+      totalElements: totalElements
+    }
+  } catch (error) {
+    console.error("Error fetching auctions:", error);
+    throw new Error("Trang sức không tồn tại");
   }
 }
 

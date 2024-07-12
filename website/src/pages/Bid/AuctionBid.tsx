@@ -332,6 +332,10 @@ export const AuctionBid = () => {
         return null;
     };
 
+    function isStaff(user: User | null, staff: User | null) {
+        return user && staff && user.id === staff.id;
+    }
+
     return (
         <>
             <div className="template-color-1">
@@ -393,7 +397,7 @@ export const AuctionBid = () => {
                                             <div className="row">
                                                 <h4 className="no-margin fw-bold mb-4">ĐẶT GIÁ (VNĐ)</h4>
                                                 <BidInfo auction={auction} />
-                                                {!isEnding &&
+                                                {(!isEnding && !isStaff(user, staff)) &&
                                                     <>
                                                         <div className="col-9 d-flex align-items-center">
                                                             <button

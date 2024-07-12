@@ -1302,6 +1302,20 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
 
                       <div className="checkout-form-list my-4 col-md-6">
                         <div className="checkout-form-list mb-2">
+                          <span>Mã giao dịch: </span>
+                          <span className="fw-bold">
+                            {" "}
+                            {transaction.transactionCode}
+                          </span>
+                        </div>
+                        <div className="checkout-form-list mb-2">
+                          <span>Mã ngân hàng: </span>
+                          <span className="fw-bold">
+                            {" "}
+                            {transaction.bankCode}
+                          </span>
+                        </div>
+                        <div className="checkout-form-list mb-2">
                           <span>Loại giao dịch: </span>
                           <span className="fw-bold">
                             {" "}

@@ -153,26 +153,15 @@ export async function getTopSpentUser() {
     }
 
     const data = await response.json();
-
-    const users: User[] = data.map((item: { user: User, totalSpent: number }) => ({
-        id: item.user.id,
-        username: item.user.username,
-        firstName: item.user.firstName,
-        lastName: item.user.lastName,
-        email: item.user.email,
-        fullName: item.user.fullName,
-        phone: item.user.phone,
-        address: item.user.address,
-        district: item.user.district,
-        ward: item.user.ward,
-        city: item.user.city,
-        yob: item.user.yob,
-        cccd: item.user.cccd,
-        state: item.user.state,
-        avatar: item.user.avatar,
-        bankAccountNumber: item.user.bankAccountNumber,
-        bankAccountName: item.user.bankAccountName,
-        totalSpent: item.totalSpent,
+    
+    const users: User[] = data.map((item: any) => ({
+        id: item.id,
+        username: item.username,
+        email: item.email,
+        fullName: item.fullName,
+        phone: item.phone,
+        avatar: item.avatar,
+        totalSpent: item.totalSpent
     }));
 
 

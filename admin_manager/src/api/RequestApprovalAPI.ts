@@ -1,76 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { User } from "../models/User";
 import { MyRequest } from "./MyRequest";
 import { fetchWithToken } from './AuthenticationAPI';
 import { RequestApproval } from '../models/RequestApproval';
 import BASE_URL from '../global_variable/config';
-import { Jewelry } from "../models/Jewelry";
+import { mapRequestApproval } from "../mappings/mapRequestApproval";
 
 interface ResultPageableInteface {
   requestsData: RequestApproval[];
   totalElements: number
-}
-
-function mapJewelry(jewelryData: any): Jewelry {
-  return {
-    id: jewelryData.id,
-    name: jewelryData.name,
-    description: jewelryData.description,
-    user: mapUser(jewelryData.user),
-    brand: jewelryData.brand,
-    category: jewelryData.category,
-    material: jewelryData.material,
-    weight: jewelryData.weight
-  };
-}
-
-function mapUser(userData: any): User {
-  return {
-    id: userData.id,
-    username: userData.username,
-    fullName: userData.fullName,
-    firstName: userData.firstName,
-    lastName: userData.lastName,
-    password: userData.password,
-    state: userData.state,
-    cccdFirst: userData.cccdFirst,
-    cccdLast: userData.cccdLast,
-    cccdFrom: userData.cccdFrom,
-    email: userData.email,
-    phone: userData.phone,
-    address: userData.address,
-    district: userData.district,
-    ward: userData.ward,
-    city: userData.city,
-    yob: userData.yob,
-    cccd: userData.cccd,
-    bank: userData.bank,
-    bankAccountNumber: userData.bankAccountNumber,
-    bankAccountName: userData.bankAccountName,
-  };
-}
-
-function mapRequestApproval(response: any): RequestApproval {
-  const mappedJewelry: Jewelry = mapJewelry(response.jewelry);
-  const mappedStaff: User | undefined = response.staff ? mapUser(response.staff) : undefined;
-  const mappedSender: User | undefined = response.sender ? mapUser(response.sender) : undefined;
-  const mappedResponder: User | undefined = response.responder ? mapUser(response.responder) : undefined;
-
-  return {
-    id: response.id,
-    isConfirm: response.confirm,
-    desiredPrice: response.desiredPrice,
-    valuation: response.valuation,
-    requestTime: response.requestTime,
-    responseTime: response.responseTime,
-    state: response.state,
-    jewelry: mappedJewelry,
-    staff: mappedStaff,
-    sender: mappedSender,
-    responder: mappedResponder,
-    note: response.note
-  };
 }
 
 export async function getRequestById(requestId: number): Promise<RequestApproval | null> {

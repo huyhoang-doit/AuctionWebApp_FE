@@ -352,16 +352,16 @@ export default function Index() {
                               <h3><span className="counter">{totalUser} Tài khoản</span> </h3>
                             </div>
                             <div className="single_quick_activity">
-                              <h4>Số tài khoản đã xác minh</h4>
-                              <h3><span className="counter">{totalUsersVerified} Tài khoản</span> </h3>
+                              <h4>Số tài khoản chưa kích hoạt</h4>
+                              <h3><span className="counter">{totalUsersInActive} Tài khoản</span></h3>
                             </div>
                             <div className="single_quick_activity">
                               <h4>Số tài khoản đã kích hoạt</h4>
                               <h3><span className="counter">{totalUsersActive} Tài khoản</span> </h3>
                             </div>
                             <div className="single_quick_activity">
-                              <h4>Số tài khoản chưa kích hoạt</h4>
-                              <h3><span className="counter">{totalUsersInActive} Tài khoản</span> </h3>
+                              <h4>Số tài khoản đã xác thực</h4>
+                              <h3><span className="counter">{totalUsersVerified} Tài khoản</span> </h3>
                             </div>
                           </>
                         }
@@ -493,9 +493,7 @@ export default function Index() {
                       <tbody>
                         {users.map((user) => (
                           <tr key={user.id}>
-                            <td>
-                              {user.id}
-                            </td>
+                            <td>{user.id}</td>
                             <td><img src={user.avatar} alt='' style={{ width: "60px" }} /></td>
                             <td>{user.username}</td>
                             <td>{user.fullName}</td>
@@ -523,13 +521,13 @@ export default function Index() {
                     <div className="main-title">
                       <h3 className="mb-0">Số lượng người dùng đã đăng kí</h3>
                     </div>
-                  </div>
-                  <div className="box_select d-flex justify-content-end mb-4">
-                    <select className="nice_Select2" value={selectedYearRegisterAccount} onChange={handleYearRegisterAccount}>
-                      {years.map((year) => (
-                        <option key={year} value={year}>{`Năm ${year}`}</option>
-                      ))}
-                    </select>
+                    <div className="box_select d-flex justify-content-end">
+                      <select className="nice_Select2" value={selectedYearRegisterAccount} onChange={handleYearRegisterAccount}>
+                        {years.map((year) => (
+                          <option key={year} value={year}>{`Năm ${year}`}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                   <Line data={lineData1} options={options} />
                 </div>

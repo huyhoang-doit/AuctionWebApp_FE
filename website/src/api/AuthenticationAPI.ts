@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import BASE_URL from "../config/config";
 
 interface LoginRequest {
@@ -46,16 +47,19 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
         if (response.status === 200) {
             const data = await response.json();
             const jwt = data.access_token;
-            // const refreshToken = data.refresh_token;
-
             localStorage.setItem('access_token', jwt);
-            // localStorage.setItem('refresh_token', refreshToken);
 
             return true;
         } else if (response.status === 202) {
-            throw new Error('Your account is inactive, you need check email to active your account!');
+            // throw new Error('Your account is inactive, you need check email to active your account!');
+            Swal.fire("Kích hoạt tài khoản", "Tài khoản của bạn chưa kích hoạt. Vui lòng kiểm tra email để kích hoạt tài khoản!", "warning");
+            return false;
+        } else if (response.status === 403) {
+            const data = await response.json();
+            Swal.fire("Tài khoản của bạn đã bị khoá!", "Tài khoản của bạn đã bị khóa do: <br/>" + data.banReason + " <br/>Vui lòng liên hệ 0707.064.154 để được hỗ trợ.", "error");
+            return false;
         } else {
-            throw new Error('Login failed. Please check your username and password!');
+            throw new Error('Đăng nhập không thành công. Vui lòng kiểm tra lại username hoặc mật khẩu.');
         }
     } catch (error) {
         setError((error as Error).message);
