@@ -78,11 +78,11 @@ const RequestWaitlist = () => {
               <div className="col-12">
                 <div className="breadcrumb-area">
                   <Link to="/manager">Trang chủ  / </Link>
-                  <Link to="/manager/yeu-cau-dau-gia">Danh sách các yêu cầu đấu giá</Link>
+                  <Link to="/manager/yeu-cau-dau-gia">Danh sách tài sản cần phê duyệt</Link>
                 </div>
                 <div className="QA_section">
                   <div className="white_box_tittle list_header">
-                    <h4>Các yêu cầu đấu giá</h4>
+                    <h4>Danh sách tài sản cần phê duyệt</h4>
                     <div className="box_right d-flex lms_block">
                       <div className="serach_field_2">
                         <div className="search_inner">

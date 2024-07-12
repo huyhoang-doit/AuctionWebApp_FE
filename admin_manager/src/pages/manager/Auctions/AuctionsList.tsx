@@ -79,7 +79,7 @@ const AuctionsList = () => {
                 </div>
                 <div className="QA_section">
                   <div className="white_box_tittle list_header">
-                    <h4>Các phiên đấu giá</h4>
+                    <h4>Danh sách các phiên đấu giá</h4>
                     <div className="box_right d-flex lms_block">
                       <div className="serach_field_2">
                         <div className="search_inner">
