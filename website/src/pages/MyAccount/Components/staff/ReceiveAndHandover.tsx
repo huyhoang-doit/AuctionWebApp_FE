@@ -3,6 +3,7 @@ import { User } from "../../../../models/User";
 import { Link } from "react-router-dom";
 import JewelriesHandOverList from "./JewelriesHandOverList";
 import JewelrySentToWebList from "./JewelrySentToWebList";
+import JewelriesReturnViolatorList from "./JewelriesReturnViolatorList";
 interface ReceiveAndHandoverProps {
   user: User | null;
   listNumber: number;
@@ -94,7 +95,7 @@ const ReceiveAndHandover: React.FC<ReceiveAndHandoverProps> = (props) => {
                 </div>
               </div>
             </div>
-            {/* <div className="card">
+            <div className="card">
               <div className="card-header p-3" id="headingThree"
                 style={{ backgroundColor: '#333333', border: '1px solid #fed100' }}
                 onClick={() => {
@@ -122,14 +123,14 @@ const ReceiveAndHandover: React.FC<ReceiveAndHandoverProps> = (props) => {
                 data-bs-parent="#accordion"
               >
                 <div className="card-body">
-                  <JewelriesHandOverList
+                  <JewelriesReturnViolatorList
                     user={user}
                     setUser={setUser}
                     listNumber={props.listNumber}
                   />
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

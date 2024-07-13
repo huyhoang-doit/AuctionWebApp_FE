@@ -139,6 +139,26 @@ export async function getJewelriesActiveByUserId(userId: number, jewelryName: st
   }
 }
 
+export async function getJewelriesReturned(jewelryName: string, category: string, page: number): Promise<ResultPageableInteface> {
+  // endpoint
+  const URL: string = `${BASE_URL}/jewelry/return-violator?jewelryName=${jewelryName}&category=${category}&page=${page - 1}`;
+  // request
+
+  try {
+    const response = await MyRequest(URL);
+    const jeweriesData: Jewelry[] = response.content.map((jewelry: any) => mapJewelry(jewelry));
+    const totalElements = response.totalElements;
+
+    return {
+      jeweriesData: jeweriesData,
+      totalElements: totalElements
+    }
+  } catch (error) {
+    console.error("Error fetching auctions:", error);
+    throw new Error("Trang sức không tồn tại");
+  }
+}
+
 
 export async function setJewelryHidden(id: number): Promise<boolean> {
   // endpoint

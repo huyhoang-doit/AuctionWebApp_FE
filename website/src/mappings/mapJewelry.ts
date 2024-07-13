@@ -14,5 +14,7 @@ export function mapJewelry(jewelryData: any): Jewelry {
     weight: jewelryData.weight,
     isHolding: jewelryData.isHolding,
     state: jewelryData.state,
+    receivedDate: jewelryData.receivedDate,
+    deliveryDate: jewelryData.deliveryDate
   };
 }

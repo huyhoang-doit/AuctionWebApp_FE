@@ -119,9 +119,9 @@ export async function getTransactionsByTypeAndState(type: string, state: string,
     }
 }
 
-export async function getHandoverTransaction(type: string, jewelryName: string, page: number): Promise<ResultInteface> {
+export async function getHandoverTransaction(type: string, jewelryName: string, category: string, page: number): Promise<ResultInteface> {
     // end-point
-    const URL = `${BASE_URL}/transaction/get-handover?type=${type}&jewelryName=${jewelryName}&page=${page - 1}`;
+    const URL = `${BASE_URL}/transaction/get-handover?type=${type}&jewelryName=${jewelryName}&category=${category}&page=${page - 1}`;
     // call api
     try {
         const response = await MyRequest(URL);

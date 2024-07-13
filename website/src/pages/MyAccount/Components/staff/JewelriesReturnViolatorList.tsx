@@ -1,28 +1,27 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { User } from "../../../../models/User";
-import JewelryHandOverSingle from "./JewelryHandOverSingle";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { Spinner } from "react-bootstrap";
-import { Transaction } from "../../../../models/Transaction";
-import { getHandoverTransaction } from "../../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
 import { useCategories } from "../../../../hooks/useCategories";
+import { getJewelriesReturned } from "../../../../api/JewelryAPI";
+import { Jewelry } from "../../../../models/Jewelry";
+import JewelriesReturnViolatorSingle from "./JewelriesReturnViolatorSingle";
 
-interface JewelriesHandOverListProps {
+interface JewelriesReturnViolatorListProps {
   user: User | null;
   setUser: (user: User) => void;
   listNumber: number;
 }
-const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
-  const [listTransactions, setListTransactions] = useState<Transaction[]>([]);
+const JewelriesReturnViolatorList: React.FC<JewelriesReturnViolatorListProps> = (props) => {
+  const [listJewelries, setListJewelries] = useState<Jewelry[]>([]);
   const [user, setUser] = useState<User | null>(props.user);
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
   const [txtSearch, setTxtSearch] = useState("");
-  const type: string = "PAYMENT_TO_WINNER";
   const { t } = useTranslation(["Staff"]);
   const [category, setCategory] = useState("Tất cả");
   const categories = useCategories();
@@ -45,9 +44,9 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
   }, [props.user]);
   const handleChangeList = useCallback(async () => {
     setLoading(true);
-    getHandoverTransaction(type, debouncedTxtSearch, category, page)
+    getJewelriesReturned(debouncedTxtSearch, category, page)
       .then((response) => {
-        setListTransactions(response.transactions);
+        setListJewelries(response.jeweriesData);
         setTotalElements(response.totalElements);
       })
       .catch((error) => {
@@ -82,7 +81,7 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
             <input
               style={{ height: "40px" }}
               type="text"
-              placeholder={t("JewelriesHandOverList.Tên tài sản...")}
+              placeholder={t("JewelriesReturnViolatorList.Tên tài sản...")}
               value={txtSearch}
               onChange={handleTxtSearch}
             />
@@ -117,12 +116,12 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
-                <th>{t("JewelriesHandOverList.Mã tài sản")}</th>
-                <th>{t("JewelriesHandOverList.Tên tài sản")}</th>
-                <th>{t("JewelriesHandOverList.Phiên đấu")}</th>
-                <th>{t("JewelriesHandOverList.Giá cuối")}</th>
-                <th>{t("JewelriesHandOverList.Phương thức thanh toán")}</th>
-                <th>{t("JewelriesHandOverList.Thao tác")}</th>
+                <th>{t("JewelriesReturnViolatorList.Mã tài sản")}</th>
+                <th>{t("JewelriesReturnViolatorList.Tên tài sản")}</th>
+                <th>{t("JewelriesReturnViolatorList.Chủ tài sản")}</th>
+                <th>{t("JewelriesReturnViolatorList.Giá mong muốn")}</th>
+                <th>{t("JewelriesReturnViolatorList.Ngày tiếp nhận")}</th>
+                <th>{t("JewelriesReturnViolatorList.Thao tác")}</th>
               </tr>
               {loading ? (
                 <tr>
@@ -130,11 +129,11 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
                     <Spinner animation="border" />
                   </td>
                 </tr>
-              ) : listTransactions.length > 0 ? (
-                listTransactions.map((transaction) => (
-                  <JewelryHandOverSingle
-                    key={transaction.id}
-                    transaction={transaction}
+              ) : listJewelries.length > 0 ? (
+                listJewelries.map((jewelry) => (
+                  <JewelriesReturnViolatorSingle
+                    key={jewelry.id}
+                    jewelry={jewelry}
                     user={props.user}
                     handleChangeList={handleChangeList}
                   />
@@ -142,7 +141,7 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
               ) : (
                 <td colSpan={6} className="text-center">
                   <h5 className="fw-semibold lh-base mt-2">
-                    {t("JewelriesHandOverList.Không có giao dịch nào")}
+                    {t("JewelriesReturnViolatorList.Không có giao dịch nào")}
                   </h5>
                 </td>
               )}
@@ -166,4 +165,4 @@ const JewelriesHandOverList: React.FC<JewelriesHandOverListProps> = (props) => {
   );
 };
 
-export default JewelriesHandOverList;
+export default JewelriesReturnViolatorList;
