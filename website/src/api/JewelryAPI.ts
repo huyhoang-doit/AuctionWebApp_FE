@@ -7,7 +7,7 @@ import { MyRequest } from "./MyRequest";
 interface JewelryRequest {
   id: number;
   name: string;
-  buy_now_price: number;
+  buyNowPrice: number;
   category: string | undefined;
   description: string;
   material: string;
@@ -122,6 +122,26 @@ export async function setJewelryHolding(id: number, state: boolean): Promise<boo
 export async function getJewelriesActiveByUserId(userId: number, jewelryName: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
   const URL: string = `${BASE_URL}/jewelry/user-jewelry/${userId}?jewelryName=${jewelryName}&page=${page - 1}`;
+  // request
+
+  try {
+    const response = await MyRequest(URL);
+    const jeweriesData: Jewelry[] = response.content.map((jewelry: any) => mapJewelry(jewelry));
+    const totalElements = response.totalElements;
+
+    return {
+      jeweriesData: jeweriesData,
+      totalElements: totalElements
+    }
+  } catch (error) {
+    console.error("Error fetching auctions:", error);
+    throw new Error("Trang sức không tồn tại");
+  }
+}
+
+export async function getJewelriesReturned(jewelryName: string, category: string, page: number): Promise<ResultPageableInteface> {
+  // endpoint
+  const URL: string = `${BASE_URL}/jewelry/return-violator?jewelryName=${jewelryName}&category=${category}&page=${page - 1}`;
   // request
 
   try {

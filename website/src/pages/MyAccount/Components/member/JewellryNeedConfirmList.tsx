@@ -60,13 +60,13 @@ const MyJewelryNeedConfirmList: React.FC<MyJewelryNeedConfirmProps> = (props) =>
 
   useEffect(() => {
     handleChangeList();
-  }, [user, page, props.listNumber, debouncedTxtSearch]);
+  }, [user, page, props.listNumber, handleChangeList, debouncedTxtSearch]);
 
   useEffect(() => {
     if (user) {
       handleChangeList();
     }
-  }, [user, page, props.listNumber, debouncedTxtSearch]);
+  }, [user, page, props.listNumber, handleChangeList, debouncedTxtSearch]);
 
   useEffect(() => {
     setTxtSearch("");

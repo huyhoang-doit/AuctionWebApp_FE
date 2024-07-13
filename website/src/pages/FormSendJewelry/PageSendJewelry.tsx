@@ -18,7 +18,7 @@ import { JEWELRY_IMAGES_FOLDER } from "../../config/firebaseconfig";
 interface JewelryRequest {
   id: number;
   name: string;
-  buy_now_price: number;
+  buyNowPrice: number;
   category: string | undefined;
   description: string;
   material: string;
@@ -43,7 +43,7 @@ export const PageSendJewelry = () => {
 
   const [productName, setProductName] = useState("");
   const [productType, setProductType] = useState<string | undefined>("");
-  const [buy_now_price, setPrice] = useState<number | undefined>(undefined);
+  const [buyNowPrice, setPrice] = useState<number | undefined>(undefined);
   const [priceDisplay, setPriceDisplay] = useState("");
   const [brand, setBrand] = useState("");
   const [weight, setWeight] = useState(0);
@@ -56,7 +56,7 @@ export const PageSendJewelry = () => {
   const [jewelryRequest, setJewelryRequest] = useState<JewelryRequest>({
     id: 0,
     name: "",
-    buy_now_price: 0,
+    buyNowPrice: 0,
     category: "",
     description: "",
     material: "",
@@ -107,11 +107,11 @@ export const PageSendJewelry = () => {
     if (!isNaN(numericValue)) {
       setPrice(numericValue);
       setPriceDisplay(formatNumber(numericValue));
-      setJewelryRequest({ ...jewelryRequest, buy_now_price: numericValue });
+      setJewelryRequest({ ...jewelryRequest, buyNowPrice: numericValue });
     } else {
       setPrice(0);
       setPriceDisplay("");
-      setJewelryRequest({ ...jewelryRequest, buy_now_price: numericValue });
+      setJewelryRequest({ ...jewelryRequest, buyNowPrice: numericValue });
     }
   };
 
@@ -221,7 +221,7 @@ export const PageSendJewelry = () => {
     setJewelryRequest({
       id: 0,
       name: "",
-      buy_now_price: 0,
+      buyNowPrice: 0,
       category: productType,
       description: "",
       material: material,

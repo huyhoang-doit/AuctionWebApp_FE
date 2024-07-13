@@ -65,5 +65,26 @@
         "Thao tác": "Operation",
         "Không có giao dịch nào": "No transactions",
         "Tên tài sản...": "Asset name..."
+    },
+    "JewelriesReturnViolatorList": {
+        "Danh sách tài sản hoàn trả": "List of returned assets",
+        "Mã tài sản": "Asset ID",
+        "Tên tài sản": "Asset name",
+        "Chủ tài sản": "Asset owner",
+        "Giá mong muốn": "Desired price",
+        "Ngày tiếp nhận": "Asset received date",
+        "Phiên đấu": "Auction name",
+        "Giá cuối": "Final price",
+        "Phương thức thanh toán": "Payment method",
+        "Thao tác": "Operation",
+        "Không có giao dịch nào": "No transactions",
+        "Tên tài sản...": "Asset name..."
+    },
+    "Header": {
+        "Danh sách tài sản cần định giá": "List of assets needing valuation",
+        "Danh sách tài sản đã định giá": "List of valued assets",
+        "Danh sách tài sản chờ tiếp nhận": "List of assets waiting to be received",
+        "Danh sách tài sản bàn giao": "List of handover assets",
+        "Danh sách tài sản hoàn trả": "List of refunded assets"
     }
 }

@@ -22,6 +22,7 @@ export function mapUser(userData: any): User {
         cccd: userData.cccd,
         bank: userData.bank,
         bankAccountNumber: userData.bankAccountNumber,
-        bankAccountName: userData.bankAccountName
+        bankAccountName: userData.bankAccountName,
+        banReason: userData.banReason
     };
 }

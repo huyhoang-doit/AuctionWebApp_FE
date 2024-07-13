@@ -7,6 +7,8 @@ export class Jewelry {
     name: string;
     buyNowPrice?: number;
     state?: string;
+    receivedDate?: string;
+    deliveryDate?: string;
     category?: Category;
     description?: string;
     material?: string;
@@ -20,6 +22,8 @@ export class Jewelry {
         name: string,
         buyNowPrice?: number,
         state?: string,
+        receivedDate?: string,
+        deliveryDate?: string,
         brand?: string,
         description?: string,
         material?: string,
@@ -33,6 +37,8 @@ export class Jewelry {
         this.buyNowPrice = buyNowPrice;
         this.brand = brand;
         this.state = state;
+        this.receivedDate = receivedDate;
+        this.deliveryDate = deliveryDate;
         this.description = description;
         this.material = material;
         this.weight = weight;

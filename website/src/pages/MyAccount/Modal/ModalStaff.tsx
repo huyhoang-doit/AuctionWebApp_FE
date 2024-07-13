@@ -29,9 +29,10 @@ import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView"
 import { PaymentMethod } from "../Components/member/PaymentMethod";
 import { StateTransaction } from "../Components/member/StateTransaction";
 import { setJewelryHolding } from "../../../api/JewelryAPI";
-import PDFHandover from "../../../utils/PDFHandover";
+import PDFHandover from "../../../utils/PDFForm/PDFHandoverAsset";
 import { useTranslation } from "react-i18next";
 import { PDFViewer } from "@react-pdf/renderer";
+import PDFReturnAsset from "../../../utils/PDFForm/PDFReturnAsset";
 
 // *** MODEL FOR STAFF
 // Interface
@@ -85,6 +86,22 @@ interface CreateHandoverReportModalProps {
   jewelry: Jewelry | undefined;
   user: User | null;
   winner: User | undefined;
+  handleChangeList: () => Promise<void>;
+}
+
+interface JewelryReturnedModalProps {
+  images: Image[];
+  user: User | null;
+  jewelry: Jewelry | undefined;
+  handleChangeList: () => Promise<void>;
+}
+
+interface CreateReturnReportModalProps {
+  show: boolean;
+  handleClose: () => void;
+  jewelry: Jewelry | undefined;
+  user: User | null;
+  violator: User | undefined;
   handleChangeList: () => Promise<void>;
 }
 
@@ -1336,6 +1353,257 @@ export const CreateHandoverReportModal: React.FC<
                   <PDFHandover
                     winner={winner}
                     auction={auction}
+                    jewelry={jewelry}
+                  />
+                </PDFViewer>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="dark" onClick={handleClose}>
+                  {t("ModalStaff.Đóng")}
+                </Button>
+                <Button variant="warning" onClick={handleConfirm}>
+                  {t("ModalStaff.Xác nhận")}
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </div>
+        )}
+      </>
+    );
+  };
+
+export const JewelryReturnedModal: React.FC<JewelryReturnedModalProps> = ({
+  images,
+  user,
+  jewelry,
+  handleChangeList,
+}) => {
+  const violator = jewelry?.user
+  const [show, setShow] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const handleCloseJewelryDetail = () => setShow(false);
+  const handleShowJewelryDetail = () => setShow(true);
+
+  const handleShowCreateModal = () => {
+    setShow(false);
+    setShowCreateModal(true);
+  };
+  const handleCloseCreateModal = () => setShowCreateModal(false);
+  const { t } = useTranslation(["ModalStaff"]);
+  return (
+    <>
+      <Button variant="dark" size="sm" onClick={handleShowJewelryDetail}>
+        {t("ModalStaff.Xem")}
+      </Button>
+      {show && (
+        <div className="overlay">
+          <Modal
+            show={show}
+            onHide={handleCloseJewelryDetail}
+            centered
+            backdrop="static"
+            size="lg"
+          >
+            <Modal.Header>
+              <Modal.Title className="w-100">
+                <div className="col-12 text-center">
+                  {t("ModalStaff.Tài sản hoàn trả")}
+                </div>
+                <div className="col-12 mb-3 text-center ">
+                  <span className="text-warning fw-bold">{jewelry?.name}</span>
+                </div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="p-4">
+              <form action="">
+                <div className="checkbox-form">
+                  <div className="row">
+                    <div className="col-md-6 fw-medium">
+                      <h4 className=" fw-medium">
+                        {t("ModalStaff.1Thông tin tài sản")}
+                      </h4>
+                      <div className="checkout-form-list mb-2">
+                        <label>{t("ModalStaff.Mã tài sản")} </label>
+                        <span className="fw-bold"> {jewelry?.id}</span>
+                      </div>
+                      <div className="checkout-form-list mb-2">
+                        <label>{t("ModalStaff.Tên")}</label>
+                        <span className="fw-bold"> {jewelry?.name}</span>
+                      </div>
+                      <div className="checkout-form-list mb-2 row">
+                        <div className="col-md-6 mb-2">
+                          <label>{t("ModalStaff.Thương hiệu")}</label>
+                          <span className="fw-bold"> {jewelry?.brand}</span>
+                        </div>
+                        <div className="col-md-6">
+                          <label>{t("ModalStaff.Chất liệu")}</label>
+                          <span className="fw-bold"> {jewelry?.material}</span>
+                        </div>
+                        <div className="col-md-6">
+                          <label>{t("ModalStaff.Trọng lượng (g)")}</label>
+                          <span className="fw-bold"> {jewelry?.weight}</span>
+                        </div>
+                      </div>
+                      <div className="checkout-form-list checkout-form-list-2 mb-2">
+                        <label>{t("ModalStaff.Mô tả tài sản")} </label>
+                        <br />
+                        <textarea
+                          readOnly
+                          className="w-100 p-2"
+                          style={{ height: "100px" }}
+                          id="checkout-mess"
+                          value={jewelry?.description}
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="col-md-6 fw-medium">
+                      <div className="w-100 fw-medium">
+                        <div className="checkout-form-list row">
+                          <label>{t("ModalStaff.Hình ảnh")}</label>
+                          {React.Children.toArray(
+                            images.map((img: Image) => (
+                              <div className="col-md-3">
+                                <img
+                                  src={img.data}
+                                  alt={t("ModalStaff.Ảnh tài sản")}
+                                />
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-12 fw-medium row">
+                      <h4 className=" fw-medium">
+                        {t("ModalStaff.2.Thông tin chủ tài sản")}
+                      </h4>
+                      <div className="checkout-form-list mb-2 col-md-6">
+                        <div className="checkout-form-list mb-2">
+                          <label>{t("ModalStaff.Mã người dùng")} </label>
+                          <span className="fw-bold"> {violator?.id}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2 ">
+                          <label>{t("ModalStaff.Tên người dùng")}</label>
+                          <span className="fw-bold"> {violator?.fullName}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2 ">
+                          <label>{t("ModalStaff.Số CCCD")}</label>
+                          <span className="fw-bold"> {violator?.cccd}</span>
+                        </div>
+                        <div className="checkout-form-list mb-2">
+                          <label>{t("ModalStaff.Địa chỉ")}</label>
+                          <span className="fw-semibold">
+                            {" "}
+                            {violator?.address}, {violator?.ward},{" "}
+                            {violator?.district}, {violator?.city}{" "}
+                          </span>
+                        </div>
+                        <div className="checkout-form-list mb-2">
+                          <label>Email: </label>
+                          <span className="fw-semibold"> {violator?.email}</span>
+                        </div>
+                      </div>
+                      <div className="checkout-form-list mb-2 col-md-6 border p-2 row">
+                        <div className="checkout-form-list mb-0 col-md-6">
+                          <img src={violator?.bank?.logo} alt="bank" />
+                        </div>
+                        <div className="checkout-form-list mb-2 col-md-12">
+                          <label>{t("ModalStaff.Thẻ ngân hàng")} </label>
+                          <span className="fw-bold text-uppercase">
+                            {" "}
+                            {violator?.bank?.bankName}
+                          </span>
+                        </div>
+                        <div className="checkout-form-list mb-2 col-md-12 ">
+                          <label>{t("ModalStaff.Mã số thẻ")} </label>
+                          <span className="fw-bold text-success">
+                            {violator?.bankAccountName} -{" "}
+                            {violator?.bankAccountNumber}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleCloseJewelryDetail}>
+                {t("ModalStaff.Đóng")}
+              </Button>
+              <Button variant="warning" onClick={handleShowCreateModal}>
+                {t("ModalStaff.Tiến hành hoàn trả")}
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
+
+      <CreateReturnReportModal
+        show={showCreateModal}
+        handleClose={handleCloseCreateModal}
+        jewelry={jewelry}
+        user={user}
+        violator={violator}
+        handleChangeList={handleChangeList}
+      />
+    </>
+  );
+};
+
+export const CreateReturnReportModal: React.FC<
+  CreateReturnReportModalProps
+> = ({
+  show,
+  handleClose,
+  user,
+  violator,
+  jewelry,
+  handleChangeList,
+}) => {
+    const jewelryId = jewelry?.id ? jewelry.id : 1;
+    const handleConfirm = async () => {
+      const confirm = await setJewelryHolding(jewelryId, false);
+      if (confirm) {
+        console.log("set holding thành công");
+      }
+      handleChangeList();
+      handleClose();
+    };
+    const { t } = useTranslation(["ModalStaff"]);
+    return (
+      <>
+        {show && (
+          <div className="overlay">
+            <Modal
+              show={show}
+              onHide={handleClose}
+              centered
+              backdrop="static"
+              size="xl"
+            >
+              <Modal.Header>
+                <Modal.Title className="w-100">
+                  <div className="col-12 text-center">
+                    {t("ModalStaff.Thông tin bàn giao tài sản")}
+                  </div>
+                  <div className="col-12 mb-3 text-center ">
+                    <span className="text-warning fw-bold">{jewelry?.name}</span>
+                  </div>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Tên nhân viên")} -{" "}
+                    <span className=" fw-bold">{user?.fullName}</span>
+                  </h5>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Mã nhân viên")} -{" "}
+                    <span className=" fw-bold">{user?.id}</span>
+                  </h5>
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body style={{ height: "650px" }}>
+                <PDFViewer style={{ width: "100%", height: "100%" }}>
+                  <PDFReturnAsset
+                    violator={violator}
                     jewelry={jewelry}
                   />
                 </PDFViewer>

@@ -65,5 +65,26 @@
         "Thao tác": "Thao tác",
         "Không có giao dịch nào": "Không có giao dịch nào",
         "Tên tài sản...": "Tên tài sản..."
+    },
+    "JewelriesReturnViolatorList": {
+        "Danh sách tài sản hoàn trả": "Danh sách tài sản hoàn trả",
+        "Mã tài sản": "Mã tài sản",
+        "Tên tài sản": "Tên tài sản",
+        "Chủ tài sản": "Chủ tài sản",
+        "Giá mong muốn": "Giá mong muốn",
+        "Ngày tiếp nhận": "Ngày tiếp nhận",
+        "Phiên đấu": "Phiên đấu",
+        "Giá cuối": "Giá cuối",
+        "Phương thức thanh toán": "Phương thức thanh toán",
+        "Thao tác": "Thao tác",
+        "Không có giao dịch nào": "Không có giao dịch nào",
+        "Tên tài sản...": "Tên tài sản..."
+    },
+    "Header": {
+        "Danh sách tài sản cần định giá": "Danh sách tài sản cần định giá",
+        "Danh sách tài sản đã định giá": "Danh sách tài sản đã định giá",
+        "Danh sách tài sản chờ tiếp nhận": "Danh sách tài sản chờ tiếp nhận",
+        "Danh sách tài sản bàn giao": "Danh sách tài sản bàn giao",
+        "Danh sách tài sản hoàn trả": "Danh sách tài sản hoàn trả"
     }
 }
