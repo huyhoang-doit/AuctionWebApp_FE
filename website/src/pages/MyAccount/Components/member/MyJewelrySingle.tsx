@@ -37,7 +37,7 @@ const MyJewelrySingle: React.FC<MyJewelrySingleProps> = ({ jewelry, user }) => {
         setAuction(response);
       })
       .catch((error) => {
-        console.error(error.message);
+        setAuction(null)
       });
 
   }, [])

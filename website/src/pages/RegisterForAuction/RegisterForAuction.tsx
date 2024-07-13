@@ -117,11 +117,11 @@ export default function RegisterForAuction() {
                   <div className="col-lg-6">
                     <div className="article-content" style={{ height: "100%" }}>
                       <object
-                        data="https://drive.google.com/file/d/1NfVgsAmbn9iiLqfhodOirL21dB14w55_/preview"
+                        data="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview"
                         style={{ width: "100%", height: "100%" }}
                       >
                         <iframe
-                          src="https://drive.google.com/file/d/1NfVgsAmbn9iiLqfhodOirL21dB14w55_/preview"
+                          src="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview"
                           title="file"
                           width="640"
                           height="100%"

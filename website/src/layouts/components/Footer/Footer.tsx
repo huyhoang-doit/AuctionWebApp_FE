@@ -56,7 +56,7 @@ export default function Footer() {
                     </li>
                     <li>
                       <a
-                        href="https://drive.google.com/file/d/12reK5pxHKGGx5pJfvchLp8v2iBf_njB_/view"
+                        href="https://drive.google.com/file/d/1lbnWNHbTg8QD9uKWD1ZQathSoNCx0npl/view"
                         target="_blank"
                         rel="noopener noreferrer"
                       >

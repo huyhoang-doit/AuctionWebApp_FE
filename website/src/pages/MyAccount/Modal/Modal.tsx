@@ -16,10 +16,7 @@ import {
   getAuctionHistoriesByAuctionIdAndUserId,
 } from "../../../api/AuctionHistoryAPI";
 import { Auction } from "../../../models/Auction";
-import {
-  formatDateString,
-  formatDateStringAcceptNull,
-} from "../../../utils/formatDateString";
+import { formatDateStringAcceptNull } from "../../../utils/formatDateString";
 import { User } from "../../../models/User";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,12 +46,10 @@ import { handlePay } from "../../../api/PaymentAPI";
 import { setMethodTransaction } from "../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
 import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
-import { t } from "i18next";
 import { TypeTransaction } from "../Components/member/TypeTransaction";
 
 import { PaymentMethod } from "../Components/member/PaymentMethod";
 import { StateTransaction } from "../Components/member/StateTransaction";
-import { updateAuctionEndTime } from "../../../api/AuctionAPI";
 
 // *** MODAL FOR USER ***
 // Interface
@@ -1142,8 +1137,8 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
                             placeholder=""
                             type="text"
                             value={`${request.isConfirm
-                                ? t("Modal.Đã phê duyệt")
-                                : t("Modal.Chưa phê duyệt")
+                              ? t("Modal.Đã phê duyệt")
+                              : t("Modal.Chưa phê duyệt")
                               }`}
                             readOnly={true}
                           />
@@ -1561,10 +1556,10 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
                       if (stompClient && connected) {
                         let bonusTime = 0;
                         if (typeof timeLeft === 'object' &&
-                          // timeLeft.days === 0 &&
-                          // timeLeft.hours === 0 &&
-                          // timeLeft.minutes === 0 &&
-                          // timeLeft.seconds < 5 &&
+                          timeLeft.days === 0 &&
+                          timeLeft.hours === 0 &&
+                          timeLeft.minutes === 0 &&
+                          timeLeft.seconds < 5 &&
                           auction?.state === "ONGOING"
                         ) {
                           bonusTime = 5000;
@@ -1836,7 +1831,7 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({
                 return;
               }
               if (user && auction) {
-                await confirmDeleteBid(user?.id, auction?.id);
+                await confirmDeleteBid(user?.id, auction?.id, "Rút khỏi đấu giá");
                 if (stompClient && connected) {
                   stompClient.send(
                     "/app/update-auction",
@@ -1866,6 +1861,7 @@ export const BidConfirmKickOut: React.FC<BidConfirmDeleteProps> = ({
   user,
   auction,
 }) => {
+
   return (
     <>
       <button
@@ -1880,25 +1876,51 @@ export const BidConfirmKickOut: React.FC<BidConfirmDeleteProps> = ({
             icon: "error",
             title: "Xác nhận xóa người dùng khỏi phiên?",
             html: `
-            <div>Bạn có chắc là muốn trục xuất người dùng ${user?.fullName} khỏi phiên đấu giá.</div>`,
+            <div>Bạn muốn trục xuất <b>${user?.fullName}</b> khỏi phiên đấu giá?</div>`,
             showCancelButton: true,
             confirmButtonText: "Xác nhận",
             cancelButtonText: "Hủy",
             showLoaderOnConfirm: true,
-            preConfirm: async () => {
-              if (user && auction) {
-                await confirmDeleteBid(user?.id, auction?.id);
-                if (stompClient && connected) {
-                  stompClient.send(
-                    "/app/update-auction",
-                    {},
-                    JSON.stringify(auction.id)
-                  );
-                } else {
-                  console.error("WebSocket client is not connected.");
+            preConfirm: () => {
+              Swal.fire({
+                title: "Lý do trục xuất",
+                input: "textarea",
+                inputPlaceholder: "Nhập lý do...",
+                showCancelButton: true,
+                confirmButtonText: "Gửi",
+                cancelButtonText: "Hủy",
+                inputValidator: (value: string) => {
+                  if (!value) {
+                    return "Bạn cần nhập lý do!";
+                  }
                 }
-                toast.success("Xóa thành công.");
-              }
+              }).then((result: any) => {
+                if (result.isConfirmed && user && auction) {
+                  confirmDeleteBid(user?.id, auction?.id, result.value)
+                    .then(
+                      (response) => {
+                        if (response === true) {
+                          if (stompClient && connected) {
+                            const message = {
+                              username: user.username,
+                              auctionId: auction.id,
+                            };
+                            stompClient.send(
+                              "/app/kick-out-user",
+                              {},
+                              JSON.stringify(message)
+                            );
+                          } else {
+                            console.error("WebSocket client is not connected.");
+                          }
+                          toast.success("Xóa thành công.");
+                        } else {
+                          toast.error("Xóa thất bại.");
+                        }
+                      }
+                    );
+                }
+              })
             },
             allowOutsideClick: () => !Swal.isLoading(),
           })
@@ -2023,6 +2045,7 @@ export const OpenRegulationsForSellerModal = () => {
                 style={{ width: "100%", height: "100%" }}
               >
                 <iframe
+                  title="Regulations for property sellers"
                   src="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview"
                   width="640"
                   height="100%"

@@ -7,10 +7,8 @@ import { useCategories } from "../../../hooks/useCategories";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 import "../../../i18n/i18n";
-import { locales } from "../../../i18n/i18n";
 export default function Header() {
   //==== i18n
-  const currentLanguage = locales[i18n.language as keyof typeof locales]; // i18n get current language
   const { t } = useTranslation(["home"]); // i18n translation
   const [selectedLanguage, setSelectedLanguage] = useState("Tiếng Việt"); // default language is Vietnamese
   const lng = localStorage.getItem("lng")

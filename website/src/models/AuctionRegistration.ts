@@ -8,6 +8,7 @@ export class AuctionRegistration {
     state?: string;
     user?: User;
     auction?: Auction;
+    kickReason?: string;
 
     constructor(
         id: number,
@@ -15,7 +16,8 @@ export class AuctionRegistration {
         auction?: Auction,
         registrationFee?: number,
         registrationDate?: string,
-        state?: string
+        state?: string,
+        kickReason?: string
     ) {
         this.id = id;
         this.user = user;
@@ -23,5 +25,6 @@ export class AuctionRegistration {
         this.registrationDate = registrationDate;
         this.state = state;
         this.auction = auction;
+        this.kickReason = kickReason;
     }
 }

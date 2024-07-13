@@ -21,7 +21,6 @@ import useCountDownBid from "../../hooks/useCountDownBid";
 import Swal from "sweetalert2";
 import { createTransactionForWinner } from "../../api/TransactionAPI";
 import { numberToVietnameseText } from "../../utils/numberToVietnameseText";
-import { getAuctionRegistrationsByAuctionId } from "../../api/AuctionRegistrationAPI";
 
 export const AuctionBid = () => {
     const navigate = useNavigate();
@@ -113,8 +112,6 @@ export const AuctionBid = () => {
                 newClient.subscribe("/user/auction", (message) => {
                     const receivedData = JSON.parse(message.body);
                     if (receivedData.auctionId === auctionId) {
-                        console.log(receivedData.endDate);
-
                         setAuction(prevAuction => ({
                             ...prevAuction!,
                             lastPrice: receivedData.lastPrice,
@@ -130,18 +127,20 @@ export const AuctionBid = () => {
 
                         if (!isMeBid && receivedData.bonusTime > 0)
                             toast.warn('Thời gian kết thúc đấu giá kéo dài thêm 5 giây!', { autoClose: 3000 })
-
-                        getAuctionRegistrationsByAuctionId(receivedData.auctionId)
-                            .then((data) => {
-                                const userFound = data.auctionRegistrationsData.some(registration => registration.user?.id === context?.account?.id);
-                                if (!userFound) {
-                                    navigate('/tai-san-dau-gia/' + receivedData.auctionId);
-                                }
-                            })
-                            .catch((error) => {
-                                console.error('Error fetching user auctions:', error);
-                            });
                     }
+                });
+                newClient.subscribe("/user/out-auction-registration", (message) => {
+                    const receivedData = JSON.parse(message.body);
+                    if (receivedData.userId === user?.id) {
+                        Swal.fire('Bạn đã bị cấm khỏi phiên này', 'Lý do: ' + receivedData.kickReason, 'error');
+                        navigate('/tai-san-dau-gia/' + auctionId);
+                    }
+                    setAuction(prevAuction => ({
+                        ...prevAuction!,
+                        lastPrice: receivedData.lastPrice
+                    }));
+                    setBidValue(receivedData.lastPrice)
+                    setDisplayValue(formatNumber(receivedData.lastPrice));
                 });
             },
             (error) => {

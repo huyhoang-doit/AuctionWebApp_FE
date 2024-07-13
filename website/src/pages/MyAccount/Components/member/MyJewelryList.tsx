@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { User } from "../../../../models/User";
 import useAccount from "../../../../hooks/useAccount";
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { MyJewelryRequestList } from "./MyJewelryRequestList";
 import MyJewelriesPassedList from "./MyJewelriesPassed";
@@ -25,7 +24,6 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
   useEffect(() => {
     setUser(props.user);
   }, [props.user]);
-  const { t } = useTranslation(["MyJewellryList"]);
   return (
     <>
       <div
