@@ -3,6 +3,7 @@ import { User } from "../../../../models/User";
 import { Link } from "react-router-dom";
 import JewelriesWaitList from "./JewelriesWaitList";
 import StaffRequestList from "./StaffRequestList";
+import { useTranslation } from "react-i18next";
 
 interface AssetValuationtProps {
   user: User | null;
@@ -13,6 +14,8 @@ interface AssetValuationtProps {
 
 const AssetValuation: React.FC<AssetValuationtProps> = (props) => {
   const [user, setUser] = useState<User | null>(props.user);
+  const { t } = useTranslation(["Staff"]);
+
 
   useEffect(() => {
     setUser(props.user);
@@ -44,7 +47,7 @@ const AssetValuation: React.FC<AssetValuationtProps> = (props) => {
                       style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
                     >
 
-                      <span>1. Danh sách tài sản cần định giá</span>
+                      <span>1. {t("Header.Danh sách tài sản cần định giá")}</span>
                       <i className="ion-chevron-down"></i>
                     </Link>
                   </h5>
@@ -81,7 +84,7 @@ const AssetValuation: React.FC<AssetValuationtProps> = (props) => {
                       aria-expanded="false"
                       style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
                     >
-                      2. Danh sách tài sản đã định giá
+                      2. {t("Header.Danh sách tài sản đã định giá")}
                       <i className="ion-chevron-down"></i>
                     </Link>
                   </h5>

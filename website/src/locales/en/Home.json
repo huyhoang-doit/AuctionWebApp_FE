@@ -1,22 +1,21 @@
 {
     "header-middle_area": {
         "LienHe": "Contact",
-        "TimKiemSanPham": "Search product..."
+        "TimKiemSanPham": "Search asset..."
     },
-
     "Narbar": {
         "CacLoaiTrangSucDauGia": "Types of auction jewelry",
-         "CuocDauGia": "Auction",
-         "DauGiaSapDienRa": "Upcoming auction",
-         "DauGiaDangDienRa": "Ongoing auction",
-         "DauGiaKetThuc": "Finished auction",
-         "GioiThieu": "Introduction",
-         "HuongDanDauGia": "Auction guide",
-         "VeChungToi": "About us",
-         "LienHe": "Contact",
-         "GuiSanPhamDauGia": "Send auction jewelry",
-         "DangNhap": "Login",
-         "DangKy": "Register",
-         "ThongTinCaNhan": "Profile"
+        "CuocDauGia": "Auction",
+        "DauGiaSapDienRa": "Upcoming auction",
+        "DauGiaDangDienRa": "Ongoing auction",
+        "DauGiaKetThuc": "Finished auction",
+        "GioiThieu": "Introduction",
+        "HuongDanDauGia": "Auction guide",
+        "VeChungToi": "About us",
+        "LienHe": "Contact",
+        "GuiSanPhamDauGia": "Send auction asset",
+        "DangNhap": "Login",
+        "DangKy": "Register",
+        "ThongTinCaNhan": "Profile"
     }
 }

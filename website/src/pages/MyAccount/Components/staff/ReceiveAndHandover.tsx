@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import JewelriesHandOverList from "./JewelriesHandOverList";
 import JewelrySentToWebList from "./JewelrySentToWebList";
 import JewelriesReturnViolatorList from "./JewelriesReturnViolatorList";
+import { useTranslation } from "react-i18next";
 interface ReceiveAndHandoverProps {
   user: User | null;
   listNumber: number;
@@ -11,6 +12,8 @@ interface ReceiveAndHandoverProps {
 }
 const ReceiveAndHandover: React.FC<ReceiveAndHandoverProps> = (props) => {
   const [user, setUser] = useState<User | null>(props.user);
+  const { t } = useTranslation(["Staff"]);
+
 
   useEffect(() => {
     setUser(props.user);
@@ -40,7 +43,7 @@ const ReceiveAndHandover: React.FC<ReceiveAndHandoverProps> = (props) => {
                     style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
                   >
 
-                    <span>1. Danh sách tài sản chờ tiếp nhận</span>
+                    <span>1. {t("Header.Danh sách tài sản chờ tiếp nhận")}</span>
                     <i className="ion-chevron-down"></i>
                   </Link>
                 </h5>
@@ -75,7 +78,7 @@ const ReceiveAndHandover: React.FC<ReceiveAndHandoverProps> = (props) => {
                     aria-expanded="false"
                     style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
                   >
-                    2. Danh sách tài sản bàn giao
+                    2. {t("Header.Danh sách tài sản bàn giao")}
                     <i className="ion-chevron-down"></i>
                   </Link>
                 </h5>
@@ -111,7 +114,7 @@ const ReceiveAndHandover: React.FC<ReceiveAndHandoverProps> = (props) => {
                     aria-expanded="false"
                     style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
                   >
-                    3. Danh sách tài sản hoàn trả
+                    3. {t("Header.Danh sách tài sản hoàn trả")}
                     <i className="ion-chevron-down"></i>
                   </Link>
                 </h5>

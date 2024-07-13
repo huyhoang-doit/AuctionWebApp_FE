@@ -52,7 +52,7 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
                       style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
                     >
 
-                      <span>1. Các yêu cầu đấu giá tài sản đã gửi</span>
+                      <span>1. {t("MyJewellryList.Danh sách yêu cầu đấu giá tài sản đã gửi")}</span>
                       <i className="ion-chevron-down"></i>
                     </Link>
                   </h5>
@@ -88,7 +88,7 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
                       aria-expanded="false"
                       style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
                     >
-                      2. Thông báo xác nhận định giá tài sản
+                      2. {t("MyJewellryList.Thông báo xác nhận định giá tài sản")}
                       <i className="ion-chevron-down"></i>
                     </Link>
                   </h5>
@@ -124,7 +124,7 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
                       aria-expanded="false"
                       style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
                     >
-                      3. Danh sách tài sản của đã phê duyệt
+                      3. {t("MyJewellryList.Danh sách tài sản của đã phê duyệt")}
                       <i className="ion-chevron-down"></i>
                     </Link>
                   </h5>
