@@ -23,12 +23,13 @@ export class User {
     bankAccountNumber?: string;
     bankAccountName?: string;
     state?: string;
+    banReason?: string;
 
     constructor(id: number, username: string, fullName: string,
         firstName: string, lastName: string, password: string, state: string,
         cccdFirst: string, cccdLast: string, cccdFrom: string, email: string, phone: string, address: string,
         district: string, ward: string, city: string, yob: string, cccd: string,
-        bank: Bank, bankAccountNumber: string, bankAccountName: string) {
+        bank: Bank, bankAccountNumber: string, bankAccountName: string, banReason: string) {
         this.id = id;
         this.username = username;
         this.fullName = fullName;
@@ -50,6 +51,7 @@ export class User {
         this.cccdFirst = cccdFirst;
         this.cccdLast = cccdLast;
         this.cccdFrom = cccdFrom;
+        this.banReason = banReason;
     }
 
 }

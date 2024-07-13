@@ -5,6 +5,7 @@ import { formatNumberAcceptNull } from '../../../../utils/formatNumber';
 import { getImagesByJewelryId } from '../../../../api/ImageApi';
 import { Jewelry } from '../../../../models/Jewelry';
 import { formatDateStringAcceptNull } from '../../../../utils/formatDateString';
+import { JewelryReturnedModal } from '../../Modal/ModalStaff';
 type JewelriesReturnViolatorSingleProps = {
   jewelry: Jewelry;
   user: User | null,
@@ -39,11 +40,8 @@ const JewelriesReturnViolatorSingle: React.FC<JewelriesReturnViolatorSingleProps
         <td>
           {formatDateStringAcceptNull(jewelry?.receivedDate)}
         </td>
-        <td className='fw-semibold'>
-          Ban giao
-        </td>
         <td>
-          {/* <JewelryHanOverModal transaction={transaction} images={images} user={user} jewelry={jewelry} auction={auction} handleChangeList={handleChangeList} /> */}
+          <JewelryReturnedModal images={images} user={user} jewelry={jewelry} handleChangeList={handleChangeList} />
         </td>
       </tr>
     </>

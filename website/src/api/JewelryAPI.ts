@@ -7,7 +7,7 @@ import { MyRequest } from "./MyRequest";
 interface JewelryRequest {
   id: number;
   name: string;
-  buy_now_price: number;
+  buyNowPrice: number;
   category: string | undefined;
   description: string;
   material: string;
