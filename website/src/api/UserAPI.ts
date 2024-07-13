@@ -75,7 +75,7 @@ export const editProfileUser = async (user: User): Promise<User> => {
 export async function getUserRegistrationByAuction(auctionId: number) {
     const token = localStorage.getItem('access_token');
     if (!token) {
-        throw new Error("No access token found");
+        return null;
     }
 
     const URL = `${BASE_URL}/user/get-user-registration/${auctionId}`;

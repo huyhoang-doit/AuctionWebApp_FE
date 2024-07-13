@@ -48,7 +48,7 @@ export const AuctionRegistrationUser: React.FC<AuctionDetailHistoryProps> = ({
         <table className="table table-bordered specification-inner_stuff mt-4">
           <thead>
             <tr>
-              <th className="col-1">Id</th>
+              <th className="col-1">Mã người dùng</th>
               <th className="col-3">
                 {t("AuctionRegistrationUser.Tên người dùng")}
               </th>

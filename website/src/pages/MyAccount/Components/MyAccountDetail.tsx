@@ -405,6 +405,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                       type="text"
                       placeholder={t("MyAccountDetail.Nhập tên tài khoản")}
                       style={{ backgroundColor: "#F5F5F5" }}
+                      readOnly
                       value={user?.username}
                     />
                   </div>
@@ -563,7 +564,7 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                         "MyAccountDetail.Nhập nơi cấp CCCD của bạn"
                       )}
                       readOnly
-                      value={user?.cccdFrom}
+                      defaultValue={user?.cccdFrom}
                       onChange={(e) =>
                         setUser({ ...user, cccdFrom: e.target.value })
                       }

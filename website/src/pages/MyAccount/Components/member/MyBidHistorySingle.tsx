@@ -66,7 +66,7 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
       updateStatus();
     }
   }, [auctionRegistration, i18n.language]);
-  
+
   useEffect(() => {
     if (auctionId)
       getAuction(auctionId)

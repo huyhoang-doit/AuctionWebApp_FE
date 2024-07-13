@@ -33,9 +33,7 @@ export default function AuctionDetail() {
   const [auction, setAuction] = useState<Auction | null>(null);
   const [jewelry, setJewelry] = useState<Jewelry | null>(null);
   const [jewelryUser, setJewelryUser] = useState<User | null>(null);
-  const [auctionRegistations, setAuctionRegistations] = useState<
-    AuctionRegistration[]
-  >([]);
+  const [auctionRegistations, setAuctionRegistations] = useState<AuctionRegistration[]>([]);
   const [staff, setStaff] = useState<User | null>(null);
   const timeLeft = useCountDown(auction);
   const { id } = useParams();
@@ -138,6 +136,16 @@ export default function AuctionDetail() {
     return false;
   };
 
+  const invalidRegistered = (): AuctionRegistration | null => {
+    if (auctionRegistations && auctionRegistations.length > 0) {
+      const invalidRegistration = auctionRegistations.find(
+        (registration) => registration.user?.id === account?.id && registration.state === 'KICKED_OUT'
+      );
+      return invalidRegistration || null;
+    }
+    return null;
+  };
+
   const checkIsStaff = () => {
     if (token) {
       const decodedData = jwtDecode<DecodedToken>(token);
@@ -147,6 +155,7 @@ export default function AuctionDetail() {
     }
     return false;
   };
+
 
   return (
     <>
@@ -167,9 +176,6 @@ export default function AuctionDetail() {
               </div>
             </div>
           </div>
-          {/* <!-- Umino's Breadcrumb Area End Here -->
-
-                    <!-- Begin Umino's Single Product Sale Area --> */}
           <div className="sp-area">
             <div className="container">
               <div className="sp-nav">
@@ -405,11 +411,11 @@ export default function AuctionDetail() {
                           <>
                             {(auction?.state === "ONGOING" ||
                               auction?.state === "WAITING") && (
-                              <InfoBlock
-                                label={t("AuctionDetail.Giá trúng tối thiểu")}
-                                value={formatNumber(auction?.firstPrice)}
-                              />
-                            )}
+                                <InfoBlock
+                                  label={t("AuctionDetail.Giá trúng tối thiểu")}
+                                  value={formatNumber(auction?.firstPrice)}
+                                />
+                              )}
                           </>
                         )}
                         <div
@@ -472,8 +478,7 @@ export default function AuctionDetail() {
                               </button>
                             )}
                           {auction?.state === "ONGOING" &&
-                            checkAlreadyRegistered() &&
-                            !checkIsStaff() && (
+                            checkAlreadyRegistered() && !invalidRegistered() && !checkIsStaff() && (
                               <Link
                                 to={"/dau-gia-san-pham/" + auctionId}
                                 className="fw-bold text-center eg-btn btn--primary content-center text-white btn--sm"
@@ -493,6 +498,25 @@ export default function AuctionDetail() {
                                 ></i>
                                 {t("AuctionDetail.Đấu giá ngay")}
                               </Link>
+                            )}
+                          {auction?.state === "ONGOING" &&
+                            checkAlreadyRegistered() && invalidRegistered() && !checkIsStaff() && (
+                              <>
+                                <button
+                                  className="fw-bold text-center eg-btn btn--primary content-center btn--sm"
+                                  style={{
+                                    backgroundColor: "#ccc",
+                                    color: "#333",
+                                    textTransform: "unset",
+                                    border: "unset",
+                                    borderRadius: "10px",
+                                    padding: "10px",
+                                    fontSize: "16px",
+                                  }}
+                                  disabled
+                                > Bạn bị cấm khỏi phiên đấu giá này với lý do: {auctionRegistations.find(auctionRegistation => auctionRegistation.user?.id === account?.id)?.kickReason}
+                                </button>
+                              </>
                             )}
                           {checkIsStaff() && (
                             <Link
@@ -537,9 +561,6 @@ export default function AuctionDetail() {
               </div>
             </div>
           </div>
-          {/* Umino's Single Product Area Sale End Here  */}
-
-          {/* Begin Umino's Single Product Tab Area  */}
 
           <AuctionTabDetail
             stompClient={null}
