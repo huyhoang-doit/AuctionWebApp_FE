@@ -105,43 +105,50 @@ export const AuctionBid = () => {
     useEffect(() => {
         const socket = new SockJS(`${BASE_WS}/ws`);
         const newClient = Stomp.over(socket);
+
+        const onMessageReceived = (message: Stomp.Message) => {
+            const receivedData = JSON.parse(message.body);
+            if (receivedData.auctionId === auctionId) {
+                setAuction(prevAuction => ({
+                    ...prevAuction!,
+                    lastPrice: receivedData.lastPrice,
+                    endDate: receivedData.endDate
+                }));
+                setBidValue(receivedData.lastPrice);
+                setDisplayValue(formatNumber(receivedData.lastPrice));
+
+                const isMeBid = receivedData.username === user?.username;
+
+                if (!isMeBid) {
+                    toast.warn('Giá cuối đã thay đổi!', { autoClose: 3000 });
+                }
+
+                if (!isMeBid && receivedData.bonusTime > 0) {
+                    toast.warn('Thời gian kết thúc đấu giá kéo dài thêm 5 giây!', { autoClose: 3000 });
+                }
+            }
+        };
+
+        const onOutAuctionMessage = (message: Stomp.Message) => {
+            const receivedData = JSON.parse(message.body);
+            if (receivedData.userId === user?.id) {
+                Swal.fire('Bạn đã bị cấm khỏi phiên này', 'Lý do: ' + receivedData.kickReason, 'error');
+                navigate('/tai-san-dau-gia/' + auctionId);
+            }
+            setAuction(prevAuction => ({
+                ...prevAuction!,
+                lastPrice: receivedData.lastPrice
+            }));
+            setBidValue(receivedData.lastPrice);
+            setDisplayValue(formatNumber(receivedData.lastPrice));
+        };
+
         newClient.connect(
             {},
-            (frame) => {
+            () => {
                 setConnected(true);
-                newClient.subscribe("/user/auction", (message) => {
-                    const receivedData = JSON.parse(message.body);
-                    if (receivedData.auctionId === auctionId) {
-                        setAuction(prevAuction => ({
-                            ...prevAuction!,
-                            lastPrice: receivedData.lastPrice,
-                            endDate: receivedData.endDate
-                        }));
-                        setBidValue(receivedData.lastPrice)
-                        setDisplayValue(formatNumber(receivedData.lastPrice));
-
-                        const isMeBid = receivedData.username === user?.username;
-
-                        if (!isMeBid)
-                            toast.warn('Giá cuối đã thay đổi!', { autoClose: 3000 });
-
-                        if (!isMeBid && receivedData.bonusTime > 0)
-                            toast.warn('Thời gian kết thúc đấu giá kéo dài thêm 5 giây!', { autoClose: 3000 })
-                    }
-                });
-                newClient.subscribe("/user/out-auction-registration", (message) => {
-                    const receivedData = JSON.parse(message.body);
-                    if (receivedData.userId === user?.id) {
-                        Swal.fire('Bạn đã bị cấm khỏi phiên này', 'Lý do: ' + receivedData.kickReason, 'error');
-                        navigate('/tai-san-dau-gia/' + auctionId);
-                    }
-                    setAuction(prevAuction => ({
-                        ...prevAuction!,
-                        lastPrice: receivedData.lastPrice
-                    }));
-                    setBidValue(receivedData.lastPrice)
-                    setDisplayValue(formatNumber(receivedData.lastPrice));
-                });
+                newClient.subscribe("/user/auction", onMessageReceived);
+                newClient.subscribe("/user/out-auction-registration", onOutAuctionMessage);
             },
             (error) => {
                 console.error("Connection error: ", error);
@@ -149,14 +156,15 @@ export const AuctionBid = () => {
         );
 
         setStompClient(newClient);
+
         return () => {
-            if (connected) {
+            if (newClient.connected) {
                 newClient.disconnect(() => {
                     setConnected(false);
                 });
             }
         };
-    }, []);
+    }, [auctionId, user, navigate]);
 
     useEffect(() => {
         if (auctionId !== null) {

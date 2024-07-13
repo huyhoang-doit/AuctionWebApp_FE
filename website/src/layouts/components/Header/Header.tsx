@@ -62,7 +62,6 @@ export default function Header() {
                 </div>
               </div>
 
-
               <div className="col-lg-5 d-none d-lg-block">
                 <div className="hm-form_area">
                   <form action="#" className="hm-searchbox">
