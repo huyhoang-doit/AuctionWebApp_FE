@@ -13,6 +13,7 @@
         "Trạng thái": "Status",
         "Danh sách yêu cầu đấu giá tài sản đã gửi": "List of submitted asset auction requests",
         "Thông báo xác nhận định giá tài sản": "Confirmation of asset valuation",
-        "Danh sách tài sản của đã phê duyệt": "List of approved assets"
+        "Danh sách tài sản của đã phê duyệt": "List of approved assets",
+        "Trạng thái hiện tại": "Current status"
     }
 }

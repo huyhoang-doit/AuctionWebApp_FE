@@ -42,7 +42,7 @@
         "Mã yêu cầu": "Mã yêu cầu:",
         "Thương hiệu": "Thương hiệu:",
         "Trọng lượng (g)": "Trọng lượng (g)",
-        "Mô tả trang sức": "Mô tả trang sức",
+        "Mô tả tài sản": "Mô tả tài sản",
         "Hình ảnh": "Hình ảnh",
         "Ảnh sản phẩm": "Ảnh sản phẩm",
         "Giá mong muốn": "Giá mong muốn (VND)",
@@ -155,6 +155,11 @@
         "Thanh toán": "Thanh toán",
         "Thanh toán tại quầy được xác nhận": "Thanh toán tại quầy được xác nhận",
         "Vui lòng chọn hình ảnh căn cước công dân mặt sau.": "Vui lòng chọn hình ảnh căn cước công dân mặt sau.",
-        "Vui lòng chọn hình ảnh căn cước công dân mặt trước.": "Vui lòng chọn hình ảnh căn cước công dân mặt trước."
+        "Vui lòng chọn hình ảnh căn cước công dân mặt trước.": "Vui lòng chọn hình ảnh căn cước công dân mặt trước.",
+        "Đấu giá thất bại" : "Đấu giá thất bại",
+        "Bạc": "Bạc",
+        "Vàng": "Vàng",
+        "Kim cương": "Kim cương",
+        "Bạch kim": "Bạch kim"
     }
 }

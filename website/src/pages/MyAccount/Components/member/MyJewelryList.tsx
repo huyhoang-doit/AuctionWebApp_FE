@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 import { MyJewelryRequestList } from "./MyJewelryRequestList";
 import MyJewelriesPassedList from "./MyJewelriesPassed";
 import MyJewelryNeedConfirmList from "./JewellryNeedConfirmList";
+import { useTranslation } from "react-i18next";
 
 interface MyJewelriesListProps {
   user: User | null;
   setUser: (user: User) => void;
   setListNumber: Dispatch<SetStateAction<number>>;
-  listNumber: number
+  listNumber: number;
 }
 
 const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
@@ -24,6 +25,9 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
   useEffect(() => {
     setUser(props.user);
   }, [props.user]);
+
+  const { t } = useTranslation(["MyJewellryList"]);
+
   return (
     <>
       <div
@@ -36,21 +40,44 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
           <div className="frequently-accordion about-us_accordion">
             <div id="accordion">
               <div className="card">
-                <div className="card-header p-3" id="headingOne"
-                  style={{ backgroundColor: '#333333', border: '1px solid #fed100' }}
+                <div
+                  className="card-header p-3"
+                  id="headingOne"
+                  style={{
+                    backgroundColor: "#333333",
+                    border: "1px solid #fed100",
+                  }}
                   onClick={() => {
                     props.setListNumber(6);
-                  }}>
-                  <h5 className="mb-0 fw-semibold" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  }}
+                >
+                  <h5
+                    className="mb-0 fw-semibold"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
                     <Link
                       to=""
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseOne"
                       aria-expanded="true"
-                      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%",
+                        color: "white",
+                      }}
                     >
-
-                      <span>1. {t("MyJewellryList.Danh sách yêu cầu đấu giá tài sản đã gửi")}</span>
+                      <span>
+                        1.{" "}
+                        {t(
+                          "MyJewellryList.Danh sách yêu cầu đấu giá tài sản đã gửi"
+                        )}
+                      </span>
                       <i className="ion-chevron-down"></i>
                     </Link>
                   </h5>
@@ -67,26 +94,44 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
                       listNumber={props.listNumber}
                     />
                   </div>
-
                 </div>
               </div>
               <div className="card">
-                <div className="card-header p-3" id="headingTwo"
-                  style={{ backgroundColor: '#333333', border: '1px solid #fed100' }}
+                <div
+                  className="card-header p-3"
+                  id="headingTwo"
+                  style={{
+                    backgroundColor: "#333333",
+                    border: "1px solid #fed100",
+                  }}
                   onClick={() => {
                     props.setListNumber(7);
                   }}
                 >
-                  <h5 className="mb-0 fw-semibold" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <h5
+                    className="mb-0 fw-semibold"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
                     <Link
                       to={""}
                       className="collapsed"
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseTwo"
                       aria-expanded="false"
-                      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%",
+                        color: "white",
+                      }}
                     >
-                      2. {t("MyJewellryList.Thông báo xác nhận định giá tài sản")}
+                      2.{" "}
+                      {t("MyJewellryList.Thông báo xác nhận định giá tài sản")}
                       <i className="ion-chevron-down"></i>
                     </Link>
                   </h5>
@@ -107,22 +152,41 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
                 </div>
               </div>
               <div className="card">
-                <div className="card-header p-3" id="headingThree"
-                  style={{ backgroundColor: '#333333', border: '1px solid #fed100' }}
+                <div
+                  className="card-header p-3"
+                  id="headingThree"
+                  style={{
+                    backgroundColor: "#333333",
+                    border: "1px solid #fed100",
+                  }}
                   onClick={() => {
                     props.setListNumber(8);
                   }}
                 >
-                  <h5 className="mb-0 fw-semibold" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <h5
+                    className="mb-0 fw-semibold"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
                     <Link
                       to={""}
                       className="collapsed"
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseTwo2"
                       aria-expanded="false"
-                      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: 'white' }}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%",
+                        color: "white",
+                      }}
                     >
-                      3. {t("MyJewellryList.Danh sách tài sản của đã phê duyệt")}
+                      3.{" "}
+                      {t("MyJewellryList.Danh sách tài sản của đã phê duyệt")}
                       <i className="ion-chevron-down"></i>
                     </Link>
                   </h5>
