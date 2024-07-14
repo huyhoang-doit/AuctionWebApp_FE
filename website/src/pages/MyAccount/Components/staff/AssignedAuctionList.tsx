@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Auction } from "../../../../models/Auction";
 import { getAuctionByStaffId } from "../../../../api/AuctionAPI";
-import { formatDateString } from "../../../../utils/formatDateString";
+import { formatDateStringAcceptNull } from "../../../../utils/formatDateString";
 import { User } from "../../../../models/User";
 import { Link } from "react-router-dom";
 import { PaginationControl } from "react-bootstrap-pagination-control";
@@ -106,7 +106,7 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
                   <tr key={auction.id}>
                     <td>{auction.id}</td>
                     <td>{auction.name}</td>
-                    <td>{formatDateString(auction.startDate)}</td>
+                    <td>{formatDateStringAcceptNull(auction.startDate)}</td>
                     <td>
                       <span
                         className={`fw-bold ${auction.state === "WAITING"

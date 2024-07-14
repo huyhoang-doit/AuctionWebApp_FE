@@ -2,7 +2,8 @@ import { format, parseISO } from 'date-fns';
 
 export const formatDateString = (isoString: string): string => {
     const date = parseISO(isoString);
-    return format(date, 'MM/dd/yyyy HH:mm:ss');
+
+    return format(date, 'MM-dd-yyyy HH:mm:ss');
 };
 
 export const formatDateTime = (date: Date) => {
@@ -12,7 +13,6 @@ export const formatDateTime = (date: Date) => {
         year: 'numeric'
     };
     const dateString = date.toLocaleDateString('vi-VN', options);
-
     const dayOfWeek = date.toLocaleDateString('vi-VN', { weekday: 'long' });
 
     return `${dayOfWeek}, ${dateString}`;
@@ -28,7 +28,7 @@ export const formatDateStringAcceptNull = (isoString: string | undefined): strin
     }
     try {
         const date = parseISO(isoString);
-        return format(date, 'MM/dd/yyyy HH:mm:ss');
+        return format(date, 'dd/MM/yyyy HH:mm:ss');
     } catch (error) {
         return 'Invalid date';
     }

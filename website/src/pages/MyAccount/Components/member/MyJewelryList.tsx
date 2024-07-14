@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { MyJewelryRequestList } from "./MyJewelryRequestList";
 import MyJewelriesPassedList from "./MyJewelriesPassed";
 import MyJewelryNeedConfirmList from "./JewellryNeedConfirmList";
+import { useTranslation } from "react-i18next";
 
 interface MyJewelriesListProps {
   user: User | null;
@@ -16,6 +17,7 @@ interface MyJewelriesListProps {
 const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
   const token = localStorage.getItem("access_token");
   const userExit = useAccount(token);
+  const { t } = useTranslation(["MyJewellryList"]);
 
   const [user, setUser] = useState<User | null>(
     userExit?.account || props.user

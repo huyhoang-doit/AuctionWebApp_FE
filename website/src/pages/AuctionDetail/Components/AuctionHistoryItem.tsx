@@ -1,11 +1,11 @@
 import { AuctionHistory } from "../../../models/AuctionHistory"
 import React from "react"
 import { formatNumber } from "../../../utils/formatNumber";
-import { formatDateString } from "../../../utils/formatDateString";
 import { BidConfirmDelete, BidConfirmKickOut } from "../../MyAccount/Modal/Modal";
 import { User } from "../../../models/User";
 import Stomp from "stompjs";
 import { Auction } from "../../../models/Auction";
+import { formatDateStringAcceptNull } from "../../../utils/formatDateString";
 
 interface AuctionHistoryItemProps {
     auction: Auction | null;
@@ -38,7 +38,7 @@ export const AuctionHistoryItem: React.FC<AuctionHistoryItemProps> = ({ stompCli
                                     {isFirstIndex ? "Trả giá cao nhất" : "Trả giá thấp hơn"}
                                 </td>
                                 <td className={`col-2 ${rowClassName}`}>{formatNumber(auctionHistory.priceGiven)} VNĐ</td>
-                                <td className={`col-2 ${rowClassName}`}>{formatDateString(auctionHistory.time ? auctionHistory.time : "")}</td>
+                                <td className={`col-2 ${rowClassName}`}>{formatDateStringAcceptNull(auctionHistory.time ? auctionHistory.time : "")}</td>
                                 <td className={`col-1 ${rowClassName}`}>{auctionHistory.bidCode}</td>
                                 {
                                     auction?.state !== 'FINISHED' && staff?.username !== user?.username &&

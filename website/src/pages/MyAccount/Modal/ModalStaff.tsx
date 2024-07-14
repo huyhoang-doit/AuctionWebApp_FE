@@ -15,10 +15,7 @@ import {
   formatNumber,
   formatNumberAcceptNull,
 } from "../../../utils/formatNumber";
-import {
-  formatDateString,
-  formatDateStringAcceptNull,
-} from "../../../utils/formatDateString";
+import { formatDateStringAcceptNull } from "../../../utils/formatDateString";
 import changeStateRequest, {
   cancelRequest,
   confirmRequest,
@@ -946,7 +943,7 @@ export const AssignAuctionModal: React.FC<AuctionType> = ({ auction }) => {
                         <input
                           placeholder=""
                           type="text"
-                          value={formatDateString(auction.startDate)}
+                          value={formatDateStringAcceptNull(auction.startDate)}
                           readOnly={true}
                         />
                       </div>
@@ -957,7 +954,7 @@ export const AssignAuctionModal: React.FC<AuctionType> = ({ auction }) => {
                         <input
                           placeholder=""
                           type="text"
-                          value={formatDateString(auction.endDate)}
+                          value={formatDateStringAcceptNull(auction.endDate)}
                           readOnly={true}
                         />
                       </div>
@@ -1168,7 +1165,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
                         <label>{t("ModalStaff.Bắt đầu")}</label>
                         <span className="fw-bold">
                           {" "}
-                          {formatDateString(
+                          {formatDateStringAcceptNull(
                             auction?.startDate ? auction.startDate : ""
                           )}
                         </span>
@@ -1177,7 +1174,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
                         <label>{t("ModalStaff.Kết thúc")}</label>
                         <span className="fw-bold">
                           {" "}
-                          {formatDateString(
+                          {formatDateStringAcceptNull(
                             auction?.endDate ? auction.endDate : ""
                           )}
                         </span>
