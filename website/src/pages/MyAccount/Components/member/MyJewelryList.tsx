@@ -27,8 +27,6 @@ const MyJewelriesList: React.FC<MyJewelriesListProps> = (props) => {
     setUser(props.user);
   }, [props.user]);
 
-  const { t } = useTranslation(["MyJewellryList"]);
-
   return (
     <>
       <div
