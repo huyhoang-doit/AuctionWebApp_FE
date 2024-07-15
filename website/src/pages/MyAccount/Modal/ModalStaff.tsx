@@ -24,7 +24,6 @@ import changeStateRequest, {
   confirmRequest,
   sendRequestApprovalFromStaff,
 } from "../../../api/RequestApprovalAPI";
-import { toast } from "react-toastify";
 import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
 import { PaymentMethod } from "../Components/member/PaymentMethod";
 import { StateTransaction } from "../Components/member/StateTransaction";
@@ -33,6 +32,7 @@ import PDFHandover from "../../../utils/PDFForm/PDFHandoverAsset";
 import { useTranslation } from "react-i18next";
 import { PDFViewer } from "@react-pdf/renderer";
 import PDFReturnAsset from "../../../utils/PDFForm/PDFReturnAsset";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 // *** MODEL FOR STAFF
 // Interface
@@ -574,11 +574,24 @@ export const JewelryCreateRequestModal: React.FC<
     const handleConfirm = async () => {
       const confirm = await confirmRequest(request.id, user?.id);
       if (confirm) {
-        console.log("confirm thành công");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Đã gửi định giá tài sản thành công",
+          showConfirmButton: false,
+          timer: 1500
+        });
         handleSendRequestFromStaff();
+        handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Gửi định giá thất bại",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
-      handleClose();
-      toast.success(t("ModalStaff.Định giá cho tài sản đã được gửi đi"));
     };
     return (
       <>
@@ -780,10 +793,23 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({
           );
           const setNote = await cancelRequest(cancel);
           if (setState && setNote) {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Đã hủy yêu cầu định giá tài sản",
+              showConfirmButton: false,
+              timer: 1500
+            });
             await handleChangeList();
             handleClose();
-            toast.success(t("ModalStaff.Xóa thành công."));
           } else {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Trạng thái chưa thể cập nhật, hủy yêu cầu đấu giá thất bại",
+              showConfirmButton: false,
+              timer: 1500
+            });
             setNotification(
               t(
                 "ModalStaff.Hệ thống có một chút sự cố, chưa thể xóa được tài sản này"
@@ -1313,10 +1339,25 @@ export const CreateHandoverReportModal: React.FC<
     const handleConfirm = async () => {
       const confirm = await setJewelryHolding(jewelryId, false);
       if (confirm) {
-        console.log("set holding thành công");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Xác nhận hoàn tất",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        handleChangeList();
+        handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
-      handleChangeList();
-      handleClose();
+
     };
     const { t } = useTranslation(["ModalStaff"]);
     return (
@@ -1565,10 +1606,24 @@ export const CreateReturnReportModal: React.FC<
     const handleConfirm = async () => {
       const confirm = await setJewelryHolding(jewelryId, false);
       if (confirm) {
-        console.log("set holding thành công");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Xác nhận hoàn tất",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        handleChangeList();
+        handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
-      handleChangeList();
-      handleClose();
     };
     const { t } = useTranslation(["ModalStaff"]);
     return (
@@ -1638,10 +1693,24 @@ export const ConfirmHoldingModal: React.FC<ConfirmHoldingModalProps> = ({
   const handleConfirm = async () => {
     const confirm = await setJewelryHolding(jewelry.id, true);
     if (confirm) {
-      console.log("set holding thành công");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Xác nhận đã nhận tài sản thành công",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      handleChangeList();
+      handleCloseJewelryDetail();
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
-    handleChangeList();
-    handleCloseJewelryDetail();
   };
 
   const { t } = useTranslation(["ModalStaff"]);

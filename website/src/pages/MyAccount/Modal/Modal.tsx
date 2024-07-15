@@ -618,13 +618,26 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
   getTransactionList,
 }) => {
     const method = "PAY_AT_COUNTER";
-
     const handleConfirmPayCounter = async () => {
       const changeMethod = await setMethodTransaction(transaction.id, method);
       if (changeMethod) {
-        toast.success(t("Modal.Thanh toán tại quầy được xác nhận"));
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Xác nhật giao dịch tại quầy",
+          showConfirmButton: false,
+          timer: 1500
+        });
         getTransactionList();
         handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Trạng thái chưa thể cập nhật, Xác nhận thất bại",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     };
     const { t } = useTranslation(["Modal"]);
@@ -785,11 +798,24 @@ export const ConfirmModal: React.FC<JewelryModalProps> = ({
   const handleConfirm = async () => {
     const confirm = await confirmRequest(request.id, user?.id);
     if (confirm) {
-      console.log("confirm thành công");
-      toast.success("Chấp nhận định giá thành công");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Xác nhận thành công",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      handleCloseJewelryDetail();
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
 
-    handleCloseJewelryDetail();
   };
 
   const { t } = useTranslation(["Modal"]);
@@ -912,9 +938,22 @@ export const RefuseJewelryRequestModal: React.FC<RefuseJewelryModalProps> = ({
           "HIDDEN"
         );
         if (resultDelete) {
-          toast.success("Đã hủy xác nhận.");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Xác nhận thành công",
+            showConfirmButton: false,
+            timer: 1500
+          });
           await handleChangeList();
         } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+            showConfirmButton: false,
+            timer: 1500
+          });
           console.log("Xóa thất bại");
         }
       }
