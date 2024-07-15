@@ -3,7 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Auction } from "../../models/Auction";
 import { changeStateAuction, getAuction } from "../../api/AuctionAPI";
-import { formatDateString } from "../../utils/formatDateString";
+import { formatDateStringAcceptNull } from "../../utils/formatDateString";
 import { Jewelry } from "../../models/Jewelry";
 import { User } from "../../models/User";
 import { formatNumber } from "../../utils/formatNumber";
@@ -379,7 +379,7 @@ export default function AuctionDetail() {
                             style={{ color: "#b41712" }}
                           >
                             {auction?.startDate
-                              ? formatDateString(auction?.startDate)
+                              ? formatDateStringAcceptNull(auction?.startDate)
                               : ""}
                           </p>
                         </div>
@@ -394,7 +394,7 @@ export default function AuctionDetail() {
                             style={{ color: "#b41712" }}
                           >
                             {auction?.startDate
-                              ? formatDateString(auction?.endDate)
+                              ? formatDateStringAcceptNull(auction?.endDate)
                               : ""}
                           </p>
                         </div>
