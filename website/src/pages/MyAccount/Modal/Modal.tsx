@@ -617,155 +617,168 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
   winner,
   getTransactionList,
 }) => {
-  const method = "PAY_AT_COUNTER";
+    const method = "PAY_AT_COUNTER";
+    const handleConfirmPayCounter = async () => {
+      const changeMethod = await setMethodTransaction(transaction.id, method);
+      if (changeMethod) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Xác nhật giao dịch tại quầy",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        getTransactionList();
+        handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Trạng thái chưa thể cập nhật, Xác nhận thất bại",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    };
+    const { t } = useTranslation(["Modal"]);
 
-  const handleConfirmPayCounter = async () => {
-    const changeMethod = await setMethodTransaction(transaction.id, method);
-    if (changeMethod) {
-      toast.success(t("Modal.Thanh toán tại quầy được xác nhận"));
-      getTransactionList();
-      handleClose();
-    }
-  };
-  const { t } = useTranslation(["Modal"]);
-
-  return (
-    <>
-      {show && (
-        <div className="overlay">
-          <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdrop="static"
-            size="lg"
-          >
-            <Modal.Header>
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">
-                  {t("Modal.Xác nhận thanh toán tại quầy")}
-                </div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-warning fw-bold">{auction?.name}</span>
-                </div>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="p-4">
-              <form action="">
-                <div className="checkbox-form">
-                  <div className="row">
-                    <div className="col-md-12 ">
-                      <div className="col-md-12 fw-medium row">
-                        <h4 className=" fw-medium">
-                          {t("Modal.Tài khoản thanh toán")}
-                        </h4>
-                        <div className="checkout-form-list my-3 col-md-6">
-                          <div className="checkout-form-list mb-2">
-                            <label>{t("Modal.Mã người dùng")} </label>
-                            <span className="fw-bold"> {winner?.id}</span>
-                          </div>
-                          <div className="checkout-form-list mb-2 ">
-                            <label>{t("Modal.Tên người dùng")}</label>
-                            <span className="fw-bold"> {winner?.fullName}</span>
-                          </div>
-                          <div className="checkout-form-list mb-2 ">
-                            <label>{t("Modal.Số CCCD")}</label>
-                            <span className="fw-bold"> {winner?.cccd}</span>
-                          </div>
-                          <div className="checkout-form-list mb-2">
-                            <label>{t("Modal.Địa chỉ")}</label>
-                            <span className="fw-semibold">
-                              {" "}
-                              {winner?.address}, {winner?.city},{" "}
-                              {winner?.district}{" "}
-                            </span>
-                          </div>
-                          <div className="checkout-form-list mb-2">
-                            <label>Email: </label>
-                            <span className="fw-semibold">
-                              {" "}
-                              {winner?.email}
-                            </span>
-                          </div>
-                          <div className="checkout-form-list my-4 col-md-12">
-                            <label>{t("Modal.Số tiền cần trả")} </label>
-                            <span className="fw-bold text-uppercase fs-4 text-success">
-                              {" "}
-                              {formatNumberAcceptNull(
-                                transaction.totalPrice
-                              )}{" "}
-                              VND
-                            </span>
-                          </div>
-                          <div className="checkout-form-list mb-2 ">
-                            <span style={{ fontSize: "12px" }}>
-                              {t(
-                                "Modal.Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ."
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="checkout-form-list my-4 col-md-6">
-                          <div className="checkout-form-list mb-2 ">
-                            <label>{t("Modal.Phương thức thanh toán")} </label>
-                            <span className="fw-bold">
-                              {" "}
-                              <PaymentMethod method={method} />
-                            </span>
-                          </div>
-                          <div className="checkout-form-list mb-2 ">
-                            <label>{t("Modal.Trạng thái thanh toán")} </label>
-                            <span className="fw-bold">
-                              {" "}
-                              <StateTransaction state={transaction.state} />
-                            </span>
-                          </div>
-
-                          {method === "PAY_AT_COUNTER" && (
+    return (
+      <>
+        {show && (
+          <div className="overlay">
+            <Modal
+              show={show}
+              onHide={handleClose}
+              centered
+              backdrop="static"
+              size="lg"
+            >
+              <Modal.Header>
+                <Modal.Title className="w-100">
+                  <div className="col-12 text-center">
+                    {t("Modal.Xác nhận thanh toán tại quầy")}
+                  </div>
+                  <div className="col-12 mb-3 text-center ">
+                    <span className="text-warning fw-bold">{auction?.name}</span>
+                  </div>
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="p-4">
+                <form action="">
+                  <div className="checkbox-form">
+                    <div className="row">
+                      <div className="col-md-12 ">
+                        <div className="col-md-12 fw-medium row">
+                          <h4 className=" fw-medium">
+                            {t("Modal.Tài khoản thanh toán")}
+                          </h4>
+                          <div className="checkout-form-list my-3 col-md-6">
+                            <div className="checkout-form-list mb-2">
+                              <label>{t("Modal.Mã người dùng")} </label>
+                              <span className="fw-bold"> {winner?.id}</span>
+                            </div>
                             <div className="checkout-form-list mb-2 ">
-                              <label>{t("Modal.Địa điểm thanh toán")}</label>
-                              <span className="fw-bold">
+                              <label>{t("Modal.Tên người dùng")}</label>
+                              <span className="fw-bold"> {winner?.fullName}</span>
+                            </div>
+                            <div className="checkout-form-list mb-2 ">
+                              <label>{t("Modal.Số CCCD")}</label>
+                              <span className="fw-bold"> {winner?.cccd}</span>
+                            </div>
+                            <div className="checkout-form-list mb-2">
+                              <label>{t("Modal.Địa chỉ")}</label>
+                              <span className="fw-semibold">
                                 {" "}
+                                {winner?.address}, {winner?.city},{" "}
+                                {winner?.district}{" "}
+                              </span>
+                            </div>
+                            <div className="checkout-form-list mb-2">
+                              <label>Email: </label>
+                              <span className="fw-semibold">
+                                {" "}
+                                {winner?.email}
+                              </span>
+                            </div>
+                            <div className="checkout-form-list my-4 col-md-12">
+                              <label>{t("Modal.Số tiền cần trả")} </label>
+                              <span className="fw-bold text-uppercase fs-4 text-success">
+                                {" "}
+                                {formatNumberAcceptNull(
+                                  transaction.totalPrice
+                                )}{" "}
+                                VND
+                              </span>
+                            </div>
+                            <div className="checkout-form-list mb-2 ">
+                              <span style={{ fontSize: "12px" }}>
                                 {t(
-                                  "Modal.Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam"
+                                  "Modal.Mọi thắc mắc xin liên hệ hotline (+84) 0123456789 để được hỗ trợ."
                                 )}
                               </span>
-                              <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1003405.79257722!2d105.55479573124998!3d10.768824599999986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1718718338321!5m2!1svi!2s"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                style={{
-                                  border: "0",
-                                  width: "100%",
-                                  height: "100%",
-                                  marginTop: "20px",
-                                }}
-                                title={t("Modal.Nhà Văn hóa Sinh viên TP.HCM")}
-                                allowFullScreen={true}
-                                loading="lazy"
-                              ></iframe>
                             </div>
-                          )}
+                          </div>
+                          <div className="checkout-form-list my-4 col-md-6">
+                            <div className="checkout-form-list mb-2 ">
+                              <label>{t("Modal.Phương thức thanh toán")} </label>
+                              <span className="fw-bold">
+                                {" "}
+                                <PaymentMethod method={method} />
+                              </span>
+                            </div>
+                            <div className="checkout-form-list mb-2 ">
+                              <label>{t("Modal.Trạng thái thanh toán")} </label>
+                              <span className="fw-bold">
+                                {" "}
+                                <StateTransaction state={transaction.state} />
+                              </span>
+                            </div>
+
+                            {method === "PAY_AT_COUNTER" && (
+                              <div className="checkout-form-list mb-2 ">
+                                <label>{t("Modal.Địa điểm thanh toán")}</label>
+                                <span className="fw-bold">
+                                  {" "}
+                                  {t(
+                                    "Modal.Nhà Văn hóa Sinh viên TP.HCM, Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam"
+                                  )}
+                                </span>
+                                <iframe
+                                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1003405.79257722!2d105.55479573124998!3d10.768824599999986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1718718338321!5m2!1svi!2s"
+                                  referrerPolicy="no-referrer-when-downgrade"
+                                  style={{
+                                    border: "0",
+                                    width: "100%",
+                                    height: "100%",
+                                    marginTop: "20px",
+                                  }}
+                                  title={t("Modal.Nhà Văn hóa Sinh viên TP.HCM")}
+                                  allowFullScreen={true}
+                                  loading="lazy"
+                                ></iframe>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="dark" onClick={handleClose}>
-                {t("Modal.Đóng")}
-              </Button>
-              <Button variant="warning" onClick={handleConfirmPayCounter}>
-                {t("Modal.Xác nhận")}
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
-    </>
-  );
-};
+                </form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="dark" onClick={handleClose}>
+                  {t("Modal.Đóng")}
+                </Button>
+                <Button variant="warning" onClick={handleConfirmPayCounter}>
+                  {t("Modal.Xác nhận")}
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </div>
+        )}
+      </>
+    );
+  };
 
 export const ConfirmModal: React.FC<JewelryModalProps> = ({
   jewelry,
@@ -785,11 +798,24 @@ export const ConfirmModal: React.FC<JewelryModalProps> = ({
   const handleConfirm = async () => {
     const confirm = await confirmRequest(request.id, user?.id);
     if (confirm) {
-      console.log("confirm thành công");
-      toast.success("Chấp nhận định giá thành công");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Xác nhận thành công",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      handleCloseJewelryDetail();
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
 
-    handleCloseJewelryDetail();
   };
 
   const { t } = useTranslation(["Modal"]);
@@ -912,9 +938,22 @@ export const RefuseJewelryRequestModal: React.FC<RefuseJewelryModalProps> = ({
           "HIDDEN"
         );
         if (resultDelete) {
-          toast.success("Đã hủy xác nhận.");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Xác nhận thành công",
+            showConfirmButton: false,
+            timer: 1500
+          });
           await handleChangeList();
         } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+            showConfirmButton: false,
+            timer: 1500
+          });
           console.log("Xóa thất bại");
         }
       }
@@ -1079,7 +1118,7 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
                         className="checkout-form-list checkout-form-list-2 mb-5"
                         style={{ height: "150px" }}
                       >
-                        <label>{t("Modal.Mô tả tài sản")} </label>
+                        <label>{t("Modal.Mô tả trang sức")} </label>
                         <br />
                         <textarea
                           readOnly
@@ -1136,11 +1175,10 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
                             className=" fw-bold text-success"
                             placeholder=""
                             type="text"
-                            value={`${
-                              request.isConfirm
-                                ? t("Modal.Đã phê duyệt")
-                                : t("Modal.Chưa phê duyệt")
-                            }`}
+                            value={`${request.isConfirm
+                              ? t("Modal.Đã phê duyệt")
+                              : t("Modal.Chưa phê duyệt")
+                              }`}
                             readOnly={true}
                           />
                         )}
@@ -1182,12 +1220,10 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
   const [show, setShow] = useState(false);
   const handleCloseJewelryDetail = () => setShow(false);
   const handleShowJewelryDetail = () => setShow(true);
-  const { t } = useTranslation(["Modal"]);
-
   return (
     <>
       <Button variant="dark" size="sm" onClick={handleShowJewelryDetail}>
-        {t("Modal.Xem")}
+        Xem
       </Button>
       {show && (
         <div className="overlay">
@@ -1200,9 +1236,7 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
           >
             <Modal.Header>
               <Modal.Title className="w-100">
-                <div className="col-12 text-center">
-                  {t("Modal.Thông tin tài sản")}
-                </div>
+                <div className="col-12 text-center">Thông tin tài sản</div>
                 <div className="col-12 mb-3 text-center ">
                   <span className="text-warning fw-bold">{jewelry?.name}</span>
                 </div>
@@ -1213,36 +1247,31 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
                 <div className="checkbox-form">
                   <div className="row">
                     <div className="col-md-12 fw-medium">
-                      <h4 className=" fw-medium">
-                        {t("Modal.Thông tin tài sản")}
-                      </h4>
+                      <h4 className=" fw-medium">Thông tin tài sản</h4>
                       <div className="checkout-form-list mb-2">
-                        <label>{t("Modal.Mã tài sản")}: </label>
+                        <label>Mã tài sản: </label>
                         <span className="fw-bold"> {jewelry?.id}</span>
                       </div>
                       <div className="checkout-form-list mb-2">
-                        <label>{t("Modal.Tên")}</label>
+                        <label>Tên:</label>
                         <span className="fw-bold"> {jewelry?.name}</span>
                       </div>
                       <div className="checkout-form-list mb-2 row">
                         <div className="col-md-6 mb-2">
-                          <label>{t("Modal.Thương hiệu")}</label>
+                          <label>Thương hiệu:</label>
                           <span className="fw-bold"> {jewelry?.brand}</span>
                         </div>
                         <div className="col-md-6">
-                          <label>{t("Modal.Chất liệu")}:</label>
-                          <span className="fw-bold">
-                            {" "}
-                            {t(`Modal.${jewelry?.material}`)}
-                          </span>
+                          <label>Chất liệu:</label>
+                          <span className="fw-bold"> {jewelry?.material}</span>
                         </div>
                         <div className="col-md-6">
-                          <label>{t("Modal.Trọng lượng (g)")}:</label>
+                          <label>Trọng lượng (g):</label>
                           <span className="fw-bold"> {jewelry?.weight}</span>
                         </div>
                       </div>
                       <div className="checkout-form-list checkout-form-list-2 mb-2">
-                        <label>{t("Modal.Mô tả tài sản")} </label>
+                        <label>Mô tả sản phẩm </label>
                         <br />
                         <textarea
                           readOnly
@@ -1254,14 +1283,11 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
                       </div>
                       <div className="w-100 fw-medium">
                         <div className="checkout-form-list row">
-                          <label>{t("Modal.Hình ảnh")}</label>
+                          <label>Hình ảnh</label>
                           {React.Children.toArray(
                             images.map((img: Image) => (
                               <div className="col-md-3">
-                                <img
-                                  src={img.data}
-                                  alt={t("Modal.Ảnh sản phẩm")}
-                                />
+                                <img src={img.data} alt="Ảnh sản phẩm" />
                               </div>
                             ))
                           )}
@@ -1271,26 +1297,20 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
                     {auction && (
                       <div className="col-md-12 fw-medium">
                         {jewelry?.state !== "AUCTION" ? (
-                          <h4 className=" fw-medium">
-                            {" "}
-                            {t("Modal.Phiên đấu trước đó")}
-                          </h4>
+                          <h4 className=" fw-medium"> Phiên đấu trước đó</h4>
                         ) : (
-                          <h4 className=" fw-medium">
-                            {" "}
-                            {t("Modal.Phiên đấu giá")}
-                          </h4>
+                          <h4 className=" fw-medium"> Phiên đấu</h4>
                         )}
                         <div className="checkout-form-list mb-2">
-                          <label> {t("Modal.Mã phiên")} </label>
+                          <label>Mã phiên: </label>
                           <span className="fw-bold"> {auction?.id}</span>
                         </div>
                         <div className="checkout-form-list mb-2">
-                          <label>{t("Modal.Tên")}:</label>
+                          <label>Tên:</label>
                           <span className="fw-bold"> {auction?.name}</span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
-                          <label>{t("Modal.Bắt đầu")}</label>
+                          <label>Bắt đầu:</label>
                           <span className="fw-bold">
                             {" "}
                             {formatDateStringAcceptNull(
@@ -1299,7 +1319,7 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
                           </span>
                         </div>
                         <div className="checkout-form-list mb-2">
-                          <label>{t("Modal.Kết thúc")}</label>
+                          <label>Kết thúc:</label>
                           <span className="fw-bold">
                             {" "}
                             {formatDateStringAcceptNull(
@@ -1308,13 +1328,13 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
                           </span>
                         </div>
                         <div className="checkout-form-list mb-2">
-                          <label>{t("Modal.Trạng thái")}: </label>
+                          <label>Trạng thái: </label>
 
                           <span className="fw-bold text-uppercase text-success">
                             {" "}
                             {auction.lastPrice === null ? (
                               <span className="text-danger fw-bold">
-                                {t("Modal.Đấu giá thất bại")}
+                                Đấu giá thất bại
                               </span>
                             ) : (
                               <StateAuctionView
@@ -1386,7 +1406,7 @@ export const ViewBidHistoryModal: React.FC<ViewBidHistoryModalProps> = ({
           setAuctionHistories(response.auctionHistoriesData);
           setTotalElements(response.totalElements);
         })
-        .catch(() => {});
+        .catch(() => { });
     }
     setLoading(false);
   }, [page, auctionHistoryState, auctionId, userId]);
@@ -1510,9 +1530,7 @@ interface BidConfirmProps {
   bidValue: number;
   setDisplayValue: (value: string) => void;
   setAuction: (auction: Auction) => void;
-  timeLeft:
-    | { days: number; hours: number; minutes: number; seconds: number }
-    | string;
+  timeLeft: { days: number; hours: number; minutes: number; seconds: number } | string
   username: string | undefined;
   auction: Auction | null;
   setAuctionHistories: (auctionHistories: AuctionHistory[]) => void;
@@ -1576,8 +1594,7 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
 
                       if (stompClient && connected) {
                         let bonusTime = 0;
-                        if (
-                          typeof timeLeft === "object" &&
+                        if (typeof timeLeft === 'object' &&
                           timeLeft.days === 0 &&
                           timeLeft.hours === 0 &&
                           timeLeft.minutes === 0 &&
@@ -1585,19 +1602,13 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
                           auction?.state === "ONGOING"
                         ) {
                           bonusTime = 5000;
-                          setAuction({
-                            ...auction,
-                            endDate: auction.endDate + 5000,
-                          });
-                          toast.warn(
-                            "Bạn đã giành thêm thời gian để trả giá vào 5 giây cuối!",
-                            { autoClose: 3000 }
-                          );
+                          setAuction({ ...auction, endDate: auction.endDate + 5000 });
+                          toast.warn('Bạn đã giành thêm thời gian để trả giá vào 5 giây cuối!', { autoClose: 3000 });
                         }
                         const message = {
                           username: username,
                           auctionId: auction.id,
-                          bonusTime: bonusTime,
+                          bonusTime: bonusTime
                         };
                         stompClient.send(
                           "/app/update-auction",
@@ -1859,11 +1870,7 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({
                 return;
               }
               if (user && auction) {
-                await confirmDeleteBid(
-                  user?.id,
-                  auction?.id,
-                  "Rút khỏi đấu giá"
-                );
+                await confirmDeleteBid(user?.id, auction?.id, "Rút khỏi đấu giá");
                 if (stompClient && connected) {
                   stompClient.send(
                     "/app/update-auction",
@@ -1893,6 +1900,7 @@ export const BidConfirmKickOut: React.FC<BidConfirmDeleteProps> = ({
   user,
   auction,
 }) => {
+
   return (
     <>
       <button
@@ -1924,33 +1932,34 @@ export const BidConfirmKickOut: React.FC<BidConfirmDeleteProps> = ({
                   if (!value) {
                     return "Bạn cần nhập lý do!";
                   }
-                },
+                }
               }).then((result: any) => {
                 if (result.isConfirmed && user && auction) {
-                  confirmDeleteBid(user?.id, auction?.id, result.value).then(
-                    (response) => {
-                      if (response === true) {
-                        if (stompClient && connected) {
-                          const message = {
-                            username: user.username,
-                            auctionId: auction.id,
-                          };
-                          stompClient.send(
-                            "/app/kick-out-user",
-                            {},
-                            JSON.stringify(message)
-                          );
+                  confirmDeleteBid(user?.id, auction?.id, result.value)
+                    .then(
+                      (response) => {
+                        if (response === true) {
+                          if (stompClient && connected) {
+                            const message = {
+                              username: user.username,
+                              auctionId: auction.id,
+                            };
+                            stompClient.send(
+                              "/app/kick-out-user",
+                              {},
+                              JSON.stringify(message)
+                            );
+                          } else {
+                            console.error("WebSocket client is not connected.");
+                          }
+                          toast.success("Xóa thành công.");
                         } else {
-                          console.error("WebSocket client is not connected.");
+                          toast.error("Xóa thất bại.");
                         }
-                        toast.success("Xóa thành công.");
-                      } else {
-                        toast.error("Xóa thất bại.");
                       }
-                    }
-                  );
+                    );
                 }
-              });
+              })
             },
             allowOutsideClick: () => !Swal.isLoading(),
           })

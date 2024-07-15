@@ -21,7 +21,6 @@ import changeStateRequest, {
   confirmRequest,
   sendRequestApprovalFromStaff,
 } from "../../../api/RequestApprovalAPI";
-import { toast } from "react-toastify";
 import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
 import { PaymentMethod } from "../Components/member/PaymentMethod";
 import { StateTransaction } from "../Components/member/StateTransaction";
@@ -30,6 +29,7 @@ import PDFHandover from "../../../utils/PDFForm/PDFHandoverAsset";
 import { useTranslation } from "react-i18next";
 import { PDFViewer } from "@react-pdf/renderer";
 import PDFReturnAsset from "../../../utils/PDFForm/PDFReturnAsset";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 // *** MODEL FOR STAFF
 // Interface
@@ -569,63 +569,76 @@ export const JewelryCreateRequestModal: React.FC<
       handleChangeList();
     }
   };
-
-  const { t } = useTranslation(["ModalStaff"]);
-
-  const handleConfirm = async () => {
-    const confirm = await confirmRequest(request.id, user?.id);
-    if (confirm) {
-      console.log("confirm thành công");
-      handleSendRequestFromStaff();
-    }
-    handleClose();
-    toast.success(t("ModalStaff.Định giá cho tài sản đã được gửi đi"));
-  };
-  return (
-    <>
-      {show && (
-        <div className="overlay">
-          <Modal
-            show={show}
-            onHide={handleClose}
-            centered
-            backdrop="static"
-            size="lg"
-          >
-            <Modal.Header>
-              <Modal.Title className="w-100">
-                <div className="col-12 text-center">
-                  {t("ModalStaff.Tạo yêu cầu phê duyệt tài sản")}
-                </div>
-                <div className="col-12 mb-3 text-center ">
-                  <span className="text-warning fw-bold">{jewelry?.name}</span>
-                </div>
-                <h5 className="col-12">
-                  {t("ModalStaff.Nhân viên gửi yêu cầu")} -{" "}
-                  <span className=" fw-bold">{user?.fullName}</span>
-                </h5>
-                <h5 className="col-12">
-                  {t("ModalStaff.Mã nhân viên")} -{" "}
-                  <span className=" fw-bold">{user?.id}</span>
-                </h5>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form action="">
-                <div className="checkbox-form">
-                  <div className="row">
-                    <div className="col-md-12 ">
-                      <div className="country-select clearfix"></div>
-                    </div>
-                    <div className="col-md-6 fw-medium">
-                      <div className="checkout-form-list">
-                        <label>{t("ModalStaff.Mã tài sản")} </label>
-                        <input
-                          placeholder=""
-                          type="text"
-                          value={jewelry?.id}
-                          readOnly={true}
-                        />
+  
+   const { t } = useTranslation(["ModalStaff"]);
+    const handleConfirm = async () => {
+      const confirm = await confirmRequest(request.id, user?.id);
+      if (confirm) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Đã gửi định giá tài sản thành công",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        handleSendRequestFromStaff();
+        handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Gửi định giá thất bại",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    };
+    return (
+      <>
+        {show && (
+          <div className="overlay">
+            <Modal
+              show={show}
+              onHide={handleClose}
+              centered
+              backdrop="static"
+              size="lg"
+            >
+              <Modal.Header>
+                <Modal.Title className="w-100">
+                  <div className="col-12 text-center">
+                    {t("ModalStaff.Tạo yêu cầu phê duyệt tài sản")}
+                  </div>
+                  <div className="col-12 mb-3 text-center ">
+                    <span className="text-warning fw-bold">{jewelry?.name}</span>
+                  </div>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Nhân viên gửi yêu cầu")} -{" "}
+                    <span className=" fw-bold">{user?.fullName}</span>
+                  </h5>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Mã nhân viên")} -{" "}
+                    <span className=" fw-bold">{user?.id}</span>
+                  </h5>
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <form action="">
+                  <div className="checkbox-form">
+                    <div className="row">
+                      <div className="col-md-12 ">
+                        <div className="country-select clearfix"></div>
+                      </div>
+                      <div className="col-md-6 fw-medium">
+                        <div className="checkout-form-list">
+                          <label>{t("ModalStaff.Mã tài sản")} </label>
+                          <input
+                            placeholder=""
+                            type="text"
+                            value={jewelry?.id}
+                            readOnly={true}
+                          />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-6 fw-medium">
@@ -781,10 +794,23 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({
           );
           const setNote = await cancelRequest(cancel);
           if (setState && setNote) {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Đã hủy yêu cầu định giá tài sản",
+              showConfirmButton: false,
+              timer: 1500
+            });
             await handleChangeList();
             handleClose();
-            toast.success(t("ModalStaff.Xóa thành công."));
           } else {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Trạng thái chưa thể cập nhật, hủy yêu cầu đấu giá thất bại",
+              showConfirmButton: false,
+              timer: 1500
+            });
             setNotification(
               t(
                 "ModalStaff.Hệ thống có một chút sự cố, chưa thể xóa được tài sản này"
@@ -1313,14 +1339,82 @@ export const CreateHandoverReportModal: React.FC<
   jewelry,
   handleChangeList,
 }) => {
-  const jewelryId = jewelry?.id ? jewelry.id : 1;
-  const handleConfirm = async () => {
-    const confirm = await setJewelryHolding(jewelryId, false);
-    if (confirm) {
-      console.log("set holding thành công");
-    }
-    handleChangeList();
-    handleClose();
+    const jewelryId = jewelry?.id ? jewelry.id : 1;
+    const handleConfirm = async () => {
+      const confirm = await setJewelryHolding(jewelryId, false);
+      if (confirm) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Xác nhận hoàn tất",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        handleChangeList();
+        handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+
+    };
+    const { t } = useTranslation(["ModalStaff"]);
+    return (
+      <>
+        {show && (
+          <div className="overlay">
+            <Modal
+              show={show}
+              onHide={handleClose}
+              centered
+              backdrop="static"
+              size="xl"
+            >
+              <Modal.Header>
+                <Modal.Title className="w-100">
+                  <div className="col-12 text-center">
+                    {t("ModalStaff.Thông tin bàn giao tài sản")}
+                  </div>
+                  <div className="col-12 mb-3 text-center ">
+                    <span className="text-warning fw-bold">{jewelry?.name}</span>
+                  </div>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Tên nhân viên")} -{" "}
+                    <span className=" fw-bold">{user?.fullName}</span>
+                  </h5>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Mã nhân viên")} -{" "}
+                    <span className=" fw-bold">{user?.id}</span>
+                  </h5>
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body style={{ height: "650px" }}>
+                <PDFViewer style={{ width: "100%", height: "100%" }}>
+                  <PDFHandover
+                    winner={winner}
+                    auction={auction}
+                    jewelry={jewelry}
+                  />
+                </PDFViewer>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="dark" onClick={handleClose}>
+                  {t("ModalStaff.Đóng")}
+                </Button>
+                <Button variant="warning" onClick={handleConfirm}>
+                  {t("ModalStaff.Xác nhận")}
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </div>
+        )}
+      </>
+    );
   };
   const { t } = useTranslation(["ModalStaff"]);
   return (
@@ -1563,15 +1657,88 @@ export const JewelryReturnedModal: React.FC<JewelryReturnedModalProps> = ({
 
 export const CreateReturnReportModal: React.FC<
   CreateReturnReportModalProps
-> = ({ show, handleClose, user, violator, jewelry, handleChangeList }) => {
-  const jewelryId = jewelry?.id ? jewelry.id : 1;
-  const handleConfirm = async () => {
-    const confirm = await setJewelryHolding(jewelryId, false);
-    if (confirm) {
-      console.log("set holding thành công");
-    }
-    handleChangeList();
-    handleClose();
+> = ({
+  show,
+  handleClose,
+  user,
+  violator,
+  jewelry,
+  handleChangeList,
+}) => {
+    const jewelryId = jewelry?.id ? jewelry.id : 1;
+    const handleConfirm = async () => {
+      const confirm = await setJewelryHolding(jewelryId, false);
+      if (confirm) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Xác nhận hoàn tất",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        handleChangeList();
+        handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    };
+    const { t } = useTranslation(["ModalStaff"]);
+    return (
+      <>
+        {show && (
+          <div className="overlay">
+            <Modal
+              show={show}
+              onHide={handleClose}
+              centered
+              backdrop="static"
+              size="xl"
+            >
+              <Modal.Header>
+                <Modal.Title className="w-100">
+                  <div className="col-12 text-center">
+                    {t("ModalStaff.Thông tin bàn giao tài sản")}
+                  </div>
+                  <div className="col-12 mb-3 text-center ">
+                    <span className="text-warning fw-bold">{jewelry?.name}</span>
+                  </div>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Tên nhân viên")} -{" "}
+                    <span className=" fw-bold">{user?.fullName}</span>
+                  </h5>
+                  <h5 className="col-12">
+                    {t("ModalStaff.Mã nhân viên")} -{" "}
+                    <span className=" fw-bold">{user?.id}</span>
+                  </h5>
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body style={{ height: "650px" }}>
+                <PDFViewer style={{ width: "100%", height: "100%" }}>
+                  <PDFReturnAsset
+                    violator={violator}
+                    jewelry={jewelry}
+                  />
+                </PDFViewer>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="dark" onClick={handleClose}>
+                  {t("ModalStaff.Đóng")}
+                </Button>
+                <Button variant="warning" onClick={handleConfirm}>
+                  {t("ModalStaff.Xác nhận")}
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </div>
+        )}
+      </>
+    );
   };
   const { t } = useTranslation(["ModalStaff"]);
   return (
@@ -1638,10 +1805,24 @@ export const ConfirmHoldingModal: React.FC<ConfirmHoldingModalProps> = ({
   const handleConfirm = async () => {
     const confirm = await setJewelryHolding(jewelry.id, true);
     if (confirm) {
-      console.log("set holding thành công");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Xác nhận đã nhận tài sản thành công",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      handleChangeList();
+      handleCloseJewelryDetail();
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
-    handleChangeList();
-    handleCloseJewelryDetail();
   };
 
   const { t } = useTranslation(["ModalStaff"]);

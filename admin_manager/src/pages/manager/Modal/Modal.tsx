@@ -38,6 +38,7 @@ import { getAuctionRegistrationsByAuctionId } from "../../../api/AuctionRegistra
 import { AuctionRegistration } from "../../../models/AuctionRegistration";
 import { Link } from "react-router-dom";
 import { StateTransaction } from "../Transaction/StateTransaction";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 // *** MODAL FOR MANAGER ***
 // Modal for Jewelry List
@@ -71,7 +72,23 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
 
     const newRequest = await sendRequestApprovalFromManager(requestBody);
     if (newRequest) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Yêu cầu đấu giá tài sản đã được xác nhận",
+        showConfirmButton: false,
+        timer: 1500
+      });
       handleChangeList();
+      handleCloseJewelryDetail();
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Trạng thái chưa thể cập nhật, yêu cầu đấu giá tài sản thất bại",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   };
 
@@ -80,7 +97,6 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
     if (confirm) {
       handleSendRequestFromManager();
     }
-    handleCloseJewelryDetail();
   };
 
   return (
@@ -280,10 +296,23 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({
           );
           const setNote = await cancelRequest(cancel);
           if (setState && setNote) {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Hủy yêu cầu thành công",
+              showConfirmButton: false,
+              timer: 1500
+            });
             await handleChangeList();
             handleClose();
-            toast.success("Xóa thành công.");
           } else {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Trạng thái chưa thể cập nhật, hủy thất bại",
+              showConfirmButton: false,
+              timer: 1500
+            });
             setNotification(
               "Hệ thống có một chút sự cố, chưa thể xóa được trang sức này"
             );

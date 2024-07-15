@@ -311,31 +311,6 @@ export default function About() {
                 <div className="testimonials-area">
                   <div className="testimonial-slider slider-navigation_style-1">
                     <div className="single-item">
-                      <div className="testimonial-img">
-                        <Link to="">
-                          <img
-                            style={{ width: "40%" }}
-                            src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-6/270961679_10159870536636108_2642967668131478092_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=tXLob4dQoKYQ7kNvgGGHDXb&_nc_ht=scontent.fsgn5-5.fna&oh=00_AYDVprpAMT8O-RYhQiI73QWzrZza6Wec9YSgwpkujAoH-g&oe=665A4217"
-                            alt="Umino's Testimonial "
-                          />
-                        </Link>
-                      </div>
-                      <div className="author-info">
-                        <span className="name">
-                          {" "}
-                          {t("About.Nguyễn Thế Hoàng")}
-                        </span>
-                        <span className="occupation">Mentor of DGS</span>
-                        <div className="icon">
-                          <img
-                            src="assets/images/about-us/testimonial/testimonial-icon.png"
-                            alt="Umino's Testimonial Icon"
-                          />
-                        </div>
-                        <p className="short-desc">
-                          {t("About.Được sự hỗ trợ và hướng dẫn trực tiếp")}
-                        </p>
-                      </div>
                     </div>
                     <div className="single-item">
                       <div className="testimonial-img">
@@ -348,7 +323,7 @@ export default function About() {
                       </div>
                       <div className="author-info">
                         <span className="name">Jenifer Brown</span>
-                        <span className="occupation">Manager of AZ</span>
+                        <span className="occupation">Manager of DGS</span>
                         <div className="icon">
                           <img
                             src="assets/images/about-us/testimonial/testimonial-icon.png"

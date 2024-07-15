@@ -14,7 +14,6 @@ const ReceiveAndHandover: React.FC<ReceiveAndHandoverProps> = (props) => {
   const [user, setUser] = useState<User | null>(props.user);
   const { t } = useTranslation(["Staff"]);
 
-
   useEffect(() => {
     setUser(props.user);
   }, [props.user]);

@@ -57,7 +57,7 @@ const JewelriesReturnViolatorList: React.FC<JewelriesReturnViolatorListProps> = 
 
   useEffect(() => {
     handleChangeList();
-  }, [user, page, props.listNumber, handleChangeList, debouncedTxtSearch, category]);
+  }, [user, page, props.listNumber, debouncedTxtSearch, category]);
 
   useEffect(() => {
     setTxtSearch("");

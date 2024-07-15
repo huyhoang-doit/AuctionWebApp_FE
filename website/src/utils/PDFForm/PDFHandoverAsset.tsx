@@ -81,8 +81,8 @@ const PDFHandover: React.FC<PDFHandoverProps> = ({ winner, jewelry, auction }) =
     company: {
       name: 'CÔNG TY ĐẤU GIÁ DGS',
       address: 'Lưu Hữu Phước, Đông Hoà, Dĩ An, Bình Dương, Việt Nam',
-      representative: 'Nguyễn Thế Hoàng',
-      position: 'Quản lý cấp cao DGS',
+      representative: '...',
+      position: '...',
     },
     person: {
       name: winner?.fullName,
