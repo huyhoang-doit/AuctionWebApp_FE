@@ -1332,7 +1332,7 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
 
                           <span className="fw-bold text-uppercase text-success">
                             {" "}
-                            {auction.lastPrice === null ? (
+                            {auction.state === "FINISHED" && auction.lastPrice === null ? (
                               <span className="text-danger fw-bold">
                                 Đấu giá thất bại
                               </span>
@@ -1345,14 +1345,20 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
                             )}
                           </span>
                         </div>
-                        {auction.lastPrice === null ? (
-                          ""
+                        {auction.state === "FINISHED" ? (
+                          <div className="checkout-form-list mb-2">
+                          <label>Giá cuối:</label>
+                          <span className="fw-bold text-uppercase text-danger">
+                            {" "}
+                            {formatNumberAcceptNull(auction?.lastPrice) ? formatNumberAcceptNull(auction?.lastPrice) : 0} VND
+                          </span>
+                        </div>
                         ) : (
                           <div className="checkout-form-list mb-2">
-                            <label>Giá cuối:</label>
+                            <label>Giá hiện tại:</label>
                             <span className="fw-bold text-uppercase text-danger">
                               {" "}
-                              {formatNumberAcceptNull(auction?.lastPrice)} VND
+                              {formatNumberAcceptNull(auction?.lastPrice) ? formatNumberAcceptNull(auction?.lastPrice) : 0} VND 
                             </span>
                           </div>
                         )}

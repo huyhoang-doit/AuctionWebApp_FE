@@ -169,11 +169,13 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
                   ))
                 )
               ) : (
-                <td colSpan={6} className="text-center">
-                  <h5 className="fw-semibold lh-base mt-2">
-                    {t("StaffRequestList.Chưa có yêu cầu nào được gửi đi")}
-                  </h5>
-                </td>
+                <tr>
+                  <td colSpan={6} className="text-center">
+                    <h5 className="fw-semibold lh-base mt-2">
+                      {t("StaffRequestList.Chưa có yêu cầu nào được gửi đi")}
+                    </h5>
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>

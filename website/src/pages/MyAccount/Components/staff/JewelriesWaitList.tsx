@@ -155,11 +155,13 @@ const JewelriesWaitList: React.FC<JewelriesWaitListProps> = (props) => {
                   />
                 ))
               ) : (
-                <td colSpan={6} className="text-center">
-                  <h5 className="fw-semibold lh-base mt-2">
-                    {t("JewelriesWaitList.Chưa có yêu cầu nào được gửi đến")}
-                  </h5>
-                </td>
+                <tr>
+                  <td colSpan={6} className="text-center">
+                    <h5 className="fw-semibold lh-base mt-2">
+                      {t("JewelriesWaitList.Chưa có yêu cầu nào được gửi đến")}
+                    </h5>
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>

@@ -21,6 +21,7 @@ import useCountDownBid from "../../hooks/useCountDownBid";
 import Swal from "sweetalert2";
 import { createTransactionForWinner } from "../../api/TransactionAPI";
 import { numberToVietnameseText } from "../../utils/numberToVietnameseText";
+import useIsStaff from "../../hooks/useIsStaff";
 
 export const AuctionBid = () => {
     const navigate = useNavigate();
@@ -37,6 +38,7 @@ export const AuctionBid = () => {
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
     const [isEnding, setIsEnding] = useState(false);
     const context = useContext(UserContext);
+    const isStaff = useIsStaff();
 
     let user: User | null = null;
     if (context?.account) {
@@ -54,6 +56,32 @@ export const AuctionBid = () => {
         auctionId = 0;
         console.log("Error parsing auction id: " + error);
     }
+
+    useEffect(() => {
+        getAuction(auctionId)
+            .then((auction) => {
+                setAuction(auction);
+                setJewelry(auction?.jewelry ?? null);
+                setStaff(auction?.user ?? null);
+                if (auction?.state === "FINISHED") {
+                    setIsEnding(true)
+                }
+                const price = auction?.lastPrice ?? auction?.firstPrice ?? 0;
+                setDisplayValue(formatNumber(price));
+                setBidValue(auction?.lastPrice ?? auction?.firstPrice ?? 0);
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+        window.scrollTo(0, 0);
+    }, [auctionId]);
+
+    useEffect(() => {
+        if (auction && auction?.state !== 'ONGOING' && auction?.state !== 'FINISHED') {
+            Swal.fire('Phiên đấu giá chưa bắt đầu.', 'Vui lòng chờ...', 'warning');
+            navigate("/tai-san-dau-gia/" + auctionId);
+        }
+    }, [auction, auctionId, navigate]);
 
     useEffect(() => {
         const handleAuctionEnd = async () => {
@@ -177,25 +205,6 @@ export const AuctionBid = () => {
                 });
         }
     }, [auctionId, bidPerPage, auction])
-
-    useEffect(() => {
-        getAuction(auctionId)
-            .then((auction) => {
-                setAuction(auction);
-                setJewelry(auction?.jewelry ?? null);
-                setStaff(auction?.user ?? null);
-                if (auction?.state === "FINISHED") {
-                    setIsEnding(true)
-                }
-                const price = auction?.lastPrice ?? auction?.firstPrice ?? 0;
-                setDisplayValue(formatNumber(price));
-                setBidValue(auction?.lastPrice ?? auction?.firstPrice ?? 0);
-            })
-            .catch((error) => {
-                console.error(error.message);
-            });
-        window.scrollTo(0, 0);
-    }, [auctionId]);
 
     useEffect(() => {
         setDisplayValue(formatNumber(bidValue));
@@ -339,10 +348,6 @@ export const AuctionBid = () => {
         return null;
     };
 
-    function isStaff(user: User | null, staff: User | null) {
-        return user && staff && user.id === staff.id;
-    }
-
     return (
         <>
             <div className="template-color-1">
@@ -404,7 +409,7 @@ export const AuctionBid = () => {
                                             <div className="row">
                                                 <h4 className="no-margin fw-bold mb-4">ĐẶT GIÁ (VNĐ)</h4>
                                                 <BidInfo auction={auction} />
-                                                {(!isEnding && !isStaff(user, staff)) &&
+                                                {(!isEnding && !isStaff) &&
                                                     <>
                                                         <div className="col-9 d-flex align-items-center">
                                                             <button

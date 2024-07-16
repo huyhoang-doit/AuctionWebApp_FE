@@ -133,13 +133,15 @@ const AssignedAuctionList: React.FC<MyAccountDetailProps> = (props) => {
                   </tr>
                 ))
               ) : (
-                <td colSpan={6} className="text-center">
-                  <h5 className="fw-semibold lh-base mt-2">
-                    {t(
-                      "AssignedAuctionList.Hiện tại chưa có phiên nào được phân công"
-                    )}
-                  </h5>
-                </td>
+                <tr>
+                  <td colSpan={6} className="text-center">
+                    <h5 className="fw-semibold lh-base mt-2">
+                      {t(
+                        "AssignedAuctionList.Hiện tại chưa có phiên nào được phân công"
+                      )}
+                    </h5>
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>

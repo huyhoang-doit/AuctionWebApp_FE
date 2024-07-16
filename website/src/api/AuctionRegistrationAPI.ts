@@ -21,7 +21,7 @@ export async function getAuctionRegistrationsByAuctionId(auctionId: number): Pro
     try {
         const response = await MyRequest(URL);
         const auctionRegistrationsData = response.map((item: any) => mapAuctionRegistration(item));
-
+        
         return { auctionRegistrationsData };
     } catch (error) {
         console.error('Error fetching auction registrations:', error);

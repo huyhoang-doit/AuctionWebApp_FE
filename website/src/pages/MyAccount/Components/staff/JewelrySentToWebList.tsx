@@ -167,11 +167,13 @@ const JewelrySentToWebList: React.FC<JewelrySentToWebProps> = ({
                   ))
                 )
               ) : (
-                <td colSpan={6} className="text-center">
-                  <h5 className="fw-semibold lh-base mt-2">
-                    {t("JewelrySentToWebList.Không có tài sản nào")}
-                  </h5>
-                </td>
+                <tr>
+                  <td colSpan={6} className="text-center">
+                    <h5 className="fw-semibold lh-base mt-2">
+                      {t("JewelrySentToWebList.Không có tài sản nào")}
+                    </h5>
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>

@@ -82,6 +82,14 @@ export default function RegisterForAuction() {
         });
         return;
       }
+      if (jewelry?.user?.id === user.id) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Không thể tham gia đấu giá',
+          html: '<span>Bạn không thể tham gia đấu giá sản phẩm của chính mình.</span>',
+        });
+        return;
+      }
       handlePay(amount, auctionId, user?.username ? user.username : "", 0);
     }
   };

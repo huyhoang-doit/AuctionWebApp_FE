@@ -7,6 +7,8 @@ import { StateJewelry } from './StateJewelry';
 import { getCurrentAuctionByJewelryId } from '../../../../api/AuctionAPI';
 import { Auction } from '../../../../models/Auction';
 import { MyJewelryModal } from '../../Modal/Modal';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 type MyJewelrySingleProps = {
   jewelry: Jewelry | undefined;
   user: User | null,
@@ -15,6 +17,8 @@ const MyJewelrySingle: React.FC<MyJewelrySingleProps> = ({ jewelry, user }) => {
   const [image, setImage] = useState<Image | null>(null)
   const [images, setImages] = useState<Image[]>([])
   const [auction, setAuction] = useState<Auction | null>(null)
+  const { t } = useTranslation(["Member"]);
+
   const jewelryId = jewelry?.id ? jewelry.id : 1
   useEffect(() => {
     getIconImageByJewelryId(jewelryId)
@@ -56,8 +60,13 @@ const MyJewelrySingle: React.FC<MyJewelrySingleProps> = ({ jewelry, user }) => {
         <td className='fw-semibold text-success'>
           <StateJewelry state={jewelry?.state ? jewelry?.state : 'HIDDEN'} />
         </td>
-        <td >
+        <td>
           <MyJewelryModal images={images} user={user} jewelry={jewelry} auction={auction} />
+          <Link to={`/tai-san-dau-gia/${auction?.id}`}>
+            <button className="ms-2 btn btn-warning btn-sm">
+              {t("Member.Đếnphiênđấu")}
+            </button>
+          </Link>
         </td>
       </tr>
     </>
