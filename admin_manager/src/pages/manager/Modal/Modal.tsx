@@ -13,7 +13,6 @@ import changeStateRequest, {
   confirmRequest,
   sendRequestApprovalFromManager,
 } from "../../../api/RequestApprovalAPI";
-import { toast } from "react-toastify";
 import "./Modal.css";
 import {
   formatDateString,
