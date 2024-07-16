@@ -16,10 +16,7 @@ import {
   getAuctionHistoriesByAuctionIdAndUserId,
 } from "../../../api/AuctionHistoryAPI";
 import { Auction } from "../../../models/Auction";
-import {
-  formatDateString,
-  formatDateStringAcceptNull,
-} from "../../../utils/formatDateString";
+import { formatDateStringAcceptNull } from "../../../utils/formatDateString";
 import { User } from "../../../models/User";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,7 +46,6 @@ import { handlePay } from "../../../api/PaymentAPI";
 import { setMethodTransaction } from "../../../api/TransactionAPI";
 import { useTranslation } from "react-i18next";
 import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
-import { t } from "i18next";
 import { TypeTransaction } from "../Components/member/TypeTransaction";
 
 import { PaymentMethod } from "../Components/member/PaymentMethod";
@@ -260,9 +256,13 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
 
                           <span className="fw-bold">
                             {" "}
-                            {transaction.paymentTime === null ? (<StateTransaction state={transaction.state} />) : (formatDateStringAcceptNull(
-                              transaction.paymentTime
-                            ))}
+                            {transaction.paymentTime === null ? (
+                              <StateTransaction state={transaction.state} />
+                            ) : (
+                              formatDateStringAcceptNull(
+                                transaction.paymentTime
+                              )
+                            )}
                           </span>
                         </div>
                       </div>
@@ -271,14 +271,19 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                           <label>{t("Modal.Phương thức thanh toán")}</label>
                           <span className="fw-bold">
                             {" "}
-                            {transaction.type === 'PAYMENT_TO_WINNER' ? (<PaymentMethod
-                              method={
-                                transaction.paymentMethod
-                                  ? transaction.paymentMethod
-                                  : ""
-                              }
-                            />) : (<span className="fw-bold">{t("Modal.Chuyển khoản")}</span>)}
-
+                            {transaction.type === "PAYMENT_TO_WINNER" ? (
+                              <PaymentMethod
+                                method={
+                                  transaction.paymentMethod
+                                    ? transaction.paymentMethod
+                                    : ""
+                                }
+                              />
+                            ) : (
+                              <span className="fw-bold">
+                                {t("Modal.Chuyển khoản")}
+                              </span>
+                            )}
                           </span>
                         </div>
                         <div className="checkout-form-list mb-2 ">
@@ -613,13 +618,26 @@ export const ConfirmPayAtCounterTransactionModal: React.FC<
   getTransactionList,
 }) => {
     const method = "PAY_AT_COUNTER";
-
     const handleConfirmPayCounter = async () => {
       const changeMethod = await setMethodTransaction(transaction.id, method);
       if (changeMethod) {
-        toast.success(t("Modal.Thanh toán tại quầy được xác nhận"));
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Xác nhật giao dịch tại quầy",
+          showConfirmButton: false,
+          timer: 1500
+        });
         getTransactionList();
         handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Trạng thái chưa thể cập nhật, Xác nhận thất bại",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     };
     const { t } = useTranslation(["Modal"]);
@@ -780,11 +798,24 @@ export const ConfirmModal: React.FC<JewelryModalProps> = ({
   const handleConfirm = async () => {
     const confirm = await confirmRequest(request.id, user?.id);
     if (confirm) {
-      console.log("confirm thành công");
-      toast.success("Chấp nhận định giá thành công");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Xác nhận thành công",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      handleCloseJewelryDetail();
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
 
-    handleCloseJewelryDetail();
   };
 
   const { t } = useTranslation(["Modal"]);
@@ -907,9 +938,22 @@ export const RefuseJewelryRequestModal: React.FC<RefuseJewelryModalProps> = ({
           "HIDDEN"
         );
         if (resultDelete) {
-          toast.success("Đã hủy xác nhận.");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Xác nhận thành công",
+            showConfirmButton: false,
+            timer: 1500
+          });
           await handleChangeList();
         } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+            showConfirmButton: false,
+            timer: 1500
+          });
           console.log("Xóa thất bại");
         }
       }
@@ -1102,7 +1146,7 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
                     <div className="col-md-6">
                       <div className="checkout-form-list">
                         <label className="text-danger fw-bold">
-                          {t("Modal.Giá đề xuất")}
+                          {t("Modal.Giá mong muốn")}
                         </label>
                         <input
                           className=" fw-bold"
@@ -1252,7 +1296,11 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
                     </div>
                     {auction && (
                       <div className="col-md-12 fw-medium">
-                        {jewelry?.state !== 'AUCTION' ? (<h4 className=" fw-medium"> Phiên đấu trước đó</h4>) : (<h4 className=" fw-medium"> Phiên đấu</h4>)}
+                        {jewelry?.state !== "AUCTION" ? (
+                          <h4 className=" fw-medium"> Phiên đấu trước đó</h4>
+                        ) : (
+                          <h4 className=" fw-medium"> Phiên đấu</h4>
+                        )}
                         <div className="checkout-form-list mb-2">
                           <label>Mã phiên: </label>
                           <span className="fw-bold"> {auction?.id}</span>
@@ -1284,24 +1332,30 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
 
                           <span className="fw-bold text-uppercase text-success">
                             {" "}
-                            {auction.lastPrice === null ? (<span className="text-danger fw-bold">
-                              Đấu giá thất bại
-                            </span>) : (<StateAuctionView
-                              state={
-                                auction?.state ? auction.state : "FINISHED"
-                              }
-                            />)}
-
+                            {auction.lastPrice === null ? (
+                              <span className="text-danger fw-bold">
+                                Đấu giá thất bại
+                              </span>
+                            ) : (
+                              <StateAuctionView
+                                state={
+                                  auction?.state ? auction.state : "FINISHED"
+                                }
+                              />
+                            )}
                           </span>
                         </div>
-                        {auction.lastPrice === null ? '' : (<div className="checkout-form-list mb-2">
-                          <label>Giá cuối:</label>
-                          <span className="fw-bold text-uppercase text-danger">
-                            {" "}
-                            {formatNumberAcceptNull(auction?.lastPrice)} VND
-                          </span>
-                        </div>)}
-
+                        {auction.lastPrice === null ? (
+                          ""
+                        ) : (
+                          <div className="checkout-form-list mb-2">
+                            <label>Giá cuối:</label>
+                            <span className="fw-bold text-uppercase text-danger">
+                              {" "}
+                              {formatNumberAcceptNull(auction?.lastPrice)} VND
+                            </span>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -1476,6 +1530,7 @@ interface BidConfirmProps {
   bidValue: number;
   setDisplayValue: (value: string) => void;
   setAuction: (auction: Auction) => void;
+  timeLeft: { days: number; hours: number; minutes: number; seconds: number } | string
   username: string | undefined;
   auction: Auction | null;
   setAuctionHistories: (auctionHistories: AuctionHistory[]) => void;
@@ -1487,6 +1542,7 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
   stompClient,
   connected,
   setAuctionHistories,
+  timeLeft,
   bidValue,
   username,
   auction,
@@ -1537,10 +1593,27 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
                       );
 
                       if (stompClient && connected) {
+                        let bonusTime = 0;
+                        if (typeof timeLeft === 'object' &&
+                          timeLeft.days === 0 &&
+                          timeLeft.hours === 0 &&
+                          timeLeft.minutes === 0 &&
+                          timeLeft.seconds < 5 &&
+                          auction?.state === "ONGOING"
+                        ) {
+                          bonusTime = 5000;
+                          setAuction({ ...auction, endDate: auction.endDate + 5000 });
+                          toast.warn('Bạn đã giành thêm thời gian để trả giá vào 5 giây cuối!', { autoClose: 3000 });
+                        }
+                        const message = {
+                          username: username,
+                          auctionId: auction.id,
+                          bonusTime: bonusTime
+                        };
                         stompClient.send(
                           "/app/update-auction",
                           {},
-                          JSON.stringify(auction.id)
+                          JSON.stringify(message)
                         );
                       } else {
                         console.error("WebSocket client is not connected.");
@@ -1556,7 +1629,7 @@ export const BidConfirm: React.FC<BidConfirmProps> = ({
                         icon: "error",
                         title: t(
                           "Modal.Trả giá không thành thành công, vui lòng thực hiện lại!"
-                        )
+                        ),
                       });
                     }
                   })
@@ -1797,7 +1870,7 @@ export const BidConfirmDelete: React.FC<BidConfirmDeleteProps> = ({
                 return;
               }
               if (user && auction) {
-                await confirmDeleteBid(user?.id, auction?.id);
+                await confirmDeleteBid(user?.id, auction?.id, "Rút khỏi đấu giá");
                 if (stompClient && connected) {
                   stompClient.send(
                     "/app/update-auction",
@@ -1827,6 +1900,7 @@ export const BidConfirmKickOut: React.FC<BidConfirmDeleteProps> = ({
   user,
   auction,
 }) => {
+
   return (
     <>
       <button
@@ -1841,25 +1915,51 @@ export const BidConfirmKickOut: React.FC<BidConfirmDeleteProps> = ({
             icon: "error",
             title: "Xác nhận xóa người dùng khỏi phiên?",
             html: `
-            <div>Bạn có chắc là muốn trục xuất người dùng ${user?.fullName} khỏi phiên đấu giá.</div>`,
+            <div>Bạn muốn trục xuất <b>${user?.fullName}</b> khỏi phiên đấu giá?</div>`,
             showCancelButton: true,
             confirmButtonText: "Xác nhận",
             cancelButtonText: "Hủy",
             showLoaderOnConfirm: true,
-            preConfirm: async () => {
-              if (user && auction) {
-                await confirmDeleteBid(user?.id, auction?.id);
-                if (stompClient && connected) {
-                  stompClient.send(
-                    "/app/update-auction",
-                    {},
-                    JSON.stringify(auction.id)
-                  );
-                } else {
-                  console.error("WebSocket client is not connected.");
+            preConfirm: () => {
+              Swal.fire({
+                title: "Lý do trục xuất",
+                input: "textarea",
+                inputPlaceholder: "Nhập lý do...",
+                showCancelButton: true,
+                confirmButtonText: "Gửi",
+                cancelButtonText: "Hủy",
+                inputValidator: (value: string) => {
+                  if (!value) {
+                    return "Bạn cần nhập lý do!";
+                  }
                 }
-                toast.success("Xóa thành công.");
-              }
+              }).then((result: any) => {
+                if (result.isConfirmed && user && auction) {
+                  confirmDeleteBid(user?.id, auction?.id, result.value)
+                    .then(
+                      (response) => {
+                        if (response === true) {
+                          if (stompClient && connected) {
+                            const message = {
+                              username: user.username,
+                              auctionId: auction.id,
+                            };
+                            stompClient.send(
+                              "/app/kick-out-user",
+                              {},
+                              JSON.stringify(message)
+                            );
+                          } else {
+                            console.error("WebSocket client is not connected.");
+                          }
+                          toast.success("Xóa thành công.");
+                        } else {
+                          toast.error("Xóa thất bại.");
+                        }
+                      }
+                    );
+                }
+              })
             },
             allowOutsideClick: () => !Swal.isLoading(),
           })
@@ -1984,6 +2084,7 @@ export const OpenRegulationsForSellerModal = () => {
                 style={{ width: "100%", height: "100%" }}
               >
                 <iframe
+                  title="Regulations for property sellers"
                   src="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview"
                   width="640"
                   height="100%"

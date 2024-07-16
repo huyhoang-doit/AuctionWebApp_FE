@@ -5,8 +5,10 @@ import { User } from "./User";
 export class Jewelry {
     id: number;
     name: string;
-    price?: number;
+    buyNowPrice?: number;
     state?: string;
+    receivedDate?: string;
+    deliveryDate?: string;
     category?: Category;
     description?: string;
     material?: string;
@@ -18,8 +20,10 @@ export class Jewelry {
     constructor(
         id: number,
         name: string,
-        price?: number,
+        buyNowPrice?: number,
         state?: string,
+        receivedDate?: string,
+        deliveryDate?: string,
         brand?: string,
         description?: string,
         material?: string,
@@ -30,9 +34,11 @@ export class Jewelry {
     ) {
         this.id = id;
         this.name = name;
-        this.price = price;
+        this.buyNowPrice = buyNowPrice;
         this.brand = brand;
         this.state = state;
+        this.receivedDate = receivedDate;
+        this.deliveryDate = deliveryDate;
         this.description = description;
         this.material = material;
         this.weight = weight;

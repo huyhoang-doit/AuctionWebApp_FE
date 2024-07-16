@@ -21,7 +21,6 @@ import useCountDownBid from "../../hooks/useCountDownBid";
 import Swal from "sweetalert2";
 import { createTransactionForWinner } from "../../api/TransactionAPI";
 import { numberToVietnameseText } from "../../utils/numberToVietnameseText";
-import { getAuctionRegistrationsByAuctionId } from "../../api/AuctionRegistrationAPI";
 
 export const AuctionBid = () => {
     const navigate = useNavigate();
@@ -33,7 +32,7 @@ export const AuctionBid = () => {
     const [errorBidValue, setErrorBidValue] = useState("");
     const [auctionHistories, setAuctionHistories] = useState<AuctionHistory[]>([]);
     const [bidPerPage, setBidPerPage] = useState<number>(3);
-    const timeLeft = useCountDownBid(auction);
+    let timeLeft = useCountDownBid(auction);
     const [connected, setConnected] = useState(false);
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
     const [isEnding, setIsEnding] = useState(false);
@@ -106,33 +105,50 @@ export const AuctionBid = () => {
     useEffect(() => {
         const socket = new SockJS(`${BASE_WS}/ws`);
         const newClient = Stomp.over(socket);
+
+        const onMessageReceived = (message: Stomp.Message) => {
+            const receivedData = JSON.parse(message.body);
+            if (receivedData.auctionId === auctionId) {
+                setAuction(prevAuction => ({
+                    ...prevAuction!,
+                    lastPrice: receivedData.lastPrice,
+                    endDate: receivedData.endDate
+                }));
+                setBidValue(receivedData.lastPrice);
+                setDisplayValue(formatNumber(receivedData.lastPrice));
+
+                const isMeBid = receivedData.username === user?.username;
+
+                if (!isMeBid) {
+                    toast.warn('Giá cuối đã thay đổi!', { autoClose: 3000 });
+                }
+
+                if (!isMeBid && receivedData.bonusTime > 0) {
+                    toast.warn('Thời gian kết thúc đấu giá kéo dài thêm 5 giây!', { autoClose: 3000 });
+                }
+            }
+        };
+
+        const onOutAuctionMessage = (message: Stomp.Message) => {
+            const receivedData = JSON.parse(message.body);
+            if (receivedData.userId === user?.id) {
+                Swal.fire('Bạn đã bị cấm khỏi phiên này', 'Lý do: ' + receivedData.kickReason, 'error');
+                navigate('/tai-san-dau-gia/' + auctionId);
+            }
+            setAuction(prevAuction => ({
+                ...prevAuction!,
+                lastPrice: receivedData.lastPrice
+            }));
+            setBidValue(receivedData.lastPrice);
+            setDisplayValue(formatNumber(receivedData.lastPrice));
+        };
+
         newClient.connect(
             {},
-            (frame) => {
+            () => {
                 setConnected(true);
-                newClient.subscribe("/user/auction", (message) => {
-                    const receivedData = JSON.parse(message.body);
-                    if (receivedData.auctionId === auctionId) {
-                        setAuction(prevAuction => ({
-                            ...prevAuction!,
-                            lastPrice: receivedData.lastPrice,
-                        }));
-                        setBidValue(receivedData.lastPrice)
-                        setDisplayValue(formatNumber(receivedData.lastPrice));
-                        toast.warn('Giá cuối đã thay đổi!');
-
-                        getAuctionRegistrationsByAuctionId(receivedData.auctionId)
-                            .then((data) => {
-                                const userFound = data.auctionRegistrationsData.some(registration => registration.user?.id === context?.account?.id);
-                                if (!userFound) {
-                                    navigate('/tai-san-dau-gia/' + receivedData.auctionId);
-                                }
-                            })
-                            .catch((error) => {
-                                console.error('Error fetching user auctions:', error);
-                            });
-                    }
-                });
+                newClient.subscribe("/user/auction", onMessageReceived);
+                newClient.subscribe("/user/out-auction-registration", onOutAuctionMessage);
             },
             (error) => {
                 console.error("Connection error: ", error);
@@ -140,15 +156,15 @@ export const AuctionBid = () => {
         );
 
         setStompClient(newClient);
+
         return () => {
-            if (connected) {
+            if (newClient.connected) {
                 newClient.disconnect(() => {
                     setConnected(false);
-                    // console.log("Disconnected");
                 });
             }
         };
-    }, []);
+    }, [auctionId, user, navigate]);
 
     useEffect(() => {
         if (auctionId !== null) {
@@ -273,7 +289,7 @@ export const AuctionBid = () => {
             );
         } else if (!isMeFirstIndex && bidValue >= ((auction?.lastPrice || 0) + (auction?.priceStep || 0))) {
             return <BidConfirm
-                stompClient={stompClient} connected={connected}
+                stompClient={stompClient} connected={connected} timeLeft={timeLeft}
                 setAuctionHistories={setAuctionHistories} setDisplayValue={setDisplayValue} setAuction={setAuction} username={user?.username} auction={auction} bidValue={bidValue} />;
         } else {
             return (
@@ -322,6 +338,10 @@ export const AuctionBid = () => {
         }
         return null;
     };
+
+    function isStaff(user: User | null, staff: User | null) {
+        return user && staff && user.id === staff.id;
+    }
 
     return (
         <>
@@ -384,7 +404,7 @@ export const AuctionBid = () => {
                                             <div className="row">
                                                 <h4 className="no-margin fw-bold mb-4">ĐẶT GIÁ (VNĐ)</h4>
                                                 <BidInfo auction={auction} />
-                                                {!isEnding &&
+                                                {(!isEnding && !isStaff(user, staff)) &&
                                                     <>
                                                         <div className="col-9 d-flex align-items-center">
                                                             <button

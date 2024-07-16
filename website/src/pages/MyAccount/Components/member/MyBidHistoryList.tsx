@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 import { Spinner } from "react-bootstrap";
 import MyBidHistorySingle from "./MyBidHistorySingle";
@@ -80,7 +80,6 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user, listNu
         setLoading(true);
         getAuctionRegistrationByUserId(user.id, debouncedTxtSearch, page)
           .then((response) => {
-            console.log(response);
             setUserAuctionRegistration(response.auctionRegistrationsData);
             setTotalElements(response.totalElements);
             setLoading(false);
@@ -176,9 +175,7 @@ export const MyBidHistoryList: React.FC<MyBidHistoryListProps> = ({ user, listNu
             <thead>
               <tr>
                 <th>{t("MyBidHistoryList.Mã phiên")}</th>
-                <th style={{ width: "200px" }}>
-                  {t("MyBidHistoryList.Tên phiên")}
-                </th>
+                <th style={{ width: "200px" }}>{t("MyBidHistoryList.Tên phiên")}</th>
                 <th>{t("MyBidHistoryList.Trạng thái")}</th>
                 <th>{t("MyBidHistoryList.Kết quả")}</th>
                 <th>{t("MyBidHistoryList.Thao tác")}</th>

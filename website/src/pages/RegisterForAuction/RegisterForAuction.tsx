@@ -3,7 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useParams } from "react-router-dom";
 import { Auction } from "../../models/Auction";
 import { getAuction } from "../../api/AuctionAPI";
-import { formatDateString } from "../../utils/formatDateString";
+import { formatDateStringAcceptNull } from "../../utils/formatDateString";
 import { Jewelry } from "../../models/Jewelry";
 import { User } from "../../models/User";
 import { formatNumber } from "../../utils/formatNumber";
@@ -117,11 +117,11 @@ export default function RegisterForAuction() {
                   <div className="col-lg-6">
                     <div className="article-content" style={{ height: "100%" }}>
                       <object
-                        data="https://drive.google.com/file/d/1NfVgsAmbn9iiLqfhodOirL21dB14w55_/preview"
+                        data="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview"
                         style={{ width: "100%", height: "100%" }}
                       >
                         <iframe
-                          src="https://drive.google.com/file/d/1NfVgsAmbn9iiLqfhodOirL21dB14w55_/preview"
+                          src="https://drive.google.com/file/d/1snejSWfr0rtKfN3t1JQah-gWH5vni1cl/preview"
                           title="file"
                           width="640"
                           height="100%"
@@ -281,7 +281,7 @@ export default function RegisterForAuction() {
                             style={{ color: "#b41712" }}
                           >
                             {auction?.startDate
-                              ? formatDateString(auction?.startDate)
+                              ? formatDateStringAcceptNull(auction?.startDate)
                               : ""}
                           </p>
                         </div>
@@ -296,7 +296,7 @@ export default function RegisterForAuction() {
                             style={{ color: "#b41712" }}
                           >
                             {auction?.startDate
-                              ? formatDateString(auction?.endDate)
+                              ? formatDateStringAcceptNull(auction?.endDate)
                               : ""}
                           </p>
                         </div>

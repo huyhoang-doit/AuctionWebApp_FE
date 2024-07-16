@@ -4,12 +4,12 @@ import { Auction } from "../../../models/Auction";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { getAuctionsByStateNotPageale } from "../../../api/AuctionAPI";
-
+import { useTranslation } from "react-i18next";
 const AuctionWaiting = () => {
   const [auctions, setAuctions] = useState<Auction[]>([]);
 
   useEffect(() => {
-    getAuctionsByStateNotPageale('WAITING')
+    getAuctionsByStateNotPageale("WAITING")
       .then((response) => {
         setAuctions(response.auctionsData);
       })
@@ -22,19 +22,21 @@ const AuctionWaiting = () => {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 4,
-      partialVisibilityGutter: 40 // this is needed to tell the amount of px that should be visible.
+      partialVisibilityGutter: 40, // this is needed to tell the amount of px that should be visible.
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
       items: 3,
-      partialVisibilityGutter: 30 // this is needed to tell the amount of px that should be visible.
+      partialVisibilityGutter: 30, // this is needed to tell the amount of px that should be visible.
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
       items: 2,
-      partialVisibilityGutter: 30 // this is needed to tell the amount of px that should be visible.
-    }
-  }
+      partialVisibilityGutter: 30, // this is needed to tell the amount of px that should be visible.
+    },
+  };
+
+  const { t } = useTranslation(["Components"]);
 
   return (
     <div className="umino-product_area">
@@ -42,7 +44,7 @@ const AuctionWaiting = () => {
         <div className="row">
           <div className="col-12">
             <div className="umino-section_title">
-              <h3>Tài sản đang chờ đấu giá</h3>
+            {auctions.length > 0 &&<h3>{t("Banner02.Tài sản đang chờ đấu giá")}</h3>}
             </div>
           </div>
 
@@ -64,9 +66,10 @@ const AuctionWaiting = () => {
                   containerClass="carousel-container"
                   removeArrowOnDeviceType={["tablet", "mobile"]}
                 >
-                  {React.Children.toArray(auctions.map((auction) => (
-                    <SingleAuction auction={auction} />
-                  ))
+                  {React.Children.toArray(
+                    auctions.map((auction) => (
+                      <SingleAuction auction={auction} />
+                    ))
                   )}
                 </Carousel>
               </div>

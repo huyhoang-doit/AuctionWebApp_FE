@@ -80,7 +80,7 @@ export const NavBar = () => {
                       <ul className="hm-dropdown">
                         <li>
                           <a
-                            href="https://drive.google.com/file/d/1bgQ-1IqhUr5RTYUHzO3hdsLthpZask_X/view?usp=drive_link"
+                            href="https://drive.google.com/file/d/1lbnWNHbTg8QD9uKWD1ZQathSoNCx0npl/view"
                             target="_blank"
                             rel="noopener noreferrer"
                           >

@@ -11,6 +11,8 @@ export class Transaction {
     auction?: Auction;
     paymentMethod?: string;
     paymentTime?: string;
+    transactionCode?: string;
+    bankCode?: string;
     user?: User;
 
     constructor(
@@ -23,6 +25,8 @@ export class Transaction {
         auction: Auction,
         paymentMethod?: string,
         paymentTime?: string,
+        transactionCode?: string,
+        bankCode?: string,
         user?: User) {
         this.id = id;
         this.createDate = createDate;
@@ -34,5 +38,7 @@ export class Transaction {
         this.paymentMethod = paymentMethod;
         this.paymentTime = paymentTime;
         this.user = user;
+        this.transactionCode = transactionCode;
+        this.bankCode = bankCode;
     }
 }

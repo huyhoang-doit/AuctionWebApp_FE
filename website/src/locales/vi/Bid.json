@@ -1,0 +1,32 @@
+{
+    "BidInfo" : {
+          "Giá cao nhất hiện tại" : "Giá cao nhất hiện tại",
+          "Giá khởi điểm" : "Giá khởi điểm:",
+          "Bước giá" : "Bước giá:",
+          "Phí tham gia" : "Phí tham gia:",
+          "Tiền đặt trước" : "Tiền đặt trước:"
+ 
+    },
+
+    "AuctionBid" : {
+        "Phiên đấu giá đã kết thúc" : "Phiên đấu giá đã kết thúc",
+        "Bạn đã thắng phiên đấu giá này." : "Bạn đã thắng phiên đấu giá này.",
+        "Hệ thống đã gửi yêu cầu thanh toán cho bạn, vui lòng vào hồ sơ cá nhân để tiến hành thanh toán." : "Hệ thống đã gửi yêu cầu thanh toán cho bạn, vui lòng vào hồ sơ cá nhân để tiến hành thanh toán.",
+        "đã thắng phiên đấu giá này với giá cuối cùng là" : "đã thắng phiên đấu giá này với giá cuối cùng là",
+        "Không có người thắng trong phiên đấu giá này." : "Không có người thắng trong phiên đấu giá này.",
+        "Đồng ý" : "Đồng ý",
+        "Giá cuối đã thay đổi" : "Giá cuối đã thay đổi!",
+        "Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá" : "Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá",
+        "Trả giá" : "Trả giá",
+        "Đặt giá cao hơn mức giá cao nhất 01 (một) bước giá" : "Đặt giá cao hơn mức giá cao nhất 01 (một) bước giá",
+        "Đăng kí đấu giá" : "Đăng kí đấu giá",
+        "Thời gian còn lại để trả giá" : "Thời gian còn lại để trả giá",
+        "Ngày" : "Ngày",
+        "Giờ" : "Giờ",
+        "Phút" : "Phút",
+        "Giây" : "Giây",
+        "ĐẶT GIÁ (VNĐ)" : "ĐẶT GIÁ (VNĐ)",
+        "Hiện bạn là người trả giá cao nhất." : "Hiện bạn là người trả giá cao nhất.",
+        "Vui lòng chờ người khác đặt giá cao hơn để tiếp tục trả giá." : "Vui lòng chờ người khác đặt giá cao hơn để tiếp tục trả giá."
+    }
+}

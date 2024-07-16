@@ -1,0 +1,32 @@
+{
+    "BidInfo" : {
+          "Giá cao nhất hiện tại" : "Current highest bid",
+          "Giá khởi điểm" : "Starting price:",
+          "Bước giá" : "Bid increment:",
+          "Phí tham gia" : "Participation fee:",
+          "Tiền đặt trước" : "Deposit:"
+ 
+    },
+
+    "AuctionBid" : {
+        "Phiên đấu giá đã kết thúc" : "Auction has ended",
+        "Bạn đã thắng phiên đấu giá này." : "You have won this auction.",
+        "Hệ thống đã gửi yêu cầu thanh toán cho bạn, vui lòng vào hồ sơ cá nhân để tiến hành thanh toán." : "The system has sent a payment request to you, please go to your profile to proceed with the payment.",
+        "đã thắng phiên đấu giá này với giá cuối cùng là" : "has won this auction with the final price of",
+        "Không có người thắng trong phiên đấu giá này." : "No winner in this auction.",
+        "Đồng ý" : "Agree",
+        "Giá cuối đã thay đổi" : "The final price has changed!",
+        "Giá trị đấu giá phải lớn hơn giá cao nhất hiện tại + bước giá" : "The bid value must be greater than the current highest bid + bid increment",
+        "Trả giá" : "Bid",
+        "Đặt giá cao hơn mức giá cao nhất 01 (một) bước giá" : "Bid higher than the current highest bid by 01 (one) bid increment",
+        "Đăng kí đấu giá" : "Register for auction",
+        "Thời gian còn lại để trả giá" : "Time left to bid",
+        "Ngày" : "Day",
+        "Giờ" : "Hour",
+        "Phút" : "Minute",
+        "Giây" : "Second",
+        "ĐẶT GIÁ (VNĐ)" : "BID (VND)",
+        "Hiện bạn là người trả giá cao nhất." : "You are currently the highest bidder.",
+        "Vui lòng chờ người khác đặt giá cao hơn để tiếp tục trả giá." : "Please wait for others to bid higher to continue bidding."
+    }
+}

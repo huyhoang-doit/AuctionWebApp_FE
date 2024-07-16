@@ -3,7 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Auction } from "../../models/Auction";
 import { changeStateAuction, getAuction } from "../../api/AuctionAPI";
-import { formatDateString } from "../../utils/formatDateString";
+import { formatDateStringAcceptNull } from "../../utils/formatDateString";
 import { Jewelry } from "../../models/Jewelry";
 import { User } from "../../models/User";
 import { formatNumber } from "../../utils/formatNumber";
@@ -33,9 +33,7 @@ export default function AuctionDetail() {
   const [auction, setAuction] = useState<Auction | null>(null);
   const [jewelry, setJewelry] = useState<Jewelry | null>(null);
   const [jewelryUser, setJewelryUser] = useState<User | null>(null);
-  const [auctionRegistations, setAuctionRegistations] = useState<
-    AuctionRegistration[]
-  >([]);
+  const [auctionRegistations, setAuctionRegistations] = useState<AuctionRegistration[]>([]);
   const [staff, setStaff] = useState<User | null>(null);
   const timeLeft = useCountDown(auction);
   const { id } = useParams();
@@ -138,15 +136,26 @@ export default function AuctionDetail() {
     return false;
   };
 
+  const invalidRegistered = (): AuctionRegistration | null => {
+    if (auctionRegistations && auctionRegistations.length > 0) {
+      const invalidRegistration = auctionRegistations.find(
+        (registration) => registration.user?.id === account?.id && registration.state === 'KICKED_OUT'
+      );
+      return invalidRegistration || null;
+    }
+    return null;
+  };
+
   const checkIsStaff = () => {
     if (token) {
       const decodedData = jwtDecode<DecodedToken>(token);
       const userRoles =
         decodedData.authorities?.map((auth) => auth.authority) || [];
-      return userRoles.includes('STAFF');
+      return userRoles.includes("STAFF");
     }
     return false;
   };
+
 
   return (
     <>
@@ -161,15 +170,12 @@ export default function AuctionDetail() {
                     <a href="index.html">{t("AuctionDetail.Home")}</a>
                   </li>
                   <li className="active">
-                    {t("AuctionDetail.Trang sức đấu giá")}
+                    {t("AuctionDetail.Tài sản đấu giá")}
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-          {/* <!-- Umino's Breadcrumb Area End Here -->
-
-                    <!-- Begin Umino's Single Product Sale Area --> */}
           <div className="sp-area">
             <div className="container">
               <div className="sp-nav">
@@ -235,7 +241,7 @@ export default function AuctionDetail() {
                       <div className="row">
                         <div className="col-6">
                           <p className="left-title-text no-margin">
-                            {t("AuctionDetail.Mã trang sức")}
+                            {t("AuctionDetail.Mã tài sản")}
                           </p>
                         </div>
                         <div className="col-6">
@@ -373,7 +379,7 @@ export default function AuctionDetail() {
                             style={{ color: "#b41712" }}
                           >
                             {auction?.startDate
-                              ? formatDateString(auction?.startDate)
+                              ? formatDateStringAcceptNull(auction?.startDate)
                               : ""}
                           </p>
                         </div>
@@ -388,7 +394,7 @@ export default function AuctionDetail() {
                             style={{ color: "#b41712" }}
                           >
                             {auction?.startDate
-                              ? formatDateString(auction?.endDate)
+                              ? formatDateStringAcceptNull(auction?.endDate)
                               : ""}
                           </p>
                         </div>
@@ -424,7 +430,8 @@ export default function AuctionDetail() {
                           }}
                         >
                           {auction?.state === "WAITING" &&
-                            !checkAlreadyRegistered() && !checkIsStaff() && (
+                            !checkAlreadyRegistered() &&
+                            !checkIsStaff() && (
                               <Link
                                 to={"/dang-ki-dau-gia/" + auctionId}
                                 className="fw-bold text-center eg-btn btn--primary text-white btn--sm"
@@ -445,7 +452,8 @@ export default function AuctionDetail() {
                               </Link>
                             )}
                           {auction?.state === "WAITING" &&
-                            checkAlreadyRegistered() && !checkIsStaff() && (
+                            checkAlreadyRegistered() &&
+                            !checkIsStaff() && (
                               <button
                                 className="bidding-request-confirm-btn"
                                 style={{
@@ -470,7 +478,7 @@ export default function AuctionDetail() {
                               </button>
                             )}
                           {auction?.state === "ONGOING" &&
-                            checkAlreadyRegistered() && !checkIsStaff() && (
+                            checkAlreadyRegistered() && !invalidRegistered() && !checkIsStaff() && (
                               <Link
                                 to={"/dau-gia-san-pham/" + auctionId}
                                 className="fw-bold text-center eg-btn btn--primary content-center text-white btn--sm"
@@ -491,7 +499,26 @@ export default function AuctionDetail() {
                                 {t("AuctionDetail.Đấu giá ngay")}
                               </Link>
                             )}
-                          {(checkIsStaff() &&
+                          {auction?.state === "ONGOING" &&
+                            checkAlreadyRegistered() && invalidRegistered() && !checkIsStaff() && (
+                              <>
+                                <button
+                                  className="fw-bold text-center eg-btn btn--primary content-center btn--sm"
+                                  style={{
+                                    backgroundColor: "#ccc",
+                                    color: "#333",
+                                    textTransform: "unset",
+                                    border: "unset",
+                                    borderRadius: "10px",
+                                    padding: "10px",
+                                    fontSize: "16px",
+                                  }}
+                                  disabled
+                                > Bạn bị cấm khỏi phiên đấu giá này với lý do: {auctionRegistations.find(auctionRegistation => auctionRegistation.user?.id === account?.id)?.kickReason}
+                                </button>
+                              </>
+                            )}
+                          {checkIsStaff() && (
                             <Link
                               to={"/dau-gia-san-pham/" + auctionId}
                               className="fw-bold text-center eg-btn btn--primary content-center text-white btn--sm"
@@ -509,7 +536,7 @@ export default function AuctionDetail() {
                                 className="fa fa-gavel"
                                 style={{ marginRight: "5px" }}
                               ></i>
-                              Đến khu vực đấu giá
+                              {t("AuctionDetail.Đến khu vực đấu giá")}
                             </Link>
                           )}
                         </div>
@@ -534,9 +561,6 @@ export default function AuctionDetail() {
               </div>
             </div>
           </div>
-          {/* Umino's Single Product Area Sale End Here  */}
-
-          {/* Begin Umino's Single Product Tab Area  */}
 
           <AuctionTabDetail
             stompClient={null}

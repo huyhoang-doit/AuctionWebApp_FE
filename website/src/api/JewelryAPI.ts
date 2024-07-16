@@ -1,4 +1,5 @@
 import BASE_URL from "../config/config";
+import { mapJewelry } from "../mappings/mapJewelry";
 import { Jewelry } from "../models/Jewelry";
 import { fetchWithToken } from "./AuthenticationAPI";
 import { MyRequest } from "./MyRequest";
@@ -6,7 +7,7 @@ import { MyRequest } from "./MyRequest";
 interface JewelryRequest {
   id: number;
   name: string;
-  price: number;
+  buyNowPrice: number;
   category: string | undefined;
   description: string;
   material: string;
@@ -18,22 +19,6 @@ interface JewelryRequest {
 interface ResultPageableInteface {
   jeweriesData: Jewelry[];
   totalElements: number
-}
-
-function mapJewelry(jewelryData: any): Jewelry {
-  return {
-    id: jewelryData.id,
-    name: jewelryData.name,
-    price: jewelryData.price,
-    state: jewelryData.state,
-    category: jewelryData.category,
-    description: jewelryData.description,
-    material: jewelryData.material,
-    brand: jewelryData.brand,
-    weight: jewelryData.weight,
-    user: jewelryData.user,
-    isHolding: jewelryData.isHolding
-  };
 }
 
 export async function getJewelriesPagination(username: string, page: number): Promise<ResultPageableInteface> {
@@ -60,18 +45,6 @@ export async function getJewelriesPagination(username: string, page: number): Pr
   }
 }
 
-async function getJewelries(URL: string): Promise<Jewelry[]> {
-  let result: Jewelry[] = [];
-
-  // request
-  const response = await MyRequest(URL);
-  for (const key in response) {
-    result.push(mapJewelry(response[key]));
-  }
-
-  return result;
-}
-
 export const sendJewelryFromUser = async (jewelryRequest: JewelryRequest): Promise<boolean> => {
   const accessToken = localStorage.getItem('access_token');
   // end-point
@@ -79,9 +52,6 @@ export const sendJewelryFromUser = async (jewelryRequest: JewelryRequest): Promi
   // call api
   try {
     const response = await fetchWithToken(URL, 'POST', accessToken, jewelryRequest);
-
-    console.log(response);
-
     if (!response.ok) {
       throw new Error(`Không thể truy cập ${URL}`);
     }
@@ -110,12 +80,11 @@ export async function getJewelriesWaitList(page: number): Promise<ResultPageable
   }
 }
 
-export async function getJewelriesByStateAndHolding(state: string, jewelryName: string, holding: boolean, page: number): Promise<ResultPageableInteface> {
+export async function getJewelriesByStateAndHolding(state: string, jewelryName: string, holding: boolean, category: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
 
-  const URL: string = `${BASE_URL}/jewelry/is-holding?state=${state}&jewelryName=${jewelryName}&isHolding=${holding}&page=${page - 1}`;
+  const URL: string = `${BASE_URL}/jewelry/is-holding?state=${state}&jewelryName=${jewelryName}&category=${category}&isHolding=${holding}&page=${page - 1}`;
 
-  const jewelrys: Jewelry[] = [];
   // request
   try {
     const response = await MyRequest(URL);
@@ -134,8 +103,6 @@ export async function getJewelriesByStateAndHolding(state: string, jewelryName: 
 export async function setJewelryHolding(id: number, state: boolean): Promise<boolean> {
   // endpoint
   const URL: string = `${BASE_URL}/jewelry/set-holding/${id}?state=${state}`;
-
-  console.log(URL)
   const response = await fetch(URL, {
     method: 'PUT',
     headers: {
@@ -155,29 +122,40 @@ export async function setJewelryHolding(id: number, state: boolean): Promise<boo
 export async function getJewelriesActiveByUserId(userId: number, jewelryName: string, page: number): Promise<ResultPageableInteface> {
   // endpoint
   const URL: string = `${BASE_URL}/jewelry/user-jewelry/${userId}?jewelryName=${jewelryName}&page=${page - 1}`;
-  const jewelrys: Jewelry[] = [];
   // request
-  const response = await MyRequest(URL);
-  const responseData = response.content;
-  const totalElements = response.totalElements;
 
-  for (const key in responseData) {
-    jewelrys.push({
-      id: responseData[key].id,
-      name: responseData[key].name,
-      price: responseData[key].price,
-      state: responseData[key].state,
-      category: responseData[key].category,
-      description: responseData[key].description,
-      material: responseData[key].material,
-      brand: responseData[key].brand,
-      weight: responseData[key].weight,
-      user: responseData[key].user
-    })
+  try {
+    const response = await MyRequest(URL);
+    const jeweriesData: Jewelry[] = response.content.map((jewelry: any) => mapJewelry(jewelry));
+    const totalElements = response.totalElements;
+
+    return {
+      jeweriesData: jeweriesData,
+      totalElements: totalElements
+    }
+  } catch (error) {
+    console.error("Error fetching auctions:", error);
+    throw new Error("Trang sức không tồn tại");
   }
-  return {
-    jeweriesData: jewelrys,
-    totalElements: totalElements
+}
+
+export async function getJewelriesReturned(jewelryName: string, category: string, page: number): Promise<ResultPageableInteface> {
+  // endpoint
+  const URL: string = `${BASE_URL}/jewelry/return-violator?jewelryName=${jewelryName}&category=${category}&page=${page - 1}`;
+  // request
+
+  try {
+    const response = await MyRequest(URL);
+    const jeweriesData: Jewelry[] = response.content.map((jewelry: any) => mapJewelry(jewelry));
+    const totalElements = response.totalElements;
+
+    return {
+      jeweriesData: jeweriesData,
+      totalElements: totalElements
+    }
+  } catch (error) {
+    console.error("Error fetching auctions:", error);
+    throw new Error("Trang sức không tồn tại");
   }
 }
 
@@ -185,8 +163,6 @@ export async function getJewelriesActiveByUserId(userId: number, jewelryName: st
 export async function setJewelryHidden(id: number): Promise<boolean> {
   // endpoint
   const URL: string = `${BASE_URL}/jewelry/${id}`;
-
-  console.log(URL)
   const response = await fetch(URL, {
     method: 'DELETE',
     headers: {
@@ -223,7 +199,5 @@ export async function getJewelriesHandOverList(page: number): Promise<ResultPage
 export async function getLatestJewelry(): Promise<Jewelry> {
   const URL = `${BASE_URL}/jewelry/latest`
   const response = await MyRequest(URL);
-  console.log(response);
-
   return response;
 }

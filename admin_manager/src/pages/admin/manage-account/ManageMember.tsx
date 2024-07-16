@@ -10,7 +10,7 @@ import { DeleteUserModal } from '../Modal';
 
 
 const ManageUser = () => {
-  const states = ['ACTIVE', 'INACTIVE', 'VERIFIED']
+  const states = ['VERIFIED', 'ACTIVE', 'INACTIVE']
   const [members, setMembers] = useState<User[]>([]);
   const [page, setPage] = useState(1)
   const [totalElements, setTotalElements] = useState(0);
@@ -18,7 +18,7 @@ const ManageUser = () => {
   const [txtSearch, setTxtSearch] = useState('');
   const [isRefresh, setIsRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [accountState, setAccountState] = useState('ACTIVE');
+  const [accountState, setAccountState] = useState('VERIFIED');
 
   const debouncedTxtSearchChange = useDebouncedCallback(
     (txtSearch: string) => {

@@ -42,10 +42,10 @@
         "Mã yêu cầu": "Request ID:",
         "Thương hiệu": "Brand:",
         "Trọng lượng (g)": "Weight (g)",
-        "Mô tả trang sức": "Jewelry description",
+        "Mô tả tài sản": "Asset description",
         "Hình ảnh": "Image",
         "Ảnh sản phẩm": "Product image",
-        "Giá đề xuất": "Proposed price",
+        "Giá mong muốn": "Desired price (VND)",
         "Định giá": "Valuation",
         "Thời gian yêu cầu": "Request time",
         "Trạng thái": "Status",
@@ -155,6 +155,12 @@
         "Thanh toán": "Payment",
         "Thanh toán tại quầy được xác nhận": "Counter payment confirmed",
         "Vui lòng chọn hình ảnh căn cước công dân mặt sau.": "Please select the image of the back of the ID card.",
-        "Vui lòng chọn hình ảnh căn cước công dân mặt trước.": "Please select the image of the front of the ID card."
+        "Vui lòng chọn hình ảnh căn cước công dân mặt trước.": "Please select the image of the front of the ID card.",
+        "Đấu giá thất bại": "Auction failed",
+        "Bạc": "Silver",
+        "Vàng": "Gold",
+        "Kim cương": "Diamond",
+        "Bạch kim": "Platinum"
+       
     }
 }

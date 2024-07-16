@@ -2,14 +2,14 @@
     "AuctionDetail" : {
         "Đăng kí tham gia phiên thành công" : "Registered for the session successfully!",
         "Home" : "Home",
-        "Trang sức đấu giá" : "Jewelry auction",
+        "Tài sản đấu giá" : "Asset auction",
         "Thời gian đếm ngược bắt đầu trả giá" : "Countdown time to start bidding:",
         "Thời gian đếm ngược kết thúc trả giá" : "Countdown time to end bidding:",
         "Ngày" : "Date",
         "Giờ" : "Hour",
         "Phút" : "Minute",
         "Giây" : "Second",
-        "Mã trang sức" : "Jewelry ID:",
+        "Mã tài sản" : "Asset ID:",
         "Giá khởi điểm" : "Starting price:",
         "Phí đăng ký tham gia đấu giá" : "Auction registration fee:",
         "Bước giá" : "Bid increment:",
@@ -28,6 +28,7 @@
         "Đăng ký tham gia đấu giá" : "Register for auction",
         "Bạn đã đăng kí tham gia phiên này" : "You have registered for this session.",
         "Đấu giá ngay" : "Bid now...",
-        "Không có người thắng phiên" : "No winner"
+        "Không có người thắng phiên" : "No winner",
+        "Đến khu vực đấu giá" : "Go to the auction area"
         }
 }

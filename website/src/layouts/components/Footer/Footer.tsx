@@ -19,10 +19,6 @@ export default function Footer() {
                 <div className="footer-widgets footer-contact_info">
                   <ul>
                     <li>
-                      <i className="ion-ios-person-outline"></i>
-                      {t("Footer.DaiDien")}
-                    </li>
-                    <li>
                       <i className="ion-ios-home-outline"></i>
                       <span>{t("Footer.DiaChi")}</span>
                     </li>
@@ -56,7 +52,7 @@ export default function Footer() {
                     </li>
                     <li>
                       <a
-                        href="https://drive.google.com/file/d/12reK5pxHKGGx5pJfvchLp8v2iBf_njB_/view"
+                        href="https://drive.google.com/file/d/1lbnWNHbTg8QD9uKWD1ZQathSoNCx0npl/view"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -77,6 +73,7 @@ export default function Footer() {
                           src={
                             "https://www.fbk.eu/wp-content/uploads/2020/10/online-auction-law-gavel-on-computer-keyboard-bann-H5FQRXA-scaled.jpg"
                           }
+                          alt="anh-dau-gia"
                         />
                       </div>
                     </div>
@@ -97,13 +94,14 @@ export default function Footer() {
                 </div>
                 <div className="col-xl-4 col-lg-3 col-md-5 order-1 order-md-2">
                   <div className="footer-logo">
-                    <a href="">
+                    <Link to="/">
                       <img
                         width="150"
                         height="70"
                         src="/assets/images/menu/logo/1.png"
+                        alt=""
                       />
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="col-lg-4 order-2">

@@ -31,7 +31,7 @@ export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({
   jewelry,
   staff,
 }) => {
-  const [usersRegistration, setUsersRegistration] = useState<User[]>([]); // [1
+  const [usersRegistration, setUsersRegistration] = useState<User[]>([]);
   const context = useContext(UserContext);
 
   let user: User | null = null;
@@ -41,9 +41,10 @@ export const AuctionTabDetail: React.FC<AuctionTabDetailProps> = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      if (auction && user?.username === staff?.username) {
+      if (auction && user && user?.username === staff?.username) {
         const users = await getUserRegistrationByAuction(auction?.id);
-        setUsersRegistration(users);
+        if (users)
+          setUsersRegistration(users);
       }
     };
     fetchData();

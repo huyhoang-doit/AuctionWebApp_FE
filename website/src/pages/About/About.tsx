@@ -6,7 +6,6 @@ export default function About() {
   const { t } = useTranslation(["About"]);
   return (
     <>
-      {/* <!-- Begin Umino's Breadcrumb Area --> */}
       <div className="breadcrumb-area">
         <div className="container">
           <div className="breadcrumb-content">
@@ -20,9 +19,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* <!-- Begin Umino's Main Content Area --> */}
       <div className="main-content_area">
-        {/* <!-- Begin About Us Area --> */}
         <div className="about-us_area">
           <div className="container">
             <div className="row">
@@ -31,7 +28,7 @@ export default function About() {
                   <div className="about-us_img">
                     <img
                       src="assets/images/about-us/large-size/1.jpg"
-                      alt="Umino's About Us Image"
+                      alt="Umino's About Us "
                     />
                   </div>
                   <div className="about-us_content">
@@ -51,8 +48,7 @@ export default function About() {
             </div>
           </div>
         </div>
-        {/* <!-- About Us Area End Here -->
-                <!-- Begin Team Member Area --> */}
+
         <div className="team-member_area">
           <div className="container">
             <div className="row">
@@ -73,7 +69,7 @@ export default function About() {
                       <Link to={""}>
                         <img
                           src="assets/images/about-us/medium-size/1.jpg"
-                          alt="Umino's Team Member Image"
+                          alt="Umino's Team Member"
                         />
                       </Link>
                     </div>
@@ -106,7 +102,7 @@ export default function About() {
                       <Link to={""}>
                         <img
                           src="assets/images/about-us/medium-size/2.jpg"
-                          alt="Umino's Team Member Image"
+                          alt="Umino's Team Member"
                         />
                       </Link>
                     </div>
@@ -142,7 +138,7 @@ export default function About() {
                       <Link to={""}>
                         <img
                           src="assets/images/about-us/medium-size/3.jpg"
-                          alt="Umino's Team Member Image"
+                          alt="Umino's Team Member "
                         />
                       </Link>
                     </div>
@@ -160,8 +156,6 @@ export default function About() {
             </div>
           </div>
         </div>
-        {/* <!-- Team Member Area End Here -->
-                <!-- Begin Accordion With Testimonials Area --> */}
         <div className="accordion-with-testimonials_area">
           <div className="container">
             <div className="row">
@@ -196,7 +190,6 @@ export default function About() {
                           data-bs-parent="#accordion"
                         >
                           <div className="card-body">
-                            <h3 className="heading"></h3>
                             <p className="short-desc">
                               {t(
                                 "About.Chúng tôi cam kết cung cấp môi trường đấu giá"
@@ -232,7 +225,6 @@ export default function About() {
                           data-bs-parent="#accordion"
                         >
                           <div className="card-body">
-                            <h3 className="heading"></h3>
                             <p className="short-desc">
                               {t("About.Diamond Gold Silver 2")}
                             </p>
@@ -266,7 +258,6 @@ export default function About() {
                           data-bs-parent="#accordion"
                         >
                           <div className="card-body">
-                            <h3 className="heading"></h3>
                             <p className="short-desc">
                               {t("About.Đội ngũ hỗ trợ khách hàng")}
                             </p>
@@ -299,7 +290,6 @@ export default function About() {
                           data-bs-parent="#accordion"
                         >
                           <div className="card-body">
-                            <h3 className="heading"></h3>
                             <p className="short-desc">
                               {t(
                                 "About.Chúng tôi cung cấp chính sách hoàn tiền"
@@ -321,44 +311,19 @@ export default function About() {
                 <div className="testimonials-area">
                   <div className="testimonial-slider slider-navigation_style-1">
                     <div className="single-item">
-                      <div className="testimonial-img">
-                        <Link to="">
-                          <img
-                            style={{ width: "40%" }}
-                            src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-6/270961679_10159870536636108_2642967668131478092_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=tXLob4dQoKYQ7kNvgGGHDXb&_nc_ht=scontent.fsgn5-5.fna&oh=00_AYDVprpAMT8O-RYhQiI73QWzrZza6Wec9YSgwpkujAoH-g&oe=665A4217"
-                            alt="Umino's Testimonial Image"
-                          />
-                        </Link>
-                      </div>
-                      <div className="author-info">
-                        <span className="name">
-                          {" "}
-                          {t("About.Nguyễn Thế Hoàng")}
-                        </span>
-                        <span className="occupation">Mentor of DGS</span>
-                        <div className="icon">
-                          <img
-                            src="assets/images/about-us/testimonial/testimonial-icon.png"
-                            alt="Umino's Testimonial Icon"
-                          />
-                        </div>
-                        <p className="short-desc">
-                          {t("About.Được sự hỗ trợ và hướng dẫn trực tiếp")}
-                        </p>
-                      </div>
                     </div>
                     <div className="single-item">
                       <div className="testimonial-img">
                         <Link to={""}>
                           <img
                             src="assets/images/about-us/testimonial/2.jpg"
-                            alt="Umino's Testimonial Image"
+                            alt="Umino's Testimonial"
                           />
                         </Link>
                       </div>
                       <div className="author-info">
                         <span className="name">Jenifer Brown</span>
-                        <span className="occupation">Manager of AZ</span>
+                        <span className="occupation">Manager of DGS</span>
                         <div className="icon">
                           <img
                             src="assets/images/about-us/testimonial/testimonial-icon.png"
@@ -376,7 +341,6 @@ export default function About() {
             </div>
           </div>
         </div>
-        {/* <!-- Accordion With Testimonials Area End Here --> */}
       </div>
       <Brand />
     </>

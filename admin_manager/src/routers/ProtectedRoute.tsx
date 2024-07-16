@@ -1,15 +1,6 @@
 import React, { useEffect } from 'react';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; // Ensure this import is correct
-
-interface Authority {
-    authority: string;
-}
-
-interface DecodedToken {
-    authorities?: Authority[];
-    sub: string;
-}
+import { checkTokenExpiration } from '../utils/authUtils';
 
 interface ProtectedRouteProps {
     roles?: string[];
@@ -20,12 +11,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ roles }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!token) {
-            navigate('/');
-            return;
-        }
+        const decodedData = checkTokenExpiration(token, navigate);
+        if (!decodedData) return;
 
-        const decodedData = jwtDecode<DecodedToken>(token);
         const userRoles = decodedData.authorities?.map(auth => auth.authority) || [];
 
         if (roles && !roles.some(role => userRoles.includes(role))) {

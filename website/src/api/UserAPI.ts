@@ -34,8 +34,6 @@ export const checkUsernameExist = async (username: string) => {
 export const getUserLogin = async (username: string): Promise<User> => {
     const URL = `${BASE_URL}/user/by-username/${username}`;
     const response = await MyRequest(URL);
-    // console.log(response)
-
     return response;
 };
 
@@ -59,7 +57,6 @@ export const getUserById = async (id: number): Promise<User> => {
 export const getWinnerByAuctionId = async (auctionID: number | undefined): Promise<User> => {
     const URL = `${BASE_URL}/user/get-winner-auction/${auctionID}`;
     const response = await MyRequest(URL);
-    // console.log(response)
     return response;
 };
 
@@ -78,7 +75,7 @@ export const editProfileUser = async (user: User): Promise<User> => {
 export async function getUserRegistrationByAuction(auctionId: number) {
     const token = localStorage.getItem('access_token');
     if (!token) {
-        throw new Error("No access token found");
+        return null;
     }
 
     const URL = `${BASE_URL}/user/get-user-registration/${auctionId}`;

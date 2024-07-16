@@ -8,6 +8,7 @@ import { Spinner } from "react-bootstrap";
 import { ViewStaffRequestModal } from "../../Modal/ModalStaff";
 import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
+import { useCategories } from "../../../../hooks/useCategories";
 interface StaffRequestListProps {
   userId: number | undefined;
   listNumber: number;
@@ -25,6 +26,12 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
   const [loading, setLoading] = useState(true);
   const [debouncedTxtSearch, setDebouncedTxtSearch] = useState("");
   const [txtSearch, setTxtSearch] = useState("");
+  const [category, setCategory] = useState("Tất cả");
+  const categories = useCategories();
+  const categoryNames: (string | undefined)[] = categories.map(
+    (category) => category.name
+  );
+  categoryNames.unshift("Tất cả");
 
   const debouncedTxtSearchChange = useDebouncedCallback((txtSearch: string) => {
     setDebouncedTxtSearch(txtSearch);
@@ -43,6 +50,7 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
         const response = await getRequestByUserId(
           userId,
           debouncedTxtSearch,
+          category,
           page
         );
         setMyJewelryRequestList(response.requestsData);
@@ -52,39 +60,64 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
       }
     }
     setLoading(false);
-  }, [userId, page, debouncedTxtSearch]);
+  }, [userId, page, debouncedTxtSearch, category]);
 
   useEffect(() => {
     handleChangeList();
-  }, [userId, page, handleChangeList, listNumber, debouncedTxtSearch]);
+  }, [userId, page, handleChangeList, listNumber, debouncedTxtSearch, category]);
 
   useEffect(() => {
     setTxtSearch("");
     debouncedTxtSearchChange("");
+    setCategory("Tất cả");
   }, [listNumber]);
 
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value);
+    setPage(1);
+    setTxtSearch("");
+    debouncedTxtSearchChange("");
+  };
+
   return (
-    <div
-      className="tab-pane fade"
-      id="staff-request"
-      role="tabpanel"
-      aria-labelledby="account-address-tab"
-    >
+    <>
       <div className="myaccount-orders">
         <div className="row mb-2">
-          <div className="col-md-7">
-            <h4 className="small-title fw-bold mt-2">
-              {t("StaffRequestList.Danh sách các yêu cầu gửi lên quản lý")}
-            </h4>
+          <div className="col-md-5">
           </div>
-          <div className="umino-sidebar_categories col-md-5 mb-2">
+          <div className="umino-sidebar_categories col-md-4 mb-2 px-0 flex">
             <input
               style={{ height: "40px" }}
               type="text"
-              placeholder={t("StaffRequestList.Tên trang sức...")}
+              placeholder={t("StaffRequestList.Tên tài sản...")}
               value={txtSearch}
               onChange={handleTxtSearch}
             />
+          </div>
+          <div className="umino-sidebar_categories col-md-3 mb-2 flex">
+            <select
+              className="rounded"
+              value={category}
+              onChange={handleCategoryChange}
+              style={{
+                width: "100%",
+                height: "40px",
+                padding: "0 0 0 10px",
+                borderColor: "#fdb828",
+                borderWidth: "2px",
+              }}
+              required
+            >
+              {categoryNames.map((category, index) => (
+                <option
+                  style={{ padding: "5px" }}
+                  key={index}
+                  value={category}
+                >
+                  {t(`JewelriesWaitList.${category}`)}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="table-responsive">
@@ -92,7 +125,7 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
             <tbody>
               <tr>
                 <th>{t("StaffRequestList.Mã yêu cầu")}</th>
-                <th>{t("StaffRequestList.Mã trang sức")}</th>
+                <th>{t("StaffRequestList.Mã tài sản")}</th>
                 <th>{t("StaffRequestList.Định giá (VNĐ)")}</th>
                 <th>{t("StaffRequestList.Thời gian gửi")}</th>
                 <th>{t("StaffRequestList.Trạng thái")}</th>
@@ -121,9 +154,8 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
                         </td>
                       ) : (
                         <td
-                          className={`fw-semibold ${
-                            request.isConfirm ? "text-success" : "text-dark"
-                          }`}
+                          className={`fw-semibold ${request.isConfirm ? "text-success" : "text-dark"
+                            }`}
                         >
                           {request.isConfirm
                             ? t("StaffRequestList.Đã phê duyệt")
@@ -159,7 +191,7 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
           ellipsis={1}
         />
       </div>
-    </div>
+    </>
   );
 };
 

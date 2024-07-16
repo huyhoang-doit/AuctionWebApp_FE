@@ -4,21 +4,15 @@ import { getAuctionRegistrationsByAuctionId } from '../api/AuctionRegistrationAP
 import { AuctionRegistration } from '../models/AuctionRegistration';
 import { UserContext } from '../hooks/useContext';
 import { User } from '../models/User';
-import { jwtDecode } from "jwt-decode";
-
+import { useTranslation } from 'react-i18next';
+import { checkTokenExpiration } from '../utils/authUtils';
+import Swal from 'sweetalert2';
 interface AuctionRegistrationGuardProps {
     element: JSX.Element;
 }
 
-interface Authority {
-    authority: string;
-}
-
-interface DecodedToken {
-    authorities?: Authority[];
-}
-
 export function AuctionRegistrationGuard({ element }: AuctionRegistrationGuardProps) {
+    const { t } = useTranslation(["Login"]);
     const token = localStorage.getItem("access_token");
     const { id } = useParams<{ id: string }>();
     const [userAuctions, setUserAuctions] = useState<AuctionRegistration[]>([]);
@@ -31,14 +25,10 @@ export function AuctionRegistrationGuard({ element }: AuctionRegistrationGuardPr
         user = context.account;
     }
     useEffect(() => {
-        if (!token) {
-            navigate('/dang-nhap');
-            return;
-        }
+        const decodedData = checkTokenExpiration(token, navigate, t);
+        if (!decodedData) return;
 
-        const decodedData = jwtDecode<DecodedToken>(token);
-        const userRoles =
-            decodedData.authorities?.map((auth) => auth.authority) || [];
+        const userRoles = decodedData.authorities?.map((auth) => auth.authority) || [];
         setIsStaffMember(userRoles.includes('STAFF'));
 
         getAuctionRegistrationsByAuctionId(Number(id))
@@ -51,17 +41,24 @@ export function AuctionRegistrationGuard({ element }: AuctionRegistrationGuardPr
             .finally(() => {
                 setLoading(false);
             });
-    }, [id, user, navigate]);
+    }, [id, user, navigate, token, t]);
 
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    const userHasRegistration = userAuctions.some((auctionRegistration) => auctionRegistration.user?.id === user?.id);
+    const auctionRegistration = userAuctions.find((auctionRegistration) => auctionRegistration.user?.id === user?.id);
 
-
-    if (!userHasRegistration && !isStaffMember) {
-        return <Navigate to={"/tai-san-dau-gia/" + id} />;
+    if (!isStaffMember) {
+        if (auctionRegistration) {
+            if (auctionRegistration?.state === 'KICKED_OUT') {
+                Swal.fire('Bạn đã bị cấm khỏi phiên này', 'Lý do: ' + auctionRegistration.kickReason, 'error');
+                return <Navigate to={"/tai-san-dau-gia/" + id} />;
+            }
+        } else {
+            Swal.fire('Bạn chưa đăng kí tham gia phiên đấu giá này', '', 'error');
+            return <Navigate to={`/tai-san-dau-gia/${id}`} />;
+        }
     }
 
     return element;

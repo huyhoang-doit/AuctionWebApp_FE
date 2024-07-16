@@ -3,10 +3,13 @@
         "TaiKhoanCuaToi": "Tài khoản của tôi",
         "ThongTinTaiKhoan": "Thông tin tài khoản",
         "DoiMatKhau": "Đổi mật khẩu",
-        "ListCacYeuCauGuiToi": "Danh sách yêu cầu gửi tới",
-        "ListCacYeuCauGuiDi": "Danh sách các yêu cầu gửi đi",
-        "ListCacTrangSucGuiToi": "Danh sách các tài sản gửi tới",
-        "ListTrangSucBanGiao": "Danh sách trang sức bàn giao",
+        "DinhGiaTaiSan": "Định giá tài sản",
+        "TiepNhanVaBanGiao": "Tiếp nhận / Bàn giao",
+        "ListCacYeuCauDinhGia": "Danh sách tài sản chờ định giá",
+        "ListCacDinhGia": "Danh sách tài sản đã định giá",
+        "ListTaiSanTiepNhan": "Danh sách tài sản chờ tiếp nhận",
+        "ListTaiSanBanGiao": "Danh sách tài sản bàn giao",
+        "ListTaiSanHoanTra": "Danh sách tài sản hoàn trả cho người vi phạm",
         "CacPhienDuocPhanCong": "Các phiên đấu giá được phân công"
     }
 }
