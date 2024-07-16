@@ -42,7 +42,7 @@ const AuctionOngoing = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="umino-section_title">
-              {auctions.length > 0 && <h3>Tài sản đang được đấu giá</h3>}
+              {auctions.length > 0 && <h3 className='fw-bold ani-fire'>Tài sản đang được đấu giá</h3>}
             </div>
           </div>
           <div className="col-lg-12">
