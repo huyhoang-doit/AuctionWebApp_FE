@@ -58,15 +58,6 @@ const ContainerListAuctions: React.FC<ContainerListAuctionsProps> = (props) => {
     <>
       <div className="shop-toolbar">
         <div className="product-view-mode">
-          <a
-            className="active list"
-            data-target="listview"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="List View"
-          >
-            <i className="fa fa-th-list"></i>
-          </a>
         </div>
         {auctions.length > 0 && (
           <div className="product-page_count">

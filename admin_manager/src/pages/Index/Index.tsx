@@ -36,6 +36,8 @@ export default function Index() {
   const [selectedYearGetRevenue, setSelectedYearGetRevenue] = useState(new Date().getFullYear());
   const [selectedYearGetAuctionFailedAndSuccess, setSelectedYearGetAuctionFailedAndSuccess] = useState(new Date().getFullYear());
   const [selectedMonthGetAuctionFailedAndSuccess, setSelectedMonthGetAuctionFailedAndSuccess] = useState(new Date().getMonth() + 1);
+  const [selectedYearGetJewelry, setSelectedYearGetJewelry] = useState(new Date().getFullYear());
+  const [selectedMonthGetJewelry, setSelectedMonthGetJewelry] = useState(new Date().getMonth() + 1);
   const [selectedYearGetUserJoinAuction, setSelectedYearGetUserJoinAuction] = useState(new Date().getFullYear());
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 5 }, (_, index) => currentYear - index);
@@ -46,7 +48,6 @@ export default function Index() {
   const [totalUsersActive, setTotalUsersActive] = useState(0);
   const [totalUsersInActive, setTotalUsersInActive] = useState(0);
   const [totalRevenueToday, setTotalRevenueToday] = useState(0);
-  const [totalJewelryActive, setTotalJewelryActive] = useState(0);
 
   const [users, setUsers] = useState<User[]>([]);
 
@@ -80,14 +81,14 @@ export default function Index() {
   });
 
   const [barData2, setBarData2] = useState({
-    labels: ['Đã phê duyệt', 'Chưa phê duyệt', 'Đang đấu giá'],
+    labels: ['Chưa định giá', 'Đã định giá', 'Chưa có phiên', 'Có phiên', 'Bàn giao'],
     datasets: [
       {
         label: 'Số lượng',
-        backgroundColor: ['#57e7ff', '#9357ff', '#ff56a2'],
+        backgroundColor: ['#57e7ff', '#9357ff', '#ff56a2', '#f25602', '#FFC107'],
         borderColor: '#FFFFFF',
         borderWidth: 2,
-        data: Array(3).fill(0)
+        data: Array(5).fill(0)
       }
     ]
   });
@@ -177,23 +178,25 @@ export default function Index() {
     fetchDashboardData();
   }, [selectedYearRegisterAccount, selectedYearGetAuction, selectedYearGetRevenue,
     selectedYearGetAuctionFailedAndSuccess, selectedMonthGetAuctionFailedAndSuccess,
+    selectedMonthGetJewelry, selectedYearGetJewelry,
     selectedYearGetUserJoinAuction]);
 
   const fetchDashboardData = async () => {
     try {
       const response = await getDashBoardInformation(selectedYearRegisterAccount, selectedYearGetAuction, selectedYearGetRevenue,
         selectedYearGetAuctionFailedAndSuccess, selectedMonthGetAuctionFailedAndSuccess,
+        selectedYearGetJewelry, selectedMonthGetJewelry,
         selectedYearGetUserJoinAuction);
 
-      const { totalUser, totalUsersActive, totalUsersInActive, totalRevenueToday, totalJewelryActive, totalJewelryWaitApproving,
-        totalAuctionJewelry, auctionFailed, auctionSuccess, totalUsersByMonth, totalAuctionByMonth, totalMembers, totalStaffs, totalManagers, totalAdmins,
+      const { totalUser, totalUsersActive, totalUsersInActive, totalRevenueToday, totalJewelryPricing, totalJewelryPriced,
+        totalJewelryNotHasAuction, totalJewelryHasAuction, totalJewelryHandover, auctionFailed, auctionSuccess, totalUsersByMonth,
+        totalAuctionByMonth, totalMembers, totalStaffs, totalManagers, totalAdmins,
         totalParticipationByMonth, totalRevenueNear10Year, totalRevenueByMonth, totalUsersVerified } = response;
 
       setTotalUser(totalUser);
       setTotalRevenueToday(totalRevenueToday);
       setTotalUsersActive(totalUsersActive);
       setTotalUsersInActive(totalUsersInActive);
-      setTotalJewelryActive(totalJewelryActive);
       setTotalUsersVerified(totalUsersVerified);
 
       setBarData1(prevData => ({
@@ -211,7 +214,7 @@ export default function Index() {
         datasets: [
           {
             ...prevData.datasets[0],
-            data: [totalJewelryActive, totalJewelryWaitApproving, totalAuctionJewelry]
+            data: [totalJewelryPricing, totalJewelryPriced, totalJewelryNotHasAuction, totalJewelryHasAuction, totalJewelryHandover]
           }
         ]
       }));
@@ -322,6 +325,16 @@ export default function Index() {
     setSelectedYearGetUserJoinAuction(year);
   };
 
+  const handleMonthGetJewelryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const month = parseInt(e.target.value);
+    setSelectedMonthGetJewelry(month);
+  };
+
+  const handleYearGetJewelryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const year = parseInt(e.target.value);
+    setSelectedYearGetJewelry(year);
+  };
+
   return (
     <section className="main_content dashboard_part" >
       <div className="main_content_iner " >
@@ -332,16 +345,12 @@ export default function Index() {
                 <div className="quick_activity">
                   <div className="row">
                     <div className="col-12">
-                      <div className="quick_activity_wrap">
+                      <div className="quick_activity_wrap" style={{ width: "100%", display: "block" }}>
                         {userRole === 'MANAGER' &&
                           <>
                             <div className="single_quick_activity">
                               <h4>Doanh thu hôm nay</h4>
                               <h3><span className="counter">{formatNumber(totalRevenueToday)} VNĐ</span> </h3>
-                            </div>
-                            <div className="single_quick_activity">
-                              <h4>Số lượng trang sức đã qua phê duyệt</h4>
-                              <h3><span className="counter">{totalJewelryActive} Trang sức</span></h3>
                             </div>
                           </>
                         }
@@ -426,6 +435,18 @@ export default function Index() {
                   <div className="box_header  box_header_block ">
                     <div className="main-title">
                       <h3 className="mb-0">Thống kê trang sức theo trạng thái</h3>
+                    </div>
+                    <div className="box_select d-flex">
+                      <select className="nice_Select2" value={selectedMonthGetJewelry} onChange={handleMonthGetJewelryChange}>
+                        {months.map((month) => (
+                          <option key={month.value} value={month.value}>{month.label}</option>
+                        ))}
+                      </select>
+                      <select className="nice_Select2" value={selectedYearGetAuction} onChange={handleYearGetJewelryChange}>
+                        {years.map((year) => (
+                          <option key={year} value={year}>{`Năm ${year}`}</option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                   <Bar data={barData2} />

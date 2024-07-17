@@ -131,6 +131,7 @@ export default function AuctionDetail() {
     if (auctionRegistations && auctionRegistations.length > 0) {
       return auctionRegistations.some(
         (registration) => registration.user?.id === account?.id
+
       );
     }
     return false;

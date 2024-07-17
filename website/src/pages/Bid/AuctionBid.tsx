@@ -21,6 +21,7 @@ import useCountDownBid from "../../hooks/useCountDownBid";
 import Swal from "sweetalert2";
 import { createTransactionForWinner } from "../../api/TransactionAPI";
 import { numberToVietnameseText } from "../../utils/numberToVietnameseText";
+import useIsStaff from "../../hooks/useIsStaff";
 
 export const AuctionBid = () => {
     const navigate = useNavigate();
@@ -37,6 +38,7 @@ export const AuctionBid = () => {
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
     const [isEnding, setIsEnding] = useState(false);
     const context = useContext(UserContext);
+    const isStaff = useIsStaff();
 
     let user: User | null = null;
     if (context?.account) {
@@ -54,6 +56,32 @@ export const AuctionBid = () => {
         auctionId = 0;
         console.log("Error parsing auction id: " + error);
     }
+
+    useEffect(() => {
+        getAuction(auctionId)
+            .then((auction) => {
+                setAuction(auction);
+                setJewelry(auction?.jewelry ?? null);
+                setStaff(auction?.user ?? null);
+                if (auction?.state === "FINISHED") {
+                    setIsEnding(true)
+                }
+                const price = auction?.lastPrice ?? auction?.firstPrice ?? 0;
+                setDisplayValue(formatNumber(price));
+                setBidValue(auction?.lastPrice ?? auction?.firstPrice ?? 0);
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+        window.scrollTo(0, 0);
+    }, [auctionId]);
+
+    useEffect(() => {
+        if (auction && auction?.state !== 'ONGOING' && auction?.state !== 'FINISHED') {
+            Swal.fire('Phiên đấu giá chưa bắt đầu.', 'Vui lòng chờ...', 'warning');
+            navigate("/tai-san-dau-gia/" + auctionId);
+        }
+    }, [auction, auctionId, navigate]);
 
     useEffect(() => {
         const handleAuctionEnd = async () => {
@@ -120,6 +148,9 @@ export const AuctionBid = () => {
                 const isMeBid = receivedData.username === user?.username;
 
                 if (!isMeBid) {
+                    if (receivedData.lastPrice === receivedData.buyNowPrice) {
+                        Swal.fire('Đã có người đặt giá mua ngay', 'Phiên sẽ kết thúc sau 15 phút nữa', 'warning');
+                    } 
                     toast.warn('Giá cuối đã thay đổi!', { autoClose: 3000 });
                 }
 
@@ -177,25 +208,6 @@ export const AuctionBid = () => {
                 });
         }
     }, [auctionId, bidPerPage, auction])
-
-    useEffect(() => {
-        getAuction(auctionId)
-            .then((auction) => {
-                setAuction(auction);
-                setJewelry(auction?.jewelry ?? null);
-                setStaff(auction?.user ?? null);
-                if (auction?.state === "FINISHED") {
-                    setIsEnding(true)
-                }
-                const price = auction?.lastPrice ?? auction?.firstPrice ?? 0;
-                setDisplayValue(formatNumber(price));
-                setBidValue(auction?.lastPrice ?? auction?.firstPrice ?? 0);
-            })
-            .catch((error) => {
-                console.error(error.message);
-            });
-        window.scrollTo(0, 0);
-    }, [auctionId]);
 
     useEffect(() => {
         setDisplayValue(formatNumber(bidValue));
@@ -339,9 +351,33 @@ export const AuctionBid = () => {
         return null;
     };
 
-    function isStaff(user: User | null, staff: User | null) {
-        return user && staff && user.id === staff.id;
-    }
+    const renderBuyNowButton = () => {
+        const isMeFirstIndex = isMyBidFirst();
+
+        if ((!isMeFirstIndex && auction?.lastPrice === null && bidValue < ((auction.firstPrice ?? 0) + (auction.priceStep ?? 0))) ||
+            (!isMeFirstIndex && auction?.lastPrice !== null && bidValue < ((auction?.lastPrice ?? 0) + (auction?.priceStep ?? 0)))) {
+            return (
+                <button
+                    onClick={() => {
+                        setBidValue(jewelry?.buyNowPrice ?? 0);
+                        setErrorBidValue("");
+                    }}
+                    className="fw-bold text-center eg-btn btn--primary btn--sm ani-fire"
+                    style={{
+                        backgroundColor: "white",
+                        textTransform: "unset",
+                        border: "1px solid rgba(0,0,0,.09)",
+                        padding: "10px 10px",
+                        fontSize: "14px",
+                        width: "100%",
+                    }}
+                >
+                    ĐẶT GIÁ MUA NGAY
+                </button>
+            );
+        }
+        return null;
+    };
 
     return (
         <>
@@ -362,9 +398,6 @@ export const AuctionBid = () => {
                             </div>
                         </div>
                     </div>
-                    {/* <!-- Umino's Breadcrumb Area End Here -->
-
-                    <!-- Begin Umino's Single Product Sale Area --> */}
                     <div className="sp-area">
                         <div className="container">
                             <div className="sp-nav">
@@ -404,7 +437,7 @@ export const AuctionBid = () => {
                                             <div className="row">
                                                 <h4 className="no-margin fw-bold mb-4">ĐẶT GIÁ (VNĐ)</h4>
                                                 <BidInfo auction={auction} />
-                                                {(!isEnding && !isStaff(user, staff)) &&
+                                                {(!isEnding && !isStaff) &&
                                                     <>
                                                         <div className="col-9 d-flex align-items-center">
                                                             <button
@@ -440,6 +473,11 @@ export const AuctionBid = () => {
                                                         <div className="col-9">
                                                             {renderHigherBidButton()}
                                                         </div>
+                                                        {auction && jewelry?.buyNowPrice !== undefined && auction?.lastPrice < jewelry?.buyNowPrice && (
+                                                            <div className="col-9">
+                                                                {renderBuyNowButton()}
+                                                            </div>
+                                                        )}
                                                     </>
                                                 }
                                                 {!isMyBidFirst() && errorBidValue && <span className="fw-bold text-danger mt-2">{errorBidValue}</span>}

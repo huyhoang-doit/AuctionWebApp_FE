@@ -8,7 +8,7 @@ interface BidInfoProps {
 
 export const BidInfo: React.FC<BidInfoProps> = ({ auction }) => {
   const { t } = useTranslation(["Bid"]);
-  
+
   return (
     <>
       <div className="col-6">
