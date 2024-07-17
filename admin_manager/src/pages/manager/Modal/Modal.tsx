@@ -622,15 +622,16 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
       : 0;
   const jewelryId = request.jewelry?.id ? request.jewelry.id : 0;
 
-  //
-  const [errorTime, setErrorTime] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  //
   const [name, setName] = useState<string>("");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [base64Images, setBase64Images] = useState<string[]>([]);
+
+  const [errorTime, setErrorTime] = useState<string | null>(null);
+  const [errorName, setErrorName] = useState<string | null>(null);
+  const [errorEmptyTime, setErrorEmptyTime] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
 
   const [newAuctionRequest, setNewAuctionRequest] =
@@ -672,16 +673,26 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
     }
   }
 
+  const validateName = (name: string) => {
+    const wordCount = name.trim().split(/\s+/).length;
+    if (name.length < 12 || wordCount < 3) {
+      setErrorName("Tên phiên chưa hợp lệ, tên phiên yêu cầu phải từ 12 ký tự và 3 từ trở lên");
+    } else {
+      setErrorName(null);
+    }
+  };
+
   const updateName = (name: string) => {
     setName(name);
-    setError(null);
     setNewAuctionRequest((prev) => ({ ...prev, name: name }));
+    validateName(name);
   };
 
   const updateStartDate = (startDate: string) => {
     setStartDate(startDate);
     setNewAuctionRequest((prev) => ({ ...prev, startDate: startDate }));
     setErrorTime(null);
+    setErrorEmptyTime(null);
     setError(null);
   };
 
@@ -697,6 +708,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
       setEndDate("");
     } else {
       setErrorTime(null);
+      setErrorEmptyTime(null);
       setError(null);
       setEndDate(endDate);
       setNewAuctionRequest((prev) => ({ ...prev, endDate: endDate }));
@@ -716,7 +728,13 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
 
   const handleShowSelectStaffModal = () => {
     if (name === "" || startDate === "" || endDate === "") {
-      setError("Cần cung cấp đủ thông tin");
+      setError("Cần cung cấp đầy đủ thông tin đấu");
+      if (name === "") {
+        setErrorName("Vui lòng cung cấp tên cho phiên đấu");
+      }
+      if (startDate === "" || endDate === "") {
+        setErrorEmptyTime("Vui lòng cung đầy đủ thời gian cho phiên đấu");
+      }
     } else {
       setShow(false);
       setShowContinueModal(true);
@@ -870,8 +888,6 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                           </div>
                         ))
                       )))}
-
-                      { }
                     </div>
                   </div>
                 </div>
@@ -892,8 +908,8 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                       onChange={(e) => updateName(e.target.value)}
                       required
                     />
+                    {errorName && <p style={{ color: "red" }}>{errorName}</p>}
                   </div>
-
                   <div className="col-md-6 mt-2">
                     <div className="checkout-form-list mb-2">
                       <span>Phí tham gia:</span>
@@ -912,14 +928,14 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                     <div className="checkout-form-list mb-2">
                       <span>Tiền đặt trước:</span>{" "}
                       <span className="fw-bold">
-                        {formatNumber(deposit)} VND
+                        {(deposit > 50000) ? formatNumber(deposit) : formatNumber(50000)} VND
                       </span>
                     </div>
                     <div className="checkout-form-list mb-2">
                       <span>Bước giá:</span>
                       <span className="fw-bold">
                         {" "}
-                        {formatNumber(priceStep)} VND
+                        {(priceStep > 50000) ? formatNumber(priceStep) : formatNumber(50000)} VND
                       </span>
                     </div>
                   </div>
@@ -980,6 +996,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                     />
                   </div>
                   {errorTime && <p style={{ color: "red" }}>{errorTime}</p>}
+                  {errorEmptyTime && <p style={{ color: "red" }}>{errorEmptyTime}</p>}
                   <div className="col-md-12 mt-2">
                     <label style={{ marginBottom: "5px" }} htmlFor="txtStart">
                       Mô tả cho phiên:
@@ -991,7 +1008,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                         config={{
                           ckbox: {
                             tokenUrl:
-                              "https://111289.cke-cs.com/token/dev/bpym057sSTzEaKMwFLqRUCAT2BZ92hvE6xKw?limit=10",
+                              "https://113871.cke-cs.com/token/dev/DEH3Re5gYXFEzLbS3frdEAhds8fV5P5fgpUf?limit=10",
                             theme: "lark",
                           },
                         }}
@@ -1555,8 +1572,8 @@ export const DeleteAuctionResultModal: React.FC<DeleteAuctionResultModalProps> =
               </p>
               <ul className="fw-semibold" style={{ listStyleType: 'circle', paddingLeft: '20px', color: '#555' }}>
                 <li style={{ marginBottom: '0.5rem' }}>Giao dịch này sẽ bị hủy bỏ</li>
-                <li style={{ marginBottom: '0.5rem' }}>Tài sản sẽ được tạo phiên đấu giá mới</li>
-                <li style={{ marginBottom: '0.5rem' }}>Tài khoản người dùng tham gia không hợp lệ sẽ bị khóa theo quy định</li>
+                <li style={{ marginBottom: '0.5rem' }}>Tài sản sẽ được xem xét và tạo phiên đấu giá mới</li>
+                <li style={{ marginBottom: '0.5rem' }}>Tài khoản người dùng tham gia không hợp lệ sẽ bị cấm tham gia đấu giá theo quy định</li>
               </ul>
               <p className="fw-bold" style={{ fontSize: '1.2rem', marginTop: '1.5rem', color: '#333' }}>
                 Bạn có chắc muốn hủy kết quả phiên đấu giá này không?

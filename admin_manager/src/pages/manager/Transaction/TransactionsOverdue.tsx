@@ -113,14 +113,14 @@ const TransactionsOverdue = () => {
                                                         <td>
                                                             {transaction.user?.id}
                                                         </td>
-                                                        <td>{transaction.user?.username}
+                                                        <td>{transaction.user?.fullName}
                                                             <Link target='_blank' to={`/manager/chi-tiet-nguoi-dung/${transaction.user?.id}`}>
                                                                 <i className="ms-2 fa-solid fa-eye text-dark"></i>
                                                             </Link>
                                                         </td>
                                                         <td>{formatDateString(transaction.createDate)}</td>
                                                         <td>{formatNumber(transaction.totalPrice)}</td>
-                                                        <td><TypeTransaction type={transaction.type}/></td>
+                                                        <td><TypeTransaction type={transaction.type} /></td>
                                                         <td>
                                                             <a className="fw-bold text-danger" >Chưa thanh toán</a>
                                                         </td>
