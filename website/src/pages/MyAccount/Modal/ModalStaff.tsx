@@ -637,102 +637,102 @@ export const JewelryCreateRequestModal: React.FC<JewelryCreateRequestModalProps>
                         />
                       </div>
                     </div>
-                  </div>
-                  <div className="col-md-6 fw-medium">
-                    <div className="checkout-form-list">
-                      <label>{t("ModalStaff.Danh mục")}</label>
-                      <input
-                        placeholder=""
-                        type="text"
-                        value={jewelry?.category?.name}
-                        readOnly={true}
-                      />
+                    <div className="col-md-6 fw-medium">
+                      <div className="checkout-form-list">
+                        <label>{t("ModalStaff.Danh mục")}</label>
+                        <input
+                          placeholder=""
+                          type="text"
+                          value={jewelry?.category?.name}
+                          readOnly={true}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-4 fw-medium">
-                    <div className="checkout-form-list">
-                      <label>{t("ModalStaff.Chất liệu")}</label>
-                      <input
-                        placeholder=""
-                        type="text"
-                        value={t(`ModalStaff.${jewelry?.material}`)}
-                        readOnly={true}
-                      />
+                    <div className="col-md-4 fw-medium">
+                      <div className="checkout-form-list">
+                        <label>{t("ModalStaff.Chất liệu")}</label>
+                        <input
+                          placeholder=""
+                          type="text"
+                          value={t(`ModalStaff.${jewelry?.material}`)}
+                          readOnly={true}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-4 fw-medium">
-                    <div className="checkout-form-list">
-                      <label>{t("ModalStaff.Thương hiệu")}</label>
-                      <input
-                        placeholder="Street address"
-                        type="text"
-                        value={jewelry?.brand}
-                        readOnly={true}
-                      />
+                    <div className="col-md-4 fw-medium">
+                      <div className="checkout-form-list">
+                        <label>{t("ModalStaff.Thương hiệu")}</label>
+                        <input
+                          placeholder="Street address"
+                          type="text"
+                          value={jewelry?.brand}
+                          readOnly={true}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-4 fw-medium">
-                    <div className="checkout-form-list">
-                      <label>{t("ModalStaff.Trọng lượng (g)")}</label>
-                      <input
-                        placeholder="Street address"
-                        type="text"
-                        value={jewelry?.weight}
-                        readOnly={true}
-                      />
+                    <div className="col-md-4 fw-medium">
+                      <div className="checkout-form-list">
+                        <label>{t("ModalStaff.Trọng lượng (g)")}</label>
+                        <input
+                          placeholder="Street address"
+                          type="text"
+                          value={jewelry?.weight}
+                          readOnly={true}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="order-notes fw-medium">
-                    <div className="checkout-form-list checkout-form-list-2">
-                      <label>{t("ModalStaff.Mô tả")} </label>
-                      <textarea
-                        readOnly
-                        id="checkout-mess"
-                        value={jewelry?.description}
-                      ></textarea>
+                    <div className="order-notes fw-medium">
+                      <div className="checkout-form-list checkout-form-list-2">
+                        <label>{t("ModalStaff.Mô tả")} </label>
+                        <textarea
+                          readOnly
+                          id="checkout-mess"
+                          value={jewelry?.description}
+                        ></textarea>
+                      </div>
                     </div>
-                  </div>
-                  <div className="order-notes col-md-12 fw-medium">
-                    <div className="checkout-form-list checkout-form-list-2 row">
-                      <label>{t("ModalStaff.Hình ảnh tài sản")} </label>
-                      {React.Children.toArray(
-                        images.map((img: Image) => (
-                          <div className="col-md-3">
-                            <img
-                              src={img.data}
-                              alt={t("ModalStaff.Ảnh tài sản")}
-                            />
-                          </div>
-                        ))
-                      )}
+                    <div className="order-notes col-md-12 fw-medium">
+                      <div className="checkout-form-list checkout-form-list-2 row">
+                        <label>{t("ModalStaff.Hình ảnh tài sản")} </label>
+                        {React.Children.toArray(
+                          images.map((img: Image) => (
+                            <div className="col-md-3">
+                              <img
+                                src={img.data}
+                                alt={t("ModalStaff.Ảnh tài sản")}
+                              />
+                            </div>
+                          ))
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="checkout-form-list">
-                      <label className="text-danger fw-bold">
-                        {t("ModalStaff.Giá đề xuất")}
-                      </label>
-                      <input
-                        className=" fw-bold"
-                        placeholder=""
-                        type="text"
-                        value={formatNumber(request.desiredPrice)}
-                        readOnly={true}
-                      />
+                    <div className="col-md-6">
+                      <div className="checkout-form-list">
+                        <label className="text-danger fw-bold">
+                          {t("ModalStaff.Giá mong muốn")}
+                        </label>
+                        <input
+                          className=" fw-bold"
+                          placeholder=""
+                          type="text"
+                          value={formatNumber(request.desiredPrice)}
+                          readOnly={true}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="checkout-form-list">
-                      <label className="text-success fw-bold">
-                        {t("ModalStaff.Định giá")}
-                      </label>
-                      <input
-                        className=" fw-bold"
-                        placeholder=""
-                        type="text"
-                        value={formatNumber(request.valuation)}
-                        readOnly={true}
-                      />
+                    <div className="col-md-6">
+                      <div className="checkout-form-list">
+                        <label className="text-success fw-bold">
+                          {t("ModalStaff.Định giá")}
+                        </label>
+                        <input
+                          className=" fw-bold"
+                          placeholder=""
+                          type="text"
+                          value={formatNumber(request.valuation)}
+                          readOnly={true}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
