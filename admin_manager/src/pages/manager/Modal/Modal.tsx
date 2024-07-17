@@ -1572,8 +1572,8 @@ export const DeleteAuctionResultModal: React.FC<DeleteAuctionResultModalProps> =
               </p>
               <ul className="fw-semibold" style={{ listStyleType: 'circle', paddingLeft: '20px', color: '#555' }}>
                 <li style={{ marginBottom: '0.5rem' }}>Giao dịch này sẽ bị hủy bỏ</li>
-                <li style={{ marginBottom: '0.5rem' }}>Tài sản sẽ được tạo phiên đấu giá mới</li>
-                <li style={{ marginBottom: '0.5rem' }}>Tài khoản người dùng tham gia không hợp lệ sẽ bị khóa theo quy định</li>
+                <li style={{ marginBottom: '0.5rem' }}>Tài sản sẽ được xem xét và tạo phiên đấu giá mới</li>
+                <li style={{ marginBottom: '0.5rem' }}>Tài khoản người dùng tham gia không hợp lệ sẽ bị cấm tham gia đấu giá theo quy định</li>
               </ul>
               <p className="fw-bold" style={{ fontSize: '1.2rem', marginTop: '1.5rem', color: '#333' }}>
                 Bạn có chắc muốn hủy kết quả phiên đấu giá này không?
