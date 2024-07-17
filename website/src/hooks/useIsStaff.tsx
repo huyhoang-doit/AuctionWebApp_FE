@@ -10,7 +10,7 @@ const useIsStaff = (): boolean => {
 
     const userRoles = decodedData.authorities?.map((auth) => auth.authority) || [];
     
-    return userRoles.includes('STAFF');
+    return ['STAFF', 'ADMIN', 'MANAGER'].some(role => userRoles.includes(role));
 };
 
 export default useIsStaff;

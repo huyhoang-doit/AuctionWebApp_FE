@@ -392,7 +392,7 @@ export const AuctionBid = () => {
                                         <a href="index.html">Home</a>
                                     </li>
                                     <li className="active">
-                                        Đăng kí đấu giá
+                                        Đấu giá sản phẩm
                                     </li>
                                 </ul>
                             </div>

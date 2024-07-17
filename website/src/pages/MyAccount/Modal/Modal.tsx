@@ -50,6 +50,7 @@ import { TypeTransaction } from "../Components/member/TypeTransaction";
 
 import { PaymentMethod } from "../Components/member/PaymentMethod";
 import { StateTransaction } from "../Components/member/StateTransaction";
+import { JewelryMaterialView } from "../Components/member/JewelryMaterialView";
 
 // *** MODAL FOR USER ***
 // Interface
@@ -1103,7 +1104,7 @@ export const ViewJewelryRequestModal: React.FC<MyRequestProps> = ({
                           <label>{t("Modal.Chất liệu")}</label>
                           <span className="fw-bold">
                             {" "}
-                            {request.jewelry?.material}
+                            <JewelryMaterialView material={request.jewelry?.material ?? ""} />
                           </span>
                         </div>
                         <div className="col-md-6">
@@ -1263,7 +1264,7 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
                         </div>
                         <div className="col-md-6">
                           <label>Chất liệu:</label>
-                          <span className="fw-bold"> {jewelry?.material}</span>
+                          <JewelryMaterialView material={jewelry?.material ?? ""} />
                         </div>
                         <div className="col-md-6">
                           <label>Trọng lượng (g):</label>
@@ -1347,18 +1348,18 @@ export const MyJewelryModal: React.FC<MyJewelryModalProps> = ({
                         </div>
                         {auction.state === "FINISHED" ? (
                           <div className="checkout-form-list mb-2">
-                          <label>Giá cuối:</label>
-                          <span className="fw-bold text-uppercase text-danger">
-                            {" "}
-                            {formatNumberAcceptNull(auction?.lastPrice) ? formatNumberAcceptNull(auction?.lastPrice) : 0} VND
-                          </span>
-                        </div>
+                            <label>Giá cuối:</label>
+                            <span className="fw-bold text-uppercase text-danger">
+                              {" "}
+                              {formatNumberAcceptNull(auction?.lastPrice) ? formatNumberAcceptNull(auction?.lastPrice) : 0} VND
+                            </span>
+                          </div>
                         ) : (
                           <div className="checkout-form-list mb-2">
                             <label>Giá hiện tại:</label>
                             <span className="fw-bold text-uppercase text-danger">
                               {" "}
-                              {formatNumberAcceptNull(auction?.lastPrice) ? formatNumberAcceptNull(auction?.lastPrice) : 0} VND 
+                              {formatNumberAcceptNull(auction?.lastPrice) ? formatNumberAcceptNull(auction?.lastPrice) : 0} VND
                             </span>
                           </div>
                         )}

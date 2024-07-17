@@ -20,7 +20,6 @@ export const AuctionRegistrationUser: React.FC<AuctionDetailHistoryProps> = ({
         <div>
           {t("AuctionRegistrationUser.Hiển thị")}
           <select
-            // onChange={(e) => setBidPerPage(Number(e.target.value))}
             defaultValue={3}
             className="btn-group ms-1 me-1"
           >
@@ -48,12 +47,18 @@ export const AuctionRegistrationUser: React.FC<AuctionDetailHistoryProps> = ({
         <table className="table table-bordered specification-inner_stuff mt-4">
           <thead>
             <tr>
-              <th className="col-1">Mã người dùng</th>
-              <th className="col-3">
+              <th className="col-2">Mã người dùng</th>
+              <th className="col-2">
                 {t("AuctionRegistrationUser.Tên người dùng")}
               </th>
-              <th className="col-2">
+              <th className="col-3">
                 <b>{t("AuctionRegistrationUser.Họ tên")}</b>
+              </th>
+              <th className="col-3">
+                Email
+              </th>
+              <th className="col-2">
+                Số điện thoại
               </th>
             </tr>
           </thead>
@@ -62,9 +67,11 @@ export const AuctionRegistrationUser: React.FC<AuctionDetailHistoryProps> = ({
               usersRegistration.map((user, index) => {
                 return (
                   <tr>
-                    <td className={`col-1`}>{user.id}</td>
-                    <td className={`col-3`}>{user.username}</td>
-                    <td className={`col-2`}>{user.fullName}</td>
+                    <td className={`col-2`}>{user.id}</td>
+                    <td className={`col-2`}>{user.username}</td>
+                    <td className={`col-3`}>{user.fullName}</td>
+                    <td className={`col-3`}>{user.email}</td>
+                    <td className={`col-2`}>{user.phone}</td>
                   </tr>
                 );
               })

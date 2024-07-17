@@ -30,6 +30,7 @@ import { useTranslation } from "react-i18next";
 import { PDFViewer } from "@react-pdf/renderer";
 import PDFReturnAsset from "../../../utils/PDFForm/PDFReturnAsset";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+import { JewelryMaterialView } from "../Components/member/JewelryMaterialView";
 
 // *** MODEL FOR STAFF
 // Interface
@@ -208,7 +209,7 @@ export const ViewStaffRequestModal: React.FC<MyRequestProps> = ({
                           <label>{t("ModalStaff.Chất liệu")}</label>
                           <span className="fw-bold">
                             {" "}
-                            {t(`ModalStaff.${request.jewelry?.material}`)}
+                            <JewelryMaterialView material={request.jewelry?.material ?? ""} />
                           </span>
                         </div>
                         <div className="col-md-6">
@@ -445,7 +446,7 @@ export const JewelryModal: React.FC<JewelryModalProps> = ({
                           <label>{t("ModalStaff.Chất liệu")}</label>
                           <span className="fw-bold">
                             {" "}
-                            {t(`ModalStaff.${jewelry?.material}`)}
+                            <JewelryMaterialView material={jewelry?.material ?? ""} />
                           </span>
                         </div>
                         <div className="col-md-6">
@@ -1142,7 +1143,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
                           <label>{t("ModalStaff.Chất liệu")}</label>
                           <span className="fw-bold">
                             {" "}
-                            {t(`ModalStaff.${jewelry?.material}`)}
+                            <JewelryMaterialView material={jewelry?.material ?? ""} />
                           </span>
                         </div>
                         <div className="col-md-6">
@@ -1477,7 +1478,7 @@ export const JewelryReturnedModal: React.FC<JewelryReturnedModalProps> = ({
                           <label>{t("ModalStaff.Chất liệu")}</label>
                           <span className="fw-bold">
                             {" "}
-                            {t(`ModalStaff.${jewelry?.material}`)}
+                            <JewelryMaterialView material={jewelry?.material ?? ""} />
                           </span>
                         </div>
                         <div className="col-md-6">

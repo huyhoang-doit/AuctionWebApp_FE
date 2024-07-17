@@ -5,36 +5,48 @@ import { User } from "./User";
 export class Jewelry {
     id: number;
     name: string;
-    buy_now_price?: number;
-    state?: boolean;
+    buyNowPrice?: number;
+    state?: string;
+    receivedDate?: string;
+    deliveryDate?: string;
     category?: Category;
     description?: string;
     material?: string;
     brand?: string;
     weight?: number;
     user?: User;
+    isHolding?: boolean;
+    createDate?: string;
 
     constructor(
         id: number,
         name: string,
-        buy_now_price?: number,
-        state?: boolean,
+        buyNowPrice?: number,
+        state?: string,
+        receivedDate?: string,
+        deliveryDate?: string,
         brand?: string,
         description?: string,
         material?: string,
         weight?: number,
         user?: User,
-        category?: Category
+        category?: Category,
+        isHolding?: boolean,
+        createDate?: string
     ) {
         this.id = id;
         this.name = name;
-        this.buy_now_price = buy_now_price;
+        this.buyNowPrice = buyNowPrice;
         this.brand = brand;
         this.state = state;
+        this.receivedDate = receivedDate;
+        this.deliveryDate = deliveryDate;
         this.description = description;
         this.material = material;
         this.weight = weight;
         this.user = user;
         this.category = category;
+        this.isHolding = isHolding
+        this.createDate = createDate
     }
 }
