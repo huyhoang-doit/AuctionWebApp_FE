@@ -332,11 +332,14 @@ export const PageSendJewelry = () => {
                         }}
                         required
                       >
-                        <option value="Bạc">{t("SendSendJewelry.Bac")}</option>
-                        <option value="Vàng">
+                        <option value="SILVER">{t("SendSendJewelry.Bac")}</option>
+                        <option value="GOLD">
                           {t("SendSendJewelry.Vang")}
                         </option>
-                        <option value="Kim cương">
+                        <option value="PLATINUM">
+                          {t("SendSendJewelry.BachKim")}
+                        </option>
+                        <option value="DIAMOND">
                           {" "}
                           {t("SendSendJewelry.KimCuong")}
                         </option>

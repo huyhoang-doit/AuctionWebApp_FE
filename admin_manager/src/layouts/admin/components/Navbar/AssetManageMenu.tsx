@@ -28,7 +28,7 @@ const AssetManageMenu: React.FC = () => {
         <ul>
           <li style={{ display: 'flex', alignItems: 'center' }}>
             <i className="fa-solid fa-boxes-packing" style={{ color: '#a6adc5', fontSize: '13px', marginRight: '10px' }}></i>
-            <Link to="/manager/tai-san-dang-cho">Danh sách tài sản</Link>
+            <Link to="/manager/quan-li-tai-san">Danh sách tài sản</Link>
           </li>
           <li style={{ display: 'flex', alignItems: 'center' }}>
             <i className="fa-solid fa-clipboard-question" style={{ color: '#a6adc5', fontSize: '13px', marginRight: '10px' }}></i>

@@ -20,7 +20,7 @@ export const StateAuctionView: React.FC<StateAuctionViewProps> = ({
       break;
     case "WAITING":
       currentView = (
-        <span className="fw-bold ani-fire">
+        <span className="text-warning fw-bold">
           {t("StateAuctionView.Sắp diễn ra")}
         </span>
       );

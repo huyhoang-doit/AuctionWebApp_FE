@@ -345,7 +345,7 @@ export default function Index() {
                 <div className="quick_activity">
                   <div className="row">
                     <div className="col-12">
-                      <div className="quick_activity_wrap" style={{ width: "100%", display: "block" }}>
+                      <div className="quick_activity_wrap">
                         {userRole === 'MANAGER' &&
                           <>
                             <div className="single_quick_activity">

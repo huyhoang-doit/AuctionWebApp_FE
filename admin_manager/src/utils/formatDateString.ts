@@ -31,3 +31,13 @@ export const formatDateTime = (date: Date) => {
 export const formatTime = (date: Date) => {
     return date.toLocaleTimeString();
 };
+
+export const formatDateTimeBox = (datetimeString: string | undefined): string => {
+    if (datetimeString === undefined || datetimeString === null) {
+        return 'Invalid date';
+    }
+    const [datePart, timePart] = datetimeString.split('T');
+    const date = datePart;
+    const time = timePart.substring(0, 5); // Get HH:MM
+    return `${date}T${time}`;
+}

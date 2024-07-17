@@ -1,15 +1,17 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useCategories } from "../../../hooks/useCategories";
 import { UserContext } from "../../../hooks/useContext";
 import { useTranslation } from "react-i18next";
+import useIsStaff from "../../../hooks/useIsStaff";
 
 export const NavBar = () => {
   const categories = useCategories();
   const token = localStorage.getItem("access_token");
   const { t } = useTranslation(["home"]);
   const context = useContext(UserContext);
-  const [isDisplay, setIsDisplay] = useState(false)
+  const [isDisplay, setIsDisplay] = useState(false);
+  // const isStaff = useIsStaff();
 
   let user = null;
 
@@ -95,11 +97,13 @@ export const NavBar = () => {
                     <li>
                       <NavLink to="/lien-he">{t("Narbar.LienHe")}</NavLink>
                     </li>
+                    {/* {!isStaff &&  */}
                     <li>
                       <NavLink to="/form-send-jewerly">
                         {t("Narbar.GuiSanPhamDauGia")}
                       </NavLink>
                     </li>
+                    {/* } */}
                   </ul>
                 </nav>
               </div>

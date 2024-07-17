@@ -162,7 +162,6 @@ export default function AuctionDetail() {
     <>
       <div className="template-color-1">
         <div className="main-wrapper">
-          {/* <!-- Begin Umino's Breadcrumb Area --> */}
           <div className="breadcrumb-area">
             <div className="container">
               <div className="breadcrumb-content">
@@ -414,7 +413,7 @@ export default function AuctionDetail() {
                               auction?.state === "WAITING") && (
                                 <InfoBlock
                                   label={t("AuctionDetail.Giá trúng tối thiểu")}
-                                  value={formatNumber(auction?.firstPrice)}
+                                  value={formatNumber(auction?.firstPrice + auction?.priceStep)}
                                 />
                               )}
                           </>
