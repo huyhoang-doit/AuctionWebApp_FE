@@ -31,6 +31,7 @@
     "StaffRequestList": {
         "Danh sách các yêu cầu gửi lên quản lý": "List of requests sent to management",
         "Mã yêu cầu": "Request ID",
+        "Tên tài sản": "Asset name",
         "Mã tài sản": "Asset ID",
         "Định giá (VNĐ)": "Valuation (VND)",
         "Thời gian gửi": "Sent time",

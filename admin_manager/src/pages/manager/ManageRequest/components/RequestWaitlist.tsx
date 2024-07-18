@@ -121,7 +121,7 @@ const RequestWaitlist = () => {
                     <Table striped bordered hover>
                       <thead>
                         <tr className=''>
-                          <th scope="col">Mã yêu cầu</th>
+                          <th scope="col">Mã tài sản</th>
                           <th scope="col">Tên tài sản</th>
                           <th scope="col">Phân loại</th>
                           <th scope="col">Định giá (VND)</th>

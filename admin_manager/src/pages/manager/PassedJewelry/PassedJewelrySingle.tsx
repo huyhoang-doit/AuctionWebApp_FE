@@ -31,18 +31,20 @@ const PassedJewelrySingle: React.FC<RequestSingleProps> = ({ request, user, hand
   return (
     <>
       <tr key={request.id}>
-        <td>{request.id}</td>
+        <td>{request.jewelry?.id}</td>
         <td>{request.jewelry?.name}</td>
         <td>{request.jewelry?.category?.name}</td>
         <td>
+          {request.responder?.fullName}
           <Link style={{ textDecoration: "underline" }} target="_blank" to={`/manager/chi-tiet-nguoi-dung/${request.responder?.id}`}>
-            {request.responder?.username}
+            <i className="ms-2 fa-solid fa-eye text-dark"></i>
           </Link>
         </td>
         <td>{formatNumber(request.valuation)}</td>
         <td>
+          {request.staff?.fullName}
           <Link style={{ textDecoration: "underline" }} target="_blank" to={`/manager/chi-tiet-nguoi-dung/${request.staff?.id}`}>
-            {request.staff?.username}
+            <i className="ms-2 fa-solid fa-eye text-dark"></i>
           </Link>
         </td>
         <td>
