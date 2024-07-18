@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
 import { useCategories } from '../../../hooks/useCategories';
 import JewelryItem from './JewelryItem';
-import { getJewelriesPagination } from '../../../api/JewelryAPI';
+import { getAllJewelriesManager } from '../../../api/JewelryAPI';
 import { Jewelry } from '../../../models/Jewelry';
 import { CreateJewelryModal } from './Modal/CreateJewelryModal';
 
@@ -21,9 +21,12 @@ const JewelryList = () => {
     const [debouncedTxtSearch, setDebouncedTxtSearch] = useState('');
     const [txtSearch, setTxtSearch] = useState('');
     const [category, setCategory] = useState('Tất cả');
+    const [state, setState] = useState('ACTIVE');
+    const [stateSelect, setStateSelect] = useState('Đã định giá');
     const categories = useCategories();
     const categoryNames: (string | undefined)[] = categories.map(category => category.name);
     categoryNames.unshift('Tất cả')
+    const states = ['Đã định giá', 'Chưa định giá', 'Có phiên', 'Đã bàn giao']
 
 
     const debouncedTxtSearchChange = useDebouncedCallback(
@@ -42,23 +45,40 @@ const JewelryList = () => {
     const handleChangeList = useCallback(async () => {
         setLoading(true)
         try {
-            const response = await getJewelriesPagination(
-                // debouncedTxtSearch, category, 
-                page);
+            const response = await getAllJewelriesManager(debouncedTxtSearch, category, state, page);
             setJewelries(response.jewelriesData);
             setTotalElements(response.totalElements);
         } catch (error) {
             console.error(error);
         }
         setLoading(false)
-    }, [page, debouncedTxtSearch, category]);
+    }, [page, debouncedTxtSearch, state, category]);
 
     useEffect(() => {
+        switch (stateSelect) {
+            case 'Đã định giá':
+                setState('ACTIVE')
+                break;
+            case 'Chưa định giá':
+                setState('APPROVING')
+                break;
+            case 'Có phiên':
+                setState('AUCTION')
+                break;
+            case 'Đã bàn giao':
+                setState('HANDED_OVER')
+                break;
+        }
         handleChangeList();
-    }, [user, page, debouncedTxtSearch, category]);
+    }, [user, page, debouncedTxtSearch, category, stateSelect]);
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setCategory(e.target.value);
+        setPage(1);
+    };
+
+    const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setStateSelect(e.target.value);
         setPage(1);
         setTxtSearch('');
         debouncedTxtSearchChange('')
@@ -83,21 +103,24 @@ const JewelryList = () => {
                                                 <div className="search_inner">
                                                     <form>
                                                         <div className="search_field">
+                                                            <label htmlFor="txtSearch">Tìm kiếm <i className="fa-solid fa-magnifying-glass ps-1" style={{ fontSize: '12px' }}></i></label>
                                                             <input
                                                                 type="text"
+                                                                id="txtSearch"
                                                                 placeholder="Tên sản phẩm..."
                                                                 value={txtSearch}
                                                                 onChange={handleTxtSearch}
+                                                                style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
                                                             />
                                                         </div>
-                                                        <button type="submit">
-                                                            <i className="ti-search"></i>
-                                                        </button>
                                                     </form>
                                                 </div>
                                             </div>
-                                            <div className="add_button ms-2">
-                                                <select className='rounded'
+                                            <div className="add_button ms-2" style={{ width: '150px' }}>
+                                                <label htmlFor="category-id">Phân loại</label>
+                                                <select
+                                                    className="rounded"
+                                                    id="category-id"
                                                     value={category}
                                                     onChange={handleCategoryChange}
                                                     style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
@@ -110,17 +133,35 @@ const JewelryList = () => {
                                                     ))}
                                                 </select>
                                             </div>
+                                            <div className="add_button ms-2" style={{ width: '150px' }}>
+                                                <label htmlFor="state-id">Trạng thái</label>
+                                                <select
+                                                    className="rounded"
+                                                    id="state-id"
+                                                    value={stateSelect}
+                                                    onChange={handleStateChange}
+                                                    style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
+                                                    required
+                                                >
+                                                    {states.map((state, index) => (
+                                                        <option style={{ padding: '5px' }} key={index} value={state}>
+                                                            {state}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
                                             <div className="add_button ms-2">
-                                                <CreateJewelryModal handleChangeList={handleChangeList}  />
+                                                <CreateJewelryModal handleChangeList={handleChangeList} />
                                             </div>
                                         </div>
                                     </div>
+
                                     <div className=" ">
                                         <Table striped bordered hover>
                                             <thead>
                                                 <tr className=''>
                                                     <th scope="col">Mã tài sản</th>
-                                                    <th scope="col">Tên sản phẩm</th>
+                                                    <th scope="col">Tên tài sản</th>
                                                     <th scope="col">Phân loại</th>
                                                     <th scope="col">Giá mua ngay (VND)</th>
                                                     <th scope="col">Ngày tạo</th>

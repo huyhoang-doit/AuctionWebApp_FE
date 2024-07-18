@@ -73,7 +73,7 @@ export const CreateJewelryModal: React.FC<CreateJewelryModalProps> = ({
 
     return (
         <>
-            <Button variant="warning" size="sm" className="btn_1" style={{ backgroundColor: "#3b76ef", border: "none", color: "white" }} onClick={handleShow}>
+            <Button variant="warning" size="sm" className="btn_1" style={{ backgroundColor: "#3b76ef", border: "none", color: "white", marginTop: '20px' }} onClick={handleShow}>
                 Thêm tài sản
             </Button>
             {show && (
