@@ -6,12 +6,36 @@ import { MyRequest } from "./MyRequest";
 interface ResultPageableInteface {
     jewelriesData: Jewelry[];
     totalElements: number
-  }
+}
 
 export async function getJewelriesPagination(page: number): Promise<ResultPageableInteface> {
     const jewelriesData: Jewelry[] = [];
 
     const URL = `${BASE_URL}/jewelry/sorted-and-paged?page=${page - 1}`;
+    // request
+    try {
+        const response = await MyRequest(URL);
+        const responseData = response.content;
+
+        if (responseData) {
+            responseData.forEach((jewelryData: any) => {
+                jewelriesData.push(mapJewelry(jewelryData));
+            });
+        }
+        return {
+            jewelriesData: jewelriesData,
+            totalElements: response.totalElements,
+        };
+    } catch (error) {
+        console.error("Error fetching jewelries:", error);
+        throw new Error("Failed to fetch jewelries");
+    }
+}
+
+export async function getAllJewelriesManager(jewelryName: string, category: string, state: string, page: number): Promise<ResultPageableInteface> {
+    const jewelriesData: Jewelry[] = [];
+
+    const URL = `${BASE_URL}/jewelry/manager-list?page=${page - 1}&category=${category}&state=${state}&jewelryName=${jewelryName}`;
     // request
     try {
         const response = await MyRequest(URL);

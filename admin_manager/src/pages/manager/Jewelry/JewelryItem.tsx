@@ -34,8 +34,9 @@ const JewelryItem: React.FC<JewelryItemProps> = ({ jewelry, handleChangeList }) 
                 <td>{formatNumber(jewelry.buyNowPrice)}</td>
                 <td>{formatDateStringAcceptNull(jewelry.createDate)}</td>
                 <td>
+                    {jewelry.user?.fullName}
                     <Link style={{ textDecoration: "underline" }} target="_blank" to={`/manager/chi-tiet-nguoi-dung/${jewelry.user?.id}`}>
-                        {jewelry.user?.username}
+                        <i className="ms-2 fa-solid fa-eye text-dark"></i>
                     </Link>
                 </td>
                 <td>

@@ -124,8 +124,8 @@ const StaffRequestList: React.FC<StaffRequestListProps> = ({
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
-                <th>{t("StaffRequestList.Mã yêu cầu")}</th>
                 <th>{t("StaffRequestList.Mã tài sản")}</th>
+                <th>{t("StaffRequestList.Tên tài sản")}</th>
                 <th>{t("StaffRequestList.Định giá (VNĐ)")}</th>
                 <th>{t("StaffRequestList.Thời gian gửi")}</th>
                 <th>{t("StaffRequestList.Trạng thái")}</th>

@@ -9,7 +9,7 @@ export const JewelryMaterialView: React.FC<JewelryMaterialViewProps> = ({ materi
 
     const currentView = {
         SILVER: <span className="fw-bold">
-            Đã xác thực
+            Bạc
         </span>,
         GOLD: <span className="fw-bold" >
             Vàng
