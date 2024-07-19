@@ -25,9 +25,8 @@ const JewelryList = () => {
     const [stateSelect, setStateSelect] = useState('Đã định giá');
     const categories = useCategories();
     const categoryNames: (string | undefined)[] = categories.map(category => category.name);
-    categoryNames.unshift('Tất cả')
-    const states = ['Đã định giá', 'Chưa định giá', 'Có phiên', 'Đã bàn giao']
-
+    categoryNames.unshift('Tất cả');
+    const states = ['Đã định giá', 'Chưa định giá', 'Có phiên', 'Đã bàn giao'];
 
     const debouncedTxtSearchChange = useDebouncedCallback(
         (txtSearch: string) => {
@@ -43,7 +42,7 @@ const JewelryList = () => {
     };
 
     const handleChangeList = useCallback(async () => {
-        setLoading(true)
+        setLoading(true);
         try {
             const response = await getAllJewelriesManager(debouncedTxtSearch, category, state, page);
             setJewelries(response.jewelriesData);
@@ -51,26 +50,33 @@ const JewelryList = () => {
         } catch (error) {
             console.error(error);
         }
-        setLoading(false)
+        setLoading(false);
     }, [page, debouncedTxtSearch, state, category]);
 
     useEffect(() => {
+        let newState = '';
         switch (stateSelect) {
             case 'Đã định giá':
-                setState('ACTIVE')
+                newState = 'ACTIVE';
                 break;
             case 'Chưa định giá':
-                setState('APPROVING')
+                newState = 'APPROVING';
                 break;
             case 'Có phiên':
-                setState('AUCTION')
+                newState = 'AUCTION';
                 break;
             case 'Đã bàn giao':
-                setState('HANDED_OVER')
+                newState = 'HANDED_OVER';
                 break;
+            default:
+                newState = '';
         }
+        setState(newState);
+    }, [stateSelect]);
+
+    useEffect(() => {
         handleChangeList();
-    }, [user, page, debouncedTxtSearch, category, stateSelect]);
+    }, [user, page, debouncedTxtSearch, category, state]);
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setCategory(e.target.value);
@@ -81,7 +87,7 @@ const JewelryList = () => {
         setStateSelect(e.target.value);
         setPage(1);
         setTxtSearch('');
-        debouncedTxtSearchChange('')
+        debouncedTxtSearchChange('');
     };
 
     return (

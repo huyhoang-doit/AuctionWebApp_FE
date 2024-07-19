@@ -36,6 +36,8 @@ export async function getAllJewelriesManager(jewelryName: string, category: stri
     const jewelriesData: Jewelry[] = [];
 
     const URL = `${BASE_URL}/jewelry/manager-list?page=${page - 1}&category=${category}&state=${state}&jewelryName=${jewelryName}`;
+    console.log(URL);
+
     // request
     try {
         const response = await MyRequest(URL);

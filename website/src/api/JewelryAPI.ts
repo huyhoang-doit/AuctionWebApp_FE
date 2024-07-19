@@ -100,9 +100,9 @@ export async function getJewelriesByStateAndHolding(state: string, jewelryName: 
   }
 }
 
-export async function setJewelryHolding(id: number, state: boolean): Promise<boolean> {
+export async function setJewelryStateWithHolding(id: number, isHolding: boolean, state: string): Promise<boolean> {
   // endpoint
-  const URL: string = `${BASE_URL}/jewelry/set-holding/${id}?state=${state}`;
+  const URL: string = `${BASE_URL}/jewelry/set-state-holding/${id}?state=${state}&isHolding=${isHolding}`;
   const response = await fetch(URL, {
     method: 'PUT',
     headers: {
