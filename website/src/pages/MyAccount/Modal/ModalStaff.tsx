@@ -24,7 +24,7 @@ import changeStateRequest, {
 import { StateAuctionView } from "../../AuctionList/Components/StateAuctionView";
 import { PaymentMethod } from "../Components/member/PaymentMethod";
 import { StateTransaction } from "../Components/member/StateTransaction";
-import { setJewelryHolding } from "../../../api/JewelryAPI";
+import { setJewelryStateWithHolding } from "../../../api/JewelryAPI";
 import PDFHandover from "../../../utils/PDFForm/PDFHandoverAsset";
 import { useTranslation } from "react-i18next";
 import { PDFViewer } from "@react-pdf/renderer";
@@ -1335,7 +1335,7 @@ export const CreateHandoverReportModal: React.FC<CreateHandoverReportModalProps>
 }) => {
   const jewelryId = jewelry?.id ? jewelry.id : 1;
   const handleConfirm = async () => {
-    const confirm = await setJewelryHolding(jewelryId, false);
+    const confirm = await setJewelryStateWithHolding(jewelryId, false, 'HANDED_OVER');
     if (confirm) {
       Swal.fire({
         position: "center",
@@ -1606,7 +1606,7 @@ export const CreateReturnReportModal: React.FC<CreateReturnReportModalProps> = (
 }) => {
   const jewelryId = jewelry?.id ? jewelry.id : 1;
   const handleConfirm = async () => {
-    const confirm = await setJewelryHolding(jewelryId, false);
+    const confirm = await setJewelryStateWithHolding(jewelryId, false, 'RETURNED');
     if (confirm) {
       Swal.fire({
         position: "center",
@@ -1693,7 +1693,7 @@ export const ConfirmHoldingModal: React.FC<ConfirmHoldingModalProps> = ({
   const handleShowJewelryDetail = () => setShow(true);
 
   const handleConfirm = async () => {
-    const confirm = await setJewelryHolding(jewelry.id, true);
+    const confirm = await setJewelryStateWithHolding(jewelry.id, true, 'ACTIVE');
     if (confirm) {
       Swal.fire({
         position: "center",
