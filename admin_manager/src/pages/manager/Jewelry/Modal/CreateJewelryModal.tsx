@@ -1,29 +1,26 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Button, Modal } from "react-bootstrap";
+import { Alert, Button, Modal } from "react-bootstrap";
 import { formatNumber } from "../../../../utils/formatNumber";
 import { useCategories } from "../../../../hooks/useCategories";
 import { JewelryMaterialView } from "../JewelryMaterialView";
+import { addNewJewelry } from "../../../../api/JewelryAPI";
+import Swal from "sweetalert2";
 
 type CreateJewelryModalProps = {
     handleChangeList: () => void;
 };
 
-interface EditJewelryRequest {
+interface AddJewelryRequest {
     id: number;
     name: string;
     buyNowPrice: number;
-    state: string;
     category: string;
-    receivedDate: string;
-    deliveryDate: string;
     description: string;
     material: string;
     brand: string;
     weight: number;
-    isHolding: boolean;
-    createDate: string;
 }
 
 
@@ -33,43 +30,66 @@ export const CreateJewelryModal: React.FC<CreateJewelryModalProps> = ({
     const materialOptions = ['SILVER', 'GOLD', 'PLATINUM', 'DIAMOND'];
     const [show, setShow] = useState(false);
     const categories = useCategories();
+    const [priceDisplay, setPriceDisplay] = useState("");
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    const formik = useFormik<EditJewelryRequest>({
+    
+    const formik = useFormik<AddJewelryRequest>({
         initialValues: {
             id: 0,
             name: "",
             buyNowPrice: 0,
             category: "",
-            state: "",
-            receivedDate: "",
-            deliveryDate: "",
             description: "",
             material: "",
             brand: "",
             weight: 0,
-            isHolding: false,
-            createDate: "",
         },
         validationSchema: Yup.object({
+            name: Yup.string().required("Tên không được để trống"),
+            buyNowPrice: Yup.number().required("Giá mua ngay không được để trống").min(1000000, "Giá mua ngay phải lớn hơn 1.000.000"),
+            category: Yup.string().required("Danh mục không được để trống"),
+            description: Yup.string().required("Mô tả không được để trống"),
+            material: Yup.string().required("Chất liệu không được để trống"),
+            brand: Yup.string().required("Thương hiệu không được để trống"),
+            weight: Yup.number().required("Cân nặng không được để trống").min(0.1, "Cân nặng phải lớn hơn 0"),
         }),
         onSubmit: (values) => {
+            addNewJewelry(values)
+                .then((result) => {
+                    if (result) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Assert add successfully.",
+                        });
+                        handleChangeList();
+                        handleClose();
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Failed to edit assert.",
+                        });
+                    }
+                });
         },
     });
 
-    const updateCreateDate = (createDate: string) => {
-        formik.setFieldValue("createDate", createDate);
+    const handleSubmit = () => {
+        formik.submitForm();
+    }
+
+    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const numericValue = parseInt(value.replace(/[^0-9]/g, ""), 10);
+        if (!isNaN(numericValue)) {
+            setPriceDisplay(formatNumber(numericValue));
+            formik.setFieldValue("buyNowPrice", numericValue);
+        } else {
+            setPriceDisplay("");
+            formik.setFieldValue("buyNowPrice", numericValue);
+        }
     };
-
-    const updateReceivedDate = (receivedDate: string) => {
-        formik.setFieldValue("receivedDate", receivedDate);
-    }
-
-    const updateDeliveryDate = (deliveryDate: string) => {
-        formik.setFieldValue("deliveryDate", deliveryDate);
-    }
 
     return (
         <>
@@ -105,51 +125,21 @@ export const CreateJewelryModal: React.FC<CreateJewelryModalProps> = ({
                                                     value={formik.values.name}
                                                     onChange={formik.handleChange}
                                                 />
+                                                {formik.errors.name && (
+                                                    <Alert variant="danger">{formik.errors.name}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2 ">
                                                 <span>Giá mua ngay:</span>
                                                 <input className="mb-0"
                                                     type="text"
                                                     name="buyNowPrice"
-                                                    value={formatNumber(formik.values.buyNowPrice)}
-                                                    onChange={formik.handleChange}
+                                                    value={priceDisplay}
+                                                    onChange={handlePriceChange}
                                                 />
-                                            </div>
-                                            <div className="checkout-form-list mb-2">
-                                                <span>Ngày tạo yêu cầu: </span>
-                                                <input
-                                                    className="p-3"
-                                                    type="datetime-local"
-                                                    name="createDate"
-                                                    id="txtCreateDate"
-                                                    value={formik.values.createDate}
-                                                    onChange={(e) => updateCreateDate(e.target.value)}
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="checkout-form-list mb-2">
-                                                <span>Ngày nhận tài sản:</span>
-                                                <input
-                                                    className="p-3"
-                                                    type="datetime-local"
-                                                    name="receivedDate"
-                                                    id="txtReceivedDate"
-                                                    value={formik.values.receivedDate}
-                                                    onChange={(e) => updateReceivedDate(e.target.value)}
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="checkout-form-list mb-2">
-                                                <span>Ngày bàn giao tài sản: </span>
-                                                <input
-                                                    className="p-3"
-                                                    type="datetime-local"
-                                                    name="deliveryDate"
-                                                    id="txtDeliveryDate"
-                                                    value={formik.values.deliveryDate}
-                                                    onChange={(e) => updateDeliveryDate(e.target.value)}
-                                                    required
-                                                />
+                                                {formik.errors.buyNowPrice && (
+                                                    <Alert variant="danger">{formik.errors.buyNowPrice}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Danh mục: </span>
@@ -160,12 +150,21 @@ export const CreateJewelryModal: React.FC<CreateJewelryModalProps> = ({
                                                     style={{ width: '100%', height: '40px', padding: '0 0 0 10px' }}
                                                     required
                                                 >
+                                                    <option
+                                                        value=""
+                                                        disabled
+                                                    >
+                                                        --Chọn danh mục--
+                                                    </option>
                                                     {categories.map((category, index) => (
                                                         <option style={{ padding: '5px' }} key={index} value={category.name}>
                                                             {category.name}
                                                         </option>
                                                     ))}
                                                 </select>
+                                                {formik.errors.category && (
+                                                    <Alert variant="danger">{formik.errors.category}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Mô tả: </span>
@@ -175,6 +174,9 @@ export const CreateJewelryModal: React.FC<CreateJewelryModalProps> = ({
                                                     value={formik.values.description}
                                                     onChange={formik.handleChange}
                                                 />
+                                                {formik.errors.description && (
+                                                    <Alert variant="danger">{formik.errors.description}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Chất liệu: </span>
@@ -190,6 +192,12 @@ export const CreateJewelryModal: React.FC<CreateJewelryModalProps> = ({
                                                     }}
                                                     required
                                                 >
+                                                    <option
+                                                        value=""
+                                                        disabled
+                                                    >
+                                                        --Chọn chất liệu--
+                                                    </option>
                                                     {materialOptions.map(
                                                         (material, index) => (
                                                             <option
@@ -201,6 +209,9 @@ export const CreateJewelryModal: React.FC<CreateJewelryModalProps> = ({
                                                         )
                                                     )}
                                                 </select>
+                                                {formik.errors.material && (
+                                                    <Alert variant="danger">{formik.errors.material}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Thương hiệu: </span>
@@ -210,6 +221,9 @@ export const CreateJewelryModal: React.FC<CreateJewelryModalProps> = ({
                                                     value={formik.values.brand}
                                                     onChange={formik.handleChange}
                                                 />
+                                                {formik.errors.brand && (
+                                                    <Alert variant="danger">{formik.errors.brand}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Cân nặng: </span>
@@ -219,6 +233,9 @@ export const CreateJewelryModal: React.FC<CreateJewelryModalProps> = ({
                                                     value={formik.values.weight}
                                                     onChange={formik.handleChange}
                                                 />
+                                                {formik.errors.weight && (
+                                                    <Alert variant="danger">{formik.errors.weight}</Alert>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -228,6 +245,9 @@ export const CreateJewelryModal: React.FC<CreateJewelryModalProps> = ({
                         <Modal.Footer>
                             <Button variant="dark" onClick={handleClose}>
                                 Đóng
+                            </Button>
+                            <Button variant="primary" onClick={handleSubmit}>
+                                Thêm
                             </Button>
                         </Modal.Footer>
                     </Modal>

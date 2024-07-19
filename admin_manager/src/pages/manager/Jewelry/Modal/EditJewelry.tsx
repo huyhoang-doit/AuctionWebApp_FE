@@ -4,10 +4,12 @@ import { Jewelry } from "../../../../models/Jewelry";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { formatDateTimeBox } from "../../../../utils/formatDateString";
-import { Button, Modal } from "react-bootstrap";
+import { Alert, Button, Modal } from "react-bootstrap";
 import { formatNumber } from "../../../../utils/formatNumber";
 import { useCategories } from "../../../../hooks/useCategories";
 import { JewelryMaterialView } from "../JewelryMaterialView";
+import { editJewelryById } from "../../../../api/JewelryAPI";
+import Swal from "sweetalert2";
 
 type EditJewelryModalProps = {
     jewelry: Jewelry;
@@ -37,6 +39,7 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
 }) => {
     const materialOptions = ['SILVER', 'GOLD', 'PLATINUM', 'DIAMOND'];
     const [show, setShow] = useState(false);
+    const [priceDisplay, setPriceDisplay] = useState(formatNumber(jewelry.buyNowPrice));
     const categories = useCategories();
 
     const handleClose = () => setShow(false);
@@ -59,10 +62,40 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
             createDate: formatDateTimeBox(jewelry.createDate),
         },
         validationSchema: Yup.object({
+            name: Yup.string().required("Tên không được để trống"),
+            buyNowPrice: Yup.number().required("Giá mua ngay không được để trống"),
+            category: Yup.string().required("Danh mục không được để trống"),
+            description: Yup.string().required("Mô tả không được để trống"),
+            material: Yup.string().required("Chất liệu không được để trống"),
+            brand: Yup.string().required("Thương hiệu không được để trống"),
+            weight: Yup.number().required("Cân nặng không được để trống"),
+            createDate: Yup.string().required("Ngày tạo không được để trống"),
         }),
         onSubmit: (values) => {
+            editJewelryById(values)
+                .then((result) => {
+                    console.log(result);
+                    
+                    if (result) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Assert edit successfully.",
+                        });
+                        handleChangeList();
+                        handleClose();
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Failed to edit assert.",
+                        });
+                    }
+                });
         },
     });
+
+    const handleSubmit = () => {
+        formik.submitForm();
+    }
 
     const updateCreateDate = (createDate: string) => {
         formik.setFieldValue("createDate", createDate);
@@ -75,6 +108,18 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
     const updateDeliveryDate = (deliveryDate: string) => {
         formik.setFieldValue("deliveryDate", deliveryDate);
     }
+
+    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const numericValue = parseInt(value.replace(/[^0-9]/g, ""), 10);
+        if (!isNaN(numericValue)) {
+            setPriceDisplay(formatNumber(numericValue));
+            formik.setFieldValue("buyNowPrice", numericValue);
+        } else {
+            setPriceDisplay("");
+            formik.setFieldValue("buyNowPrice", numericValue);
+        }
+    };
 
     return (
         <>
@@ -119,15 +164,21 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
                                                     value={formik.values.name}
                                                     onChange={formik.handleChange}
                                                 />
+                                                {formik.errors.name && (
+                                                    <Alert variant="danger">{formik.errors.name}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2 ">
                                                 <span>Giá mua ngay:</span>
                                                 <input className="mb-0"
                                                     type="text"
                                                     name="buyNowPrice"
-                                                    value={formatNumber(formik.values.buyNowPrice)}
-                                                    onChange={formik.handleChange}
+                                                    value={priceDisplay}
+                                                    onChange={handlePriceChange}
                                                 />
+                                                {formik.errors.buyNowPrice && (
+                                                    <Alert variant="danger">{formik.errors.buyNowPrice}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Ngày tạo yêu cầu: </span>
@@ -140,6 +191,9 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
                                                     onChange={(e) => updateCreateDate(e.target.value)}
                                                     required
                                                 />
+                                                {formik.errors.createDate && (
+                                                    <Alert variant="danger">{formik.errors.createDate}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Ngày nhận tài sản:</span>
@@ -180,6 +234,9 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
                                                         </option>
                                                     ))}
                                                 </select>
+                                                {formik.errors.category && (
+                                                    <Alert variant="danger">{formik.errors.category}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Mô tả: </span>
@@ -189,6 +246,9 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
                                                     value={formik.values.description}
                                                     onChange={formik.handleChange}
                                                 />
+                                                {formik.errors.description && (
+                                                    <Alert variant="danger">{formik.errors.description}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Chất liệu: </span>
@@ -215,6 +275,9 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
                                                         )
                                                     )}
                                                 </select>
+                                                {formik.errors.material && (
+                                                    <Alert variant="danger">{formik.errors.material}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Thương hiệu: </span>
@@ -224,6 +287,9 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
                                                     value={formik.values.brand}
                                                     onChange={formik.handleChange}
                                                 />
+                                                {formik.errors.brand && (
+                                                    <Alert variant="danger">{formik.errors.brand}</Alert>
+                                                )}
                                             </div>
                                             <div className="checkout-form-list mb-2">
                                                 <span>Cân nặng: </span>
@@ -233,6 +299,9 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
                                                     value={formik.values.weight}
                                                     onChange={formik.handleChange}
                                                 />
+                                                {formik.errors.weight && (
+                                                    <Alert variant="danger">{formik.errors.weight}</Alert>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="checkout-form-list ms-2 mb-2 col-md-6 border p-2 row mt-2">
@@ -253,6 +322,9 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
                         <Modal.Footer>
                             <Button variant="dark" onClick={handleClose}>
                                 Đóng
+                            </Button>
+                            <Button variant="primary" onClick={handleSubmit}>
+                                Lưu
                             </Button>
                         </Modal.Footer>
                     </Modal>
