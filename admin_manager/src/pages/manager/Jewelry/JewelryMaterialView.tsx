@@ -8,18 +8,10 @@ export const JewelryMaterialView: React.FC<JewelryMaterialViewProps> = ({ materi
     const defaultView = <></>;
 
     const currentView = {
-        SILVER: <span className="fw-bold">
-            Bạc
-        </span>,
-        GOLD: <span className="fw-bold" >
-            Vàng
-        </span>,
-        PLATINUM: <span className="fw-bold" >
-            Bạch kim
-        </span>,
-        DIAMOND: <span className="fw-bold" >
-            Kim cương
-        </span>,
+        SILVER: 'Bạc',
+        GOLD: 'Vàng',
+        PLATINUM: 'Bạch kim',
+        DIAMOND: 'Kim cương',
     }[material];
 
     return currentView || defaultView;

@@ -18,7 +18,7 @@ const AuctionManageMenu: React.FC = () => {
         aria-expanded={isExpanded.toString() as Booleanish}
       >
 
-        <li className="fa-solid fa-gavel" style={{ color: '#a6adc5' }} />
+        <span className="fa-solid fa-gavel" style={{ color: '#a6adc5' }} />
         <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           Quản lý đấu giá
           <i className="fa-solid fa-angle-down" style={{ marginLeft: '8px' }} />

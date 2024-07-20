@@ -157,7 +157,7 @@ const JewelryList = () => {
                                                 </select>
                                             </div>
                                             <div className="add_button ms-2">
-                                                <CreateJewelryModal handleChangeList={handleChangeList} />
+                                                <CreateJewelryModal handleChangeList={handleChangeList}/>
                                             </div>
                                         </div>
                                     </div>
