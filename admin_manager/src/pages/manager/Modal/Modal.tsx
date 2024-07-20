@@ -26,7 +26,7 @@ import { PaginationControl } from "react-bootstrap-pagination-control";
 import { createNewAuctionFromManager, deleteAuctionResult } from "../../../api/AuctionAPI";
 import PARTICIPATION_FEE from "../../../global_variable/variable";
 import { descriptionAuction } from "../../../utils/descriptionAuction";
-import { changeStateTransaction } from "../../../api/TransactionAPI";
+import { changeStateTransaction, changeStateTransactionWithCode } from "../../../api/TransactionAPI";
 import { Transaction } from "../../../models/Transaction";
 import { TypeTransaction } from "../Transaction/TypeTransaction";
 import { PaymentMethod } from "../Transaction/PaymentMethod";
@@ -1102,11 +1102,36 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
   };
 
   const completeCreateAuction = async () => {
-    const response = await createNewAuctionFromManager(newAuction);
-    if (response) {
-      handleChangeList();
+    if (newAuction.staffId === 0) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Bạn chưa phân công nhân viên",
+        showConfirmButton: true,
+        timer: 1500
+      });
+    } else {
+      const response = await createNewAuctionFromManager(newAuction);
+      if (response) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Phiên đấu được tạo thành công",
+          showConfirmButton: true,
+          timer: 1500
+        });
+        handleChangeList();
+        handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Đã có lỗi xảy ra, chưa thể tạo phiên đấu giá",
+          showConfirmButton: true,
+          timer: 1500
+        });
+      }
     }
-    handleClose();
   };
   return (
     <>
@@ -1268,29 +1293,88 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
   const handleShow = () => setShow(true);
 
   const handleConfirm = async () => {
-    try {
-      const result = await Swal.fire({
-        title: "Xác nhận thanh toán?",
-        text: `Xác nhận số tiền ${formatNumberAcceptNull(transaction.totalPrice)} VND đã được thanh toán.`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#198754",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Xác nhận"
-      });
-
-      if (result.isConfirmed) {
-        await changeStateTransaction(transaction.id, "SUCCEED");
-        await handleChangeList();
-        handleClose();
-        Swal.fire({
-          title: "Thành công!",
-          text: "Xác nhận giao dịch thanh toán thành công",
-          icon: "success"
+    if (transaction.paymentMethod !== 'PAY_AT_COUNTER') {
+      try {
+        const result = await Swal.fire({
+          title: "Xác nhận thanh toán?",
+          text: `Xác nhận số tiền ${formatNumberAcceptNull(transaction.totalPrice)} VND đã được thanh toán.`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#198754",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Xác nhận",
         });
+
+        if (result.isConfirmed) {
+          const bankCodeResult = await Swal.fire({
+            title: "Nhập mã ngân hàng",
+            input: "text",
+            inputPlaceholder: "Mã ngân hàng",
+            showCancelButton: true,
+            confirmButtonText: "Xác nhận",
+            cancelButtonText: "Hủy",
+            inputValidator: (value: string) => {
+              if (!value) {
+                return "Vui lòng cung cấp mã ngân hàng!";
+              }
+            }
+          });
+
+          if (bankCodeResult.isConfirmed) {
+            const transactionCodeResult = await Swal.fire({
+              title: "Nhập mã giao dịch",
+              input: "text",
+              inputPlaceholder: "Mã giao dịch",
+              showCancelButton: true,
+              confirmButtonText: "Xác nhận",
+              cancelButtonText: "Hủy",
+              inputValidator: (value: string) => {
+                if (!value) {
+                  return "Vui lòng cung cấp mã giao dịch!";
+                }
+              }
+            });
+
+            if (transactionCodeResult.isConfirmed) {
+              await changeStateTransactionWithCode(transaction.id, "SUCCEED", transactionCodeResult.value, bankCodeResult.value);
+              await handleChangeList();
+              handleClose();
+              Swal.fire({
+                title: "Thành công!",
+                text: "Xác nhận giao dịch thanh toán thành công",
+                icon: "success"
+              });
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Failed to change transaction state or update the list:", error);
       }
-    } catch (error) {
-      console.error("Failed to change transaction state or update the list:", error);
+    } else {
+      try {
+        const result = await Swal.fire({
+          title: "Xác nhận thanh toán?",
+          text: `Xác nhận số tiền ${formatNumberAcceptNull(transaction.totalPrice)} VND đã được thanh toán.`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#198754",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Xác nhận",
+        });
+
+        if (result.isConfirmed) {
+          await changeStateTransaction(transaction.id, "SUCCEED");
+          await handleChangeList();
+          handleClose();
+          Swal.fire({
+            title: "Thành công!",
+            text: "Xác nhận giao dịch thanh toán thành công",
+            icon: "success"
+          });
+        }
+      } catch (error) {
+        console.error("Failed to change transaction state or update the list:", error);
+      }
     }
   };
 
