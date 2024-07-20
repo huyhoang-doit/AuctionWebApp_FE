@@ -21,7 +21,7 @@ interface Pageable {
 
 export async function getAuctions(state: string, cateId: number, pageable: Pageable): Promise<ResultPageableInteface> {
     // endpoint
-    const URL = `${BASE_URL}/auction/sorted-and-paged?state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
+    const URL = `${BASE_URL}/auction/sorted-and-paged?&state=${state}&categoryId=${cateId}&page=${pageable.page - 1}&size=${pageable.size}`;
     // request
     try {
         const response = await MyRequest(URL);
@@ -38,26 +38,6 @@ export async function getAuctions(state: string, cateId: number, pageable: Pagea
         };
     } catch (error) {
         console.error("Error fetching auctions:", error);
-        throw new Error("Phiên không tồn tại");
-    }
-}
-
-export async function gettop3PriceAndState(): Promise<ResultInteface> {
-    let auctions: Auction[] = [];
-    // endpoint
-    const URL = `${BASE_URL}/auction/get-top-3-price?state=ONGOING&state=WAITING`;
-
-    try {
-        const response = await MyRequest(URL);
-        if (response) {
-            auctions = response.map((auctionData: any) => mapAuction(auctionData));
-        } else {
-            throw new Error("Phiên không tồn tại");
-        }
-
-        return { auctionsData: auctions };
-    } catch (error) {
-        console.error("Error fetching top 3 auctions:", error);
         throw new Error("Phiên không tồn tại");
     }
 }
@@ -126,20 +106,28 @@ export async function getAuctionByStates(selectedStates: string[], pageable: Pag
     }
 }
 
-export async function getAuctionByFilterDay(startDate: string, endDate: string): Promise<ResultInteface> {
-    let auctions: Auction[] = [];
+export async function getAuctionByFilterDay(startDate: string, endDate: string, pageable: Pageable): Promise<ResultPageableInteface> {
     // endpoint
-    const URL = `${BASE_URL}/auction/get-by-day/${startDate}/${endDate}`;
+    const URL = `${BASE_URL}/auction/get-by-day?startDate=${startDate}&endDate=${endDate}&page=${pageable.page - 1}&size=${pageable.size}`;
 
     // request
-    const response = await MyRequest(URL);
+    try {
+        const response = await MyRequest(URL);
+        const auctionsData: Auction[] = response.content.map((auction: any) => mapAuction(auction));
+        const totalPages = response.totalPages;
+        const totalAuctions = response.totalElements;
+        const numberAuctionsPerPage = response.numberOfElements;
 
-    if (response) {
-        auctions = response.map((auctionData: any) => mapAuction(auctionData));
-    } else {
+        return {
+            auctionsData,
+            numberAuctionsPerPage,
+            totalPages,
+            totalAuctions,
+        };
+    } catch (error) {
+        console.error("Error fetching auctions:", error);
         throw new Error("Phiên không tồn tại");
     }
-    return { auctionsData: auctions };
 }
 
 export async function changeStateAuction(auctionId: number, state: string): Promise<boolean> {
@@ -162,19 +150,28 @@ export async function changeStateAuction(auctionId: number, state: string): Prom
     return true;
 }
 
-export async function getAuctionsByName(txtSearch: string): Promise<ResultInteface> {
-    let auctions: Auction[] = [];
+export async function getAuctionsByName(txtSearch: string, pageable: Pageable): Promise<ResultPageableInteface> {
     // endpoint
-    const URL = `${BASE_URL}/auction/get-by-name/${txtSearch}`;
+    const URL = `${BASE_URL}/auction/sorted-and-paged?auctionName=${txtSearch}&page=${pageable.page - 1}&size=${pageable.size}`;
     // request
-    const response = await MyRequest(URL);
 
-    if (response) {
-        auctions = response.map((auctionData: any) => mapAuction(auctionData));
-    } else {
+    try {
+        const response = await MyRequest(URL);
+        const auctionsData: Auction[] = response.content.map((auction: any) => mapAuction(auction));
+        const totalPages = response.totalPages;
+        const totalAuctions = response.totalElements;
+        const numberAuctionsPerPage = response.numberOfElements;
+
+        return {
+            auctionsData,
+            numberAuctionsPerPage,
+            totalPages,
+            totalAuctions,
+        };
+    } catch (error) {
+        console.error("Error fetching auctions:", error);
         throw new Error("Phiên không tồn tại");
     }
-    return { auctionsData: auctions };
 }
 
 export async function getAuctionsByStateNotPageale(state: string): Promise<ResultInteface> {
