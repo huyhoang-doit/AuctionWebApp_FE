@@ -52,7 +52,7 @@ const TransactionsOverdue = () => {
 
     useEffect(() => {
         handleChangeList();
-    }, [page, debouncedTxtSearch]);
+    }, [page, debouncedTxtSearch, handleChangeList]);
 
     return (
         <>
@@ -125,7 +125,7 @@ const TransactionsOverdue = () => {
                                                             <a className="fw-bold text-danger" >Chưa thanh toán</a>
                                                         </td>
                                                         <td>
-                                                            <ViewTransactionModal transaction={transaction} />
+                                                            <ViewTransactionModal transaction={transaction} handleChangeList={handleChangeList} />
                                                             <DeleteAuctionResultModal transaction={transaction} handleChangeList={handleChangeList} />
                                                         </td>
                                                     </tr>

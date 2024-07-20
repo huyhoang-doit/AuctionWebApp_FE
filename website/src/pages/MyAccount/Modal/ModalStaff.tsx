@@ -31,6 +31,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import PDFReturnAsset from "../../../utils/PDFForm/PDFReturnAsset";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { JewelryMaterialView } from "../Components/member/JewelryMaterialView";
+import { createTransactionForSeller } from "../../../api/TransactionAPI";
 
 // *** MODEL FOR STAFF
 // Interface
@@ -1336,7 +1337,9 @@ export const CreateHandoverReportModal: React.FC<CreateHandoverReportModalProps>
   const jewelryId = jewelry?.id ? jewelry.id : 1;
   const handleConfirm = async () => {
     const confirm = await setJewelryStateWithHolding(jewelryId, false, 'HANDED_OVER');
+    const auctionId = auction?.id ? auction.id : 1;
     if (confirm) {
+      await createTransactionForSeller(auctionId)
       Swal.fire({
         position: "center",
         icon: "success",

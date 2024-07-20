@@ -75,6 +75,29 @@ export const createTransactionForWinner = async (auctionId: number): Promise<Use
     }
 };
 
+export const createTransactionForSeller = async (auctionId: number): Promise<User | null> => {
+    // end-point
+    const URL = `${BASE_URL}/transaction/create-transaction-for-seller/${auctionId}`;
+    try {
+        // call api
+        const response = await fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            return null;
+        }
+
+        const userWinner = await response.json();
+        return userWinner;
+    } catch (error) {
+        return null;
+    }
+};
+
 export const createTransactionForWinnerIfNotExist = async (userId: number): Promise<Transaction[]> => {
     // end-point
     const URL = `${BASE_URL}/transaction/create-transaction-for-winner-if-not-exist/${userId}`;
