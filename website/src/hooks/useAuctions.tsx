@@ -22,9 +22,11 @@ const useAuctions = (state: string | undefined
 
     useEffect(() => {
         if (fromDateFilter !== undefined && toDateFilter !== undefined) {
-            getAuctionByFilterDay(fromDateFilter, toDateFilter)
+            getAuctionByFilterDay(fromDateFilter, toDateFilter, pageable)
                 .then((response) => {
                     setAuctions(response.auctionsData);
+                    setTotalPages(response.totalPages);
+                    setTotalAuctions(response.totalAuctions);
                 })
                 .catch((error) => {
                     console.error(error.message);
@@ -39,9 +41,11 @@ const useAuctions = (state: string | undefined
                     console.error(error.message);
                 });
         } else if (txtSearch !== undefined) {
-            getAuctionsByName(txtSearch)
+            getAuctionsByName(txtSearch, pageable)
                 .then((response) => {
                     setAuctions(response.auctionsData);
+                    setTotalPages(response.totalPages);
+                    setTotalAuctions(response.totalAuctions);
                 })
                 .catch((error) => {
                     console.error(error.message);

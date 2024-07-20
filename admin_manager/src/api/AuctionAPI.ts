@@ -88,26 +88,6 @@ export async function getAllAuctions(state: string, auctionName: string, page: n
     }
 }
 
-export async function gettop3PriceAndState(): Promise<ResultInteface> {
-    let auctions: Auction[] = [];
-    // endpoint
-    const URL = `${BASE_URL}/auction/get-top-3-price?state=ONGOING&state=WAITING`;
-
-    try {
-        const response = await MyRequest(URL);
-        if (response) {
-            auctions = response.map((auctionData: any) => mapAuction(auctionData));
-        } else {
-            throw new Error("Phiên không tồn tại");
-        }
-
-        return { auctionsData: auctions };
-    } catch (error) {
-        console.error("Error fetching top 3 auctions:", error);
-        throw new Error("Phiên không tồn tại");
-    }
-}
-
 export async function getAuction(auctionId: number): Promise<Auction | null> {
     // endpoint
     const URL = `${BASE_URL}/auction/id/${auctionId}`;
@@ -150,22 +130,6 @@ export async function getAuctionByStates(selectedStates: string[], pageable: Pag
     }
 }
 
-export async function getAuctionByFilterDay(startDate: string, endDate: string): Promise<ResultInteface> {
-    let auctions: Auction[] = [];
-    // endpoint
-    const URL = `${BASE_URL}/auction/get-by-day/${startDate}/${endDate}`;
-
-    // request
-    const response = await MyRequest(URL);
-
-    if (response) {
-        auctions = response.map((auctionData: any) => mapAuction(auctionData));
-    } else {
-        throw new Error("Phiên không tồn tại");
-    }
-    return { auctionsData: auctions };
-}
-
 export async function changeStateAuction(auctionId: number, state: string): Promise<boolean> {
     // endpoint
     const URL = `${BASE_URL}/auction/set-state/${auctionId}?state=${state}`;
@@ -183,21 +147,6 @@ export async function changeStateAuction(auctionId: number, state: string): Prom
     }
 
     return true;
-}
-
-export async function getAuctionsByName(txtSearch: string): Promise<ResultInteface> {
-    let auctions: Auction[] = [];
-    // endpoint
-    const URL = `${BASE_URL}/auction/get-by-name/${txtSearch}`;
-    // request
-    const response = await MyRequest(URL);
-
-    if (response) {
-        auctions = response.map((auctionData: any) => mapAuction(auctionData));
-    } else {
-        throw new Error("Phiên không tồn tại");
-    }
-    return { auctionsData: auctions };
 }
 
 export async function getAuctionsByStateNotPageale(state: string): Promise<ResultInteface> {
