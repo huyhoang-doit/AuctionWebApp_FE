@@ -23,7 +23,7 @@ export const TransactionSingle: React.FC<TransactionSingleProps> = ({ transactio
           <a className="fw-bold" style={getTransactionStatusStyle(transaction.state)}><StateTransaction state={transaction.state} /></a>
         </td>
         <td>
-          <ViewTransactionModal transaction={transaction} />
+          <ViewTransactionModal transaction={transaction} handleChangeList={handleChangeList} />
           <DeleteTransactionModal transaction={transaction} handleChangeList={handleChangeList} />
         </td>
       </tr>

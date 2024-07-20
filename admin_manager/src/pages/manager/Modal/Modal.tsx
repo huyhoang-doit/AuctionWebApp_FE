@@ -1254,9 +1254,11 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
 // *** MAGAGE TRANSACTIONS
 type TransacationModalProps = {
   transaction: Transaction;
+  handleChangeList: () => Promise<void>
 };
 export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
   transaction,
+  handleChangeList,
 }) => {
   const payer = transaction.user;
 
@@ -1264,6 +1266,34 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleConfirm = async () => {
+    try {
+      const result = await Swal.fire({
+        title: "Xác nhận thanh toán?",
+        text: `Xác nhận số tiền ${formatNumberAcceptNull(transaction.totalPrice)} VND đã được thanh toán.`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#198754",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Xác nhận"
+      });
+
+      if (result.isConfirmed) {
+        await changeStateTransaction(transaction.id, "SUCCEED");
+        await handleChangeList();
+        handleClose();
+        Swal.fire({
+          title: "Thành công!",
+          text: "Xác nhận giao dịch thanh toán thành công",
+          icon: "success"
+        });
+      }
+    } catch (error) {
+      console.error("Failed to change transaction state or update the list:", error);
+    }
+  };
+
 
   return (
     <>
@@ -1427,6 +1457,11 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
               </form>
             </Modal.Body>
             <Modal.Footer>
+              {transaction.state !== 'SUCCEED' && transaction.state !== 'FAILED' &&
+                <Button variant="success" onClick={handleConfirm}>
+                  Xác nhận thanh toán
+                </Button>}
+
               <Button variant="dark" onClick={handleClose}>
                 Đóng
               </Button>
