@@ -168,6 +168,7 @@ export const AuctionBid = () => {
             }
             setAuction(prevAuction => ({
                 ...prevAuction!,
+                endDate: receivedData.endDate,
                 lastPrice: receivedData.lastPrice
             }));
             setBidValue(receivedData.lastPrice);

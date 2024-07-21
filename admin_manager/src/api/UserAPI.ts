@@ -222,6 +222,22 @@ export async function changeStateUser(id: number, state: string) {
     return true;
 }
 
+export async function disableUser(id: number, state: string, reason: string) {
+    const disableUserRequest = {
+        state: state,
+        reason: reason
+    }
+    const URL = `${BASE_URL}/user/set-disable/${id}`;
+
+    // await ensureAccessToken();
+    const token = localStorage.getItem("access_token");
+    const response = await fetchWithToken(URL, 'PUT', token, disableUserRequest);
+    if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+    }
+    return true;
+}
+
 export async function rejectVerifyUser(id: number) {
     const URL = `${BASE_URL}/user/reject-verify/${id}`;
 

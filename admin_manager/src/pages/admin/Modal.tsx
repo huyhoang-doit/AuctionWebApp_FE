@@ -3,7 +3,7 @@ import { User } from "../../models/User";
 import { isCitizenIdWrongFormat, isPasswordWrongFormat, isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
 import { Button, Form, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { changeStateUser, checkEmailExist, checkUsernameExist, registerAccountStaff } from "../../api/UserAPI";
+import { changeStateUser, checkEmailExist, checkUsernameExist, disableUser, registerAccountStaff } from "../../api/UserAPI";
 import { District } from "../../models/District";
 import { City } from "../../models/City";
 import { Ward } from "../../models/Ward";
@@ -200,12 +200,26 @@ export const DeleteUserModal: React.FC<DeleteUserProps> = ({ user, setIsRefresh 
       cancelButtonText: "Hủy",
       showLoaderOnConfirm: true,
       preConfirm: () => {
-        return changeStateUser(user.id, "DISABLE")
+        Swal.fire({
+          title: "Lý do xóa",
+          input: "textarea",
+          inputPlaceholder: "Nhập lý do...",
+          showCancelButton: true,
+          confirmButtonText: "Gửi",
+          cancelButtonText: "Hủy",
+          inputValidator: (value: string) => {
+            if (!value) {
+              return "Bạn cần nhập lý do!";
+            }
+          }
+        }).then((result: any) => {
+          if(result.isConfirmed) {
+            disableUser(user.id, "DISABLE", result.value)
           .then((response) => {
             if (response) {
               Swal.fire({
                 icon: "success",
-                title: "User deleted successfully.",
+                title: "Tài khoản đã bị xóa.",
               });
               setIsRefresh(true);
             }
@@ -213,10 +227,12 @@ export const DeleteUserModal: React.FC<DeleteUserProps> = ({ user, setIsRefresh 
           .catch((error) => {
             Swal.fire({
               icon: "error",
-              title: "Failed to delete user.",
+              title: "Chưa thể cập nhật trạng thái.",
               text: error.message,
             });
           });
+          }
+        })
       },
       allowOutsideClick: () => !Swal.isLoading(),
     });
