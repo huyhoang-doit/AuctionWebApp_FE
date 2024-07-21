@@ -38,10 +38,10 @@ const AssetManageMenu: React.FC = () => {
             <i className="fa-solid fa-clipboard-check" style={{ color: '#a6adc5', fontSize: '13px', marginRight: '10px' }}></i>
             <Link to="/manager/tai-san-dang-cho">Danh sách tài sản đủ điều kiện đấu giá</Link>
           </li>
-          <li style={{ display: 'flex', alignItems: 'center' }}>
+          {/* <li style={{ display: 'flex', alignItems: 'center' }}>
             <i className="fa-solid fa-repeat" style={{ color: '#a6adc5', fontSize: '13px', marginRight: '10px' }}></i>
             <Link to="/manager/tai-san-dang-cho">Danh sách tài sản hoàn trả cho người vi phạm</Link>
-          </li>
+          </li> */}
         </ul>
       )}
     </li>
