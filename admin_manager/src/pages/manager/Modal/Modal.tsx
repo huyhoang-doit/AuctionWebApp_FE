@@ -37,7 +37,8 @@ import { getAuctionRegistrationsByAuctionId } from "../../../api/AuctionRegistra
 import { AuctionRegistration } from "../../../models/AuctionRegistration";
 import { Link } from "react-router-dom";
 import { StateTransaction } from "../Transaction/StateTransaction";
-import Swal from "sweetalert2/dist/sweetalert2.js";
+// import Swal from "sweetalert2/dist/sweetalert2.js";
+import Swal from 'sweetalert2';
 
 // *** MODAL FOR MANAGER ***
 // Modal for Jewelry List
@@ -565,6 +566,7 @@ export const AuctionModal: React.FC<AuctionType> = ({ auction }) => {
               </form>
             </Modal.Body>
             <Modal.Footer>
+              {/* <CreateNewAuctionModal request={request} jewelry={request.jewelry} user={userState} images={images} handleChangeList={handleChangeList} /> */}
               <Button variant="dark" onClick={handleClose}>
                 Đóng
               </Button>
@@ -1293,91 +1295,31 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
   const handleShow = () => setShow(true);
 
   const handleConfirm = async () => {
-    if (transaction.paymentMethod !== 'PAY_AT_COUNTER') {
-      try {
-        const result = await Swal.fire({
-          title: "Xác nhận thanh toán?",
-          text: `Xác nhận số tiền ${formatNumberAcceptNull(transaction.totalPrice)} VND đã được thanh toán.`,
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#198754",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Xác nhận",
+    try {
+      const result = await Swal.fire({
+        title: "Xác nhận thanh toán?",
+        text: `Xác nhận số tiền ${formatNumberAcceptNull(transaction.totalPrice)} VND đã được thanh toán.`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#198754",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Xác nhận",
+      });
+
+      if (result.isConfirmed) {
+        await changeStateTransaction(transaction.id, "SUCCEED");
+        await handleChangeList();
+        handleClose();
+        Swal.fire({
+          title: "Thành công!",
+          text: "Xác nhận giao dịch thanh toán thành công",
+          icon: "success"
         });
-
-        if (result.isConfirmed) {
-          const bankCodeResult = await Swal.fire({
-            title: "Nhập mã ngân hàng",
-            input: "text",
-            inputPlaceholder: "Mã ngân hàng",
-            showCancelButton: true,
-            confirmButtonText: "Xác nhận",
-            cancelButtonText: "Hủy",
-            inputValidator: (value: string) => {
-              if (!value) {
-                return "Vui lòng cung cấp mã ngân hàng!";
-              }
-            }
-          });
-
-          if (bankCodeResult.isConfirmed) {
-            const transactionCodeResult = await Swal.fire({
-              title: "Nhập mã giao dịch",
-              input: "text",
-              inputPlaceholder: "Mã giao dịch",
-              showCancelButton: true,
-              confirmButtonText: "Xác nhận",
-              cancelButtonText: "Hủy",
-              inputValidator: (value: string) => {
-                if (!value) {
-                  return "Vui lòng cung cấp mã giao dịch!";
-                }
-              }
-            });
-
-            if (transactionCodeResult.isConfirmed) {
-              await changeStateTransactionWithCode(transaction.id, "SUCCEED", transactionCodeResult.value, bankCodeResult.value);
-              await handleChangeList();
-              handleClose();
-              Swal.fire({
-                title: "Thành công!",
-                text: "Xác nhận giao dịch thanh toán thành công",
-                icon: "success"
-              });
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Failed to change transaction state or update the list:", error);
       }
-    } else {
-      try {
-        const result = await Swal.fire({
-          title: "Xác nhận thanh toán?",
-          text: `Xác nhận số tiền ${formatNumberAcceptNull(transaction.totalPrice)} VND đã được thanh toán.`,
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#198754",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Xác nhận",
-        });
-
-        if (result.isConfirmed) {
-          await changeStateTransaction(transaction.id, "SUCCEED");
-          await handleChangeList();
-          handleClose();
-          Swal.fire({
-            title: "Thành công!",
-            text: "Xác nhận giao dịch thanh toán thành công",
-            icon: "success"
-          });
-        }
-      } catch (error) {
-        console.error("Failed to change transaction state or update the list:", error);
-      }
+    } catch (error) {
+      console.error("Failed to change transaction state or update the list:", error);
     }
   };
-
 
   return (
     <>
@@ -1541,13 +1483,159 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
               </form>
             </Modal.Body>
             <Modal.Footer>
-              {transaction.state !== 'SUCCEED' && transaction.state !== 'FAILED' &&
+              {transaction.state !== 'SUCCEED' && transaction.state !== 'FAILED' && transaction.paymentMethod !== null && transaction.paymentMethod === 'PAY_AT_COUNTER' &&
                 <Button variant="success" onClick={handleConfirm}>
                   Xác nhận thanh toán
                 </Button>}
 
+              {transaction.state !== 'SUCCEED' && transaction.state !== 'FAILED' && transaction.paymentMethod !== null && transaction.paymentMethod !== 'PAY_AT_COUNTER' &&
+                <InputCodeModal transaction={transaction} handleChangeList={handleChangeList} />
+              }
               <Button variant="dark" onClick={handleClose}>
                 Đóng
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
+    </>
+  );
+};
+
+type InputCodeModalProps = {
+  transaction: Transaction;
+  handleChangeList: () => Promise<void>
+}
+
+export const InputCodeModal: React.FC<InputCodeModalProps> = ({
+  transaction,
+  handleChangeList,
+
+}) => {
+  const [show, setShow] = useState(false);
+  const [bankCode, setBankCode] = useState("");
+  const [transactionCode, setTransactionCode] = useState("");
+  const [notificationBank, setNotificationBankCode] = useState("");
+  const [notificationTransaction, setNotificationTransactionCode] = useState("");
+  const handleClose = () => {
+    setNotificationBankCode("");
+    setNotificationTransactionCode("");
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
+  const handleConfirm = async () => {
+    if (bankCode.trim() === "") {
+      setNotificationBankCode("Bạn chưa cung cấp mã ngân hàng");
+      return;
+    }
+
+    if (transactionCode.trim() === "") {
+      setNotificationTransactionCode("Bạn chưa cung cấp mã giao dịch");
+      return;
+    }
+
+    try {
+      const result = await Swal.fire({
+        title: "Xác nhận thanh toán?",
+        text: `Xác nhận số tiền ${formatNumberAcceptNull(transaction.totalPrice)} VND đã được thanh toán.`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#198754",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Xác nhận",
+      });
+
+      if (result.isConfirmed) {
+        await changeStateTransactionWithCode(transaction.id, "SUCCEED", transactionCode, bankCode);
+        await handleChangeList();
+        handleClose();
+
+        Swal.fire({
+          title: "Thành công!",
+          text: "Xác nhận giao dịch thanh toán thành công",
+          icon: "success"
+        });
+      }
+    } catch (error) {
+      console.error("Failed to change transaction state or update the list:", error);
+    }
+  };
+
+  const handleBankCodeChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setNotificationBankCode("");
+    setBankCode(event.target.value);
+  };
+  const handleTransactionCodeChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setNotificationTransactionCode("");
+    setTransactionCode(event.target.value);
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        className="btn btn-success ms-2 "
+        id="save-profile-tab"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        onClick={handleShow}
+      >
+        Xác nhận thanh toán
+      </button>
+      {show && (
+        <div className="overlay">
+          <Modal
+            show={show}
+            onHide={handleClose}
+            centered
+            backdropClassName="custom-backdrop"
+          >
+            <Modal.Header className="text-center w-100">
+              <Modal.Title className="w-100">
+                <div className="col-12 text-center">Nhập thông tin thanh toán</div>
+
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p className="fw-semibold">
+                Vui lòng cung cấp mã ngân hàng và mã giao dịch
+              </p>
+              <Form>
+                <Form.Group controlId="formReason">
+                  <Form.Label className="fw-semibold">
+                    Mã ngân hàng <span className="text-danger">*</span>
+                  </Form.Label>
+                  <p className="text-danger fw-semibold">{notificationBank}</p>
+                  <Form.Control
+                    type="text"
+                    value={bankCode}
+                    onChange={handleBankCodeChange}
+                    required
+                  />
+                  <Form.Label className="fw-semibold">
+                    Mã giao dịch <span className="text-danger">*</span>
+                  </Form.Label>
+                  <p className="text-danger fw-semibold">{notificationTransaction}</p>
+                  <Form.Control
+                    type="text"
+                    value={transactionCode}
+                    onChange={handleTransactionCodeChange}
+                    required
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleClose}>
+                Hủy
+              </Button>
+              <Button variant="success" onClick={handleConfirm}>
+                Xác nhận
               </Button>
             </Modal.Footer>
           </Modal>

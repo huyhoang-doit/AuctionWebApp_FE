@@ -24,6 +24,7 @@ const AuctionSingle: React.FC<AuctionSingleProps> = ({ auction }) => {
         </td>
         <td>
           <AuctionModal auction={auction} />
+
         </td>
       </tr>
     </>
