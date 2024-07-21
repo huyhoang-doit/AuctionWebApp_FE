@@ -840,9 +840,13 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
                           <span>Chất liệu:</span>
                           <span className="fw-bold"> {jewelry?.material}</span>
                         </div>
-                        <div>
+                        <div className="mb-2">
                           <span>Trọng lượng (g):</span>
                           <span className="fw-bold"> {jewelry?.weight}</span>
+                        </div>
+                        <div>
+                          <span>Giá mua ngay:</span>
+                          <span className="fw-bold"> {formatNumber(jewelry?.buyNowPrice)} VNĐ</span>
                         </div>
                       </div>
                       <div className="col-md-6">
