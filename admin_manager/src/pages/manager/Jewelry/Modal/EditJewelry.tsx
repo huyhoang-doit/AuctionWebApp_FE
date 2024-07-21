@@ -1,15 +1,18 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Image } from "../../../../models/Image";
 import { Jewelry } from "../../../../models/Jewelry";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { formatDateTimeBox } from "../../../../utils/formatDateString";
-import { Alert, Button, Modal } from "react-bootstrap";
+import { Alert, Button, Modal, Spinner } from "react-bootstrap";
 import { formatNumber } from "../../../../utils/formatNumber";
 import { useCategories } from "../../../../hooks/useCategories";
 import { JewelryMaterialView } from "../JewelryMaterialView";
 import { editJewelryById } from "../../../../api/JewelryAPI";
 import Swal from "sweetalert2";
+import { convertFilesToBase64, uploadFilesToFirebase } from "../../../../utils/imageFireBase";
+import { deleteImagesByJewelryId, processImages, setImageForJewelry } from "../../../../api/ImageApi";
+import { JEWELRY_IMAGES_FOLDER } from "../../../../global_variable/firebaseconfig";
 
 type EditJewelryModalProps = {
     jewelry: Jewelry;
@@ -41,6 +44,8 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
     const [show, setShow] = useState(false);
     const [priceDisplay, setPriceDisplay] = useState(formatNumber(jewelry.buyNowPrice));
     const categories = useCategories();
+    const [base64Images, setBase64Images] = useState<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -75,7 +80,7 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
             editJewelryById(values)
                 .then((result) => {
                     console.log(result);
-                    
+
                     if (result) {
                         Swal.fire({
                             icon: "success",
@@ -120,6 +125,31 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
             formik.setFieldValue("buyNowPrice", numericValue);
         }
     };
+
+    const handleImagesChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (files) {
+            const fileArray = Array.from(files);
+            const base64Array = await convertFilesToBase64(fileArray);
+            setBase64Images(base64Array);
+            setLoading(true);
+            try {
+                await deleteImagesByJewelryId(jewelry.id);
+                const urls = await uploadFilesToFirebase(fileArray, JEWELRY_IMAGES_FOLDER);
+                if (urls.length > 0) {
+                    await setImageForJewelry({ data: urls[0], jewelryId: jewelry.id }, true);
+                }
+                await processImages(urls, jewelry.id);
+            }
+            catch (error) {
+                console.error("Error sending jewelry request:", error);
+            }
+            finally {
+                setLoading(false);
+            }
+
+        }
+    }
 
     return (
         <>
@@ -304,15 +334,46 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="checkout-form-list ms-2 mb-2 col-md-6 border p-2 row mt-2">
-                                            <div className="checkout-form-list mb-0 col-md-12 d-flex">
-                                                {
-                                                    images.map((image, index) => (
-                                                        <div key={index} className="col-md-6">
-                                                            <img src={image.data} alt="jewelry" style={{ width: "100%" }} />
+
+                                        <label
+                                            className="btn btn-dark mb-2"
+                                            style={{ width: "auto", color: "white" }}
+                                            htmlFor="jewelry-img"
+                                        >
+                                            Cập nhật ảnh tài sản
+                                        </label>
+                                        <input
+                                            style={{ display: 'none' }}
+                                            id="jewelry-img"
+                                            type="file"
+                                            name="jewelryImages"
+                                            multiple
+                                            onChange={handleImagesChange}
+                                        />
+                                        <div className="w-100 fw-medium border">
+                                            <div className="checkout-form-list row px-2 pt-4">
+                                                <label>Hình ảnh</label>
+                                                {loading ? <Spinner animation="border" /> : (base64Images.length > 0 ? (React.Children.toArray(
+                                                    base64Images.map((img: string) => (
+                                                        <div className="col-md-2">
+                                                            <img
+                                                                src={img}
+                                                                alt="Ảnh sản phẩm"
+                                                                style={{ width: "100%" }}
+                                                            />
                                                         </div>
                                                     ))
-                                                }
+                                                )) : (React.Children.toArray(
+                                                    images.map((img: Image) => (
+                                                        <div className="col-md-2">
+                                                            <img
+                                                                src={img.data}
+                                                                alt="Ảnh sản phẩm"
+                                                                style={{ width: "100%" }}
+                                                            />
+                                                        </div>
+                                                    ))
+                                                )))}
                                             </div>
                                         </div>
                                     </div>

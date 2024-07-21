@@ -111,7 +111,7 @@ const AuctionFailedList = () => {
                                                     </tr>
                                                 ) : (listAuctions.length > 0 ?
                                                     (listAuctions.map((auction) => (
-                                                        <AuctionSingle key={auction.id} auction={auction} />
+                                                        <AuctionSingle key={auction.id} auction={auction} handleChangeList={handleChangeList} />
                                                     ))) : (
                                                         <tr>
                                                             <td colSpan={7} className="text-center">

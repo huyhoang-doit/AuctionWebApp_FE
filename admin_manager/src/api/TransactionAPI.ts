@@ -115,6 +115,24 @@ export async function changeStateTransaction(transactionId: number, state: strin
     }
 }
 
+export async function changeStateTransactionWithCode(transactionId: number, state: string, transactionCode: string, bankCode: string): Promise<boolean> {
+    const accessToken = localStorage.getItem('access_token');
+    // endpoint
+    const URL = `${BASE_URL}/transaction/set-state-with-code/${transactionId}?state=${state}&transactionCode=${transactionCode}&bankCode=${bankCode}`;
+    // call api
+    try {
+        const response = await fetchNoBodyWithToken(URL, 'PUT', accessToken);
+
+        if (!response.ok) {
+            throw new Error(`Không thể truy cập ${URL}`);
+        }
+        return true;
+    } catch (error) {
+        console.error("Error: " + error);
+        return false;
+    }
+}
+
 
 
 export async function getOverdueTransactions(userName: string, page: number): Promise<ResultInteface> {
