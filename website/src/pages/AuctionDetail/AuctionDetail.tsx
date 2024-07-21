@@ -270,6 +270,22 @@ export default function AuctionDetail() {
                         </div>
                         <div className="col-6">
                           <p className="left-title-text no-margin">
+                            Giá mua ngay
+                          </p>
+                        </div>
+                        <div className="col-6">
+                          <p
+                            className="right-info-text no-margin"
+                            style={{ color: "#b41712" }}
+                          >
+                            <span className="fw-bold novaticPrice openningPrice">
+                              {formatNumber(jewelry?.buyNowPrice)}
+                            </span>
+                            <span className="fw-bold unitPrice"> VNĐ</span>
+                          </p>
+                        </div>
+                        <div className="col-6">
+                          <p className="left-title-text no-margin">
                             {t("AuctionDetail.Phí đăng ký tham gia đấu giá")}
                           </p>
                         </div>

@@ -33,6 +33,7 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
     // end-point
     const URL = `${BASE_URL}/auth/authenticate`;
     const request = { ...loginRequest, email: loginRequest.username }
+    console.log(URL);
     // call api
     try {
         const response = await fetch(URL, {
@@ -43,7 +44,8 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
             body: JSON.stringify(request),
             credentials: 'include',
         });
-
+        console.log(response);
+        
         if (response.status === 200) {
             const data = await response.json();
             const jwt = data.access_token;
@@ -56,7 +58,7 @@ export const login = async (loginRequest: LoginRequest, setError: (message: stri
             return false;
         } else if (response.status === 403) {
             const data = await response.json();
-            Swal.fire("Tài khoản của bạn đã bị khoá!", "Tài khoản của bạn đã bị khóa do: <br/>" + data.banReason + " <br/>Vui lòng liên hệ 0707.064.154 để được hỗ trợ.", "error");
+            Swal.fire("Tài khoản của bạn đã bị khoá!", "<b>Lý do:</b> " + data.banReason + " <br/>Vui lòng liên hệ (+84) 0123456789 để được hỗ trợ.", "error");
             return false;
         } else {
             throw new Error('Đăng nhập không thành công. Vui lòng kiểm tra lại username hoặc mật khẩu.');
