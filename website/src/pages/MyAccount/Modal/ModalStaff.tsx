@@ -1325,6 +1325,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
   );
 };
 
+
 export const CreateHandoverReportModal: React.FC<CreateHandoverReportModalProps> = ({
   show,
   handleClose,
