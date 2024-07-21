@@ -5,7 +5,6 @@ import { formatNumber } from '../../../utils/formatNumber'
 import { Link } from 'react-router-dom'
 import { Jewelry } from '../../../models/Jewelry'
 import { formatDateStringAcceptNull } from '../../../utils/formatDateString'
-import { DeleteJewelryModal } from './Modal/DeleteJewelry'
 import { EditJewelryModal } from './Modal/EditJewelry'
 
 interface JewelryItemProps {
