@@ -5,9 +5,10 @@ import { AuctionModal } from '../Modal/Modal'
 import { getAuctionStatusStyle } from '../../../utils/cssStyle'
 import { StateAuction } from './StateAuction'
 interface AuctionSingleProps {
-  auction: Auction
+  auction: Auction,
+  handleChangeList: () => Promise<void>
 }
-const AuctionSingle: React.FC<AuctionSingleProps> = ({ auction }) => {
+const AuctionSingle: React.FC<AuctionSingleProps> = ({ auction, handleChangeList }) => {
   return (
     <>
       <tr >
@@ -23,7 +24,7 @@ const AuctionSingle: React.FC<AuctionSingleProps> = ({ auction }) => {
           <StateAuction state={auction.state} />
         </td>
         <td>
-          <AuctionModal auction={auction} />
+          <AuctionModal auction={auction} handleChangeList={handleChangeList} />
 
         </td>
       </tr>
