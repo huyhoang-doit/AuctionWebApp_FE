@@ -5,7 +5,6 @@ import { formatNumber } from '../../../utils/formatNumber'
 import { Link } from 'react-router-dom'
 import { Jewelry } from '../../../models/Jewelry'
 import { formatDateStringAcceptNull } from '../../../utils/formatDateString'
-import { DeleteJewelryModal } from './Modal/DeleteJewelry'
 import { EditJewelryModal } from './Modal/EditJewelry'
 
 interface JewelryItemProps {
@@ -41,7 +40,7 @@ const JewelryItem: React.FC<JewelryItemProps> = ({ jewelry, handleChangeList }) 
                 </td>
                 <td>
                     <EditJewelryModal jewelry={jewelry} images={images} handleChangeList={handleChangeList} />
-                    <DeleteJewelryModal jewelry={jewelry} handleChangeList={handleChangeList} />
+                    {/* <DeleteJewelryModal jewelry={jewelry} handleChangeList={handleChangeList} /> */}
                 </td>
             </tr>
         </>

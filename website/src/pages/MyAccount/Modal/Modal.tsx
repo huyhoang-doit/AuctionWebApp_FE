@@ -230,6 +230,20 @@ export const ViewTransactionModal: React.FC<ViewTransactionModalProps> = ({
                       </h4>
 
                       <div className="checkout-form-list my-4 col-md-6">
+                        {
+                          transaction.state === "SUCCEED" && (
+                            <>
+                              <div className="checkout-form-list mb-2">
+                                <label> {t("Modal.Loại giao dịch")} </label>
+                                <span className="fw-bold"> {transaction.transactionCode}</span>
+                              </div>
+                              <div className="checkout-form-list mb-2">
+                                <label> {t("Modal.Loại giao dịch")} </label>
+                                <span className="fw-bold"> {transaction.bankCode}</span>
+                              </div>
+                            </>
+                          )
+                        }
                         <div className="checkout-form-list mb-2">
                           <label> {t("Modal.Loại giao dịch")} </label>
                           <span className="fw-bold">

@@ -73,12 +73,21 @@ export default function RegisterForAuction() {
   const handlePayment = () => {
     if (user) {
       if (user.state !== 'VERIFIED') {
+        if (user.state === 'BAN_PARTICIPATING') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Tài khoản đã bị khóa',
+            html: `<span><b>Lý do: </b>${user.banReason}</span></br>` +
+                  "<span>Liên hệ hotline: 0123 456 789 để được hỗ trợ.</span>"
+          });
+          return;
+        }
         Swal.fire({
           icon: 'error',
           title: 'Tài khoản chưa được xác thực',
           html: '<span>Vui lòng xác thực tài khoản trước khi đăng ký.</span></br>' +
-                '<span>Xác thực tài khoản tại: </span></br>' +
-                '<span class="fw-bold">Thông tin cá nhân -> gửi CCCD mặt trước, sau.</span>',
+            '<span>Xác thực tài khoản tại: </span></br>' +
+            '<span class="fw-bold">Thông tin cá nhân -> gửi CCCD mặt trước, sau.</span>',
         });
         return;
       }

@@ -2,9 +2,11 @@
 import { Link } from 'react-router-dom';
 import useAccount from '../../../hooks/useAccount';
 import { LogoutModal } from './Modal';
+import useIsAdmin from '../../../hooks/useIsAdmin';
 const Header = () => {
   const token = localStorage.getItem("access_token");
   const user = useAccount(token);
+  const isAdmin = useIsAdmin();
   return (
     <div className="d-flex justify-content-between align-items-center py-2 border border-b-1` " style={{ position: "fixed", width: "100%", zIndex: "10", background: "#fff" }}>
       <div className="sidebar_icon d-lg-none">
@@ -36,10 +38,10 @@ const Header = () => {
           </div>
           <div className="profile_info_iner">
             <div>
-              <Link to={`/admin/chi-tiet-nguoi-dung/${user?.id}`} className='text-white my-2'>Thông tin tài khoản<i className="ti-user"></i></Link>
-              {/* <div className='text-white mb-2' style={{ cursor: "pointer" }}>Settings <i className="ti-settings"></i></div> */}
+              {
+                isAdmin && <Link to={`/admin/chi-tiet-nguoi-dung/${user?.id}`} className='text-white my-2'>Thông tin tài khoản<i className="ti-user"></i></Link>
+              }
               <div className='text-white text-center mb-2 '><LogoutModal /></div>
-
             </div>
           </div>
         </div>

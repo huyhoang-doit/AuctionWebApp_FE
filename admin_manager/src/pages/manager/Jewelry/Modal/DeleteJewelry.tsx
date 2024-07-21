@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Jewelry } from "../../../../models/Jewelry";
 import { Button, Modal } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 interface DeleteJewelryModalProps {
     jewelry: Jewelry;
@@ -18,6 +19,9 @@ interface DeleteJewelryModalProps {
     const handleShow = () => setShow(true);
     const handleDelete = async () => {
       try {
+        if (jewelry.state === 'AUCTION' || jewelry.state === 'HANDED_OVER') {
+          Swal.fire('Không thể xóa', 'Không thể xóa trang sức đã có phiên đấu giá!', 'error');
+        }
         // await changeStateTransaction(transaction.id, "HIDDEN");
         await handleChangeList();
         handleClose();

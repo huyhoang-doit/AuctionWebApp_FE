@@ -17,6 +17,7 @@ import { UserContext } from "../../../hooks/useContext";
 import { useTranslation } from "react-i18next";
 import { getBase64 } from "../../../utils/getBase64";
 import Swal from "sweetalert2";
+import AccountState from "./AccountState";
 
 interface MyAccountDetailProps {
   user: User | null;
@@ -105,7 +106,6 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
     if (e.target.files && user) {
       const file = e.target.files[0];
       try {
-        // if (file) {
         const base64 = await getBase64(file);
         if (base64) {
           const updatedUser: User = {
@@ -355,26 +355,8 @@ export const MyAccountDetail: React.FC<MyAccountDetailProps> = (props) => {
                             : "account-inverified-text-div"
                         }
                       >
-                        {user.state === "VERIFIED" ? (
-                          <p className="account-verified-text-pc fw-bold">
-                            <img
-                              src="https://lacvietauction.vn/auctionart/upload/image/SuccessIcon.png"
-                              alt=""
-                              style={{ width: "20px" }}
-                            />
 
-                            {t("MyAccountDetail.Đã xác thực")}
-                          </p>
-                        ) : (
-                          <p className="account-inverified-text-pc fw-bold">
-                            <img
-                              src="https://static-00.iconduck.com/assets.00/failure-icon-2048x2048-j8y0urc7.png"
-                              alt=""
-                              style={{ width: "20px", marginRight: "5px" }}
-                            />
-                            {t("MyAccountDetail.Chưa xác thực")}
-                          </p>
-                        )}
+                        <AccountState user={user} t={t} />
                       </div>
                     </div>
                     <label

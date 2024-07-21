@@ -84,7 +84,7 @@ export const EditJewelryModal: React.FC<EditJewelryModalProps> = ({
                     if (result) {
                         Swal.fire({
                             icon: "success",
-                            title: "Assert edit successfully.",
+                            title: "Sửa thông tin tài sản thành công.",
                         });
                         handleChangeList();
                         handleClose();

@@ -32,7 +32,7 @@ export const getTransactionsDashboardByUsername = async (username: string): Prom
 
 export const getTransactionsByUsername = async (username: string, assetName: string, page: number): Promise<ResultInteface> => {
     // end-point
-    const URL = `${BASE_URL}/transaction/get-by-username?username=${username}&assetName=${assetName}&page=${page - 1}`;
+    const URL = `${BASE_URL}/transaction/get-by-username?sortBy=state&sortOrder=asc&username=${username}&assetName=${assetName}&page=${page - 1}`;
     // call api
     try {
         const response = await MyRequest(URL);
