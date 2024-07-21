@@ -39,3 +39,32 @@ export function checkTokenExpiration(
 
     return decodedData;
 }
+
+export function checkIsRole(
+    token: string | null,
+    navigate: NavigateFunction
+): DecodedToken | null {
+    if (!token) {
+        navigate("/dang-nhap");
+        return null;
+    }
+
+    const decodedData = jwtDecode<DecodedToken>(token);
+    const currentTime = Date.now() / 1000;
+
+    if (decodedData.exp < currentTime) {
+        Swal.fire({
+            icon: "warning",
+            title: "Phiên đăng nhập hết hạn",
+            text: "Phiên đăng nhập của bạn đã hết hạn. Xin vui lòng đăng nhập lại."
+            ,
+        }).then(() => {
+            localStorage.removeItem("access_token");
+            navigate("/dang-nhap");
+        });
+        return null;
+    }
+
+    return decodedData;
+}
+

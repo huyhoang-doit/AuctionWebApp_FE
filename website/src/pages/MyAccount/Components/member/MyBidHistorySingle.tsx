@@ -88,7 +88,9 @@ const MyBidHistorySingle: React.FC<MyBidHistorySingleProps> = ({
             ? (<span className="text-danger fw-bold">
               {t("Member.Phiên thất bại")}
             </span>)
-            : (<StateAuctionView state={auction?.state ?? ""} />)}
+            : (
+              <StateAuctionView state={auction?.state ?? ""} />
+            )}
         </td>
         <td className="fw-bold" style={{ color: statusColor }}>
           {status}

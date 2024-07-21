@@ -41,7 +41,7 @@ const JewelryItem: React.FC<JewelryItemProps> = ({ jewelry, handleChangeList }) 
                 </td>
                 <td>
                     <EditJewelryModal jewelry={jewelry} images={images} handleChangeList={handleChangeList} />
-                    <DeleteJewelryModal jewelry={jewelry} handleChangeList={handleChangeList} />
+                    {/* <DeleteJewelryModal jewelry={jewelry} handleChangeList={handleChangeList} /> */}
                 </td>
             </tr>
         </>

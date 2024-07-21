@@ -8,7 +8,6 @@ import { useCategories } from '../../../hooks/useCategories';
 import JewelryItem from './JewelryItem';
 import { getAllJewelriesManager } from '../../../api/JewelryAPI';
 import { Jewelry } from '../../../models/Jewelry';
-import { CreateJewelryModal } from './Modal/CreateJewelryModal';
 
 const JewelryList = () => {
     const token = localStorage.getItem("access_token");
@@ -155,9 +154,6 @@ const JewelryList = () => {
                                                         </option>
                                                     ))}
                                                 </select>
-                                            </div>
-                                            <div className="add_button ms-2">
-                                                <CreateJewelryModal handleChangeList={handleChangeList}/>
                                             </div>
                                         </div>
                                     </div>
