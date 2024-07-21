@@ -35,9 +35,11 @@ import { createTransactionForSeller } from "../../../api/TransactionAPI";
 
 // *** MODEL FOR STAFF
 // Interface
+
 interface MyRequestProps {
   request: RequestApproval;
 }
+
 
 interface JewelryModalProps {
   jewelry: Jewelry | undefined;
@@ -112,6 +114,7 @@ interface ConfirmHoldingModalProps {
 type AuctionType = {
   auction: Auction;
 };
+
 
 // Modal
 export const ViewStaffRequestModal: React.FC<MyRequestProps> = ({
@@ -1325,6 +1328,7 @@ export const JewelryHanOverModal: React.FC<JewelryHanOverModalProps> = ({
   );
 };
 
+
 export const CreateHandoverReportModal: React.FC<CreateHandoverReportModalProps> = ({
   show,
   handleClose,
@@ -1336,28 +1340,40 @@ export const CreateHandoverReportModal: React.FC<CreateHandoverReportModalProps>
 }) => {
   const jewelryId = jewelry?.id ? jewelry.id : 1;
   const handleConfirm = async () => {
-    const confirm = await setJewelryStateWithHolding(jewelryId, false, 'HANDED_OVER');
-    const auctionId = auction?.id ? auction.id : 1;
-    if (confirm) {
-      await createTransactionForSeller(auctionId)
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Xác nhận hoàn tất",
-        showConfirmButton: false,
-        timer: 1500
-      });
-      handleChangeList();
-      handleClose();
-    } else {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
-        showConfirmButton: false,
-        timer: 1500
-      });
+    const result = await Swal.fire({
+      title: "Xác nhận bàn giao",
+      text: `Hãy đảm bảo rằng biên bản đã được tạo và tải về.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#198754",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Xác nhận",
+    });
+    if (result.isConfirmed) {
+      const confirm = await setJewelryStateWithHolding(jewelryId, false, 'HANDED_OVER');
+      const auctionId = auction?.id ? auction.id : 1;
+      if (confirm) {
+        await createTransactionForSeller(auctionId)
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Xác nhận hoàn tất",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        handleChangeList();
+        handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
     }
+
 
   };
   const { t } = useTranslation(["ModalStaff"]);

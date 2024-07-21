@@ -1857,7 +1857,7 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
                     </div>
                     <div className="checkout-form-list ms-2 mb-2 col-md-6 border p-2 row">
                       <div className="checkout-form-list mb-0 col-md-6">
-                        <img src={payer?.bank?.logo} alt="bank" />
+                        <img src={payer?.bank?.logo} alt="bank" style={{ width: '100%' }} />
                       </div>
                       <div className="checkout-form-list mb-2 col-md-12">
                         <span>Thẻ ngân hàng: </span>
