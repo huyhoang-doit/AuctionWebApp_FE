@@ -588,6 +588,8 @@ export default function Register() {
       return;
     }
     setRegisterRequest(initialRegisterRequest);
+    setImageFirst(null);
+    setImageLast(null);
     window.scrollTo(0, 0);
     // Clear error message
     clearErrors();
