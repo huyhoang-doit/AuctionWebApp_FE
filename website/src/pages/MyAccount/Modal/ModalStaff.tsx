@@ -35,9 +35,11 @@ import { createTransactionForSeller } from "../../../api/TransactionAPI";
 
 // *** MODEL FOR STAFF
 // Interface
+
 interface MyRequestProps {
   request: RequestApproval;
 }
+
 
 interface JewelryModalProps {
   jewelry: Jewelry | undefined;
@@ -112,6 +114,7 @@ interface ConfirmHoldingModalProps {
 type AuctionType = {
   auction: Auction;
 };
+
 
 // Modal
 export const ViewStaffRequestModal: React.FC<MyRequestProps> = ({
