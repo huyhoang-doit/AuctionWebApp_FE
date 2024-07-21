@@ -26,18 +26,19 @@ import { PaginationControl } from "react-bootstrap-pagination-control";
 import { createNewAuctionFromManager, deleteAuctionResult } from "../../../api/AuctionAPI";
 import PARTICIPATION_FEE from "../../../global_variable/variable";
 import { descriptionAuction } from "../../../utils/descriptionAuction";
-import { changeStateTransaction } from "../../../api/TransactionAPI";
+import { changeStateTransaction, changeStateTransactionWithCode } from "../../../api/TransactionAPI";
 import { Transaction } from "../../../models/Transaction";
 import { TypeTransaction } from "../Transaction/TypeTransaction";
 import { PaymentMethod } from "../Transaction/PaymentMethod";
 import { convertFilesToBase64, uploadFilesToFirebase } from "../../../utils/imageFireBase";
 import { JEWELRY_IMAGES_FOLDER } from "../../../global_variable/firebaseconfig";
-import { deleteImagesByJewelryId, processImages, setImageForJewelry } from "../../../api/ImageApi";
+import { deleteImagesByJewelryId, getImagesByJewelryId, processImages, setImageForJewelry } from "../../../api/ImageApi";
 import { getAuctionRegistrationsByAuctionId } from "../../../api/AuctionRegistrationAPI";
 import { AuctionRegistration } from "../../../models/AuctionRegistration";
 import { Link } from "react-router-dom";
 import { StateTransaction } from "../Transaction/StateTransaction";
-import Swal from "sweetalert2/dist/sweetalert2.js";
+// import Swal from "sweetalert2/dist/sweetalert2.js";
+import Swal from 'sweetalert2';
 
 // *** MODAL FOR MANAGER ***
 // Modal for Jewelry List
@@ -401,8 +402,9 @@ export const DeleteJewelryRequestModal: React.FC<DeleteJewelryModalProps> = ({
 
 type AuctionType = {
   auction: Auction;
+  handleChangeList: () => Promise<void>
 };
-export const AuctionModal: React.FC<AuctionType> = ({ auction }) => {
+export const AuctionModal: React.FC<AuctionType> = ({ auction, handleChangeList }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -565,6 +567,8 @@ export const AuctionModal: React.FC<AuctionType> = ({ auction }) => {
               </form>
             </Modal.Body>
             <Modal.Footer>
+              {auction.lastPrice === null && auction.state === 'FINISHED' &&
+                <ReCreateNewAuctionModal auction={auction} jewelry={auction.jewelry} handleChangeList={handleChangeList} />}
               <Button variant="dark" onClick={handleClose}>
                 Đóng
               </Button>
@@ -584,6 +588,13 @@ interface CreateNewAuctionModalProps {
   user: User | null;
   handleChangeList: () => Promise<void>;
 }
+interface ReCreateNewAuctionModalProps {
+  auction: Auction;
+  jewelry: Jewelry | undefined;
+  // images: Image[];
+  // user: User | null;
+  handleChangeList: () => Promise<void>;
+}
 
 interface NewAuctionRequestProps {
   id: number;
@@ -597,6 +608,7 @@ interface NewAuctionRequestProps {
   jewelryId: number;
   staffId: number;
 }
+
 export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
   request,
   jewelry,
@@ -1053,7 +1065,7 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
       <SelectStaffForAucionModal
         show={showContinueModal}
         handleClose={handleCloseSelectStaffModal}
-        user={user}
+        // user={user}
         handleComback={handleComback}
         newAuction={newAuctionRequest}
         handleChangeList={handleChangeList}
@@ -1062,11 +1074,479 @@ export const CreateNewAuctionModal: React.FC<CreateNewAuctionModalProps> = ({
   );
 };
 
+
+export const ReCreateNewAuctionModal: React.FC<ReCreateNewAuctionModalProps> = ({
+  auction,
+  jewelry,
+  // user,
+  handleChangeList,
+}) => {
+  const [show, setShow] = useState(false);
+  const [showContinueModal, setShowContinueModal] = useState(false);
+  const handleCloseCreateAuction = () => setShow(false);
+  const handleShowCreateAuction = () => setShow(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  //
+  const participationFee: number = PARTICIPATION_FEE;
+  const firstPrice: number = auction.firstPrice;
+  const deposit: number = auction.deposit
+  const priceStep: number = auction.priceStep
+  const jewelryId = auction.jewelry?.id ? auction.jewelry?.id : 0
+
+  const [name, setName] = useState<string>("");
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [base64Images, setBase64Images] = useState<string[]>([]);
+  const [images, setImages] = useState<Image[]>([]);
+
+  const [errorTime, setErrorTime] = useState<string | null>(null);
+  const [errorName, setErrorName] = useState<string | null>(null);
+  const [errorEmptyTime, setErrorEmptyTime] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    getImagesByJewelryId(jewelryId)
+      .then((response) => {
+        setImages(response);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }, [])
+
+  const [newAuctionRequest, setNewAuctionRequest] =
+    useState<NewAuctionRequestProps>({
+      id: 0,
+      name: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+      firstPrice: firstPrice,
+      deposit: deposit,
+      priceStep: priceStep,
+      jewelryId: jewelryId,
+      staffId: 0,
+    });
+
+  const handleImagesChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+      const base64Array = await convertFilesToBase64(fileArray);
+      setBase64Images(base64Array);
+      setLoading(true);
+      try {
+        await deleteImagesByJewelryId(jewelryId);
+        const urls = await uploadFilesToFirebase(fileArray, JEWELRY_IMAGES_FOLDER);
+        if (urls.length > 0) {
+          await setImageForJewelry({ data: urls[0], jewelryId: jewelryId }, true);
+        }
+        await processImages(urls, jewelryId);
+      }
+      catch (error) {
+        console.error("Error sending jewelry request:", error);
+      }
+      finally {
+        setLoading(false);
+      }
+
+    }
+  }
+
+  const validateName = (name: string) => {
+    const wordCount = name.trim().split(/\s+/).length;
+    if (name.length < 12 || wordCount < 3) {
+      setErrorName("Tên phiên chưa hợp lệ, tên phiên yêu cầu phải từ 12 ký tự và 3 từ trở lên");
+    } else {
+      setErrorName(null);
+    }
+  };
+
+  const updateName = (name: string) => {
+    setName(name);
+    setNewAuctionRequest((prev) => ({ ...prev, name: name }));
+    validateName(name);
+  };
+
+  const updateStartDate = (startDate: string) => {
+    setStartDate(startDate);
+    setNewAuctionRequest((prev) => ({ ...prev, startDate: startDate }));
+    setErrorTime(null);
+    setErrorEmptyTime(null);
+    setError(null);
+  };
+
+  const updateEndDate = (endDate: string) => {
+    const start = new Date(newAuctionRequest.startDate).getTime();
+    const end = new Date(endDate).getTime();
+    const fourHours = 4 * 60 * 60 * 1000;
+
+    if (end - start < fourHours) {
+      setErrorTime(
+        "Thời gian kết thúc phải sau thời gian bắt đầu ít nhất 4 tiếng"
+      );
+      setEndDate("");
+    } else {
+      setErrorTime(null);
+      setErrorEmptyTime(null);
+      setError(null);
+      setEndDate(endDate);
+      setNewAuctionRequest((prev) => ({ ...prev, endDate: endDate }));
+    }
+  };
+
+  const getNextDayMinDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split(".")[0];
+  };
+
+  const updateDescription = (description: string) => {
+    setDescription(description);
+    setNewAuctionRequest((prev) => ({ ...prev, description: description }));
+  };
+
+  const handleShowSelectStaffModal = () => {
+    if (name === "" || startDate === "" || endDate === "") {
+      setError("Cần cung cấp đầy đủ thông tin đấu");
+      if (name === "") {
+        setErrorName("Vui lòng cung cấp tên cho phiên đấu");
+      }
+      if (startDate === "" || endDate === "") {
+        setErrorEmptyTime("Vui lòng cung đầy đủ thời gian cho phiên đấu");
+      }
+    } else {
+      setShow(false);
+      setShowContinueModal(true);
+    }
+  };
+
+  const handleComback = () => {
+    handleCloseSelectStaffModal();
+    handleShowCreateAuction();
+  };
+
+  useEffect(() => {
+    const desString = descriptionAuction({
+      jewelry,
+      participationFee,
+      firstPrice,
+      deposit,
+      priceStep,
+      startDate,
+      endDate,
+    });
+
+    setDescription(desString);
+  }, [
+    jewelry,
+    participationFee,
+    firstPrice,
+    deposit,
+    priceStep,
+    startDate,
+    endDate,
+  ]);
+  const handleCloseSelectStaffModal = () => setShowContinueModal(false);
+  return (
+    <>
+      <Button variant="warning" onClick={handleShowCreateAuction}>
+        Tạo lại phiên
+      </Button>
+      {show && (
+        <div className="overlay">
+          <Modal
+            show={show}
+            onHide={handleCloseCreateAuction}
+            centered
+            backdrop="static"
+            size="xl"
+          >
+            <Modal.Header>
+              <Modal.Title className="w-100">
+                <div className="col-12 text-center">Tạo lại phiên đấu giá </div>
+                <div className="col-12 mb-3 text-center ">
+                  <span className="text-warning fw-bold">
+                    {auction.jewelry?.name}
+                  </span>
+                </div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="p-4 fs-6">
+              <form action="">
+                <div className="checkbox-form fw-medium row mb-3">
+                  <h4 className=" fw-medium text-center text-decoration-underline">
+                    1. Thông tin tài sản
+                  </h4>
+                  <div className="col-md-8 checkout-form-list mb-2">
+                    <span>Chủ tài sản:{"   "}</span>
+                    <span className="fw-bold">
+                      {" "}
+                      {auction.jewelry?.user?.fullName}
+                    </span>
+                  </div>
+                  <div className="col-md-4 checkout-form-list mb-2">
+                    <span>Mã người dùng:{"   "}</span>
+                    <span className="fw-bold">{auction.jewelry?.user?.id}</span>
+                  </div>
+                  <div className="col-md-8 checkout-form-list mb-2">
+                    <span>Tên tài sản:{"   "}</span>
+                    <span className="fw-bold"> {jewelry?.name}</span>
+                  </div>
+                  <div className="col-md-4 checkout-form-list mb-2">
+                    <span>Mã tài sản:</span>
+                    <span className="fw-bold"> {jewelry?.id}</span>
+                  </div>
+                  <div className="mb-2">
+                    <div className="row px-2 pt-4 border">
+                      <div className="col-md-6 mb-2">
+                        <div className="mb-2">
+                          <span>Thương hiệu:</span>
+                          <span className="fw-bold"> {jewelry?.brand}</span>
+                        </div>
+                        <div className="mb-2">
+                          <span>Chất liệu:</span>
+                          <span className="fw-bold"> {jewelry?.material}</span>
+                        </div>
+                        <div>
+                          <span>Trọng lượng (g):</span>
+                          <span className="fw-bold"> {jewelry?.weight}</span>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="checkout-form-list checkout-form-list-2">
+                          <span>Mô tả </span>
+                          <br />
+                          <textarea
+                            readOnly
+                            className="w-100 mt-2 p-2"
+                            style={{ height: "100px" }}
+                            id="checkout-mess"
+                            value={jewelry?.description}
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <label
+                    className="btn btn-dark mb-2"
+                    style={{ width: "auto" }}
+                    htmlFor="jewelry-img"
+                  >
+                    Cập nhật ảnh tài sản
+                  </label>
+                  <input
+                    style={{ display: 'none' }}
+                    id="jewelry-img"
+                    type="file"
+                    name="jewelryImages"
+                    multiple
+                    onChange={handleImagesChange}
+                  />
+                  <div className="w-100 fw-medium border">
+                    <div className="checkout-form-list row px-2 pt-4">
+                      <label>Hình ảnh</label>
+                      {loading ? <Spinner animation="border" /> : (base64Images.length > 0 ? (React.Children.toArray(
+                        base64Images.map((img: string) => (
+                          <div className="col-md-2">
+                            <img
+                              src={img}
+                              alt="Ảnh sản phẩm"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
+                        ))
+                      )) : (React.Children.toArray(
+                        images.map((img: Image) => (
+                          <div className="col-md-2">
+                            <img
+                              src={img.data}
+                              alt="Ảnh sản phẩm"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
+                        ))
+                      )))}
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <form action="">
+                <div className="checkbox-form fw-medium row ">
+                  <h4 className="fw-medium text-center text-decoration-underline">
+                    2. Nhập thông tin phiên đấu giá
+                  </h4>
+                  <div className="col-md-12 mb-2 mt-3">
+                    <label htmlFor="txtAuctionName">Tên phiên: </label>
+                    <input
+                      id="txtAuctionName"
+                      className="fw-semibold p-2 w-100"
+                      placeholder=" Nhập tên phiên đấu giá"
+                      type="text"
+                      value={name}
+                      onChange={(e) => updateName(e.target.value)}
+                      required
+                    />
+                    {errorName && <p style={{ color: "red" }}>{errorName}</p>}
+                  </div>
+                  <div className="col-md-6 mt-2">
+                    <div className="checkout-form-list mb-2">
+                      <span>Phí tham gia:</span>
+                      <span className="fw-bold">
+                        {" "}
+                        {formatNumber(participationFee)} VND
+                      </span>
+                    </div>
+                    <div className="checkout-form-list mb-2">
+                      <span>Giá khởi điểm:</span>{" "}
+                      <span className="fw-bold">
+                        {" "}
+                        {formatNumber(firstPrice)} VND
+                      </span>
+                    </div>
+                    <div className="checkout-form-list mb-2">
+                      <span>Tiền đặt trước:</span>{" "}
+                      <span className="fw-bold">
+                        {(deposit > 50000) ? formatNumber(deposit) : formatNumber(50000)} VND
+                      </span>
+                    </div>
+                    <div className="checkout-form-list mb-2">
+                      <span>Bước giá:</span>
+                      <span className="fw-bold">
+                        {" "}
+                        {(priceStep > 50000) ? formatNumber(priceStep) : formatNumber(50000)} VND
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-md-6 mt-3" style={{ fontSize: "12px" }}>
+                    <ul>
+                      <li>
+                        (*) Giá khởi điểm được cung cấp từ định giá của tài sản.
+                      </li>
+                      <li>
+                        Tiền đặt trước được tính từ 9% - 11% định giá của tài
+                        sản. (Được làm tròn với bội số của 50.000 VND)
+                      </li>
+                      <li>
+                        Bước giá được tính từ 5% định giá của tài sản. (Được làm
+                        tròn với bội số của 50.000 VND)
+                      </li>
+                      <li></li>
+                    </ul>
+                  </div>
+                  <div
+                    className="col-md-6 mb-2 mt-2"
+                    style={{ display: "flex", flexDirection: "column" }}
+                  >
+                    <label style={{ marginBottom: "5px" }} htmlFor="txtStart">
+                      Thời gian bắt đầu:
+                    </label>
+                    <input
+                      className="p-3"
+                      type="datetime-local"
+                      name="txtDatetimeLocal"
+                      id="txtStart"
+                      value={startDate}
+                      onChange={(e) => {
+                        updateStartDate(e.target.value);
+                      }}
+                      min={getNextDayMinDate()}
+                      required
+                    />
+                  </div>
+                  <div
+                    className="col-md-6 mb-2 mt-2"
+                    style={{ display: "flex", flexDirection: "column" }}
+                  >
+                    <label style={{ marginBottom: "5px" }} htmlFor="txtEnd">
+                      Thời gian kết thúc:
+                    </label>
+                    <input
+                      className="p-3"
+                      type="datetime-local"
+                      name="txtDatetimeLocal"
+                      id="txtEnd"
+                      value={endDate}
+                      onChange={(e) => {
+                        updateEndDate(e.target.value);
+                      }}
+                      min={getNextDayMinDate()}
+                      required
+                    />
+                  </div>
+                  {errorTime && <p style={{ color: "red" }}>{errorTime}</p>}
+                  {errorEmptyTime && <p style={{ color: "red" }}>{errorEmptyTime}</p>}
+                  <div className="col-md-12 mt-2">
+                    <label style={{ marginBottom: "5px" }} htmlFor="txtStart">
+                      Mô tả cho phiên:
+                    </label>
+                    <div style={{ height: "400px" }}>
+                      <CKEditor
+                        editor={ClassicEditor}
+                        data={description}
+                        config={{
+                          ckbox: {
+                            tokenUrl:
+                              "https://113871.cke-cs.com/token/dev/DEH3Re5gYXFEzLbS3frdEAhds8fV5P5fgpUf?limit=10",
+                            theme: "lark",
+                          },
+                        }}
+                        onReady={(editor) => {
+
+                          editor.editing.view.change((writer) => {
+                            const root = editor.editing.view.document.getRoot();
+                            if (root) {
+                              writer.setStyle("height", "300px", root);
+                            }
+                          });
+                        }}
+                        onChange={(event, editor) => {
+                          const data = editor.getData();
+                          updateDescription(data);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {error && (
+                  <div className="me-5 text-end w-100">
+                    <p style={{ color: "red" }}>{error}</p>
+                  </div>
+                )}
+              </form>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleCloseCreateAuction}>
+                Đóng
+              </Button>
+              <Button variant="warning" onClick={handleShowSelectStaffModal}>
+                Tiếp tục
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
+
+      <SelectStaffForAucionModal
+        show={showContinueModal}
+        handleClose={handleCloseSelectStaffModal}
+        // user={user}
+        handleComback={handleComback}
+        newAuction={newAuctionRequest}
+        handleChangeList={handleChangeList}
+      />
+    </>
+  );
+};
 interface SelectStaffForAucionModal {
   show: boolean;
   handleClose: () => void;
   handleComback: () => void;
-  user: User | null;
+  // user: User | null;
   newAuction: NewAuctionRequestProps;
   handleChangeList: () => Promise<void>;
 }
@@ -1102,11 +1582,36 @@ export const SelectStaffForAucionModal: React.FC<SelectStaffForAucionModal> = ({
   };
 
   const completeCreateAuction = async () => {
-    const response = await createNewAuctionFromManager(newAuction);
-    if (response) {
-      handleChangeList();
+    if (newAuction.staffId === 0) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Bạn chưa phân công nhân viên",
+        showConfirmButton: true,
+        timer: 1500
+      });
+    } else {
+      const response = await createNewAuctionFromManager(newAuction);
+      if (response) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Phiên đấu được tạo thành công",
+          showConfirmButton: true,
+          timer: 1500
+        });
+        handleChangeList();
+        handleClose();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Đã có lỗi xảy ra, chưa thể tạo phiên đấu giá",
+          showConfirmButton: true,
+          timer: 1500
+        });
+      }
     }
-    handleClose();
   };
   return (
     <>
@@ -1276,7 +1781,7 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
         showCancelButton: true,
         confirmButtonColor: "#198754",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Xác nhận"
+        confirmButtonText: "Xác nhận",
       });
 
       if (result.isConfirmed) {
@@ -1293,7 +1798,6 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
       console.error("Failed to change transaction state or update the list:", error);
     }
   };
-
 
   return (
     <>
@@ -1457,13 +1961,159 @@ export const ViewTransactionModal: React.FC<TransacationModalProps> = ({
               </form>
             </Modal.Body>
             <Modal.Footer>
-              {transaction.state !== 'SUCCEED' && transaction.state !== 'FAILED' &&
+              {transaction.state !== 'SUCCEED' && transaction.state !== 'FAILED' && transaction.paymentMethod !== null && transaction.paymentMethod === 'PAY_AT_COUNTER' &&
                 <Button variant="success" onClick={handleConfirm}>
                   Xác nhận thanh toán
                 </Button>}
 
+              {transaction.state !== 'SUCCEED' && transaction.state !== 'FAILED' && transaction.paymentMethod !== null && transaction.paymentMethod !== 'PAY_AT_COUNTER' &&
+                <InputCodeModal transaction={transaction} handleChangeList={handleChangeList} />
+              }
               <Button variant="dark" onClick={handleClose}>
                 Đóng
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
+    </>
+  );
+};
+
+type InputCodeModalProps = {
+  transaction: Transaction;
+  handleChangeList: () => Promise<void>
+}
+
+export const InputCodeModal: React.FC<InputCodeModalProps> = ({
+  transaction,
+  handleChangeList,
+
+}) => {
+  const [show, setShow] = useState(false);
+  const [bankCode, setBankCode] = useState("");
+  const [transactionCode, setTransactionCode] = useState("");
+  const [notificationBank, setNotificationBankCode] = useState("");
+  const [notificationTransaction, setNotificationTransactionCode] = useState("");
+  const handleClose = () => {
+    setNotificationBankCode("");
+    setNotificationTransactionCode("");
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
+  const handleConfirm = async () => {
+    if (bankCode.trim() === "") {
+      setNotificationBankCode("Bạn chưa cung cấp mã ngân hàng");
+      return;
+    }
+
+    if (transactionCode.trim() === "") {
+      setNotificationTransactionCode("Bạn chưa cung cấp mã giao dịch");
+      return;
+    }
+
+    try {
+      const result = await Swal.fire({
+        title: "Xác nhận thanh toán?",
+        text: `Xác nhận số tiền ${formatNumberAcceptNull(transaction.totalPrice)} VND đã được thanh toán.`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#198754",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Xác nhận",
+      });
+
+      if (result.isConfirmed) {
+        await changeStateTransactionWithCode(transaction.id, "SUCCEED", transactionCode, bankCode);
+        await handleChangeList();
+        handleClose();
+
+        Swal.fire({
+          title: "Thành công!",
+          text: "Xác nhận giao dịch thanh toán thành công",
+          icon: "success"
+        });
+      }
+    } catch (error) {
+      console.error("Failed to change transaction state or update the list:", error);
+    }
+  };
+
+  const handleBankCodeChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setNotificationBankCode("");
+    setBankCode(event.target.value);
+  };
+  const handleTransactionCodeChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setNotificationTransactionCode("");
+    setTransactionCode(event.target.value);
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        className="btn btn-success ms-2 "
+        id="save-profile-tab"
+        role="tab"
+        aria-controls="account-details"
+        aria-selected="false"
+        onClick={handleShow}
+      >
+        Xác nhận thanh toán
+      </button>
+      {show && (
+        <div className="overlay">
+          <Modal
+            show={show}
+            onHide={handleClose}
+            centered
+            backdropClassName="custom-backdrop"
+          >
+            <Modal.Header className="text-center w-100">
+              <Modal.Title className="w-100">
+                <div className="col-12 text-center">Nhập thông tin thanh toán</div>
+
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p className="fw-semibold">
+                Vui lòng cung cấp mã ngân hàng và mã giao dịch
+              </p>
+              <Form>
+                <Form.Group controlId="formReason">
+                  <Form.Label className="fw-semibold">
+                    Mã ngân hàng <span className="text-danger">*</span>
+                  </Form.Label>
+                  <p className="text-danger fw-semibold">{notificationBank}</p>
+                  <Form.Control
+                    type="text"
+                    value={bankCode}
+                    onChange={handleBankCodeChange}
+                    required
+                  />
+                  <Form.Label className="fw-semibold">
+                    Mã giao dịch <span className="text-danger">*</span>
+                  </Form.Label>
+                  <p className="text-danger fw-semibold">{notificationTransaction}</p>
+                  <Form.Control
+                    type="text"
+                    value={transactionCode}
+                    onChange={handleTransactionCodeChange}
+                    required
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="dark" onClick={handleClose}>
+                Hủy
+              </Button>
+              <Button variant="success" onClick={handleConfirm}>
+                Xác nhận
               </Button>
             </Modal.Footer>
           </Modal>
