@@ -3,7 +3,7 @@ import { User } from "../../models/User";
 import { isCitizenIdWrongFormat, isPasswordWrongFormat, isPhoneNumberWrongFormat, isYearOfBirthWrongFormat } from "../../utils/checkRegister";
 import { Button, Form, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { changeStateUser, checkEmailExist, checkUsernameExist, disableUser, registerAccountStaff } from "../../api/UserAPI";
+import { checkEmailExist, checkUsernameExist, disableUser, registerAccountStaff } from "../../api/UserAPI";
 import { District } from "../../models/District";
 import { City } from "../../models/City";
 import { Ward } from "../../models/Ward";
