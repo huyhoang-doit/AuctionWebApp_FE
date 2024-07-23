@@ -1342,10 +1342,10 @@ export const CreateHandoverReportModal: React.FC<CreateHandoverReportModalProps>
   const handleConfirm = async () => {
     const result = await Swal.fire({
       title: "Xác nhận bàn giao",
-      text: `Hãy đảm bảo rằng biên bản đã được tạo và tải về.`,
+      text: `Hãy đảm bảo rằng giao dịch đã hoàn tất và biên bản đã được hoàn thành.`,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#198754",
+      confirmButtonColor: "#fed100",
       cancelButtonColor: "#d33",
       confirmButtonText: "Xác nhận",
     });
