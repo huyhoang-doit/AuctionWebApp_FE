@@ -31,7 +31,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import PDFReturnAsset from "../../../utils/PDFForm/PDFReturnAsset";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { JewelryMaterialView } from "../Components/member/JewelryMaterialView";
-import { createTransactionForSeller } from "../../../api/TransactionAPI";
+import { checkWinnerTransaction, createTransactionForSeller } from "../../../api/TransactionAPI";
 
 // *** MODEL FOR STAFF
 // Interface
@@ -1339,40 +1339,54 @@ export const CreateHandoverReportModal: React.FC<CreateHandoverReportModalProps>
   handleChangeList,
 }) => {
   const jewelryId = jewelry?.id ? jewelry.id : 1;
+  const auctionId = auction?.id ? auction.id : 1;
   const handleConfirm = async () => {
-    const result = await Swal.fire({
-      title: "Xác nhận bàn giao",
-      text: `Hãy đảm bảo rằng giao dịch đã hoàn tất và biên bản đã được hoàn thành.`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#fed100",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Xác nhận",
-    });
-    if (result.isConfirmed) {
-      const confirm = await setJewelryStateWithHolding(jewelryId, false, 'HANDED_OVER');
-      const auctionId = auction?.id ? auction.id : 1;
-      if (confirm) {
-        await createTransactionForSeller(auctionId)
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Xác nhận hoàn tất",
-          showConfirmButton: false,
-          timer: 1500
-        });
-        handleChangeList();
-        handleClose();
-      } else {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
-          showConfirmButton: false,
-          timer: 1500
-        });
+    const checkTransactionSucceed = await checkWinnerTransaction(auctionId)
+    if (checkTransactionSucceed && checkTransactionSucceed.state === 'SUCCEED') {
+      const result = await Swal.fire({
+        title: "Xác nhận bàn giao",
+        text: `Hãy đảm bảo rằng giao dịch đã hoàn tất và biên bản đã được hoàn thành.`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#fed100",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Xác nhận",
+      });
+      if (result.isConfirmed) {
+        const confirm = await setJewelryStateWithHolding(jewelryId, false, 'HANDED_OVER');
+        const auctionId = auction?.id ? auction.id : 1;
+        if (confirm) {
+          await createTransactionForSeller(auctionId)
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Xác nhận hoàn tất",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          handleChangeList();
+          handleClose();
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Trạng thái chưa thể cập nhật, xác nhận thất bại",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
       }
+    } else {
+      Swal.fire({
+        title: "Giao dịch chưa hoàn thành",
+        text: `Giao dịch cho phiên đấu này chưa được thanh toán từ người trúng đấu giá`,
+        icon: "warning",
+        showCancelButton: false,
+        confirmButtonColor: "#fed100",
+        confirmButtonText: "Xác nhận",
+      });
     }
+
 
 
   };

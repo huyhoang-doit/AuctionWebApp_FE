@@ -180,3 +180,22 @@ export async function setMethodTransaction(transactionId: number, method: string
         return false;
     }
 }
+
+export async function checkWinnerTransaction(auctionId: number): Promise<Transaction | null> {
+    const accessToken = localStorage.getItem('access_token');
+    const URL = `${BASE_URL}/transaction/get-winner-auction/${auctionId}`;
+
+    try {
+        const response = await fetchNoBodyWithToken(URL, 'GET', accessToken);
+        if (!response.ok) {
+            throw new Error(`Cannot access ${URL}`);
+        }
+
+        const transaction: Transaction = await response.json();
+        return transaction;
+    } catch (error) {
+        console.error("Error:", error);
+        return null;
+    }
+}
+
