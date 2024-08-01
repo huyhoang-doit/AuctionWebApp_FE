@@ -101,7 +101,7 @@ Support for real-time bidding with auto-refresh functionality.
 
 **1. Frontend:**  
 - React.js with TypeScript, i18next for internationalization, Ckeditor for rich text editing in descriptions, Firebase for storing images and UI libraries like React-Bootstrap, SweetAlert for user-friendly alert dialogs.<br><br>
-<img src="  https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>&nbsp;<img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black"/>&nbsp;
+<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>&nbsp;<img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black"/>&nbsp;
 
 **2. Backend**
 - Spring Boot with Hibernate for building the API, SQL Server for data storage.<br><br>
