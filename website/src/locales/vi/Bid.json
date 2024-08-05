@@ -27,6 +27,15 @@
         "Giây" : "Giây",
         "ĐẶT GIÁ (VNĐ)" : "ĐẶT GIÁ (VNĐ)",
         "Hiện bạn là người trả giá cao nhất." : "Hiện bạn là người trả giá cao nhất.",
-        "Vui lòng chờ người khác đặt giá cao hơn để tiếp tục trả giá." : "Vui lòng chờ người khác đặt giá cao hơn để tiếp tục trả giá."
+        "Vui lòng chờ người khác đặt giá cao hơn để tiếp tục trả giá." : "Vui lòng chờ người khác đặt giá cao hơn để tiếp tục trả giá.",
+        "Đấu giá sản phẩm" : "Đấu giá sản phẩm",
+        "ĐẶT GIÁ MUA NGAY" : "ĐẶT GIÁ MUA NGAY",
+        "Thời gian kết thúc đấu giá kéo dài thêm 5 giây" : "Thời gian kết thúc đấu giá kéo dài thêm 5 giây!",
+        "Bạn đã bị cấm khỏi phiên này" : "Bạn đã bị cấm khỏi phiên này",
+        "Lý do" : "Lý do:",
+        "Đã có người đặt giá mua ngay" : "Đã có người đặt giá mua ngay",
+        "Phiên sẽ kết thúc sau 15 phút nữa" : "Phiên sẽ kết thúc sau 15 phút nữa",
+        "Giá cuối đã thay đổi!" : "Giá cuối đã thay đổi!"
+        
     }
 }
