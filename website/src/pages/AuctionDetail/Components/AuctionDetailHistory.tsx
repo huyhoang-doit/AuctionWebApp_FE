@@ -57,7 +57,7 @@ export const AuctionDetailHistory: React.FC<AuctionDetailHistoryProps> = ({
         <span style={{ flex: "end" }}>
           <input
             type="text"
-            placeholder="Tìm kiếm..."
+            placeholder={t("AuctionDetailHistory.Tìm kiếm...")}
             style={{ borderRadius: "10px", height: "35px", padding: "10px" }}
           />
         </span>
