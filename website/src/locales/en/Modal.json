@@ -160,7 +160,18 @@
         "Bạc": "Silver",
         "Vàng": "Gold",
         "Kim cương": "Diamond",
-        "Bạch kim": "Platinum"
+        "Bạch kim": "Platinum",
+        "Nhập mã xác nhận...": "Enter confirmation code...",
+        "Rút khỏi đấu giá": "Withdraw from auction",
+        "Xác nhận xóa người dùng khỏi phiên?": "Confirm delete user from session?",
+        "Bạn muốn trục xuất": "You want to expel",
+        "khỏi phiên đấu giá?" : "from the auction session?",
+        "Lý do trục xuất": "Reason for expulsion",
+        "Nhập lý do...": "Enter reason...",
+        "Bạn cần nhập lý do!": "You need to enter a reason!",
+        "Xóa thất bại." : "Delete failed.",
+        "Gửi": "Send"
+       
        
     }
 }

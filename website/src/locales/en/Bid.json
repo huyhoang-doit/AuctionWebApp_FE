@@ -27,6 +27,18 @@
         "Giây" : "Second",
         "ĐẶT GIÁ (VNĐ)" : "BID (VND)",
         "Hiện bạn là người trả giá cao nhất." : "You are currently the highest bidder.",
-        "Vui lòng chờ người khác đặt giá cao hơn để tiếp tục trả giá." : "Please wait for others to bid higher to continue bidding."
+        "Vui lòng chờ người khác đặt giá cao hơn để tiếp tục trả giá." : "Please wait for others to bid higher to continue bidding.",
+        "Đấu giá sản phẩm" : "Bid for product",
+        "ĐẶT GIÁ MUA NGAY" : "BUY NOW PRICE",
+        "Thời gian kết thúc đấu giá kéo dài thêm 5 giây" : "Auction end time extended by 5 seconds!",
+        "Bạn đã bị cấm khỏi phiên này" : "You have been banned from this auction",
+        "Lý do" : "Reason:",
+        "Đã có người đặt giá mua ngay" : "Someone has placed a buy now price",
+        "Phiên sẽ kết thúc sau 15 phút nữa" : "Auction will end in 15 minutes",
+        "Giá cuối đã thay đổi!" : "The final price has changed!"
+       
+       
+        
+        
     }
 }
