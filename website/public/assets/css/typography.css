@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "Hanken";
+  src: url("/assets/fonts/hanken-variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JBMono";
+  src: url("/assets/fonts/jb-mono-variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+:root { --dgs-font-sans: "Hanken", system-ui, -apple-system, "Segoe UI", sans-serif; --dgs-font-mono: "JBMono", ui-monospace, Menlo, monospace; }
+body, button, input, select, textarea, option { font-family: var(--dgs-font-sans) !important; }
+#root :not(.fa):not(.fas):not(.far):not(.fab):not(.fa-solid):not(.fa-regular):not(.fa-brands):not([class^="ion-"]):not([class*=" ion-"]):not([class^="ti-"]):not([class*=" ti-"]) { font-family: var(--dgs-font-sans) !important; }
+h1, h2, h3, h4, h5, h6, p, a, label, small, strong, em, b, span, li, td, th, dt, dd, legend { font-family: var(--dgs-font-sans); }
+code, kbd, pre, samp, .font-mono { font-family: var(--dgs-font-mono); }

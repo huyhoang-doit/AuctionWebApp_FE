@@ -16,6 +16,7 @@
     "date-fns": "^3.6.0",
     "firebase": "^10.12.2",
     "formik": "^2.4.6",
+    "framer-motion": "^12.34.3",
     "i18next": "^23.11.5",
     "jwt-decode": "^4.0.0",
     "net": "^1.0.2",

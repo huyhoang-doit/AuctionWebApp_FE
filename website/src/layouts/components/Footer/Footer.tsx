@@ -31,7 +31,7 @@ export default function Footer() {
                       <i className="ion-android-call"></i>
                       <span>{t("Footer.SoDienThoai")}</span>
                       <div className="cellphone-number_area">
-                        <a>(+84) 0123456789</a>
+                        <a href="tel:+84707064154">(+84) 707 064 154</a>
                       </div>
                     </li>
                     <li>

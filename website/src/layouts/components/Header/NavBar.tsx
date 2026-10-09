@@ -3,7 +3,6 @@ import { Link, NavLink } from "react-router-dom";
 import { useCategories } from "../../../hooks/useCategories";
 import { UserContext } from "../../../hooks/useContext";
 import { useTranslation } from "react-i18next";
-import useIsStaff from "../../../hooks/useIsStaff";
 
 export const NavBar = () => {
   const categories = useCategories();
