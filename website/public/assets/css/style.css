@@ -51,15 +51,14 @@ INDEX:
     Heading Color:            #333333;
     Border Color:             #ebebeb;
     Border Color 2:           #d2d2d2;
-    Body Font Family:         'Work Sans', sans-serif;
+    Body Font Family:         'Hanken', sans-serif;
 
 */
-@import url("https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700,800,900");
 /*----------------------------------------*/
 /*  00 - Base - Typography
 /*----------------------------------------*/
 body {
-  font-family: "Work Sans", sans-serif;
+  font-family: "Hanken", sans-serif;
   background-color: #ffffff;
   color: #333333;
   font-size: 15px;
@@ -72,14 +71,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Work Sans", sans-serif;
+  font-family: "Hanken", sans-serif;
   color: #333333;
   line-height: 1;
   font-weight: 400;
 }
 
 p {
-  font-family: "Work Sans", sans-serif;
+  font-family: "Hanken", sans-serif;
   color: #333333;
   font-size: 15px;
   line-height: 24px;
@@ -11287,7 +11286,7 @@ button, .global-overlay, .quantity .cart-plus-minus > .qtybutton,
   width: 100%;
   font-weight: 300;
   border-radius: 50px;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Hanken", sans-serif;
 }
 
 .subscribe-area .subscribe-form > form input::-moz-placeholder {
@@ -11388,7 +11387,7 @@ button, .global-overlay, .quantity .cart-plus-minus > .qtybutton,
 
 .DateCountdown .time_circles > div > h4 {
   color: #fff;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Hanken", sans-serif;
   font-size: 18px !important;
   font-weight: 400;
   margin: 89px 0 0;
@@ -11424,7 +11423,7 @@ button, .global-overlay, .quantity .cart-plus-minus > .qtybutton,
 .DateCountdown .time_circles > div > span {
   color: #fff;
   display: block;
-  font-family: 'Teko', sans-serif;
+  font-family: "Hanken", sans-serif;
   font-size: 60px !important;
   font-weight: 400;
   line-height: 47px !important;

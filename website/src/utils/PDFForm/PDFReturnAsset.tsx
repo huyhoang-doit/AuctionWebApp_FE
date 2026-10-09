@@ -1,8 +1,8 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
-import MyCustomFont from '../../utils/fonts/Roboto-Regular.ttf';
-import MyCustomBoldFont from '../../utils/fonts/Roboto-Bold.ttf';
-import MyCustomItalicFont from '../../utils/fonts/Roboto-Italic.ttf';
+import MyCustomFont from '../../utils/fonts/Hanken-Regular.ttf';
+import MyCustomBoldFont from '../../utils/fonts/Hanken-Bold.ttf';
+import MyCustomItalicFont from '../../utils/fonts/Hanken-Regular.ttf';
 import { User } from '../../models/User';
 import { Jewelry } from '../../models/Jewelry';
 import { formatDateStringAcceptNull } from '../formatDateString';
@@ -11,7 +11,7 @@ interface PDFReturnProps {
   jewelry: Jewelry | undefined;
 }
 Font.register({
-  family: 'RobotoFamily',
+  family: 'Hanken',
   fonts: [
     { src: MyCustomFont, fontWeight: 'normal' },
     { src: MyCustomBoldFont, fontWeight: 'bold' },
@@ -21,7 +21,7 @@ Font.register({
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'RobotoFamily',
+    fontFamily: 'Hanken',
     fontSize: 12,
     paddingTop: 30,
     paddingLeft: 60,
@@ -29,24 +29,24 @@ const styles = StyleSheet.create({
     lineHeight: 1.5,
   },
   section: {
-    fontFamily: 'RobotoFamily',
+    fontFamily: 'Hanken',
     marginBottom: 10,
     textAlign: 'justify',
   },
   table: {
-    fontFamily: 'RobotoFamily',
+    fontFamily: 'Hanken',
     width: '100%',
     textAlign: 'center',
     border: '1px solid #000',
     borderCollapse: 'collapse',
   },
   th: {
-    fontFamily: 'RobotoFamily',
+    fontFamily: 'Hanken',
     border: '1px solid #000',
     padding: 8,
   },
   td: {
-    fontFamily: 'RobotoFamily',
+    fontFamily: 'Hanken',
     border: '1px solid #000',
     padding: 8,
   },
